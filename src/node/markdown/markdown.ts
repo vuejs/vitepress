@@ -37,6 +37,7 @@ import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
+import { validateAttrsPlugin } from './plugins/validateAttrs'
 
 export type { Header } from '../shared'
 
@@ -308,6 +309,7 @@ export async function createMarkdownRenderer(
   // third party plugins
   if (!options.attrs?.disable) {
     attrsPlugin(md, options.attrs)
+    validateAttrsPlugin(md)
   }
   emojiPlugin(md, options.emoji)
 

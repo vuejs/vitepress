@@ -67,6 +67,28 @@ describe('node/markdownToVue', () => {
     })
   })
 
+  test('reports source line for duplicate markdown attributes', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-markdown-attrs-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n\n{% asset_img example.png "Some Picture" %}\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    await expect(render(src, file, 'public')).rejects.toThrow(
+      `${file}:3: Duplicate attribute "%"`
+    )
+  })
+
   test('selects included heading sections after frontmatter', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-include-'))
 
