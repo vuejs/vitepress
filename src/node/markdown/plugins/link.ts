@@ -95,8 +95,10 @@ export const linkPlugin = (
     line?: number
   ) {
     let url = hrefAttr[1]
+    const originalCleanUrl = url.replace(/[?#].*$/, '')
 
     const indexMatch = url.match(indexRE)
+    let appendedHtml = false
     if (indexMatch) {
       const [, path, hash] = indexMatch
       url = path + normalizeHash(hash)
@@ -113,6 +115,7 @@ export const linkPlugin = (
         !cleanUrl.endsWith('/')
       ) {
         cleanUrl += '.html'
+        appendedHtml = true
       }
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + normalizeHash(parsed.hash)
@@ -124,7 +127,13 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    pushLink(url.replace(/\.html$/, ''), env, line)
+    const link = url.replace(/\.html$/, '')
+    pushLink(
+      link,
+      env,
+      line,
+      appendedHtml && /\.[^/]+$/.test(originalCleanUrl) ? decodeURI(url) : link
+    )
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
@@ -134,9 +143,19 @@ export const linkPlugin = (
     return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
   }
 
-  function pushLink(link: string, env: MarkdownEnv, line?: number) {
+  function pushLink(
+    link: string,
+    env: MarkdownEnv,
+    line?: number,
+    renderedUrl = link
+  ) {
     const links = env.links || (env.links = [])
     links.push(link)
+    if (renderedUrl !== link) {
+      const linkRenderedUrls =
+        env.linkRenderedUrls || (env.linkRenderedUrls = [])
+      linkRenderedUrls[links.length - 1] = renderedUrl
+    }
     if (line != null) {
       const linkLines = env.linkLines || (env.linkLines = [])
       linkLines[links.length - 1] = line

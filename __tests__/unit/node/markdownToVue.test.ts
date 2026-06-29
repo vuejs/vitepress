@@ -40,6 +40,33 @@ describe('node/markdownToVue', () => {
     })
   })
 
+  test('records transformed URLs for dead links', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n\n[Certificate](/root-ca.crt)\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).toContain('href="/root-ca.crt.html"')
+    expect(result.deadLinks).toContainEqual({
+      url: '/root-ca.crt.html',
+      file,
+      line: 3
+    })
+  })
+
   test('records source line numbers after frontmatter', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
 

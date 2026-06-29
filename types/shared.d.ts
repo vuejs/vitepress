@@ -255,6 +255,7 @@ export interface MarkdownEnv {
   relativePath: string
   cleanUrls: boolean
   links?: string[]
+  linkRenderedUrls?: string[]
   linkLines?: number[]
   includes?: string[]
   realPath?: string
