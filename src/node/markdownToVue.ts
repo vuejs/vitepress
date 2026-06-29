@@ -159,6 +159,7 @@ export async function createMarkdownToVueRenderFn(
       frontmatter = {},
       headers = [],
       linkLines = [],
+      linkRenderedUrls = [],
       links = [],
       sfcBlocks,
       title = ''
@@ -223,7 +224,7 @@ export async function createMarkdownToVueRenderFn(
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url, line)
+          recordDeadLink(linkRenderedUrls[index] || url, line)
         }
       }
     }
