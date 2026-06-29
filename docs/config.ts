@@ -72,6 +72,17 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
+      text: 'Migration',
+      collapsed: false,
+      items: [
+        { text: 'Migration from VuePress', link: 'migration-from-vuepress' },
+        {
+          text: 'Migration from VitePress 0.x',
+          link: 'migration-from-vitepress-0'
+        }
+      ]
+    },
+    {
       text: 'Writing',
       collapsed: false,
       items: [
