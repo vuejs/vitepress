@@ -5,7 +5,7 @@ import pMap from 'p-map'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
-import type { Awaitable } from './shared'
+import type { Awaitable, MarkdownEnv } from './shared'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
@@ -127,15 +127,23 @@ export function createContentLoader<T = ContentData[]>(
               : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
 
+          const relativePath = normalizePath(path.relative(config.srcDir, file))
           const url =
             '/' +
-            normalizePath(path.relative(config.srcDir, file))
+            relativePath
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
+          const createEnv = (): MarkdownEnv => ({
+            path: file,
+            relativePath,
+            cleanUrls: !!config.cleanUrls
+          })
 
-          const html = options.render ? await md.renderAsync(src) : undefined
+          const html = options.render
+            ? await md.renderAsync(src, createEnv())
+            : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && (await md.renderAsync(excerpt))
+            ? excerpt && (await md.renderAsync(excerpt, createEnv()))
             : undefined
 
           const data: ContentData = {
