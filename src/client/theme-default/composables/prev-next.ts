@@ -25,6 +25,13 @@ export function usePrevNext() {
       (theme.value.docFooter?.next === false && !frontmatter.value.next) ||
       frontmatter.value.next === false
 
+    const prevSidebarLink = candidates[index - 1]
+    const nextSidebarLink = candidates[index + 1]
+    const hasPrevLinkOverride =
+      typeof frontmatter.value.prev === 'object' && frontmatter.value.prev.link
+    const hasNextLinkOverride =
+      typeof frontmatter.value.next === 'object' && frontmatter.value.next.link
+
     return {
       prev: hidePrev
         ? undefined
@@ -35,12 +42,14 @@ export function usePrevNext() {
                 : typeof frontmatter.value.prev === 'object'
                   ? frontmatter.value.prev.text
                   : undefined) ??
-              candidates[index - 1]?.docFooterText ??
-              candidates[index - 1]?.text,
+              prevSidebarLink?.docFooterText ??
+              prevSidebarLink?.text,
             link:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.link
-                : undefined) ?? candidates[index - 1]?.link
+                : undefined) ?? prevSidebarLink?.link,
+            rel: hasPrevLinkOverride ? undefined : prevSidebarLink?.rel,
+            target: hasPrevLinkOverride ? undefined : prevSidebarLink?.target
           },
       next: hideNext
         ? undefined
@@ -51,16 +60,18 @@ export function usePrevNext() {
                 : typeof frontmatter.value.next === 'object'
                   ? frontmatter.value.next.text
                   : undefined) ??
-              candidates[index + 1]?.docFooterText ??
-              candidates[index + 1]?.text,
+              nextSidebarLink?.docFooterText ??
+              nextSidebarLink?.text,
             link:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.link
-                : undefined) ?? candidates[index + 1]?.link
+                : undefined) ?? nextSidebarLink?.link,
+            rel: hasNextLinkOverride ? undefined : nextSidebarLink?.rel,
+            target: hasNextLinkOverride ? undefined : nextSidebarLink?.target
           }
     } as {
-      prev?: { text?: string; link?: string }
-      next?: { text?: string; link?: string }
+      prev?: { text?: string; link?: string; rel?: string; target?: string }
+      next?: { text?: string; link?: string; rel?: string; target?: string }
     }
   })
 }
