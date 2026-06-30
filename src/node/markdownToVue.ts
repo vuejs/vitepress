@@ -158,6 +158,7 @@ export async function createMarkdownToVueRenderFn(
       content,
       frontmatter = {},
       headers = [],
+      linkUrls = [],
       linkLines = [],
       links = [],
       sfcBlocks,
@@ -202,6 +203,7 @@ export async function createMarkdownToVueRenderFn(
           linkLines[index] == null
             ? undefined
             : linkLines[index] + contentLineOffset
+        const deadLinkUrl = linkUrls[index] || rawUrl
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -221,9 +223,9 @@ export async function createMarkdownToVueRenderFn(
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
-          !shouldIgnoreDeadLink(url)
+          !shouldIgnoreDeadLink(deadLinkUrl)
         ) {
-          recordDeadLink(url, line)
+          recordDeadLink(deadLinkUrl, line)
         }
       }
     }
