@@ -1,5 +1,11 @@
 import { tryOnUnmounted } from '@vueuse/core'
-import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
+import {
+  h,
+  onMounted,
+  shallowRef,
+  type AsyncComponentLoader,
+  type Slots
+} from 'vue'
 import {
   EXTERNAL_URL_RE,
   inBrowser,
@@ -87,7 +93,7 @@ export function defineClientComponent(
   cb?: () => Awaitable<void>
 ) {
   return {
-    setup() {
+    setup(_props: unknown, { slots }: { slots: Slots }) {
       const comp = shallowRef()
       onMounted(async () => {
         let res = await loader()
@@ -98,7 +104,14 @@ export function defineClientComponent(
         comp.value = res
         await cb?.()
       })
-      return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
+      return () => {
+        if (!comp.value) return null
+        const hasExplicitChildren = args && args.length > 1
+        if (Object.keys(slots).length && !hasExplicitChildren) {
+          return h(comp.value, args?.[0] ?? null, slots)
+        }
+        return h(comp.value, ...(args ?? []))
+      }
     }
   }
 }
