@@ -6,6 +6,8 @@ export interface SidebarLink {
   text: string
   link: string
   docFooterText?: string
+  rel?: string
+  target?: string
 }
 
 type SidebarItem = DefaultTheme.SidebarItem
@@ -75,7 +77,9 @@ export function getFlatSideBarLinks(sidebar: SidebarItem[]): SidebarLink[] {
         links.push({
           text: item.text,
           link: item.link,
-          docFooterText: item.docFooterText
+          docFooterText: item.docFooterText,
+          rel: item.rel,
+          target: item.target
         })
       }
 
