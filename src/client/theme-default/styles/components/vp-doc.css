@@ -455,6 +455,7 @@
   height: 40px;
   background-color: var(--vp-code-copy-code-bg);
   opacity: 0;
+  pointer-events: none;
   cursor: pointer;
   background-image: var(--vp-icon-copy);
   background-position: 50%;
@@ -469,6 +470,7 @@
 .vp-doc [class*='language-']:hover > button.copy,
 .vp-doc [class*='language-'] > button.copy:focus {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .vp-doc [class*='language-'] > button.copy:hover,
