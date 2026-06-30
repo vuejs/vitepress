@@ -20,7 +20,8 @@ export type {
   SSGContext,
   AdditionalConfig,
   AdditionalConfigDict,
-  AdditionalConfigLoader
+  AdditionalConfigLoader,
+  ExternalLinkAttrValue
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i

@@ -260,3 +260,8 @@ export interface MarkdownEnv {
   realPath?: string
   localeIndex?: string
 }
+
+export interface ExternalLinkAttrValue {
+  value: string
+  join?: boolean
+}
