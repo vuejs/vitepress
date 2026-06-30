@@ -202,6 +202,16 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
    Make sure the `base` option in your VitePress is properly configured. See [Setting a Public Base Path](#setting-a-public-base-path) for more details.
    :::
 
+   ::: tip GitHub Pages and Trailing Slashes
+   Avoid publishing or linking to non-index pages with a trailing slash on
+   GitHub Pages, for example `/guide/markdown-examples/`. If the page is
+   generated as `markdown-examples.html`, use the generated `.html` URL or the
+   extensionless URL when you have enabled [`cleanUrls`](../reference/site-config#cleanurls).
+   GitHub Pages may serve the trailing-slash URL in a way that leaves the
+   rendered HTML and client route out of sync, which can cause hydration
+   mismatch warnings.
+   :::
+
 2. In your repository's settings under "Pages" menu item, select "GitHub Actions" in "Build and deployment > Source".
 
 3. Push your changes to the `main` branch and wait for the GitHub Actions workflow to complete. You should see your site deployed to `https://<username>.github.io/[repository]/` or `https://<custom-domain>/` depending on your settings. Your site will automatically be deployed on every push to the `main` branch.
