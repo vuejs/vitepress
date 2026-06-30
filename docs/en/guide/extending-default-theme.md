@@ -212,6 +212,12 @@ Full list of slots available in the default theme layout:
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
+The always-available `layout-top` and `layout-bottom` slots are useful for
+site-wide UI, such as announcement or notification banners that should appear on
+every page. If your injected content changes the page height, style it as part
+of the normal layout instead of overlaying it with fixed positioning so the
+default theme can keep the navigation and content offsets in sync.
+
 ## Using View Transitions API
 
 ### On Appearance Toggle
