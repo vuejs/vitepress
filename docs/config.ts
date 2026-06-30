@@ -132,6 +132,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Prev / Next Links', link: 'prev-next-links' },
             { text: 'Edit Link', link: 'edit-link' },
             { text: 'Last Updated Timestamp', link: 'last-updated' },
+            { text: 'Created Timestamp', link: 'created' },
             { text: 'Search', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]

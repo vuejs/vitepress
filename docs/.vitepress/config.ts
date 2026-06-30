@@ -34,6 +34,7 @@ export default defineConfig({
   },
 
   lastUpdated: true,
+  created: true,
   cleanUrls: true,
   metaChunk: true,
 

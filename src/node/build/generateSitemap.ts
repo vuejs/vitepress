@@ -10,7 +10,7 @@ import {
 } from 'sitemap'
 import type { SiteConfig } from '../config'
 import { slash } from '../shared'
-import { getGitTimestamp } from '../utils/getGitTimestamp'
+import { getGitLastUpdatedTimestamp } from '../utils/getGitTimestamp'
 import { task } from '../utils/task'
 
 export async function generateSitemap(siteConfig: SiteConfig) {
@@ -30,7 +30,7 @@ export async function generateSitemap(siteConfig: SiteConfig) {
     if (data.lastUpdated === false) return undefined
     if (data.lastUpdated instanceof Date) return +data.lastUpdated
 
-    return (await getGitTimestamp(slash(file))) || undefined
+    return (await getGitLastUpdatedTimestamp(slash(file))) || undefined
   }
 
   await task('generating sitemap', async () => {
