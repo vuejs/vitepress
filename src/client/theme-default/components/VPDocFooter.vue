@@ -120,13 +120,8 @@ const showFooter = computed(
   padding-top: 24px;
   display: grid;
   grid-row-gap: 8px;
-}
-
-@media (min-width: 640px) {
-  .prev-next {
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 16px;
-  }
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 16px;
 }
 
 .pager-link {
