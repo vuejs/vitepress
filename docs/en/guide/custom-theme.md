@@ -67,6 +67,18 @@ export default {
 }
 ```
 
+If your theme entry is written in TypeScript and imports Vue single-file components,
+add a declaration file that is included by your `tsconfig.json` so TypeScript can
+resolve `*.vue` imports:
+
+```ts [env.d.ts]
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent
+  export default component
+}
+```
+
 The `router` value is the same VitePress router instance returned by [`useRouter()`](../reference/runtime-api#userouter). To listen for route changes, assign handlers on the router:
 
 ```ts [.vitepress/theme/index.ts]
