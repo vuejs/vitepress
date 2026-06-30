@@ -40,6 +40,10 @@ export default DefaultTheme
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
+For styles that should only apply to a single page, such as changing the
+background of `index.md`, add a [`pageClass`](../reference/frontmatter-config#pageclass)
+to that page's frontmatter and target the generated class from your custom CSS.
+
 ## Using Different Fonts
 
 VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
