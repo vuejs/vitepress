@@ -749,6 +749,18 @@ interface TransformPageContext {
 }
 ```
 
+#### Example: Customizing the 404 page title
+
+```ts
+export default {
+  transformPageData(pageData) {
+    if (pageData.isNotFound) {
+      pageData.title = 'Not Found'
+    }
+  }
+}
+```
+
 #### Example: Adding a `<meta name="og:title">`
 
 ```ts
