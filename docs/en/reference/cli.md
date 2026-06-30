@@ -66,6 +66,8 @@ vitepress preview [root]
 | `--base <path>` | Public base path (default: `/`) (`string`) |
 | `--port <port>` | Specify port (`number`)                    |
 
+`vitepress preview` serves the directory resolved from the [`outDir`](./site-config#outdir) config option. It does not read build-only CLI overrides like `vitepress build --outDir <dir>`, so set `outDir` in your config if you need both `build` and `preview` to use a custom output directory.
+
 ## `vitepress init`
 
 Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
