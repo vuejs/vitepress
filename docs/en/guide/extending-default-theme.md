@@ -121,6 +121,24 @@ export default {
 
 Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
 
+## Installing Vue Plugins
+
+Vue plugins can also be installed in `enhanceApp`. For example, to install
+[Pinia](https://pinia.vuejs.org/) with the default theme:
+
+```ts [.vitepress/theme/index.ts]
+import type { Theme } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+import { createPinia } from 'pinia'
+
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.use(createPinia())
+  }
+} satisfies Theme
+```
+
 ## Layout Slots
 
 The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
