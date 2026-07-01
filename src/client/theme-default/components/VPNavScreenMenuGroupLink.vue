@@ -4,6 +4,7 @@ import { computed, inject } from 'vue'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import { navInjectionKey } from '../composables/nav'
+import { getAriaCurrent } from '../support/aria'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -36,6 +37,7 @@ const { closeScreen } = inject(navInjectionKey)!
     :target="item.target"
     :rel="item.rel"
     :no-icon="item.noIcon"
+    :aria-current="getAriaCurrent(isActiveLink)"
     @click="closeScreen"
   >
     <span v-html="item.text"></span>

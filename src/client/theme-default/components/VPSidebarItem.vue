@@ -2,6 +2,7 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 import { useSidebarItemControl } from '../composables/sidebar'
+import { getAriaCurrent } from '../support/aria'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -76,6 +77,7 @@ function onCaretClick() {
         :href="item.link"
         :rel="item.rel"
         :target="item.target"
+        :aria-current="getAriaCurrent(isActiveLink)"
       >
         <component :is="textTag" class="text" v-html="item.text" />
       </VPLink>
