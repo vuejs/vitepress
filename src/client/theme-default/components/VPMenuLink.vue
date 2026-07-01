@@ -60,6 +60,7 @@ defineOptions({ inheritAttrs: false })
   font-weight: 500;
   color: var(--vp-c-text-1);
   text-align: left;
+  cursor: pointer;
   white-space: nowrap;
   transition:
     background-color 0.25s,

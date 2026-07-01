@@ -51,6 +51,7 @@ const { closeScreen } = inject(navInjectionKey)!
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
+  cursor: pointer;
   transition:
     border-color 0.25s,
     color 0.25s;
