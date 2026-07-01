@@ -135,11 +135,16 @@ withDefaults(defineProps<Props>(), {
 }
 
 .profile {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   background-color: var(--vp-c-bg-soft);
 }
 
 .data {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   text-align: center;
 }
 
@@ -193,6 +198,7 @@ withDefaults(defineProps<Props>(), {
 .links {
   display: flex;
   justify-content: center;
+  margin-top: auto;
   height: 56px;
 }
 
