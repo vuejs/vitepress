@@ -42,6 +42,18 @@ describe('client/theme-default/composables/langs', () => {
       )
     ).toBe('/fr/guide/#intro')
   })
+  test('preserves query params when resolving corresponding links', () => {
+    expect(
+      resolveLocaleLink(
+        createData({}),
+        'fr',
+        '/fr/',
+        '/',
+        true,
+        '?debounce=150'
+      )
+    ).toBe('/fr/guide/getting-started.html?debounce=150#install')
+  })
 
   test('keeps locale root links when i18n routing is disabled', () => {
     expect(
