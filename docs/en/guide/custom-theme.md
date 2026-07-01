@@ -222,6 +222,25 @@ export default {
 }
 ```
 
+If the external theme package imports VitePress or Vue files that need to be
+compiled during build, add the package name to Vite's `ssr.noExternal` option.
+Use the package name that appears in your theme import, not a Vue component
+name. This allows Vite to bundle the theme package for SSR instead of loading
+it directly from `node_modules`.
+
+```ts [.vitepress/config.ts]
+export default {
+  vite: {
+    ssr: {
+      noExternal: ['awesome-vitepress-theme']
+    }
+  }
+}
+```
+
+This can help when `vitepress dev` works but `vitepress build` fails with an
+`ERR_MODULE_NOT_FOUND` error for files imported through a distributed theme.
+
 Finally, if the theme provides types for its theme config:
 
 ```ts [.vitepress/config.ts]
