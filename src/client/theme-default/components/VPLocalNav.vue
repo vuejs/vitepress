@@ -3,6 +3,7 @@ import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
+import { shouldShowLocalNav } from '../support/localNav'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
 
 defineProps<{
@@ -18,6 +19,15 @@ const { isHome, hasSidebar, headers, hasLocalNav } = useLayout()
 const { y } = useWindowScroll()
 
 const navHeight = ref(0)
+const showLocalNav = computed(() =>
+  shouldShowLocalNav(
+    isHome.value,
+    hasLocalNav.value,
+    hasSidebar.value,
+    y.value,
+    navHeight.value
+  )
+)
 
 onMounted(() => {
   navHeight.value = parseInt(
@@ -39,7 +49,7 @@ const classes = computed(() => {
 
 <template>
   <div
-    v-if="!isHome && (hasLocalNav || hasSidebar || y >= navHeight)"
+    v-if="showLocalNav"
     :class="classes"
   >
     <div class="container">
