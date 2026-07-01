@@ -132,6 +132,24 @@ If a component is going to be used on most of the pages, they can be registered 
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
+### Testing Components
+
+The VitePress config is only used by VitePress. Test runners such as Vitest do not automatically read `.vitepress/config.ts`, so adding Vite plugins there does not configure your tests. VitePress already configures `@vitejs/plugin-vue` for docs builds, but component tests need their own Vitest/Vite config:
+
+```ts [vitest.config.ts]
+import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  plugins: [vue()],
+  test: {
+    environment: 'jsdom'
+  }
+})
+```
+
+If you are testing reusable Vue components, keep them outside the VitePress source directory (for example in `src/`) and use your `docs/` directory only for the VitePress site. This lets Vitest handle the project like a normal Vue app while VitePress builds the documentation.
+
 ### Using Components In Headers <ComponentInHeader />
 
 You can use Vue components in the headers, but note the difference between the following syntaxes:
