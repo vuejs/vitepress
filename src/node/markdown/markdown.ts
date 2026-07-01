@@ -282,7 +282,7 @@ export async function createMarkdownRenderer(
     languageLabel: options.languageLabel
   })
   snippetPlugin(md, srcDir)
-  containerPlugin(md, options.container)
+  containerPlugin(md, options.container, logger)
   imagePlugin(md, options.image)
   linkPlugin(
     md,

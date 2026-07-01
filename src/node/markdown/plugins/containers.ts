@@ -2,12 +2,14 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import container from 'markdown-it-container'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
+import type { Logger } from 'vite'
 import type { MarkdownEnv } from '../../shared'
 import { extractTitle } from './preWrapper'
 
 export const containerPlugin = (
   md: MarkdownItAsync,
-  options?: ContainerOptions
+  options?: ContainerOptions,
+  logger: Pick<Logger, 'warn'> = console
 ) => {
   md.use(...createContainer('tip', options?.tipLabel || 'TIP', md))
     .use(...createContainer('info', options?.infoLabel || 'INFO', md))
@@ -24,6 +26,17 @@ export const containerPlugin = (
         tokens[idx].nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`
     })
     .use(...createCodeGroup(md))
+    .use(container, '_', {
+      validate(params: string) {
+        const containerName = params.trim().split(/\s+/, 1)[0]
+        if (containerName) {
+          logger.warn(
+            `[vitepress] Unknown markdown container: ${containerName}`
+          )
+        }
+        return false
+      }
+    })
 }
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }]
