@@ -167,6 +167,13 @@ export function createRouter(
         } catch (e) {}
       }
 
+      if (
+        inBrowser &&
+        (await loadCustomNotFoundPage(href, pendingPath, targetLoc))
+      ) {
+        return
+      }
+
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
@@ -180,6 +187,44 @@ export function createRouter(
         route.data = { ...notFoundPageData, relativePath }
         syncRouteQueryAndHash(targetLoc)
       }
+    }
+  }
+
+  async function loadCustomNotFoundPage(
+    href: string,
+    pendingPath: string,
+    targetLoc: URL
+  ) {
+    const notFoundPath = new URL(
+      siteDataRef.value.base +
+        (siteDataRef.value.cleanUrls ? '404' : '404.html'),
+      fakeHost
+    ).pathname
+
+    if (pendingPath === notFoundPath) return false
+
+    try {
+      const page = await loadPageModule(notFoundPath)
+      if (!page) return false
+
+      if (latestPendingPath !== pendingPath) return true
+
+      latestPendingPath = null
+
+      const { default: comp, __pageData } = page
+      if (!comp) throw new Error(`Invalid route component: ${comp}`)
+
+      await router.onAfterPageLoad?.(href)
+
+      route.path = pendingPath
+      route.component = markRaw(comp)
+      route.data = import.meta.env.PROD
+        ? markRaw(__pageData)
+        : (readonly(__pageData) as PageData)
+      syncRouteQueryAndHash(targetLoc)
+      return true
+    } catch (e) {
+      return false
     }
   }
 
