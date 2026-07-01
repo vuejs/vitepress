@@ -147,6 +147,7 @@ function onCaretClick() {
   display: flex;
   align-items: center;
   flex-grow: 1;
+  cursor: pointer;
 }
 
 .text {

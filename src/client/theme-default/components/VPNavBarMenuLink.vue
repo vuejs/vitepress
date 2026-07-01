@@ -48,6 +48,7 @@ const isActiveLink = computed(() =>
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-text-1);
+  cursor: pointer;
   transition: color 0.25s;
 }
 
