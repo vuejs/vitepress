@@ -3,6 +3,7 @@ import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { isActive } from '../../shared'
+import { getAriaCurrent } from '../support/aria'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -33,6 +34,7 @@ const isActiveLink = computed(() =>
     :target="item.target"
     :rel="item.rel"
     :no-icon="item.noIcon"
+    :aria-current="getAriaCurrent(isActiveLink)"
     tabindex="0"
   >
     <span v-html="item.text"></span>
