@@ -124,6 +124,29 @@ describe('node/markdownToVue', () => {
     expect(result.vueSrc).not.toContain('shared after target')
   })
 
+  test('ignores badge slot content when slugifying headings', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-badge-slug-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '## Powered by Vite <Badge>HERE</Badge>\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).toContain('id="powered-by-vite"')
+    expect(result.vueSrc).not.toContain('id="powered-by-vite-here"')
+  })
+
   test('applies rewrites with mismatched Windows drive letter case', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-rewrite-'))
 

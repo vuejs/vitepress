@@ -32,6 +32,7 @@ import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
+import { getHeadingTokensText } from './headingText'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
@@ -314,18 +315,11 @@ export async function createMarkdownRenderer(
   // mdit-vue plugins
   anchorPlugin(md, {
     slugify,
-    getTokensText: (tokens) => {
-      return tokens
-        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
-        .map((t) => t.content)
-        .join('')
-    },
+    getTokensText: getHeadingTokensText,
     permalink: (slug, _, state, idx) => {
-      const title =
-        state.tokens[idx + 1]?.children
-          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
-          .reduce((acc, t) => acc + t.content, '')
-          .trim() || ''
+      const title = getHeadingTokensText(
+        state.tokens[idx + 1]?.children ?? []
+      ).trim()
 
       const linkTokens = [
         Object.assign(new state.Token('text', '', 0), { content: ' ' }),
