@@ -24,6 +24,7 @@ import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const htmlIdRE = /\sid=(['"])(.*?)\1/g
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -49,6 +50,26 @@ let __ts: number
 
 function normalizeDriveLetter(file: string) {
   return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
+}
+
+function getLinkHash(url: string) {
+  const hash = new URL(url, 'http://a.com').hash
+  if (hash.length <= 1) return
+
+  const decodedHash = hash.slice(1).split(':~:', 1)[0]
+  try {
+    return decodeURI(decodedHash)
+  } catch {
+    return decodedHash
+  }
+}
+
+function getHtmlIds(html: string) {
+  const ids = new Set<string>()
+  for (const match of html.matchAll(htmlIdRE)) {
+    ids.add(match[2])
+  }
+  return ids
 }
 
 function getResolutionCache(siteConfig: SiteConfig) {
@@ -98,6 +119,32 @@ export async function createMarkdownToVueRenderFn(
     base,
     siteConfig?.logger
   )
+  const anchorCache = new Map<string, { mtimeMs: number; ids: Set<string> }>()
+
+  const getFileAnchors = async (file: string) => {
+    const stats = await fs.stat(file).catch(() => undefined)
+    if (!stats) return
+
+    const cacheKey = normalizeDriveLetter(slash(file))
+    const cached = anchorCache.get(cacheKey)
+    if (cached?.mtimeMs === stats.mtimeMs) return cached.ids
+
+    const relativePath = slash(path.relative(srcDir, file))
+    const includes: string[] = []
+    let src = await fs.readFile(file, 'utf-8')
+    src = processIncludes(md, srcDir, src, file, includes, cleanUrls)
+    const html = await md.renderAsync(src, {
+      path: file,
+      relativePath,
+      cleanUrls,
+      includes,
+      realPath: file,
+      localeIndex: getLocaleForPath(siteConfig?.site, relativePath)
+    })
+    const ids = getHtmlIds(html)
+    anchorCache.set(cacheKey, { mtimeMs: stats.mtimeMs, ids })
+    return ids
+  }
 
   return async (
     src: string,
@@ -196,34 +243,55 @@ export async function createMarkdownToVueRenderFn(
 
     if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
+      const currentPageIds = getHtmlIds(html)
       for (const [index, rawUrl] of links.entries()) {
         let url = rawUrl
         const line =
           linkLines[index] == null
             ? undefined
             : linkLines[index] + contentLineOffset
+        const isSamePageHash = rawUrl.startsWith('#')
+        const hash = getLinkHash(rawUrl)
         const { pathname } = new URL(url, 'http://a.com')
-        if (!treatAsHtml(pathname)) continue
+        if (!isSamePageHash && !treatAsHtml(pathname)) continue
 
-        url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
+        url = isSamePageHash
+          ? relativePath.replace(/\.md$/, '')
+          : url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
 
         let resolved = decodeURIComponent(
           slash(
-            url.startsWith('/')
-              ? url.slice(1)
-              : path.relative(srcDir, path.resolve(dir, url))
+            isSamePageHash
+              ? url
+              : url.startsWith('/')
+                ? url.slice(1)
+                : path.relative(srcDir, path.resolve(dir, url))
           )
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
 
+        const pageExists =
+          pages.includes(resolved) ||
+          fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`))
+
+        if (!pageExists && !shouldIgnoreDeadLink(url)) {
+          recordDeadLink(url, line)
+          continue
+        }
+
         if (
-          !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          hash &&
+          !shouldIgnoreDeadLink(rawUrl) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url, line)
+          const ids = isSamePageHash
+            ? currentPageIds
+            : await getFileAnchors(path.resolve(srcDir, `${resolved}.md`))
+          if (ids && !ids.has(hash)) {
+            recordDeadLink(rawUrl, line)
+          }
         }
       }
     }
