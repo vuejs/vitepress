@@ -75,6 +75,9 @@ export const linkPlugin = (
           normalizeHref(hrefAttr, env, token.meta?.vpLine)
         } else if (url.startsWith('#')) {
           hrefAttr[1] = decodeURI(normalizeHash(hrefAttr[1]))
+          if (hrefAttr[1].length > 1) {
+            pushLink(hrefAttr[1], env, token.meta?.vpLine)
+          }
         }
 
         // append base to internal (non-relative) urls

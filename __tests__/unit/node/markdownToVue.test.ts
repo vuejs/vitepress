@@ -67,6 +67,60 @@ describe('node/markdownToVue', () => {
     })
   })
 
+  test('reports missing heading hashes on existing pages', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const target = path.join(root, 'guide.md')
+    const src = '# Home\n\n[Missing](./guide.md#missing-section)\n'
+    await writeFile(file, src)
+    await writeFile(target, '# Guide\n\n## Existing Section\n')
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false, headers: true },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.deadLinks).toContainEqual({
+      url: './guide.html#missing-section',
+      file,
+      line: 3
+    })
+  })
+
+  test('reports missing same-page heading hashes', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n\n[Missing](#missing-section)\n\n## Existing Section\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false, headers: true },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.deadLinks).toContainEqual({
+      url: '#missing-section',
+      file,
+      line: 3
+    })
+  })
+
   test('selects included heading sections after frontmatter', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-include-'))
 
