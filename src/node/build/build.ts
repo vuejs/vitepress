@@ -8,10 +8,15 @@ import pMap from 'p-map'
 import { packageDirectorySync } from 'package-directory'
 import * as vite from 'vite'
 import type { BuildOptions, Rollup } from 'vite'
-import { resolveConfig, type SiteConfig } from '../config'
+import { normalizeBaseUrl, resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import {
+  getDefaultAssetsBase,
+  isDefaultAssetsBase,
+  normalizeAssetUrl
+} from '../utils/assetsBase'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
@@ -51,8 +56,17 @@ export async function build(
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
-    siteConfig.site.base = buildOptions.base
+    const shouldUpdateAssetsBase = isDefaultAssetsBase(
+      siteConfig.site.base,
+      siteConfig.site.assetsBase
+    )
+
+    siteConfig.site.base = normalizeBaseUrl(buildOptions.base)
     delete buildOptions.base
+
+    if (shouldUpdateAssetsBase) {
+      siteConfig.site.assetsBase = getDefaultAssetsBase(siteConfig.site.base)
+    }
   }
 
   if (buildOptions.mpa) {
@@ -65,6 +79,7 @@ export async function build(
     delete buildOptions.outDir
   }
 
+  process.env.VITE_VP_ASSETS_BASE = siteConfig.site.assetsBase
   try {
     const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
@@ -98,7 +113,7 @@ export async function build(
         .filter(
           (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
         )
-        .map((asset) => siteConfig.site.base + asset.fileName)
+        .map((asset) => normalizeAssetUrl(siteConfig.site, asset.fileName))
 
       // default theme special handling: inject font preload
       // custom themes will need to use `transformHead` to inject this
@@ -246,7 +261,7 @@ function generateMetadataScript(
   )
 
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
-  const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
+  const metadataFileURL = slash(normalizeAssetUrl(config.site, metadataFile))
 
   fs.ensureDirSync(path.dirname(resolvedMetadataFile))
   fs.writeFileSync(resolvedMetadataFile, metadataContent)
