@@ -67,25 +67,34 @@ const { activate } = useFocusTrap(el, {
   escapeDeactivates: true
 })
 const { localeIndex, theme } = vitePressData
-const searchIndex = computedAsync(async () =>
-  markRaw(
-    MiniSearch.loadJSON<Result>(
-      (await searchIndexData.value[localeIndex.value]?.())?.default,
-      {
-        fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles'],
-        searchOptions: {
-          fuzzy: 0.2,
-          prefix: true,
-          boost: { title: 4, text: 2, titles: 1 },
+const isSearchIndexLoading = ref(false)
+const isSearching = ref(false)
+const showSearchSpinner = computed(() => {
+  return isSearchIndexLoading.value || isSearching.value
+})
+
+const searchIndex = computedAsync(
+  async () =>
+    markRaw(
+      MiniSearch.loadJSON<Result>(
+        (await searchIndexData.value[localeIndex.value]?.())?.default,
+        {
+          fields: ['title', 'titles', 'text'],
+          storeFields: ['title', 'titles'],
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
+            ...(theme.value.search?.provider === 'local' &&
+              theme.value.search.options?.miniSearch?.searchOptions)
+          },
           ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.searchOptions)
-        },
-        ...(theme.value.search?.provider === 'local' &&
-          theme.value.search.options?.miniSearch?.options)
-      }
-    )
-  )
+            theme.value.search.options?.miniSearch?.options)
+        }
+      )
+    ),
+  undefined,
+  isSearchIndexLoading
 )
 
 const disableQueryPersistence = computed(() => {
@@ -145,9 +154,15 @@ watchDebounced(
     let canceled = false
     onCleanup(() => {
       canceled = true
+      isSearching.value = false
     })
 
-    if (!index) return
+    if (!index) {
+      results.value = []
+      return
+    }
+
+    isSearching.value = true
 
     // Search
     results.value = index
@@ -232,6 +247,7 @@ watchDebounced(
     }
     // FIXME: without this whole page scrolls to the bottom
     resultsEl.value?.firstElementChild?.scrollIntoView({ block: 'start' })
+    isSearching.value = false
   },
   { debounce: 200, immediate: true }
 )
@@ -487,6 +503,14 @@ function onMouseMove(e: MouseEvent) {
             type="search"
           />
           <div class="search-actions">
+            <span
+              class="search-loading"
+              :class="{ active: showSearchSpinner }"
+              :role="showSearchSpinner ? 'status' : undefined"
+              aria-live="polite"
+              :aria-label="showSearchSpinner ? 'Loading search results' : undefined"
+            />
+
             <button
               v-if="!disableDetailedView"
               class="toggle-layout-button"
@@ -516,6 +540,7 @@ function onMouseMove(e: MouseEvent) {
           ref="resultsEl"
           :id="results?.length ? 'localsearch-list' : undefined"
           :role="results?.length ? 'listbox' : undefined"
+          :aria-busy="showSearchSpinner ? 'true' : 'false'"
           :aria-labelledby="results?.length ? 'localsearch-label' : undefined"
           class="results"
           @mousemove="onMouseMove"
@@ -722,6 +747,34 @@ function onMouseMove(e: MouseEvent) {
 
 .search-actions button.clear-button:disabled {
   opacity: 0.37;
+}
+
+.search-loading {
+  visibility: hidden;
+  margin: 8px;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border: 2px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+}
+
+.search-loading.active {
+  visibility: visible;
+  animation: local-search-loading 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-loading.active {
+    animation: none;
+  }
+}
+
+@keyframes local-search-loading {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .search-keyboard-shortcuts {
