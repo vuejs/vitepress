@@ -220,7 +220,9 @@ export function buildSidePanelProps(
   askAi: DocSearchAskAi,
   options: DefaultTheme.AlgoliaSearchOptions
 ): ResolvedSidePanelProps {
-  const { sidePanel, ...askAiRest } = askAi
+  const { sidePanel, ...askAiRest } = JSON.parse(
+    JSON.stringify(askAi)
+  ) as DocSearchAskAi
 
   return {
     container: '#vp-docsearch-sidepanel',
