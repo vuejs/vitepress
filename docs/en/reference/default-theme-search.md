@@ -291,6 +291,12 @@ export default defineConfig({
 })
 ```
 
+Use `askAi.sidePanel.panel.suggestedQuestions` for side panel suggested
+questions. Algolia's standalone Ask AI examples also mention
+`askAi.suggestedQuestions`, but that top-level option is not enough for
+VitePress side panel mode and does not make the integrated keyword-search
+modal display suggested questions on first open.
+
 If you need to disable the keyboard shortcut, use the `keyboardShortcuts` option at the sidepanel root level:
 
 ```ts
