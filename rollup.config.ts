@@ -33,7 +33,7 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node20' }),
+  esbuild({ target: 'node22' }),
   json()
 ]
 

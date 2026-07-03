@@ -3,15 +3,14 @@ import fs from 'fs-extra'
 import { createHash } from 'node:crypto'
 import { createRequire } from 'node:module'
 import path from 'node:path'
-import { pathToFileURL } from 'node:url'
 import pMap from 'p-map'
 import { packageDirectorySync } from 'package-directory'
-import * as vite from 'vite'
-import type { BuildOptions, Rollup } from 'vite'
+import type { BuildOptions, Rolldown } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
@@ -28,19 +27,6 @@ export async function build(
   } = {}
 ) {
   const start = Date.now()
-
-  // @ts-ignore only exists for rolldown-vite
-  if (vite.rolldownVersion) {
-    try {
-      await import('oxc-minify')
-    } catch {
-      throw new Error(
-        '`oxc-minify` is not installed.' +
-          ' vitepress requires `oxc-minify` to be installed when rolldown-vite is used.' +
-          ' Please run `npm install oxc-minify`.'
-      )
-    }
-  }
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
@@ -76,7 +62,7 @@ export async function build(
     }
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(pathToFileURL(entryPath).href)
+    const { render } = await nativeImport(entryPath)
 
     await task('rendering pages', async () => {
       const appChunk =
@@ -86,13 +72,13 @@ export async function build(
             chunk.type === 'chunk' &&
             chunk.isEntry &&
             chunk.facadeModuleId?.endsWith('.js')
-        ) as Rollup.OutputChunk)
+        ) as Rolldown.OutputChunk)
 
       const cssChunk = (
         siteConfig.mpa ? serverResult : clientResult!
       ).output.find(
         (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as Rollup.OutputAsset
+      ) as Rolldown.OutputAsset
 
       const assets = (siteConfig.mpa ? serverResult : clientResult!).output
         .filter(
@@ -108,8 +94,7 @@ export async function build(
         clientResult.output.some(
           (chunk) =>
             chunk.type === 'chunk' &&
-            // @ts-ignore only exists for rolldown-vite
-            (vite.rolldownVersion || chunk.name === 'theme') && // FIXME: remove when rolldown-vite supports manualChunks
+            chunk.name === 'theme' &&
             chunk.moduleIds.some((id) => id.includes('client/theme-default'))
         )
 
