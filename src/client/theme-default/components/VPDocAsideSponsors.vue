@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Sponsors } from './VPSponsors.vue'
-import type { Sponsor } from './VPSponsorsGrid.vue'
 import VPSponsors from './VPSponsors.vue'
+import type { Sponsor } from './VPSponsorsGrid.vue'
 
 defineProps<{
   tier?: string

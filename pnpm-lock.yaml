@@ -137,9 +137,6 @@ importers:
       '@types/cross-spawn':
         specifier: ^6.0.6
         version: 6.0.6
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/lodash.template':
         specifier: ^4.5.3
         version: 4.5.3
@@ -182,9 +179,6 @@ importers:
       esbuild:
         specifier: ^0.27.7
         version: 0.27.7
-      fs-extra:
-        specifier: ^11.3.5
-        version: 11.3.5
       get-port:
         specifier: ^7.2.0
         version: 7.2.0
@@ -1044,17 +1038,11 @@ packages:
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
-  '@types/fs-extra@11.0.4':
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
   '@types/jquery@4.0.1':
     resolution: {integrity: sha512-9a59A/tycXgYuPABcp6/3spSShn0NT2UOM4EfHvMumjYi4lJWTsK5SZWjhx3yRm9IHGCeWXdV2YfNsrWrft/CA==}
-
-  '@types/jsonfile@6.1.4':
-    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
@@ -1728,10 +1716,6 @@ packages:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
 
-  fs-extra@11.3.5:
-    resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
-    engines: {node: '>=14.14'}
-
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -1774,9 +1758,6 @@ packages:
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
-
-  graceful-fs@4.2.11:
-    resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
   gray-matter@4.0.3:
     resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
@@ -1916,9 +1897,6 @@ packages:
   js-yaml@3.15.0:
     resolution: {integrity: sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==}
     hasBin: true
-
-  jsonfile@6.2.1:
-    resolution: {integrity: sha512-zwOTdL3rFQ/lRdBnntKVOX6k5cKJwEc1HdilT71BWEu7J41gXIB2MRp+vxduPSwZJPWBxEzv4yH1wYLJGUHX4Q==}
 
   juice@8.1.0:
     resolution: {integrity: sha512-FLzurJrx5Iv1e7CfBSZH68dC04EEvXvvVvPYB7Vx1WAuhCp1ZPIMtqxc+WTWxVkpTIC2Ach/GAv0rQbtGf6YMA==}
@@ -2799,10 +2777,6 @@ packages:
   unist-util-visit@5.1.0:
     resolution: {integrity: sha512-m+vIdyeCOpdr/QeQCu2EzxX/ohgS8KbnPDgFni4dQsfSCtpz8UqDyY5GjRru8PDKuYn7Fq19j1CQ+nJSsGKOzg==}
 
-  universalify@2.0.1:
-    resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
-    engines: {node: '>= 10.0.0'}
-
   unplugin-utils@0.2.5:
     resolution: {integrity: sha512-gwXJnPRewT4rT7sBi/IvxKTjsms7jX7QIDLOClApuZwR49SXbrB1z2NLUZ+vDHyqCj/n58OzRRqaW+B8OZi8vg==}
     engines: {node: '>=18.12.0'}
@@ -3551,20 +3525,11 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
-  '@types/fs-extra@11.0.4':
-    dependencies:
-      '@types/jsonfile': 6.1.4
-      '@types/node': 25.9.4
-
   '@types/hast@3.0.4':
     dependencies:
       '@types/unist': 3.0.3
 
   '@types/jquery@4.0.1': {}
-
-  '@types/jsonfile@6.1.4':
-    dependencies:
-      '@types/node': 25.9.4
 
   '@types/linkify-it@5.0.0': {}
 
@@ -4234,12 +4199,6 @@ snapshots:
 
   format@0.2.2: {}
 
-  fs-extra@11.3.5:
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.2.1
-      universalify: 2.0.1
-
   fsevents@2.3.3:
     optional: true
 
@@ -4280,8 +4239,6 @@ snapshots:
       is-glob: 4.0.3
 
   gopd@1.2.0: {}
-
-  graceful-fs@4.2.11: {}
 
   gray-matter@4.0.3:
     dependencies:
@@ -4427,12 +4384,6 @@ snapshots:
     dependencies:
       argparse: 1.0.10
       esprima: 4.0.1
-
-  jsonfile@6.2.1:
-    dependencies:
-      universalify: 2.0.1
-    optionalDependencies:
-      graceful-fs: 4.2.11
 
   juice@8.1.0:
     dependencies:
@@ -5436,8 +5387,6 @@ snapshots:
       '@types/unist': 3.0.3
       unist-util-is: 6.0.1
       unist-util-visit-parents: 6.0.2
-
-  universalify@2.0.1: {}
 
   unplugin-utils@0.2.5:
     dependencies:

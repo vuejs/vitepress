@@ -1,5 +1,5 @@
 import { isBooleanAttr } from '@vue/shared'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import path from 'node:path'
 import { minify, normalizePath, type Rolldown } from 'vite'
 import { version } from '../../../package.json'
@@ -146,7 +146,9 @@ export async function renderPage(
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
-        fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
+        fs.rmSync(path.resolve(config.outDir, matchingChunk.fileName), {
+          force: true
+        })
       } else {
         inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
       }
@@ -189,7 +191,7 @@ export async function renderPage(
 </html>`
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
-  await fs.ensureDir(path.dirname(htmlFileName))
+  await fs.promises.mkdir(path.dirname(htmlFileName), { recursive: true })
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
     page,
     siteConfig: config,
@@ -201,7 +203,7 @@ export async function renderPage(
     content,
     assets
   })
-  await fs.writeFile(htmlFileName, transformedHtml || html)
+  await fs.promises.writeFile(htmlFileName, transformedHtml || html)
 }
 
 function resolvePageImports(

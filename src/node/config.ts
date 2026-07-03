@@ -1,6 +1,6 @@
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import c from 'picocolors'
 import {
   createLogger,
@@ -12,6 +12,7 @@ import {
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { DefaultTheme } from './defaultTheme'
+import type { MarkdownOptions } from './markdown/markdown'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
@@ -23,7 +24,6 @@ import {
   type HeadConfig,
   type SiteData
 } from './shared'
-import type { MarkdownOptions } from './markdown/markdown'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
 import { glob } from './utils/glob'
 
@@ -124,7 +124,7 @@ export async function resolveConfig(
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
-  const themeDir = (await fs.pathExists(userThemeDir))
+  const themeDir = fs.existsSync(userThemeDir)
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
@@ -240,7 +240,7 @@ export async function resolveUserConfig(
       resolve(root, `config/index.${ext}`),
       resolve(root, `config.${ext}`)
     ])
-    .find(fs.pathExistsSync)
+    .find(fs.existsSync)
 
   let userConfig: RawConfigExports = {}
   let configDeps: string[] = []

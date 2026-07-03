@@ -1,8 +1,8 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
+import fs from 'node:fs'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,

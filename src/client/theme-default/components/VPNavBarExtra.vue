@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import VPFlyout from './VPFlyout.vue'
-import VPMenuLink from './VPMenuLink.vue'
-import VPSwitchAppearance from './VPSwitchAppearance.vue'
-import VPSocialLinks from './VPSocialLinks.vue'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
+import VPFlyout from './VPFlyout.vue'
+import VPMenuLink from './VPMenuLink.vue'
+import VPSocialLinks from './VPSocialLinks.vue'
+import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
 const { site, theme } = useData()
 const { localeLinks, currentLang } = useLangs({ correspondingLink: true })

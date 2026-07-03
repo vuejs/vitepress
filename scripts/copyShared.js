@@ -1,9 +1,9 @@
-import { copy } from 'fs-extra'
+import { cp } from 'node:fs/promises'
 import { globSync } from 'tinyglobby'
 
 globSync(['src/shared/**/*.ts']).forEach(async (file) => {
   await Promise.all([
-    copy(file, file.replace(/^src\/shared\//, 'src/node/')),
-    copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+    cp(file, file.replace(/^src\/shared\//, 'src/node/')),
+    cp(file, file.replace(/^src\/shared\//, 'src/client/'))
   ])
 })

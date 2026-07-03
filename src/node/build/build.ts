@@ -1,6 +1,6 @@
 import { getIconsCSS } from '@iconify/utils'
-import fs from 'fs-extra'
 import { createHash } from 'node:crypto'
+import fs from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import pMap from 'p-map'
@@ -154,9 +154,9 @@ export async function build(
 
     // emit page hash map for the case where a user session is open
     // when the site got redeployed (which invalidates current hash map)
-    fs.writeJSONSync(
+    fs.writeFileSync(
       path.join(siteConfig.outDir, 'hashmap.json'),
-      pageToHashMap
+      JSON.stringify(pageToHashMap)
     )
   } finally {
     unlinkVue()
@@ -185,7 +185,8 @@ function linkVue() {
     // if user did not install vue by themselves, link VitePress' version
     if (!fs.existsSync(dest)) {
       const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-      fs.ensureSymlinkSync(src, dest, 'junction')
+      fs.mkdirSync(path.dirname(dest), { recursive: true })
+      fs.symlinkSync(src, dest, 'junction')
       return () => {
         fs.unlinkSync(dest)
       }
@@ -233,7 +234,7 @@ function generateMetadataScript(
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
   const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
 
-  fs.ensureDirSync(path.dirname(resolvedMetadataFile))
+  fs.mkdirSync(path.dirname(resolvedMetadataFile), { recursive: true })
   fs.writeFileSync(resolvedMetadataFile, metadataContent)
 
   return {

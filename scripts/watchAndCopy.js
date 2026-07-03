@@ -1,15 +1,15 @@
 import { watch } from 'chokidar'
-import { copy, remove } from 'fs-extra'
+import { cp, rm } from 'node:fs/promises'
 import { normalizePath } from 'vite'
 
 function toClientAndNode(method, file) {
   file = normalizePath(file)
   if (method === 'copy') {
-    copy(file, file.replace(/^src\/shared\//, 'src/node/'))
-    copy(file, file.replace(/^src\/shared\//, 'src/client/'))
+    cp(file, file.replace(/^src\/shared\//, 'src/node/'))
+    cp(file, file.replace(/^src\/shared\//, 'src/client/'))
   } else if (method === 'remove') {
-    remove(file.replace(/^src\/shared\//, 'src/node/'))
-    remove(file.replace(/^src\/shared\//, 'src/client/'))
+    rm(file.replace(/^src\/shared\//, 'src/node/'), { force: true })
+    rm(file.replace(/^src\/shared\//, 'src/client/'), { force: true })
   }
 }
 
@@ -31,6 +31,6 @@ watch('src/client', {
   ignored: (path, stats) =>
     stats?.isFile() && (path.endsWith('.ts') || path.endsWith('tsconfig.json'))
 })
-  .on('change', (file) => copy(file, toDist(file)))
-  .on('add', (file) => copy(file, toDist(file)))
-  .on('unlink', (file) => remove(toDist(file)))
+  .on('change', (file) => cp(file, toDist(file)))
+  .on('add', (file) => cp(file, toDist(file)))
+  .on('unlink', (file) => rm(toDist(file), { force: true }))

@@ -329,7 +329,7 @@ export default {
 Генерация путей из локальных файлов:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

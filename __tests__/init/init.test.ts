@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import getPort from 'get-port'
 import { nanoid } from 'nanoid'
 import path from 'node:path'
@@ -33,12 +33,12 @@ const variations = themes.flatMap((theme) =>
 afterAll(async () => {
   await page.close()
   await browser.close()
-  await fs.remove(tempDir)
+  await fs.promises.rm(tempDir, { recursive: true, force: true })
 })
 
 test.each(variations)('init %s', async (_, { theme, useTs }) => {
   const root = getTempRoot()
-  await fs.remove(root)
+  await fs.promises.rm(root, { recursive: true, force: true })
   scaffold({ root, theme, useTs, injectNpmScripts: false })
 
   const port = await getPort()
