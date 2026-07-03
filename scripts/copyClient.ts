@@ -1,7 +1,7 @@
 import { cp } from 'node:fs/promises'
 import { globSync } from 'tinyglobby'
 
-function toDest(file) {
+function toDest(file: string) {
   return file.replace(/^src\//, 'dist/')
 }
 

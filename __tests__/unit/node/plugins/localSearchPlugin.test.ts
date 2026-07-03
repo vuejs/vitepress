@@ -1,9 +1,9 @@
+import MiniSearch from 'minisearch'
+import { resolveConfig } from 'node/config'
+import { localSearchPlugin } from 'node/plugins/localSearchPlugin'
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { resolveConfig } from 'node/config'
-import { localSearchPlugin } from 'node/plugins/localSearchPlugin'
-import MiniSearch from 'minisearch'
 
 describe('node/plugins/localSearchPlugin', () => {
   let root: string | undefined

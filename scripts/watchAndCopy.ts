@@ -2,7 +2,7 @@ import { watch } from 'chokidar'
 import { cp, rm } from 'node:fs/promises'
 import { normalizePath } from 'vite'
 
-function toClientAndNode(method, file) {
+function toClientAndNode(method: 'copy' | 'remove', file: string) {
   file = normalizePath(file)
   if (method === 'copy') {
     cp(file, file.replace(/^src\/shared\//, 'src/node/'))
@@ -13,13 +13,13 @@ function toClientAndNode(method, file) {
   }
 }
 
-function toDist(file) {
+function toDist(file: string) {
   return normalizePath(file).replace(/^src\//, 'dist/')
 }
 
 // copy shared files to the client and node directory whenever they change.
 watch('src/shared', {
-  ignored: (path, stats) => stats?.isFile() && !path.endsWith('.ts')
+  ignored: (path, stats) => !!stats?.isFile() && !path.endsWith('.ts')
 })
   .on('change', (file) => toClientAndNode('copy', file))
   .on('add', (file) => toClientAndNode('copy', file))
@@ -29,7 +29,8 @@ watch('src/shared', {
 // they change.
 watch('src/client', {
   ignored: (path, stats) =>
-    stats?.isFile() && (path.endsWith('.ts') || path.endsWith('tsconfig.json'))
+    !!stats?.isFile() &&
+    (path.endsWith('.ts') || path.endsWith('tsconfig.json'))
 })
   .on('change', (file) => cp(file, toDist(file)))
   .on('add', (file) => cp(file, toDist(file)))

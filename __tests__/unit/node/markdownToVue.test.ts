@@ -1,8 +1,8 @@
+import { resolveConfig } from 'node/config'
+import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { resolveConfig } from 'node/config'
-import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 
 describe('node/markdownToVue', () => {
   let root: string | undefined

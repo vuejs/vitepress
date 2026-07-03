@@ -1,6 +1,6 @@
-import fs from 'node:fs'
 import getPort from 'get-port'
 import { nanoid } from 'nanoid'
+import { rm } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { chromium } from 'playwright-chromium'
@@ -33,12 +33,12 @@ const variations = themes.flatMap((theme) =>
 afterAll(async () => {
   await page.close()
   await browser.close()
-  await fs.promises.rm(tempDir, { recursive: true, force: true })
+  await rm(tempDir, { recursive: true, force: true })
 })
 
 test.each(variations)('init %s', async (_, { theme, useTs }) => {
   const root = getTempRoot()
-  await fs.promises.rm(root, { recursive: true, force: true })
+  await rm(root, { recursive: true, force: true })
   scaffold({ root, theme, useTs, injectNpmScripts: false })
 
   const port = await getPort()

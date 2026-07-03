@@ -56,11 +56,11 @@
     "dev:start": "pnpm --stream '/^dev:(client|node|watch)$/'",
     "dev:client": "tsc --sourcemap -w --preserveWatchOutput -p src/client",
     "dev:node": "DEV=true pnpm build:node -w",
-    "dev:shared": "node scripts/copyShared",
-    "dev:watch": "node scripts/watchAndCopy",
+    "dev:shared": "node scripts/copyShared.ts",
+    "dev:watch": "node scripts/watchAndCopy.ts",
     "build": "pnpm build:prepare && pnpm build:client && pnpm build:node",
-    "build:prepare": "pnpm clean && node scripts/copyShared",
-    "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient",
+    "build:prepare": "pnpm clean && node scripts/copyShared.ts",
+    "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient.ts",
     "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(unit|e2e|init)$/'",
     "test:unit": "vitest run -r __tests__/unit",
@@ -87,7 +87,7 @@
     "format:fail": "prettier --experimental-cli --check .",
     "check": "pnpm format:fail && pnpm build && pnpm test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "release": "node scripts/release.js"
+    "release": "node scripts/release.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
@@ -144,6 +144,7 @@
     "@types/node": "^25.9.4",
     "@types/picomatch": "^4.0.3",
     "@types/prompts": "^2.4.9",
+    "@types/semver": "^7.7.1",
     "chokidar": "^5.0.0",
     "conventional-changelog": "^7.2.1",
     "conventional-changelog-angular": "^8.3.1",

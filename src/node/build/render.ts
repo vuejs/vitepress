@@ -1,5 +1,6 @@
 import { isBooleanAttr } from '@vue/shared'
 import fs from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { minify, normalizePath, type Rolldown } from 'vite'
 import { version } from '../../../package.json'
@@ -191,7 +192,7 @@ export async function renderPage(
 </html>`
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
-  await fs.promises.mkdir(path.dirname(htmlFileName), { recursive: true })
+  await mkdir(path.dirname(htmlFileName), { recursive: true })
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
     page,
     siteConfig: config,
@@ -203,7 +204,7 @@ export async function renderPage(
     content,
     assets
   })
-  await fs.promises.writeFile(htmlFileName, transformedHtml || html)
+  await writeFile(htmlFileName, transformedHtml || html)
 }
 
 function resolvePageImports(

@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import { cp } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -202,7 +203,7 @@ export async function bundle(
         if (!chunk.fileName.endsWith('.js')) {
           const tempPath = path.resolve(config.tempDir, chunk.fileName)
           const outPath = path.resolve(config.outDir, chunk.fileName)
-          await fs.promises.cp(tempPath, outPath)
+          await cp(tempPath, outPath)
         }
       })
     )
@@ -211,7 +212,7 @@ export async function bundle(
     if (fs.existsSync(publicDir)) {
       // dereference symlinks like vite's own publicDir copy does, and so that
       // copying over an existing symlinked file does not fail with EEXIST
-      await fs.promises.cp(publicDir, config.outDir, {
+      await cp(publicDir, config.outDir, {
         recursive: true,
         dereference: true
       })

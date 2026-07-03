@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
-import * as fs from 'node:fs/promises'
+import { rm } from 'node:fs/promises'
 import { builtinModules, createRequire } from 'node:module'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
@@ -88,7 +88,7 @@ const clientTypes: RollupOptions = {
       name: 'cleanup',
       async closeBundle() {
         if (PROD) {
-          await fs.rm('dist/client-types', { recursive: true })
+          await rm('dist/client-types', { recursive: true })
         }
       }
     }
