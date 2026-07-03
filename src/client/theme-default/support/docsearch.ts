@@ -20,6 +20,7 @@ export interface ResolvedMode {
   useSidePanel: boolean
 }
 
+// FIXME: remove when https://github.com/algolia/docsearch/pull/2906 is released
 export type ResolvedSidePanelProps = SidepanelProps & {
   agentStudio?: boolean
   searchParameters?: DocSearchAskAi['searchParameters']
@@ -219,35 +220,16 @@ export function buildSidePanelProps(
   askAi: DocSearchAskAi,
   options: DefaultTheme.AlgoliaSearchOptions
 ): ResolvedSidePanelProps {
-  const sidePanelOptions =
-    askAi.sidePanel && askAi.sidePanel !== true ? askAi.sidePanel : {}
+  const { sidePanel, ...askAiRest } = askAi
 
-  const result: ResolvedSidePanelProps = {
-    ...sidePanelOptions,
+  return {
     container: '#vp-docsearch-sidepanel',
-    indexName: (askAi.indexName ?? options.indexName)!,
-    appId: (askAi.appId ?? options.appId)!,
-    apiKey: (askAi.apiKey ?? options.apiKey)!,
-    assistantId: askAi.assistantId!
-  }
-
-  if (askAi.agentStudio !== undefined) {
-    result.agentStudio = askAi.agentStudio
-  }
-
-  if (askAi.searchParameters !== undefined) {
-    result.searchParameters = askAi.searchParameters
-  }
-
-  if (askAi.suggestedQuestions !== undefined) {
-    result.suggestedQuestions = askAi.suggestedQuestions
-  }
-
-  if (askAi.useStagingEnv !== undefined) {
-    result.useStagingEnv = askAi.useStagingEnv
-  }
-
-  return result
+    indexName: options.indexName,
+    appId: options.appId,
+    apiKey: options.apiKey,
+    ...askAiRest,
+    ...(sidePanel && sidePanel !== true ? sidePanel : {})
+  } as ResolvedSidePanelProps
 }
 
 /**
