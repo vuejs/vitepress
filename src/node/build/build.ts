@@ -65,39 +65,42 @@ export async function build(
     const { render } = await nativeImport(entryPath)
 
     await task('rendering pages', async () => {
-      const appChunk =
-        clientResult &&
-        (clientResult.output.find(
-          (chunk) =>
-            chunk.type === 'chunk' &&
-            chunk.isEntry &&
-            chunk.facadeModuleId?.endsWith('.js')
-        ) as Rolldown.OutputChunk)
+      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        clientResult?.output || []
 
-      const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult!
-      ).output.find(
-        (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as Rolldown.OutputAsset
+      const appChunk = clientOutput.find(
+        (chunk): chunk is Rolldown.OutputChunk =>
+          chunk.type === 'chunk' &&
+          chunk.isEntry &&
+          !!chunk.facadeModuleId?.endsWith('.js')
+      )
 
-      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
-        .filter(
-          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-        )
-        .map((asset) => siteConfig.site.base + asset.fileName)
+      const isDefaultTheme = clientOutput.some(
+        (chunk): chunk is Rolldown.OutputChunk =>
+          chunk.type === 'chunk' &&
+          chunk.name === 'theme' &&
+          chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+      )
 
-      // default theme special handling: inject font preload
-      // custom themes will need to use `transformHead` to inject this
+      // ----
+
+      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+      const cssChunk = resultOutput.find(
+        (chunk): chunk is Rolldown.OutputAsset =>
+          chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+      )
+
+      // prettier-ignore
+      const assets = resultOutput.filter(
+        (chunk): chunk is Rolldown.OutputAsset =>
+          chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+      ).map((asset) => siteConfig.site.base + asset.fileName)
+
+      // ----
+
       const additionalHeadTags: HeadConfig[] = []
-      const isDefaultTheme =
-        clientResult &&
-        clientResult.output.some(
-          (chunk) =>
-            chunk.type === 'chunk' &&
-            chunk.name === 'theme' &&
-            chunk.moduleIds.some((id) => id.includes('client/theme-default'))
-        )
-
       const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
       if (isDefaultTheme) {

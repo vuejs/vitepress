@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import { cp } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import pMap from 'p-map'
 import {
   build,
   normalizePath,
@@ -102,8 +103,8 @@ export async function bundle(
           app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js'),
           ...input
         },
-        // important so that each page chunk and the index export things for each
-        // other
+        // important so that each page chunk and the index export things for
+        // each other
         preserveEntrySignatures: 'allow-extension',
         output: {
           sanitizeFileName,
@@ -170,42 +171,40 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult!: Rolldown.RolldownOutput | null
+  let clientResult: Rolldown.RolldownOutput | null = null
   let serverResult!: Rolldown.RolldownOutput
 
+  // prettier-ignore
   await task('building client + server bundles', async () => {
-    clientResult = config.mpa
-      ? null
-      : ((await build(
-          await resolveViteConfig(false)
-        )) as Rolldown.RolldownOutput)
-    serverResult = (await build(
-      await resolveViteConfig(true)
-    )) as Rolldown.RolldownOutput
+    if (!config.mpa) clientResult =
+      (await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput
+    serverResult =
+      (await build(await resolveViteConfig(true))) as Rolldown.RolldownOutput
   })
 
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
-    await Promise.all(
-      serverResult.output.map(async (chunk) => {
+    await pMap(
+      serverResult.output,
+      async (chunk) => {
         if (!chunk.fileName.endsWith('.js')) {
           const tempPath = path.resolve(config.tempDir, chunk.fileName)
           const outPath = path.resolve(config.outDir, chunk.fileName)
           await cp(tempPath, outPath)
         }
-      })
+      },
+      { concurrency: config.buildConcurrency }
     )
+
     // also copy over public dir
     const publicDir = path.resolve(config.srcDir, 'public')
     if (fs.existsSync(publicDir)) {
       // dereference symlinks like vite's own publicDir copy does, and so that
       // copying over an existing symlinked file does not fail with EEXIST
-      await cp(publicDir, config.outDir, {
-        recursive: true,
-        dereference: true
-      })
+      await cp(publicDir, config.outDir, { recursive: true, dereference: true })
     }
+
     // build <script client> bundle
     if (Object.keys(clientJSMap).length) {
       clientResult = await buildMPAClient(clientJSMap, config)

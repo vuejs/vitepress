@@ -24,9 +24,9 @@ export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
-  result: Rolldown.RolldownOutput | null,
-  appChunk: Rolldown.OutputChunk | null,
-  cssChunk: Rolldown.OutputAsset | null,
+  result: Rolldown.RolldownOutput | null | undefined,
+  appChunk: Rolldown.OutputChunk | null | undefined,
+  cssChunk: Rolldown.OutputAsset | null | undefined,
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
@@ -140,10 +140,10 @@ export async function renderPage(
   let inlinedScript = ''
   if (config.mpa && result) {
     const matchingChunk = result.output.find(
-      (chunk) =>
+      (chunk): chunk is Rolldown.OutputChunk =>
         chunk.type === 'chunk' &&
         chunk.facadeModuleId === slash(path.join(config.srcDir, page))
-    ) as Rolldown.OutputChunk
+    )
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
@@ -227,12 +227,13 @@ function resolvePageImports(
   }
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
-    (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
-  ) as Rolldown.OutputChunk
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
+  )
   return [
     ...appChunk.imports,
     // ...appChunk.dynamicImports,
-    ...pageChunk.imports
+    ...(pageChunk?.imports || [])
     // ...pageChunk.dynamicImports
   ]
 }
