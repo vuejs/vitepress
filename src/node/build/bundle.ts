@@ -16,7 +16,7 @@ import { escapeRegExp, sanitizeFileName, slash } from '../shared'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
-// https://github.com/vitejs/vite/blob/d2aa0969ee316000d3b957d7e879f001e85e369e/packages/vite/src/node/plugins/splitVendorChunk.ts#L14
+// https://github.com/vitejs/vite/blob/a55d0b34400e3360c4100d05e422ae9cf10fa07b/packages/vite/src/node/constants.ts#L50
 const CSS_LANGS_RE =
   /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
 
@@ -125,35 +125,24 @@ export async function bundle(
                 codeSplitting: {
                   groups: [
                     {
-                      name(
-                        id: string,
-                        ctx: Pick<Rolldown.PluginContext, 'getModuleInfo'>
-                      ) {
-                        // ctx.getModuleInfo must not be called detached from ctx
-                        const getModuleInfo: Rolldown.GetModuleInfo = (
-                          moduleId
-                        ) => ctx.getModuleInfo(moduleId)
+                      name(id, ctx) {
+                        const getModuleInfo = ctx.getModuleInfo.bind(ctx)
+
+                        // avoid emitting multiple files for assets
+                        // see: https://github.com/rolldown/rolldown/issues/4246
+                        if (getModuleInfo(id)?.meta['vite:asset']) {
+                          return 'assets'
+                        }
 
                         // move known framework code into a stable chunk so that
                         // custom theme changes do not invalidate hash for all pages
                         if (
                           id.startsWith('\0vite') ||
-                          getModuleInfo(id)?.meta['vite:asset']
-                        ) {
-                          return 'framework'
-                        }
-                        if (id.includes('plugin-vue:export-helper')) {
-                          return 'framework'
-                        }
-                        if (
-                          id.includes(`${clientDir}/app`) &&
-                          id !== `${clientDir}/app/index.js`
-                        ) {
-                          return 'framework'
-                        }
-                        if (
-                          isEagerChunk(id, getModuleInfo) &&
-                          /@vue\/(runtime|shared|reactivity)/.test(id)
+                          id.includes('plugin-vue:export-helper') ||
+                          (id.includes(`${clientDir}/app`) &&
+                            id !== `${clientDir}/app/index.js`) ||
+                          (isEagerChunk(id, getModuleInfo) &&
+                            /@vue\/(runtime|shared|reactivity)/.test(id))
                         ) {
                           return 'framework'
                         }

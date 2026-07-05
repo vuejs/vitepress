@@ -2,7 +2,7 @@ import { isBooleanAttr } from '@vue/shared'
 import fs from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { minify, normalizePath, type Rolldown } from 'vite'
+import { minifySync, normalizePath, type Rolldown } from 'vite'
 import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
 import {
@@ -246,7 +246,7 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
           tag === 'script' &&
           (attrs.type === undefined || attrs.type.includes('javascript'))
         ) {
-          innerHTML = await minifyScript(innerHTML, 'inline-script.js')
+          innerHTML = minifySync('inline-script.js', innerHTML).code
         }
         return `${openTag}${innerHTML}</${tag}>`
       } else {
@@ -264,10 +264,6 @@ function renderAttrs(attrs: Record<string, string>): string {
       return ` ${key}="${escapeHtml(attrs[key] as string)}"`
     })
     .join('')
-}
-
-async function minifyScript(code: string, filename: string): Promise<string> {
-  return (await minify(filename, code)).code.trim()
 }
 
 function filterOutHeadDescription(head: HeadConfig[] = []) {
