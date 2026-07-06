@@ -37,7 +37,7 @@
 
 ### BREAKING CHANGES
 
-- VitePress now uses Vite 8. If you are using Vite plugins in your config, please check the Vite 8 migration guide for any breaking changes that may affect you.
+- VitePress now uses Vite 8. If you are using Vite plugins in your config, please check the [Vite 8 migration guide](https://vite.dev/guide/migration) for any breaking changes that may affect you.
 - Node 20 support is dropped. v22 or higher is needed.
 - `scrollOffset` from config is removed. Users wanting to customize scroll offset should customize `scroll-margin-top` via CSS instead. `smoothScroll` support from `router.go` is also removed as it didn't work as expected for most users. Users wanting smooth scrolling should set `scroll-behavior: smooth` in CSS, ideally inside a `@media (prefers-reduced-motion: no-preference)` block.
 
