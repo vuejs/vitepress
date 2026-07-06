@@ -165,6 +165,11 @@ export async function bundle(
                   ]
                 }
               })
+        },
+        checks: {
+          invalidAnnotation: false, // FIXME: remove when vueuse releases a new version
+          pluginTimings: false,
+          ...rolldownOptions?.checks
         }
       }
     },
