@@ -25,9 +25,27 @@ export default {
 
 ## i18nRouting
 
-- Тип: `boolean`
+- Тип: `boolean | ((data: VitePressData<DefaultTheme.Config>, hash: string, targetLocale: string) => string)`
 
 При смене локали на `ru` URL изменится с `/foo` (или `/en/foo/`) на `/ru/foo`. Вы можете отключить это поведение, установив для параметра `themeConfig.i18nRouting` значение `false`.
+
+Установите для `themeConfig.i18nRouting` функцию, чтобы настроить ссылки для переключения локали. Эта функция получает текущие данные VitePress, текущий хеш и ключ целевой локали, а затем возвращает ссылку для перехода на неё.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    i18nRouting(data, hash, targetLocale) {
+      const target = data.site.value.locales[targetLocale]
+      const targetLink =
+        target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
+
+      return `${targetLink}${data.page.value.relativePath.replace(/\.md$/, '')}${hash}`
+    }
+  }
+})
+```
 
 ## logo
 
@@ -235,6 +253,7 @@ export default {
       // Можно добавить любую иконку из simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
+      { icon: 'discord', link: '/community', target: '_self' },
       // Можно добавить пользовательские иконки, передав SVG в виде строки:
       {
         icon: {
@@ -254,6 +273,7 @@ interface SocialLink {
   icon: string | { svg: string }
   link: string
   ariaLabel?: string
+  target?: string
 }
 ```
 

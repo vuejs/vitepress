@@ -189,7 +189,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           clearButtonAriaLabel: 'Очистить запрос',
           closeButtonText: 'Закрыть',
           closeButtonAriaLabel: 'Закрыть',
-          placeholderText: 'Поиск по документации или задайте вопрос Ask AI',
+          placeholderText: 'Искать в документации или задать вопрос Ask AI',
           placeholderTextAskAi: 'Задайте другой вопрос...',
           placeholderTextAskAiStreaming: 'Отвечаю...',
           searchInputLabel: 'Поиск',

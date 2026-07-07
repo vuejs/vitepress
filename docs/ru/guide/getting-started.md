@@ -37,6 +37,10 @@ $ yarn add -D vitepress@next vue
 $ bun add -D vitepress@next
 ```
 
+```sh [deno]
+$ deno add -D vitepress@next
+```
+
 :::
 
 ::: tip ПРИМЕЧАНИЕ
