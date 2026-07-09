@@ -104,12 +104,17 @@ export function useActiveAnchor(
   })
 
   function onClick(e: MouseEvent) {
-    if (!isAsideEnabled.value || !(e.target instanceof HTMLAnchorElement)) {
+    if (!isAsideEnabled.value) {
       return
     }
 
-    activateLink(location.hash)
-    ignoreScrollOnce = true
+    const hash =
+      e.target instanceof Element ? e.target.closest('a')?.hash : null
+
+    if (hash) {
+      ignoreScrollOnce = true
+      activateLink(hash)
+    }
   }
 
   function setActiveLink() {
@@ -176,7 +181,7 @@ export function useActiveAnchor(
       prevActiveLink = null
     } else {
       prevActiveLink = container.value.querySelector(
-        `a[href="${decodeURIComponent(hash)}"]`
+        `a[href$="${decodeURIComponent(hash)}"]`
       )
     }
 
