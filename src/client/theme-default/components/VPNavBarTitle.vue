@@ -2,12 +2,12 @@
 import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import { normalizeLink } from '../support/utils'
 import VPImage from './VPImage.vue'
 
 const { site, theme } = useData()
-const { hasSidebar } = useSidebar()
+const { hasSidebar } = useLayout()
 const { currentLang } = useLangs()
 
 const link = computed(() =>
@@ -34,13 +34,13 @@ const target = computed(() =>
     <a
       class="title"
       :href="link ?? normalizeLink(currentLang.link)"
-      :rel="rel"
-      :target="target"
+      :rel
+      :target
     >
       <slot name="nav-bar-title-before" />
       <VPImage v-if="theme.logo" class="logo" :image="theme.logo" />
-      <template v-if="theme.siteTitle"><span>{{ theme.siteTitle }}</span></template>
-      <template v-else-if="theme.siteTitle === undefined"><span>{{ site.title }}</span></template>
+      <span v-if="theme.siteTitle" v-html="theme.siteTitle"></span>
+      <span v-else-if="theme.siteTitle === undefined">{{ site.title }}</span>
       <slot name="nav-bar-title-after" />
     </a>
   </div>

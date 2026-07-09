@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { inject, computed } from 'vue'
+import { inject, ref, watchPostEffect } from 'vue'
 import { useData } from '../composables/data'
 import VPSwitch from './VPSwitch.vue'
 
@@ -9,8 +9,10 @@ const toggleAppearance = inject('toggle-appearance', () => {
   isDark.value = !isDark.value
 })
 
-const switchTitle = computed(() => {
-  return isDark.value
+const switchTitle = ref('')
+
+watchPostEffect(() => {
+  switchTitle.value = isDark.value
     ? theme.value.lightModeSwitchTitle || 'Switch to light theme'
     : theme.value.darkModeSwitchTitle || 'Switch to dark theme'
 })

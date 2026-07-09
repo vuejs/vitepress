@@ -1,3 +1,7 @@
+---
+description: Справочник по всем параметрам конфигурации, доступным для темы VitePress по умолчанию.
+---
+
 # Настройка темы по умолчанию {#default-theme-config}
 
 Конфигурация темы позволяет настроить её под себя. Вы можете настроить тему с помощью опции `themeConfig` в файле конфигурации:
@@ -19,13 +23,31 @@ export default {
 
 **Параметры, описанные на этой странице, применимы только к теме по умолчанию.** Разные темы предполагают разные конфигурации темы. При использовании пользовательской темы объект конфигурации темы будет передан теме, чтобы она могла определить условное поведение на его основе.
 
-## i18nRouting {#i18nrouting}
+## i18nRouting
 
-- Тип: `boolean`
+- Тип: `boolean | ((data: VitePressData<DefaultTheme.Config>, hash: string, targetLocale: string) => string)`
 
 При смене локали на `ru` URL изменится с `/foo` (или `/en/foo/`) на `/ru/foo`. Вы можете отключить это поведение, установив для параметра `themeConfig.i18nRouting` значение `false`.
 
-## logo {#logo}
+Установите для `themeConfig.i18nRouting` функцию, чтобы настроить ссылки для переключения локали. Эта функция получает текущие данные VitePress, текущий хеш и ключ целевой локали, а затем возвращает ссылку для перехода на неё.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    i18nRouting(data, hash, targetLocale) {
+      const target = data.site.value.locales[targetLocale]
+      const targetLink =
+        target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
+
+      return `${targetLink}${data.page.value.relativePath.replace(/\.md$/, '')}${hash}`
+    }
+  }
+})
+```
+
+## logo
 
 - Тип: `ThemeableImage`
 
@@ -46,7 +68,7 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 ```
 
-## siteTitle {#sitetitle}
+## siteTitle
 
 - Тип: `string | false`
 
@@ -60,7 +82,7 @@ export default {
 }
 ```
 
-## nav {#nav}
+## nav
 
 - Тип: `NavItem`
 
@@ -89,7 +111,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -108,7 +130,7 @@ interface NavItemWithChildren {
 }
 ```
 
-## sidebar {#sidebar}
+## sidebar
 
 - Тип: `Sidebar`
 
@@ -135,7 +157,7 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarItem[]
+  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
 }
 
 export type SidebarItem = {
@@ -162,10 +184,23 @@ export type SidebarItem = {
    * Если `false`, группа сворачивается, но по умолчанию разворачивается
    */
   collapsed?: boolean
+
+  /**
+   * Базовый путь для дочерних элементов
+   */
+  base?: string
+
+  /**
+   * Настройте текст, который отображается в футере предыдущей/следующей страницы
+   */
+  docFooterText?: string
+
+  rel?: string
+  target?: string
 }
 ```
 
-## aside {#aside}
+## aside
 
 - Тип: `boolean | 'left'`
 - По умолчанию: `true`
@@ -177,7 +212,7 @@ export type SidebarItem = {
 
 Если вы хотите отключить его для всех режимов просмотра, используйте `aside: false`.
 
-## outline {#outline}
+## outline
 
 - Тип: `Outline | Outline['level'] | false`
 - Уровень можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#outline)
@@ -205,7 +240,7 @@ interface Outline {
 }
 ```
 
-## socialLinks {#sociallinks}
+## socialLinks
 
 - Тип: `SocialLink[]`
 
@@ -215,15 +250,17 @@ interface Outline {
 export default {
   themeConfig: {
     socialLinks: [
+      // Можно добавить любую иконку из simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      // Вы также можете добавить пользовательские иконки, передав SVG в виде строки:
+      { icon: 'discord', link: '/community', target: '_self' },
+      // Можно добавить пользовательские иконки, передав SVG в виде строки:
       {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
         link: '...',
-        // Вы также можете включить пользовательский ярлык для доступности (необязательно, но рекомендуется):
+        // Можно включить пользовательский ярлык для доступности (необязательно, но рекомендуется):
         ariaLabel: 'классная ссылка'
       }
     ]
@@ -233,32 +270,19 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
+  target?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
-## footer {#footer}
+## footer
 
 - Тип: `Footer`
 - Можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#footer)
 
-Настройка подвала. Вы можете разместить в подвале сообщение или текст об авторских правах, однако он будет отображаться только в том случае, если страница не содержит боковой панели. Это объясняется соображениями дизайна.
+Настройка футера. Вы можете разместить в футере сообщение или текст об авторских правах, однако он будет отображаться только в том случае, если страница не содержит боковой панели. Это объясняется соображениями дизайна.
 
 ```ts
 export default {
@@ -278,7 +302,7 @@ export interface Footer {
 }
 ```
 
-## editLink {#editlink}
+## editLink
 
 - Тип: `EditLink`
 - Можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#editlink)
@@ -303,7 +327,7 @@ export interface EditLink {
 }
 ```
 
-## lastUpdated {#lastupdated}
+## lastUpdated
 
 - Тип: `LastUpdatedOptions`
 
@@ -338,7 +362,7 @@ export interface LastUpdatedOptions {
 }
 ```
 
-## algolia {#algolia}
+## algolia
 
 - Тип: `AlgoliaSearch`
 
@@ -363,22 +387,26 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'код-рекламы',
-      placement: 'место-размещения-рекламы'
+      placement: 'место-размещения-рекламы',
+      format: 'classic'
     }
   }
 }
 ```
 
+Параметр `format` поддерживает значения `classic`, `responsive` и `cover`.
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 
 Подробнее в главе [Тема по умолчанию: Carbon Ads](./default-theme-carbon-ads)
 
-## docFooter {#docfooter}
+## docFooter
 
 - Тип: `DocFooter`
 
@@ -402,51 +430,93 @@ export interface DocFooter {
 }
 ```
 
-## darkModeSwitchLabel {#darkmodeswitchlabel}
+## darkModeSwitchLabel
 
 - Тип: `string`
 - По умолчанию: `Appearance`
 
 Можно использовать для настройки надписи переключателя тёмного режима. Этот ярлык отображается только в мобильном представлении.
 
-## lightModeSwitchTitle {#lightmodeswitchtitle}
+## lightModeSwitchTitle
 
 - Тип: `string`
 - По умолчанию: `Switch to light theme`
 
 Может использоваться для настройки заголовка переключателя светлого режима, который появляется при наведении курсора.
 
-## darkModeSwitchTitle {#darkmodeswitchtitle}
+## darkModeSwitchTitle
 
 - Тип: `string`
 - По умолчанию: `Switch to dark theme`
 
 Можно использовать для настройки заголовка переключателя тёмного режима, который появляется при наведении курсора.
 
-## sidebarMenuLabel {#sidebarmenulabel}
+## sidebarMenuLabel
 
 - Тип: `string`
 - По умолчанию: `Menu`
 
 Может использоваться для настройки метки бокового меню. Эта метка отображается только в мобильном представлении.
 
-## returnToTopLabel {#returntotoplabel}
+## returnToTopLabel
 
 - Тип: `string`
 - По умолчанию: `Return to top`
 
 Может использоваться для настройки метки кнопки возврата наверх. Эта метка отображается только в мобильном представлении.
 
-## langMenuLabel {#langmenulabel}
+## langMenuLabel
 
 - Тип: `string`
 - По умолчанию: `Change language`
 
-Можно использовать для настройки aria-метки кнопки переключения языка в панели навигации. Это используется только в том случае, если вы используете [i18n](../guide/i18n).
+Можно использовать для настройки aria-метки кнопки переключения языка в панели навигации. Применяется только в том случае, если вы используете [i18n](../guide/i18n).
 
-## externalLinkIcon {#externallinkicon}
+## skipToContentLabel
+
+- Тип: `string`
+- По умолчанию: `Skip to content`
+
+Можно использовать для настройки метки ссылки перехода к содержимому. Эта ссылка отображается, когда пользователь перемещается по сайту с помощью клавиатуры.
+
+## externalLinkIcon
 
 - Тип: `boolean`
 - По умолчанию: `false`
 
 Отображать ли значок внешней ссылки рядом с внешними ссылками в Markdown.
+
+## `useLayout` <Badge type="info" text="composable" />
+
+Возвращает данные, относящиеся к макету. Возвращаемый объект имеет следующий тип:
+
+```ts
+interface {
+  isHome: ComputedRef<boolean>
+
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
+
+**Пример:**
+
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
+
+const { hasSidebar } = useLayout()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Отображается только если есть боковая панель</div>
+</template>
+```

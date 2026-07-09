@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
-import { useSidebarControl } from '../composables/sidebar'
+import { computed } from 'vue'
+import { useSidebarItemControl } from '../composables/sidebar'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -17,7 +17,7 @@ const {
   hasActiveLink,
   hasChildren,
   toggle
-} = useSidebarControl(computed(() => props.item))
+} = useSidebarItemControl(computed(() => props.item))
 
 const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
 
@@ -27,8 +27,8 @@ const textTag = computed(() => {
   return !hasChildren.value
     ? 'p'
     : props.depth + 2 === 7
-    ? 'p'
-    : `h${props.depth + 2}`
+      ? 'p'
+      : `h${props.depth + 2}`
 })
 
 const itemRole = computed(() => (isLink.value ? undefined : 'button'))
@@ -227,12 +227,13 @@ function onCaretClick() {
 
 .caret-icon {
   font-size: 18px;
+  /*rtl:ignore*/
   transform: rotate(90deg);
   transition: transform 0.25s;
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0);
+  transform: rotate(0)/*rtl:rotate(180deg)*/;
 }
 
 .VPSidebarItem.level-1 .items,

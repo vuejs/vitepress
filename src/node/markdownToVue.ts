@@ -1,14 +1,15 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import _debug from 'debug'
-import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
+import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
+import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
 import {
   EXTERNAL_URL_RE,
   getLocaleForPath,
@@ -21,35 +22,75 @@ import {
 import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
-const debug = _debug('vitepress:md')
+const debug = createDebug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: { url: string; file: string }[]
+  deadLinks: { url: string; file: string; line?: number }[]
   includes: string[]
 }
 
-export function clearCache(file?: string) {
-  if (!file) {
+export function clearCache(relativePath?: string) {
+  if (!relativePath) {
     cache.clear()
     return
   }
 
-  file = JSON.stringify({ file }).slice(1)
-  cache.find((_, key) => key.endsWith(file!) && cache.delete(key))
+  relativePath = JSON.stringify({ relativePath }).slice(1)
+  cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
+}
+
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, [string, string]>()
+let __rewrites = new Map<string, string>()
+let __ts: number
+
+function normalizeDriveLetter(file: string) {
+  return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
+}
+
+function getResolutionCache(siteConfig: SiteConfig) {
+  // @ts-expect-error internal
+  if (siteConfig.__dirty) {
+    __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
+
+    __dynamicRoutes = new Map(
+      siteConfig.dynamicRoutes.map((r) => [
+        r.fullPath,
+        [slash(path.join(siteConfig.srcDir, r.route)), r.loaderPath]
+      ])
+    )
+
+    __rewrites = new Map(
+      Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, key))),
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, value!)))
+      ])
+    )
+
+    __ts = Date.now()
+
+    // @ts-expect-error internal
+    siteConfig.__dirty = false
+  }
+
+  return {
+    pages: __pages,
+    dynamicRoutes: __dynamicRoutes,
+    rewrites: __rewrites,
+    ts: __ts
+  }
 }
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
   options: MarkdownOptions = {},
-  pages: string[],
-  isBuild = false,
   base = '/',
   includeLastUpdatedData = false,
   cleanUrls = false,
-  siteConfig: SiteConfig | null = null
+  siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -57,22 +98,27 @@ export async function createMarkdownToVueRenderFn(
     base,
     siteConfig?.logger
   )
-  pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   return async (
     src: string,
     file: string,
     publicDir: string
   ): Promise<MarkdownCompileResult> => {
-    const fileOrig = file
-    const alias =
-      siteConfig?.rewrites.map[file] || // virtual dynamic path file
-      siteConfig?.rewrites.map[file.slice(srcDir.length + 1)]
-    file = alias ? path.join(srcDir, alias) : file
-    const relativePath = slash(path.relative(srcDir, file))
-    const cacheKey = JSON.stringify({ src, file: fileOrig })
+    const { pages, dynamicRoutes, rewrites, ts } =
+      getResolutionCache(siteConfig)
 
-    if (isBuild || options.cache !== false) {
+    const dynamicRoute = dynamicRoutes.get(file)
+    const fileOrig = dynamicRoute?.[0] || file
+    const transformPageData = [
+      siteConfig?.transformPageData,
+      getPageDataTransformer(dynamicRoute?.[1]!)
+    ].filter((fn) => fn != null)
+
+    file = rewrites.get(normalizeDriveLetter(file)) || file
+    const relativePath = slash(path.relative(srcDir, file))
+
+    const cacheKey = JSON.stringify({ src, ts, relativePath })
+    if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -94,7 +140,7 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = processIncludes(srcDir, src, fileOrig, includes)
+    src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
 
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
@@ -107,19 +153,26 @@ export async function createMarkdownToVueRenderFn(
       realPath: fileOrig,
       localeIndex
     }
-    const html = md.render(src, env)
+    const html = await md.renderAsync(src, env)
     const {
+      content,
       frontmatter = {},
       headers = [],
+      linkLines = [],
       links = [],
       sfcBlocks,
       title = ''
     } = env
+    const contentLineOffset = countLineBreaks(
+      content && src.endsWith(content) ? src.slice(0, -content.length) : ''
+    )
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
-    const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: path.relative(srcDir, fileOrig) })
+    const recordDeadLink = (url: string, line?: number) => {
+      deadLinks.push(
+        line == null ? { url, file: fileOrig } : { url, file: fileOrig, line }
+      )
     }
 
     function shouldIgnoreDeadLink(url: string) {
@@ -134,27 +187,27 @@ export async function createMarkdownToVueRenderFn(
       }
 
       return siteConfig.ignoreDeadLinks.some((ignore) => {
-        if (typeof ignore === 'string') {
-          return url === ignore
-        }
-        if (ignore instanceof RegExp) {
-          return ignore.test(url)
-        }
-        if (typeof ignore === 'function') {
-          return ignore(url)
-        }
+        if (typeof ignore === 'string') return url === ignore
+        if (ignore instanceof RegExp) return ignore.test(url)
+        if (typeof ignore === 'function') return ignore(url, fileOrig)
         return false
       })
     }
 
-    if (links) {
+    if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
-      for (let url of links) {
+      for (const [index, rawUrl] of links.entries()) {
+        let url = rawUrl
+        const line =
+          linkLines[index] == null
+            ? undefined
+            : linkLines[index] + contentLineOffset
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
+
         let resolved = decodeURIComponent(
           slash(
             url.startsWith('/')
@@ -164,12 +217,13 @@ export async function createMarkdownToVueRenderFn(
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+
         if (
           !pages.includes(resolved) &&
           !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url)
+          recordDeadLink(url, line)
         }
       }
     }
@@ -185,19 +239,18 @@ export async function createMarkdownToVueRenderFn(
       filePath: slash(path.relative(srcDir, fileOrig))
     }
 
-    if (includeLastUpdatedData) {
-      pageData.lastUpdated = await getGitTimestamp(fileOrig)
+    if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {
+      if (frontmatter.lastUpdated instanceof Date) {
+        pageData.lastUpdated = +frontmatter.lastUpdated
+      } else {
+        pageData.lastUpdated = await getGitTimestamp(fileOrig)
+      }
     }
 
-    if (siteConfig?.transformPageData) {
-      const dataToMerge = await siteConfig.transformPageData(pageData, {
-        siteConfig
-      })
-      if (dataToMerge) {
-        pageData = {
-          ...pageData,
-          ...dataToMerge
-        }
+    for (const fn of transformPageData) {
+      if (fn) {
+        const dataToMerge = await fn(pageData, { siteConfig })
+        if (dataToMerge) pageData = { ...pageData, ...dataToMerge }
       }
     }
 
@@ -213,15 +266,8 @@ export async function createMarkdownToVueRenderFn(
 
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
-    const result = {
-      vueSrc,
-      pageData,
-      deadLinks,
-      includes
-    }
-    if (isBuild || options.cache !== false) {
-      cache.set(cacheKey, result)
-    }
+    const result = { vueSrc, pageData, deadLinks, includes }
+    if (options.cache !== false) cache.set(cacheKey, result)
     return result
   }
 }
@@ -302,10 +348,11 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   return (head && getHeadMetaContent(head, 'description')) || ''
 }
 
-const getHeadMetaContent = (
-  head: HeadConfig[],
-  name: string
-): string | undefined => {
+function countLineBreaks(str: string) {
+  return str.match(/\r?\n/g)?.length ?? 0
+}
+
+const getHeadMetaContent = (head: HeadConfig[], name: string) => {
   if (!head || !head.length) {
     return undefined
   }

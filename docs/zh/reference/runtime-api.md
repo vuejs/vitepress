@@ -1,3 +1,7 @@
+---
+description: VitePress 运行时 API 参考，包括组合式函数、辅助方法和内置组件。
+---
+
 # 运行时 API {#runtime-api}
 
 VitePress 提供了几个内置的 API 来让你访问应用程序数据。VitePress 还附带了一些可以在全局范围内使用的内置组件。
@@ -103,9 +107,13 @@ interface Router {
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
+   * 在页面组件加载后（页面组件实际更新前）调用
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
    * 在路由更改后调用
    */
-  onAfterRouteChanged?: (to: string) => Awaitable<void>
+  onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 

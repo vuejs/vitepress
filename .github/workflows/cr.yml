@@ -1,0 +1,49 @@
+name: CR
+
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, labeled, ready_for_review]
+    paths-ignore:
+      - '.github/**'
+      - '!.github/workflows/cr.yml'
+      - '__tests__/**'
+      - 'art/**'
+      - 'docs/**'
+      - '*.md'
+  push:
+    branches: [main]
+    paths-ignore:
+      - '.github/**'
+      - '!.github/workflows/cr.yml'
+      - '__tests__/**'
+      - 'art/**'
+      - 'docs/**'
+      - '*.md'
+    tags-ignore:
+      - '*'
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    if: ${{ ((github.event_name == 'pull_request' && !github.event.pull_request.draft && contains(github.event.pull_request.labels.*.name, 'cr-tracked') && !contains(github.event.pull_request.labels.*.name, 'spam') && !contains(github.event.pull_request.labels.*.name, 'invalid')) || (github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'release:'))) && github.repository == 'vuejs/vitepress' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm build
+      - run: npx pkg-pr-new publish --compact --no-template --pnpm

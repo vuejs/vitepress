@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Entenda o roteamento baseado em arquivos do VitePress, rotas dinâmicas, URLs limpas e reescritas de caminho.
 ---
 
 # Roteamento {#routing}
@@ -109,7 +110,7 @@ Se você deseja vincular a uma página em seu site que não é gerada pelo ViteP
 
 [Link para pure.html](/pure.html){target="_self"}
 
-::: dica Nota
+::: tip Nota
 
 Nos links Markdown, a `base` é automaticamente adicionada à URL. Isso significa que, se você deseja vincular a uma página fora da sua base, será necessário algo como `../../pure.html` no link (resolvido em relação à página atual pelo navegador).
 
@@ -121,9 +122,9 @@ Alternativamente, pode-se usar diretamente a sintaxe da tag âncora:
 
 :::
 
-## Geração de URL Limpa {#generating-clean-url}
+## Geração de URLs Limpas {#generating-clean-urls}
 
-::: aviso Suporte do Servidor Necessário
+::: warning Suporte do Servidor Necessário
 Para servir URLs limpas com VitePress, é necessário suporte no lado do servidor.
 :::
 
@@ -175,8 +176,7 @@ packages/pkg-b/src/pkg-b-docs.md  -->  /pkg-b/index.html
 
 Você pode realizar isso configurando a opção [`rewrites`](../reference/site-config#rewrites) assim:
 
-```ts
-// .vitepress/config.js
+```ts [.vitepress/config.js]
 export default {
   rewrites: {
     'packages/pkg-a/src/pkg-a-docs.md': 'pkg-a/index.md',
@@ -290,7 +290,7 @@ O módulo de carregamento de caminhos é executado no Node.js e apenas durante o
 Gerando caminhos a partir de arquivos locais:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

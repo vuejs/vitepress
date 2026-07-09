@@ -1,3 +1,7 @@
+---
+description: VitePress 默认主题所有可用配置选项的参考。
+---
+
 # 默认主题配置 {#default-theme-config}
 
 主题配置可以让你能够自定义主题。可以通过将 `themeConfig` 添加到配置文件来进行主题配置：
@@ -89,7 +93,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -233,24 +237,10 @@ export default {
 
 ```ts
 interface SocialLink {
-  icon: SocialLinkIcon
+  icon: string | { svg: string }
   link: string
   ariaLabel?: string
 }
-
-type SocialLinkIcon =
-  | 'discord'
-  | 'facebook'
-  | 'github'
-  | 'instagram'
-  | 'linkedin'
-  | 'mastodon'
-  | 'npm'
-  | 'slack'
-  | 'twitter'
-  | 'x'
-  | 'youtube'
-  | { svg: string }
 ```
 
 ## footer
@@ -283,7 +273,7 @@ export interface Footer {
 - 类型：`EditLink`
 - 每个页面可以通过 [frontmatter](./frontmatter-config#editlink) 覆盖
 
-编辑链接可让显示链接以编辑 Git 管理服务 (例如 GitHub 或 GitLab) 上的页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
+编辑链接允许显示一个链接，用于在 Git 管理服务 (例如 GitHub 或 GitLab) 上编辑页面。有关详细信息，请参阅[默认主题：编辑链接](./default-theme-edit-link)。
 
 ```ts
 export default {
@@ -363,16 +353,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
 ```
 
+`format` 选项支持 `classic`、`responsive` 和 `cover`。
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

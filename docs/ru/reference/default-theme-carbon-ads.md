@@ -1,22 +1,29 @@
+---
+description: Интегрируйте Carbon Ads в ваш сайт VitePress с помощью встроенной поддержки темы по умолчанию.
+---
+
 # Carbon Ads {#carbon-ads}
 
-В VitePress встроена встроенная поддержка [Carbon Ads](https://www.carbonads.net/). Определив в конфиге учётные данные Carbon Ads, VitePress будет отображать рекламу на странице.
+VitePress имеет встроенную поддержку [Carbon Ads](https://www.carbonads.net/). Определив в конфиге учётные данные Carbon Ads, VitePress будет отображать рекламу на странице.
 
 ```js
 export default {
   themeConfig: {
     carbonAds: {
       code: 'код-рекламы',
-      placement: 'место-размещения-рекламы'
+      placement: 'место-размещения-рекламы',
+      format: 'classic'
     }
   }
 }
 ```
 
-Эти значения используются для вызова сценария carbon CDN, как показано ниже:
+Эти значения используются для вызова сценария Carbon CDN, как показано ниже:
+
+Параметр `format` поддерживает значения `classic`, `responsive` и `cover`.
 
 ```js
-;`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
-Чтобы узнать больше о конфигурации Carbon Ads, посетите [веб-сайт Carbon Ads](https://www.carbonads.net/).
+Чтобы узнать больше о настройке Carbon Ads, посетите [веб-сайт Carbon Ads](https://www.carbonads.net/).

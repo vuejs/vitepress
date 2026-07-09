@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Garanta que os componentes do tema e o código personalizado do VitePress sejam compatíveis com renderização no lado do servidor.
 ---
 
 # Compatibilidade SSR {#ssr-compatibility}
@@ -50,8 +51,7 @@ if (!import.meta.env.SSR) {
 
 Como [`Theme.enhanceApp`](./custom-theme#theme-interface) pode ser assíncrono, você pode importar condicionalmente e registrar plugins Vue que acessam APIs do navegador na importação:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
 export default {
   // ...
@@ -65,8 +65,7 @@ export default {
 ```
 
 Se estiver usando TypeScript:
-```ts
-// .vitepress/theme/index.ts
+```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
 export default {

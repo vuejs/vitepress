@@ -1,24 +1,44 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
+import { isActive } from '../../shared'
+import { useData } from '../composables/data'
+import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'
 
-defineProps<{
+const props = defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-const closeScreen = inject('close-screen') as () => void
+const { page } = useData()
+
+const href = computed(() =>
+  typeof props.item.link === 'function'
+    ? props.item.link(page.value)
+    : props.item.link
+)
+
+const isActiveLink = computed(() =>
+  isActive(
+    page.value.relativePath,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+)
+
+const { closeScreen } = inject(navInjectionKey)!
 </script>
 
 <template>
   <VPLink
-    class="VPNavScreenMenuGroupLink"
-    :href="item.link"
+    :class="{ VPNavScreenMenuGroupLink: true, active: isActiveLink }"
+    :href
     :target="item.target"
     :rel="item.rel"
+    :no-icon="item.noIcon"
     @click="closeScreen"
   >
-    {{ item.text }}
+    <span v-html="item.text"></span>
   </VPLink>
 </template>
 
@@ -34,6 +54,10 @@ const closeScreen = inject('close-screen') as () => void
 }
 
 .VPNavScreenMenuGroupLink:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.VPNavScreenMenuGroupLink.active {
   color: var(--vp-c-brand-1);
 }
 </style>

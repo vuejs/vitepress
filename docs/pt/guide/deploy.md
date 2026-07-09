@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Implante seu site VitePress em plataformas populares como Netlify, Vercel, GitHub Pages e mais.
 ---
 
 # Implante seu Site VitePress {#deploy-your-vitepress-site}
@@ -10,7 +11,7 @@ Os guias a seguir são baseados em alguns pressupostos:
 - Você está usando o diretório de saída de compilação padrão (`.vitepress/dist`).
 - VitePress está instalado como uma dependência local em seu projeto, e você configurou os seguintes scripts em seu `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -105,13 +106,13 @@ Nota: o arquivo `vercel.json` deve ser colocado na raiz do seu **repositório**.
 
 ## Guias de Plataforma {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 Configure um novo projeto e altere estas configurações usando seu painel:
 
 - **Comando de Compilação:** `npm run docs:build`
 - **Diretório de Saída:** `docs/.vitepress/dist`
-- **Versão do Node:** `18` (ou superior)
+- **Versão do Node:** `20` (ou superior)
 
 ::: warning
 Não ative opções como _Auto Minify_ para código HTML. Isso removerá comentários da saída que têm significado para Vue. Haverão erros de incompatibilidade de hidratação se forem removidos.
@@ -121,7 +122,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
 1. Crie um arquivo chamado `deploy.yml` dentro do diretório `.github/workflows` do seu projeto com algum conteúdo como este:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Exemplo de fluxo de trabalho para compilar e implantar um site VitePress no GitHub Pages
    #
    name: Implante o site VitePress no Pages
@@ -153,24 +154,24 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Não necessário se lastUpdated não estiver habilitado
-         # - uses: pnpm/action-setup@v3 # Descomente isso se estiver usando pnpm
+         # - uses: pnpm/action-setup@v4 # Descomente isso se estiver usando pnpm
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Descomente isso se estiver usando Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 20
+             node-version: 24
              cache: npm # ou pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # ou pnpm install / yarn install / bun install
-         - name: Build with VitePress
-           run: |
-             npm run docs:build # ou pnpm docs:build / yarn docs:build / bun run docs:build
-             touch docs/.vitepress/dist/.nojekyll
+        - name: Build with VitePress
+          run: npm run docs:build # ou pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
            with:
@@ -200,12 +201,12 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
 ### GitLab Pages
 
-1. Defina `outDir` na configuração VitePress como `../public`. Configure a opção `base` para `'/<repository>/'` se você deseja implantar em `https://<username>.gitlab.io/<repository>/`.
+1. Defina `outDir` na configuração VitePress como `../public`. Configure a opção `base` para `'/<repository>/'` se você deseja implantar em `https://<username>.gitlab.io/<repository>/`. Você não precisa de `base` se estiver implantando em um domínio personalizado, páginas de usuário ou grupo, ou se a configuração "Use unique domain" estiver habilitada no GitLab.
 
 2. Crie um arquivo chamado `.gitlab-ci.yml` na raiz do seu projeto com o conteúdo abaixo. Isso construirá e implantará seu site sempre que você fizer alterações no conteúdo:
 
-   ```yaml
-   image: node:18
+   ```yaml [.gitlab-ci.yml]
+   image: node:24
    pages:
      cache:
        paths:
@@ -221,7 +222,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
        - main
    ```
 
-### Azure Static Web Apps {#azure-static-web-apps}
+### Azure
 
 1. Siga a [documentação oficial](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
 
@@ -231,13 +232,17 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+Você pode implantar seu projeto VitePress com a [CloudRay](https://cloudray.io/) seguindo estas [instruções](https://cloudray.io/articles/how-to-deploy-vitepress-site).
+
+### Firebase
 
 1. Crie `firebase.json` e `.firebaserc` na raiz do seu projeto:
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -248,7 +253,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<SEU_ID_FIREBASE>"
@@ -262,6 +267,30 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
    firebase deploy
    ```
 
+### Heroku
+
+1. Siga a documentação e o guia fornecidos em [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+
+2. Crie um arquivo chamado `static.json` na raiz do seu projeto com o conteúdo abaixo:
+
+   ```json [static.json]
+   {
+     "root": "docs/.vitepress/dist"
+   }
+   ```
+
+### Hostinger
+
+Você pode implantar seu projeto VitePress com a [Hostinger](https://www.hostinger.com/web-apps-hosting) seguindo estas [instruções](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). Ao configurar as opções de build, escolha VitePress como framework e ajuste o diretório raiz para `./docs`.
+
+### Kinsta
+
+Você pode implantar seu site VitePress em [Kinsta](https://kinsta.com/static-site-hosting/) seguindo estas [instruções](https://kinsta.com/docs/vitepress-static-site-example/).
+
+### Stormkit
+
+Você pode implantar seu projeto VitePress na [Stormkit](https://www.stormkit.io) seguindo estas [instruções](https://stormkit.io/blog/how-to-deploy-vitepress).
+
 ### Surge
 
 1. Após executar `npm run docs:build`, execute este comando para implantar:
@@ -270,22 +299,46 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
    npx surge docs/.vitepress/dist
    ```
 
-### Heroku
+### Nginx
 
-1. Siga a documentação e o guia fornecidos em [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+Aqui está um exemplo de configuração de bloco de servidor Nginx. Essa configuração inclui compressão gzip para ativos comuns baseados em texto, regras para servir os arquivos estáticos do seu site VitePress com cabeçalhos de cache apropriados, assim como lidar com `cleanUrls: true`.
 
-2. Crie um arquivo chamado `static.json` na raiz do seu projeto com o conteúdo abaixo:
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-   ```json
-   {
-     "root": "docs/.vitepress/dist"
-   }
-   ```
+    listen 80;
+    server_name _;
+    index index.html;
 
-### Edgio
+    location / {
+        # content location
+        root /app;
 
-Consulte [Criar e Implantar um Aplicativo VitePress no Edgio](https://docs.edg.io/guides/vitepress).
+        # exact matches -> reverse clean urls -> folders -> not found
+        try_files $uri $uri.html $uri/ =404;
 
-### Kinsta Static Site Hosting {#kinsta-static-site-hosting}
+        # non existent pages
+        error_page 404 /404.html;
 
-Você pode implantar seu site Vitepress em [Kinsta](https://kinsta.com/static-site-hosting/) seguindo estas [instruções](https://kinsta.com/docs/vitepress-static-site-example/).
+        # a folder without index.html raises 403 in this setup
+        error_page 403 /404.html;
+
+        # adjust caching headers
+        # files in the assets folder have hashes filenames
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+Essa configuração presume que o site VitePress compilado está localizado no diretório `/app` no seu servidor. Ajuste a diretiva `root` de acordo caso os arquivos do site estejam em outro lugar.
+
+::: warning Não use index.html por padrão
+A resolução de try_files não deve padronizar para index.html como em outras aplicações Vue. Isso resultará em um estado de página inválido.
+:::
+
+Mais informações podem ser encontradas na [documentação oficial do nginx](https://nginx.org/en/docs/), nestas issues [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) assim como neste [post do blog](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) de Mehdi Merah.

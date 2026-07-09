@@ -64,8 +64,61 @@ describe('Emoji', () => {
 describe('Table of Contents', () => {
   test('render toc', async () => {
     const items = page.locator('#table-of-contents + nav ul li')
-    const count = await items.count()
-    expect(count).toBe(36)
+    expect(
+      await items.evaluateAll((elements) =>
+        elements.map((el) => el.childNodes[0].textContent)
+      )
+    ).toMatchInlineSnapshot(`
+      [
+        "Links",
+        "Internal Links",
+        "External Links",
+        "GitHub-Style Tables",
+        "Emoji",
+        "Table of Contents",
+        "Custom Containers",
+        "Default Title",
+        "Custom Title",
+        "Line Highlighting in Code Blocks",
+        "Single Line",
+        "Multiple single lines, ranges",
+        "Comment Highlight",
+        "Line Numbers",
+        "Import Code Snippets",
+        "Basic Code Snippet",
+        "Specify Region",
+        "With Other Features",
+        "Code Groups",
+        "Basic Code Group",
+        "With Other Features",
+        "Markdown File Inclusion",
+        "Region",
+        "Markdown At File Inclusion",
+        "Markdown Nested File Inclusion",
+        "Region",
+        "After Foo",
+        "Sub sub",
+        "Sub sub sub",
+        "Markdown File Inclusion with Range",
+        "Region",
+        "Markdown File Inclusion with Range without Start",
+        "Region",
+        "Markdown File Inclusion with Range without End",
+        "Region",
+        "Markdown At File Region Snippet",
+        "Region Snippet",
+        "Markdown At File Range Region Snippet",
+        "Range Region Line 2",
+        "Markdown At File Range Region Snippet without start",
+        "Range Region Line 1",
+        "Markdown At File Range Region Snippet without end",
+        "Range Region Line 3",
+        "Markdown File Inclusion with Header",
+        "header 1.1.1",
+        "header 1.1.2",
+        "Image Lazy Loading",
+      ]
+    `)
   })
 })
 
@@ -273,6 +326,26 @@ describe('Markdown File Inclusion', () => {
     )
     expect(trim(await p.nth(0).textContent())).toBe('This is a region')
     expect(trim(await p.nth(1).textContent())).toBe('This is after region')
+  })
+
+  test('support markdown region snippet', async () => {
+    const h2 = page.locator('#markdown-at-file-region-snippet + h2')
+    expect(await h2.getAttribute('id')).toBe('region-snippet')
+
+    const line = page.locator('#markdown-at-file-range-region-snippet + h2')
+    expect(await line.getAttribute('id')).toBe('range-region-line-2')
+
+    const lineWithoutStart = page.locator(
+      '#markdown-at-file-range-region-snippet-without-start + h2'
+    )
+    expect(await lineWithoutStart.getAttribute('id')).toBe(
+      'range-region-line-1'
+    )
+
+    const lineWithoutEnd = page.locator(
+      '#markdown-at-file-range-region-snippet-without-end + h2'
+    )
+    expect(await lineWithoutEnd.getAttribute('id')).toBe('range-region-line-3')
   })
 
   test('ignore frontmatter if range is not specified', async () => {

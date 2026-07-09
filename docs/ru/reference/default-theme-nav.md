@@ -1,3 +1,7 @@
+---
+description: Настройте панель навигации в теме VitePress по умолчанию, включая заголовок сайта, логотип и ссылки меню.
+---
+
 # Навигация {#nav}
 
 Ключ `nav` в конфигурации — это панель навигации, отображаемая в верхней части страницы. Она содержит заголовок сайта, ссылки глобального меню и т. д.
@@ -54,6 +58,8 @@ export default {
 ```
 
 `text` — это текст, отображаемый в навигации, а `link` — это ссылка, на которую будет осуществлён переход при нажатии на текст. Для ссылки задайте путь к фактическому файлу без префикса `.md` и всегда начинайте с `/`.
+
+`link` также может быть функцией, которая принимает [`PageData`](./runtime-api#usedata) в качестве аргумента и возвращает путь.
 
 Навигационные ссылки также могут быть выпадающими меню. Для этого установите ключ `items` вместо ключа `link`:
 
@@ -160,3 +166,55 @@ export default {
 ## Социальные ссылки {#social-links}
 
 См. [`socialLinks`](./default-theme-config#sociallinks).
+
+## Пользовательские компоненты
+
+Вы можете добавить пользовательские компоненты в панель навигации с помощью опции `component`. Ключ `component` должен быть именем компонента Vue и должен быть зарегистрирован глобально с помощью [Theme.enhanceApp](../guide/custom-theme#theme-interface).
+
+```js [.vitepress/config.js]
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Мое меню',
+        items: [
+          {
+            component: 'MyCustomComponent',
+            // Необязательные параметры для передачи компоненту
+            props: {
+              title: 'Мой пользовательский компонент'
+            }
+          }
+        ]
+      },
+      {
+        component: 'AnotherCustomComponent'
+      }
+    ]
+  }
+}
+```
+
+Затем необходимо зарегистрировать компонент глобально:
+
+```js [.vitepress/theme/index.js]
+import DefaultTheme from 'vitepress/theme'
+
+import MyCustomComponent from './components/MyCustomComponent.vue'
+import AnotherCustomComponent from './components/AnotherCustomComponent.vue'
+
+/** @type {import('vitepress').Theme} */
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('MyCustomComponent', MyCustomComponent)
+    app.component('AnotherCustomComponent', AnotherCustomComponent)
+  }
+}
+```
+
+Ваш компонент будет отображаться на панели навигации. VitePress предоставляет следующие дополнительные параметры компонента:
+
+- `screenMenu`: необязательное булево значение, указывающее, находится ли компонент внутри мобильного навигационного меню
+
+Пример можно посмотреть в тестах e2e [здесь](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).

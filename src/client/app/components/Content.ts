@@ -1,5 +1,5 @@
-import { defineComponent, h } from 'vue'
 import { useData, useRoute } from 'vitepress'
+import { defineComponent, h, watch } from 'vue'
 import { contentUpdatedCallbacks } from '../utils'
 
 const runCbs = () => contentUpdatedCallbacks.forEach((fn) => fn())
@@ -11,7 +11,8 @@ export const Content = defineComponent({
   },
   setup(props) {
     const route = useRoute()
-    const { site } = useData()
+    const { frontmatter, site } = useData()
+    watch(frontmatter, runCbs, { deep: true, flush: 'post' })
     return () =>
       h(
         props.as,

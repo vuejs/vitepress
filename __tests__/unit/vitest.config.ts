@@ -1,7 +1,7 @@
-import { dirname, resolve } from 'path'
-import { fileURLToPath } from 'url'
-import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { defineConfig } from 'vitest/config'
 
 const dir = dirname(fileURLToPath(import.meta.url))
 
@@ -12,6 +12,7 @@ export default defineConfig({
       { find: '@siteData', replacement: resolve(dir, './shims.ts') },
       { find: 'client', replacement: resolve(dir, '../../src/client') },
       { find: 'node', replacement: resolve(dir, '../../src/node') },
+      { find: 'shared', replacement: resolve(dir, '../../src/shared') },
       {
         find: /^vitepress$/,
         replacement: resolve(dir, '../../src/client/index.js')

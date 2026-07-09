@@ -1,3 +1,7 @@
+---
+description: Comece a usar o VitePress. Aprenda a instalar, criar a estrutura e desenvolver seu site de documentação.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}
@@ -8,7 +12,7 @@ Você pode experimentar VitePress diretamente no seu navegador em [StackBlitz](h
 
 ### Pré-requisitos {#prerequisites}
 
-- [Node.js](https://nodejs.org/) na versão 18 ou superior.
+- [Node.js](https://nodejs.org/) na versão 22 ou superior.
 - Terminal para acessar VitePress através da sua interface de linha de comando (CLI).
 - Editor de texto com suporte a sintaxe [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) é recomendado, junto com a [extensão oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,35 +22,19 @@ VitePress pode ser usado sozinho, ou ser instalado em um projeto já existente. 
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
+$ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-::: details Está recebendo avisos sobre dependências correspondentes ausentes?
-Se usar PNPM, você perceberá um aviso de ausência de `@docsearch/js`. Isso não evita que o VitePress funcione. Se você deseja suprimir este aviso, adicione o seguinte no seu `package.json`:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+$ bun add -D vitepress@next
 ```
 
 :::
@@ -116,8 +104,7 @@ Por padrão, VitePress armazena o cache do servidor de desenvolvimento em `.vite
 
 O arquivo de configuração (`.vitepress/config.js`) permite que você personalize vários aspectos do seu site VitePress, com as opções mais básicas sendo o título e a descrição do site:
 
-```js
-// .vitepress/config.js
+```js [.vitepress/config.js]
 export default {
   // opções a nível do site
   title: 'VitePress',
@@ -143,7 +130,7 @@ VitePress também fornece a habilidade de gerar URLs limpas, reescrever caminhos
 
 A ferramenta deve ter também injetado os seguintes scripts npm no seu `package.json` se você permitiu isso durante o processo de instalação:
 
-```json
+```json [package.json]
 {
   ...
   "scripts": {

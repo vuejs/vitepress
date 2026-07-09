@@ -1,16 +1,17 @@
 ---
+description: Разверните свой сайт VitePress на популярных платформах, таких как Netlify, Vercel, GitHub Pages и других.
 outline: deep
 ---
 
 # Развёртывание вашего сайта VitePress {#deploy-your-vitepress-site}
 
-Следующие руководства основаны на некоторых общих предположениях:
+Следующие инструкции основаны на некоторых общих предположениях:
 
 - Сайт VitePress находится в директории `docs` вашего проекта.
 - Вы используете выходной каталог сборки по умолчанию (`.vitepress/dist`).
 - VitePress установлен как локальная зависимость в вашем проекте, и вы установили следующие скрипты в вашем `package.json`:
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -19,7 +20,7 @@ outline: deep
   }
   ```
 
-## Создание и локальное тестирование {#build-and-test-locally}
+## Сборка и локальное тестирование {#build-and-test-locally}
 
 1. Выполните эту команду, чтобы собрать документацию:
 
@@ -33,9 +34,9 @@ outline: deep
    $ npm run docs:preview
    ```
 
-   Команда `preview` загрузит локальный статический веб-сервер, который будет обслуживать выходной каталог `.vitepress/dist` по адресу `http://localhost:4173`. Вы можете использовать это, чтобы убедиться, что всё выглядит хорошо, прежде чем отправлять в производство.
+   Команда `preview` загрузит локальный статический веб-сервер, который будет обслуживать выходной каталог `.vitepress/dist` по адресу `http://localhost:4173`. Вы можете использовать его для теста, чтобы убедиться, что всё выглядит хорошо, прежде чем отправлять в производство.
 
-3. Вы можете настроить порт сервера, передав `--port` в качестве аргумента.
+3. Можно указать порт сервера, передав `--port` в качестве аргумента.
 
    ```json
    {
@@ -55,11 +56,11 @@ outline: deep
 
 ## Заголовки кэша HTTP {#http-cache-headers}
 
-Если вы контролируете HTTP-заголовки на своем рабочем сервере, вы можете настроить заголовки `cache-control` для достижения лучшей производительности при повторных посещениях.
+Если вы контролируете HTTP-заголовки на своем рабочем сервере, можно настроить заголовки `cache-control` для достижения лучшей производительности при повторных посещениях.
 
-В производственной сборке используются хэшированные имена файлов для статических ресурсов (JavaScript, CSS и другие импортированные ресурсы, не находящиеся в `public`). Если вы просмотрите предварительную версию с помощью сетевой вкладки devtools вашего браузера, вы увидите файлы типа `app.4f283b18.js`.
+В производственной сборке используются хэшированные имена файлов для статических ресурсов (JavaScript, CSS и другие импортированные ресурсы, не находящиеся в `public`). Если вы просмотрите предварительную версию с помощью вкладки «Network» («Сеть») инструментов разработчика вашего браузера, вы увидите файлы типа `app.4f283b18.js`.
 
-Этот хэш `4f283b18` генерируется из содержимого этого файла. Один и тот же хэшированный URL гарантированно обслуживает одно и то же содержимое файла — если содержимое меняется, то и URL тоже. Это означает, что вы можете смело использовать самые сильные заголовки кэша для этих файлов. Все такие файлы будут помещены в каталог `assets/` в выходном каталоге, поэтому вы можете настроить для них следующий заголовок:
+Этот хэш `4f283b18` генерируется из содержимого этого файла. Один и тот же хэшированный URL гарантированно обслуживает одно и то же содержимое файла — если содержимое меняется, то и URL тоже. Это означает, что можно смело использовать самые сильные настройки кэширования для этих файлов. Все такие файлы будут помещены в каталог `assets/` в выходном каталоге, поэтому вы можете настроить для них следующий заголовок:
 
 ```
 Cache-Control: max-age=31536000,immutable
@@ -105,23 +106,23 @@ Cache-Control: max-age=31536000,immutable
 
 ## Руководства по платформам {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#netlify-vercel-cloudflare-pages-aws-amplify-render}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 Создайте новый проект и измените эти настройки с помощью панели управления:
 
 - **Build Command:** `npm run docs:build`
 - **Output Directory:** `docs/.vitepress/dist`
-- **Node Version:** `18` (или выше)
+- **Node Version:** `20` (или выше)
 
 ::: warning ПРЕДУПРЕЖДЕНИЕ
 Не включайте такие опции, как _Auto Minify_ для HTML-кода. Он удалит из вывода комментарии, которые имеют значение для Vue. При их удалении могут возникать ошибки несоответствия гидратации.
 :::
 
-### GitHub Pages {#github-pages}
+### GitHub Pages
 
 1. Создайте файл с именем `deploy.yml` в директории `.github/workflows` вашего проекта с примерно таким содержанием:
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # Пример рабочего процесса для создания и развёртывания сайта VitePress на GitHub Pages
    #
    name: Deploy VitePress site to Pages
@@ -153,16 +154,25 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # Не требуется, если функция lastUpdated не включена
-         # - uses: pnpm/action-setup@v3 # Раскомментируйте, если вы используете pnpm
+         # - uses: pnpm/action-setup@v4 # Раскомментируйте, если вы используете pnpm
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # Раскомментируйте, если вы используете Bun
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 20
+             node-version: 24
              cache: npm # или pnpm / yarn
+         - name: Cache VitePress
+           uses: actions/cache@v4
+           with:
+             path: docs/.vitepress/cache
+             key: ${{ runner.os }}-vitepress-${{ hashFiles('docs/**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+             restore-keys: |
+               ${{ runner.os }}-vitepress-
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies
@@ -196,14 +206,14 @@ Cache-Control: max-age=31536000,immutable
 
 3. Внесите свои изменения в ветку `main` и дождитесь завершения процесса GitHub Actions. Вы должны увидеть, что ваш сайт развёрнут по адресу `https://<username>.github.io/[repository]/` или `https://<custom-domain>/` в зависимости от ваших настроек. Ваш сайт будет автоматически разворачиваться при каждом внесении изменений в ветке `main`.
 
-### GitLab Pages {#gitlab-pages}
+### GitLab Pages
 
-1. Установите `outDir` в конфигурации VitePress на `../public`. Настройте опцию `base` на `'/<репозиторий>/'`, если вы хотите развернуть ваш проект по адресу на `https://<имя пользователя>.gitlab.io/<репозиторий>/`.
+1. Установите значение `../public` для параметра `outDir` в конфигурации VitePress. Настройте опцию `base` на `'/<репозиторий>/'`, если вы хотите развернуть ваш проект по адресу `https://<имя пользователя>.gitlab.io/<репозиторий>/`. Вам не нужна опция `base`, если вы выполняете развёртывание на личном домене, страницах пользователя или группы, или если в GitLab включен параметр «Использовать уникальный домен».
 
 2. Создайте файл с именем `.gitlab-ci.yml` в корне вашего проекта с приведённым ниже содержимым. Это позволит создавать и развёртывать ваш сайт каждый раз, когда вы вносите изменения в его содержимое:
 
-   ```yaml
-   image: node:18
+   ```yaml [.gitlab-ci.yml]
+   image: node:24
    pages:
      cache:
        paths:
@@ -219,7 +229,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Статические веб-приложения Azure {#azure-static-web-apps}
+### Azure
 
 1. Следуйте [официальной документации](https://docs.microsoft.com/ru-ru/azure/static-web-apps/build-configuration).
 
@@ -229,13 +239,17 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+Вы можете развернуть свой проект VitePress с [CloudRay](https://cloudray.io/), следуя этим [инструкциям](https://cloudray.io/articles/how-to-deploy-vitepress-site).
+
+### Firebase
 
 1. Создайте `firebase.json` и `.firebaserc` в корне вашего проекта:
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -246,7 +260,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -260,37 +274,37 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
-### Surge {#surge}
+### Heroku
+
+1. Следуйте документации и руководству, приведённому в [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+
+2. Создайте файл `static.json` в корне вашего проекта со следующим содержимым:
+
+   ```json [static.json]
+   {
+     "root": "docs/.vitepress/dist"
+   }
+   ```
+
+### Hostinger
+
+Вы можете развернуть свой проект VitePress на [Hostinger](https://www.hostinger.com/web-apps-hosting), следуя этим [инструкциям](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). При настройке параметров сборки выберите VitePress в качестве фреймворка и укажите корневой каталог `./docs`.
+
+### Kinsta
+
+Вы можете развернуть свой сайт VitePress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
+
+### Stormkit
+
+Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
+
+### Surge
 
 1. После запуска `npm run docs:build` выполните эту команду для развёртывания:
 
    ```sh
    npx surge docs/.vitepress/dist
    ```
-
-### Heroku {#heroku}
-
-1. Следуйте документации и руководству, приведённому в [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
-
-2. Создайте файл `static.json` в корне вашего проекта со следующим содержимым:
-
-   ```json
-   {
-     "root": "docs/.vitepress/dist"
-   }
-   ```
-
-### Edgio {#edgio}
-
-См. [Создание и развёртывание приложения VitePress в Edgio](https://docs.edg.io/applications/v6/sites_frameworks/getting_started/vitepress).
-
-### Хостинг статических файлов Kinsta {#kinsta-static-site-hosting}
-
-Вы можете развернуть свой сайт Vitepress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
-
-### Stormkit
-
-Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Nginx
 

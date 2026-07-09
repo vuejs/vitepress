@@ -2,10 +2,10 @@
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
-import { useSidebar } from '../composables/sidebar'
-import VPSidebarItem from './VPSidebarItem.vue'
+import { useLayout } from '../composables/layout'
+import VPSidebarGroup from './VPSidebarGroup.vue'
 
-const { sidebarGroups, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useLayout()
 
 const props = defineProps<{
   open: boolean
@@ -25,6 +25,16 @@ watch(
   },
   { immediate: true, flush: 'post' }
 )
+
+const key = ref(0)
+
+watch(
+  sidebarGroups,
+  () => {
+    key.value += 1
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -37,17 +47,18 @@ watch(
   >
     <div class="curtain" />
 
-    <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
+    <nav
+      class="nav"
+      id="VPSidebarNav"
+      aria-labelledby="sidebar-aria-label"
+      tabindex="-1"
+    >
       <span class="visually-hidden" id="sidebar-aria-label">
         Sidebar Navigation
       </span>
 
       <slot name="sidebar-nav-before" />
-
-      <div v-for="item in sidebarGroups" :key="item.text" class="group">
-        <VPSidebarItem :item="item" :depth="0" />
-      </div>
-
+      <VPSidebarGroup :items="sidebarGroups" :key />
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
@@ -108,7 +119,7 @@ watch(
 @media (min-width: 960px) {
   .curtain {
     position: sticky;
-    top: -64px;
+    top: calc(var(--vp-nav-height) * -1);
     left: 0;
     z-index: 1;
     margin-top: calc(var(--vp-nav-height) * -1);
@@ -121,17 +132,5 @@ watch(
 
 .nav {
   outline: 0;
-}
-
-.group + .group {
-  border-top: 1px solid var(--vp-c-divider);
-  padding-top: 10px;
-}
-
-@media (min-width: 960px) {
-  .group {
-    padding-top: 10px;
-    width: calc(var(--vp-sidebar-width) - 64px);
-  }
 }
 </style>

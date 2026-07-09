@@ -17,7 +17,6 @@
     "**/dist/**",
     "template",
     "bin",
-    "docs/snippets",
-    "scripts"
+    "docs/snippets"
   ]
 }

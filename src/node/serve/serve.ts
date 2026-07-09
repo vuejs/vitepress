@@ -1,6 +1,6 @@
 import compression from '@polka/compression'
-import fs from 'fs-extra'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
 import { resolveConfig } from '../config'
@@ -37,7 +37,7 @@ export async function serve(options: ServeOptions = {}) {
     res.end()
   }
 
-  const compress = compression({ brotli: true })
+  const compress = compression()
   const serve = sirv(config.outDir, {
     etag: true,
     maxAge: 31536000,

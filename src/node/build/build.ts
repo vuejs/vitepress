@@ -1,29 +1,39 @@
-import { createHash } from 'crypto'
-import fs from 'fs-extra'
-import { createRequire } from 'module'
+import { getIconsCSS } from '@iconify/utils'
+import { createHash } from 'node:crypto'
+import fs from 'node:fs'
+import { createRequire } from 'node:module'
+import path from 'node:path'
 import pMap from 'p-map'
-import path from 'path'
-import { packageDirectorySync } from 'pkg-dir'
-import { rimraf } from 'rimraf'
-import { pathToFileURL } from 'url'
-import type { BuildOptions, Rollup } from 'vite'
+import { packageDirectorySync } from 'package-directory'
+import type { BuildOptions, Rolldown } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
-import { slash, type HeadConfig } from '../shared'
+import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
+const require = createRequire(import.meta.url)
+
 export async function build(
   root?: string,
-  buildOptions: BuildOptions & { base?: string; mpa?: string } = {}
+  buildOptions: BuildOptions & {
+    base?: string
+    mpa?: string
+    onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
+  } = {}
 ) {
   const start = Date.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
+
+  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  delete buildOptions.onAfterConfigResolve
+
   const unlinkVue = linkVue()
 
   if (buildOptions.base) {
@@ -52,49 +62,50 @@ export async function build(
     }
 
     const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await import(
-      pathToFileURL(entryPath).toString() + '?t=' + Date.now()
-    )
+    const { render } = await nativeImport(entryPath)
 
     await task('rendering pages', async () => {
-      const appChunk =
-        clientResult &&
-        (clientResult.output.find(
-          (chunk) =>
-            chunk.type === 'chunk' &&
-            chunk.isEntry &&
-            chunk.facadeModuleId?.endsWith('.js')
-        ) as Rollup.OutputChunk)
+      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        clientResult?.output || []
 
-      const cssChunk = (
-        siteConfig.mpa ? serverResult : clientResult!
-      ).output.find(
-        (chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      ) as Rollup.OutputAsset
+      const appChunk = clientOutput.find(
+        (chunk): chunk is Rolldown.OutputChunk =>
+          chunk.type === 'chunk' &&
+          chunk.isEntry &&
+          !!chunk.facadeModuleId?.endsWith('.js')
+      )
 
-      const assets = (siteConfig.mpa ? serverResult : clientResult!).output
-        .filter(
-          (chunk) => chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-        )
-        .map((asset) => siteConfig.site.base + asset.fileName)
+      const isDefaultTheme = clientOutput.some(
+        (chunk): chunk is Rolldown.OutputChunk =>
+          chunk.type === 'chunk' &&
+          chunk.name === 'theme' &&
+          chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+      )
 
-      // default theme special handling: inject font preload
-      // custom themes will need to use `transformHead` to inject this
+      // ----
+
+      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+        (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+      const cssChunk = resultOutput.find(
+        (chunk): chunk is Rolldown.OutputAsset =>
+          chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+      )
+
+      // prettier-ignore
+      const assets = resultOutput.filter(
+        (chunk): chunk is Rolldown.OutputAsset =>
+          chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+      ).map((asset) => siteConfig.site.base + asset.fileName)
+
+      // ----
+
       const additionalHeadTags: HeadConfig[] = []
-      const isDefaultTheme =
-        clientResult &&
-        clientResult.output.some(
-          (chunk) =>
-            chunk.type === 'chunk' &&
-            chunk.name === 'theme' &&
-            chunk.moduleIds.some((id) => id.includes('client/theme-default'))
-        )
-
       const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
-          /inter-roman-latin\.\w+\.woff2/.test(file)
+          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
         )
         if (fontURL) {
           additionalHeadTags.push([
@@ -110,6 +121,8 @@ export async function build(
         }
       }
 
+      const usedIcons = new Set<string>()
+
       await pMap(
         ['404.md', ...siteConfig.pages],
         async (page) => {
@@ -123,22 +136,40 @@ export async function build(
             assets,
             pageToHashMap,
             metadataScript,
-            additionalHeadTags
+            additionalHeadTags,
+            usedIcons
           )
         },
         { concurrency: siteConfig.buildConcurrency }
       )
+
+      const icons = require('@iconify-json/simple-icons/icons.json')
+      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+        iconSelector: '.vpi-social-{name}',
+        commonSelector: '.vpi-social',
+        varName: 'icon',
+        format: process.env.DEBUG ? 'expanded' : 'compressed',
+        mode: 'mask'
+      }).replace(/[^]*?}\n*/, '')
+
+      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
 
     // emit page hash map for the case where a user session is open
     // when the site got redeployed (which invalidates current hash map)
-    fs.writeJSONSync(
+    fs.writeFileSync(
       path.join(siteConfig.outDir, 'hashmap.json'),
-      pageToHashMap
+      JSON.stringify(pageToHashMap)
     )
   } finally {
     unlinkVue()
-    if (!process.env.DEBUG) await rimraf(siteConfig.tempDir)
+    if (!process.env.DEBUG) {
+      fs.rmSync(siteConfig.tempDir, {
+        recursive: true,
+        force: true,
+        maxRetries: 10
+      })
+    }
   }
 
   await generateSitemap(siteConfig)
@@ -157,7 +188,8 @@ function linkVue() {
     // if user did not install vue by themselves, link VitePress' version
     if (!fs.existsSync(dest)) {
       const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-      fs.ensureSymlinkSync(src, dest, 'junction')
+      fs.mkdirSync(path.dirname(dest), { recursive: true })
+      fs.symlinkSync(src, dest, 'junction')
       return () => {
         fs.unlinkSync(dest)
       }
@@ -205,7 +237,7 @@ function generateMetadataScript(
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
   const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
 
-  fs.ensureDirSync(path.dirname(resolvedMetadataFile))
+  fs.mkdirSync(path.dirname(resolvedMetadataFile), { recursive: true })
   fs.writeFileSync(resolvedMetadataFile, metadataContent)
 
   return {

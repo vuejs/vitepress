@@ -1,4 +1,8 @@
-# 在 Markdown 使用 Vue {#using-vue-in-markdown}
+---
+description: 在 VitePress 的 Markdown 文件中直接使用 Vue 组件和动态模板功能。
+---
+
+# 在 Markdown 中使用 Vue {#using-vue-in-markdown}
 
 在 VitePress 中，每个 Markdown 文件都被编译成 HTML，而且将其作为 [Vue 单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)处理。这意味着可以在 Markdown 中使用任何 Vue 功能，包括动态模板、使用 Vue 组件或通过添加 `<script>` 标签为页面的 Vue 组件添加逻辑。
 
@@ -26,7 +30,7 @@
 
 ### 指令 {#directives}
 
-也可以使用指令 (请注意，原始 HTML 在 Markdown 中也有效):
+也可以使用指令 (请注意，原始 HTML 在 Markdown 中也有效)：
 
 **输入**
 
@@ -67,7 +71,7 @@ The count is: {{ count }}
 </style>
 ```
 
-:::warning 避免在 Markdown 中使用 `<style scoped>`
+::: warning 避免在 Markdown 中使用 `<style scoped>`
 在 Markdown 中使用时，`<style scoped>` 需要为当前页面的每个元素添加特殊属性，这将显著增加页面的大小。当我们需要局部范围的样式时 `<style module>` 是首选。
 :::
 
@@ -224,7 +228,7 @@ npm install -D stylus
 
 ## 使用 teleport 传递组件内容 {#using-teleports}
 
-Vitepress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其他地方，可以将它们包裹在内置的 `<ClientOnly>` 组件中，或者通过 [postRender 钩子](../reference/site-config#postrender)将 teleport 标签注入到最终页面 HTML 中的正确位置。
+VitePress 目前只有使用 teleport 传送到 body 的 SSG 支持。对于其他地方，可以将它们包裹在内置的 `<ClientOnly>` 组件中，或者通过 [postRender 钩子](../reference/site-config#postrender)将 teleport 标签注入到最终页面 HTML 中的正确位置。
 
 <ModalDemo />
 

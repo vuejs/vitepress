@@ -1,5 +1,6 @@
-import fs from 'fs-extra'
-import path from 'path'
+import matter from 'gray-matter'
+import fs from 'node:fs'
+import path from 'node:path'
 import {
   SitemapStream,
   type EnumChangefreq,
@@ -8,6 +9,7 @@ import {
   type NewsItem
 } from 'sitemap'
 import type { SiteConfig } from '../config'
+import { slash } from '../shared'
 import { getGitTimestamp } from '../utils/getGitTimestamp'
 import { task } from '../utils/task'
 
@@ -22,7 +24,13 @@ export async function generateSitemap(siteConfig: SiteConfig) {
     file = siteConfig.rewrites.inv[file] || file
     file = path.join(siteConfig.srcDir, file)
 
-    return (await getGitTimestamp(file)) || undefined
+    if (!fs.existsSync(file)) return undefined
+
+    const { data } = matter.read(file)
+    if (data.lastUpdated === false) return undefined
+    if (data.lastUpdated instanceof Date) return +data.lastUpdated
+
+    return (await getGitTimestamp(slash(file))) || undefined
   }
 
   await task('generating sitemap', async () => {

@@ -1,3 +1,7 @@
+---
+description: 配置 VitePress 默认主题的主页布局，包括 hero 区域、功能特性和自定义内容。
+---
+
 # 主页 {#home-page}
 
 VitePress 默认主题提供了一个首页布局，也可以在[此站点首页](../)看到。可以通过 [frontmatter](./frontmatter-config) 指定 `layout: home` 在任何页面上使用它
@@ -80,7 +84,7 @@ interface HeroAction {
 
 ### 自定义 name 的颜色 {#customizing-the-name-color}
 
-VitePress 通过 (`--vp-c-brand-1`) 设置 `name` 的颜色 .但是，可以通过覆盖 `--vp-home-hero-name-color` 变量来自定义此颜色。
+VitePress 通过 (`--vp-c-brand-1`) 设置 `name` 的颜色。但是，可以通过覆盖 `--vp-home-hero-name-color` 变量来自定义此颜色。
 
 ```css
 :root {

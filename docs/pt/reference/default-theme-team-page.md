@@ -1,3 +1,7 @@
+---
+description: Crie páginas de equipe com perfis de membros usando os componentes integrados de equipe do VitePress.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 
@@ -53,12 +57,12 @@ const members = [
 
 Diga olá à nossa equipe incrível.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 O código acima exibirá um membro da equipe em um elemento tipo cartão. Ele deve exibir algo semelhante ao abaixo.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 O componente `<VPTeamMembers>` vem em 2 tamanhos diferentes, pequeno `small` e médio `medium`. Enquanto é uma questão de preferência, geralmente o tamanho `small` deve encaixar melhor quando usado na página de documento. Além disso, você pode adicionar mais propriedades a cada membro, como adicionar o botão "descrição" ou "patrocinador". Saiba mais sobre em [`<VPTeamMembers>`](#vpteammembers).
 
@@ -100,16 +104,14 @@ const members = [
 <VPTeamPage>
   <VPTeamPageTitle>
     <template #title>
-      Nosso time 
+      Nosso time
     </template>
     <template #lead>
      O desenvolvimento do VitePress é orientado por uma equipe internacional,
      alguns dos membros escolheram ser apresentados abaixo.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 

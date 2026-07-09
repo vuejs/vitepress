@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Referência de todas as opções de configuração frontmatter disponíveis para páginas Markdown do VitePress.
 ---
 
 # Configuração Frontmatter {#frontmatter-config}
@@ -216,6 +217,6 @@ Em seguida, você pode personalizar os estilos desta página específica no arqu
 
 ```css
 .custom-page-class {
-  /* estilos específicos da página */
+  /* estilos específicos da página */
 }
 ```

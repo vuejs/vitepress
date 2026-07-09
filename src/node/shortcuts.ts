@@ -1,21 +1,19 @@
-import type { ViteDevServer } from 'vite'
 import c from 'picocolors'
-import { clearCache } from './markdownToVue'
-
-type CreateDevServer = () => Promise<void>
+import type { ViteDevServer } from 'vite'
+import type { Awaitable } from './shared'
 
 export type CLIShortcut = {
   key: string
   description: string
   action(
     server: ViteDevServer,
-    createDevServer: CreateDevServer
-  ): void | Promise<void>
+    restartServer: () => Promise<void>
+  ): Awaitable<void>
 }
 
 export function bindShortcuts(
   server: ViteDevServer,
-  createDevServer: CreateDevServer
+  restartServer: () => Promise<void>
 ): void {
   if (!server.httpServer || !process.stdin.isTTY || process.env.CI) {
     return
@@ -58,7 +56,7 @@ export function bindShortcuts(
     if (!shortcut) return
 
     actionRunning = true
-    await shortcut.action(server, createDevServer)
+    await shortcut.action(server, restartServer)
     actionRunning = false
   }
 
@@ -76,14 +74,12 @@ const SHORTCUTS: CLIShortcut[] = [
   {
     key: 'r',
     description: 'restart the server',
-    async action(server, createDevServer) {
+    async action(server, restartServer) {
       server.config.logger.info(c.green(`restarting server...\n`), {
         clear: true,
         timestamp: true
       })
-      clearCache()
-      await server.close()
-      await createDevServer()
+      await restartServer()
     }
   },
   {

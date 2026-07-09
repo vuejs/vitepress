@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 将 VitePress 站点部署到 Netlify、Vercel、GitHub Pages 等主流平台。
 ---
 
 # 部署 VitePress 站点 {#deploy-your-vitepress-site}
@@ -10,7 +11,7 @@ outline: deep
 - 你使用的是默认的生成输出目录 （`.vitepress/dist`）。
 - VitePress 作为本地依赖项安装在项目中，并且你已在 `package.json` 中设置以下脚本：
 
-  ```json
+  ```json [package.json]
   {
     "scripts": {
       "docs:build": "vitepress build docs",
@@ -51,7 +52,7 @@ outline: deep
 
 默认情况下，我们假设站点将部署在域名 (`/`) 的根路径上。如果站点在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base) 选项设置为 `'/blog/'`。
 
-**例**：如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
+**例**：如果你使用的是 GitHub（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
 
 ## HTTP 缓存标头 {#http-cache-headers}
 
@@ -73,7 +74,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-注意：该 `_headers` 文件应放置在 [public 目录](/guide/asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
+注意：该 `_headers` 文件应放置在 [public 目录](./asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
 
 [Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
 
@@ -105,13 +106,13 @@ Cache-Control: max-age=31536000,immutable
 
 ## 各平台部署指南 {#platform-guides}
 
-### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
 使用仪表板创建新项目并更改这些设置：
 
 - **构建命令：** `npm run docs:build`
 - **输出目录：** `docs/.vitepress/dist`
-- **node 版本：** `18` (或更高版本)
+- **node 版本：** `20` (或更高版本)
 
 ::: warning
 不要为 HTML 代码启用 _Auto Minify_ 等选项。它将从输出中删除对 Vue 有意义的注释。如果被删除，你可能会看到激活不匹配错误。
@@ -121,7 +122,7 @@ Cache-Control: max-age=31536000,immutable
 
 1. 在项目的 `.github/workflows` 目录中创建一个名为 `deploy.yml` 的文件，其中包含这样的内容：
 
-   ```yaml
+   ```yaml [.github/workflows/deploy.yml]
    # 构建 VitePress 站点并将其部署到 GitHub Pages 的示例工作流程
    #
    name: Deploy VitePress site to Pages
@@ -153,15 +154,17 @@ Cache-Control: max-age=31536000,immutable
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v4
+           uses: actions/checkout@v5
            with:
              fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
-         # - uses: pnpm/action-setup@v3 # 如果使用 pnpm，请取消注释
+         # - uses: pnpm/action-setup@v4 # 如果使用 pnpm，请取消此区域注释
+         #   with:
+         #     version: 9
          # - uses: oven-sh/setup-bun@v1 # 如果使用 Bun，请取消注释
          - name: Setup Node
-           uses: actions/setup-node@v4
+           uses: actions/setup-node@v6
            with:
-             node-version: 20
+             node-version: 24
              cache: npm # 或 pnpm / yarn
          - name: Setup Pages
            uses: actions/configure-pages@v4
@@ -198,12 +201,12 @@ Cache-Control: max-age=31536000,immutable
 
 ### GitLab Pages
 
-1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。
+1. 如果你想部署到 `https://<username>.gitlab.io/<repository>/`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。如果你部署到自定义域名、用户或组织页面，或在 GitLab 中启用了“Use unique domain”设置，则不需要 `base`。
 
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 
-   ```yaml
-   image: node:18
+   ```yaml [.gitlab-ci.yml]
+   image: node:24
    pages:
      cache:
        paths:
@@ -219,7 +222,7 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
-### Azure 静态 web 应用 {#azure-static-web-apps}
+### Azure
 
 1. 参考[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
 
@@ -229,13 +232,17 @@ Cache-Control: max-age=31536000,immutable
    - **`output_location`**: `docs/.vitepress/dist`
    - **`app_build_command`**: `npm run docs:build`
 
-### Firebase {#firebase}
+### CloudRay
+
+你可以按照这些[说明](https://cloudray.io/articles/how-to-deploy-vitepress-site)使用 [CloudRay](https://cloudray.io/) 部署你的 VitePress 项目。
+
+### Firebase
 
 1. 在项目的根目录下创建 `firebase.json` 和 `.firebaserc`：
 
    `firebase.json`:
 
-   ```json
+   ```json [firebase.json]
    {
      "hosting": {
        "public": "docs/.vitepress/dist",
@@ -246,7 +253,7 @@ Cache-Control: max-age=31536000,immutable
 
    `.firebaserc`:
 
-   ```json
+   ```json [.firebaserc]
    {
      "projects": {
        "default": "<YOUR_FIREBASE_ID>"
@@ -260,6 +267,30 @@ Cache-Control: max-age=31536000,immutable
    firebase deploy
    ```
 
+### Heroku
+
+1. 参考 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
+
+2. 使用以下内容在项目的根目录中创建一个名为 `static.json` 的文件：
+
+   ```json [static.json]
+   {
+     "root": "docs/.vitepress/dist"
+   }
+   ```
+
+### Hostinger
+
+你可以按照这些[说明](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/)使用 [Hostinger](https://www.hostinger.com/web-apps-hosting) 部署你的 VitePress 项目。在配置构建设置时，选择 VitePress 作为框架，并将根目录调整为 `./docs`。
+
+### Kinsta
+
+你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 VitePress 站点。
+
+### Stormkit
+
+你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
+
 ### Surge
 
 1. 运行 `npm run docs:build` 后，运行此命令进行部署：
@@ -268,22 +299,46 @@ Cache-Control: max-age=31536000,immutable
    npx surge docs/.vitepress/dist
    ```
 
-### Heroku
+### Nginx
 
-1. 参考 [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static) 中给出的文档和指南。
+下面是一个 Nginx 服务器块配置示例。此配置包括对基于文本的常见资源的 gzip 压缩、使用适当缓存头为 VitePress 站点静态文件提供服务的规则以及处理 `cleanUrls: true` 的方法。
 
-2. 使用以下内容在项目的根目录中创建一个名为 `static.json` 的文件：
+```nginx
+server {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-   ```json
-   {
-     "root": "docs/.vitepress/dist"
-   }
-   ```
+    listen 80;
+    server_name _;
+    index index.html;
 
-### Edgio
+    location / {
+        # 内容位置
+        root /app;
 
-请参阅[创建并部署 VitePress 应用程序到 Edgio](https://docs.edg.io/guides/vitepress)。
+        # 完全匹配 -> 反向清理 url -> 文件夹 -> 没有发现    
+        try_files $uri $uri.html $uri/ =404;
 
-### Kinsta 静态站点托管 {#kinsta-static-site-hosting}
+        # 不存在的页面
+        error_page 404 /404.html;
 
-你可以按照这些[说明](https://kinsta.com/docs/vitepress-static-site-example/) 在 [Kinsta](https://kinsta.com/static-site-hosting/) 上部署 Vitepress 站点。
+        # 在此设置中，如果文件夹没有 index.html，就会引发 403 错误
+        error_page 403 /404.html;
+
+        # 调整缓存标头
+        # assets 文件夹中的文件都有哈希文件名
+        location ~* ^/assets/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+}
+```
+
+本配置默认已构建的 VitePress 站点位于服务器上的 `/app` 目录中。如果站点文件位于其他位置，请相应调整 `root` 指令。
+
+::: warning 不要默认为 index.html
+try_files 解析不能像其他 Vue 应用那样默认为 index.html。这会导致页面状态处于无效。
+:::
+
+更多信息请参见 [nginx 官方文档](https://nginx.org/en/docs/)、这些 GitHub Issue [#2837](https://github.com/vuejs/vitepress/discussions/2837)、[#3235](https://github.com/vuejs/vitepress/issues/3235)以及 Mehdi Merah 发表的[博客](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)。

@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default defineConfig({<% if (srcDir) { %>
+  srcDir: <%= srcDir %>,
+  <% } %>
   title: <%= title %>,
   description: <%= description %><% if (defaultTheme) { %>,
   themeConfig: {

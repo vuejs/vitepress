@@ -1,3 +1,7 @@
+---
+description: 了解如何在 VitePress 中引用和处理静态资源，如图片、媒体文件和字体。
+---
+
 # 资源处理 {#asset-handling}
 
 ## 引用静态资源 {#referencing-static-assets}

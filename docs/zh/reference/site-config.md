@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 站点配置选项的完整参考，包括应用级设置、主题和构建选项。
 ---
 
 # 站点配置 {#site-config}
@@ -24,7 +25,7 @@ export default {
 }
 ```
 
-:::details 异步的动态配置
+::: details 异步的动态配置
 
 如果需要动态生成配置，也可以默认导出一个函数，例如：
 
@@ -143,7 +144,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 站点的标题。使用默认主题时，这将显示在导航栏中。
 
-它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上的全局 `title`。例如使用以下配置和页面内容：
+它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上全局 `title`。例如使用以下配置和页面内容：
 
 ```ts
 export default {
@@ -155,7 +156,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | My Awesome Site`.
+页面标题就是 `Hello | My Awesome Site`。
 
 ### titleTemplate
 
@@ -175,7 +176,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | Custom Suffix`.
+页面标题就是 `Hello | Custom Suffix`。
 
 要完全自定义标题的呈现方式，可以在 `titleTemplate` 中使用 `:title` 标识符：
 
@@ -333,7 +334,7 @@ export default {
 - 类型：`string`
 - 默认值： `/`
 
-站点将部署到的 base URL。如果计划在子路径例如 GitHub 页面）下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `“/bar/”`。它应该始终以 `/` 开头和结尾。
+站点将部署到的 base URL。如果计划在子路径例如 GitHub 页面下部署站点，则需要设置此项。如果计划将站点部署到 `https://foo.github.io/bar/`，那么应该将 `base` 设置为 `'/bar/'`。它应该始终以 `/` 开头和结尾。
 
 base 会自动添加到其他选项中以 `/` 开头的所有 URL 前面，因此只需指定一次。
 
@@ -350,7 +351,7 @@ export default {
 - 类型：`boolean`
 - 默认值： `false`
 
-当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-url)。
+当设置为 `true` 时，VitePress 将从 URL 中删除 `.html` 后缀。另请参阅[生成简洁的 URL](../guide/routing#generating-clean-urls)。
 
 ::: warning 需要服务器支持
 要启用此功能，可能需要在托管平台上进行额外配置。要使其正常工作，服务器必须能够在**不重定向的情况下**访问 `/foo` 时提供 `/foo.html`。
@@ -439,7 +440,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string) => boolean))[]`
+- 类型：`boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - 默认值： `false`
 
 当设置为 `true` 时，VitePress 不会因为死链而导致构建失败。
@@ -487,7 +488,7 @@ export default {
 
 ## 主题 {#theming}
 
-### appearance 
+### appearance
 
 - 类型：`boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
 - 默认值： `true`
@@ -559,8 +560,8 @@ export default {
 
 VitePress 构建钩子允许向站点添加新功能和行为：
 
-- Sitemap 
-- Search Indexing 
+- Sitemap
+- Search Indexing
 - PWA
 - Teleport
 
@@ -652,7 +653,7 @@ export default {
 }
 ```
 
-#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link} 
+#### 示例：添加 canonical URL `<link>` {#example-adding-a-canonical-url-link}
 
 ```ts
 export default {
@@ -676,7 +677,7 @@ export default {
 
 `transformHtml` 是一个构建钩子，用于在保存到磁盘之前转换每个页面的内容。
 
-::: warning 
+::: warning
 不要改变 `context` 中的任何东西。另外，修改 html 内容可能会导致运行时出现激活问题。
 :::
 

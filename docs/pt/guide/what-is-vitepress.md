@@ -1,3 +1,7 @@
+---
+description: VitePress é um gerador de sites estáticos projetado para criar sites rápidos e centrados em conteúdo, alimentado por Vite e Vue.
+---
+
 # O que é VitePress? {#what-is-vitepress}
 
 O VitePress é um [Gerador de Site Estático](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) projetado para criar sites rápidos e centrados em conteúdo. Em suma, VitePress utiliza seu conteúdo-fonte escrito em [Markdown](https://en.wikipedia.org/wiki/Markdown), aplica um tema a ele e gera páginas HTML estáticas que podem ser facilmente implantadas em qualquer lugar.
@@ -12,7 +16,7 @@ Quer apenas experimentar? Pule para o [Início Rápido](./getting-started).
 
 - **Documentação**
 
-  VitePress vem com um tema padrão projetado para documentação técnica. Ele alimenta esta página que você está lendo agora, juntamente com a documentação [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) e [muitos outros](https://www.vuetelescope.com/explore?framework.slug=vitepress).
+  VitePress vem com um tema padrão projetado para documentação técnica. Ele alimenta esta página que você está lendo agora, juntamente com a documentação [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) e [muitos outros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   A [documentação oficial Vue.js](https://vuejs.org/) também é baseada em VitePress, mas usa um tema personalizado compartilhado entre várias traduções.
 

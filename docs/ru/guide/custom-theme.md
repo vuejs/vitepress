@@ -1,3 +1,7 @@
+---
+description: Создайте и используйте пользовательскую тему в VitePress для полного контроля над внешним видом вашего сайта.
+---
+
 # Пользовательская тема {#using-a-custom-theme}
 
 ## Разрешение темы {#theme-resolving}
@@ -49,8 +53,7 @@ interface EnhanceAppContext {
 
 Файл входа темы должен экспортировать тему по умолчанию:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 
 // Вы можете напрямую импортировать файлы Vue в файле входа темы.
 // VitePress предварительно настроен с помощью @vitejs/plugin-vue.
@@ -64,6 +67,24 @@ export default {
 }
 ```
 
+Значение `router` представляет собой тот же экземпляр маршрутизатора VitePress, который возвращает [`useRouter()`](../reference/runtime-api#userouter). Чтобы отслеживать изменения маршрутов, назначьте обработчики для маршрутизатора:
+
+```ts [.vitepress/theme/index.ts]
+export default {
+  enhanceApp({ router }) {
+    router.onBeforeRouteChange = (to) => {
+      console.log('navigating to', to)
+    }
+
+    router.onAfterRouteChange = (to) => {
+      console.log('navigated to', to)
+    }
+  }
+}
+```
+
+Верните `false` из `onBeforeRouteChange` или `onBeforePageLoad`, чтобы отменить переход.
+
 Экспорт по умолчанию является единственным контрактом для пользовательской темы, и только свойство `Layout` является обязательным. Таким образом, технически тема VitePress может быть простой, как один компонент Vue.
 
 Внутри компонент макета работает так же, как и обычное приложение Vite + Vue 3. Обратите внимание, что тема также должна быть [SSR-совместимой](./ssr-compat).
@@ -72,8 +93,7 @@ export default {
 
 Самый базовый компонент макета должен содержать компонент [`<Content />`](../reference/runtime-api#content):
 
-```vue
-<!-- .vitepress/theme/Layout.vue -->
+```vue [.vitepress/theme/Layout.vue]
 <template>
   <h1>Пользовательский макет!</h1>
 
@@ -154,7 +174,7 @@ const { page, frontmatter } = useData()
 
 ## Распространение пользовательской темы {#distributing-a-custom-theme}
 
-Самый простой способ распространить пользовательскую тему — предоставить её в виде [репозитория шаблонов на GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+Самый простой способ распространить пользовательскую тему — предоставить её в виде [репозитория шаблонов на GitHub](https://docs.github.com/ru/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
 Если вы хотите распространить тему в виде пакета npm, выполните следующие действия:
 
@@ -172,8 +192,7 @@ const { page, frontmatter } = useData()
 
 Чтобы использовать внешнюю тему, импортируйте и реэкспортируйте её из элемента пользовательской темы:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default Theme
@@ -181,8 +200,7 @@ export default Theme
 
 Если тема требует расширения:
 
-```js
-// .vitepress/theme/index.js
+```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
 
 export default {
@@ -195,8 +213,7 @@ export default {
 
 Если тема требует специальных настроек VitePress, вам нужно будет также расширить их в своем собственном конфиге:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +224,7 @@ export default {
 
 Наконец, если тема предоставляет типы для своего конфига темы:
 
-```ts
-// .vitepress/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'

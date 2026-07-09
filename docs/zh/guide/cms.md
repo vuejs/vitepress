@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 使用动态路由和数据加载器将 VitePress 连接到无头 CMS。
 ---
 
 # 连接到 CMS {#connecting-to-a-cms}

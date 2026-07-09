@@ -1,0 +1,29 @@
+---
+description: یکپارچه‌سازی تبلیغات Carbon در سایت ویت‌پرس با استفاده از پشتیبانی داخلی تم پیش‌فرض.
+---
+
+# تبلیغات Carbon {#carbon-ads}
+
+ویت‌پرس پشتیبانی داخلی برای [Carbon Ads](https://www.carbonads.net/) را دارد. با تعریف مشخصات تبلیغات Carbon در تنظیمات، ویت‌پرس تبلیغات را در صفحه نمایش می‌دهد.
+
+```js
+export default {
+  themeConfig: {
+    carbonAds: {
+      code: 'your-carbon-code',
+      placement: 'your-carbon-placement',
+      format: 'classic'
+    }
+  }
+}
+```
+
+این مقادیر برای فراخوانی اسکریپت CDN Carbon به شکل زیر استفاده می‌شوند.
+
+گزینه `format` از مقادیر `classic`، `responsive` و `cover` پشتیبانی می‌کند.
+
+```js
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
+```
+
+برای یادگیری بیشتر درباره پیکربندی تبلیغات Carbon، لطفاً به [وب‌سایت Carbon Ads](https://www.carbonads.net/) مراجعه کنید.

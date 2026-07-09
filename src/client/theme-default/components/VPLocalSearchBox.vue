@@ -2,7 +2,7 @@
 import localSearchIndex from '@localSearchIndex'
 import {
   computedAsync,
-  debouncedWatch,
+  watchDebounced,
   onKeyStroke,
   useEventListener,
   useLocalStorage,
@@ -26,7 +26,7 @@ import {
   watchEffect,
   type Ref
 } from 'vue'
-import type { ModalTranslations } from '../../../../types/local-search'
+import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
@@ -46,7 +46,7 @@ const searchIndexData = shallowRef(localSearchIndex)
 
 // hmr
 if (import.meta.hot) {
-  import.meta.hot.accept('/@localSearchIndex', (m) => {
+  import.meta.hot.accept('@localSearchIndex', (m) => {
     if (m) {
       searchIndexData.value = m.default
     }
@@ -67,25 +67,34 @@ const { activate } = useFocusTrap(el, {
   escapeDeactivates: true
 })
 const { localeIndex, theme } = vitePressData
-const searchIndex = computedAsync(async () =>
-  markRaw(
-    MiniSearch.loadJSON<Result>(
-      (await searchIndexData.value[localeIndex.value]?.())?.default,
-      {
-        fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles'],
-        searchOptions: {
-          fuzzy: 0.2,
-          prefix: true,
-          boost: { title: 4, text: 2, titles: 1 },
+const isSearchIndexLoading = ref(false)
+const isSearching = ref(false)
+const showSearchSpinner = computed(() => {
+  return isSearchIndexLoading.value || isSearching.value
+})
+
+const searchIndex = computedAsync(
+  async () =>
+    markRaw(
+      MiniSearch.loadJSON<Result>(
+        (await searchIndexData.value[localeIndex.value]?.())?.default,
+        {
+          fields: ['title', 'titles', 'text'],
+          storeFields: ['title', 'titles'],
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            boost: { title: 4, text: 2, titles: 1 },
+            ...(theme.value.search?.provider === 'local' &&
+              theme.value.search.options?.miniSearch?.searchOptions)
+          },
           ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.searchOptions)
-        },
-        ...(theme.value.search?.provider === 'local' &&
-          theme.value.search.options?.miniSearch?.options)
-      }
-    )
-  )
+            theme.value.search.options?.miniSearch?.options)
+        }
+      )
+    ),
+  undefined,
+  isSearchIndexLoading
 )
 
 const disableQueryPersistence = computed(() => {
@@ -113,16 +122,6 @@ const disableDetailedView = computed(() => {
   )
 })
 
-const buttonText = computed(() => {
-  const options = theme.value.search?.options ?? theme.value.algolia
-
-  return (
-    options?.locales?.[localeIndex.value]?.translations?.button?.buttonText ||
-    options?.translations?.button?.buttonText ||
-    'Search'
-  )
-})
-
 watchEffect(() => {
   if (disableDetailedView.value) {
     showDetailedList.value = false
@@ -144,7 +143,7 @@ const mark = computedAsync(async () => {
 
 const cache = new LRUCache<string, Map<string, string>>(16) // 16 files
 
-debouncedWatch(
+watchDebounced(
   () => [searchIndex.value, filterText.value, showDetailedList.value] as const,
   async ([index, filterTextValue, showDetailedListValue], old, onCleanup) => {
     if (old?.[0] !== index) {
@@ -155,9 +154,15 @@ debouncedWatch(
     let canceled = false
     onCleanup(() => {
       canceled = true
+      isSearching.value = false
     })
 
-    if (!index) return
+    if (!index) {
+      results.value = []
+      return
+    }
+
+    isSearching.value = true
 
     // Search
     results.value = index
@@ -242,6 +247,7 @@ debouncedWatch(
     }
     // FIXME: without this whole page scrolls to the bottom
     resultsEl.value?.firstElementChild?.scrollIntoView({ block: 'start' })
+    isSearching.value = false
   },
   { debounce: 200, immediate: true }
 )
@@ -281,7 +287,7 @@ function onSearchBarClick(event: PointerEvent) {
 /* Search keyboard selection */
 
 const selectedIndex = ref(-1)
-const disableMouseOver = ref(false)
+const disableMouseOver = ref(true)
 
 watch(results, (r) => {
   selectedIndex.value = r.length ? 0 : -1
@@ -295,7 +301,7 @@ function scrollToSelectedResult() {
   })
 }
 
-onKeyStroke('ArrowUp', (event) => {
+function selectPreviousResult(event: KeyboardEvent) {
   event.preventDefault()
   selectedIndex.value--
   if (selectedIndex.value < 0) {
@@ -303,9 +309,9 @@ onKeyStroke('ArrowUp', (event) => {
   }
   disableMouseOver.value = true
   scrollToSelectedResult()
-})
+}
 
-onKeyStroke('ArrowDown', (event) => {
+function selectNextResult(event: KeyboardEvent) {
   event.preventDefault()
   selectedIndex.value++
   if (selectedIndex.value >= results.value.length) {
@@ -313,6 +319,32 @@ onKeyStroke('ArrowDown', (event) => {
   }
   disableMouseOver.value = true
   scrollToSelectedResult()
+}
+
+function isMacCtrlShortcut(event: KeyboardEvent) {
+  return (
+    event.ctrlKey &&
+    !event.altKey &&
+    !event.metaKey &&
+    !event.shiftKey &&
+    document.documentElement.classList.contains('mac')
+  )
+}
+
+onKeyStroke('ArrowUp', selectPreviousResult)
+
+onKeyStroke('ArrowDown', selectNextResult)
+
+onKeyStroke(['p', 'P'], (event) => {
+  if (isMacCtrlShortcut(event)) {
+    selectPreviousResult(event)
+  }
+})
+
+onKeyStroke(['n', 'N'], (event) => {
+  if (isMacCtrlShortcut(event)) {
+    selectNextResult(event)
+  }
 })
 
 const router = useRouter()
@@ -339,8 +371,12 @@ onKeyStroke('Escape', () => {
   emit('close')
 })
 
-// Translations
-const defaultTranslations: { modal: ModalTranslations } = {
+/* Translations */
+
+const defaultTranslations: LocalSearchTranslations = {
+  button: {
+    buttonText: 'Search'
+  },
   modal: {
     displayDetails: 'Display detailed list',
     resetButtonTitle: 'Reset search',
@@ -360,7 +396,7 @@ const defaultTranslations: { modal: ModalTranslations } = {
 
 const translate = createSearchTranslate(defaultTranslations)
 
-// Back
+/* Back */
 
 onMounted(() => {
   // Prevents going to previous site
@@ -373,6 +409,7 @@ useEventListener('popstate', (event) => {
 })
 
 /** Lock body */
+
 const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 onMounted(() => {
@@ -400,6 +437,16 @@ function formMarkRegex(terms: Set<string>) {
     'gi'
   )
 }
+
+function onMouseMove(e: MouseEvent) {
+  if (!disableMouseOver.value) return
+  const el = (e.target as HTMLElement)?.closest<HTMLAnchorElement>('.result')
+  const index = Number.parseInt(el?.dataset.index!)
+  if (index >= 0 && index !== selectedIndex.value) {
+    selectedIndex.value = index
+  }
+  disableMouseOver.value = false
+}
 </script>
 
 <template>
@@ -422,7 +469,7 @@ function formMarkRegex(terms: Set<string>) {
           @submit.prevent=""
         >
           <label
-            :title="buttonText"
+            :title="translate('button.buttonText')"
             id="localsearch-label"
             for="localsearch-input"
           >
@@ -440,12 +487,30 @@ function formMarkRegex(terms: Set<string>) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :placeholder="buttonText"
-            id="localsearch-input"
+            :aria-activedescendant="selectedIndex > -1 ? ('localsearch-item-' + selectedIndex) : undefined"
+            aria-autocomplete="both"
+            :aria-controls="results?.length ? 'localsearch-list' : undefined"
             aria-labelledby="localsearch-label"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
             class="search-input"
+            id="localsearch-input"
+            enterkeyhint="go"
+            maxlength="64"
+            :placeholder="translate('button.buttonText')"
+            spellcheck="false"
+            type="search"
           />
           <div class="search-actions">
+            <span
+              class="search-loading"
+              :class="{ active: showSearchSpinner }"
+              :role="showSearchSpinner ? 'status' : undefined"
+              aria-live="polite"
+              :aria-label="showSearchSpinner ? 'Loading search results' : undefined"
+            />
+
             <button
               v-if="!disableDetailedView"
               class="toggle-layout-button"
@@ -475,15 +540,17 @@ function formMarkRegex(terms: Set<string>) {
           ref="resultsEl"
           :id="results?.length ? 'localsearch-list' : undefined"
           :role="results?.length ? 'listbox' : undefined"
+          :aria-busy="showSearchSpinner ? 'true' : 'false'"
           :aria-labelledby="results?.length ? 'localsearch-label' : undefined"
           class="results"
-          @mousemove="disableMouseOver = false"
+          @mousemove="onMouseMove"
         >
           <li
             v-for="(p, index) in results"
             :key="p.id"
-            role="option"
+            :id="'localsearch-item-' + index"
             :aria-selected="selectedIndex === index ? 'true' : 'false'"
+            role="option"
           >
             <a
               :href="p.id"
@@ -495,6 +562,7 @@ function formMarkRegex(terms: Set<string>) {
               @mouseenter="!disableMouseOver && (selectedIndex = index)"
               @focusin="selectedIndex = index"
               @click="$emit('close')"
+              :data-index="index"
             >
               <div>
                 <div class="titles">
@@ -641,6 +709,10 @@ function formMarkRegex(terms: Set<string>) {
   width: 100%;
 }
 
+.search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .search-input {
     padding: 6px 4px;
@@ -675,6 +747,34 @@ function formMarkRegex(terms: Set<string>) {
 
 .search-actions button.clear-button:disabled {
   opacity: 0.37;
+}
+
+.search-loading {
+  visibility: hidden;
+  margin: 8px;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border: 2px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+}
+
+.search-loading.active {
+  visibility: visible;
+  animation: local-search-loading 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-loading.active {
+    animation: none;
+  }
+}
+
+@keyframes local-search-loading {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .search-keyboard-shortcuts {
@@ -781,12 +881,11 @@ function formMarkRegex(terms: Set<string>) {
 }
 
 .excerpt {
-  opacity: 75%;
+  opacity: 50%;
   pointer-events: none;
   max-height: 140px;
   overflow: hidden;
   position: relative;
-  opacity: 0.5;
   margin-top: 4px;
 }
 

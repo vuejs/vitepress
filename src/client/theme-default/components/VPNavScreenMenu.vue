@@ -1,17 +1,20 @@
 <script lang="ts" setup>
 import { useData } from '../composables/data'
-import VPNavScreenMenuLink from './VPNavScreenMenuLink.vue'
 import VPNavScreenMenuGroup from './VPNavScreenMenuGroup.vue'
+import VPNavScreenMenuLink from './VPNavScreenMenuLink.vue'
 
 const { theme } = useData()
 </script>
 
 <template>
   <nav v-if="theme.nav" class="VPNavScreenMenu">
-    <template v-for="item in theme.nav" :key="item.text">
-      <VPNavScreenMenuLink
-        v-if="'link' in item"
-        :item="item"
+    <template v-for="item in theme.nav" :key="JSON.stringify(item)">
+      <VPNavScreenMenuLink v-if="'link' in item" :item />
+      <component
+        v-else-if="'component' in item"
+        :is="item.component"
+        v-bind="item.props"
+        screen-menu
       />
       <VPNavScreenMenuGroup
         v-else

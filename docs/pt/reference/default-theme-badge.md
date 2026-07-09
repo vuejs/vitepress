@@ -1,3 +1,7 @@
+---
+description: Use o componente Badge para adicionar rótulos de status aos cabeçalhos na documentação VitePress.
+---
+
 # Emblema {#badge}
 
 O emblema permite adicionar status aos seus cabeçalhos. Por exemplo, pode ser útil especificar o tipo da seção ou a versão suportada.
@@ -32,7 +36,7 @@ O código acima é apresentado como:
 
 ## Personalize o Tipo de Cor {#customize-type-color}
 
-Você pode personalizar o estilo dos emblemas sobrepondo variáveis ​​CSS. Os seguintes são os valores padrão:
+Você pode personalizar o estilo dos emblemas sobrepondo variáveis CSS. Os seguintes são os valores padrão:
 
 ```css
 :root {
