@@ -38,7 +38,7 @@ Observe que usted debe referenciar archivos colocados en `public` utilizando dir
 
 Si su sitio estuviera implantado en una URL que no sea la raíz, será necesario definir la opción `base` en `.vitepress/config.js`. Por ejemplo, se planea implantar su sitio en `https://foo.github.io/bar/`, entonces `base` debe ser definido como `'/bar/'` (siempre debe comenzar y terminar con una barra).
 
-Todos los paths de sus assets estáticos son procesados automáticamente para ajustarse a los diferentes valores de configuración `base`. Por ejemplo, se tuviera una referencia absoluta a un asset sobre `public` en su Markdown:
+Todos los directorios de sus assets estáticos son procesados automáticamente para ajustarse a los diferentes valores de configuración `base`. Por ejemplo, se tuviera una referencia absoluta a un asset sobre `public` en su Markdown:
 
 ```md
 ![Una imagen](/imagen-dentro-de-public.png)
@@ -52,7 +52,7 @@ Sin embargo, se estuviera creando un componente de tema que vincula assets diná
 <img :src="theme.logoPath" />
 ```
 
-En este caso, es recomendable complementar el path con el [auxiliar `withBase`](../reference/runtime-api#withbase) proporcionado por VitePress:
+En este caso, es recomendable complementar el directorio con el [auxiliar `withBase`](../reference/runtime-api#withbase) proporcionado por VitePress:
 
 ```vue
 <script setup>
