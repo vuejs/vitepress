@@ -5,7 +5,7 @@ import pMap from 'p-map'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
 import { createMarkdownRenderer } from './markdown/markdown'
-import type { Awaitable } from './shared'
+import type { Awaitable, MarkdownEnv } from './shared'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
@@ -127,15 +127,29 @@ export function createContentLoader<T = ContentData[]>(
               : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
 
+          const relativePath = normalizePath(path.relative(config.srcDir, file))
+
           const url =
             '/' +
-            normalizePath(path.relative(config.srcDir, file))
+            relativePath
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
 
-          const html = options.render ? await md.renderAsync(src) : undefined
+          // pass a markdown env so plugins (e.g. the internal link plugin)
+          // resolve links, `cleanUrls` and paths the same way as during a
+          // normal page render instead of falling back to defaults
+          const env: MarkdownEnv = {
+            path: file,
+            relativePath,
+            cleanUrls: !!config.cleanUrls,
+            realPath: file
+          }
+
+          const html = options.render
+            ? await md.renderAsync(src, env)
+            : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && (await md.renderAsync(excerpt))
+            ? excerpt && (await md.renderAsync(excerpt, env))
             : undefined
 
           const data: ContentData = {
