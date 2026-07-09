@@ -114,7 +114,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Pesonalización',
+      text: 'Personalización',
       collapsed: false,
       items: [
         { text: 'Usando un tema personalizado', link: 'custom-theme' },
@@ -169,7 +169,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Página del equipo', link: 'team-page' },
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
-            { text: 'Sello temporal de actualización', link: 'last-updated' },
+            { text: 'Última Actualización', link: 'last-updated' },
             { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
