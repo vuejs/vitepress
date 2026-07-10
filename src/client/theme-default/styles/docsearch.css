@@ -41,7 +41,8 @@
   --docsearch-modal-shadow: none;
 }
 
-:is(.DocSearch-Container, .DocSearch-Sidepanel) svg {
+.DocSearch-LoadingIndicator svg,
+.DocSearch-Logo svg {
   overflow: visible;
 }
 
