@@ -50,7 +50,7 @@ Las siguientes orientaciones están basadas en algunos supuestos:
 
 ## Configurando un Directorio Base Publico {#setting-a-public-base-path}
 
-Por defecto, asumimos que el sitio será implantado en el path raiz de un dominio (`/`). Si su sitio fuera servido en un subpath, por ejemplo, `https://mipagina.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
+Por defecto, asumimos que el sitio será implantado en el directorio raíz de un dominio (`/`). Si su sitio fuera servido en un subdirectorio, por ejemplo, `https://mipagina.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
 
 **Ejemplo:** Si utilizas Github (o GitLab) Pages y realizas el despliegue en `user.github.io/repo/`, entonces establece tu `base` en `/repo/`.
 
@@ -104,7 +104,7 @@ Nota: el archivo `vercel.json` debe ser colocado en la raíz de su **repositorio
 
 :::
 
-## Guias de Plataforma {#platform-guides}
+## Guías de Plataforma {#platform-guides}
 
 ### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
@@ -211,7 +211,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removerá comentari
 
 1. Establezca `outDir` en la configuración de VitePress a `../public`. Configure la opción `base` a `'/<repositorio>/'` si desea implementar en `https://<usuario>.gitlab.io/<repositorio>/`. No necesita `base` si está implementando en un dominio personalizado, páginas de usuario o grupo, o si tiene habilitada la opción "Usar dominio único" en GitLab.
 
-2. Cree un archivo llamado `.gitlab-ci.yml` en la raiz del proyecto con el contenido abajo. Esto construirá e implantará su sitio siempre que haga cambios en el contenido.
+2. Cree un archivo llamado `.gitlab-ci.yml` en la raíz del proyecto con el contenido abajo. Esto construirá e implantará su sitio siempre que haga cambios en el contenido.
 
    ```yaml [.gitlab-ci.yml]
    image: node:24
@@ -234,7 +234,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removerá comentari
 
 ### Azure
 
-1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. Follow the [documentación oficial](https://learn.microsoft.com/es-es/azure/static-web-apps/build-configuration).
 
 2. Configure esos valores en su archivo de configuración (y remueva aquellos que no necesita, como `api_location`):
 
@@ -248,7 +248,7 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
 
 ### Firebase
 
-1. Cree `firebase.json` y `.firebaserc` en la raiz de su proyecto:
+1. Cree `firebase.json` y `.firebaserc` en la raíz de su proyecto:
 
    `firebase.json`:
 
@@ -279,9 +279,9 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
 
 ### Heroku
 
-1. Siga la documentación y el guia proporcionados por [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. Siga la documentación y el guía proporcionados por [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
-2. Cree un archivo llamado `static.json` en la raiz de su proyecto con el siguiente contenido:
+2. Cree un archivo llamado `static.json` en la raíz de su proyecto con el siguiente contenido:
 
    ```json [static.json]
    {
