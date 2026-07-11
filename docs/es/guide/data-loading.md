@@ -4,7 +4,7 @@ description: Carga datos arbitrarios en tiempo de compilación usando cargadores
 
 # Carga de Datos en Tiempo de Compilación {#build-time-data-loading}
 
-VitePress proporciona un recurso llamado **cargadores de datos** que permite cargar datos arbitrarios e importarlos desde páginas o componentes. La carga de datos es ejecutada **solo en el tiempo del build** los datos resultantes serán serializados como JSON en el paquete de JavaScript final.
+VitePress proporciona un recurso llamado **cargadores de datos** que permite cargar datos arbitrarios e importarlos desde páginas o componentes. La carga de datos es ejecutada **solo en el tiempo del compilación** los datos resultantes serán serializados como JSON en el paquete de JavaScript final.
 
 Los cargadores de datos pueden ser usados para obtener datos remotos o generar metadatos a partir de archivos locales. Por ejemplo, puede usar cargadores de datos para analizar todas sus páginas de API locales y generar automáticamente un índice de todas las entradas de la API.
 
@@ -59,7 +59,7 @@ export default {
 
 Cuando necesita generar datos con base en archivos locales, debe usar la opción `watch` en el cargador de datos para que los cambios hechos en esos archivos puedan accionar actualizaciones en caliente.
 
-La opción `watch` también es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a varios archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como paths absolutos.
+La opción `watch` también es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a varios archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como directorio absolutos.
 
 El siguiente ejemplo muestra el cargamento de archivos CSV y la transformación de estos en JSON usando [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Como este archivo solo es ejecutado en el tiempo del compilación, usted no enviará el procesador de CSV para el cliente!
 
@@ -102,7 +102,7 @@ Los datos cargados serán un array con el tipo `ContentData[]`:
 ```ts
 interface ContentData {
   // URL mapeada para la página. p. ej.: /posts/hola.html (no incluye la base)
-  // itere manualmente o use `transform` personalizado para normalizar los paths
+  // itere manualmente o use `transform` personalizado para normalizar los directorios
   url: string
   // datos frontmatter de la página
   frontmatter: Record<string, any>
