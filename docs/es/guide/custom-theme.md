@@ -10,7 +10,7 @@ Puede habilitar un tema personalizado creando un archivo `.vitepress/theme/index
 
 ```
 .
-├─ docs                # raiz del proyecto
+├─ docs                # raíz del proyecto
 │  ├─ .vitepress
 │  │  ├─ theme
 │  │  │  └─ index.js   # entrada de tema
@@ -19,16 +19,16 @@ Puede habilitar un tema personalizado creando un archivo `.vitepress/theme/index
 └─ package.json
 ```
 
-VitePress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la precencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
+VitePress siempre usará el tema personalizado en vez del tema por defecto cuando detecte la presencia de un archivo de entrada de tema. Sin embargo, puede [extender el tema por defecto](./extending-default-theme) para realizar personalizaciones avanzadas sobre el.
 
 ## Interfaz del Tema {#theme-interface}
 
-Un tema personalizado de VitePress es definifo como un objeto con la siguiente interfaz:
+Un tema personalizado de VitePress es definido como un objeto con la siguiente interfaz:
 
 ```ts
 interface Theme {
   /**
-   * Componente raiz de layout para todas las páginas
+   * Componente raíz de layout para cada página
    * @required
    */
   Layout: Component
@@ -46,7 +46,7 @@ interface Theme {
 
 interface EnhanceAppContext {
   app: App // instancia de la aplicación Vue
-  router: Router // instancia del enrutador VitePress
+  router: Router //  Enrutador VitePress
   siteData: Ref<SiteData> // Metadata a nivel del sitio
 }
 ```
@@ -67,7 +67,25 @@ export default {
 }
 ```
 
-La exportación por defecto es el único contrato para un tema personalizado, y apenas la propiedad `Layout` es exigida. Tecnicamente, un tema de VitePress puede ser tan simple como un único componente Vue.
+El valor `router` es la misma instancia del enrutador VitePress que devuelve [`useRouter()`](../reference/runtime-api#userouter). Para escuchar los cambios de ruta, asigne manejadores al enrutador:
+
+```ts [.vitepress/theme/index.ts]
+export default {
+  enhanceApp({ router }) {
+    router.onBeforeRouteChange = (to) => {
+      console.log('navegando a', to)
+    }
+
+    router.onAfterRouteChange = (to) => {
+      console.log('navegando a', to)
+    }
+  }
+}
+```
+
+Devuelve `false` desde `onBeforeRouteChange` o `onBeforePageLoad` para cancelar la navegación.
+
+La exportación predeterminada es el único contrato para un tema personalizado, y solo se requiere la propiedad `Layout`. Por lo tanto, técnicamente, un tema de VitePress puede ser tan simple como un único componente de Vue.
 
 Dentro de su componente de layout, el funciona como una aplicación Vite + Vue 3 normal. Note que el tema también necesita ser [compatible con SSR](./ssr-compat).
 
@@ -77,9 +95,9 @@ El componente de layout más básico necesita un componente [`<Content />`](../r
 
 ```vue [.vitepress/theme/Layout.vue]
 <template>
-  <h1>Layout Personalizado!</h1>
+  <h1>¡Layout Personalizado!</h1>
 
-  <!-- aqui es donde el contenido markdown será presentado -->
+  <!-- aquí es donde el contenido markdown será presentado -->
   <Content />
 </template>
 ```
@@ -93,16 +111,17 @@ const { page } = useData()
 </script>
 
 <template>
-  <h1>Layout Personalizado!</h1>
+  <h1>¡Layout Personalizado!</h1>
 
   <div v-if="page.isNotFound">
-    Página 404 personalizada!
+    ¡Página 404 personalizada!
   </div>
   <Content v-else />
 </template>
 ```
 
-El auxiliar [`useData()`](../reference/runtime-api#usedata) proporciona todos los datos en tiempo de ejecución que necesitamos para mostrar layouts diferentes. Uno de los otros datos que podemos accesar es el frontmatter de la página actual. Podemos aprovechar esto para permitir que el usuario final controle el layout en cada página. Por ejemplo, el usuario puede indicar que la página debe usar un layout especial de la pagina inicial con:
+El auxiliar [`useData()`](../reference/runtime-api#usedata) proporciona todos los datos para condicionalmente en tiempo de ejecución mostrar layouts diferentes. Uno de los otros datos que podemos acceder es el frontmatter de la página actual. Podemos aprovechar esto para permitir que el usuario final controle el layout en cada página. Por ejemplo, el usuario puede indicar que la página debe usar un layout especial de la pagina inicial con:
+
 
 ```md
 ---
@@ -119,13 +138,13 @@ const { page, frontmatter } = useData()
 </script>
 
 <template>
-  <h1>Layout Personalizado!</h1>
+  <h1>¡Layout Personalizado!</h1>
 
   <div v-if="page.isNotFound">
-    Página 404 personalizada!
+    ¡Página 404 personalizada!
   </div>
   <div v-if="frontmatter.layout === 'home'">
-    Página inicial personalizada!
+    ¡Página inicial personalizada!
   </div>
   <Content v-else />
 </template>
@@ -144,7 +163,7 @@ const { page, frontmatter } = useData()
 </script>
 
 <template>
-  <h1>Layout Personalizado!</h1>
+  <h1>¡Layout Personalizado!</h1>
 
   <NotFound v-if="page.isNotFound" />
   <Home v-if="frontmatter.layout === 'home'" />
@@ -156,23 +175,23 @@ Consulte la [Referencia del API en tiempo de Ejecución](../reference/runtime-ap
 
 ## Distribuyendo un Tema Personalizado {#distributing-a-custom-theme}
 
-La manera más facil de distribuir un tema personalizado es proporcionarlo como un [repositorio de template en GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+La manera más fácil de distribuir un tema personalizado es proporcionarlo como un [repositorio plantilla en GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
 Si desea distribuir su tema como un paquete npm, siga estos pasos:
 
-1. Exporte el objeto del tema como la exportación por defecto en su archivo de paquete.
+1. Exporta el objeto de tema como exportación predeterminada en la entrada de tu paquete.
 
-2. Si aplica, exporte la definición de configuración del tipo de tema como `ThemeConfig`.
+2. Si aplica, exporte la definición del tipo de configuración de su tema como `ThemeConfig`.
 
-3. Si su tema exige ajustes en la configuración de VitePress, exporte esa configuración en un subdirectorio del paquete (por ejemplo, `mi-tema/config`) para que el usuario pueda extenderlo.
+3. Si su tema exige ajustes en la configuración de VitePress, exporte esa configuración en un subdirectorio del paquete (por ejemplo, `mi-tema/config`) para que el usuario pueda ampliarla.
 
 4. Documente las opciones de configuración del tema (Ambos, via archivo y frontmatter).
 
-5. Proporcione instrucciones claras sobre cómo consumir su tema(vea abajo).
+5. Proporcione instrucciones claras sobre cómo consumir su tema (vea abajo).
 
 ## Consumiendo un Tema Personalizado {#consuming-a-custom-theme}
 
-Para consumir un tema extereno, importelo e reexportelo a partir del archivo de entrada del tema personalizado:
+Para consumir un tema externo, importelo y reexportelo a partir del archivo de entrada del tema:
 
 ```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
@@ -195,8 +214,7 @@ export default {
 
 Si el tema exige una configuración especial de VitePress, también necesitará extenderlo en su propia configuración:
 
-```ts
-// .vitepress/theme/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
@@ -207,8 +225,7 @@ export default {
 
 Finalmente, si el tema proporciona tipos para la configuración del tema:
 
-```ts
-// .vitepress/theme/config.ts
+```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 import { defineConfigWithTheme } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
