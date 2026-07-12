@@ -83,6 +83,29 @@ describe('local search', () => {
     ).toBe(0)
   })
 
+  test('uses the same desktop breakpoint as the nav bar', async () => {
+    try {
+      for (const { width, isDesktop } of [
+        { width: 767, isDesktop: false },
+        { width: 768, isDesktop: true }
+      ]) {
+        await page.setViewportSize({ width, height: 600 })
+        await goto('/')
+        await page.locator('.VPNavBarSearchButton').click()
+        await page.waitForSelector('input#localsearch-input')
+
+        expect(await page.locator('.VPNavBarHamburger').isVisible()).toBe(
+          !isDesktop
+        )
+        expect(await page.locator('.search-actions.before').isVisible()).toBe(
+          !isDesktop
+        )
+      }
+    } finally {
+      await page.setViewportSize({ width: 1280, height: 720 })
+    }
+  })
+
   test('navigate results with macOS Ctrl shortcuts', async () => {
     await page.evaluate(() => document.documentElement.classList.add('mac'))
     await page.locator('.VPNavBarSearchButton').click()
