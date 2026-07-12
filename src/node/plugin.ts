@@ -41,7 +41,7 @@ declare module 'vite' {
 
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
-const docsearchRE = /\/docsearch\.css(?:$|\?)/
+const docsearchRE = /\bdocsearch\b/ // narrow it if any issue arises
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
@@ -193,9 +193,13 @@ export async function createVitePressPlugin(
       }
     },
 
+    // TODO: use plugin hook filters
     async transform(code, id) {
       if (docsearchRE.test(normalizePath(id))) {
-        return code.replaceAll('[data-theme=dark]', '.dark')
+        return code
+          .replaceAll('[data-theme=dark]', '.dark')
+          .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
+          .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
       }
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
