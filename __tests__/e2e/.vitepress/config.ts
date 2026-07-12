@@ -162,6 +162,14 @@ export default defineConfig({
   themeConfig: {
     nav,
     sidebar,
+    socialLinks: [
+      {
+        icon: 'github',
+        link: '/home',
+        ariaLabel: 'Home social link',
+        target: '_self'
+      }
+    ],
     search: {
       provider: 'local',
       options: {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { defineAsyncComponent } from 'vue'
 
 defineProps<{
   carbonAds: DefaultTheme.CarbonAdsOptions

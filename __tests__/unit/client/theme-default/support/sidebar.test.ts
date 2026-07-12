@@ -1,4 +1,8 @@
-import { getSidebar, hasActiveLink } from 'client/theme-default/support/sidebar'
+import {
+  getFlatSideBarLinks,
+  getSidebar,
+  hasActiveLink
+} from 'client/theme-default/support/sidebar'
 
 describe('client/theme-default/support/sidebar', () => {
   describe('getSidebar', () => {
@@ -102,6 +106,75 @@ describe('client/theme-default/support/sidebar', () => {
           root
         )
       })
+    })
+
+    test('applies base only to internal links', () => {
+      expect(
+        getSidebar(
+          {
+            '/en/': {
+              base: '/en/',
+              items: [
+                {
+                  text: 'Guide',
+                  items: [
+                    { text: 'Intro', link: 'intro' },
+                    { text: 'Root', link: '/root' },
+                    { text: 'External', link: 'https://example.com/' }
+                  ]
+                }
+              ]
+            }
+          },
+          '/en/intro'
+        )
+      ).toStrictEqual([
+        {
+          text: 'Guide',
+          items: [
+            { text: 'Intro', link: '/en/intro' },
+            { text: 'Root', link: '/en/root' },
+            { text: 'External', link: 'https://example.com/' }
+          ]
+        }
+      ])
+    })
+  })
+
+  describe('getFlatSideBarLinks', () => {
+    test('flattens nested items and preserves link metadata', () => {
+      const sidebar = [
+        {
+          text: 'Group',
+          items: [
+            { text: 'Intro', link: '/intro' },
+            {
+              text: 'External',
+              link: 'https://example.com/',
+              target: '_self',
+              rel: 'noopener',
+              docFooterText: 'Go external'
+            }
+          ]
+        }
+      ]
+
+      expect(getFlatSideBarLinks(sidebar)).toStrictEqual([
+        {
+          text: 'Intro',
+          link: '/intro',
+          docFooterText: undefined,
+          rel: undefined,
+          target: undefined
+        },
+        {
+          text: 'External',
+          link: 'https://example.com/',
+          docFooterText: 'Go external',
+          rel: 'noopener',
+          target: '_self'
+        }
+      ])
     })
   })
 

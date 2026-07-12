@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises'
+import { writeFile, unlink } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
 describe('static data file support in vite 3', () => {
@@ -48,20 +48,20 @@ describe('static data file support in vite 3', () => {
     const b = fileURLToPath(new URL('./data/b.json', import.meta.url))
 
     try {
-      await fs.writeFile(a, JSON.stringify({ a: false }, null, 2) + '\n')
+      await writeFile(a, JSON.stringify({ a: false }, null, 2) + '\n')
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
           JSON.stringify([{ a: false }, { b: true }], null, 2)
       )
     } finally {
-      await fs.writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
+      await writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
     }
 
     let err = true
 
     try {
-      await fs.unlink(b)
+      await unlink(b)
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
@@ -70,19 +70,19 @@ describe('static data file support in vite 3', () => {
       err = false
     } finally {
       if (err) {
-        await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
+        await writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
       }
     }
 
     try {
-      await fs.writeFile(b, JSON.stringify({ b: false }, null, 2) + '\n')
+      await writeFile(b, JSON.stringify({ b: false }, null, 2) + '\n')
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
           JSON.stringify([{ a: true }, { b: false }], null, 2)
       )
     } finally {
-      await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
+      await writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
     }
   })
 

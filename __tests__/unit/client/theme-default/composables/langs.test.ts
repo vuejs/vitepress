@@ -1,7 +1,7 @@
-import { ref } from 'vue'
+import { resolveLocaleLink } from 'client/theme-default/composables/langs'
 import type { VitePressData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { resolveLocaleLink } from 'client/theme-default/composables/langs'
+import { ref } from 'vue'
 
 function createData(
   themeConfig: DefaultTheme.Config,

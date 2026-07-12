@@ -1,8 +1,8 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
+import fs from 'node:fs'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -47,6 +47,10 @@ let __dynamicRoutes = new Map<string, [string, string]>()
 let __rewrites = new Map<string, string>()
 let __ts: number
 
+function normalizeDriveLetter(file: string) {
+  return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
+}
+
 function getResolutionCache(siteConfig: SiteConfig) {
   // @ts-expect-error internal
   if (siteConfig.__dirty) {
@@ -61,8 +65,8 @@ function getResolutionCache(siteConfig: SiteConfig) {
 
     __rewrites = new Map(
       Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
-        slash(path.join(siteConfig.srcDir, key)),
-        slash(path.join(siteConfig.srcDir, value!))
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, key))),
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, value!)))
       ])
     )
 
@@ -110,7 +114,7 @@ export async function createMarkdownToVueRenderFn(
       getPageDataTransformer(dynamicRoute?.[1]!)
     ].filter((fn) => fn != null)
 
-    file = rewrites.get(file) || file
+    file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
 
     const cacheKey = JSON.stringify({ src, ts, relativePath })

@@ -67,6 +67,24 @@ export default {
 }
 ```
 
+The `router` value is the same VitePress router instance returned by [`useRouter()`](../reference/runtime-api#userouter). To listen for route changes, assign handlers on the router:
+
+```ts [.vitepress/theme/index.ts]
+export default {
+  enhanceApp({ router }) {
+    router.onBeforeRouteChange = (to) => {
+      console.log('navigating to', to)
+    }
+
+    router.onAfterRouteChange = (to) => {
+      console.log('navigated to', to)
+    }
+  }
+}
+```
+
+Return `false` from `onBeforeRouteChange` or `onBeforePageLoad` to cancel navigation.
+
 The default export is the only contract for a custom theme, and only the `Layout` property is required. So technically, a VitePress theme can be as simple as a single Vue component.
 
 Inside your layout component, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](./ssr-compat).

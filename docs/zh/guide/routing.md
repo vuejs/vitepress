@@ -291,7 +291,7 @@ export default {
 从本地文件生成路径：
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

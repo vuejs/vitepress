@@ -40,7 +40,15 @@ export function usePrevNext() {
             link:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.link
-                : undefined) ?? candidates[index - 1]?.link
+                : undefined) ?? candidates[index - 1]?.link,
+            target:
+              (typeof frontmatter.value.prev === 'object'
+                ? frontmatter.value.prev.target
+                : undefined) ?? candidates[index - 1]?.target,
+            rel:
+              (typeof frontmatter.value.prev === 'object'
+                ? frontmatter.value.prev.rel
+                : undefined) ?? candidates[index - 1]?.rel
           },
       next: hideNext
         ? undefined
@@ -56,11 +64,19 @@ export function usePrevNext() {
             link:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.link
-                : undefined) ?? candidates[index + 1]?.link
+                : undefined) ?? candidates[index + 1]?.link,
+            target:
+              (typeof frontmatter.value.next === 'object'
+                ? frontmatter.value.next.target
+                : undefined) ?? candidates[index + 1]?.target,
+            rel:
+              (typeof frontmatter.value.next === 'object'
+                ? frontmatter.value.next.rel
+                : undefined) ?? candidates[index + 1]?.rel
           }
     } as {
-      prev?: { text?: string; link?: string }
-      next?: { text?: string; link?: string }
+      prev?: { text?: string; link?: string; target?: string; rel?: string }
+      next?: { text?: string; link?: string; target?: string; rel?: string }
     }
   })
 }

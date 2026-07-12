@@ -13,11 +13,12 @@ withDefaults(defineProps<{
 <template>
   <div class="VPSocialLinks">
     <VPSocialLink
-      v-for="{ link, icon, ariaLabel } in links"
+      v-for="{ link, icon, ariaLabel, target } in links"
       :key="link"
       :icon
       :link
       :ariaLabel
+      :target
       :me
     />
   </div>

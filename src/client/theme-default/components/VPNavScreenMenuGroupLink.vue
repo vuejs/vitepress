@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
-import { useData } from '../composables/data'
 import { isActive } from '../../shared'
+import { useData } from '../composables/data'
 import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'
 

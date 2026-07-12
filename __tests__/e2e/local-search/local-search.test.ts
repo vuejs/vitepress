@@ -3,15 +3,69 @@ describe('local search', () => {
     await goto('/')
   })
 
+  test.runIf(!process.env.VITE_TEST_BUILD)(
+    'shows progress while loading search index',
+    async () => {
+      const indexRoute = /@localSearchIndexroot/
+      let delayedIndex = false
+
+      await page.route(indexRoute, async (route) => {
+        delayedIndex = true
+        await new Promise((resolve) => setTimeout(resolve, 800))
+        await route.continue()
+      })
+
+      try {
+        await page.locator('.VPNavBarSearchButton').click()
+
+        const loading = page.locator('.search-loading')
+        const results = page.locator('.results')
+
+        await page.waitForFunction(() =>
+          document
+            .querySelector('.search-loading')
+            ?.classList.contains('active')
+        )
+
+        expect(delayedIndex).toBe(true)
+        expect(await loading.getAttribute('role')).toBe('status')
+        expect(await loading.getAttribute('aria-label')).toBe(
+          'Loading search results'
+        )
+        expect(await results.getAttribute('aria-busy')).toBe('true')
+
+        await page.waitForFunction(
+          () =>
+            !document
+              .querySelector('.search-loading')
+              ?.classList.contains('active')
+        )
+
+        expect(await results.getAttribute('aria-busy')).toBe('false')
+      } finally {
+        await page.unroute(indexRoute)
+      }
+    }
+  )
+
   test('exclude content from search results', async () => {
     await page.locator('.VPNavBarSearchButton').click()
 
     const input = await page.waitForSelector('input#localsearch-input')
     await input.type('local')
 
-    await page.waitForSelector('ul#localsearch-list', { state: 'visible' })
-
     const searchResults = page.locator('#localsearch-list')
+    await page.waitForFunction(() => {
+      const options = [
+        ...document.querySelectorAll('#localsearch-list li[role=option]')
+      ]
+
+      return (
+        options.length === 1 &&
+        options[0].textContent?.includes('Local search included')
+      )
+    })
+
     expect(await searchResults.locator('li[role=option]').count()).toBe(1)
 
     expect(

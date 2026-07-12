@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref, watch, onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useAside } from '../composables/aside'
 import { useData } from '../composables/data'
 

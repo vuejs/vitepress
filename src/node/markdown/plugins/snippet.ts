@@ -1,6 +1,6 @@
-import fs from 'fs-extra'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
+import fs from 'node:fs'
 import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
 

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import type { DocSearchInstance, DocSearchProps } from '@docsearch/js'
-import type { SidepanelInstance, SidepanelProps } from '@docsearch/sidepanel-js'
+import type { SidepanelInstance } from '@docsearch/sidepanel-js'
 import { inBrowser, useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, onUnmounted, watch } from 'vue'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
-import { resolveMode, validateCredentials } from '../support/docsearch'
+import {
+  buildSidePanelProps,
+  resolveMode,
+  validateCredentials
+} from '../support/docsearch'
 
 import '../styles/docsearch.css'
 
@@ -105,12 +109,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     if (currentInitialize !== initializeCount) return
 
     sidepanelInstance = sidepanel({
-      ...(askAi.sidePanel === true ? {} : askAi.sidePanel),
-      container: '#vp-docsearch-sidepanel',
-      indexName: askAi.indexName ?? userOptions.indexName,
-      appId: askAi.appId ?? userOptions.appId,
-      apiKey: askAi.apiKey ?? userOptions.apiKey,
-      assistantId: askAi.assistantId,
+      ...buildSidePanelProps(askAi, userOptions),
       onOpen: focusInput,
       onClose: onClose.bind(null, 'sidepanel'),
       onReady: () => {
@@ -122,7 +121,7 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
       keyboardShortcuts: {
         'Ctrl/Cmd+I': false
       }
-    } as SidepanelProps)
+    })
   }
 
   const options = {

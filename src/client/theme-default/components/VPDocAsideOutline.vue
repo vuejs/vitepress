@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useData } from '../composables/data'
+import { useLayout } from '../composables/layout'
 import { resolveTitle, useActiveAnchor } from '../composables/outline'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
-import { useLayout } from '../composables/layout'
 
 const { theme } = useData()
 

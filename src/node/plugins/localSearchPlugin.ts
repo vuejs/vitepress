@@ -1,7 +1,8 @@
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
 import MiniSearch from 'minisearch'
+import fs from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
@@ -54,7 +55,7 @@ export async function localSearchPlugin(
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const md_raw = await fs.promises.readFile(file, 'utf-8')
+    const md_raw = await readFile(file, 'utf-8')
     const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
     if (options._render) {
       return await options._render(md_src, env, md)
@@ -116,7 +117,10 @@ export async function localSearchPlugin(
     const file = path.join(siteConfig.srcDir, page)
     // get file metadata
     const fileId = getDocId(file)
-    const locale = getLocaleForPath(siteConfig.site, page)
+    const locale = getLocaleForPath(
+      siteConfig.site,
+      siteConfig.rewrites.map[page] || page
+    )
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
     const html = await render(file)
@@ -130,6 +134,7 @@ export async function localSearchPlugin(
       if (!section || !(section.text || section.titles)) break
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
+      index.has(id) && index.discard(id)
       index.add({
         id,
         text,

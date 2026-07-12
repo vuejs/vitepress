@@ -1,5 +1,5 @@
-import { mergeConfig } from 'node/config'
 import type { MarkdownItAsync } from 'markdown-it-async'
+import { mergeConfig } from 'node/config'
 
 describe('node/config', () => {
   test('merges markdown config hooks from extended configs', async () => {

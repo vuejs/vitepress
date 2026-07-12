@@ -67,6 +67,24 @@ export default {
 }
 ```
 
+Значение `router` представляет собой тот же экземпляр маршрутизатора VitePress, который возвращает [`useRouter()`](../reference/runtime-api#userouter). Чтобы отслеживать изменения маршрутов, назначьте обработчики для маршрутизатора:
+
+```ts [.vitepress/theme/index.ts]
+export default {
+  enhanceApp({ router }) {
+    router.onBeforeRouteChange = (to) => {
+      console.log('navigating to', to)
+    }
+
+    router.onAfterRouteChange = (to) => {
+      console.log('navigated to', to)
+    }
+  }
+}
+```
+
+Верните `false` из `onBeforeRouteChange` или `onBeforePageLoad`, чтобы отменить переход.
+
 Экспорт по умолчанию является единственным контрактом для пользовательской темы, и только свойство `Layout` является обязательным. Таким образом, технически тема VitePress может быть простой, как один компонент Vue.
 
 Внутри компонент макета работает так же, как и обычное приложение Vite + Vue 3. Обратите внимание, что тема также должна быть [SSR-совместимой](./ssr-compat).
@@ -156,7 +174,7 @@ const { page, frontmatter } = useData()
 
 ## Распространение пользовательской темы {#distributing-a-custom-theme}
 
-Самый простой способ распространить пользовательскую тему — предоставить её в виде [репозитория шаблонов на GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+Самый простой способ распространить пользовательскую тему — предоставить её в виде [репозитория шаблонов на GitHub](https://docs.github.com/ru/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
 Если вы хотите распространить тему в виде пакета npm, выполните следующие действия:
 

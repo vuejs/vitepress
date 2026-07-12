@@ -1,4 +1,4 @@
-import { createRequire } from 'module'
+import { createRequire } from 'node:module'
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)

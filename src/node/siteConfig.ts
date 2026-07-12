@@ -2,6 +2,10 @@ import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import type { UseDarkOptions } from '@vueuse/core'
 import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
+import type {
+  AdditionalConfigDict,
+  AdditionalConfigLoader
+} from '../../types/shared'
 import type { SitemapItem } from './build/generateSitemap'
 import type { MarkdownOptions } from './markdown/markdown'
 import type { ResolvedRouteConfig } from './plugins/dynamicRoutesPlugin'
@@ -14,10 +18,6 @@ import type {
   SSGContext,
   SiteData
 } from './shared'
-import type {
-  AdditionalConfigDict,
-  AdditionalConfigLoader
-} from '../../types/shared'
 
 export type RawConfigExports<ThemeConfig = any> =
   | Awaitable<UserConfig<ThemeConfig>>
