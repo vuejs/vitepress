@@ -68,6 +68,8 @@ Interactive demo that only makes sense in the browser.
 
 Content in `<llm-only>` is removed from the rendered HTML pages, and content in `<llm-exclude>` is removed from the generated markdown. The tags themselves never appear in either output. They are only processed when the `llms` option is enabled.
 
+Each tag must be alone on its own line, like in the example above. Tags inside fenced code blocks or anywhere else on a line (e.g. in inline code) are left untouched, so you can document them.
+
 ## Limitations
 
 - Only the root locale is emitted — translated locales are skipped.

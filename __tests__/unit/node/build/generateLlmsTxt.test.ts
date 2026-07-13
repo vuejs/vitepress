@@ -361,7 +361,9 @@ describe('node/build/generateLlmsTxt', () => {
         '',
         '</llm-only>',
         '',
-        '<llm-exclude>Humans only.</llm-exclude>',
+        '<llm-exclude>',
+        'Humans only.',
+        '</llm-exclude>',
         '',
         'Shared content.'
       ].join('\n')
