@@ -1,5 +1,5 @@
 import { resolveLocaleLink } from 'client/theme-default/composables/langs'
-import type { VitePressData } from 'vitepress'
+import type { Route, VitePressData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref } from 'vue'
 
@@ -24,29 +24,38 @@ function createData(
   } as unknown as VitePressData<DefaultTheme.Config>
 }
 
+function createRoute(query = '', hash = '#install') {
+  return {
+    query,
+    hash
+  } as unknown as Route
+}
+
 describe('client/theme-default/composables/langs', () => {
   test('resolves corresponding links with the default router', () => {
-    expect(resolveLocaleLink(createData({}), 'fr', '/fr/', '/', true)).toBe(
-      '/fr/guide/getting-started.html#install'
-    )
+    expect(
+      resolveLocaleLink(createData({}), createRoute(), 'fr', '/fr/', '/', true)
+    ).toBe('/fr/guide/getting-started.html#install')
   })
 
   test('resolves clean index links with the default router', () => {
     expect(
       resolveLocaleLink(
         createData({}, 'en/guide/index.md', true, '#intro'),
+        createRoute('?query', '#intro'),
         'fr',
         '/fr/',
         '/en/',
         true
       )
-    ).toBe('/fr/guide/#intro')
+    ).toBe('/fr/guide/?query#intro')
   })
 
   test('keeps locale root links when i18n routing is disabled', () => {
     expect(
       resolveLocaleLink(
         createData({ i18nRouting: false }),
+        createRoute(),
         'fr',
         '/fr/',
         '/',
@@ -62,8 +71,8 @@ describe('client/theme-default/composables/langs', () => {
       }
     })
 
-    expect(resolveLocaleLink(data, 'fr', '/fr/', '/', true)).toBe(
-      '/fr/mapped/guide/getting-started.md#install'
-    )
+    expect(
+      resolveLocaleLink(data, createRoute(), 'fr', '/fr/', '/', true)
+    ).toBe('/fr/mapped/guide/getting-started.md#install')
   })
 })
