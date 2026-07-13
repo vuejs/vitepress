@@ -2,10 +2,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { Logger } from 'vite'
-import {
-  collectLlmsSource,
-  generateLlmsTxt
-} from 'node/build/generateLlmsTxt'
+import { collectLlmsSource, generateLlmsTxt } from 'node/build/generateLlmsTxt'
 import type { SiteConfig } from 'node/siteConfig'
 
 const logger = {
