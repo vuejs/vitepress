@@ -6,6 +6,7 @@ import type {
   AdditionalConfigDict,
   AdditionalConfigLoader
 } from '../../types/shared'
+import type { LlmsOptions } from './build/generateLlmsTxt'
 import type { SitemapItem } from './build/generateSitemap'
 import type { MarkdownOptions } from './markdown/markdown'
 import type { ResolvedRouteConfig } from './plugins/dynamicRoutesPlugin'
@@ -145,6 +146,17 @@ export interface UserConfig<
   }
 
   /**
+   * Generate LLM-friendly output at build time: a markdown version of each
+   * page, plus `llms.txt` (index) and `llms-full.txt` (full content bundle).
+   *
+   * Only the root locale is emitted. Dynamic routes are skipped.
+   *
+   * @experimental
+   * @see https://llmstxt.org/
+   */
+  llms?: boolean | LlmsOptions
+
+  /**
    * Build end hook: called when SSG finish.
    * @param siteConfig The resolved configuration.
    */
@@ -212,6 +224,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'transformHtml'
   | 'transformPageData'
   | 'sitemap'
+  | 'llms'
 > {
   root: string
   srcDir: string

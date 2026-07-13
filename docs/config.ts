@@ -101,7 +101,8 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         { text: 'MPA Mode', link: 'mpa-mode' },
-        { text: 'Sitemap Generation', link: 'sitemap-generation' }
+        { text: 'Sitemap Generation', link: 'sitemap-generation' },
+        { text: 'LLM-Friendly Output', link: 'llms' }
       ]
     },
     { text: 'Config & API Reference', base: '/reference/', link: 'site-config' }
