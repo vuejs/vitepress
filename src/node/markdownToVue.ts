@@ -3,6 +3,7 @@ import { LRUCache } from 'lru-cache'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createDebug } from 'obug'
+import { collectLlmsSource } from './build/generateLlmsTxt'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -144,8 +145,19 @@ export async function createMarkdownToVueRenderFn(
     src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
 
     // llm-only content is not rendered to HTML — it only appears in the
-    // markdown output generated when the llms option is enabled
-    if (isLlmsEnabled(siteConfig?.llms)) src = stripLlmTags(src)
+    // markdown output generated when the llms option is enabled, from the
+    // include-expanded source collected here (dynamic routes share one
+    // source file and are excluded from LLM output)
+    if (isLlmsEnabled(siteConfig?.llms)) {
+      if (!dynamicRoute) {
+        collectLlmsSource(
+          siteConfig,
+          slash(path.relative(srcDir, fileOrig)),
+          src
+        )
+      }
+      src = stripLlmTags(src)
+    }
 
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 

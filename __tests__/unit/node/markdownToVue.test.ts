@@ -1,3 +1,4 @@
+import { getLlmsSources } from 'node/build/generateLlmsTxt'
 import { resolveConfig } from 'node/config'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
@@ -182,6 +183,36 @@ describe('node/markdownToVue', () => {
     expect(result.vueSrc).toContain('Humans only.')
     expect(result.vueSrc).toContain('Shared content.')
     expect(result.vueSrc).not.toContain('llm-exclude')
+  })
+
+  test('collects the include-expanded source with llm tags intact', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-llm-collect-'))
+
+    const file = path.join(root, 'index.md')
+    const src =
+      '# Home\n\n<!--@include: ./shared.md-->\n\n<llm-only>\n\nSecret for LLMs.\n\n</llm-only>\n'
+    await writeFile(file, src)
+    await writeFile(path.join(root, 'shared.md'), 'Shared notes.\n')
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.llms = true
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    await render(src, file, 'public')
+
+    const collected = getLlmsSources(siteConfig)?.get('index.md')
+    expect(collected).toContain('Shared notes.')
+    expect(collected).not.toContain('@include')
+    // llm-only content is stripped from HTML but kept for the LLM output
+    expect(collected).toContain('Secret for LLMs.')
+    expect(collected).toContain('<llm-only>')
   })
 
   test('leaves llm tags untouched when llms is not enabled', async () => {

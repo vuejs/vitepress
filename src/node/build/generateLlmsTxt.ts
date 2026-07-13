@@ -5,11 +5,8 @@ import pMap from 'p-map'
 import picomatch from 'picomatch'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
-import type { MarkdownRenderer } from '../markdown/markdown'
-import { createMarkdownRenderer } from '../markdown/markdown'
 import { resolveSiteDataByRoute } from '../shared'
 import { isLlmsEnabled, resolveLlmTags } from '../utils/llmTags'
-import { processIncludes } from '../utils/processIncludes'
 import { task } from '../utils/task'
 
 export interface LlmsOptions {
@@ -58,7 +55,30 @@ interface LlmsPage {
   content: string
 }
 
-const includesRE = /<!--\s*@include:/
+/**
+ * Include-expanded markdown sources collected during the markdown → Vue
+ * transform, keyed by source path relative to `srcDir` (pre-rewrite, as in
+ * `siteConfig.pages`). Collected before llm tags are stripped for the HTML
+ * build so `generateLlmsTxt` doesn't have to re-read and re-process pages.
+ */
+const collectedSources = new WeakMap<SiteConfig, Map<string, string>>()
+
+export function collectLlmsSource(
+  siteConfig: SiteConfig,
+  file: string,
+  src: string
+): void {
+  let sources = collectedSources.get(siteConfig)
+  if (!sources) collectedSources.set(siteConfig, (sources = new Map()))
+  sources.set(file, src)
+}
+
+export function getLlmsSources(
+  siteConfig: SiteConfig
+): ReadonlyMap<string, string> | undefined {
+  return collectedSources.get(siteConfig)
+}
+
 const headingRE = /^#\s+(.+?)\s*$/m
 
 function inferTitle(
@@ -198,15 +218,7 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
     : undefined
 
   await task('generating llms.txt', async () => {
-    // lazily created — only needed when a page uses `<!-- @include -->`
-    let md: MarkdownRenderer | undefined
-    const getMd = async () =>
-      (md ??= await createMarkdownRenderer(
-        siteConfig.srcDir,
-        siteConfig.markdown,
-        siteConfig.site.base,
-        siteConfig.logger
-      ))
+    const sources = getLlmsSources(siteConfig)
 
     let indexFrontmatter: Record<string, any> = {}
 
@@ -217,10 +229,13 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
           if (dynamicPaths.has(page)) return
           if (skippedLocaleDirs.has(page.split('/')[0])) return
 
-          const srcPath = path.join(siteConfig.srcDir, page)
-          const { data, content: rawContent } = matter(
-            await fs.readFile(srcPath, 'utf-8')
-          )
+          // collected during the markdown → Vue transform with includes
+          // already expanded; the fs fallback only covers pages that never
+          // went through the bundle (should not happen in practice)
+          const src =
+            sources?.get(page) ??
+            (await fs.readFile(path.join(siteConfig.srcDir, page), 'utf-8'))
+          const { data, content: rawContent } = matter(src)
 
           const outPath = collapseIndexPath(
             siteConfig.rewrites.map[page] || page
@@ -234,18 +249,7 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
 
           if (isIgnored?.(page) || isIgnored?.(outPath)) return
 
-          let content = rawContent
-          if (includesRE.test(content)) {
-            content = processIncludes(
-              await getMd(),
-              siteConfig.srcDir,
-              content,
-              srcPath,
-              [],
-              !!siteConfig.cleanUrls
-            )
-          }
-          content = resolveLlmTags(content)
+          const content = resolveLlmTags(rawContent)
 
           return {
             outPath,

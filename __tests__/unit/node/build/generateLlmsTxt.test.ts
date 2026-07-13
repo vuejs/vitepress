@@ -2,7 +2,10 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { Logger } from 'vite'
-import { generateLlmsTxt } from 'node/build/generateLlmsTxt'
+import {
+  collectLlmsSource,
+  generateLlmsTxt
+} from 'node/build/generateLlmsTxt'
 import type { SiteConfig } from 'node/siteConfig'
 
 const logger = {
@@ -11,11 +14,36 @@ const logger = {
   error() {}
 } as unknown as Logger
 
-function writeFixture(dir: string, files: Record<string, string>) {
+// sources as collected from the markdown → Vue pipeline: includes are
+// already expanded there
+const fixtures: Record<string, string> = {
+  'index.md': [
+    '---',
+    'layout: home',
+    'hero:',
+    '  name: Test Site',
+    '  text: A test site for LLMs',
+    '---'
+  ].join('\n'),
+  'guide/index.md': '# Getting Started\n\nWelcome to the guide.',
+  'guide/advanced.md': [
+    '---',
+    'title: Advanced Guide',
+    'description: Advanced usage patterns',
+    '---',
+    '',
+    '# Advanced',
+    '',
+    'Advanced content.'
+  ].join('\n'),
+  'api/reference.md': '# API Reference\n\nShared API notes.\n',
+  'fr/guide.md': '# Guide en français',
+  'unlisted.md': '# Unlisted Page'
+}
+
+function seed(config: SiteConfig, files: Record<string, string> = fixtures) {
   for (const [file, content] of Object.entries(files)) {
-    const abs = path.join(dir, file)
-    fs.mkdirSync(path.dirname(abs), { recursive: true })
-    fs.writeFileSync(abs, content)
+    collectLlmsSource(config, file, content)
   }
 }
 
@@ -26,32 +54,6 @@ describe('node/build/generateLlmsTxt', () => {
   beforeEach(() => {
     srcDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vp-llms-src-'))
     outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vp-llms-out-'))
-
-    writeFixture(srcDir, {
-      'index.md': [
-        '---',
-        'layout: home',
-        'hero:',
-        '  name: Test Site',
-        '  text: A test site for LLMs',
-        '---'
-      ].join('\n'),
-      'guide/index.md': '# Getting Started\n\nWelcome to the guide.',
-      'guide/advanced.md': [
-        '---',
-        'title: Advanced Guide',
-        'description: Advanced usage patterns',
-        '---',
-        '',
-        '# Advanced',
-        '',
-        'Advanced content.'
-      ].join('\n'),
-      'api/reference.md': '# API Reference\n\n<!-- @include: ./shared.md -->\n',
-      'api/shared.md': 'Shared API notes.',
-      'fr/guide.md': '# Guide en français',
-      'unlisted.md': '# Unlisted Page'
-    })
   })
 
   afterEach(() => {
@@ -113,21 +115,25 @@ describe('node/build/generateLlmsTxt', () => {
   }
 
   test('does nothing when llms is not enabled', async () => {
-    await generateLlmsTxt(makeConfig({ llms: undefined }))
+    const config = makeConfig({ llms: undefined })
+    seed(config)
+    await generateLlmsTxt(config)
     expect(fs.existsSync(path.join(outDir, 'llms.txt'))).toBe(false)
   })
 
   test('does nothing when llms.enabled is false', async () => {
-    await generateLlmsTxt(
-      makeConfig({
-        llms: { enabled: false, hostname: 'https://example.com' }
-      })
-    )
+    const config = makeConfig({
+      llms: { enabled: false, hostname: 'https://example.com' }
+    })
+    seed(config)
+    await generateLlmsTxt(config)
     expect(fs.existsSync(path.join(outDir, 'llms.txt'))).toBe(false)
   })
 
   test('generates llms.txt with hero metadata and sidebar-ordered TOC', async () => {
-    await generateLlmsTxt(makeConfig())
+    const config = makeConfig()
+    seed(config)
+    await generateLlmsTxt(config)
 
     const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
 
@@ -161,7 +167,9 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('emits per-page markdown files with url frontmatter', async () => {
-    await generateLlmsTxt(makeConfig())
+    const config = makeConfig()
+    seed(config)
+    await generateLlmsTxt(config)
 
     // dir/index.md collapses to dir.md
     const guide = fs.readFileSync(path.join(outDir, 'guide.md'), 'utf-8')
@@ -177,17 +185,30 @@ describe('node/build/generateLlmsTxt', () => {
     // original frontmatter is replaced
     expect(advanced).not.toContain('title: Advanced Guide')
 
-    // includes are expanded
+    // collected sources have includes already expanded
     const reference = fs.readFileSync(
       path.join(outDir, 'api/reference.md'),
       'utf-8'
     )
     expect(reference).toContain('Shared API notes.')
-    expect(reference).not.toContain('@include')
+  })
+
+  test('falls back to reading the source file when a page was not collected', async () => {
+    const config = makeConfig()
+    const { 'unlisted.md': unlisted, ...collected } = fixtures
+    seed(config, collected)
+    fs.writeFileSync(path.join(srcDir, 'unlisted.md'), unlisted)
+
+    await generateLlmsTxt(config)
+
+    const out = fs.readFileSync(path.join(outDir, 'unlisted.md'), 'utf-8')
+    expect(out).toContain('# Unlisted Page')
   })
 
   test('generates llms-full.txt with all pages in TOC order', async () => {
-    await generateLlmsTxt(makeConfig())
+    const config = makeConfig()
+    seed(config)
+    await generateLlmsTxt(config)
 
     const full = fs.readFileSync(path.join(outDir, 'llms-full.txt'), 'utf-8')
 
@@ -202,7 +223,9 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('skips non-root locales and dynamic routes', async () => {
-    await generateLlmsTxt(makeConfig())
+    const config = makeConfig()
+    seed(config)
+    await generateLlmsTxt(config)
 
     expect(fs.existsSync(path.join(outDir, 'fr/guide.md'))).toBe(false)
     expect(fs.existsSync(path.join(outDir, 'data/1.md'))).toBe(false)
@@ -212,14 +235,14 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('applies rewrites to output paths and links', async () => {
-    await generateLlmsTxt(
-      makeConfig({
-        rewrites: {
-          map: { 'guide/advanced.md': 'advanced.md' },
-          inv: { 'advanced.md': 'guide/advanced.md' }
-        }
-      })
-    )
+    const config = makeConfig({
+      rewrites: {
+        map: { 'guide/advanced.md': 'advanced.md' },
+        inv: { 'advanced.md': 'guide/advanced.md' }
+      }
+    })
+    seed(config)
+    await generateLlmsTxt(config)
 
     expect(fs.existsSync(path.join(outDir, 'advanced.md'))).toBe(true)
     expect(fs.existsSync(path.join(outDir, 'guide/advanced.md'))).toBe(false)
@@ -229,8 +252,14 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('detects the landing page through rewrites (en/index.md -> index.md)', async () => {
-    fs.rmSync(path.join(srcDir, 'index.md'))
-    writeFixture(srcDir, {
+    const config = makeConfig({
+      pages: ['en/guide.md', 'en/index.md', 'unlisted.md'],
+      rewrites: {
+        map: { 'en/index.md': 'index.md', 'en/guide.md': 'guide.md' },
+        inv: { 'index.md': 'en/index.md', 'guide.md': 'en/guide.md' }
+      }
+    })
+    seed(config, {
       'en/index.md': [
         '---',
         'layout: home',
@@ -239,15 +268,8 @@ describe('node/build/generateLlmsTxt', () => {
         '  text: Rewritten description',
         '---'
       ].join('\n'),
-      'en/guide.md': '# Rewritten Guide'
-    })
-
-    const config = makeConfig({
-      pages: ['en/guide.md', 'en/index.md', 'unlisted.md'],
-      rewrites: {
-        map: { 'en/index.md': 'index.md', 'en/guide.md': 'guide.md' },
-        inv: { 'index.md': 'en/index.md', 'guide.md': 'en/guide.md' }
-      }
+      'en/guide.md': '# Rewritten Guide',
+      'unlisted.md': fixtures['unlisted.md']
     })
 
     await generateLlmsTxt(config)
@@ -279,6 +301,7 @@ describe('node/build/generateLlmsTxt', () => {
         }
       }
     }
+    seed(config)
 
     await generateLlmsTxt(config)
 
@@ -292,8 +315,9 @@ describe('node/build/generateLlmsTxt', () => {
   test('falls back to site title/description and flat TOC without sidebar', async () => {
     const config = makeConfig()
     delete (config.site.themeConfig as any).sidebar
-    fs.rmSync(path.join(srcDir, 'index.md'))
     config.pages = config.pages.filter((p) => p !== 'index.md')
+    const { 'index.md': _, ...collected } = fixtures
+    seed(config, collected)
 
     await generateLlmsTxt(config)
 
@@ -306,6 +330,7 @@ describe('node/build/generateLlmsTxt', () => {
   test('respects base in generated links', async () => {
     const config = makeConfig()
     config.site.base = '/docs/'
+    seed(config)
 
     await generateLlmsTxt(config)
 
@@ -314,11 +339,11 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('skips pages matching ignoreFiles patterns', async () => {
-    await generateLlmsTxt(
-      makeConfig({
-        llms: { hostname: 'https://example.com', ignoreFiles: ['api/**'] }
-      })
-    )
+    const config = makeConfig({
+      llms: { hostname: 'https://example.com', ignoreFiles: ['api/**'] }
+    })
+    seed(config)
+    await generateLlmsTxt(config)
 
     expect(fs.existsSync(path.join(outDir, 'api/reference.md'))).toBe(false)
     expect(fs.existsSync(path.join(outDir, 'guide/advanced.md'))).toBe(true)
@@ -331,18 +356,18 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('matches ignoreFiles against rewritten output paths too', async () => {
-    await generateLlmsTxt(
-      makeConfig({
-        llms: {
-          hostname: 'https://example.com',
-          ignoreFiles: ['advanced.md']
-        },
-        rewrites: {
-          map: { 'guide/advanced.md': 'advanced.md' },
-          inv: { 'advanced.md': 'guide/advanced.md' }
-        }
-      })
-    )
+    const config = makeConfig({
+      llms: {
+        hostname: 'https://example.com',
+        ignoreFiles: ['advanced.md']
+      },
+      rewrites: {
+        map: { 'guide/advanced.md': 'advanced.md' },
+        inv: { 'advanced.md': 'guide/advanced.md' }
+      }
+    })
+    seed(config)
+    await generateLlmsTxt(config)
 
     expect(fs.existsSync(path.join(outDir, 'advanced.md'))).toBe(false)
 
@@ -351,7 +376,10 @@ describe('node/build/generateLlmsTxt', () => {
   })
 
   test('unwraps llm-only and drops llm-exclude in LLM output', async () => {
-    writeFixture(srcDir, {
+    const config = makeConfig()
+    config.pages = [...config.pages, 'tags.md']
+    seed(config, {
+      ...fixtures,
       'tags.md': [
         '# Tags',
         '',
@@ -368,9 +396,6 @@ describe('node/build/generateLlmsTxt', () => {
         'Shared content.'
       ].join('\n')
     })
-
-    const config = makeConfig()
-    config.pages = [...config.pages, 'tags.md']
 
     await generateLlmsTxt(config)
 
