@@ -6,11 +6,11 @@ description: Habilita el modo MPA (Aplicación de Múltiples Páginas) en VitePr
 
 El modo MPA (Aplicación de multiples páginas) puede ser habilitado por la linea de comandos con `vitepress build --mpa`, o a través de la configuración por la opción `mpa: true`.
 
-En el modo MPA, todas las páginas son presentadas por defecto sin JavaScript incluído. Como resultado, el sitio en producción probablemente tendrá una marca de desempeño de visita inicial superior con herramientas de auditoría.
+En el modo MPA, todas las páginas son presentadas por defecto sin JavaScript incluido. Como resultado, el sitio en producción probablemente tendrá una marca de desempeño de visita inicial superior con herramientas de auditoría.
 
-Sin embargo, debido a la ausencia de navegación SPA, los links entre páginas resultan en recargas de página completos. Navegaciones después de la carga en el modo MPA no parecerán tan instantáneos en comparación con el modo SPA.
+Sin embargo, debido a la ausencia de navegación SPA, los enlaces entre páginas resultan en recargas completas de la página. La navegación posterior a la carga en modo MPA no será tan instantánea como en modo SPA.
 
-También note que no tener JavaScript por defecto significa que está esencialmente utilizando Vue como modelo de lenguaje en el lado del servidor. Nungun manipulador de eventos será embutido en el navegador, entonces no habrá interactividad. Para cargar JavaScript en el lado del cliente, necesitará usar el tag especial `<script client>`:
+También note que `no-JS-by-default` significa que, esencialmente, está utilizando Vue únicamente como un lenguaje de plantillas del lado del servidor. No se adjuntarán controladores de eventos en el navegador, por lo que no habrá interactividad. Para cargar JavaScript del lado del cliente, deberá utilizar la etiqueta especial `<script client>`:
 
 ```html
 <script client>
