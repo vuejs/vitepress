@@ -20,7 +20,8 @@ export const imagePlugin = (
     const token = tokens[idx]
     let url = token.attrGet('src')
     if (url && !EXTERNAL_URL_RE.test(url)) {
-      if (!/^\.?\//.test(url)) url = './' + url
+      // Normalize relative "foo.png" to "./foo.png" and decode for processing by bundlers
+      if (!/^\.*?\//.test(url)) url = './' + url
       token.attrSet('src', decodeURIComponent(url))
     }
     if (lazyLoading) {
