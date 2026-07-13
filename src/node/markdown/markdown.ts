@@ -32,6 +32,7 @@ import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
+import { imageSizePlugin } from './plugins/imageSize'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
@@ -310,6 +311,9 @@ export async function createMarkdownRenderer(
     attrsPlugin(md, options.attrs)
   }
   emojiPlugin(md, options.emoji)
+
+  // custom plugins after `markdown-it-attrs` (to respect user-defined attributes)
+  imageSizePlugin(md, srcDir)
 
   // mdit-vue plugins
   anchorPlugin(md, {
