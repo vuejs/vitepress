@@ -8,7 +8,6 @@ import {
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
-import llmstxt from 'vitepress-plugin-llms'
 
 const prod = !!process.env.NETLIFY
 const siteUrl = 'https://vitepress.dev'
@@ -36,6 +35,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   metaChunk: true,
+  llms: true,
 
   markdown: {
     math: true,
@@ -143,8 +143,7 @@ export default defineConfig({
           ),
           firebase: 'logos:firebase'
         }
-      }),
-      prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
+      })
     ],
     experimental: {
       enableNativePlugin: true

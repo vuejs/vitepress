@@ -81,6 +81,10 @@ describe('node/build/generateLlmsTxt', () => {
         title: 'Fallback Title',
         description: 'Fallback description',
         base: '/',
+        locales: {
+          root: { label: 'English', lang: 'en-US' },
+          fr: { label: 'Français', lang: 'fr-FR' }
+        },
         themeConfig: {
           sidebar: [
             {
@@ -213,6 +217,67 @@ describe('node/build/generateLlmsTxt', () => {
 
     const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
     expect(llmsTxt).toContain('(https://example.com/advanced.md)')
+  })
+
+  test('detects the landing page through rewrites (en/index.md -> index.md)', async () => {
+    fs.rmSync(path.join(srcDir, 'index.md'))
+    writeFixture(srcDir, {
+      'en/index.md': [
+        '---',
+        'layout: home',
+        'hero:',
+        '  name: Rewritten Site',
+        '  text: Rewritten description',
+        '---'
+      ].join('\n'),
+      'en/guide.md': '# Rewritten Guide'
+    })
+
+    const config = makeConfig({
+      pages: ['en/guide.md', 'en/index.md', 'unlisted.md'],
+      rewrites: {
+        map: { 'en/index.md': 'index.md', 'en/guide.md': 'guide.md' },
+        inv: { 'index.md': 'en/index.md', 'guide.md': 'en/guide.md' }
+      }
+    })
+
+    await generateLlmsTxt(config)
+
+    const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
+    expect(llmsTxt).toContain('# Rewritten Site')
+    expect(llmsTxt).toContain('> Rewritten description')
+    expect(llmsTxt).toContain(
+      '- [Rewritten Guide](https://example.com/guide.md)'
+    )
+
+    // the landing page is not emitted nor listed
+    expect(fs.existsSync(path.join(outDir, 'index.md'))).toBe(false)
+    expect(llmsTxt).not.toContain('](https://example.com/index.md)')
+  })
+
+  test('resolves the sidebar from additional config layers', async () => {
+    const config = makeConfig()
+    delete (config.site.themeConfig as any).sidebar
+    ;(config.site as any).additionalConfig = {
+      '/': {
+        themeConfig: {
+          sidebar: [
+            {
+              text: 'Layered',
+              items: [{ text: 'Advanced', link: '/guide/advanced' }]
+            }
+          ]
+        }
+      }
+    }
+
+    await generateLlmsTxt(config)
+
+    const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
+    expect(llmsTxt).toContain('### Layered')
+    expect(llmsTxt.indexOf('Advanced Guide')).toBeLessThan(
+      llmsTxt.indexOf('### Other')
+    )
   })
 
   test('falls back to site title/description and flat TOC without sidebar', async () => {

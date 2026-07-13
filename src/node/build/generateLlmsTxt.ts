@@ -6,6 +6,7 @@ import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import type { MarkdownRenderer } from '../markdown/markdown'
 import { createMarkdownRenderer } from '../markdown/markdown'
+import { resolveSiteDataByRoute } from '../shared'
 import { processIncludes } from '../utils/processIncludes'
 import { task } from '../utils/task'
 
@@ -118,7 +119,10 @@ function renderSidebarItems(
   linkBase: string,
   depth: number
 ): string {
-  let out = ''
+  // leaf links come before nested sections so they are not
+  // misattributed to the previous section's heading
+  let links = ''
+  let sections = ''
 
   for (const item of items) {
     const base = item.base ?? linkBase
@@ -127,7 +131,7 @@ function renderSidebarItems(
       const page = pagesByKey.get(normalizeLink(base + item.link))
       if (page && !ordered.includes(page)) {
         ordered.push(page)
-        out += tocEntry(page)
+        links += tocEntry(page)
       }
     }
 
@@ -140,14 +144,14 @@ function renderSidebarItems(
         depth + 1
       )
       if (section) {
-        out += item.text
+        sections += item.text
           ? `\n${'#'.repeat(depth)} ${item.text}\n\n${section}`
           : section
       }
     }
   }
 
-  return out
+  return links + sections
 }
 
 function tocEntry(page: LlmsPage): string {
@@ -198,7 +202,11 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
             await fs.readFile(srcPath, 'utf-8')
           )
 
-          if (page === 'index.md') {
+          const outPath = collapseIndexPath(
+            siteConfig.rewrites.map[page] || page
+          )
+
+          if (outPath === 'index.md') {
             // the landing page provides llms.txt metadata but is not emitted
             indexFrontmatter = data
             return
@@ -215,10 +223,6 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
               !!siteConfig.cleanUrls
             )
           }
-
-          const outPath = collapseIndexPath(
-            siteConfig.rewrites.map[page] || page
-          )
 
           return {
             outPath,
@@ -249,12 +253,15 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
       { concurrency: siteConfig.buildConcurrency }
     )
 
-    // llms.txt — TOC in sidebar order when a sidebar exists
+    // llms.txt — TOC in sidebar order when a sidebar exists.
+    // resolve site data for the root index so locale and additional
+    // config layers (e.g. a root-level config.ts) are taken into account
+    const rootSite = resolveSiteDataByRoute(siteConfig.site, 'index.md')
     const pagesByKey = new Map(
       pages.map((page) => [normalizeLink(page.outPath), page])
     )
     const sidebar = flattenSidebar(
-      (siteConfig.site.themeConfig as DefaultTheme.Config | undefined)?.sidebar,
+      (rootSite.themeConfig as DefaultTheme.Config | undefined)?.sidebar,
       skippedLocaleDirs
     )
 
@@ -268,12 +275,9 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
       toc += toc ? `\n\n### Other\n\n${entries}` : entries
     }
 
-    const title =
-      options.title ?? indexFrontmatter.hero?.name ?? siteConfig.site.title
+    const title = options.title ?? indexFrontmatter.hero?.name ?? rootSite.title
     const description =
-      options.description ??
-      indexFrontmatter.hero?.text ??
-      siteConfig.site.description
+      options.description ?? indexFrontmatter.hero?.text ?? rootSite.description
 
     const llmsTxt = `# ${title}\n\n${
       description ? `> ${description}\n\n` : ''
