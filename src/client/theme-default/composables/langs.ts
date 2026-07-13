@@ -1,11 +1,13 @@
 import { computed } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
 import type { VitePressData } from '../../app/data'
+import { useRoute, type Route } from '../../app/router'
 import { ensureStartingSlash } from '../support/utils'
 import { useData } from './data'
 
 export function useLangs({ correspondingLink = false } = {}) {
   const data = useData()
+  const route = useRoute()
   const { site, localeIndex } = data
   const currentLang = computed(() => ({
     label: site.value.locales[localeIndex.value]?.label,
@@ -22,6 +24,7 @@ export function useLangs({ correspondingLink = false } = {}) {
             text: value.label,
             link: resolveLocaleLink(
               data,
+              route,
               key,
               value.link || (key === 'root' ? '/' : `/${key}/`),
               currentLang.value.link,
@@ -38,16 +41,17 @@ export function useLangs({ correspondingLink = false } = {}) {
 
 export function resolveLocaleLink(
   data: VitePressData<DefaultTheme.Config>,
+  route: Route,
   targetLocale: string,
   targetLink: string,
   currentLink: string,
   correspondingLink: boolean
 ) {
-  const { site, page, theme, hash } = data
+  const { site, page, theme } = data
   const i18nRouting = theme.value.i18nRouting
 
   if (correspondingLink && typeof i18nRouting === 'function') {
-    return i18nRouting(data, hash.value, targetLocale)
+    return i18nRouting(data, route.hash, targetLocale)
   }
 
   return (
@@ -56,7 +60,9 @@ export function resolveLocaleLink(
       i18nRouting !== false && correspondingLink,
       page.value.relativePath.slice(currentLink.length - 1),
       !site.value.cleanUrls
-    ) + hash.value
+    ) +
+    route.query +
+    route.hash
   )
 }
 
