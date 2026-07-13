@@ -22,23 +22,23 @@ export const imageSizePlugin = (md: MarkdownItAsync, srcDir: string) => {
     const height = token.attrGet('height')
     if (!width || !height) {
       const imagePath = resolveLocalImage(url, publicDir, env)
-      const imageBuffer = fs.readFileSync(imagePath)
-      const dimensions = imageSize(imageBuffer)
+      const dimensions = getImageDimensions(imagePath)
+      if (dimensions) {
+        if (!width) {
+          // Scale based on existing height if set
+          const newWidth = height
+            ? +height * (dimensions.width / dimensions.height)
+            : dimensions.width
+          token.attrSet('width', newWidth.toString())
+        }
 
-      if (!width) {
-        // Scale based on existing height if set
-        const newWidth = height
-          ? +height * (dimensions.width / dimensions.height)
-          : dimensions.width
-        token.attrSet('width', newWidth.toString())
-      }
-
-      if (!height) {
-        // Scale based on existing width if set
-        const newHeight = width
-          ? +width * (dimensions.height / dimensions.width)
-          : dimensions.height
-        token.attrSet('height', newHeight.toString())
+        if (!height) {
+          // Scale based on existing width if set
+          const newHeight = width
+            ? +width * (dimensions.height / dimensions.width)
+            : dimensions.height
+          token.attrSet('height', newHeight.toString())
+        }
       }
     }
 
@@ -53,5 +53,17 @@ function resolveLocalImage(src: string, publicDir: string, env: MarkdownEnv) {
     const { realPath, path: _path } = env
     const resolveDir = path.dirname(realPath ?? _path)
     return path.resolve(resolveDir, src)
+  }
+}
+
+function getImageDimensions(imagePath: string) {
+  try {
+    const imageBuffer = fs.readFileSync(imagePath)
+    const dimensions = imageSize(imageBuffer)
+    return dimensions
+  } catch (err) {
+    // Best-effort: may fail if file path doesn't exist or
+    // `image-size` doesn't support the image format
+    return
   }
 }
