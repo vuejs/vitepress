@@ -156,4 +156,53 @@ describe('node/markdownToVue', () => {
 
     expect(result.pageData.relativePath).toBe('index.md')
   })
+
+  test('drops llm-only and unwraps llm-exclude in HTML when llms is enabled', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-llm-tags-'))
+
+    const file = path.join(root, 'index.md')
+    const src =
+      '# Home\n\n<llm-only>\n\nSecret for LLMs.\n\n</llm-only>\n\n<llm-exclude>\n\nHumans only.\n\n</llm-exclude>\n\nShared content.\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.llms = true
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).not.toContain('Secret for LLMs.')
+    expect(result.vueSrc).toContain('Humans only.')
+    expect(result.vueSrc).toContain('Shared content.')
+    expect(result.vueSrc).not.toContain('llm-exclude')
+  })
+
+  test('leaves llm tags untouched when llms is not enabled', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-llm-tags-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n\n<llm-only>\n\nSecret for LLMs.\n\n</llm-only>\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).toContain('Secret for LLMs.')
+  })
 })

@@ -20,6 +20,7 @@ import {
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { stripLlmTags } from './utils/llmTags'
 import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
@@ -141,6 +142,10 @@ export async function createMarkdownToVueRenderFn(
     // resolve includes
     let includes: string[] = []
     src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
+
+    // llm-only content is not rendered to HTML — it only appears in the
+    // markdown output generated when the llms option is enabled
+    if (siteConfig?.llms) src = stripLlmTags(src)
 
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 

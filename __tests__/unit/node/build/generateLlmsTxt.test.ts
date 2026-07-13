@@ -303,4 +303,71 @@ describe('node/build/generateLlmsTxt', () => {
     const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
     expect(llmsTxt).toContain('(https://example.com/docs/guide.md)')
   })
+
+  test('skips pages matching ignoreFiles patterns', async () => {
+    await generateLlmsTxt(
+      makeConfig({
+        llms: { hostname: 'https://example.com', ignoreFiles: ['api/**'] }
+      })
+    )
+
+    expect(fs.existsSync(path.join(outDir, 'api/reference.md'))).toBe(false)
+    expect(fs.existsSync(path.join(outDir, 'guide/advanced.md'))).toBe(true)
+
+    const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
+    expect(llmsTxt).not.toContain('API Reference')
+
+    const full = fs.readFileSync(path.join(outDir, 'llms-full.txt'), 'utf-8')
+    expect(full).not.toContain('Shared API notes.')
+  })
+
+  test('matches ignoreFiles against rewritten output paths too', async () => {
+    await generateLlmsTxt(
+      makeConfig({
+        llms: {
+          hostname: 'https://example.com',
+          ignoreFiles: ['advanced.md']
+        },
+        rewrites: {
+          map: { 'guide/advanced.md': 'advanced.md' },
+          inv: { 'advanced.md': 'guide/advanced.md' }
+        }
+      })
+    )
+
+    expect(fs.existsSync(path.join(outDir, 'advanced.md'))).toBe(false)
+
+    const llmsTxt = fs.readFileSync(path.join(outDir, 'llms.txt'), 'utf-8')
+    expect(llmsTxt).not.toContain('Advanced Guide')
+  })
+
+  test('unwraps llm-only and drops llm-exclude in LLM output', async () => {
+    writeFixture(srcDir, {
+      'tags.md': [
+        '# Tags',
+        '',
+        '<llm-only>',
+        '',
+        'Secret for LLMs.',
+        '',
+        '</llm-only>',
+        '',
+        '<llm-exclude>Humans only.</llm-exclude>',
+        '',
+        'Shared content.'
+      ].join('\n')
+    })
+
+    const config = makeConfig()
+    config.pages = [...config.pages, 'tags.md']
+
+    await generateLlmsTxt(config)
+
+    const tags = fs.readFileSync(path.join(outDir, 'tags.md'), 'utf-8')
+    expect(tags).toContain('Secret for LLMs.')
+    expect(tags).toContain('Shared content.')
+    expect(tags).not.toContain('Humans only.')
+    expect(tags).not.toContain('llm-only')
+    expect(tags).not.toContain('llm-exclude')
+  })
 })

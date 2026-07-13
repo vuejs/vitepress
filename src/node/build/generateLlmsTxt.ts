@@ -2,11 +2,13 @@ import matter from 'gray-matter'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import pMap from 'p-map'
+import picomatch from 'picomatch'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import type { MarkdownRenderer } from '../markdown/markdown'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import { resolveSiteDataByRoute } from '../shared'
+import { resolveLlmTags } from '../utils/llmTags'
 import { processIncludes } from '../utils/processIncludes'
 import { task } from '../utils/task'
 
@@ -28,6 +30,13 @@ export interface LlmsOptions {
    * Defaults to the index page's hero text, then the site description.
    */
   description?: string
+
+  /**
+   * Glob patterns for pages to exclude from LLM output. Matched against
+   * both the source path relative to `srcDir` (e.g. `en/guide/foo.md`) and
+   * the rewritten output path (e.g. `guide/foo.md`).
+   */
+  ignoreFiles?: string[]
 }
 
 interface LlmsPage {
@@ -176,6 +185,9 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
     )
   )
   const dynamicPaths = new Set(siteConfig.dynamicRoutes.map((r) => r.path))
+  const isIgnored = options.ignoreFiles?.length
+    ? picomatch(options.ignoreFiles)
+    : undefined
 
   await task('generating llms.txt', async () => {
     // lazily created — only needed when a page uses `<!-- @include -->`
@@ -212,6 +224,8 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
             return
           }
 
+          if (isIgnored?.(page) || isIgnored?.(outPath)) return
+
           let content = rawContent
           if (includesRE.test(content)) {
             content = processIncludes(
@@ -223,6 +237,7 @@ export async function generateLlmsTxt(siteConfig: SiteConfig) {
               !!siteConfig.cleanUrls
             )
           }
+          content = resolveLlmTags(content)
 
           return {
             outPath,

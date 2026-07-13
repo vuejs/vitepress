@@ -35,10 +35,34 @@ export default {
     title: 'My Project',
 
     // defaults to the index page's hero text, then the site description
-    description: 'Documentation for My Project'
+    description: 'Documentation for My Project',
+
+    // glob patterns for pages to exclude from LLM output, matched
+    // against source paths (relative to srcDir) and output paths
+    ignoreFiles: ['about/team.md', 'changelog/**']
   }
 }
 ```
+
+## Targeting Humans or LLMs
+
+Wrap markdown in `<llm-only>` to make it visible only in the generated markdown output, or in `<llm-exclude>` to keep it out of it:
+
+```md
+<llm-only>
+
+Extra context that only appears in the markdown served to LLMs.
+
+</llm-only>
+
+<llm-exclude>
+
+Interactive demo that only makes sense in the browser.
+
+</llm-exclude>
+```
+
+Content in `<llm-only>` is removed from the rendered HTML pages, and content in `<llm-exclude>` is removed from the generated markdown. The tags themselves never appear in either output. They are only processed when the `llms` option is enabled.
 
 ## Limitations
 
