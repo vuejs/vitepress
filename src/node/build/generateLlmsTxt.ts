@@ -8,11 +8,19 @@ import type { DefaultTheme } from '../defaultTheme'
 import type { MarkdownRenderer } from '../markdown/markdown'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import { resolveSiteDataByRoute } from '../shared'
-import { resolveLlmTags } from '../utils/llmTags'
+import { isLlmsEnabled, resolveLlmTags } from '../utils/llmTags'
 import { processIncludes } from '../utils/processIncludes'
 import { task } from '../utils/task'
 
 export interface LlmsOptions {
+  /**
+   * Whether to generate LLM output. Useful to keep the rest of the options
+   * while toggling generation, e.g. only on CI.
+   *
+   * @default true
+   */
+  enabled?: boolean
+
   /**
    * Origin used to build absolute links (e.g. `https://example.com`).
    * Falls back to `sitemap.hostname`. Links are root-relative when absent.
@@ -170,7 +178,7 @@ function tocEntry(page: LlmsPage): string {
 }
 
 export async function generateLlmsTxt(siteConfig: SiteConfig) {
-  if (!siteConfig.llms) return
+  if (!isLlmsEnabled(siteConfig.llms)) return
 
   const options: LlmsOptions = siteConfig.llms === true ? {} : siteConfig.llms
 

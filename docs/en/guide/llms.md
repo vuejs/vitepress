@@ -27,6 +27,10 @@ Pass an object to customize the output:
 ```ts
 export default {
   llms: {
+    // toggle generation while keeping the rest of the options,
+    // e.g. only generate on CI (defaults to true)
+    enabled: !!process.env.CI,
+
     // used to build absolute links; falls back to sitemap.hostname.
     // links are root-relative when absent
     hostname: 'https://example.com',

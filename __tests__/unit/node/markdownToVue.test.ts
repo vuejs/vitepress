@@ -205,4 +205,27 @@ describe('node/markdownToVue', () => {
 
     expect(result.vueSrc).toContain('Secret for LLMs.')
   })
+
+  test('leaves llm tags untouched when llms.enabled is false', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-llm-tags-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n\n<llm-only>\n\nSecret for LLMs.\n\n</llm-only>\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.llms = { enabled: false }
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.vueSrc).toContain('Secret for LLMs.')
+  })
 })

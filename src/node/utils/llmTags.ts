@@ -1,5 +1,14 @@
+import type { LlmsOptions } from '../build/generateLlmsTxt'
+import type { UserConfig } from '../siteConfig'
+
 const llmOnlyRE = /<llm-only>([^]*?)<\/llm-only>/g
 const llmExcludeRE = /<llm-exclude>([^]*?)<\/llm-exclude>/g
+
+export function isLlmsEnabled(
+  llms: UserConfig['llms']
+): llms is true | LlmsOptions {
+  return !!llms && (llms === true || llms.enabled !== false)
+}
 
 /**
  * Prepares markdown for the HTML build: `<llm-only>` blocks are dropped

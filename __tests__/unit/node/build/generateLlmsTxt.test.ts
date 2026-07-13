@@ -117,6 +117,15 @@ describe('node/build/generateLlmsTxt', () => {
     expect(fs.existsSync(path.join(outDir, 'llms.txt'))).toBe(false)
   })
 
+  test('does nothing when llms.enabled is false', async () => {
+    await generateLlmsTxt(
+      makeConfig({
+        llms: { enabled: false, hostname: 'https://example.com' }
+      })
+    )
+    expect(fs.existsSync(path.join(outDir, 'llms.txt'))).toBe(false)
+  })
+
   test('generates llms.txt with hero metadata and sidebar-ordered TOC', async () => {
     await generateLlmsTxt(makeConfig())
 
