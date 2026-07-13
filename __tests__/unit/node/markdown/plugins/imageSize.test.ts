@@ -3,9 +3,7 @@ import { MarkdownItAsync } from 'markdown-it-async'
 import attrsPlugin from 'markdown-it-attrs'
 import { imageSizePlugin } from 'node/markdown/plugins/imageSize'
 
-const publicDir = path.resolve(import.meta.dirname, '../../../../e2e/public')
-const srcDir = path.dirname(publicDir)
-
+const srcDir = path.resolve(import.meta.dirname, '../../../../e2e')
 const env = { path: path.join(srcDir, 'index.md') }
 
 describe('node/markdown/plugins/imageSize', () => {
