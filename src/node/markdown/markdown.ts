@@ -25,6 +25,7 @@ import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import { full as emojiPlugin } from 'markdown-it-emoji'
+import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
 import type { Awaitable } from '../shared'
@@ -32,7 +33,6 @@ import { containerPlugin, type ContainerOptions } from './plugins/containers'
 import { gitHubAlertsPlugin } from './plugins/githubAlerts'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
-import { imageSizePlugin } from './plugins/imageSize'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
@@ -252,9 +252,12 @@ export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
-  logger: Pick<Logger, 'warn'> = console
+  logger: Pick<Logger, 'warn'> = console,
+  publicDir?: string
 ): Promise<MarkdownRenderer> {
   if (md) return md
+
+  publicDir ??= path.resolve(srcDir, 'public')
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
@@ -284,7 +287,7 @@ export async function createMarkdownRenderer(
   })
   snippetPlugin(md, srcDir)
   containerPlugin(md, options.container)
-  imagePlugin(md, options.image)
+  imagePlugin(md, publicDir, options.image)
   linkPlugin(
     md,
     { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
@@ -311,9 +314,6 @@ export async function createMarkdownRenderer(
     attrsPlugin(md, options.attrs)
   }
   emojiPlugin(md, options.emoji)
-
-  // custom plugins after `markdown-it-attrs` (to respect user-defined attributes)
-  imageSizePlugin(md, srcDir)
 
   // mdit-vue plugins
   anchorPlugin(md, {

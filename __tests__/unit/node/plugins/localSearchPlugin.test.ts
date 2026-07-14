@@ -62,8 +62,14 @@ describe('node/plugins/localSearchPlugin', () => {
     const siteConfig = await resolveConfig(root, 'build', 'production')
     const plugin = await localSearchPlugin(siteConfig)
 
-    const indexModule = (await plugin.load?.call(
-      {} as never,
+    // vite calls configResolved before any other hook
+    await (plugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+
+    const indexModule = (await (plugin.load as any)?.call(
+      {},
       '/@localSearchIndex'
     )) as string
 
@@ -73,10 +79,10 @@ describe('node/plugins/localSearchPlugin', () => {
     expect(indexModule).toContain('"zh": () => import(\'@localSearchIndexzh\')')
 
     const rootIndex = loadIndex(
-      (await plugin.load?.call({} as never, '/@localSearchIndexroot')) as string
+      (await (plugin.load as any)?.call({}, '/@localSearchIndexroot')) as string
     )
     const zhIndex = loadIndex(
-      (await plugin.load?.call({} as never, '/@localSearchIndexzh')) as string
+      (await (plugin.load as any)?.call({}, '/@localSearchIndexzh')) as string
     )
 
     expect(rootIndex.search('rootonlytoken')).toMatchObject([

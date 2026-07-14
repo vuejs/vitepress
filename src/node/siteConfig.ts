@@ -215,6 +215,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
 > {
   root: string
   srcDir: string
+  publicDir: string
   site: SiteData<ThemeConfig>
   configPath: string | undefined
   configDeps: string[]

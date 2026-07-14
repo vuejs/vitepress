@@ -203,8 +203,8 @@ export async function bundle(
     )
 
     // also copy over public dir
-    const publicDir = path.resolve(config.srcDir, 'public')
-    if (fs.existsSync(publicDir)) {
+    const { publicDir } = config
+    if (publicDir && fs.existsSync(publicDir)) {
       // dereference symlinks like vite's own publicDir copy does, and so that
       // copying over an existing symlinked file does not fail with EEXIST
       await cp(publicDir, config.outDir, { recursive: true, dereference: true })
