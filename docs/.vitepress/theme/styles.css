@@ -35,9 +35,3 @@
   filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
   padding: 18px;
 }
-
-/* used in reference/default-theme-search */
-img[src='/search.png'] {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-}

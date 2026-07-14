@@ -41,12 +41,8 @@ export async function localSearchPlugin(
     }
   }
 
-  const md = await createMarkdownRenderer(
-    siteConfig.srcDir,
-    siteConfig.markdown,
-    siteConfig.site.base,
-    siteConfig.logger
-  )
+  // created in configResolved to use the resolved publicDir
+  let md: Awaited<ReturnType<typeof createMarkdownRenderer>>
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
@@ -154,6 +150,16 @@ export async function localSearchPlugin(
 
   return {
     name: 'vitepress:local-search',
+
+    async configResolved(config) {
+      md = await createMarkdownRenderer(
+        siteConfig.srcDir,
+        siteConfig.markdown,
+        siteConfig.site.base,
+        siteConfig.logger,
+        config.publicDir
+      )
+    },
 
     config: () => ({
       optimizeDeps: {

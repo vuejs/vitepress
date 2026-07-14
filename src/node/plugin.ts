@@ -112,6 +112,9 @@ export async function createVitePressPlugin(
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
+      // sync with the actual resolved publicDir (can be customized via
+      // vite config, or altered by other vite plugins)
+      siteConfig.publicDir = config.publicDir
       // pre-resolve git timestamps
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
@@ -209,8 +212,7 @@ export async function createVitePressPlugin(
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
-          id,
-          config.publicDir
+          id
         )
         allDeadLinks.push(...deadLinks)
         if (includes.length) {

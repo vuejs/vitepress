@@ -128,9 +128,18 @@ export async function resolveConfig(
     ? userThemeDir
     : DEFAULT_THEME_PATH
 
+  // mirrors vite's publicDir resolution
+  // re-synced with the resolved vite config in the plugin's configResolved hook
+  const vitePublicDir = userConfig.vite?.publicDir
+  const publicDir =
+    vitePublicDir === false || vitePublicDir === ''
+      ? ''
+      : normalizePath(path.resolve(srcDir, vitePublicDir || 'public'))
+
   const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
+    publicDir,
     assetsDir,
     site,
     themeDir,

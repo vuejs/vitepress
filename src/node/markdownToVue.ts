@@ -96,14 +96,11 @@ export async function createMarkdownToVueRenderFn(
     srcDir,
     options,
     base,
-    siteConfig?.logger
+    siteConfig?.logger,
+    siteConfig?.publicDir
   )
 
-  return async (
-    src: string,
-    file: string,
-    publicDir: string
-  ): Promise<MarkdownCompileResult> => {
+  return async (src: string, file: string): Promise<MarkdownCompileResult> => {
     const { pages, dynamicRoutes, rewrites, ts } =
       getResolutionCache(siteConfig)
 
@@ -220,7 +217,10 @@ export async function createMarkdownToVueRenderFn(
 
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          !(
+            siteConfig?.publicDir &&
+            fs.existsSync(path.join(siteConfig.publicDir, `${resolved}.html`))
+          ) &&
           !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(url, line)

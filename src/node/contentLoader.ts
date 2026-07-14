@@ -104,7 +104,8 @@ export function createContentLoader<T = ContentData[]>(
         config.srcDir,
         config.markdown,
         config.site.base,
-        config.logger
+        config.logger,
+        config.publicDir
       )
 
       const raw = await pMap(
