@@ -3,9 +3,9 @@ import {
   createTitle,
   mergeHead,
   type HeadConfig,
+  type Route,
   type SiteData
 } from '../../shared'
-import type { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   let isFirstUpdate = true

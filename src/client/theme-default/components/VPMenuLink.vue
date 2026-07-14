@@ -1,8 +1,8 @@
 <script lang="ts" setup generic="T extends DefaultTheme.NavItemWithLink">
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 import { isActive } from '../../shared'
-import { useData } from '../composables/data'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -10,21 +10,22 @@ const props = defineProps<{
   rel?: string
 }>()
 
-const { page } = useData()
+const route = useRoute()
 
 const href = computed(() =>
   typeof props.item.link === 'function'
-    ? props.item.link(page.value)
+    ? props.item.link(route.data)
     : props.item.link
 )
 
-const isActiveLink = computed(() =>
-  isActive(
-    page.value.relativePath,
+const isActiveLink = computed(() => {
+  return isActive(
+    route.data.relativePath,
+    route.hash,
     props.item.activeMatch || href.value,
     !!props.item.activeMatch
   )
-)
+})
 
 defineOptions({ inheritAttrs: false })
 </script>

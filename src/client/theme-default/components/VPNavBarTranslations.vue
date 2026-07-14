@@ -5,7 +5,9 @@ import VPFlyout from './VPFlyout.vue'
 import VPMenuLink from './VPMenuLink.vue'
 
 const { theme } = useData()
-const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
+const { localeLinks, currentLang } = useLangs({
+  linkToCorrespondingPage: true
+})
 </script>
 
 <template>
@@ -26,6 +28,7 @@ const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
           :hreflang="locale.lang"
           rel="alternate"
           :dir="locale.dir"
+          data-allow-mismatch="attribute"
         />
       </template>
     </div>

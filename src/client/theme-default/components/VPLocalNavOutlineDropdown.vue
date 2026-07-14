@@ -65,9 +65,10 @@ function scrollToTop() {
 
 <template>
   <div
+    ref="main"
     class="VPLocalNavOutlineDropdown"
     :style="{ '--vp-vh': vh + 'px' }"
-    ref="main"
+    data-allow-mismatch="style"
   >
     <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
       <span class="menu-text">{{ resolveTitle(theme) }}</span>
