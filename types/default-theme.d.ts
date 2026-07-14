@@ -1,7 +1,7 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { Header, PageData, VitePressData } from './shared.js'
+import type { Header, PageData, Route, VitePressData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -159,7 +159,7 @@ export namespace DefaultTheme {
 
   export type I18nRouting = (
     data: VitePressData<Config>,
-    hash: string,
+    route: Route,
     targetLocale: string
   ) => string
 

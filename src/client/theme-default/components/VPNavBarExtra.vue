@@ -8,7 +8,9 @@ import VPSocialLinks from './VPSocialLinks.vue'
 import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
 const { site, theme } = useData()
-const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
+const { localeLinks, currentLang } = useLangs({
+  linkToCorrespondingPage: true
+})
 
 const hasExtraContent = computed(
   () =>
@@ -38,6 +40,7 @@ const hasExtraContent = computed(
           :hreflang="locale.lang"
           rel="alternate"
           :dir="locale.dir"
+          data-allow-mismatch="attribute"
         />
       </template>
     </div>

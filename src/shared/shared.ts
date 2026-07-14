@@ -18,6 +18,7 @@ export type {
   MarkdownEnv,
   PageData,
   PageDataPayload,
+  Route,
   SiteData,
   SSGContext,
   VitePressData
@@ -48,13 +49,11 @@ export const notFoundPageData: PageData = {
 
 export function isActive(
   currentPath: string,
-  matchPath?: string,
-  asRegex: boolean = false
+  currentHash: string,
+  matchPath: string,
+  asRegex: boolean = false,
+  skipHashCheck: boolean = false
 ): boolean {
-  if (matchPath === undefined) {
-    return false
-  }
-
   currentPath = normalize(`/${currentPath}`)
 
   if (asRegex) {
@@ -65,10 +64,14 @@ export function isActive(
     return false
   }
 
+  if (skipHashCheck) {
+    return true
+  }
+
   const hashMatch = matchPath.match(HASH_WITHOUT_FRAGMENT_RE)
 
   if (hashMatch) {
-    return (inBrowser ? location.hash : '') === hashMatch[0]
+    return currentHash === hashMatch[0]
   }
 
   return true
@@ -93,7 +96,7 @@ export function getLocaleForPath(
       (key) =>
         key !== 'root' &&
         !isExternal(key) &&
-        isActive(relativePath, `^/${key}/`, true)
+        isActive(relativePath, '', `^/${key}/`, true)
     ) || 'root'
   )
 }

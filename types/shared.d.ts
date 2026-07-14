@@ -1,6 +1,6 @@
 // types shared between server and client
 import type { UseDarkOptions } from '@vueuse/core'
-import type { Ref } from 'vue'
+import type { Component, Ref } from 'vue'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
@@ -149,7 +149,7 @@ export interface SiteData<ThemeConfig = any> {
 
 export interface VitePressData<T = any> {
   /**
-   * Site-level metadata
+   * site-level metadata
    */
   site: Ref<SiteData<T>>
   /**
@@ -157,7 +157,7 @@ export interface VitePressData<T = any> {
    */
   theme: Ref<T>
   /**
-   * Page-level metadata
+   * page-level metadata
    */
   page: Ref<PageData>
   /**
@@ -174,10 +174,14 @@ export interface VitePressData<T = any> {
   dir: Ref<string>
   localeIndex: Ref<string>
   isDark: Ref<boolean>
-  /**
-   * Current location hash
-   */
-  hash: Ref<string>
+}
+
+export interface Route {
+  path: string
+  hash: string
+  query: string
+  data: PageData
+  component: Component | null
 }
 
 export type HeadConfig =

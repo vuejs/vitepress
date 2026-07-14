@@ -1,17 +1,9 @@
 import type { Component, InjectionKey } from 'vue'
 import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
-import type { Awaitable, PageData, PageDataPayload } from '../shared'
+import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
 import { inBrowser, withBase } from './utils'
-
-export interface Route {
-  path: string
-  hash: string
-  query: string
-  data: PageData
-  component: Component | null
-}
 
 export interface Router {
   /**

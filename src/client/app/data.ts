@@ -6,19 +6,17 @@ import {
   readonly,
   ref,
   shallowRef,
-  watch,
   type InjectionKey,
   type Ref
 } from 'vue'
 import {
   APPEARANCE_KEY,
   createTitle,
-  inBrowser,
   resolveSiteDataByRoute,
+  type Route,
   type SiteData,
   type VitePressData
 } from '../shared'
-import type { Route } from './router'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
 export type { VitePressData } from '../shared'
@@ -48,21 +46,6 @@ export function initData(route: Route): VitePressData {
             })
           : ref(false)
 
-  const hashRef = ref(inBrowser ? location.hash : '')
-
-  if (inBrowser) {
-    window.addEventListener('hashchange', () => {
-      hashRef.value = location.hash
-    })
-  }
-
-  watch(
-    () => route.data,
-    () => {
-      hashRef.value = inBrowser ? location.hash : ''
-    }
-  )
-
   return {
     site,
     theme: computed(() => site.value.themeConfig),
@@ -76,8 +59,7 @@ export function initData(route: Route): VitePressData {
     description: computed(
       () => route.data.description || site.value.description
     ),
-    isDark,
-    hash: computed(() => hashRef.value)
+    isDark
   }
 }
 

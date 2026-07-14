@@ -74,7 +74,7 @@ interface RegisterWatchersOptions {
 }
 
 export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
-  const { frontmatter, page, theme } = useData()
+  const { theme, page, frontmatter } = useData()
 
   watch(
     () => [page.value.relativePath, theme.value.sidebar] as const,

@@ -2,8 +2,8 @@
 // so the user can do `import { useRoute, useData } from 'vitepress'`
 
 // generic types
-export type { Route, Router } from './app/router'
-export type { VitePressData } from './shared'
+export type { Router } from './app/router'
+export type { Route, VitePressData } from './shared'
 
 // theme types
 export type { EnhanceAppContext, Theme } from './app/theme'
