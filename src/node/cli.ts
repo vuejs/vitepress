@@ -13,10 +13,6 @@ import { init } from './init/init'
 import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
 
-if (process.env.DEBUG) {
-  Error.stackTraceLimit = Infinity
-}
-
 const argv: any = minimist(process.argv.slice(2))
 
 Object.keys(argv).forEach((key) => {
