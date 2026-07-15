@@ -25,7 +25,8 @@ features:
     title: コンテンツに集中
     details: Markdown だけで、美しいドキュメントサイトを簡単に作成できます。
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

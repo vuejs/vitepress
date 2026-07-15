@@ -25,7 +25,8 @@ features:
     title: 콘텐츠에 집중
     details: 마크다운으로만 아름다운 문서 사이트를 쉽게 만들기.
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

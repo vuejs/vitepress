@@ -25,7 +25,8 @@ features:
     title: Concéntrese en su contenido
     details: Cree lindos sitios de documentación apenas con markdown.
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

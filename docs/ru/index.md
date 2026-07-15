@@ -25,7 +25,8 @@ features:
     title: Сосредоточьтесь на своем контенте
     details: Легко создавайте красивые сайты с документацией, используя только Markdown.
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

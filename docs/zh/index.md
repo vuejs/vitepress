@@ -25,7 +25,8 @@ features:
     title: 专注内容
     details: 只需 Markdown 即可轻松创建美观的文档站点。
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

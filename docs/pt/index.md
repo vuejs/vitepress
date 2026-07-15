@@ -25,7 +25,8 @@ features:
     title: Foco no seu conteúdo
     details: Cria sites de documentação belos e sem esforço apenas com markdown.
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30

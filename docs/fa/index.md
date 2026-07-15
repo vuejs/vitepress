@@ -25,7 +25,8 @@ features:
     title: تمرکز روی محتوا
     details: ایجاد سایت‌های مستند‌سازی زیبا بدون زحمت و فقط با Markdown
   - icon:
-      src: /vite.svg
+      light: /vite-light.svg
+      dark: /vite-dark.svg
       wrap: true
       width: 30
       height: 30
