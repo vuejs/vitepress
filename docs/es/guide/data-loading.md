@@ -59,7 +59,7 @@ export default {
 
 Cuando necesita generar datos con base en archivos locales, debe usar la opción `watch` en el cargador de datos para que los cambios hechos en esos archivos puedan accionar actualizaciones en caliente.
 
-La opción `watch` también es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a varios archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como directorio absolutos.
+La opción `watch` también es conveniente porque puede usar [patrones glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para corresponder a varios archivos. Los patrones pueden ser relativos al propio archivo del cargador, y la función `load()` recibirá los archivos correspondientes como rutas absolutas.
 
 El siguiente ejemplo muestra el cargamento de archivos CSV y la transformación de estos en JSON usando [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Como este archivo solo es ejecutado en el tiempo del compilación, usted no enviará el procesador de CSV para el cliente!
 
@@ -102,7 +102,7 @@ Los datos cargados serán un array con el tipo `ContentData[]`:
 ```ts
 interface ContentData {
   // URL mapeada para la página. p. ej.: /posts/hola.html (no incluye la base)
-  // itere manualmente o use `transform` personalizado para normalizar los directorios
+  // itere manualmente o use `transform` personalizado para normalizar las rutas
   url: string
   // datos frontmatter de la página
   frontmatter: Record<string, any>

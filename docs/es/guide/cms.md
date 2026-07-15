@@ -20,7 +20,7 @@ Como cada CMS funcionará de forma diferente, aquí podemos proveer apenas un fl
     const env = loadEnv('', process.cwd())
     ```
 
-2. Obtenga los datos necesarios del CMS y aplique formato en directorios de datos apropiados:
+2. Obtenga los datos necesarios del CMS y aplique formato en rutas de datos apropiados:
 
     ```js
     export default {

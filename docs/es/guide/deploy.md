@@ -48,9 +48,9 @@ Las siguientes orientaciones están basadas en algunos supuestos:
 
   Ahora, el método `docs:preview` iniciará el servidor en `http://localhost:8080`.
 
-## Configurando un Directorio Base Publico {#setting-a-public-base-path}
+## Configurando una Ruta Base Publica {#setting-a-public-base-path}
 
-Por defecto, asumimos que el sitio será implantado en el directorio raíz de un dominio (`/`). Si su sitio fuera servido en un subdirectorio, por ejemplo, `https://mipagina.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
+Por defecto, asumimos que el sitio será implantado en la ruta raíz de un dominio (`/`). Si su sitio fuera servido en una sub-ruta, por ejemplo, `https://mipagina.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
 
 **Ejemplo:** Si utilizas Github (o GitLab) Pages y realizas el despliegue en `user.github.io/repo/`, entonces establece tu `base` en `/repo/`.
 
@@ -200,7 +200,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removerá comentari
    ```
 
    ::: warning
-   Asegúrese de que la opción `base` en su VitePress esté configurada correctamente. Vea [Configurando un Directorio Base Publico](#setting-a-public-base-path) para más detalles.
+   Asegúrese de que la opción `base` en su VitePress esté configurada correctamente. Vea [Configurando una Ruta Base Publica](#setting-a-public-base-path) para más detalles.
    :::
 
 2. En las configuraciones de su repositorio sobre el item del menú "Pages", seleccione "GitHub Actions" en "Build and deployment > Source".

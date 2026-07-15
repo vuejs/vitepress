@@ -652,7 +652,6 @@ También soporta [resaltado de línea](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-
 El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la raíz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de rutas relativos:
 
 ```md

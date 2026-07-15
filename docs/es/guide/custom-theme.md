@@ -183,7 +183,7 @@ Si desea distribuir su tema como un paquete npm, siga estos pasos:
 
 2. Si aplica, exporte la definición del tipo de configuración de su tema como `ThemeConfig`.
 
-3. Si su tema exige ajustes en la configuración de VitePress, exporte esa configuración en un subdirectorio del paquete (por ejemplo, `mi-tema/config`) para que el usuario pueda ampliarla.
+3. Si su tema exige ajustes en la configuración de VitePress, exporte esa configuración en un sub-ruta del paquete (por ejemplo, `mi-tema/config`) para que el usuario pueda ampliarla.
 
 4. Documente las opciones de configuración del tema (Ambos, via archivo y frontmatter).
 

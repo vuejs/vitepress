@@ -12,7 +12,7 @@ Todos los archivos Markdown son compilados en componentes Vue y procesados por [
 ![Una imagen](./imagen.png)
 ```
 
-Puede referenciar assets estáticos en sus archivos markdown, sus componentes `*.vue` en el tema, estilos y simples archivos `.css`, usando directorios públicos absolutos (en base a la raíz del proyecto) o directorios relativos (en base en su sistema de archivos). Este último es semejante al comportamiento que está acostumbrado se ya usó Vite, Vue CLI o el `file-loader` de webpack.
+Puede referenciar assets estáticos en sus archivos markdown, sus componentes `*.vue` en el tema, estilos y simples archivos `.css`, usando rutas públicas absolutas (en base a la raíz del proyecto) o rutas relativos (en base en su sistema de archivos). Este último es semejante al comportamiento que está acostumbrado se ya usó Vite, Vue CLI o el `file-loader` de webpack.
 
 Tipos comunes de archivos de imagen, media y fuente son detectados e incluidos automáticamente como assets.
 
@@ -20,9 +20,9 @@ Tipos comunes de archivos de imagen, media y fuente son detectados e incluidos a
 Los PDF u otros documentos a los que se hace referencia mediante enlaces dentro de archivos Markdown no se tratan automáticamente como recursos. Para que los archivos vinculados sean accesibles, debe colocarlos manualmente en el directorio [`public`](#the-public-directory) de su proyecto.
 :::
 
-Todos los assets referenciados, incluyendo aquellos usando directorios absolutos, serán copiados al directorio de salida con un nombre de archivo hash en la compilación de producción. Assets nunca referenciados no serán copiados. Assets de imagen menores que 4KB serán incorporados en base64 - esto puede ser configurado por la opción [`vite`](../reference/site-config#vite) en configuración.
+Todos los assets referenciados, incluyendo aquellos usando rutas absolutas, serán copiados al directorio de salida con un nombre de archivo hash en la compilación de producción. Assets nunca referenciados no serán copiados. Assets de imagen menores que 4KB serán incorporados en base64 - esto puede ser configurado por la opción [`vite`](../reference/site-config#vite) en configuración.
 
-Todas las referencias de directorios **estáticas**, incluyendo directorios absolutos, deben ser basadas en la estructura de su directorio de trabajo.
+Todas las referencias de rutas **estáticas**, incluyendo rutas absolutos, deben ser basadas en la estructura de su directorio de trabajo.
 
 ## El Directorio Público {#the-public-directory}
 
@@ -32,13 +32,13 @@ Puede colocar esos archivos en el directorio `public` sobre el [directorio de or
 
 Los assets colocados en `public` serán copiados a la raíz del directorio de salida tal como son.
 
-Observe que usted debe referenciar archivos colocados en `public` utilizando directorio absoluto de la raíz - por ejemplo, `public/icon.png` debe siempre ser referenciado en el código fuente como `/icon.png`.
+Observe que usted debe referenciar archivos colocados en `public` utilizando rutas absolutas de la raíz - por ejemplo, `public/icon.png` debe siempre ser referenciado en el código fuente como `/icon.png`.
 
 ## URL Base {#base-url}
 
 Si su sitio estuviera implantado en una URL que no sea la raíz, será necesario definir la opción `base` en `.vitepress/config.js`. Por ejemplo, se planea implantar su sitio en `https://foo.github.io/bar/`, entonces `base` debe ser definido como `'/bar/'` (siempre debe comenzar y terminar con una barra).
 
-Todos los directorios de sus assets estáticos son procesados automáticamente para ajustarse a los diferentes valores de configuración `base`. Por ejemplo, se tuviera una referencia absoluta a un asset sobre `public` en su Markdown:
+Todos las rutas de sus assets estáticos son procesados automáticamente para ajustarse a los diferentes valores de configuración `base`. Por ejemplo, se tuviera una referencia absoluta a un asset sobre `public` en su Markdown:
 
 ```md
 ![Una imagen](/imagen-dentro-de-public.png)
@@ -52,7 +52,7 @@ Sin embargo, se estuviera creando un componente de tema que vincula assets diná
 <img :src="theme.logoPath" />
 ```
 
-En este caso, es recomendable complementar el directorio con el [auxiliar `withBase`](../reference/runtime-api#withbase) proporcionado por VitePress:
+En este caso, es recomendable complementar la ruta con el [auxiliar `withBase`](../reference/runtime-api#withbase) proporcionado por VitePress:
 
 ```vue
 <script setup>
