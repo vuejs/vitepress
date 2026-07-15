@@ -13,6 +13,7 @@ import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
+import { generateLlmsTxt } from './generateLlmsTxt'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
@@ -173,6 +174,7 @@ export async function build(
   }
 
   await generateSitemap(siteConfig)
+  await generateLlmsTxt(siteConfig)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 

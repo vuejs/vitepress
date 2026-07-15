@@ -8,7 +8,6 @@ import {
   groupIconVitePlugin,
   localIconLoader
 } from 'vitepress-plugin-group-icons'
-import llmstxt from 'vitepress-plugin-llms'
 
 const prod = !!process.env.NETLIFY
 const siteUrl = 'https://vitepress.dev'
@@ -36,6 +35,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   metaChunk: true,
+  llms: true,
 
   markdown: {
     math: true,
@@ -143,8 +143,7 @@ export default defineConfig({
           ),
           firebase: 'logos:firebase'
         }
-      }),
-      prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
+      })
     ],
     experimental: {
       enableNativePlugin: true
@@ -159,20 +158,20 @@ export default defineConfig({
     const description = pageData.description || site.description
     const locale = localeToOgLocaleMap[site.localeIndex || 'root']
 
-    ;((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
-      ['meta', { property: 'og:url', content: url }],
-      ['meta', { property: 'og:title', content: title }],
-      ['meta', { property: 'og:description', content: description }],
-      ['meta', { property: 'og:type', content: 'website' }],
-      ['meta', { property: 'og:locale', content: locale }],
-      ['meta', { property: 'og:site_name', content: 'VitePress' }],
-      ['meta', { property: 'og:image', content: ogImage }],
-      ['meta', { property: 'og:image:secure_url', content: ogImage }],
-      ['meta', { property: 'og:image:type', content: 'image/jpeg' }],
-      ['meta', { property: 'og:image:width', content: '1280' }],
-      ['meta', { property: 'og:image:height', content: '640' }],
-      ['meta', { property: 'og:image:alt', content: 'VitePress' }],
-      ['link', { rel: 'canonical', href: url }]
-    )
+      ; ((pageData.frontmatter.head ??= []) as HeadConfig[]).push(
+        ['meta', { property: 'og:url', content: url }],
+        ['meta', { property: 'og:title', content: title }],
+        ['meta', { property: 'og:description', content: description }],
+        ['meta', { property: 'og:type', content: 'website' }],
+        ['meta', { property: 'og:locale', content: locale }],
+        ['meta', { property: 'og:site_name', content: 'VitePress' }],
+        ['meta', { property: 'og:image', content: ogImage }],
+        ['meta', { property: 'og:image:secure_url', content: ogImage }],
+        ['meta', { property: 'og:image:type', content: 'image/jpeg' }],
+        ['meta', { property: 'og:image:width', content: '1280' }],
+        ['meta', { property: 'og:image:height', content: '640' }],
+        ['meta', { property: 'og:image:alt', content: 'VitePress' }],
+        ['link', { rel: 'canonical', href: url }]
+      )
   } : undefined
 })
