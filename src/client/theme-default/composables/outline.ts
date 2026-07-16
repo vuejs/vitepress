@@ -189,6 +189,7 @@ export function useActiveAnchor(
 
     if (activeLink) {
       activeLink.classList.add('active')
+      // TODO: calculate 39px to account for rem
       marker.value.style.top = activeLink.offsetTop + 39 + 'px'
       marker.value.style.opacity = '1'
     } else {

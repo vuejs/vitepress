@@ -130,9 +130,9 @@ function onCaretClick() {
   position: absolute;
   top: 0.375rem;
   bottom: 0.375rem;
-  left: -1.0625rem;
-  width: 0.125rem;
-  border-radius: 0.125rem;
+  left: calc(-1rem - 1px);
+  width: 2px;
+  border-radius: 2px;
   transition: background-color 0.25s;
 }
 
