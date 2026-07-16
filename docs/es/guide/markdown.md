@@ -114,7 +114,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
 
-## Tabla de Contenido (TOC)
+## Tabla de Contenido (TOC) {#table-of-contents}
 
 **Entrada**
 
@@ -229,7 +229,7 @@ export default defineConfig({
 })
 ```
 
-### Atributos adicionales
+### Atributos adicionales {#additional-attributes}
 
 Puedes añadir atributos adicionales a los contenedores personalizados. Para esta función, utilizamos [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs), compatible con casi todos los elementos Markdown. Por ejemplo, puedes establecer el atributo `open` para que el bloque de detalles se abra por defecto:
 
@@ -992,7 +992,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                           |
 
-## Carga diferida de imágenes
+## Carga diferida de imágenes {#image-lazy-loading}
 
 Puedes habilitar la carga diferida (lazy loading) para cada imagen añadida mediante Markdown configurando `lazyLoading` a `true` en tu archivo de configuración:
 

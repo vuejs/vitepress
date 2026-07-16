@@ -212,9 +212,9 @@ Lista completa de _slots_ disponibles en el layout del tema por defecto:
   - `nav-screen-content-before`
   - `nav-screen-content-after`
 
-## Usando el API View Transitions
+## Usando el API View Transitions {#using-view-transitions-api}
 
-### En la Alternancia de Apariencia {#on-appearance-toggle
+### En la Alternancia de Apariencia {#on-appearance-toggle}
 
 Puede extender el tema por defecto para proporcionar una transición personalizada cuando el modo de color es alternado. Un ejemplo:
 
