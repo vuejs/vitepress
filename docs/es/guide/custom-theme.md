@@ -62,10 +62,13 @@ import Layout from './Layout.vue'
 export default {
   Layout,
   enhanceApp({ app, router, siteData }) {
-    // ...
+    // app.component(...)
+    // app.use(...)
   }
 }
 ```
+
+El hook `enhanceApp` permite acceder a la [instancia de la aplicación Vue](https://vuejs.org/api/application.html) y otros datos de tiempo de ejecución, que se pueden usar para [registrar componentes globales](./extending-default-theme.md#registering-global-components), integrarse con bibliotecas de Vue, etc.
 
 El valor `router` es la misma instancia del enrutador VitePress que devuelve [`useRouter()`](../reference/runtime-api#userouter). Para escuchar los cambios de ruta, asigne manejadores al enrutador:
 
@@ -227,10 +230,10 @@ Finalmente, si el tema proporciona tipos para la configuración del tema:
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
-import { defineConfigWithTheme } from 'vitepress'
+import { defineConfig } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
-export default defineConfigWithTheme<ThemeConfig>({
+export default defineConfig<ThemeConfig>({
   extends: baseConfig,
   themeConfig: {
     // El tipo es `ThemeConfig`
