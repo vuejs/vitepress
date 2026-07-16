@@ -32,7 +32,7 @@ const { theme } = useData()
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarMenu {
     display: flex;
   }

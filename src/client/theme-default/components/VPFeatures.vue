@@ -62,38 +62,38 @@ const grid = computed(() => {
 <style scoped>
 .VPFeatures {
   position: relative;
-  padding: 0 24px;
+  padding: 0 1.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .VPFeatures {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPFeatures {
-    padding: 0 64px;
+    padding: 0 4rem;
   }
 }
 
 .container {
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
 }
 
 .items {
   display: flex;
   flex-wrap: wrap;
-  margin: -8px;
+  margin: -0.5rem;
 }
 
 .item {
-  padding: 8px;
+  padding: 0.5rem;
   width: 100%;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .item.grid-2,
   .item.grid-4,
   .item.grid-6 {
@@ -101,7 +101,7 @@ const grid = computed(() => {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .item.grid-2,
   .item.grid-4 {
     width: calc(100% / 2);
@@ -113,7 +113,7 @@ const grid = computed(() => {
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .item.grid-4 {
     width: calc(100% / 4);
   }

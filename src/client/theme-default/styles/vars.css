@@ -303,7 +303,7 @@
   --vp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
   --vp-shadow-4: 0 14px 44px rgba(0, 0, 0, 0.12), 0 3px 9px rgba(0, 0, 0, 0.12);
   --vp-shadow-5:
-    0 18px 56px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.16);
+    0 1.125rem 3.5rem rgba(0, 0, 0, 0.16), 0 0.25rem 0.75rem rgba(0, 0, 0, 0.16);
 }
 
 /**
@@ -319,7 +319,7 @@
   --vp-z-index-sidebar: 60;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :root {
     --vp-z-index-sidebar: 25;
   }
@@ -330,7 +330,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-layout-max-width: 1440px;
+  --vp-layout-max-width: 90rem;
 }
 
 /**
@@ -447,8 +447,8 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-custom-block-font-size: 14px;
-  --vp-custom-block-code-font-size: 13px;
+  --vp-custom-block-font-size: 0.875rem;
+  --vp-custom-block-code-font-size: 0.8125rem;
 
   --vp-custom-block-info-border: transparent;
   --vp-custom-block-info-text: var(--vp-c-text-1);
@@ -507,10 +507,10 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-nav-height: 64px;
+  --vp-nav-height: 4rem;
   --vp-nav-bg-color: var(--vp-c-bg);
   --vp-nav-screen-bg-color: var(--vp-c-bg);
-  --vp-nav-logo-height: 24px;
+  --vp-nav-logo-height: 1.5rem;
 }
 
 .hide-nav {
@@ -518,7 +518,7 @@
 }
 
 .hide-nav .VPSidebar {
-  --vp-nav-height: 22px;
+  --vp-nav-height: 1.375rem;
 }
 
 /**
@@ -534,7 +534,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-sidebar-width: 272px;
+  --vp-sidebar-width: 17rem;
   --vp-sidebar-bg-color: var(--vp-c-bg-alt);
 }
 

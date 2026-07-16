@@ -53,13 +53,13 @@ const target = computed(() =>
   border-bottom: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--vp-c-text-1);
   transition: opacity 0.25s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .title {
     flex-shrink: 0;
   }
@@ -70,7 +70,7 @@ const target = computed(() =>
 }
 
 :deep(.logo) {
-  margin-right: 8px;
+  margin-right: 0.5rem;
   height: var(--vp-nav-logo-height);
 }
 </style>

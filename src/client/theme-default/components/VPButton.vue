@@ -54,17 +54,17 @@ const component = computed(() => {
 }
 
 .VPButton.medium {
-  border-radius: 20px;
-  padding: 0 20px;
-  line-height: 38px;
-  font-size: 14px;
+  border-radius: 1.25rem;
+  padding: 0 1.25rem;
+  line-height: 2.375rem;
+  font-size: 0.875rem;
 }
 
 .VPButton.big {
-  border-radius: 24px;
-  padding: 0 24px;
-  line-height: 46px;
-  font-size: 16px;
+  border-radius: 1.5rem;
+  padding: 0 1.5rem;
+  line-height: 2.875rem;
+  font-size: 1rem;
 }
 
 .VPButton.brand {

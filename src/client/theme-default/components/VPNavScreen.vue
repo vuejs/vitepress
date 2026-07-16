@@ -41,7 +41,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
   bottom: 0;
   /*rtl:ignore*/
   left: 0;
-  padding: 0 32px;
+  padding: 0 2rem;
   width: 100%;
   background-color: var(--vp-nav-screen-bg-color);
   overflow-y: auto;
@@ -66,10 +66,10 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 .VPNavScreen.fade-enter-from .container,
 .VPNavScreen.fade-leave-to .container {
-  transform: translateY(-8px);
+  transform: translateY(-0.5rem);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavScreen {
     display: none;
   }
@@ -77,21 +77,21 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 
 .container {
   margin: 0 auto;
-  padding: 24px 0 96px;
-  max-width: 288px;
+  padding: 1.5rem 0 6rem;
+  max-width: 18rem;
 }
 
 .menu + .translations,
 .menu + .appearance,
 .translations + .appearance {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .menu + .social-links {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .appearance + .social-links {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 </style>

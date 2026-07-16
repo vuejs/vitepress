@@ -20,10 +20,10 @@ defineProps<{
 .VPNavBarSearchButton {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   height: var(--vp-nav-height);
-  padding: 8px 14px;
-  font-size: 20px;
+  padding: 0.5rem 0.875rem;
+  font-size: 1.25rem;
 }
 
 .text,
@@ -38,30 +38,30 @@ kbd {
   font-weight: 500;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarSearchButton {
     height: auto;
-    padding: 8px 12px;
+    padding: 0.5rem 0.75rem;
     background-color: var(--vp-c-bg-alt);
-    border-radius: 8px;
-    font-size: 14px;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
     line-height: 1;
     color: var(--vp-c-text-2);
   }
 
   .text {
     display: inline;
-    font-size: 13px;
+    font-size: 0.8125rem;
   }
 
   .keys {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 6px;
+    gap: 0.25rem;
+    padding: 0.25rem 0.375rem;
     border: 1px solid var(--vp-c-divider);
-    border-radius: 4px;
-    font-size: 12px;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
   }
 }
 </style>

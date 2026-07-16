@@ -109,11 +109,11 @@ function onCaretClick() {
 
 <style scoped>
 .VPSidebarItem.level-0 {
-  padding-bottom: 24px;
+  padding-bottom: 1.5rem;
 }
 
 .VPSidebarItem.collapsed.level-0 {
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 }
 
 .item {
@@ -128,11 +128,11 @@ function onCaretClick() {
 
 .indicator {
   position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: -17px;
-  width: 2px;
-  border-radius: 2px;
+  top: 0.375rem;
+  bottom: 0.375rem;
+  left: -1.0625rem;
+  width: 0.125rem;
+  border-radius: 0.125rem;
   transition: background-color 0.25s;
 }
 
@@ -151,9 +151,9 @@ function onCaretClick() {
 
 .text {
   flex-grow: 1;
-  padding: 4px 0;
-  line-height: 24px;
-  font-size: 14px;
+  padding: 0.25rem 0;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
   transition: color 0.25s;
 }
 
@@ -208,9 +208,9 @@ function onCaretClick() {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -7px;
-  width: 32px;
-  height: 32px;
+  margin-right: -0.4375rem;
+  width: 2rem;
+  height: 2rem;
   color: var(--vp-c-text-3);
   cursor: pointer;
   transition: color 0.25s;
@@ -226,7 +226,7 @@ function onCaretClick() {
 }
 
 .caret-icon {
-  font-size: 18px;
+  font-size: 1.125rem;
   /*rtl:ignore*/
   transform: rotate(90deg);
   transition: transform 0.25s;
@@ -242,7 +242,7 @@ function onCaretClick() {
 .VPSidebarItem.level-4 .items,
 .VPSidebarItem.level-5 .items {
   border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
+  padding-left: 1rem;
 }
 
 .VPSidebarItem.collapsed .items {

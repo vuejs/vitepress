@@ -63,25 +63,25 @@ if (carbonOptions) {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  border-radius: 12px;
-  min-height: 256px;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  min-height: 16rem;
   text-align: center;
-  line-height: 18px;
-  font-size: 12px;
+  line-height: 1.125rem;
+  font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--vp-carbon-ads-bg-color);
 }
 
 .VPCarbonAds :deep(img) {
   margin: 0 auto;
-  border-radius: 6px;
+  border-radius: 0.375rem;
 }
 
 .VPCarbonAds :deep(.carbon-text) {
   display: block;
   margin: 0 auto;
-  padding-top: 12px;
+  padding-top: 0.75rem;
   color: var(--vp-carbon-ads-text-color);
   transition: color 0.25s;
 }
@@ -92,8 +92,8 @@ if (carbonOptions) {
 
 .VPCarbonAds :deep(.carbon-poweredby) {
   display: block;
-  padding-top: 6px;
-  font-size: 11px;
+  padding-top: 0.375rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--vp-carbon-ads-poweredby-color);
   text-transform: uppercase;

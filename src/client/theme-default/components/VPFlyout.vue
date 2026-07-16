@@ -95,7 +95,7 @@ function onBlur() {
 .button {
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 0.75rem;
   height: var(--vp-nav-height);
   color: var(--vp-c-text-1);
   transition: color 0.5s;
@@ -105,7 +105,7 @@ function onBlur() {
   display: flex;
   align-items: center;
   line-height: var(--vp-nav-height);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;
@@ -113,22 +113,22 @@ function onBlur() {
 
 .option-icon {
   margin-right: 0px;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .text-icon {
-  margin-left: 4px;
-  font-size: 14px;
+  margin-left: 0.25rem;
+  font-size: 0.875rem;
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 1.25rem;
   transition: fill 0.25s;
 }
 
 .menu {
   position: absolute;
-  top: calc(var(--vp-nav-height) / 2 + 20px);
+  top: calc(var(--vp-nav-height) / 2 + 1.25rem);
   right: 0;
   opacity: 0;
   visibility: hidden;

@@ -51,20 +51,20 @@ useActiveAnchor(container, marker)
 .content {
   position: relative;
   border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
-  font-size: 13px;
+  padding-left: 1rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
 .outline-marker {
   position: absolute;
-  top: 32px;
+  top: 2rem;
   left: -1px;
   z-index: 0;
   opacity: 0;
-  width: 2px;
-  border-radius: 2px;
-  height: 18px;
+  width: 0.125rem;
+  border-radius: 0.125rem;
+  height: 1.125rem;
   background-color: var(--vp-c-brand-1);
   transition:
     top 0.25s cubic-bezier(0, 1, 0.5, 1),
@@ -73,8 +73,8 @@ useActiveAnchor(container, marker)
 }
 
 .outline-title {
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2rem;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 </style>
