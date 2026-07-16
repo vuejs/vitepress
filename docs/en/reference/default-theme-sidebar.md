@@ -184,3 +184,59 @@ export default {
   }
 }
 ```
+## Path Prefix
+
+When your documentation structure has deep directories or groups located under the same subdirectory, you can use the `base` option to automatically prepend a path prefix to all nested `items` inside that group. This avoids repeating the same path prefix for every `link`.
+
+The `base` option is supported in both multiple sidebar configurations and nested sidebar groups. **The value of `base` should start and end with a `/`.**
+
+### In Multiple Sidebars
+
+You can define `base` at the root of a sidebar section configuration:
+
+```js {5}
+export default {
+  themeConfig: {
+    sidebar: {
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          // This link is resolved to `/guide/introduction`
+          { text: 'Introduction', link: 'introduction' },
+          // This link is resolved to `/guide/getting-started`
+          { text: 'Getting Started', link: 'getting-started' }
+        ]
+      }
+    }
+  }
+}
+```
+### In Nested Groups
+You can also use `base` inside nested sidebar groups. It will apply to the immediate children of that group:
+```js{6,13}
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Reference',
+        base: '/reference/',
+        items: [
+          // This link is resolved to `/reference/site-config`
+          { text: 'Site Config', link: 'site-config' },
+          {
+            text: 'Default Theme',
+            // Nested base overrides the parent path prefix
+            base: '/reference/default-theme-',
+            items: [
+              // This link is resolved to `/reference/default-theme-nav`
+              { text: 'Nav', link: 'nav' },
+              // This link is resolved to `/reference/default-theme-sidebar`
+              { text: 'Sidebar', link: 'sidebar' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
