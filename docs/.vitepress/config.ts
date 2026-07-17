@@ -35,7 +35,6 @@ export default defineConfig({
 
   lastUpdated: true,
   cleanUrls: true,
-  metaChunk: true,
 
   markdown: {
     math: true,

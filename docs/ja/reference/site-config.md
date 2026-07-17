@@ -472,13 +472,6 @@ export default {
 }
 ```
 
-### metaChunk <Badge type="warning" text="experimental" />
-
-- 型: `boolean`
-- 既定値: `false`
-
-`true` にすると、各ページのメタデータを初期 HTML にインラインせず、別の JavaScript チャンクに抽出します。これにより各ページの HTML ペイロードが小さくなり、メタデータをキャッシュ可能にすることで、多数のページがあるサイトでサーバ帯域を削減できます。
-
 ### mpa <Badge type="warning" text="experimental" />
 
 - 型: `boolean`
