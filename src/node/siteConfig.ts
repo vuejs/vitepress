@@ -88,12 +88,6 @@ export interface UserConfig<
   mpa?: boolean
 
   /**
-   * Extracts metadata to a separate chunk.
-   * @experimental
-   */
-  metaChunk?: boolean
-
-  /**
    * Don't fail builds due to dead links.
    *
    * @default false
@@ -201,7 +195,6 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'shouldPreload'
   | 'router'
   | 'mpa'
-  | 'metaChunk'
   | 'lastUpdated'
   | 'ignoreDeadLinks'
   | 'cleanUrls'
