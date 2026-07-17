@@ -5,7 +5,7 @@ description: Comprende el enrutamiento basado en archivos de VitePress, rutas di
 
 # Enrutamiento {#routing}
 
-## Enrutamiento basasdo en Archivos {#file-based-routing}
+## Enrutamiento basado en Archivos {#file-based-routing}
 
 VitePress utiliza enrutamiento basado en archivos, esto significa que las páginas HTML generadas son mapeadas de la estructura de directorios de los archivos Markdown. Por ejemplo, dada la siguiente estructura de directorio:
 
