@@ -144,10 +144,7 @@ export default defineConfig({
         }
       }),
       prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
-    ],
-    experimental: {
-      enableNativePlugin: true
-    }
+    ]
   },
 
   // prettier-ignore
