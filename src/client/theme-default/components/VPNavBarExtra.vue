@@ -26,13 +26,13 @@ const hasExtraContent = computed(
     class="VPNavBarExtra"
     label="extra navigation"
   >
-    <div
+    <ul
       v-if="localeLinks.length && currentLang.label"
       class="group translations"
     >
-      <p class="trans-title">{{ currentLang.label }}</p>
+      <li class="trans-title">{{ currentLang.label }}</li>
 
-      <template v-for="locale in localeLinks" :key="locale.link">
+      <li v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink
           :item="locale"
           :external="false"
@@ -42,8 +42,8 @@ const hasExtraContent = computed(
           :dir="locale.dir"
           data-allow-mismatch="attribute"
         />
-      </template>
-    </div>
+      </li>
+    </ul>
 
     <div
       v-if="

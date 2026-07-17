@@ -11,17 +11,17 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <div class="VPSocialLinks">
-    <VPSocialLink
-      v-for="{ link, icon, ariaLabel, target } in links"
-      :key="link"
-      :icon
-      :link
-      :ariaLabel
-      :target
-      :me
-    />
-  </div>
+  <ul class="VPSocialLinks">
+    <li v-for="{ link, icon, ariaLabel, target } in links" :key="link">
+      <VPSocialLink
+        :icon
+        :link
+        :ariaLabel
+        :target
+        :me
+      />
+    </li>
+  </ul>
 </template>
 
 <style scoped>
