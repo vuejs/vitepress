@@ -12,7 +12,7 @@ withDefaults(defineProps<{
 
 <template>
   <ul class="VPSocialLinks">
-    <li v-for="{ link, icon, ariaLabel, target } in links" :key="link">
+    <li v-for="{ link, icon, ariaLabel, target } in links" :key="link" class="item">
       <VPSocialLink
         :icon
         :link
@@ -28,5 +28,12 @@ withDefaults(defineProps<{
 .VPSocialLinks {
   display: flex;
   justify-content: center;
+}
+
+/* Reset styles from vp-doc if used in markdown */
+.vp-doc .VPSocialLinks,
+.vp-doc .VPSocialLinks .item {
+  margin: 0;
+  padding: 0;
 }
 </style>

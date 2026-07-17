@@ -153,3 +153,10 @@
 .dark .vp-sponsor-grid-image {
   filter: grayscale(1) invert(1);
 }
+
+/* Reset styles from vp-doc if used in markdown */
+.vp-doc .vp-sponsor-grid,
+.vp-doc .vp-sponsor-grid-item {
+  margin: 0;
+  padding: 0;
+}
