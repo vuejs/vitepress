@@ -432,7 +432,7 @@ export default {
 - نوع: `string`
 - پیش‌فرض: `./.vitepress/cache`
 
-دایرکتوری برای فایل‌های کش، نسبت به [ریشه پروژه](../guide/routing#root-and-source-directory). همچنین ببینید: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+دایرکتوری برای فایل‌های کش، نسبت به [ریشه پروژه](../guide/routing#root-and-source-directory). همچنین ببینید: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -529,7 +529,7 @@ export default {
 
 - نوع: `import('vite').UserConfig`
 
-پیکربندی خام [Vite Config](https://vitejs.dev/config/) را به سرور توسعه داخلی / بسته‌بند Vite ارسال کنید.
+پیکربندی خام [Vite Config](https://vite.dev/config/) را به سرور توسعه داخلی / بسته‌بند Vite ارسال کنید.
 
 ```js
 export default {

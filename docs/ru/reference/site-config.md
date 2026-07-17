@@ -461,7 +461,7 @@ export default {
 - Тип: `string`
 - По умолчанию: `./.vitepress/cache`
 
-Каталог для файлов кэша, относительно [корня проекта](../guide/routing#root-and-source-directory). См. также: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+Каталог для файлов кэша, относительно [корня проекта](../guide/routing#root-and-source-directory). См. также: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -560,7 +560,7 @@ export default {
 
 - Тип: `import('vite').UserConfig`
 
-Передаёт необработанную [конфигурацию Vite](https://vitejs.dev/config/) внутреннему серверу разработки / сборщику Vite.
+Передаёт необработанную [конфигурацию Vite](https://vite.dev/config/) внутреннему серверу разработки / сборщику Vite.
 
 ```js
 export default {

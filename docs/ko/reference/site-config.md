@@ -430,7 +430,7 @@ export default {
 - 타입: `string`
 - 기본값: `./.vitepress/cache`
 
-캐시 파일을 위한 디렉터리입니다. [프로젝트 루트](../guide/routing#root-and-source-directory)에 상대적입니다. [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)을 참고하세요.
+캐시 파일을 위한 디렉터리입니다. [프로젝트 루트](../guide/routing#root-and-source-directory)에 상대적입니다. [cacheDir](https://vite.dev/config/shared-options.html#cachedir)을 참고하세요.
 
 ```ts
 export default {
@@ -527,7 +527,7 @@ export default {
 
 - 타입: `import('vite').UserConfig`
 
-내부 Vite 개발 서버/번들러에 직접 [Vite 구성](https://vitejs.dev/config/)을 전달합니다.
+내부 Vite 개발 서버/번들러에 직접 [Vite 구성](https://vite.dev/config/)을 전달합니다.
 
 ```js
 export default {

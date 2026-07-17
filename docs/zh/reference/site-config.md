@@ -430,7 +430,7 @@ export default {
 - 类型：`string`
 - 默认值： `./.vitepress/cache`
 
-缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)。
+缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vite.dev/config/shared-options.html#cachedir)。
 
 ```ts
 export default {
@@ -525,7 +525,7 @@ export default {
 
 - 类型：`import('vite').UserConfig`
 
-将原始 [Vite 配置](https://vitejs.dev/config/)传递给内部 Vite 开发服务器 / bundler。
+将原始 [Vite 配置](https://vite.dev/config/)传递给内部 Vite 开发服务器 / bundler。
 
 ```js
 export default {

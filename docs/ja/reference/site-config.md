@@ -430,7 +430,7 @@ export default {
 - 型: `string`
 - 既定値: `./.vitepress/cache`
 
-キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)
+キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vite.dev/config/shared-options.html#cachedir)
 
 ```ts
 export default {
@@ -527,7 +527,7 @@ export default {
 
 - 型: `import('vite').UserConfig`
 
-内部の Vite 開発サーバ／バンドラへ生の [Vite Config](https://vitejs.dev/config/) を渡します。
+内部の Vite 開発サーバ／バンドラへ生の [Vite Config](https://vite.dev/config/) を渡します。
 
 ```js
 export default {

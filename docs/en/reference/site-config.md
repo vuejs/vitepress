@@ -461,7 +461,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -560,7 +560,7 @@ Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://gi
 
 - Type: `import('vite').UserConfig`
 
-Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
+Pass raw [Vite Config](https://vite.dev/config/) to internal Vite dev server / bundler.
 
 ```js
 export default {
