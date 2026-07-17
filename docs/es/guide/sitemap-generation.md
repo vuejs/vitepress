@@ -9,7 +9,7 @@ VitePress incluye soporte integrado para generar un archivo `sitemap.xml` para t
 ```ts
 export default {
   sitemap: {
-    hostname: 'https://example.com'
+    hostname: 'https://ejemplo.com'
   }
 }
 ```
@@ -46,7 +46,7 @@ Puede usar el hook `sitemap.transformItems` para modificar los elementos del sit
 ```ts
 export default {
   sitemap: {
-    hostname: 'https://example.com',
+    hostname: 'https://ejemplo.com',
     transformItems: (items) => {
       // agregar nuevos elementos o modificar/filtrar elementos existentes
       items.push({
