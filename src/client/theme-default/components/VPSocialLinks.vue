@@ -33,6 +33,7 @@ withDefaults(defineProps<{
 /* Reset styles from vp-doc if used in markdown */
 .vp-doc .VPSocialLinks,
 .vp-doc .VPSocialLinks .item {
+  list-style: none;
   margin: 0;
   padding: 0;
 }

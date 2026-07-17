@@ -66,6 +66,7 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 
 /* Reset styles from vp-doc if used in markdown */
 .vp-doc .VPTeamMembers .container {
+  list-style: none;
   margin: 0 auto;
   padding: 0;
 }
