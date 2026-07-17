@@ -231,7 +231,7 @@ export default defineConfig({
 
 ### `raw`
 
-Este é um recipiente especial que pode ser usado para evitar conflitos de estilo e roteador com VitePress. Isso é especialmente útil ao documentar bibliotecas de componentes. Você também pode verificar [whyframe](https://whyframe.dev/docs/integrations/vitepress) para melhor isolamento.
+Este é um recipiente especial que pode ser usado para evitar conflitos de estilo e roteador com VitePress. Isso é especialmente útil ao documentar bibliotecas de componentes.
 
 **Sintaxe**
 
