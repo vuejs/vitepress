@@ -1,5 +1,6 @@
 ---
 layout: home
+description: VitePressはViteとVueを基盤とした静的サイトジェネレーターで、Markdownから美しいドキュメントサイトを構築できます。
 
 hero:
   name: VitePress

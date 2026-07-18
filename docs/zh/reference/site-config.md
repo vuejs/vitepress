@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 站点配置选项的完整参考，包括应用级设置、主题和构建选项。
 ---
 
 # 站点配置 {#site-config}
@@ -143,7 +144,7 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 站点的标题。使用默认主题时，这将显示在导航栏中。
 
-它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上的全局 `title`。例如使用以下配置和页面内容：
+它还将用作所有单独页面标题的默认后缀，除非定义了 [`titleTemplate`](#titletemplate)。单个页面的最终标题将是其第一个 `<h1>` 标题的文本内容加上全局 `title`。例如使用以下配置和页面内容：
 
 ```ts
 export default {
@@ -155,7 +156,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | My Awesome Site`.
+页面标题就是 `Hello | My Awesome Site`。
 
 ### titleTemplate
 
@@ -175,7 +176,7 @@ export default {
 # Hello
 ```
 
-页面标题就是 `Hello | Custom Suffix`.
+页面标题就是 `Hello | Custom Suffix`。
 
 要完全自定义标题的呈现方式，可以在 `titleTemplate` 中使用 `:title` 标识符：
 
@@ -429,7 +430,7 @@ export default {
 - 类型：`string`
 - 默认值： `./.vitepress/cache`
 
-缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)。
+缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vite.dev/config/shared-options.html#cachedir)。
 
 ```ts
 export default {
@@ -470,13 +471,6 @@ export default {
   ]
 }
 ```
-
-### metaChunk <Badge type="warning" text="experimental" />
-
-- 类型：`boolean`
-- 默认值：`false`
-
-当设置为 `true` 时，将页面元数据提取到单独的 JavaScript 块中，而不是内联在初始 HTML 中。这使每个页面的 HTML 负载更小，并使页面元数据可缓存，从而当站点中有很多页面时可以减少服务器带宽。
 
 ### mpa <Badge type="warning" text="experimental" />
 
@@ -531,7 +525,7 @@ export default {
 
 - 类型：`import('vite').UserConfig`
 
-将原始 [Vite 配置](https://vitejs.dev/config/)传递给内部 Vite 开发服务器 / bundler。
+将原始 [Vite 配置](https://vite.dev/config/)传递给内部 Vite 开发服务器 / bundler。
 
 ```js
 export default {

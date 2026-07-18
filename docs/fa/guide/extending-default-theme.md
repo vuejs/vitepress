@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: سفارشی‌سازی و گسترش تم پیش‌فرض ویت‌پرس با CSS سفارشی، کامپوننت‌ها، طرح‌بندی‌ها و اسلات‌ها.
 ---
 
 # گسترش تم پیش‌فرض {#extending-the-default-theme}
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-از آنجا که از Vite استفاده می‌کنیم، می‌توانید از ویژگی [import glob](https://vitejs.dev/guide/features.html#glob-import) در Vite برای خودکار ثبت یک پوشه از مولفه‌ها استفاده کنید.
+از آنجا که از Vite استفاده می‌کنیم، می‌توانید از ویژگی [import glob](https://vite.dev/guide/features.html#glob-import) در Vite برای خودکار ثبت یک پوشه از مولفه‌ها استفاده کنید.
 
 ## slot ‌های طرح {#layout-slots}
 
@@ -310,7 +311,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## جایگزینی کامپوننت‌های داخلی {#overriding-internal-components}
 
-شما می‌توانید با استفاده از [alias های Vite](https://vitejs.dev/config/shared-options.html#resolve-alias)، کامپوننت‌های تم پیش‌فرض را با کامپوننت‌های سفارشی خود جایگزین کنید:
+شما می‌توانید با استفاده از [alias های Vite](https://vite.dev/config/shared-options.html#resolve-alias)، کامپوننت‌های تم پیش‌فرض را با کامپوننت‌های سفارشی خود جایگزین کنید:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

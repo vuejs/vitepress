@@ -1,4 +1,8 @@
-# 在 Markdown 使用 Vue {#using-vue-in-markdown}
+---
+description: 在 VitePress 的 Markdown 文件中直接使用 Vue 组件和动态模板功能。
+---
+
+# 在 Markdown 中使用 Vue {#using-vue-in-markdown}
 
 在 VitePress 中，每个 Markdown 文件都被编译成 HTML，而且将其作为 [Vue 单文件组件](https://cn.vuejs.org/guide/scaling-up/sfc.html)处理。这意味着可以在 Markdown 中使用任何 Vue 功能，包括动态模板、使用 Vue 组件或通过添加 `<script>` 标签为页面的 Vue 组件添加逻辑。
 
@@ -26,7 +30,7 @@
 
 ### 指令 {#directives}
 
-也可以使用指令 (请注意，原始 HTML 在 Markdown 中也有效):
+也可以使用指令 (请注意，原始 HTML 在 Markdown 中也有效)：
 
 **输入**
 
@@ -200,7 +204,7 @@ Hello {{ 1 + 1 }}
 
 ## 使用 CSS 预处理器 {#using-css-pre-processors}
 
-VitePress [内置支持](https://cn.vitejs.dev/guide/features.html#css-pre-processors) CSS 预处理器：`.scss`、`.sass`、.`less`、`.styl` 和 `.stylus` 文件。无需为它们安装 Vite 专用插件，但必须安装相应的预处理器：
+VitePress [内置支持](https://cn.vite.dev/guide/features.html#css-pre-processors) CSS 预处理器：`.scss`、`.sass`、.`less`、`.styl` 和 `.stylus` 文件。无需为它们安装 Vite 专用插件，但必须安装相应的预处理器：
 
 ```
 # .scss and .sass

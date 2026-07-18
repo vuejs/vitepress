@@ -1,17 +1,9 @@
 import type { Component, InjectionKey } from 'vue'
 import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
-import type { Awaitable, PageData, PageDataPayload } from '../shared'
+import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
-import { getScrollOffset, inBrowser, withBase } from './utils'
-
-export interface Route {
-  path: string
-  hash: string
-  query: string
-  data: PageData
-  component: Component | null
-}
+import { inBrowser, withBase } from './utils'
 
 export interface Router {
   /**
@@ -26,8 +18,6 @@ export interface Router {
     options?: {
       // @internal
       initialLoad?: boolean
-      // Whether to smoothly scroll to the target position.
-      smoothScroll?: boolean
       // Whether to replace the current history entry.
       replace?: boolean
     }
@@ -145,7 +135,7 @@ export function createRouter(
               history.replaceState({}, '', href)
             }
 
-            if (!initialLoad) scrollTo(targetLoc.hash, false, scrollPosition)
+            if (!initialLoad) scrollTo(targetLoc.hash, scrollPosition)
           })
         }
       }
@@ -232,10 +222,7 @@ export function createRouter(
         // only intercept inbound html links
         if (origin === currentLoc.origin && treatAsHtml(pathname)) {
           e.preventDefault()
-          router.go(href, {
-            // use smooth scroll when clicking on header anchor links
-            smoothScroll: link.classList.contains('header-anchor')
-          })
+          router.go(href)
         }
       },
       { capture: true }
@@ -270,7 +257,7 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
+export function scrollTo(hash: string, scrollPosition = 0) {
   if (!hash || scrollPosition) {
     window.scrollTo(0, scrollPosition)
     return
@@ -284,21 +271,8 @@ export function scrollTo(hash: string, smooth = false, scrollPosition = 0) {
   }
   if (!target) return
 
-  const targetTop =
-    window.scrollY +
-      target.getBoundingClientRect().top -
-      getScrollOffset() +
-      Number.parseInt(window.getComputedStyle(target).paddingTop, 10) || 0
-
-  const behavior = window.matchMedia('(prefers-reduced-motion)').matches
-    ? 'instant'
-    : // only smooth scroll if distance is smaller than screen height
-      smooth && Math.abs(targetTop - window.scrollY) <= window.innerHeight
-      ? 'smooth'
-      : 'auto'
-
   const scrollToTarget = () => {
-    window.scrollTo({ left: 0, top: targetTop, behavior })
+    target.scrollIntoView({ block: 'start' })
 
     // focus the target element for better accessibility
     target.focus({ preventScroll: true })
@@ -361,12 +335,7 @@ function normalizeHref(href: string): string {
 
 async function changeRoute(
   href: string,
-  {
-    smoothScroll = false,
-    initialLoad = false,
-    replace = false,
-    hasTextFragment = false
-  } = {}
+  { initialLoad = false, replace = false, hasTextFragment = false } = {}
 ): Promise<boolean> {
   const loc = normalizeHref(location.href)
   const nextUrl = new URL(href, location.origin)
@@ -374,7 +343,7 @@ async function changeRoute(
 
   if (href === loc) {
     if (!initialLoad) {
-      if (!hasTextFragment) scrollTo(nextUrl.hash, smoothScroll)
+      if (!hasTextFragment) scrollTo(nextUrl.hash)
       return false
     }
   } else {
@@ -395,7 +364,7 @@ async function changeRoute(
             newURL: nextUrl.href
           })
         )
-        if (!hasTextFragment) scrollTo(nextUrl.hash, smoothScroll)
+        if (!hasTextFragment) scrollTo(nextUrl.hash)
       }
 
       return false

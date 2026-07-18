@@ -7,7 +7,7 @@ import {
   type EnvironmentModuleNode,
   type Plugin,
   type ResolvedConfig,
-  type Rollup,
+  type Rolldown,
   type UserConfig
 } from 'vite'
 import {
@@ -41,7 +41,7 @@ declare module 'vite' {
 
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
-const docsearchRE = /\/docsearch\.css(?:$|\?)/
+const docsearchRE = /\bdocsearch\b/ // narrow it if any issue arises
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
@@ -53,14 +53,13 @@ const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 // media queries.
 const scriptClientRE = /<script\b[^>]*client\b[^>]*>([^]*?)<\/script>/
 
-const isPageChunk = (
-  chunk: Rollup.OutputAsset | Rollup.OutputChunk
-): chunk is Rollup.OutputChunk & { facadeModuleId: string } =>
+const isPageChunk = <T extends Rolldown.OutputChunk | Rolldown.RenderedChunk>(
+  chunk: Rolldown.OutputAsset | T
+): chunk is T =>
   !!(
     chunk.type === 'chunk' &&
     chunk.isEntry &&
-    chunk.facadeModuleId &&
-    chunk.facadeModuleId.endsWith('.md')
+    chunk.facadeModuleId?.endsWith('.md')
   )
 
 const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
@@ -113,6 +112,9 @@ export async function createVitePressPlugin(
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
+      // sync with the actual resolved publicDir (can be customized via
+      // vite config, or altered by other vite plugins)
+      siteConfig.publicDir = config.publicDir
       // pre-resolve git timestamps
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
@@ -194,9 +196,13 @@ export async function createVitePressPlugin(
       }
     },
 
+    // TODO: use plugin hook filters
     async transform(code, id) {
       if (docsearchRE.test(normalizePath(id))) {
-        return code.replaceAll('[data-theme=dark]', '.dark')
+        return code
+          .replaceAll('[data-theme=dark]', '.dark')
+          .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
+          .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
       }
       if (id.endsWith('.vue')) {
         return processClientJS(code, id)
@@ -206,8 +212,7 @@ export async function createVitePressPlugin(
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
           code,
-          id,
-          config.publicDir
+          id
         )
         allDeadLinks.push(...deadLinks)
         if (includes.length) {
@@ -285,7 +290,7 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (!ssr && isPageChunk(chunk as Rollup.OutputChunk)) {
+      if (!ssr && isPageChunk(chunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.
@@ -422,14 +427,15 @@ function logDeadLinks(
   devMode = false
 ) {
   const logged = new Set<string>()
-  deadLinks.forEach(({ url, file }, i) => {
-    const key = `${file}:::${url}`
+  deadLinks.forEach(({ url, file, line }, i) => {
+    const location = line == null ? file : `${file}:${line}`
+    const key = `${location}:::${url}`
     if (logged.has(key)) return
     logged.add(key)
     const prefix = '\n'.repeat(i === 0 ? (devMode ? 1 : 2) : 0)
     logger.warn(
       c.yellow(
-        `${prefix}(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(file))}`
+        `${prefix}(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(location))}`
       )
     )
   })

@@ -1,3 +1,7 @@
+---
+description: Comienza a trabajar con VitePress. Aprende cómo instalar, crear la estructura y comenzar a desarrollar tu sitio de documentación.
+---
+
 # Iniciando {#getting-started}
 
 ## Experimente Online {#try-it-online}
@@ -8,7 +12,7 @@ Puede experimentar VitePress directamente en su navegador en [StackBlitz](https:
 
 ### Prerrequisitos {#prerequisites}
 
-- [Node.js](https://nodejs.org/) versión 20 o superior.
+- [Node.js](https://nodejs.org/) versión 22 o superior.
 - Terminal para acessar VitePress a través de su interfaz de linea de comando (CLI).
 - Editor de texto con soporte a sintaxis [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) es recomendado, junto con la [extensión oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -37,7 +41,7 @@ $ bun add -D vitepress@next
 
 ::: tip NOTA
 
-VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegurese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
+VitePress es un paquete apenas para ESM. No use `require()` para importarlo, y asegurese de que el `package.json` más cercano contiene `"type": "module"`, o cambie la extensión de archivo de sus archivos relevantes como `.vitepress/config.js` a `.mjs`/`.mts`. Consulte la [Guía de resolución de problemas Vite](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) para más detalles. Además de eso, dentro de contextos de JavaScript asíncronos, puede usar `await import('vitepress')`.
 
 :::
 

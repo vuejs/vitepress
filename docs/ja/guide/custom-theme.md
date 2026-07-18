@@ -1,3 +1,7 @@
+---
+description: VitePressでカスタムテーマを作成・使用し、サイトの外観と動作を完全にカスタマイズする方法。
+---
+
 # カスタムテーマを使う {#using-a-custom-theme}
 
 ## テーマの解決 {#theme-resolving}

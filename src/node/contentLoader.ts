@@ -1,5 +1,5 @@
-import fs from 'fs-extra'
 import matter from 'gray-matter'
+import fs from 'node:fs'
 import path from 'node:path'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
@@ -104,7 +104,8 @@ export function createContentLoader<T = ContentData[]>(
         config.srcDir,
         config.markdown,
         config.site.base,
-        config.logger
+        config.logger,
+        config.publicDir
       )
 
       const raw = await pMap(

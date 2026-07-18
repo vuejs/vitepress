@@ -1,3 +1,7 @@
+---
+description: VitePress 내장 팀 컴포넌트를 사용하여 멤버 프로필이 있는 팀 페이지를 만드세요.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 

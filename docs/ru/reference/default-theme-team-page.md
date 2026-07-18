@@ -1,3 +1,7 @@
+---
+description: Создавайте страницы команды с профилями участников, используя встроенные компоненты VitePress.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 

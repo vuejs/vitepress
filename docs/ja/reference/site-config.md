@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのサイト設定オプションの完全なリファレンス。アプリレベルの設定、テーマ、ビルドオプションを含みます。
 ---
 
 # サイト設定 {#site-config}
@@ -429,7 +430,7 @@ export default {
 - 型: `string`
 - 既定値: `./.vitepress/cache`
 
-キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)
+キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vite.dev/config/shared-options.html#cachedir)
 
 ```ts
 export default {
@@ -470,13 +471,6 @@ export default {
   ]
 }
 ```
-
-### metaChunk <Badge type="warning" text="experimental" />
-
-- 型: `boolean`
-- 既定値: `false`
-
-`true` にすると、各ページのメタデータを初期 HTML にインラインせず、別の JavaScript チャンクに抽出します。これにより各ページの HTML ペイロードが小さくなり、メタデータをキャッシュ可能にすることで、多数のページがあるサイトでサーバ帯域を削減できます。
 
 ### mpa <Badge type="warning" text="experimental" />
 
@@ -533,7 +527,7 @@ export default {
 
 - 型: `import('vite').UserConfig`
 
-内部の Vite 開発サーバ／バンドラへ生の [Vite Config](https://vitejs.dev/config/) を渡します。
+内部の Vite 開発サーバ／バンドラへ生の [Vite Config](https://vite.dev/config/) を渡します。
 
 ```js
 export default {

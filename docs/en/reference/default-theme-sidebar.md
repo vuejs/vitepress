@@ -1,3 +1,7 @@
+---
+description: Configure the sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
+---
+
 # Sidebar
 
 The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: اطمینان از سازگاری کامپوننت‌های تم و کد سفارشی ویت‌پرس با رندرینگ سمت سرور (SSR).
 ---
 
 # تطابق SSR {#ssr-compatibility}
@@ -38,7 +39,7 @@ onMounted(() => {
 
 ### وارد کردن شرطی {#conditional-import}
 
-می‌توانید همچنین وابستگی را با استفاده از `import.meta.env.SSR` (قسمتی از [متغیرهای env Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)) به شرط وارد کنید:
+می‌توانید همچنین وابستگی را با استفاده از `import.meta.env.SSR` (قسمتی از [متغیرهای env Vite](https://vite.dev/guide/env-and-mode.html#env-variables)) به شرط وارد کنید:
 
 ```js
 if (!import.meta.env.SSR) {

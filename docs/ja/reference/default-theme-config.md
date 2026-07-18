@@ -1,3 +1,7 @@
+---
+description: VitePressデフォルトテーマで利用可能なすべての設定オプションのリファレンス。
+---
+
 # デフォルトテーマの設定 {#default-theme-config}
 
 テーマ設定では、テーマのカスタマイズができます。設定ファイルの `themeConfig` オプションで定義します。
@@ -363,16 +367,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
 ```
 
+`format` オプションには `classic`、`responsive`、`cover` を指定できます。
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

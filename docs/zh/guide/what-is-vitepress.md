@@ -1,3 +1,7 @@
+---
+description: VitePress 是一个专为构建快速、以内容为中心的网站而设计的静态站点生成器，由 Vite 和 Vue 驱动。
+---
+
 # VitePress 是什么？ {#what-is-vitepress}
 
 VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)，专为构建快速、以内容为中心的站点而设计。简而言之，VitePress 获取用 Markdown 编写的内容，对其应用主题，并生成可以轻松部署到任何地方的静态 HTML 页面。
@@ -12,7 +16,7 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
 - **文档**
 
-  VitePress 附带一个专为技术文档设计的默认主题。你现在正在阅读的这个页面以及 [Vite](https://vitejs.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) [等](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code)文档都是基于这个主题的。
+  VitePress 附带一个专为技术文档设计的默认主题。你现在正在阅读的这个页面以及 [Vite](https://vite.dev/)、[Rollup](https://rollupjs.org/)、[Pinia](https://pinia.vuejs.org/)、[VueUse](https://vueuse.org/)、[Vitest](https://vitest.dev/)、[D3](https://d3js.org/)、[UnoCSS](https://unocss.dev/)、[Iconify](https://iconify.design/) [等](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code)文档都是基于这个主题的。
 
   [Vue.js 官方文档](https://cn.vuejs.org/)也是基于 VitePress 的。但是为了可以在不同的翻译文档之间切换，它自定义了自己的主题。
 
@@ -26,7 +30,7 @@ VitePress 是一个[静态站点生成器](https://en.wikipedia.org/wiki/Static_
 
 VitePress 旨在使用 Markdown 生成内容时提供出色的开发体验。
 
-- **[Vite 驱动](https://cn.vitejs.dev/)**：即时服务器启动，始终立即反映 (<100ms) 编辑变化，无需重新加载页面。
+- **[Vite 驱动](https://cn.vite.dev/)**：即时服务器启动，始终立即反映 (<100ms) 编辑变化，无需重新加载页面。
 
 - **[内置 Markdown 扩展](./markdown)**：frontmatter、表格、语法高亮……应有尽有。具体来说，VitePress 提供了许多用于处理代码块的高级功能，使其真正成为技术文档的理想选择。
 

@@ -1,3 +1,7 @@
+---
+description: Use Vue components and dynamic templating features directly inside Markdown files in VitePress.
+---
+
 # Using Vue in Markdown
 
 In VitePress, each Markdown file is compiled into HTML and then processed as a [Vue Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html). This means you can use any Vue features inside the Markdown, including dynamic templating, using Vue components, or arbitrary in-page Vue component logic by adding a `<script>` tag.
@@ -200,7 +204,7 @@ Note that this might prevent certain tokens from being syntax highlighted proper
 
 ## Using CSS Pre-processors
 
-VitePress has [built-in support](https://vitejs.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
+VitePress has [built-in support](https://vite.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
 
 ```
 # .scss and .sass

@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressサイトにローカル検索またはAlgolia検索を設定する方法。
 ---
 
 # 検索 {#search}

@@ -6,6 +6,9 @@ import type {
 } from '../../types/shared'
 
 export type {
+  AdditionalConfig,
+  AdditionalConfigDict,
+  AdditionalConfigLoader,
   Awaitable,
   DefaultTheme,
   HeadConfig,
@@ -15,11 +18,10 @@ export type {
   MarkdownEnv,
   PageData,
   PageDataPayload,
+  Route,
   SiteData,
   SSGContext,
-  AdditionalConfig,
-  AdditionalConfigDict,
-  AdditionalConfigLoader
+  VitePressData
 } from '../../types/shared'
 
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
@@ -30,7 +32,7 @@ const UnpackStackView = Symbol('stack-view:unpack')
 
 const HASH_WITHOUT_FRAGMENT_RE = /#.*?(?=:~:|$)/
 const HASH_OR_QUERY_RE = /[?#].*$/
-const INDEX_OR_EXT_RE = /(?:(^|\/)index)?\.(?:md|html)$/
+const INDEX_OR_EXT_RE = /(?:(^|\/)index)?(?:\.(?:md|html))?$/
 
 export const inBrowser = typeof document !== 'undefined'
 
@@ -47,13 +49,11 @@ export const notFoundPageData: PageData = {
 
 export function isActive(
   currentPath: string,
-  matchPath?: string,
-  asRegex: boolean = false
+  currentHash: string,
+  matchPath: string,
+  asRegex: boolean = false,
+  skipHashCheck: boolean = false
 ): boolean {
-  if (matchPath === undefined) {
-    return false
-  }
-
   currentPath = normalize(`/${currentPath}`)
 
   if (asRegex) {
@@ -64,10 +64,14 @@ export function isActive(
     return false
   }
 
+  if (skipHashCheck) {
+    return true
+  }
+
   const hashMatch = matchPath.match(HASH_WITHOUT_FRAGMENT_RE)
 
   if (hashMatch) {
-    return (inBrowser ? location.hash : '') === hashMatch[0]
+    return currentHash === hashMatch[0]
   }
 
   return true
@@ -92,7 +96,7 @@ export function getLocaleForPath(
       (key) =>
         key !== 'root' &&
         !isExternal(key) &&
-        isActive(relativePath, `^/${key}/`, true)
+        isActive(relativePath, '', `^/${key}/`, true)
     ) || 'root'
   )
 }

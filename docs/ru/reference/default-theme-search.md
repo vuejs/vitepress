@@ -1,4 +1,5 @@
 ---
+description: Настройте локальный поиск или поиск на базе Algolia для вашего сайта VitePress.
 outline: deep
 ---
 
@@ -275,7 +276,6 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // Отражает API @docsearch/sidepanel-js SidepanelProps
             panel: {
               variant: 'floating', // или 'inline'
               side: 'right',
@@ -290,6 +290,8 @@ export default defineConfig({
   }
 })
 ```
+
+Используйте `askAi.sidePanel.panel.suggestedQuestions` для настройки рекомендуемых вопросов в боковой панели. В примерах автономного Ask AI от Algolia также упоминается `askAi.suggestedQuestions`, однако одного этого параметра верхнего уровня недостаточно для режима боковой панели VitePress, и он не позволяет встроенному модальному окну поиска по ключевым словам отображать рекомендуемые вопросы при первом открытии.
 
 Если вам нужно отключить сочетание клавиш, используйте опцию `keyboardShortcuts` боковой панели:
 

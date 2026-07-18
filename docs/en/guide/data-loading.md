@@ -1,3 +1,7 @@
+---
+description: Load arbitrary data at build time using VitePress data loaders and import it from pages or components.
+---
+
 # Build-Time Data Loading
 
 VitePress provides a feature called **data loaders** that allows you to load arbitrary data and import it from pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.

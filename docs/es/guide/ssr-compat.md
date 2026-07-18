@@ -1,4 +1,5 @@
 ---
+description: Asegura que los componentes del tema y el código personalizado de VitePress sean compatibles con el renderizado del lado del servidor.
 outline: deep
 ---
 
@@ -38,7 +39,7 @@ onMounted(() => {
 
 ### Importación Condicional {#conditional-import}
 
-También puede importar una dependencia condicionalmente utilizando la bandera `import.meta.env.SSR` (que forma parte de las [variables de entorno Vite](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
+También puede importar una dependencia condicionalmente utilizando la bandera `import.meta.env.SSR` (que forma parte de las [variables de entorno Vite](https://vite.dev/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {

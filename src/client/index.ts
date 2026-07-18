@@ -2,8 +2,8 @@
 // so the user can do `import { useRoute, useData } from 'vitepress'`
 
 // generic types
-export type { VitePressData } from './app/data'
-export type { Route, Router } from './app/router'
+export type { Router } from './app/router'
+export type { Route, VitePressData } from './shared'
 
 // theme types
 export type { EnhanceAppContext, Theme } from './app/theme'
@@ -19,7 +19,6 @@ export { useRoute, useRouter } from './app/router'
 export {
   _escapeHtml,
   defineClientComponent,
-  getScrollOffset,
   inBrowser,
   onContentUpdated,
   withBase

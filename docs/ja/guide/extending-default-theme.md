@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressデフォルトテーマをカスタムCSS、コンポーネント、レイアウト、スロットで拡張・カスタマイズする方法。
 ---
 
 # デフォルトテーマの拡張 {#extending-the-default-theme}
@@ -121,7 +122,7 @@ export default {
 } satisfies Theme
 ```
 
-Vite を使っているため、Vite の [glob import 機能](https://vitejs.dev/guide/features.html#glob-import) を利用してディレクトリ内のコンポーネントを自動登録することもできます。
+Vite を使っているため、Vite の [glob import 機能](https://vite.dev/guide/features.html#glob-import) を利用してディレクトリ内のコンポーネントを自動登録することもできます。
 
 ## レイアウトスロット {#layout-slots}
 
@@ -310,7 +311,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## 内部コンポーネントの置き換え {#overriding-internal-components}
 
-Vite の [エイリアス](https://vitejs.dev/config/shared-options.html#resolve-alias) を使って、デフォルトテーマのコンポーネントを独自のものに置き換えられます。
+Vite の [エイリアス](https://vite.dev/config/shared-options.html#resolve-alias) を使って、デフォルトテーマのコンポーネントを独自のものに置き換えられます。
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

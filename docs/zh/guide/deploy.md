@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 将 VitePress 站点部署到 Netlify、Vercel、GitHub Pages 等主流平台。
 ---
 
 # 部署 VitePress 站点 {#deploy-your-vitepress-site}
@@ -51,7 +52,7 @@ outline: deep
 
 默认情况下，我们假设站点将部署在域名 (`/`) 的根路径上。如果站点在子路径中提供服务，例如 `https://mywebsite.com/blog/`，则需要在 VitePress 配置中将 [`base`](../reference/site-config#base) 选项设置为 `'/blog/'`。
 
-**例**：如果你使用的是 Github（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
+**例**：如果你使用的是 GitHub（或 GitLab）页面并部署到 `user.github.io/repo/`，请将 `base` 设置为 `/repo/`。
 
 ## HTTP 缓存标头 {#http-cache-headers}
 
@@ -200,7 +201,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### GitLab Pages
 
-1. 如果你想部署到 `https://<username> .gitlab.io/<repository> /`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。如果你部署到自定义域名、用户或组织页面，或在 GitLab 中启用了“Use unique domain”设置，则不需要 `base`。
+1. 如果你想部署到 `https://<username>.gitlab.io/<repository>/`，将 VitePress 配置中的 `outDir` 设置为 `../public`。将 `base` 选项配置为 `'/<repository>/'`。如果你部署到自定义域名、用户或组织页面，或在 GitLab 中启用了“Use unique domain”设置，则不需要 `base`。
 
 2. 在项目的根目录中创建一个名为 `.gitlab-ci.yml` 的文件，其中包含以下内容。每当你更改内容时，这都会构建和部署你的站点：
 

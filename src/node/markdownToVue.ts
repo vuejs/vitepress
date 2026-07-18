@@ -1,8 +1,8 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
 import { LRUCache } from 'lru-cache'
+import fs from 'node:fs'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -28,7 +28,7 @@ const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: { url: string; file: string }[]
+  deadLinks: { url: string; file: string; line?: number }[]
   includes: string[]
 }
 
@@ -47,6 +47,10 @@ let __dynamicRoutes = new Map<string, [string, string]>()
 let __rewrites = new Map<string, string>()
 let __ts: number
 
+function normalizeDriveLetter(file: string) {
+  return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
+}
+
 function getResolutionCache(siteConfig: SiteConfig) {
   // @ts-expect-error internal
   if (siteConfig.__dirty) {
@@ -61,8 +65,8 @@ function getResolutionCache(siteConfig: SiteConfig) {
 
     __rewrites = new Map(
       Object.entries(siteConfig.rewrites.map).map(([key, value]) => [
-        slash(path.join(siteConfig.srcDir, key)),
-        slash(path.join(siteConfig.srcDir, value!))
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, key))),
+        normalizeDriveLetter(slash(path.join(siteConfig.srcDir, value!)))
       ])
     )
 
@@ -92,14 +96,11 @@ export async function createMarkdownToVueRenderFn(
     srcDir,
     options,
     base,
-    siteConfig?.logger
+    siteConfig?.logger,
+    siteConfig?.publicDir
   )
 
-  return async (
-    src: string,
-    file: string,
-    publicDir: string
-  ): Promise<MarkdownCompileResult> => {
+  return async (src: string, file: string): Promise<MarkdownCompileResult> => {
     const { pages, dynamicRoutes, rewrites, ts } =
       getResolutionCache(siteConfig)
 
@@ -110,7 +111,7 @@ export async function createMarkdownToVueRenderFn(
       getPageDataTransformer(dynamicRoute?.[1]!)
     ].filter((fn) => fn != null)
 
-    file = rewrites.get(file) || file
+    file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
 
     const cacheKey = JSON.stringify({ src, ts, relativePath })
@@ -151,17 +152,24 @@ export async function createMarkdownToVueRenderFn(
     }
     const html = await md.renderAsync(src, env)
     const {
+      content,
       frontmatter = {},
       headers = [],
+      linkLines = [],
       links = [],
       sfcBlocks,
       title = ''
     } = env
+    const contentLineOffset = countLineBreaks(
+      content && src.endsWith(content) ? src.slice(0, -content.length) : ''
+    )
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
-    const recordDeadLink = (url: string) => {
-      deadLinks.push({ url, file: fileOrig })
+    const recordDeadLink = (url: string, line?: number) => {
+      deadLinks.push(
+        line == null ? { url, file: fileOrig } : { url, file: fileOrig, line }
+      )
     }
 
     function shouldIgnoreDeadLink(url: string) {
@@ -185,7 +193,12 @@ export async function createMarkdownToVueRenderFn(
 
     if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
-      for (let url of links) {
+      for (const [index, rawUrl] of links.entries()) {
+        let url = rawUrl
+        const line =
+          linkLines[index] == null
+            ? undefined
+            : linkLines[index] + contentLineOffset
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -204,10 +217,13 @@ export async function createMarkdownToVueRenderFn(
 
         if (
           !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          !(
+            siteConfig?.publicDir &&
+            fs.existsSync(path.join(siteConfig.publicDir, `${resolved}.html`))
+          ) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url)
+          recordDeadLink(url, line)
         }
       }
     }
@@ -330,6 +346,10 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   }
 
   return (head && getHeadMetaContent(head, 'description')) || ''
+}
+
+function countLineBreaks(str: string) {
+  return str.match(/\r?\n/g)?.length ?? 0
 }
 
 const getHeadMetaContent = (head: HeadConfig[], name: string) => {

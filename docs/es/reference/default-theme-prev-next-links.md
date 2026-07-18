@@ -1,3 +1,7 @@
+---
+description: Personaliza los enlaces de página anterior y siguiente que se muestran en la parte inferior de las páginas de documentación en VitePress.
+---
+
 # Links Anterior y Próximo {#prev-next-links}
 
 Puede personalizar el texto y el enlace de los botones Anterior y Siguiente que se muestran en la parte inferior de la página. Esto es útil cuando desea mostrar un texto diferente al que tiene en la barra lateral. Además, puede resultarle útil desactivar el pie de página o el enlace a la página para que no se incluya en la barra lateral.

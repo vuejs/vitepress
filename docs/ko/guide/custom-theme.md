@@ -1,3 +1,7 @@
+---
+description: VitePress에서 커스텀 테마를 만들고 사용하여 사이트의 외관과 느낌을 완전히 제어하세요.
+---
+
 # 커스텀 테마 사용하기 {#using-a-custom-theme}
 
 ## 테마 사용법 {#theme-resolving}

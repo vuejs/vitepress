@@ -1,3 +1,7 @@
+---
+description: GitHubやGitLabでページの編集リンクをドキュメントページに表示する方法。
+---
+
 # 編集リンク {#edit-link}
 
 ## サイトレベルの設定 {#site-level-config}

@@ -1,3 +1,7 @@
+---
+description: Configura la navegación de la barra lateral en el tema predeterminado de VitePress con grupos, secciones colapsables y múltiples barras laterales.
+---
+
 # Barra Lateral {#sidebar}
 
 La barra lateral es el bloque de navegación principal de su documentación. Puede configurar el menú de la barra lateral en [`themeConfig.sidebar`](./default-theme-config#sidebar).

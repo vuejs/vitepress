@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Configure a pesquisa local ou com Algolia para seu site VitePress.
 ---
 
 # Pesquisa {#search}

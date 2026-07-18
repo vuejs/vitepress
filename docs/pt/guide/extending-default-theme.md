@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Personalize e estenda o tema padrão do VitePress com CSS, componentes, layouts e slots customizados.
 ---
 
 # Estendendo o Tema Padrão {#extending-the-default-theme}
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Como estamos usando Vite, você também pode aproveitar a [funcionalidade de importação glob](https://vitejs.dev/guide/features.html#glob-import) do Vite para registrar automaticamente um diretório de componentes.
+Como estamos usando Vite, você também pode aproveitar a [funcionalidade de importação glob](https://vite.dev/guide/features.html#glob-import) do Vite para registrar automaticamente um diretório de componentes.
 
 ## _Slots_ no Layout {#layout-slots}
 
@@ -308,7 +309,7 @@ Em breve.
 
 ## Substituindo Componentes Internos {#overriding-internal-components}
 
-Você pode usar os [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir os componentes do tema padrão pelos seus personalizados:
+Você pode usar os [aliases](https://vite.dev/config/shared-options.html#resolve-alias) Vite para substituir os componentes do tema padrão pelos seus personalizados:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

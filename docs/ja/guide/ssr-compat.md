@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのテーマコンポーネントやカスタムコードをサーバーサイドレンダリング（SSR）に対応させる方法。
 ---
 
 # SSR 互換性 {#ssr-compatibility}
@@ -38,7 +39,7 @@ onMounted(() => {
 
 ### 条件付きインポート {#conditional-import}
 
-[`import.meta.env.SSR`](https://vitejs.dev/guide/env-and-mode.html#env-variables) フラグ（Vite の環境変数の一部）を使って、依存関係を条件付きでインポートすることもできます。
+[`import.meta.env.SSR`](https://vite.dev/guide/env-and-mode.html#env-variables) フラグ（Vite の環境変数の一部）を使って、依存関係を条件付きでインポートすることもできます。
 
 ```js
 if (!import.meta.env.SSR) {

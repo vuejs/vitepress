@@ -1,3 +1,6 @@
+---
+description: VitePress를 시작하세요. 문서 사이트를 설치하고, 스캐폴딩하고, 개발을 시작하는 방법을 알아보세요.
+---
 
 # 시작하기 {#getting-started}
 
@@ -9,7 +12,7 @@
 
 ### 사전 준비 사항 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 버전 20 이상.
+- [Node.js](https://nodejs.org/) 버전 22 이상.
 - VitePress를 명령줄 인터페이스(CLI)를 통해 접근하기 위한 터미널.
 - [마크다운](https://en.wikipedia.org/wiki/Markdown) 문법 지원이 있는 텍스트 에디터.
   - [VSCode](https://code.visualstudio.com/)와 [공식 Vue 확장 프로그램](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 사용을 권장합니다.
@@ -38,7 +41,7 @@ $ bun add -D vitepress@next
 
 ::: tip 참고
 
-VitePress는 ESM 전용 패키지입니다. `require()`를 사용하여 가져오지 마시고, `package.json`에 `"type": "module"`이 포함되어 있는지 확인하거나, 관련 파일(예: `.vitepress/config.js`)의 확장자를 `.mjs`/`.mts`로 변경하세요. 자세한 내용은 [Vite 문제 해결 가이드](http://vitejs.dev/ko/guide/troubleshooting.html#this-package-is-esm-only)를 참고하세요. 또한, 비동기 CJS 컨텍스트에서는 `await import('vitepress')`를 사용할 수 있습니다.
+VitePress는 ESM 전용 패키지입니다. `require()`를 사용하여 가져오지 마시고, `package.json`에 `"type": "module"`이 포함되어 있는지 확인하거나, 관련 파일(예: `.vitepress/config.js`)의 확장자를 `.mjs`/`.mts`로 변경하세요. 자세한 내용은 [Vite 문제 해결 가이드](http://vite.dev/ko/guide/troubleshooting.html#this-package-is-esm-only)를 참고하세요. 또한, 비동기 CJS 컨텍스트에서는 `await import('vitepress')`를 사용할 수 있습니다.
 
 :::
 

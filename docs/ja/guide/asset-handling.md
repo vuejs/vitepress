@@ -1,8 +1,12 @@
+---
+description: VitePressで画像、メディア、フォントなどの静的アセットを参照・管理する方法を解説します。
+---
+
 # アセットの取り扱い {#asset-handling}
 
 ## 静的アセットの参照 {#referencing-static-assets}
 
-すべての Markdown ファイルは Vue コンポーネントにコンパイルされ、[Vite](https://vitejs.dev/guide/assets.html) によって処理されます。Markdown 内では、相対 URL を使ってアセットを参照することが **推奨されます**。
+すべての Markdown ファイルは Vue コンポーネントにコンパイルされ、[Vite](https://vite.dev/guide/assets.html) によって処理されます。Markdown 内では、相対 URL を使ってアセットを参照することが **推奨されます**。
 
 ```md
 ![画像](./image.png)

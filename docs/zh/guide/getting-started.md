@@ -1,3 +1,7 @@
+---
+description: 快速上手 VitePress。了解如何安装、创建项目结构并开始开发你的文档站点。
+---
+
 # 快速开始 {#getting-started}
 
 ## 在线尝试 {#try-it-online}
@@ -8,7 +12,7 @@
 
 ### 前置准备 {#prerequisites}
 
-- [Node.js](https://nodejs.org/) 20 及以上版本。
+- [Node.js](https://nodejs.org/) 22 及以上版本。
 - 通过命令行界面 (CLI) 访问 VitePress 的终端。
 - 支持 [Markdown](https://en.wikipedia.org/wiki/Markdown) 语法的编辑器。
   - 推荐 [VSCode](https://code.visualstudio.com/) 及其[官方 Vue 扩展](https://marketplace.visualstudio.com/items?itemName=Vue.volar)。
@@ -37,7 +41,7 @@ $ bun add -D vitepress@next
 
 ::: tip 注意
 
-VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如 `.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考 [Vite 故障排除指南](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('vitepress')` 代替。
+VitePress 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确保最新的 `package.json` 包含 `"type": "module"`，或者更改相关文件的文件扩展名，例如 `.vitepress/config.js` 到 `.mjs`/`.mts`。更多详情请参考 [Vite 故障排除指南](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only)。此外，在异步 CJS 上下文中，可以使用 `await import('vitepress')` 代替。
 
 :::
 

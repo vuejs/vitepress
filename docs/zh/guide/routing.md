@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 了解 VitePress 基于文件的路由系统、动态路由、简洁 URL 和路径重写。
 ---
 
 # 路由 {#routing}
@@ -290,7 +291,7 @@ export default {
 从本地文件生成路径：
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

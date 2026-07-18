@@ -1,12 +1,13 @@
-import fs from 'fs-extra'
+import fs from 'node:fs'
+import { cp } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as vite from 'vite'
+import pMap from 'p-map'
 import {
   build,
   normalizePath,
   type BuildOptions,
-  type Rollup,
+  type Rolldown,
   type InlineConfig as ViteInlineConfig
 } from 'vite'
 import { APP_PATH } from '../alias'
@@ -16,7 +17,7 @@ import { escapeRegExp, sanitizeFileName, slash } from '../shared'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
-// https://github.com/vitejs/vite/blob/d2aa0969ee316000d3b957d7e879f001e85e369e/packages/vite/src/node/plugins/splitVendorChunk.ts#L14
+// https://github.com/vitejs/vite/blob/a55d0b34400e3360c4100d05e422ae9cf10fa07b/packages/vite/src/node/constants.ts#L50
 const CSS_LANGS_RE =
   /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
 
@@ -39,14 +40,14 @@ export async function bundle(
   config: SiteConfig,
   options: BuildOptions
 ): Promise<{
-  clientResult: Rollup.RollupOutput | null
-  serverResult: Rollup.RollupOutput
+  clientResult: Rolldown.RolldownOutput | null
+  serverResult: Rolldown.RolldownOutput
   pageToHashMap: Record<string, string>
 }> {
   const pageToHashMap = Object.create(null) as Record<string, string>
   const clientJSMap = Object.create(null) as Record<string, string>
 
-  // define custom rollup input
+  // define custom rolldown input
   // this is a multi-entry build - every page is considered an entry chunk
   // the loading is done via filename conversion rules so that the
   // metadata doesn't need to be included in the main chunk.
@@ -65,7 +66,11 @@ export async function bundle(
   )
 
   // resolve options to pass to vite
-  const { rollupOptions } = options
+  const {
+    rollupOptions,
+    rolldownOptions = rollupOptions,
+    ...restOptions
+  } = options
 
   const resolveViteConfig = async (
     ssr: boolean
@@ -84,26 +89,26 @@ export async function bundle(
       noExternal: ['vitepress', '@docsearch/css']
     },
     build: {
-      ...options,
+      ...restOptions,
       emptyOutDir: true,
       ssr,
       ssrEmitAssets: config.mpa,
       minify: ssr ? !!config.mpa : (options.minify ?? !process.env.DEBUG),
       outDir: ssr ? config.tempDir : config.outDir,
       cssCodeSplit: false,
-      rollupOptions: {
-        ...rollupOptions,
+      rolldownOptions: {
+        ...rolldownOptions,
         input: {
           // use different entry based on ssr or not
           app: path.resolve(APP_PATH, ssr ? 'ssr.js' : 'index.js'),
           ...input
         },
-        // important so that each page chunk and the index export things for each
-        // other
+        // important so that each page chunk and the index export things for
+        // each other
         preserveEntrySignatures: 'allow-extension',
         output: {
           sanitizeFileName,
-          ...rollupOptions?.output,
+          ...rolldownOptions?.output,
           assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
           ...(ssr
             ? {
@@ -118,34 +123,27 @@ export async function bundle(
                     ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
-                // @ts-ignore skip setting it for rolldown-vite since it doesn't support `manualChunks`
-                ...(vite.rolldownVersion
-                  ? undefined
-                  : {
-                      manualChunks(
-                        id: string,
-                        ctx: Pick<Rollup.PluginContext, 'getModuleInfo'>
-                      ) {
+                codeSplitting: {
+                  groups: [
+                    {
+                      name(id, ctx) {
+                        const getModuleInfo = ctx.getModuleInfo.bind(ctx)
+
+                        // avoid emitting multiple files for assets
+                        // see: https://github.com/rolldown/rolldown/issues/4246
+                        if (getModuleInfo(id)?.meta['vite:asset']) {
+                          return 'assets'
+                        }
+
                         // move known framework code into a stable chunk so that
                         // custom theme changes do not invalidate hash for all pages
                         if (
                           id.startsWith('\0vite') ||
-                          ctx.getModuleInfo(id)?.meta['vite:asset']
-                        ) {
-                          return 'framework'
-                        }
-                        if (id.includes('plugin-vue:export-helper')) {
-                          return 'framework'
-                        }
-                        if (
-                          id.includes(`${clientDir}/app`) &&
-                          id !== `${clientDir}/app/index.js`
-                        ) {
-                          return 'framework'
-                        }
-                        if (
-                          isEagerChunk(id, ctx.getModuleInfo) &&
-                          /@vue\/(runtime|shared|reactivity)/.test(id)
+                          id.includes('plugin-vue:export-helper') ||
+                          (id.includes(`${clientDir}/app`) &&
+                            id !== `${clientDir}/app/index.js`) ||
+                          (isEagerChunk(id, getModuleInfo) &&
+                            /@vue\/(runtime|shared|reactivity)/.test(id))
                         ) {
                           return 'framework'
                         }
@@ -155,7 +153,7 @@ export async function bundle(
                             !excludedModules.some((i) => id.includes(i))) &&
                           staticImportedByEntry(
                             id,
-                            ctx.getModuleInfo,
+                            getModuleInfo,
                             cacheTheme,
                             themeEntryRE
                           )
@@ -163,43 +161,55 @@ export async function bundle(
                           return 'theme'
                         }
                       }
-                    })
+                    }
+                  ]
+                }
               })
+        },
+        checks: {
+          invalidAnnotation: false, // FIXME: remove when vueuse releases a new version
+          pluginTimings: false,
+          ...rolldownOptions?.checks
         }
       }
     },
     configFile: config.vite?.configFile
   })
 
-  let clientResult!: Rollup.RollupOutput | null
-  let serverResult!: Rollup.RollupOutput
+  let clientResult: Rolldown.RolldownOutput | null = null
+  let serverResult!: Rolldown.RolldownOutput
 
+  // prettier-ignore
   await task('building client + server bundles', async () => {
-    clientResult = config.mpa
-      ? null
-      : ((await build(await resolveViteConfig(false))) as Rollup.RollupOutput)
-    serverResult = (await build(
-      await resolveViteConfig(true)
-    )) as Rollup.RollupOutput
+    if (!config.mpa) clientResult =
+      (await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput
+    serverResult =
+      (await build(await resolveViteConfig(true))) as Rolldown.RolldownOutput
   })
 
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
-    await Promise.all(
-      serverResult.output.map(async (chunk) => {
+    await pMap(
+      serverResult.output,
+      async (chunk) => {
         if (!chunk.fileName.endsWith('.js')) {
           const tempPath = path.resolve(config.tempDir, chunk.fileName)
           const outPath = path.resolve(config.outDir, chunk.fileName)
-          await fs.copy(tempPath, outPath)
+          await cp(tempPath, outPath)
         }
-      })
+      },
+      { concurrency: config.buildConcurrency }
     )
+
     // also copy over public dir
-    const publicDir = path.resolve(config.srcDir, 'public')
-    if (fs.existsSync(publicDir)) {
-      await fs.copy(publicDir, config.outDir)
+    const { publicDir } = config
+    if (publicDir && fs.existsSync(publicDir)) {
+      // dereference symlinks like vite's own publicDir copy does, and so that
+      // copying over an existing symlinked file does not fail with EEXIST
+      await cp(publicDir, config.outDir, { recursive: true, dereference: true })
     }
+
     // build <script client> bundle
     if (Object.keys(clientJSMap).length) {
       clientResult = await buildMPAClient(clientJSMap, config)
@@ -223,7 +233,7 @@ const cacheTheme = new Map<string, boolean>()
 /**
  * Check if a module is statically imported by at least one entry.
  */
-function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
+function isEagerChunk(id: string, getModuleInfo: Rolldown.GetModuleInfo) {
   if (
     id.includes('node_modules') &&
     !CSS_LANGS_RE.test(id) &&
@@ -235,7 +245,7 @@ function isEagerChunk(id: string, getModuleInfo: Rollup.GetModuleInfo) {
 
 function staticImportedByEntry(
   id: string,
-  getModuleInfo: Rollup.GetModuleInfo,
+  getModuleInfo: Rolldown.GetModuleInfo,
   cache: Map<string, boolean>,
   entryRE: RegExp | null = null,
   importStack: string[] = []

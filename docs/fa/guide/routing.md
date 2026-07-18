@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: آشنایی با مسیریابی مبتنی بر فایل، مسیرهای پویا، URLهای تمیز و بازنویسی مسیر در ویت‌پرس.
 ---
 
 # مسیریابی {#routing}
@@ -294,7 +295,7 @@ export default {
 تولید مسیرها از فایل‌های محلی:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

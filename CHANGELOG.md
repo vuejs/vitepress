@@ -1,3 +1,46 @@
+## [2.0.0-alpha.18](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.17...v2.0.0-alpha.18) (2026-07-06)
+
+### Bug Fixes
+
+- **build:** apply `base` to links with download attribute ([#5186](https://github.com/vuejs/vitepress/issues/5186)) ([01987c4](https://github.com/vuejs/vitepress/commit/01987c4c0838478a8fda81f427775f28476c5557))
+- **build:** normalize rewrite drive letters ([#5245](https://github.com/vuejs/vitepress/issues/5245)) ([5c50b99](https://github.com/vuejs/vitepress/commit/5c50b99724815a6fb3d2311e801dcad4aeb9b412))
+- **build:** show dead link line numbers ([#5230](https://github.com/vuejs/vitepress/issues/5230)) ([c37bde6](https://github.com/vuejs/vitepress/commit/c37bde6308fb9f202e224f5eb38c0fac35468ea6))
+- compose markdown config when extending configs ([#5236](https://github.com/vuejs/vitepress/issues/5236)) ([04f4fba](https://github.com/vuejs/vitepress/commit/04f4fbadbdc05c75dbf3564c21404540d570d43b))
+- delete undefined values while merging sidepanel props ([cc30b10](https://github.com/vuejs/vitepress/commit/cc30b10b60beb862f85915055dc97651703bf250))
+- disable pluginTimings and invalidAnnotation for now ([9315fc1](https://github.com/vuejs/vitepress/commit/9315fc182229f13ee793dc44107947b2fe6ab50e))
+- don't invalidate framework chunk when a new asset is added ([c0e2e18](https://github.com/vuejs/vitepress/commit/c0e2e1809464c48435a22a0aa9468ff5e562791d))
+- escape description in head ([d96bf1d](https://github.com/vuejs/vitepress/commit/d96bf1dc616599609d8a24af7183aee6a7b9ae07))
+- index rewritten local search pages by locale ([#5241](https://github.com/vuejs/vitepress/issues/5241)) ([80cf265](https://github.com/vuejs/vitepress/commit/80cf2650aa5fa4b49093509f60766cc5b28c19bc))
+- keep translation links in the current tab ([#5158](https://github.com/vuejs/vitepress/issues/5158)) ([202ee70](https://github.com/vuejs/vitepress/commit/202ee7026054ac5c721bbdbf196426628b0c9b18))
+- normalize `/index` to `/` ([856858d](https://github.com/vuejs/vitepress/commit/856858d26a78f2e19e2c8ee23c2e85a95dbfdd29)), closes [#5165](https://github.com/vuejs/vitepress/issues/5165)
+- preserve Agent Studio DocSearch options ([#5254](https://github.com/vuejs/vitepress/issues/5254)) ([f29ffdb](https://github.com/vuejs/vitepress/commit/f29ffdbb33022eb41327fec836f9cfbc16bf01d8))
+- preserve external sidebar links with base ([#5243](https://github.com/vuejs/vitepress/issues/5243)) ([ddf178a](https://github.com/vuejs/vitepress/commit/ddf178a170967527bafe7c9b262fb66aa10ec9de))
+- prevent DocSearch SVG clipping in WebKit ([#5240](https://github.com/vuejs/vitepress/issues/5240)) ([a357e5e](https://github.com/vuejs/vitepress/commit/a357e5ef67ed266861877eb08da753b2141a784f))
+- strip frontmatter before heading includes ([#5246](https://github.com/vuejs/vitepress/issues/5246)) ([e68fade](https://github.com/vuejs/vitepress/commit/e68fade75d2259b10695e85277f5483a084e3ae7))
+- **theme:** avatars misaligned in team member cards ([6730fb8](https://github.com/vuejs/vitepress/commit/6730fb84620c852b516de59f6f7c39c4f04f0e37)), closes [#5160](https://github.com/vuejs/vitepress/issues/5160)
+- **theme:** correct mixed LTR/RTL text rendering in code blocks ([73f7b0b](https://github.com/vuejs/vitepress/commit/73f7b0b984853758d41e897dd43e5e93a1066266))
+- **theme:** keep external link icon inline ([#5232](https://github.com/vuejs/vitepress/issues/5232)) ([756a88c](https://github.com/vuejs/vitepress/commit/756a88cfa2f8f71400362327d2255cb8b5ccacfa))
+- **theme:** prevent `sub` and `sup` elements from affecting line height ([19357f9](https://github.com/vuejs/vitepress/commit/19357f9d337472572a500b8d2af8ef97932bfdda)), closes [#5173](https://github.com/vuejs/vitepress/issues/5173)
+- use resolveDynamicComponent instead of resolveComponent ([9da1e3e](https://github.com/vuejs/vitepress/commit/9da1e3e70f41b7b8cb81f791307c778d65854f7a))
+
+### Features
+
+- add macOS local search navigation shortcuts ([#5237](https://github.com/vuejs/vitepress/issues/5237)) ([e635e9e](https://github.com/vuejs/vitepress/commit/e635e9e5ea2876a293954970c6a00d6e09cb50a5))
+- add support for `format` option in Carbon options ([#5188](https://github.com/vuejs/vitepress/issues/5188)) ([6ee01bf](https://github.com/vuejs/vitepress/commit/6ee01bf30534cbf7847fe8c94fbf23efd9637f68))
+- allow custom i18n routing ([#5239](https://github.com/vuejs/vitepress/issues/5239)) ([eef5742](https://github.com/vuejs/vitepress/commit/eef57427f4861939ff27f07d71587e68118064e2))
+- allow VPContent to use custom components ([#5176](https://github.com/vuejs/vitepress/issues/5176)) ([c0b38d5](https://github.com/vuejs/vitepress/commit/c0b38d52c270e4efb59effa8ab7207535c48ec05))
+- **markdown:** expose Shiki color replacements in markdown options ([#5153](https://github.com/vuejs/vitepress/issues/5153)) ([fccc617](https://github.com/vuejs/vitepress/commit/fccc6171024f1b0087dd963dbe5a6236081b5d3d))
+- migrate to vite 8 ([228eef1](https://github.com/vuejs/vitepress/commit/228eef187ae33d1676a79e466d289c0e6e9ab321))
+- show local search loading state ([#5252](https://github.com/vuejs/vitepress/issues/5252)) ([7e2273a](https://github.com/vuejs/vitepress/commit/7e2273a3e470da2777c2510b51262e85879f2ee9))
+- support scroll-margin / scroll-padding ([6cce766](https://github.com/vuejs/vitepress/commit/6cce76685da39f8b5c75da047f847f82f70b9c4e))
+- support social link target option ([#5242](https://github.com/vuejs/vitepress/issues/5242)) ([d0159c8](https://github.com/vuejs/vitepress/commit/d0159c8a850cbd2a010a3d44bdeb97c3db651d0e))
+
+### BREAKING CHANGES
+
+- VitePress now uses Vite 8. If you are using Vite plugins in your config, please check the [Vite 8 migration guide](https://vite.dev/guide/migration) for any breaking changes that may affect you.
+- Node 20 support is dropped. v22 or higher is needed.
+- `scrollOffset` from config is removed. Users wanting to customize scroll offset should customize `scroll-margin-top` via CSS instead. `smoothScroll` support from `router.go` is also removed as it didn't work as expected for most users. Users wanting smooth scrolling should set `scroll-behavior: smooth` in CSS, ideally inside a `@media (prefers-reduced-motion: no-preference)` block.
+
 ## [2.0.0-alpha.17](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.16...v2.0.0-alpha.17) (2026-03-19)
 
 ### Bug Fixes
@@ -25,9 +68,9 @@
 
 ### BREAKING CHANGES
 
-The previous `<!-- @include: ./path/to/file -->` syntax silently ignored errors when files did not exist. This behavior was originally intended as an escape hatch while documenting includes, but better solutions now exist using Shiki transformers.
+Previously, the `<!-- @include: ./path/to/file -->` syntax silently ignored errors when files did not exist. This behavior was originally intended as an escape hatch while documenting includes, but better solutions now exist using Shiki transformers.
 
-For most users, no code changes are required. If you now see errors, it means your includes are broken and were previously not being reported.
+For most users, no code changes are required. If you now see errors, it means your includes are broken and were earlier not being reported.
 
 Users who intentionally reference non-existent files or want to document includes without resolving them can configure `markdown.codeTransformers` with a `postprocess` hook. See `docs/.vitepress/config.ts` in this repo for an example.
 
@@ -97,6 +140,7 @@ Users who intentionally reference non-existent files or want to document include
 
 - `markdown-it-attrs` is disabled for fenced code blocks. For most users no change is required. If you want to add classes to code blocks, do it using shiki transformers instead.
 - Rename `cjkFriendly` to `cjkFriendlyEmphasis` in your vitepress config. Most people should be unaffected unless they want to disable the CJK emphasis behavior added v2.0.0-alpha.12.
+- `useData().lastUpdated` now defaults to 0 if `lastUpdated` is enabled in config. No change is needed unless you were manually doing strict comparison in your layout or components.
 
 ## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
 
@@ -776,7 +820,7 @@ Users who intentionally reference non-existent files or want to document include
 
 ### BREAKING CHANGES
 
-- VitePress now runs on Vite 5. Please refer https://vitejs.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
+- VitePress now runs on Vite 5. Please refer https://vite.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
 
 # [1.0.0-rc.25](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2023-11-05)
 

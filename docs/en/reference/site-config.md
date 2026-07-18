@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Complete reference of VitePress site configuration options including app-level settings, theming, and build options.
 ---
 
 # Site Config
@@ -133,13 +134,43 @@ export default defineConfigWithTheme<ThemeConfig>({
 
   You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
 
+### Page-Level Overrides
+
+Some settings can be overridden for specific pages using frontmatter.
+
+See [Frontmatter Config](./frontmatter-config) for details.
+
+### Directory-Level Overrides
+
+Some config settings can be overridden at the directory level, allowing all pages in that directory to share settings without needing to repeat them in the frontmatter of each page.
+
+This is achieved by adding a file called `config.ts` (or `.js`, `.mjs`, or `.mts`) in the relevant directory. This file should export a config object using `export default`, similar to the main config file.
+
+Nested directories inherit settings from their parent directory, with configuration overrides being merged accordingly.
+
+The `defineAdditionalConfig` helper can be used to get TypeScript-powered intellisense for the available options, though as with `defineConfig` its use is optional.
+
+For example, for a site with multiple languages we might want a different `description` for each language. We could add `es/config.ts` with the following content:
+
+```ts
+import { defineAdditionalConfig } from 'vitepress'
+
+export default defineAdditionalConfig({
+  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.'
+})
+```
+
+This `description` would then be used for all pages in the `es` directory.
+
+Alternatively, when using the built-in i18n features, the settings for a locale directory can be overridden via the `locales` setting in the main configuration file. See [Internationalization](../guide/i18n) for details.
+
 ## Site Metadata
 
 ### title
 
 - Type: `string`
 - Default: `VitePress`
-- Can be overridden per page via [frontmatter](./frontmatter-config#title)
+- Can be overridden per page via [frontmatter](./frontmatter-config#title) or at the [directory level](#directory-level-overrides)
 
 Title for the site. When using the default theme, this will be displayed in the nav bar.
 
@@ -160,7 +191,7 @@ The title of the page will be `Hello | My Awesome Site`.
 ### titleTemplate
 
 - Type: `string | boolean`
-- Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate)
+- Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate) or at the [directory level](#directory-level-overrides)
 
 Allows customizing each page's title suffix or the entire title. For example:
 
@@ -193,7 +224,7 @@ The option can be set to `false` to disable title suffixes.
 
 - Type: `string`
 - Default: `A VitePress site`
-- Can be overridden per page via [frontmatter](./frontmatter-config#description)
+- Can be overridden per page via [frontmatter](./frontmatter-config#description) or at the [directory level](#directory-level-overrides)
 
 Description for the site. This will render as a `<meta>` tag in the page HTML.
 
@@ -207,7 +238,7 @@ export default {
 
 - Type: `HeadConfig[]`
 - Default: `[]`
-- Can be appended per page via [frontmatter](./frontmatter-config#head)
+- Can be appended per page via [frontmatter](./frontmatter-config#head) or at the [directory level](#directory-level-overrides)
 
 Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
 
@@ -319,6 +350,7 @@ export default {
 
 - Type: `string`
 - Default: `en-US`
+- Can be overridden at the [directory level](#directory-level-overrides)
 
 The lang attribute for the site. This will render as a `<html lang="en-US">` tag in the page HTML.
 
@@ -429,7 +461,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -470,13 +502,6 @@ export default {
   ]
 }
 ```
-
-### metaChunk <Badge type="warning" text="experimental" />
-
-- Type: `boolean`
-- Default: `false`
-
-When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
 
 ### mpa <Badge type="warning" text="experimental" />
 
@@ -529,11 +554,13 @@ export default {
 
 Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
+Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) options to collect headings into [`useData().page.headers`](./runtime-api#usedata). This option is disabled by default.
+
 ### vite
 
 - Type: `import('vite').UserConfig`
 
-Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
+Pass raw [Vite Config](https://vite.dev/config/) to internal Vite dev server / bundler.
 
 ```js
 export default {
@@ -606,7 +633,7 @@ interface SSGContext {
 
 - Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` is a build hook to transform the head before generating each page. It will allow you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
+`transformHead` is a build hook to add extra tags to the `<head>` of each page. It allows you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
 
 ::: warning
 Don't mutate anything inside the `context`.
@@ -634,43 +661,37 @@ interface TransformContext {
 }
 ```
 
-Note that this hook is only called when generating the site statically. It is not called during dev. If you need to add dynamic head entries during dev, you can use the [`transformPageData`](#transformpagedata) hook instead:
+This hook is only called when performing a build, it is not called during dev.
+
+The extra tags will be added to the static HTML files generated by the build. They will not be updated during client-side navigation.
+
+In many cases, using the [`transformPageData`](#transformpagedata) hook is a cleaner solution. That hook will also be applied to both client-side navigation and during dev. But if generating the head tags is computationally expensive then `transformHead` will avoid that overhead during dev.
+
+#### Example: Adding `og:image` meta
 
 ```ts
 export default {
-  transformPageData(pageData) {
-    pageData.frontmatter.head ??= []
-    pageData.frontmatter.head.push([
+  async transformHead(context) {
+    if (context.page === '404.md') {
+      return
+    }
+
+    // The implementation details of `generatePageImage` would depend
+    // on your requirements. Here we assume it generates a suitable
+    // image for each page and returns the image URL.
+    const imageUrl = await generatePageImage(context)
+    
+    return [[
       'meta',
-      {
-        name: 'og:title',
-        content:
-          pageData.frontmatter.layout === 'home'
-            ? `VitePress`
-            : `${pageData.title} | VitePress`
-      }
-    ])
+      { name: 'og:image', content: imageUrl }
+    ]]
   }
 }
 ```
 
-#### Example: Adding a canonical URL `<link>`
+Here we're assuming that the image URL is dynamic and time-consuming to generate. Using `transformHead` avoids that overhead during development.
 
-```ts
-export default {
-  transformPageData(pageData) {
-    const canonicalUrl = `https://example.com/${pageData.relativePath}`
-      .replace(/index\.md$/, '')
-      .replace(/\.md$/, '.html')
-
-    pageData.frontmatter.head ??= []
-    pageData.frontmatter.head.push([
-      'link',
-      { rel: 'canonical', href: canonicalUrl }
-    ])
-  }
-}
-```
+For simpler cases, it may be possible to use the [`head`](./frontmatter-config#head) setting in frontmatter, or [`transformPageData`](#transformpagedata).
 
 ### transformHtml
 
@@ -718,5 +739,41 @@ export default {
 ```ts
 interface TransformPageContext {
   siteConfig: SiteConfig
+}
+```
+
+#### Example: Adding a `<meta name="og:title">`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const title = pageData.frontmatter.layout === 'home'
+      ? 'VitePress'
+      : `${pageData.title} | VitePress`
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      { name: 'og:title', content: title }
+    ])
+  }
+}
+```
+
+#### Example: Adding a canonical URL `<link>`
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://example.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
+    ])
+  }
 }
 ```

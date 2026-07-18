@@ -1,3 +1,7 @@
+---
+description: ایجاد صفحات تیم با پروفایل اعضا با استفاده از کامپوننت‌های داخلی تیم ویت‌پرس.
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 

@@ -1,4 +1,5 @@
 ---
+description: Разверните свой сайт VitePress на популярных платформах, таких как Netlify, Vercel, GitHub Pages и других.
 outline: deep
 ---
 
@@ -165,6 +166,13 @@ Cache-Control: max-age=31536000,immutable
            with:
              node-version: 24
              cache: npm # или pnpm / yarn
+         - name: Cache VitePress
+           uses: actions/cache@v4
+           with:
+             path: docs/.vitepress/cache
+             key: ${{ runner.os }}-vitepress-${{ hashFiles('docs/**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+             restore-keys: |
+               ${{ runner.os }}-vitepress-
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies

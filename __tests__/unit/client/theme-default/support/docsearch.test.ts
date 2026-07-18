@@ -1,5 +1,6 @@
 import {
   buildAskAiConfig,
+  buildSidePanelProps,
   hasAskAi,
   hasKeywordSearch,
   mergeLangFacetFilters,
@@ -191,6 +192,111 @@ describe('client/theme-default/support/docsearch', () => {
         'en'
       )
       expect(result.searchParameters?.facetFilters).toEqual(['lang:en'])
+    })
+
+    test('preserves Agent Studio search parameters by index', () => {
+      const result = buildAskAiConfig(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true,
+          searchParameters: {
+            index: {
+              distinct: false
+            }
+          }
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index',
+          searchParameters: {
+            facetFilters: ['tag:docs']
+          }
+        } as any,
+        'en'
+      )
+
+      expect(result.searchParameters).toEqual({
+        index: {
+          distinct: false
+        }
+      })
+      expect(result.searchParameters).not.toHaveProperty('facetFilters')
+    })
+
+    test('does not add legacy facet filters to Agent Studio config', () => {
+      const result = buildAskAiConfig(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index',
+          searchParameters: {
+            facetFilters: ['tag:docs']
+          }
+        } as any,
+        'en'
+      )
+
+      expect(result.searchParameters).toBeUndefined()
+    })
+  })
+
+  describe('buildSidePanelProps', () => {
+    test('passes resolved Ask AI options to the side panel', () => {
+      const result = buildSidePanelProps(
+        {
+          assistantId: 'assistant123',
+          agentStudio: true,
+          searchParameters: {
+            index: {
+              facetFilters: ['lang:en']
+            }
+          },
+          suggestedQuestions: true,
+          useStagingEnv: true,
+          sidePanel: {
+            button: {
+              variant: 'inline'
+            },
+            panel: {
+              width: 420,
+              suggestedQuestions: true
+            }
+          }
+        } as any,
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indexName: 'index'
+        } as any
+      )
+
+      expect(result).toEqual({
+        container: '#vp-docsearch-sidepanel',
+        appId: 'app',
+        apiKey: 'key',
+        indexName: 'index',
+        assistantId: 'assistant123',
+        agentStudio: true,
+        searchParameters: {
+          index: {
+            facetFilters: ['lang:en']
+          }
+        },
+        suggestedQuestions: true,
+        useStagingEnv: true,
+        button: {
+          variant: 'inline'
+        },
+        panel: {
+          width: 420,
+          suggestedQuestions: true
+        }
+      })
     })
   })
 })

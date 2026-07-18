@@ -1,3 +1,7 @@
+---
+description: Extensiones Markdown integradas en VitePress, incluyendo contenedores personalizados, bloques de código con resaltado de sintaxis, resaltado de líneas, grupos de código y más.
+---
+
 # Extensiones Markdown {#markdown-extensions}
 
 VitePress viene con Extensiones embutidas.
@@ -228,7 +232,7 @@ export default defineConfig({
 
 ### `raw`
 
-Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes. Puede tambien verificar [whyframe](https://whyframe.dev/docs/integrations/vitepress) para mejor aislamiento.
+Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
 
 **Sintaxis**
 

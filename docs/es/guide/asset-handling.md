@@ -1,8 +1,12 @@
+---
+description: Aprende cómo referenciar y manejar recursos estáticos como imágenes, medios y fuentes en VitePress.
+---
+
 # Manejo de Assets {#asset-handling}
 
 ## Referenciando Assets Estáticos {#referencing-static-assets}
 
-Todos los archivos Markdown son compilados en componentes Vue y procesados por [Vite](https://vitejs.dev/guide/assets.html). Usted puede **y debe** referenciar cualquier asset usando URLs relativas:
+Todos los archivos Markdown son compilados en componentes Vue y procesados por [Vite](https://vite.dev/guide/assets.html). Usted puede **y debe** referenciar cualquier asset usando URLs relativas:
 
 ```md
 ![Una imagen](./imagen.png)

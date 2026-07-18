@@ -1,3 +1,7 @@
+---
+description: 在 VitePress 中创建和使用自定义主题，全面控制站点的外观和风格。
+---
+
 # 自定义主题 {#using-a-custom-theme}
 
 ## 解析主题 {#theme-resolving}

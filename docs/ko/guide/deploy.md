@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Netlify, Vercel, GitHub Pages 등 인기 있는 플랫폼에 VitePress 사이트를 배포하세요.
 ---
 
 # VitePress 사이트 배포하기 {#deploy-your-vitepress-site}

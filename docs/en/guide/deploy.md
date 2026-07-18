@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Deploy your VitePress site to popular platforms like Netlify, Vercel, GitHub Pages, and more.
 ---
 
 # Deploy Your VitePress Site
@@ -165,6 +166,13 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
            with:
              node-version: 24
              cache: npm # or pnpm / yarn
+         - name: Cache VitePress
+           uses: actions/cache@v4
+           with:
+             path: docs/.vitepress/cache
+             key: ${{ runner.os }}-vitepress-${{ hashFiles('docs/**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+             restore-keys: |
+               ${{ runner.os }}-vitepress-
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies

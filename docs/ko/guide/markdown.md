@@ -1,3 +1,7 @@
+---
+description: 커스텀 컨테이너, 구문 강조 코드 블록, 라인 하이라이팅, 코드 그룹 등 VitePress 내장 마크다운 확장 기능을 소개합니다.
+---
+
 # 마크다운 확장 기능 {#markdown-extensions}
 
 VitePress는 내장된 마크다운 확장 기능을 제공합니다.
@@ -227,7 +231,7 @@ export default defineConfig({
 
 ### `raw`
 
-이것은 VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용할 수 있는 특별한 컨테이너입니다. 컴포넌트 라이브러리를 문서화할 때 특히 유용합니다. 더 나은 분리를 위해 [whyframe](https://whyframe.dev/docs/integrations/vitepress)을 참고해 볼 수 있습니다.
+이것은 VitePress와 스타일 및 라우터 충돌을 방지하기 위해 사용할 수 있는 특별한 컨테이너입니다. 컴포넌트 라이브러리를 문서화할 때 특히 유용합니다.
 
 **문법**
 

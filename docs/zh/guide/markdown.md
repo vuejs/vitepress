@@ -1,3 +1,7 @@
+---
+description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+---
+
 # Markdown 扩展 {#markdown-extensions}
 
 VitePress 带有内置的 Markdown 扩展。
@@ -227,7 +231,7 @@ export default defineConfig({
 
 ### `raw`
 
-这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。可能还想查看 [whyframe](https://whyframe.dev/docs/integrations/vitepress) 以获得更好的隔离。
+这是一个特殊的容器，可以用来防止与 VitePress 的样式和路由冲突。这在记录组件库时特别有用。
 
 **语法**
 

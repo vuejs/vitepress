@@ -1,5 +1,6 @@
 // types shared between server and client
 import type { UseDarkOptions } from '@vueuse/core'
+import type { Component, Ref } from 'vue'
 import type { SSRContext } from 'vue/server-renderer'
 export type { DefaultTheme } from './default-theme.js'
 
@@ -136,11 +137,6 @@ export interface SiteData<ThemeConfig = any> {
     | 'force-auto'
     | (Omit<UseDarkOptions, 'initialValue'> & { initialValue?: 'dark' })
   themeConfig: ThemeConfig
-  scrollOffset:
-    | number
-    | string
-    | string[]
-    | { selector: string | string[]; padding: number }
   locales: LocaleConfig<ThemeConfig>
   localeIndex?: string
   contentProps?: Record<string, any>
@@ -148,13 +144,48 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   additionalConfig?:
-    | AdditionalConfigDict<ThemeConfig>
-    | AdditionalConfigLoader<ThemeConfig>
+    AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
+}
+
+export interface VitePressData<T = any> {
+  /**
+   * site-level metadata
+   */
+  site: Ref<SiteData<T>>
+  /**
+   * themeConfig from .vitepress/config.js
+   */
+  theme: Ref<T>
+  /**
+   * page-level metadata
+   */
+  page: Ref<PageData>
+  /**
+   * page frontmatter data
+   */
+  frontmatter: Ref<PageData['frontmatter']>
+  /**
+   * dynamic route params
+   */
+  params: Ref<PageData['params']>
+  title: Ref<string>
+  description: Ref<string>
+  lang: Ref<string>
+  dir: Ref<string>
+  localeIndex: Ref<string>
+  isDark: Ref<boolean>
+}
+
+export interface Route {
+  path: string
+  hash: string
+  query: string
+  data: PageData
+  component: Component | null
 }
 
 export type HeadConfig =
-  | [string, Record<string, string>]
-  | [string, Record<string, string>, string]
+  [string, Record<string, string>] | [string, Record<string, string>, string]
 
 export interface PageDataPayload {
   path: string
@@ -228,6 +259,7 @@ export interface MarkdownEnv {
   relativePath: string
   cleanUrls: boolean
   links?: string[]
+  linkLines?: number[]
   includes?: string[]
   realPath?: string
   localeIndex?: string

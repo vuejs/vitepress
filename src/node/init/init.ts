@@ -7,8 +7,8 @@ import {
   select,
   text
 } from '@clack/prompts'
-import fs from 'fs-extra'
 import template from 'lodash.template'
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import c from 'picocolors'
@@ -200,7 +200,8 @@ export function scaffold({
     const content = fs.readFileSync(filePath, 'utf-8')
     const compiled = template(content)(data)
 
-    fs.outputFileSync(targetPath, compiled)
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+    fs.writeFileSync(targetPath, compiled)
   }
 
   const filesToScaffold = [

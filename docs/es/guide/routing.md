@@ -1,4 +1,5 @@
 ---
+description: Comprende el enrutamiento basado en archivos de VitePress, rutas dinámicas, URLs limpias y reescritura de rutas.
 outline: deep
 ---
 
@@ -289,7 +290,7 @@ El módulo de carga de paths es ejecutado en Node.js y apenas durante el momento
 Generando paths a partir de archivos locales:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

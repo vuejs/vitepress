@@ -1,3 +1,7 @@
+---
+description: VitePressのMarkdownファイル内でVueコンポーネントや動的テンプレート機能を直接使用する方法。
+---
+
 # MarkdownでVueを使う {#using-vue-in-markdown}
 
 VitePress では、各 Markdown ファイルはまず HTML にコンパイルされ、その後 [Vue の単一ファイルコンポーネント（SFC）](https://vuejs.org/guide/scaling-up/sfc.html) として処理されます。つまり、Markdown 内で Vue のあらゆる機能が使えます。動的テンプレート、Vue コンポーネントの利用、`<script>` タグを追加してページ内ロジックを書くことも可能です。
@@ -199,7 +203,7 @@ Hello {{ 1 + 1 }}
 
 ## CSS プリプロセッサの利用 {#using-css-pre-processors}
 
-VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`、`.stylus`）を[標準サポート](https://vitejs.dev/guide/features.html#css-pre-processors)しています。Vite 固有のプラグインは不要ですが、各プリプロセッサ本体のインストールは必要です。
+VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`、`.stylus`）を[標準サポート](https://vite.dev/guide/features.html#css-pre-processors)しています。Vite 固有のプラグインは不要ですが、各プリプロセッサ本体のインストールは必要です。
 
 ```
 # .scss / .sass

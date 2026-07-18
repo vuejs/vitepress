@@ -1,3 +1,7 @@
+---
+description: VitePress is a static site generator designed for building fast, content-centric websites powered by Vite and Vue.
+---
+
 # What is VitePress?
 
 VitePress is a [Static Site Generator](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) designed for building fast, content-centric websites. In a nutshell, VitePress takes your source content written in [Markdown](https://en.wikipedia.org/wiki/Markdown), applies a theme to it, and generates static HTML pages that can be easily deployed anywhere.
@@ -12,7 +16,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 - **Documentation**
 
-  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
+  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
 
@@ -26,7 +30,7 @@ Just want to try it out? Skip to the [Quickstart](./getting-started).
 
 VitePress aims to provide a great Developer Experience (DX) when working with Markdown content.
 
-- **[Vite-Powered:](https://vitejs.dev/)** instant server start, with edits always instantly reflected (<100ms) without page reload.
+- **[Vite-Powered:](https://vite.dev/)** instant server start, with edits always instantly reflected (<100ms) without page reload.
 
 - **[Built-in Markdown Extensions:](./markdown)** Frontmatter, tables, syntax highlighting... you name it. Specifically, VitePress provides many advanced features for working with code blocks, making it ideal for highly technical documentation.
 

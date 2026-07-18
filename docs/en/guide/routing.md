@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Understand VitePress file-based routing, dynamic routes, clean URLs, and path rewrites.
 ---
 
 # Routing
@@ -328,7 +329,7 @@ The paths loader module is run in Node.js and only executed during build time. Y
 Generating paths from local files:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

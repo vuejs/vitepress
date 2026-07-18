@@ -1,4 +1,4 @@
-import { createRequire } from 'module'
+import { createRequire } from 'node:module'
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
 
 const require = createRequire(import.meta.url)
@@ -209,7 +209,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           closeText: '关闭',
           backToSearchText: '返回搜索',
           closeKeyAriaLabel: 'Esc 键',
-          poweredByText: '由…提供支持'
+          poweredByText: '搜索提供'
         },
         errorScreen: {
           titleText: '无法获取结果',
@@ -301,7 +301,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
                 '我会搜索你的文档，快速帮你找到设置指南、功能细节和故障排除提示。'
             },
             logo: {
-              poweredByText: '由…提供支持'
+              poweredByText: '搜索提供'
             }
           }
         }

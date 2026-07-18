@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, nextTick, onMounted, ref, useSSRContext } from 'vue'
-import type { SSGContext } from '../../shared'
+import { isExternal, type SSGContext } from '../../shared'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
   link: string
   ariaLabel?: string
+  target?: string
   me: boolean
 }>()
 
@@ -45,7 +46,7 @@ if (import.meta.env.SSR) {
     class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
-    target="_blank"
+    :target="target ?? (isExternal(link) ? '_blank' : undefined)"
     :rel="me ? 'me noopener' : 'noopener'"
     v-html="svg"
   ></a>

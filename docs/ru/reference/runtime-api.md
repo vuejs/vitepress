@@ -1,3 +1,7 @@
+---
+description: Справочник по Runtime API VitePress, включая композаблы, вспомогательные функции и встроенные компоненты.
+---
+
 # Runtime API {#runtime-api}
 
 VitePress предлагает несколько встроенных API, позволяющих получить доступ к данным приложения. VitePress также поставляется с несколькими встроенными компонентами, которые можно использовать глобально.
@@ -58,6 +62,8 @@ interface PageData {
 }
 ```
 
+`page.headers` заполняется только в том случае, если включён параметр [markdown.headers](./site-config#markdown). Без него это свойство остаётся пустым массивом. Оглавление в теме по умолчанию получает заголовки из уже отрендеренного содержимого страницы, поэтому оно может отображаться, даже если `page.headers` пуст.
+
 **Пример:**
 
 ```vue
@@ -117,6 +123,18 @@ interface Router {
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
+
+Назначьте обработчики изменения маршрутов для экземпляра маршрутизатора:
+
+```ts
+const router = useRouter()
+
+router.onBeforeRouteChange = (to) => {
+  console.log('переход к', to)
+}
+```
+
+В пользовательских темах этот же экземпляр маршрутизатора доступен через [`enhanceApp`](../guide/custom-theme#theme-interface).
 
 ## `withBase` <Badge type="info" text="хелпер" /> {#withbase}
 

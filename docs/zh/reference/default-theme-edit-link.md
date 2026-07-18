@@ -1,3 +1,7 @@
+---
+description: 在文档页面上显示编辑链接，让用户可以在 GitHub 或 GitLab 上提交修改建议。
+---
+
 # 编辑链接 {#edit-link}
 
 ## 站点级配置 {#site-level-config}

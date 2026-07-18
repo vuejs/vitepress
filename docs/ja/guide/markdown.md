@@ -1,3 +1,7 @@
+---
+description: VitePress組み込みのMarkdown拡張機能。カスタムコンテナ、コードブロックのシンタックスハイライト、行ハイライト、コードグループなど。
+---
+
 # Markdown 拡張 {#markdown-extensions}
 
 VitePress には組み込みの Markdown 拡張機能が用意されています。
@@ -247,7 +251,7 @@ console.log('こんにちは、VitePress!')
 
 ### `raw`
 
-これは、VitePress でのスタイルやルーターの衝突を防ぐための特別なコンテナです。コンポーネントライブラリのドキュメント化に特に有用です。より強力な分離が必要であれば、[whyframe](https://whyframe.dev/docs/integrations/vitepress) も検討してください。
+これは、VitePress でのスタイルやルーターの衝突を防ぐための特別なコンテナです。コンポーネントライブラリのドキュメント化に特に有用です。
 
 **構文**
 

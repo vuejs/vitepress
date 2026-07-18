@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 为 VitePress 站点设置本地搜索或 Algolia 搜索功能。
 ---
 
 # 搜索 {#search}

@@ -1,3 +1,7 @@
+---
+description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+---
+
 # Markdown Extensions
 
 VitePress comes with built in Markdown Extensions.
@@ -249,7 +253,7 @@ console.log('Hello, VitePress!')
 
 ### `raw`
 
-This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
+This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
 
 **Syntax**
 

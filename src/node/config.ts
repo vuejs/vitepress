@@ -1,16 +1,18 @@
-import { createDebug } from 'obug'
-import fs from 'fs-extra'
+import fs from 'node:fs'
 import path from 'node:path'
+import { createDebug } from 'obug'
 import c from 'picocolors'
 import {
   createLogger,
   loadConfigFromFile,
   mergeConfig as mergeViteConfig,
   normalizePath,
-  type ConfigEnv
+  type ConfigEnv,
+  type UserConfig as ViteUserConfig
 } from 'vite'
 import { DEFAULT_THEME_PATH } from './alias'
 import type { DefaultTheme } from './defaultTheme'
+import type { MarkdownOptions } from './markdown/markdown'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
@@ -39,8 +41,7 @@ export type UserConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<UserConfig<ThemeConfig>>
 export type UserConfigExport<ThemeConfig> =
-  | Awaitable<UserConfig<ThemeConfig>>
-  | UserConfigFn<ThemeConfig>
+  Awaitable<UserConfig<ThemeConfig>> | UserConfigFn<ThemeConfig>
 
 /**
  * Type config helper
@@ -55,8 +56,7 @@ export type AdditionalConfigFn<ThemeConfig> = (
   env: ConfigEnv
 ) => Awaitable<AdditionalConfig<ThemeConfig>>
 export type AdditionalConfigExport<ThemeConfig> =
-  | Awaitable<AdditionalConfig<ThemeConfig>>
-  | AdditionalConfigFn<ThemeConfig>
+  Awaitable<AdditionalConfig<ThemeConfig>> | AdditionalConfigFn<ThemeConfig>
 
 /**
  *  Type config helper for additional/locale-specific config
@@ -124,13 +124,22 @@ export async function resolveConfig(
 
   // resolve theme path
   const userThemeDir = resolve(root, 'theme')
-  const themeDir = (await fs.pathExists(userThemeDir))
+  const themeDir = fs.existsSync(userThemeDir)
     ? userThemeDir
     : DEFAULT_THEME_PATH
+
+  // mirrors vite's publicDir resolution
+  // re-synced with the resolved vite config in the plugin's configResolved hook
+  const vitePublicDir = userConfig.vite?.publicDir
+  const publicDir =
+    vitePublicDir === false || vitePublicDir === ''
+      ? ''
+      : normalizePath(path.resolve(srcDir, vitePublicDir || 'public'))
 
   const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
+    publicDir,
     assetsDir,
     site,
     themeDir,
@@ -147,7 +156,6 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    metaChunk: !!userConfig.metaChunk,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
@@ -240,7 +248,7 @@ export async function resolveUserConfig(
       resolve(root, `config/index.${ext}`),
       resolve(root, `config.${ext}`)
     ])
-    .find(fs.pathExistsSync)
+    .find(fs.existsSync)
 
   let userConfig: RawConfigExports = {}
   let configDeps: string[] = []
@@ -288,10 +296,14 @@ async function resolveConfigExtends(
   return resolved
 }
 
-export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
+export function mergeConfig<A extends object, B extends object>(
+  a: A,
+  b: B,
+  isRoot = true
+): A & B {
   const merged: Record<string, any> = { ...a }
   for (const key in b) {
-    const value = b[key as keyof UserConfig]
+    const value = b[key]
     if (value == null) {
       continue
     }
@@ -302,13 +314,31 @@ export function mergeConfig(a: UserConfig, b: UserConfig, isRoot = true) {
     }
     if (isObject(existing) && isObject(value)) {
       if (isRoot && key === 'vite') {
-        merged[key] = mergeViteConfig(existing, value)
+        merged[key] = mergeViteConfig(
+          existing as ViteUserConfig,
+          value as ViteUserConfig
+        )
+      } else if (isRoot && key === 'markdown') {
+        merged[key] = mergeMarkdownConfig(existing, value as MarkdownOptions)
       } else {
         merged[key] = mergeConfig(existing, value, false)
       }
       continue
     }
     merged[key] = value
+  }
+  return merged as A & B
+}
+
+function mergeMarkdownConfig(a: MarkdownOptions, b: MarkdownOptions) {
+  const merged = mergeConfig(a, b, false)
+  const baseConfig = a.config
+  const extendedConfig = b.config
+  if (baseConfig && extendedConfig) {
+    merged.config = async (md) => {
+      await baseConfig(md)
+      await extendedConfig(md)
+    }
   }
   return merged
 }
@@ -335,7 +365,6 @@ export async function resolveSiteData(
     appearance: userConfig.appearance ?? true,
     themeConfig: userConfig.themeConfig || {},
     locales: userConfig.locales || {},
-    scrollOffset: userConfig.scrollOffset ?? 134,
     cleanUrls: !!userConfig.cleanUrls,
     contentProps: userConfig.contentProps,
     additionalConfig: userConfig.additionalConfig

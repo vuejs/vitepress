@@ -9,3 +9,7 @@ html:not(.dark) .shiki span {
   text-decoration: var(--shiki-light-text-decoration, inherit);
   font-weight: var(--shiki-light-font-weight, inherit);
 }
+
+.shiki span {
+  unicode-bidi: isolate;
+}

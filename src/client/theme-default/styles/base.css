@@ -40,7 +40,6 @@
     font-weight: 400;
     color: var(--vp-c-text-1);
     background-color: var(--vp-c-bg);
-    font-synthesis: style;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -239,6 +238,22 @@
   li,
   p {
     overflow-wrap: break-word;
+  }
+
+  sub,
+  sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+
+  sub {
+    bottom: -0.25em;
+  }
+
+  sup {
+    top: -0.5em;
   }
 
   vite-error-overlay {

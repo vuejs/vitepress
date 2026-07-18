@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Entenda o roteamento baseado em arquivos do VitePress, rotas dinâmicas, URLs limpas e reescritas de caminho.
 ---
 
 # Roteamento {#routing}
@@ -289,7 +290,7 @@ O módulo de carregamento de caminhos é executado no Node.js e apenas durante o
 Gerando caminhos a partir de arquivos locais:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

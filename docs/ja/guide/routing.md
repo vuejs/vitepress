@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePressのファイルベースルーティング、動的ルート、クリーンURL、パスのリライトについて解説します。
 ---
 
 # ルーティング {#routing}
@@ -303,7 +304,7 @@ export default {
 ローカルファイルから生成する例：
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

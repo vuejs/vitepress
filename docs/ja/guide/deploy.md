@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Netlify、Vercel、GitHub Pagesなどの主要プラットフォームにVitePressサイトをデプロイする方法。
 ---
 
 # VitePress サイトをデプロイする {#deploy-your-vitepress-site}

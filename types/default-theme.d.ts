@@ -1,7 +1,7 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { Header, PageData } from './shared.js'
+import type { Header, PageData, Route, VitePressData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -136,11 +136,13 @@ export namespace DefaultTheme {
     carbonAds?: CarbonAdsOptions
 
     /**
-     * Changing locale when current url is `/foo` will redirect to `/locale/foo`.
+     * Changing locale when current url is `/foo` redirects to `/locale/foo`.
+     * Set to `false` to disable this behavior, or provide a function to
+     * customize the target locale link.
      *
      * @default true
      */
-    i18nRouting?: boolean
+    i18nRouting?: boolean | I18nRouting
 
     /**
      * Show external link icon in Markdown links.
@@ -154,6 +156,12 @@ export namespace DefaultTheme {
      */
     notFound?: NotFoundOptions
   }
+
+  export type I18nRouting = (
+    data: VitePressData<Config>,
+    route: Route,
+    targetLocale: string
+  ) => string
 
   // nav -----------------------------------------------------------------------
 
@@ -310,6 +318,7 @@ export namespace DefaultTheme {
     icon: SocialLinkIcon
     link: string
     ariaLabel?: string
+    target?: string
   }
 
   export type SocialLinkIcon = string | { svg: string }
@@ -410,6 +419,7 @@ export namespace DefaultTheme {
   export interface CarbonAdsOptions {
     code: string
     placement: string
+    format?: 'classic' | 'responsive' | 'cover'
   }
 
   // last updated --------------------------------------------------------------

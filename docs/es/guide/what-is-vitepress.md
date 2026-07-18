@@ -1,3 +1,7 @@
+---
+description: VitePress es un generador de sitios estáticos diseñado para crear sitios web rápidos y centrados en el contenido, impulsado por Vite y Vue.
+---
+
 # ¿Qué es VitePress? {#what-is-vitepress}
 
 VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) diseñado para construir sitios web rápidos y enfocados en el contenido. En pocas palabras, VitePress toma tu contenido fuente escrito en [Markdown](https://en.wikipedia.org/wiki/Markdown), le aplica un tema y genera páginas HTML estáticas que se pueden desplegar fácilmente en cualquier lugar.
@@ -12,7 +16,7 @@ VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/S
 
 - **Documentación**
 
-  VitePress incluye un tema por defecto diseñado para documentación técnica. Este tema es el que se utiliza en la página que estás leyendo ahora, así como en la documentación de [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) y [muchos otros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
+  VitePress incluye un tema por defecto diseñado para documentación técnica. Este tema es el que se utiliza en la página que estás leyendo ahora, así como en la documentación de [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) y [muchos otros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   La [documentación oficial Vue.js](https://vuejs.org/) también está basada en VitePress, pero utiliza un tema personalizado compartido entre varias traducciones.
 
@@ -26,7 +30,7 @@ VitePress es un [Generador de Sitios Estáticos](https://en.wikipedia.org/wiki/S
 
 VitePress busca ofrecer una excelente Experiencia de Desarrollador (DX) al trabajar con contenido Markdown.
 
-- **[Con tecnología Vite:](https://vitejs.dev/)** inicio instantáneo del servidor, con los cambios reflejados al instante (<100ms) sin recargar la página.
+- **[Con tecnología Vite:](https://vite.dev/)** inicio instantáneo del servidor, con los cambios reflejados al instante (<100ms) sin recargar la página.
 
 - **[Extensiones Markdown Integradas:](./markdown)** Frontmatter, tablas, destaque de sintaxis... tú decides. Específicamente, VitePress proporciona muchos recursos para trabajar con bloques de código, tornándolo ideal para documentación altamente técnica.
 

@@ -1,3 +1,7 @@
+---
+description: Reference of VitePress runtime APIs including composables, helper functions, and built-in components.
+---
+
 # Runtime API
 
 VitePress offers several built-in APIs to let you access app data. VitePress also comes with a few built-in components that can be used globally.
@@ -58,6 +62,8 @@ interface PageData {
 }
 ```
 
+`page.headers` is populated only when [`markdown.headers`](./site-config#markdown) is enabled. Without that option, it remains an empty array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
+
 **Example:**
 
 ```vue
@@ -117,6 +123,18 @@ interface Router {
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
+
+Assign route-change handlers on the router instance:
+
+```ts
+const router = useRouter()
+
+router.onBeforeRouteChange = (to) => {
+  console.log('navigating to', to)
+}
+```
+
+For custom themes, the same router is available from [`enhanceApp`](../guide/custom-theme#theme-interface).
 
 ## `withBase` <Badge type="info" text="helper" />
 
