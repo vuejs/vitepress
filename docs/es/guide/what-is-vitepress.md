@@ -34,7 +34,7 @@ VitePress busca ofrecer una excelente Experiencia de Desarrollador (DX) al traba
 
 - **[Extensiones Markdown integradas:](./markdown)** Frontmatter, tablas, resaltado de sintaxis... tú decides. Específicamente, VitePress ofrece muchas funciones avanzadas para trabajar con bloques de código, tornándolo ideal para documentación altamente técnica.
 
-- **[Vue-Enhanced Markdown:](./using-vue)** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. Puedes incrustar interactividad en tu contenido estático usando las funciones de plantillas de Vue o componentes de Vue importados.
+- **[Markdown mejorado con Vue:](./using-vue)** cada página Markdown también es un [Componente de Archivo Único](https://vuejs.org/guide/scaling-up/sfc.html) de Vue, gracias a la compatibilidad del 100% de la sintaxis de las plantillas de Vue con HTML. Puedes incrustar interactividad en tu contenido estático usando las funciones de plantillas de Vue o componentes de Vue importados.
 
 ## Rendimiento {#performance}
 
