@@ -184,6 +184,7 @@ export default {
   }
 }
 ```
+
 ## Path Prefix
 
 When your documentation structure has deep directories or groups located under the same subdirectory, you can use the `base` option to automatically prepend a path prefix to all nested `items` inside that group. This avoids repeating the same path prefix for every `link`.
@@ -211,8 +212,11 @@ export default {
   }
 }
 ```
+
 ### In Nested Groups
+
 You can also use `base` inside nested sidebar groups. It will apply to the immediate children of that group:
+
 ```js{6,13}
 export default {
   themeConfig: {

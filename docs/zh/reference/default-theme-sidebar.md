@@ -182,7 +182,8 @@ export default {
   }
 }
 ```
-## 路径前缀 {#path-prefix-base}
+
+## 路径前缀 {#path-prefix}
 
 当文档结构具有较深的目录，或者多个分组位于同一个子目录下时，可以使用 `base` 选项为该分组下的所有嵌套 `items` 拼接的一个路径前缀。
 
@@ -209,8 +210,11 @@ export default {
   }
 }
 ```
+
 ### 在嵌套分组中使用 {#in-nested-groups}
+
 也可以在嵌套的侧边栏分组内部使用 `base`，它将作用于该分组的直接子项：
+
 ```js {6,13}
 export default {
   themeConfig: {
