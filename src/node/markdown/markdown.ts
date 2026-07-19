@@ -53,7 +53,10 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
-import { snippetPlugin } from './plugins/snippet'
+import {
+  snippetPlugin,
+  type Options as SnippetOptions
+} from './plugins/snippet'
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
@@ -205,7 +208,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @default true
    * @see https://vitepress.dev/guide/markdown#import-code-snippets
    */
-  snippet?: boolean
+  snippet?: SnippetOptions | boolean
 
   /* ==================== Markdown Extensions ==================== */
 
@@ -397,7 +400,7 @@ export async function createMarkdownRenderer(
     lineNumberPlugin(md, options.lineNumbers)
   }
   if (options.snippet !== false) {
-    snippetPlugin(md, srcDir)
+    snippetPlugin(md, srcDir, normalizePluginOptions(options.snippet))
   }
   const containerOptions = normalizePluginOptions(options.container)
   if (options.container !== false) {

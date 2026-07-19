@@ -4,6 +4,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
 
+export interface Options {
+  /**
+   * Strip all marker comments from snippets.
+   * @default false
+   */
+  stripMarkersFromSnippets?: boolean
+}
+
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
@@ -126,7 +134,11 @@ export function findRegions(lines: string[], regionName: string) {
   return returned
 }
 
-export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
+export const snippetPlugin = (
+  md: MarkdownItAsync,
+  srcDir: string,
+  options?: Options
+) => {
   const parser: RuleBlock = (state, startLine, _endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
@@ -209,15 +221,13 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
       const regions = findRegions(lines, region)
 
       if (regions.length > 0) {
-        content = dedent(
-          regions
-            .flatMap((r) =>
-              lines
-                .slice(r.start, r.end)
-                .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-            )
-            .join('\n')
-        )
+        content = regions
+          .flatMap((r) =>
+            lines
+              .slice(r.start, r.end)
+              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+          )
+          .join('\n')
       } else {
         token.content = `No region #${region} found in path: ${src}`
         token.info = ''
@@ -225,7 +235,19 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
       }
     }
 
-    token.content = content
+    if (options?.stripMarkersFromSnippets) {
+      content = content
+        .split('\n')
+        .filter((l) => {
+          for (const m of markers) {
+            if (m.start.test(l) || m.end.test(l)) return false
+          }
+          return true
+        })
+        .join('\n')
+    }
+
+    token.content = dedent(content)
     return fence(...args)
   }
 
