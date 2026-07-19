@@ -230,7 +230,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   cjkFriendlyEmphasis?: boolean
   /**
    * @see cjkFriendlyEmphasis
-   * @deprecated use `cjkFriendly` instead
+   * @deprecated use `cjkFriendlyEmphasis` instead
    */
   cjkFriendly?: boolean
 }
