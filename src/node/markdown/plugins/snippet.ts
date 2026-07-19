@@ -24,20 +24,24 @@ export interface Options {
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp =
-  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  /^(.+?)(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
+    ,
     filepath = '',
-    extension = '',
     region = '',
     lines = '',
     lang = '',
     attrs = '',
     rawTitle = ''
-  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+  ] = rawPathRegexp.exec(rawPath) || []
 
-  const title = rawTitle || filepath.split('/').pop() || ''
+  const filename = filepath.split('/').pop() ?? ''
+
+  const extension = filename.includes('.') ? filename.split('.').pop()! : ''
+
+  const title = rawTitle || filename
 
   return { filepath, extension, region, lines, lang, attrs, title }
 }
