@@ -218,6 +218,10 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
             )
             .join('\n')
         )
+      } else {
+        token.content = `No region #${region} found in path: ${src}`
+        token.info = ''
+        return fence(...args)
       }
     }
 
