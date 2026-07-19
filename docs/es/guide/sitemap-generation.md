@@ -39,7 +39,7 @@ export default {
 }
 ```
 
-## Hook `transformItems` {transformitems-hook}
+## Hook `transformItems` {#transformitems-hook}
 
 Puede usar el hook `sitemap.transformItems` para modificar los elementos del sitemap antes de que se escriban en el archivo `sitemap.xml`. Este hook se llama con un _array_ de elementos del mapa del sitio y espera que se devuelva un _array_ de elementos del sitemap. Ejemplo:
 
