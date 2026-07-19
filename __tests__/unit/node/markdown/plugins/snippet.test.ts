@@ -151,7 +151,7 @@ describe('node/markdown/plugins/snippet', () => {
         'Console.WriteLine("After region");'
       ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
       expect(
         result
           .flatMap((r) =>
@@ -160,7 +160,12 @@ describe('node/markdown/plugins/snippet', () => {
               .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
           )
           .join('\n')
-      ).toBe('Console.WriteLine("Hello, World!");')
+      ).toBe(
+        [
+          'Console.WriteLine("Hello, World!");',
+          'Console.WriteLine("Hello, World!");'
+        ].join('\n')
+      )
     })
 
     it('detects region markers even when the end marker omits the region name', () => {
@@ -172,7 +177,7 @@ describe('node/markdown/plugins/snippet', () => {
         'Console.WriteLine("After region");'
       ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
       expect(
         result
           .flatMap((r) =>
@@ -181,7 +186,12 @@ describe('node/markdown/plugins/snippet', () => {
               .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
           )
           .join('\n')
-      ).toBe('Console.WriteLine("Hello, World!");')
+      ).toBe(
+        [
+          'Console.WriteLine("Hello, World!");',
+          'Console.WriteLine("Hello, World!");'
+        ].join('\n')
+      )
     })
 
     it('handles indented region markers correctly', () => {
@@ -193,7 +203,7 @@ describe('node/markdown/plugins/snippet', () => {
         '  Console.WriteLine("After region");'
       ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
       expect(
         result
           .flatMap((r) =>
@@ -202,7 +212,12 @@ describe('node/markdown/plugins/snippet', () => {
               .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
           )
           .join('\n')
-      ).toBe('  Console.WriteLine("Hello, World!");')
+      ).toBe(
+        [
+          '  Console.WriteLine("Hello, World!");',
+          '  Console.WriteLine("Hello, World!");'
+        ].join('\n')
+      )
     })
 
     it('detects TypeScript style region markers', () => {

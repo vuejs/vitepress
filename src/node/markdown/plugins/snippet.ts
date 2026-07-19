@@ -123,11 +123,9 @@ export function findRegions(lines: string[], regionName: string) {
         }
       }
     }
-
-    if (returned.length > 0) break
   }
 
-  return returned
+  return returned.sort((a, b) => a.start - b.start)
 }
 
 export const snippetPlugin = (
