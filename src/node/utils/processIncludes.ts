@@ -14,42 +14,46 @@ export function processIncludes(
   cleanUrls: boolean
 ): string {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
-  const regionRE = /(#[^\s\{]+)/
+  const regionRE = /#([^\s\{]+)$/
   const rangeRE = /\{(\d*),(\d*)\}$/
 
   return src.replace(includesRE, (m: string, m1: string) => {
     if (!m1.length) return m
 
-    const range = m1.match(rangeRE)
-    const region = m1.match(regionRE)
+    const rangeMeta = m1.match(rangeRE)
+    if (rangeMeta) {
+      m1 = m1.replace(rangeRE, '')
+    }
 
-    const hasMeta = !!(region || range)
-
-    if (hasMeta) {
-      const len = (region?.[0].length || 0) + (range?.[0].length || 0)
-      m1 = m1.slice(0, -len) // remove meta info from the include path
+    const regionMeta = m1.match(regionRE)
+    if (regionMeta) {
+      m1 = m1.replace(regionRE, '')
     }
 
     const atPresent = m1[0] === '@'
-
     const includePath = atPresent
       ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
       : path.join(path.dirname(file), m1)
 
     let content = fs.readFileSync(includePath, 'utf-8')
 
-    if (region) {
-      const [regionName] = region
-      const regions = findRegions(content.split(/\r?\n/), regionName.slice(1))
+    // for markdown files, if a range is used without a region,
+    // the line numbers must account for the frontmatter,
+    // so we leave it, otherwise we will strip it out
+    if (path.extname(includePath) === '.md' && (regionMeta || !rangeMeta)) {
+      content = matter(content).content
+    }
+
+    let lines = content.split(/\r?\n/)
+
+    if (regionMeta) {
+      const [, region] = regionMeta
+      const regions = findRegions(lines, region)
 
       if (regions.length === 0) {
         // region not found, it might be a header
 
-        if (path.extname(includePath) === '.md') {
-          // remove the frontmatter
-          content = matter(content).content
-        }
-
+        // can use `content` because `lines` has not been mutated yet
         const tokens = md
           .parse(content, {
             path: includePath,
@@ -57,48 +61,38 @@ export function processIncludes(
             cleanUrls
           } satisfies MarkdownEnv)
           .filter((t) => t.type === 'heading_open' && t.map)
-        const idx = tokens.findIndex(
-          (t) => t.attrGet('id') === regionName.slice(1)
-        )
+        const idx = tokens.findIndex((t) => t.attrGet('id') === region)
         const token = tokens[idx]
 
         if (token) {
           const start = token.map![1]
           const level = parseInt(token.tag.slice(1))
-          let end = undefined
+          let end = Infinity
           for (let i = idx + 1; i < tokens.length; i++) {
             if (parseInt(tokens[i].tag.slice(1)) <= level) {
               end = tokens[i].map![0]
               break
             }
           }
-          regions.push({ start, end } as any)
+          regions.push({ start, end })
         }
       }
 
       if (regions.length > 0) {
-        const lines = content.split(/\r?\n/)
-        content = regions
-          .flatMap((region) => lines.slice(region.start, region.end))
-          .join('\n')
+        lines = regions.flatMap((r) => lines.slice(r.start, r.end))
       } else {
-        content = `No region or heading #${regionName} found in path: ${includePath}`
+        lines = [
+          `No region or heading #${region} found in path: ${includePath}`
+        ]
       }
     }
 
-    if (range) {
-      const [, startLine, endLine] = range
-      const lines = content.split(/\r?\n/)
-      content = lines
-        .slice(
-          startLine ? parseInt(startLine) - 1 : undefined,
-          endLine ? parseInt(endLine) : undefined
-        )
-        .join('\n')
-    }
-
-    if (!hasMeta && path.extname(includePath) === '.md') {
-      content = matter(content).content
+    if (rangeMeta) {
+      const [, startLine, endLine] = rangeMeta
+      lines = lines.slice(
+        startLine ? parseInt(startLine) - 1 : undefined,
+        endLine ? parseInt(endLine) : undefined
+      )
     }
 
     includes.push(slash(includePath))
@@ -107,7 +101,7 @@ export function processIncludes(
     return processIncludes(
       md,
       srcDir,
-      content,
+      lines.join('\n'),
       includePath,
       includes,
       cleanUrls
