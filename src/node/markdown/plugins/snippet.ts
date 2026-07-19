@@ -77,42 +77,39 @@ const markers = [
   }
 ]
 
-export function findRegions(lines: string[], regionName: string) {
-  const returned: {
-    re: (typeof markers)[number]
-    start: number
-    end: number
-  }[] = []
+export function findRegions(lines: string[], region: string) {
+  const returned: { start: number; end: number }[] = []
 
-  for (const re of markers) {
-    let nestedCounter = 0
-    let start: number | null = null
+  let nestedCounter = 0
+  let start: number | null = null
 
-    for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
+    for (const m of markers) {
       // find region start
-      const startMatch = re.start.exec(lines[i])
-      if (startMatch?.[1] === regionName) {
+      const startMatch = m.start.exec(lines[i])
+      if (startMatch?.[1] === region) {
         if (nestedCounter === 0) start = i + 1
         nestedCounter++
-        continue
+        break
       }
 
       if (nestedCounter === 0) continue
 
       // find region end
-      const endMatch = re.end.exec(lines[i])
-      if (endMatch?.[1] === regionName || endMatch?.[1] === '') {
+      const endMatch = m.end.exec(lines[i])
+      if (endMatch?.[1] === region || endMatch?.[1] === '') {
         nestedCounter--
         // if all nested regions ended
         if (nestedCounter === 0 && start != null) {
-          returned.push({ re, start, end: i })
+          returned.push({ start, end: i })
           start = null
         }
+        break
       }
     }
   }
 
-  return returned.sort((a, b) => a.start - b.start)
+  return returned
 }
 
 export function stripMarkers(lines: string[]): string[] {
@@ -222,11 +219,7 @@ export const snippetPlugin = (
       const regions = findRegions(lines, region)
 
       if (regions.length > 0) {
-        lines = regions.flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        lines = regions.flatMap((r) => lines.slice(r.start, r.end))
       } else {
         token.content = `No region #${region} found in path: ${src}`
         token.info = ''

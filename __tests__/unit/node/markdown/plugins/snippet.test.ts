@@ -161,11 +161,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(2)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         //
@@ -186,13 +182,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('Console.WriteLine("Hello, World!");')
     })
 
@@ -207,13 +197,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('  Console.WriteLine("Hello, World!");')
     })
 
@@ -227,13 +211,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('let start = -1;')
     })
 
@@ -249,13 +227,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('  padding-left: 15px;')
     })
 
@@ -270,13 +242,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('  <h1>Hello world</h1>')
     })
 
@@ -291,13 +257,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('  Console.WriteLine("Inside region")')
     })
 
@@ -316,11 +276,7 @@ describe('node/markdown/plugins/snippet', () => {
       expect(result).toHaveLength(2)
 
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         //
@@ -339,13 +295,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('int a = 1;')
     })
 
@@ -367,11 +317,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(3)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         'first region content',
@@ -393,15 +339,13 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'foo')
       expect(result).toHaveLength(1)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         "console.log('line before nested');",
-        "console.log('nested content');"
+        '// #region bar',
+        "console.log('nested content');",
+        '// #endregion bar'
       ].join('\n')
       expect(extracted).toBe(expected)
     })
@@ -415,11 +359,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'complex-name_123')
       expect(result).toHaveLength(1)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       expect(extracted).toBe('const x = 1;')
     })
@@ -435,13 +375,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
       expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        result.flatMap((r) => lines.slice(r.start, r.end)).join('\n')
       ).toBe('  "key": true,')
     })
 
@@ -460,11 +394,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(2)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         //
@@ -499,11 +429,7 @@ describe('node/markdown/plugins/snippet', () => {
       const result = findRegions(lines, 'shared')
       expect(result).toHaveLength(4)
       const extracted = result
-        .flatMap((r) =>
-          lines
-            .slice(r.start, r.end)
-            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-        )
+        .flatMap((r) => lines.slice(r.start, r.end))
         .join('\n')
       const expected = [
         '  <div>template part</div>',
@@ -549,7 +475,7 @@ describe('stripMarkers', () => {
       '/* #endregion foo */'
     ]
     const result = findRegions(lines, 'foo')
-    expect(result).toHaveLength(2)
+    expect(result).toHaveLength(1)
     const extracted = result
       .flatMap((r) => lines.slice(r.start, r.end))
       .join('\n')
@@ -557,7 +483,6 @@ describe('stripMarkers', () => {
       "console.log('double-slash only');",
       '//#region bar',
       '/* #region foo */',
-      "console.log('nestled in both comments');",
       "console.log('nestled in both comments');",
       '// #endregion foo',
       '/*#endregion bar*/',
@@ -568,7 +493,6 @@ describe('stripMarkers', () => {
     const strippedExtracted = stripMarkers(extracted.split('\n')).join('\n')
     const strippedExpected = [
       "console.log('double-slash only');",
-      "console.log('nestled in both comments');",
       "console.log('nestled in both comments');",
       "console.log('slash-star only');"
     ].join('\n')
