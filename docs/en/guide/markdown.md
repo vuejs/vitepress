@@ -229,6 +229,36 @@ export default defineConfig({
 })
 ```
 
+### Nesting
+
+The `:::` markers follow the same rules as fenced code blocks (` ``` `): a fence is only closed by a matching fence that is **at least as long** as the one that opened it. To nest containers (or to mix them with [code groups](#code-groups)) make the outer fence longer than the ones inside it.
+
+**Input**
+
+`````md
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+`````
+
+**Output**
+
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+
 ### Additional Attributes
 
 You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
