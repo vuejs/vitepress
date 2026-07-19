@@ -83,6 +83,10 @@ const markers = [
   {
     start: /^\s*\(\*\s*#region\b\s*(.*?)\s*\*\)/,
     end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
+  },
+  {
+    start: /^\s*"[/][/]+\s*#region\b\s*(.*?)":\s*"",?$/,
+    end: /^\s*"[/][/]+\s*#endregion\b\s*(.*?)":\s*"",?$/
   }
 ]
 
