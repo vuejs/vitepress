@@ -39,7 +39,7 @@ onMounted(() => {
 
 ### 条件导入 {#conditional-import}
 
-也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vitejs.dev/guide/env-and-mode.html#env-variables)的一部分) 来有条件地导入依赖项：
+也可以使用 `import.meta.env.SSR` 标志 ([Vite 环境变量](https://cn.vite.dev/guide/env-and-mode.html#env-variables)的一部分) 来有条件地导入依赖项：
 
 ```js
 if (!import.meta.env.SSR) {

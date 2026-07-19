@@ -820,7 +820,7 @@ Users who intentionally reference non-existent files or want to document include
 
 ### BREAKING CHANGES
 
-- VitePress now runs on Vite 5. Please refer https://vitejs.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
+- VitePress now runs on Vite 5. Please refer https://vite.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
 
 # [1.0.0-rc.25](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2023-11-05)
 

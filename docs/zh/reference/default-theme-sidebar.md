@@ -182,3 +182,63 @@ export default {
   }
 }
 ```
+
+## 路径前缀 {#path-prefix}
+
+当文档结构具有较深的目录，或者多个分组位于同一个子目录下时，可以使用 `base` 选项为该分组下的所有嵌套 `items` 拼接的一个路径前缀。
+
+这样可以避免为每个 `link` 重复书写相同的路径。`base` 选项既支持在多侧边栏配置中使用，也支持在嵌套的侧边栏分组中使用。
+
+### 在多侧边栏中使用 {#in-multiple-sidebars}
+
+可以在多侧边栏配置的根部定义 `base`：
+
+```js {5}
+export default {
+  themeConfig: {
+    sidebar: {
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          // 实际解析为 `/guide/introduction`
+          { text: 'Introduction', link: 'introduction' },
+          // 实际解析为 `/guide/getting-started`
+          { text: 'Getting Started', link: 'getting-started' }
+        ]
+      }
+    }
+  }
+}
+```
+
+### 在嵌套分组中使用 {#in-nested-groups}
+
+也可以在嵌套的侧边栏分组内部使用 `base`，它将作用于该分组的直接子项：
+
+```js {6,13}
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Reference',
+        base: '/reference/',
+        items: [
+          // 实际解析为 `/reference/site-config`
+          { text: 'Site Config', link: 'site-config' },
+          {
+            text: 'Default Theme',
+            // 嵌套的 base 会覆盖父级的路径前缀
+            base: '/reference/default-theme-',
+            items: [
+              // 实际解析为 `/reference/default-theme-nav`
+              { text: 'Nav', link: 'nav' },
+              // 实际解析为 `/reference/default-theme-sidebar`
+              { text: 'Sidebar', link: 'sidebar' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```

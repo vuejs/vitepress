@@ -221,10 +221,6 @@ function generateMetadataScript(
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 
-  if (!config.metaChunk) {
-    return { html: `<script>${metadataContent}</script>`, inHead: false }
-  }
-
   const metadataFile = path.join(
     config.assetsDir,
     'chunks',

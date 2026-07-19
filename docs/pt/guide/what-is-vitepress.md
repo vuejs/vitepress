@@ -16,7 +16,7 @@ Quer apenas experimentar? Pule para o [Início Rápido](./getting-started).
 
 - **Documentação**
 
-  VitePress vem com um tema padrão projetado para documentação técnica. Ele alimenta esta página que você está lendo agora, juntamente com a documentação [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) e [muitos outros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
+  VitePress vem com um tema padrão projetado para documentação técnica. Ele alimenta esta página que você está lendo agora, juntamente com a documentação [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) e [muitos outros](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
   A [documentação oficial Vue.js](https://vuejs.org/) também é baseada em VitePress, mas usa um tema personalizado compartilhado entre várias traduções.
 
@@ -30,7 +30,7 @@ Quer apenas experimentar? Pule para o [Início Rápido](./getting-started).
 
 VitePress visa proporcionar excelente Experiência de Desenvolvedor (DX) ao trabalhar com conteúdo em Markdown.
 
-- **[Alimentado por Vite:](https://vitejs.dev/)** inicialização instantânea do servidor, com edições sempre refletidas instantaneamente (<100ms) sem recarregamento de página.
+- **[Alimentado por Vite:](https://vite.dev/)** inicialização instantânea do servidor, com edições sempre refletidas instantaneamente (<100ms) sem recarregamento de página.
 
 - **[Extensões Markdown Integradas:](./markdown)** Frontmatter, tabelas, destaque de sintaxe... você escolhe. Especificamente, VitePress fornece muitos recursos avançados para trabalhar com blocos de código, tornando-o ideal para documentação altamente técnica.
 

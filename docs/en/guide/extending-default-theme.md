@@ -119,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
+Since we are using Vite, you can also leverage Vite's [glob import feature](https://vite.dev/guide/features.html#glob-import) to auto register a directory of components.
 
 ## Layout Slots
 
@@ -309,7 +309,7 @@ Coming soon.
 
 ## Overriding Internal Components
 
-You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
+You can use Vite's [aliases](https://vite.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
