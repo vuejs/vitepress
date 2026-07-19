@@ -61,7 +61,7 @@ const contador = ref(0)
 
 El conteo es: {{ contador }}
 
-<button :class="$style.button" @click="count++">Incrementar</button>
+<button :class="$style.button" @click="contador++">Incrementar</button>
 
 <style module>
 .button {
@@ -171,7 +171,7 @@ Alternativamente, puede envolver todo el párrafo en un contenedor personalizado
 :::
 ```
 
-**Output**
+**Salida**
 
 <div class="escape-demo">
 
@@ -199,7 +199,7 @@ Hola {{ 1 + 1 }}
 Hola {{ 1 + 1 }}
 ```
 
-Observe que esto puede impedir que ciertos en tokens se resalte la sintaxis correctamente.
+Observe que esto puede impedir que ciertos tokens se resalte la sintaxis correctamente.
 
 ## Usando Preprocesadores CSS {#using-css-pre-processors}
 
