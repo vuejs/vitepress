@@ -690,7 +690,7 @@ The value of `@` corresponds to the source root. By default it's the VitePress p
 
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath, and all regions with that name will be imported:
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only import the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath, and all regions with that name will be imported:
 
 **Input**
 
