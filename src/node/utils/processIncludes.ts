@@ -40,19 +40,19 @@ export function processIncludes(
 
     if (region) {
       const [regionName] = region
-      const lines = content.split(/\r?\n/)
-      let selectedLines = lines
-      let { start, end } = findRegion(lines, regionName.slice(1)) ?? {}
+      let { start, end } =
+        findRegion(content.split(/\r?\n/), regionName.slice(1)) ?? {}
 
       if (start === undefined) {
         // region not found, it might be a header
-        const headerContent =
-          path.extname(includePath) === '.md'
-            ? matter(content).content
-            : content
-        const headerLines = headerContent.split(/\r?\n/)
+
+        if (path.extname(includePath) === '.md') {
+          // remove the frontmatter
+          content = matter(content).content
+        }
+
         const tokens = md
-          .parse(headerContent, {
+          .parse(content, {
             path: includePath,
             relativePath: slash(path.relative(srcDir, includePath)),
             cleanUrls
@@ -62,8 +62,8 @@ export function processIncludes(
           (t) => t.attrGet('id') === regionName.slice(1)
         )
         const token = tokens[idx]
+
         if (token) {
-          selectedLines = headerLines
           start = token.map![1]
           const level = parseInt(token.tag.slice(1))
           for (let i = idx + 1; i < tokens.length; i++) {
@@ -75,7 +75,8 @@ export function processIncludes(
         }
       }
 
-      content = selectedLines.slice(start, end).join('\n')
+      const lines = content.split(/\r?\n/)
+      content = lines.slice(start, end).join('\n')
     }
 
     if (range) {
