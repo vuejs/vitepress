@@ -11,11 +11,11 @@ VitePress utiliza enrutamiento basado en archivos, esto significa que las págin
 
 ```
 .
-├─ guide
-│  ├─ getting-started.md
+├─ guia
+│  ├─ comenzar.md
 │  └─ index.md
 ├─ index.md
-└─ prologue.md
+└─ prologo.md
 ```
 
 Las páginas HTML generadas serán:
@@ -24,7 +24,7 @@ Las páginas HTML generadas serán:
 index.md                  -->  /index.html (accesible por /)
 prologo.md                -->  /prologo.html
 guia/index.md             -->  /guia/index.html (accesible por /guia/)
-guia/comenzar.md  -->  /guia/comenzar.html
+guia/comenzar.md          -->  /guia/comenzar.html
 ```
 
 El HTML resultante puede ser hospedado en cualquier servidor web que pueda servir archivos estáticos.
@@ -61,7 +61,7 @@ docs/comenzar.md  -->  /comenzar.html
 
 ### Directorio Fuente {#source-directory}
 
-El directorio fuente es donde se encuentran tus archivos fuente de Markdown. Por defecto, coincide con la raíz del proyecto. Sin embargo, puedes configurarlo mediante la opción de configuración `srcDir` (../reference/site-config#srcdir).
+El directorio fuente es donde se encuentran tus archivos fuente de Markdown. Por defecto, coincide con la raíz del proyecto. Sin embargo, puedes configurarlo mediante la opción de configuración [`srcDir`](../reference/site-config#srcdir).
 
 La opción `srcDir` se resuelve en relación con la raíz del proyecto. Por ejemplo, con `srcDir: 'src'`, la estructura de archivos será la siguiente:
 
@@ -103,21 +103,21 @@ Si desea vincular a una página en su sitio que no es generada por VitePress, se
 **Entrada**
 
 ```md
-[Enlace para pure.html](/pure.html){target="_self"}
+[Enlace para puro.html](/puro.html){target="_self"}
 ```
 
 **Salida**
 
-[Enlace para pure.html](/pure.html){target="_self"}
+[Enlace para puro.html](/puro.html){target="_self"}
 
 ::: tip Nota
 
-En los enlaces Markdown, la `base` es automáticamente adicionada a la URL. Esto significa que, si desea vincular a una página fuera de su base, será necesario algo como `../../pure.html` en el enlace (resuelto en relación a la página actual por el navegador).
+En los enlaces Markdown, la `base` es automáticamente adicionada a la URL. Esto significa que, si desea vincular a una página fuera de su base, será necesario algo como `../../puro.html` en el enlace (resuelto en relación a la página actual por el navegador).
 
 Alternativamente, puede utilizar directamente la sintaxis de la etiqueta de anclaje:
 
 ```md
-<a href="/pure.html" target="_self">Link to pure.html</a>
+<a href="/puro.html" target="_self">Enlace para puro.html</a>
 ```
 
 :::
@@ -217,7 +217,7 @@ export default {
 Cuando las reescrituras están habilitadas, **los enlaces relativos deben ser basados en las rutas reescritas**. Por ejemplo, para crear un enlace relativo de `packages/pkg-a/src/pkg-a-code.md` a `packages/pkg-b/src/pkg-b-code.md`, debe usar:
 
 ```md
-[Link para PKG B](../pkg-b/pkg-b-code)
+[Enlace para PKG B](../pkg-b/pkg-b-code)
 ```
 :::
 
@@ -261,7 +261,7 @@ Las páginas HTML generadas serán:
    └─ bar.html
 ```
 
-### Cargador con tipado seguro mediante `defineRoutes` {type-safe-loader-with-defineroutes}
+### Cargador con tipado seguro mediante `defineRoutes` {#type-safe-loader-with-defineroutes}
 
 Si utiliza TypeScript, puede envolver el cargador con `defineRoutes` de `vitepress` para obtener sugerencias de tipo para ganchos de ruta como `paths`, `watch` y `transformPageData`:
 
