@@ -40,7 +40,7 @@ $ bun add -D vitepress@next
 :::
 
 ::: tip 注意
-VitePress は ESM 専用パッケージです。`require()` を使ってインポートせず、最も近い `package.json` に `"type": "module"` を含めるか、`.vitepress/config.js` を `.mjs` / `.mts` に変更してください。詳しくは [Vite のトラブルシューティングガイド](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) を参照してください。また、非同期 CJS コンテキスト内では `await import('vitepress')` を使用できます。
+VitePress は ESM 専用パッケージです。`require()` を使ってインポートせず、最も近い `package.json` に `"type": "module"` を含めるか、`.vitepress/config.js` を `.mjs` / `.mts` に変更してください。詳しくは [Vite のトラブルシューティングガイド](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) を参照してください。また、非同期 CJS コンテキスト内では `await import('vitepress')` を使用できます。
 :::
 
 ### セットアップウィザード {#setup-wizard}

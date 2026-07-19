@@ -120,7 +120,7 @@ export default {
 } satisfies Theme
 ```
 
-Поскольку мы используем Vite, можно применять [глобальную функцию импорта](https://vitejs.dev/guide/features.html#glob-import) Vite для автоматической регистрации каталога компонентов.
+Поскольку мы используем Vite, можно применять [глобальную функцию импорта](https://vite.dev/guide/features.html#glob-import) Vite для автоматической регистрации каталога компонентов.
 
 ## Слоты макета {#layout-slots}
 
@@ -310,7 +310,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## Переопределение внутренних компонентов {#overriding-internal-components}
 
-Вы можете использовать [псевдонимы](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite, чтобы заменить стандартные компоненты темы на свои собственные:
+Вы можете использовать [псевдонимы](https://vite.dev/config/shared-options.html#resolve-alias) Vite, чтобы заменить стандартные компоненты темы на свои собственные:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

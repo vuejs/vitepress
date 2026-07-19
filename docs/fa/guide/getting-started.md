@@ -41,7 +41,7 @@ $ bun add -D vitepress@next
 
 ::: tip نکته
 
-ویت‌پرس یک بسته فقط ESM است. از `require()` برای وارد کردن آن استفاده نکنید و اطمینان حاصل کنید که نزدیک‌ترین `package.json` شما شامل `"type": "module"` است، یا پسوند فایل‌های مربوطه خود مانند `.vitepress/config.js` را به `.mjs`/`.mts` تغییر دهید. برای جزئیات بیشتر به [راهنمای عیب‌یابی Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) مراجعه کنید. همچنین، در زمینه‌های async CJS می‌توانید از `await import('vitepress')` استفاده کنید.
+ویت‌پرس یک بسته فقط ESM است. از `require()` برای وارد کردن آن استفاده نکنید و اطمینان حاصل کنید که نزدیک‌ترین `package.json` شما شامل `"type": "module"` است، یا پسوند فایل‌های مربوطه خود مانند `.vitepress/config.js` را به `.mjs`/`.mts` تغییر دهید. برای جزئیات بیشتر به [راهنمای عیب‌یابی Vite](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) مراجعه کنید. همچنین، در زمینه‌های async CJS می‌توانید از `await import('vitepress')` استفاده کنید.
 
 :::
 

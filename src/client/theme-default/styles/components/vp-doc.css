@@ -576,6 +576,8 @@
   -webkit-mask-size: 11px 11px;
   mask-size: 11px 11px;
   /*rtl:raw:transform: scaleX(-1);*/
+  vertical-align: bottom;
+  font-size: 10px;
 }
 
 .vp-external-link-icon::after {

@@ -35,7 +35,6 @@ export default defineConfig({
 
   lastUpdated: true,
   cleanUrls: true,
-  metaChunk: true,
 
   markdown: {
     math: true,
@@ -145,10 +144,7 @@ export default defineConfig({
         }
       }),
       prod && llmstxt({ workDir: 'en', ignoreFiles: ['index.md'] })
-    ],
-    experimental: {
-      enableNativePlugin: true
-    }
+    ]
   },
 
   // prettier-ignore

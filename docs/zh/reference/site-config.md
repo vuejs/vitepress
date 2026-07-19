@@ -430,7 +430,7 @@ export default {
 - 类型：`string`
 - 默认值： `./.vitepress/cache`
 
-缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)。
+缓存文件的目录，相对于[项目根目录](../guide/routing#root-and-source-directory)。另请参阅：[cacheDir](https://vite.dev/config/shared-options.html#cachedir)。
 
 ```ts
 export default {
@@ -471,13 +471,6 @@ export default {
   ]
 }
 ```
-
-### metaChunk <Badge type="warning" text="experimental" />
-
-- 类型：`boolean`
-- 默认值：`false`
-
-当设置为 `true` 时，将页面元数据提取到单独的 JavaScript 块中，而不是内联在初始 HTML 中。这使每个页面的 HTML 负载更小，并使页面元数据可缓存，从而当站点中有很多页面时可以减少服务器带宽。
 
 ### mpa <Badge type="warning" text="experimental" />
 
@@ -532,7 +525,7 @@ export default {
 
 - 类型：`import('vite').UserConfig`
 
-将原始 [Vite 配置](https://vitejs.dev/config/)传递给内部 Vite 开发服务器 / bundler。
+将原始 [Vite 配置](https://vite.dev/config/)传递给内部 Vite 开发服务器 / bundler。
 
 ```js
 export default {
