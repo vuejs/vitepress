@@ -188,7 +188,7 @@ export default {
 
 When your documentation structure has deep directories or groups located under the same subdirectory, you can use the `base` option to automatically prepend a path prefix to all nested `items` inside that group. This avoids repeating the same path prefix for every `link`.
 
-The `base` option is supported in both multiple sidebar configurations and nested sidebar groups. **The value of `base` should start and end with a `/`.**
+The `base` option is supported in both multiple sidebar configurations and nested sidebar groups.
 
 ### In Multiple Sidebars
 
