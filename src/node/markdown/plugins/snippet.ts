@@ -53,12 +53,12 @@ export function dedent(text: string): string {
 
 const markers = [
   {
-    start: /^\s*\/\/\s*#?region\b\s*(.*?)\s*$/,
-    end: /^\s*\/\/\s*#?endregion\b\s*(.*?)\s*$/
+    start: /^\s*\/\/\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*\/\/\s*#endregion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*<!--\s*#?region\b\s*(.*?)\s*-->/,
-    end: /^\s*<!--\s*#?endregion\b\s*(.*?)\s*-->/
+    start: /^\s*<!--\s*#region\b\s*(.*?)\s*-->/,
+    end: /^\s*<!--\s*#endregion\b\s*(.*?)\s*-->/
   },
   {
     start: /^\s*\/\*\s*#region\b\s*(.*?)\s*\*\//,
@@ -69,12 +69,12 @@ const markers = [
     end: /^\s*#[eE]nd ?[rR]egion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*#\s*#?region\b\s*(.*?)\s*$/,
-    end: /^\s*#\s*#?endregion\b\s*(.*?)\s*$/
+    start: /^\s*#\s+region\b\s*(.*?)\s*$/,
+    end: /^\s*#\s+endregion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*(?:--|::|@?REM)\s*#region\b\s*(.*?)\s*$/,
-    end: /^\s*(?:--|::|@?REM)\s*#endregion\b\s*(.*?)\s*$/
+    start: /^\s*(?:--|::|(?:@\s*)?[rR][eE][mM]\s)\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*(?:--|::|(?:@\s*)?[rR][eE][mM]\s)\s*#endregion\b\s*(.*?)\s*$/
   },
   {
     start: /^\s*#pragma\s+region\b\s*(.*?)\s*$/,

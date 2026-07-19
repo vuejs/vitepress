@@ -142,30 +142,32 @@ describe('node/markdown/plugins/snippet', () => {
       expect(findRegions(lines, 'ghostRegion')).toHaveLength(0)
     })
 
-    it('detects C#/JavaScript style region markers with matching tags', () => {
+    it('detects shell/config style region markers', () => {
       const lines = [
-        'Console.WriteLine("Before region");',
+        'echo "before"',
+        '# region hello',
+        'echo "inside"',
+        '#\tendregion hello',
+        'echo "after"',
         '#region hello',
-        'Console.WriteLine("Hello, World!");',
-        '#endregion hello',
-        'Console.WriteLine("After region");'
+        'exit 0',
+        '#endregion'
       ]
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(2)
-      expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
-      ).toBe(
-        [
-          'Console.WriteLine("Hello, World!");',
-          'Console.WriteLine("Hello, World!");'
-        ].join('\n')
-      )
+      const extracted = result
+        .flatMap((r) =>
+          lines
+            .slice(r.start, r.end)
+            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+        )
+        .join('\n')
+      const expected = [
+        //
+        'echo "inside"',
+        'exit 0'
+      ].join('\n')
+      expect(extracted).toBe(expected)
     })
 
     it('detects region markers even when the end marker omits the region name', () => {
@@ -177,7 +179,7 @@ describe('node/markdown/plugins/snippet', () => {
         'Console.WriteLine("After region");'
       ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(2)
+      expect(result).toHaveLength(1)
       expect(
         result
           .flatMap((r) =>
@@ -186,12 +188,7 @@ describe('node/markdown/plugins/snippet', () => {
               .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
           )
           .join('\n')
-      ).toBe(
-        [
-          'Console.WriteLine("Hello, World!");',
-          'Console.WriteLine("Hello, World!");'
-        ].join('\n')
-      )
+      ).toBe('Console.WriteLine("Hello, World!");')
     })
 
     it('handles indented region markers correctly', () => {
@@ -203,7 +200,7 @@ describe('node/markdown/plugins/snippet', () => {
         '  Console.WriteLine("After region");'
       ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(2)
+      expect(result).toHaveLength(1)
       expect(
         result
           .flatMap((r) =>
@@ -212,12 +209,7 @@ describe('node/markdown/plugins/snippet', () => {
               .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
           )
           .join('\n')
-      ).toBe(
-        [
-          '  Console.WriteLine("Hello, World!");',
-          '  Console.WriteLine("Hello, World!");'
-        ].join('\n')
-      )
+      ).toBe('  Console.WriteLine("Hello, World!");')
     })
 
     it('detects TypeScript style region markers', () => {
@@ -225,7 +217,7 @@ describe('node/markdown/plugins/snippet', () => {
         'let regexp: RegExp[] = [];',
         '// #region hello',
         'let start = -1;',
-        '// #endregion hello'
+        '//#endregion hello'
       ]
       const result = findRegions(lines, 'hello')
       expect(result).toHaveLength(1)
@@ -245,7 +237,7 @@ describe('node/markdown/plugins/snippet', () => {
         '.body-content {',
         '/* #region hello */',
         '  padding-left: 15px;',
-        '/* #endregion hello */',
+        '/*#endregion hello*/',
         '  padding-right: 15px;',
         '}'
       ]
@@ -267,7 +259,7 @@ describe('node/markdown/plugins/snippet', () => {
         '<div>Some content</div>',
         '<!-- #region hello -->',
         '  <h1>Hello world</h1>',
-        '<!-- #endregion hello -->',
+        '<!--#endregion hello-->',
         '<div>Other content</div>'
       ]
       const result = findRegions(lines, 'hello')
@@ -305,18 +297,32 @@ describe('node/markdown/plugins/snippet', () => {
     })
 
     it('detects Bat style region markers', () => {
-      const lines = ['::#region hello', '@ECHO OFF', 'REM #endregion hello']
+      const lines = [
+        //
+        '@REM #region hello',
+        '@ECHO OFF',
+        '::#endregion hello',
+        'echo out',
+        'rem #region hello',
+        'exit 0',
+        'Rem #endregion hello'
+      ]
       const result = findRegions(lines, 'hello')
-      expect(result).toHaveLength(1)
-      expect(
-        result
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
-      ).toBe('@ECHO OFF')
+      expect(result).toHaveLength(2)
+
+      const extracted = result
+        .flatMap((r) =>
+          lines
+            .slice(r.start, r.end)
+            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+        )
+        .join('\n')
+      const expected = [
+        //
+        '@ECHO OFF',
+        'exit 0'
+      ].join('\n')
+      expect(extracted).toBe(expected)
     })
 
     it('detects C/C++ style region markers using #pragma', () => {
@@ -439,7 +445,7 @@ describe('node/markdown/plugins/snippet', () => {
         '{',
         '  "// #region hello": "",',
         '  "one": true,',
-        '  "// #endregion hello": "",',
+        '  "//#endregion hello": "",',
         '  "two": false,',
         '  "/// #region hello": "",',
         '  "three": true,',
@@ -455,7 +461,51 @@ describe('node/markdown/plugins/snippet', () => {
             .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
         )
         .join('\n')
-      const expected = ['  "one": true,', '  "three": true,'].join('\n')
+      const expected = [
+        //
+        '  "one": true,',
+        '  "three": true,'
+      ].join('\n')
+      expect(extracted).toBe(expected)
+    })
+
+    it('merges regions with the same name across different comment styles, in document order', () => {
+      const lines = [
+        '<template>',
+        '  <!-- #region shared -->',
+        '  <div>template part</div>',
+        '  <!-- #endregion shared -->',
+        '</template>',
+        '<script>',
+        '// #region shared',
+        'const scriptPart = true',
+        '// #endregion shared',
+        '// outside',
+        '/* #region shared */',
+        'console.log(scriptPart)',
+        '/* #endregion shared */',
+        '</script>',
+        '<style>',
+        '/* #region shared */',
+        '.style-part {}',
+        '/* #endregion shared */',
+        '</style>'
+      ]
+      const result = findRegions(lines, 'shared')
+      expect(result).toHaveLength(4)
+      const extracted = result
+        .flatMap((r) =>
+          lines
+            .slice(r.start, r.end)
+            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+        )
+        .join('\n')
+      const expected = [
+        '  <div>template part</div>',
+        'const scriptPart = true',
+        'console.log(scriptPart)',
+        '.style-part {}'
+      ].join('\n')
       expect(extracted).toBe(expected)
     })
   })
