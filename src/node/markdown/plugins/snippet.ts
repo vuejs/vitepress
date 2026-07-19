@@ -38,23 +38,6 @@ export function rawPathToToken(rawPath: string) {
   return { filepath, extension, region, lines, lang, attrs, title }
 }
 
-export function dedent(text: string): string {
-  const lines = text.split('\n')
-
-  const minIndentLength = lines.reduce((acc, line) => {
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
-    }
-    return acc
-  }, Infinity)
-
-  if (minIndentLength < Infinity) {
-    return lines.map((x) => x.slice(minIndentLength)).join('\n')
-  }
-
-  return text
-}
-
 const markers = [
   {
     start: /^\s*\/\/\s*#region\b\s*(.*?)\s*$/,
@@ -130,6 +113,27 @@ export function findRegions(lines: string[], regionName: string) {
   }
 
   return returned.sort((a, b) => a.start - b.start)
+}
+
+export function stripMarkers(lines: string[]): string[] {
+  return lines.filter(
+    (l) => !markers.some((m) => m.start.test(l) || m.end.test(l))
+  )
+}
+
+export function dedent(lines: string[]): string[] {
+  const minIndentLength = lines.reduce((acc, line) => {
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
+    }
+    return acc
+  }, Infinity)
+
+  if (minIndentLength < Infinity) {
+    return lines.map((x) => x.slice(minIndentLength))
+  }
+
+  return lines
 }
 
 export const snippetPlugin = (
@@ -212,20 +216,17 @@ export const snippetPlugin = (
       return fence(...args)
     }
 
-    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+    let lines = fs.readFileSync(src, 'utf8').split(/\r?\n/)
 
     if (region) {
-      const lines = content.split('\n')
       const regions = findRegions(lines, region)
 
       if (regions.length > 0) {
-        content = regions
-          .flatMap((r) =>
-            lines
-              .slice(r.start, r.end)
-              .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
-          )
-          .join('\n')
+        lines = regions.flatMap((r) =>
+          lines
+            .slice(r.start, r.end)
+            .filter((l) => !(r.re.start.test(l) || r.re.end.test(l)))
+        )
       } else {
         token.content = `No region #${region} found in path: ${src}`
         token.info = ''
@@ -234,18 +235,10 @@ export const snippetPlugin = (
     }
 
     if (stripMarkersFromSnippets) {
-      content = content
-        .split('\n')
-        .filter((l) => {
-          for (const m of markers) {
-            if (m.start.test(l) || m.end.test(l)) return false
-          }
-          return true
-        })
-        .join('\n')
+      lines = stripMarkers(lines)
     }
 
-    token.content = dedent(content)
+    token.content = dedent(lines).join('\n')
     return fence(...args)
   }
 

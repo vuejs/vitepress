@@ -1,7 +1,8 @@
 import {
   dedent,
   findRegions,
-  rawPathToToken
+  rawPathToToken,
+  stripMarkers
 } from 'node/markdown/plugins/snippet'
 
 const removeEmptyKeys = <T extends Record<string, unknown>>(obj: T) => {
@@ -49,14 +50,12 @@ describe('node/markdown/plugins/snippet', () => {
   describe('dedent', () => {
     test('when 0-level is minimal, do not remove spaces', () => {
       expect(
-        dedent(
-          [
-            //
-            'fn main() {',
-            '  println!("Hello");',
-            '}'
-          ].join('\n')
-        )
+        dedent([
+          //
+          'fn main() {',
+          '  println!("Hello");',
+          '}'
+        ]).join('\n')
       ).toMatchInlineSnapshot(`
         "fn main() {
           println!("Hello");
@@ -66,14 +65,12 @@ describe('node/markdown/plugins/snippet', () => {
 
     test('when 4-level is minimal, remove 4 spaces', () => {
       expect(
-        dedent(
-          [
-            //
-            '    let a = {',
-            '        value: 42',
-            '    };'
-          ].join('\n')
-        )
+        dedent([
+          //
+          '    let a = {',
+          '        value: 42',
+          '    };'
+        ]).join('\n')
       ).toMatchInlineSnapshot(`
         "let a = {
             value: 42
@@ -82,19 +79,22 @@ describe('node/markdown/plugins/snippet', () => {
     })
 
     test('when only 1 line is passed, dedent it', () => {
-      expect(dedent('    let a = 42;')).toEqual('let a = 42;')
+      expect(
+        dedent([
+          //
+          '    let a = 42;'
+        ]).join('\n')
+      ).toEqual('let a = 42;')
     })
 
     test('handle tabs as well', () => {
       expect(
-        dedent(
-          [
-            //
-            '	let a = {',
-            '		value: 42',
-            '	};'
-          ].join('\n')
-        )
+        dedent([
+          //
+          '	let a = {',
+          '		value: 42',
+          '	};'
+        ]).join('\n')
       ).toMatchInlineSnapshot(`
         "let a = {
         	value: 42
@@ -127,6 +127,7 @@ describe('node/markdown/plugins/snippet', () => {
         '// #endregion regionA'
       ]
       expect(findRegions(lines, 'regionC')).toHaveLength(0)
+      expect(findRegions(lines, 'region')).toHaveLength(0)
     })
 
     it('returns empty array if a region start marker exists without a matching end marker', () => {
@@ -512,5 +513,65 @@ describe('node/markdown/plugins/snippet', () => {
       ].join('\n')
       expect(extracted).toBe(expected)
     })
+  })
+})
+
+describe('stripMarkers', () => {
+  it('removes all matched marker styles', () => {
+    const extracted = stripMarkers([
+      '// #region name',
+      'const a = 0;',
+      '/* #region HELLO */',
+      'const b = 0;',
+      '//\t#endregion complex_name-123',
+      'const c = 0;',
+      '/*#endregion*/'
+    ]).join('\n')
+    const expected = [
+      //
+      'const a = 0;',
+      'const b = 0;',
+      'const c = 0;'
+    ].join('\n')
+    expect(extracted).toBe(expected)
+  })
+
+  it('interacts with findRegion to remove all intertwined regions', () => {
+    const lines = [
+      '// #region foo',
+      "console.log('double-slash only');",
+      '//#region bar',
+      '/* #region foo */',
+      "console.log('nestled in both comments');",
+      '// #endregion foo',
+      '/*#endregion bar*/',
+      "console.log('slash-star only');",
+      '/* #endregion foo */'
+    ]
+    const result = findRegions(lines, 'foo')
+    expect(result).toHaveLength(2)
+    const extracted = result
+      .flatMap((r) => lines.slice(r.start, r.end))
+      .join('\n')
+    const expected = [
+      "console.log('double-slash only');",
+      '//#region bar',
+      '/* #region foo */',
+      "console.log('nestled in both comments');",
+      "console.log('nestled in both comments');",
+      '// #endregion foo',
+      '/*#endregion bar*/',
+      "console.log('slash-star only');"
+    ].join('\n')
+    expect(extracted).toBe(expected)
+
+    const strippedExtracted = stripMarkers(extracted.split('\n')).join('\n')
+    const strippedExpected = [
+      "console.log('double-slash only');",
+      "console.log('nestled in both comments');",
+      "console.log('nestled in both comments');",
+      "console.log('slash-star only');"
+    ].join('\n')
+    expect(strippedExtracted).toBe(strippedExpected)
   })
 })
