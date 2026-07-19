@@ -2,7 +2,7 @@ import matter from 'gray-matter'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import fs from 'node:fs'
 import path from 'node:path'
-import { findRegion } from '../markdown/plugins/snippet'
+import { findRegions } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
 
 export function processIncludes(
@@ -40,10 +40,9 @@ export function processIncludes(
 
     if (region) {
       const [regionName] = region
-      let { start, end } =
-        findRegion(content.split(/\r?\n/), regionName.slice(1)) ?? {}
+      const regions = findRegions(content.split(/\r?\n/), regionName.slice(1))
 
-      if (start === undefined) {
+      if (regions.length === 0) {
         // region not found, it might be a header
 
         if (path.extname(includePath) === '.md') {
@@ -64,19 +63,23 @@ export function processIncludes(
         const token = tokens[idx]
 
         if (token) {
-          start = token.map![1]
+          const start = token.map![1]
           const level = parseInt(token.tag.slice(1))
+          let end = undefined
           for (let i = idx + 1; i < tokens.length; i++) {
             if (parseInt(tokens[i].tag.slice(1)) <= level) {
               end = tokens[i].map![0]
               break
             }
           }
+          regions.push({ start, end } as any)
         }
       }
 
       const lines = content.split(/\r?\n/)
-      content = lines.slice(start, end).join('\n')
+      content = regions
+        .flatMap((region) => lines.slice(region.start, region.end))
+        .join('\n')
     }
 
     if (range) {
