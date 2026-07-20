@@ -125,7 +125,6 @@ const { page } = useData()
 
 El auxiliar [`useData()`](../reference/runtime-api#usedata) proporciona todos los datos para condicionalmente en tiempo de ejecución mostrar layouts diferentes. Uno de los otros datos que podemos acceder es el frontmatter de la página actual. Podemos aprovechar esto para permitir que el usuario final controle el layout en cada página. Por ejemplo, el usuario puede indicar que la página debe usar un layout especial de la pagina inicial con:
 
-
 ```md
 ---
 layout: home
