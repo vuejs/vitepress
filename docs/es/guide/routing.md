@@ -151,7 +151,7 @@ Sin embargo, si no puede configurar el servidor con ese soporte, será necesario
 └─ index.md
 ```
 
-# Reescritura de Ruta {#route-rewrites}
+## Reescritura de Ruta {#route-rewrites}
 
 Puedes personalizar la correspondencia entre la estructura del directorio de origen y las páginas generadas. Esto resulta útil cuando tienes una estructura de proyecto compleja. Por ejemplo, digamos que tienes un monorepo con varios paquetes y le gustaría colocar la documentación junto con los archivos fuente de esta forma:
 
