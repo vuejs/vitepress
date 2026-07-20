@@ -1,6 +1,6 @@
 import minimist from 'minimist'
 import c from 'picocolors'
-import { createLogger, type Logger } from 'vite'
+import { createLogger, version as viteVersion, type Logger } from 'vite'
 import {
   build,
   createServer,
@@ -24,9 +24,12 @@ Object.keys(argv).forEach((key) => {
 })
 
 const logVersion = (logger: Logger) => {
-  logger.info(`\n  ${c.green(`${c.bold('vitepress')} v${version}`)}\n`, {
-    clear: !logger.hasWarned
-  })
+  logger.info(
+    `\n  ${c.green(`${c.bold('vitepress')} v${version}`)} ${c.gray(`vite v${viteVersion}`)}\n`,
+    {
+      clear: !logger.hasWarned
+    }
+  )
 }
 
 const command = argv._[0]
