@@ -1,0 +1,9 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": ".github/commit-convention.md" }
+  ],
+
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
