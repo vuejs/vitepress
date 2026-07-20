@@ -112,7 +112,7 @@ El archivo de configuración (`.vitepress/config.js`) permite que personalice va
 export default {
   // opciones a nivel del sitio
   title: 'VitePress',
-  description: 'Solo una juego.',
+  description: 'Solo un juego.',
 
   themeConfig: {
     // opciones a nivel del tema
