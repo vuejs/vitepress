@@ -18,7 +18,7 @@ Para especificar una etiqueta de anclaje personalizada para un encabezado en lug
 # Usando anclas personalizadas {#mi-anclajes}
 ```
 
-Esto permite que tenga un link del encabezado como `#mi-anclajes` en vez del default `#usando-anclas-personalizadas`.
+Esto permite que tenga un enlace del encabezado como `#mi-anclajes` en vez del default `#usando-anclas-personalizadas`.
 
 ## Enlaces {#links}
 
@@ -71,7 +71,7 @@ Enlaces externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 
 ```yaml
 ---
-título: Blogueando como un hacker
+title: Blogueando como un hacker
 lang: es-CO
 ---
 ```
@@ -455,13 +455,13 @@ export default {
 ```
 ````
 
-**Output**
+**Salida**
 
 ```js
 export default {
   data () {
     return {
-      msg: '¡Destacado!' // [!!code highlight]
+      msg: '¡Destacado!' // [!code highlight]
     }
   }
 }
@@ -487,13 +487,13 @@ export default {
 ```
 ````
 
-**Output**
+**Salida**
 
 ```js
 export default {
   data () {
     return {
-      msg: '¡Enfocado!' // [!!code focus]
+      msg: '¡Enfocado!' // [!code focus]
     }
   }
 }
@@ -550,7 +550,7 @@ export default {
 ```
 ````
 
-**Output**
+**Salida**
 
 ```js
 export default {
@@ -770,7 +770,7 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 :::
 ```
 
-**Output**
+**Salida**
 
 ::: code-group
 
