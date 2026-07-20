@@ -13,7 +13,7 @@ Puede experimentar VitePress directamente en su navegador en [StackBlitz](https:
 ### Prerrequisitos {#prerequisites}
 
 - [Node.js](https://nodejs.org/) versión 22 o superior.
-- Terminal para acceder VitePress a través de su interfaz de linea de comando (CLI).
+- Terminal para acceder VitePress a través de su interfaz de línea de comando (CLI).
 - Editor de texto con soporte a sintaxis [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) es recomendado, junto con la [extensión oficial Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
@@ -190,7 +190,7 @@ $ bun vitepress dev docs
 
 :::
 
-Más usos de la linea de comandos están documentados en la [Referencia CLI](../reference/cli).
+Más usos de la línea de comandos están documentados en la [Referencia CLI](../reference/cli).
 
 El servidor de desarrollo debería estar corriendo en `http://localhost:5173`. ¡Visita la URL en tu navegador para ver tu nuevo sitio en acción!
 

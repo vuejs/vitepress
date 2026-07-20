@@ -6,7 +6,7 @@ description: Aprende cómo usar frontmatter YAML en archivos Markdown de VitePre
 
 ## Uso {#usage}
 
-VitePress soporta frontmatter YAML en todos los archivos Markdown, procesándolos con [gray-matter](https://github.com/jonschlinkert/gray-matter). El frontmatter debe estar en la parte superior del archivo Markdown (antes de cualquier elemento, incluyendo tags `<script>`), y debe tener la forma de un YAML válido entre lineas con trazos de triple guion. Ejemplo:
+VitePress soporta frontmatter YAML en todos los archivos Markdown, procesándolos con [gray-matter](https://github.com/jonschlinkert/gray-matter). El frontmatter debe estar en la parte superior del archivo Markdown (antes de cualquier elemento, incluyendo tags `<script>`), y debe tener la forma de un YAML válido entre líneas con trazos de triple guion. Ejemplo:
 
 ```md
 ---

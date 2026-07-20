@@ -399,11 +399,11 @@ export default {
 }
 ```
 
-Además de una única linea, puede también especificar múltiples lineas únicas, intervalos, o ambos:
+Además de una única línea, puede también especificar múltiples líneas únicas, intervalos, o ambos:
 
-- Intervalos de linea: por ejemplo, `{5-8}`, `{3-10}`, `{10-17}`
-- Múltiples lineas únicas: por ejemplo, `{4,7,9}`
-- Intervalos de linea y lineas únicas: por ejemplo, `{4,7-13,16,23-27,40}`
+- Intervalos de línea: por ejemplo, `{5-8}`, `{3-10}`, `{10-17}`
+- Múltiples líneas únicas: por ejemplo, `{4,7,9}`
+- Intervalos de línea y líneas únicas: por ejemplo, `{4,7-13,16,23-27,40}`
 
 **Entrada**
 
@@ -413,7 +413,7 @@ export default { // Destacado
   data () {
     return {
       msg: `¡Destacado!
-      Esta linea no está destacada,
+      Esta línea no está destacada,
       pero esta y las próximas están.`,
       motd: 'VitePress es increíble',
       lorem: 'ipsum'
@@ -430,7 +430,7 @@ export default { // Destacado
   data () {
     return {
       msg: `¡Destacado!
-      Esta linea no está destacada,
+      Esta línea no está destacada,
       pero esta y las próximas están.`,
       motd: 'VitePress es increíble',
       lorem: 'ipsum'
@@ -439,7 +439,7 @@ export default { // Destacado
 }
 ```
 
-Alternativamente, es posible destacar directamente en la linea usando el comentario `// [!code highlight]`.
+Alternativamente, es posible destacar directamente en la línea usando el comentario `// [!code highlight]`.
 
 **Entrada**
 
@@ -469,9 +469,9 @@ export default {
 
 ## Enfoque en Bloques de Código {#focus-in-code-blocks}
 
-Adicionando el comentario `// [!code focus]` en una linea, esta será destacada y desenfocará las otras partes del código.
+Adicionando el comentario `// [!code focus]` en una línea, esta será destacada y desenfocará las otras partes del código.
 
-Además, puede definir el número de lineas para enfocar usando `// [!code focus:<lineas>]`.
+Además, puede definir el número de líneas para enfocar usando `// [!code focus:<lineas>]`.
 
 **Entrada**
 
@@ -501,7 +501,7 @@ export default {
 
 ## Diferencias Coloreadas en Bloques de Código {#colored-diffs-in-code-blocks}
 
-Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una linea creará una diferencia en esa linea, manteniendo los colores del bloque de código.
+Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una línea creará una diferencia en esa línea, manteniendo los colores del bloque de código.
 
 **Entrada**
 
@@ -533,7 +533,7 @@ export default {
 
 ## Errores y Avisos en Bloques de Código {#errors-and-warnings-in-code-blocks}
 
-Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una linea coloreará los bloques conforme necesario.
+Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una línea coloreará los bloques conforme necesario.
 
 **Entrada**
 
@@ -563,9 +563,9 @@ export default {
 }
 ```
 
-## Números de Linea {#line-numbers}
+## Números de Línea {#line-numbers}
 
-Puede habilitar números de linea para cada bloque de código a través del archivo de configuración:
+Puede habilitar números de línea para cada bloque de código a través del archivo de configuración:
 
 ```js
 export default {
@@ -579,48 +579,48 @@ Consulte las [opciones `markdown`](../reference/site-config#markdown) para más 
 
 Puedes agregar la marca `:line-numbers` / `:no-line-numbers` en tus bloques de código delimitados para substituir el valor definido en la configuración.
 
-También puede personalizar el número inicial de linea adicionando `=` después `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de las lineas en los bloques de código comenzarán a partir de `2`.
+También puede personalizar el número inicial de línea adicionando `=` después `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de las líneas en los bloques de código comenzarán a partir de `2`.
 
 **Entrada**
 
 ````md
 ```ts {1}
-// números de linea desactivados por defecto
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea desactivados por defecto
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers {1}
-// números de linea activados
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea activados
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// números de linea activados y comienzan en 2
-const line3 = 'Esta es la linea 3'
-const line4 = 'Esta es la linea 4'
+// números de línea activados y comienzan en 2
+const line3 = 'Esta es la línea 3'
+const line4 = 'Esta es la línea 4'
 ```
 ````
 
 **Salida**
 
 ```ts {1}
-// números de linea desactivados por defecto
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea desactivados por defecto
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers {1}
-// números de linea activados
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea activados
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// números de linea activados y comienzan en 2
-const line3 = 'Esta es la linea 3'
-const line4 = 'Esta es la linea 4'
+// números de línea activados y comienzan en 2
+const line3 = 'Esta es la línea 3'
+const line4 = 'Esta es la línea 4'
 ```
 
 ## Importar _Snippets_ de Código {#import-code-snippets}
@@ -824,7 +824,7 @@ Algunas cosas básicas
 Puede ser creada usando `.foorc.json`.
 ```
 
-También soporta la selección de un intervalo de lineas:
+También soporta la selección de un intervalo de líneas:
 
 **Entrada**
 
