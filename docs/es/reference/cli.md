@@ -33,13 +33,13 @@ vitepress dev [root]
 
 Compilar el sitio web de VitePress para producción.
 
-### Uso {#usage}
+### Uso {#usage-1}
 
 ```sh
 vitepress build [root]
 ```
 
-### Opciones {#options}
+### Opciones {#options-1}
 
 | Opción                         | Descripción                                                                                                         |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
@@ -53,13 +53,13 @@ vitepress build [root]
 
 Proporciona localmente la compilación de la producción.
 
-### Uso {#usage}
+### Uso {#usage-2}
 
 ```sh
 vitepress preview [root]
 ```
 
-### Opciones {#options}
+### Opciones {#options-2}
 
 | Opción          | Descripción                                        |
 | --------------- | -------------------------------------------------- |
@@ -70,7 +70,7 @@ vitepress preview [root]
 
 Inicia el [Asistente de Instalación](../guide/getting-started#setup-wizard) en el directorio actual.
 
-### Uso {#usage}
+### Uso {#usage-3}
 
 ```sh
 vitepress init
