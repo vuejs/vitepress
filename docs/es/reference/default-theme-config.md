@@ -8,9 +8,9 @@ La configuración del tema te permite personalizar tu tema. puedes definir la co
 
 ```ts
 export default {
-  lang: 'pt-BR',
+  lang: 'es-ES',
   title: 'VitePress',
-  description: 'Generador de site estático Vite & Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
   // Configuraciones relacionadas con el tema.
   themeConfig: {
@@ -21,19 +21,37 @@ export default {
 }
 ```
 
-**Las opciones documentadas de esta página se aplican unicamente al tema por defecto.** Diferentes temas esperan configuraciones diferentes de tema. Cuando se utiliza un tema personalizado, el objeto de configuración del tema se pasará al tema para que se puedan definir comportamientos condicionales.
+**Las opciones documentadas en esta página se aplican unicamente al tema por defecto.** Diferentes temas esperan configuraciones distintas. Al usar un tema personalizado, el objeto de configuración del tema se le pasará al tema para que este pueda definir un comportamiento condicional basado en él.
 
 ## i18nRouting
 
-- Tipo: `boolean`
+- Tipo: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
-Cambie la configuración a, por ejemplo, `zh` será alterado para URL `/foo` (ou `/en/foo/`) para `/zh/foo`. Puedes desactivar este comportamiento configurado `themeConfig.i18nRouting` como `false`.
+Cambiar la configuración regional a `zh` modificará la URL de `/foo` (o `/en/foo/`) a `/zh/foo`. Puedes desactivar este comportamiento estableciendo `themeConfig.i18nRouting` en `false`.
+
+Establezca `themeConfig.i18nRouting` en una función para personalizar el enlace de configuración regional. La función recibe los datos actuales de VitePress, la ruta actual y la clave de configuración regional de destino, y devuelve el enlace de destino.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    i18nRouting(data, route, targetLocale) {
+      const target = data.site.value.locales[targetLocale]
+      const targetLink =
+        target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
+
+      return `${targetLink}${route.data.relativePath.replace(/\.md$/, '')}${route.hash}`
+    }
+  }
+})
+```
 
 ## logo
 
 - Tipo: `ThemeableImage`
 
-Archivo de logotipo que se mostrará en la barra de navegación, justo antes del título del sitio. Acepta una ruta de cadena o un objeto para definir un logotipo diferente para los modos claro/oscuro.
+Archivo de logotipo para mostrar en la barra de navegación, justo antes del título del sitio. Acepta una ruta de archivo (string) o un objeto para configurar un logotipo diferente para el modo claro/oscuro.
 
 ```ts
 export default {
@@ -54,7 +72,7 @@ type ThemeableImage =
 
 - Tipo: `string | false`
 
-Puedes personalizar este elemento para reemplazar el título del sitio predeterminado (`title` en configuración de la aplicación) en navegación. Cuando se establece como `false`, el título en la navegación quedará deshabilitado. Útil cuando tienes un `logo` que ya contiene el título del sitio.
+Puedes personalizar este elemento para reemplazar el título del sitio predeterminado (`title` en la configuración de la aplicación) en la navegación. Cuando se establece como `false`, el título en la navegación quedará deshabilitado. Útil cuando tienes un `logo` que ya contiene el texto del título del sitio.
 
 ```ts
 export default {
@@ -74,9 +92,9 @@ La configuración del elemento del menú de navegación. Más detalles en [Tema 
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       {
-        text: 'Menú Dropdown',
+        text: 'Menú desplegable',
         items: [
           { text: 'Item A', link: '/item-1' },
           { text: 'Item B', link: '/item-2' },
@@ -116,17 +134,17 @@ interface NavItemWithChildren {
 
 - Tipo: `Sidebar`
 
-La configuración del elemento del menú de la barra lateral. Más detalles en [Tema Predeterminado: Barra Lateral](./default-theme-sidebar).
+The configuración del elemento del menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
 ```ts
 export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
           { text: 'Introducción', link: '/introduction' },
-          { text: 'A partir de', link: '/getting-started' },
+          { text: 'Comenzar', link: '/getting-started' },
           ...
         ]
       }
@@ -139,69 +157,82 @@ export default {
 export type Sidebar = SidebarItem[] | SidebarMulti
 
 export interface SidebarMulti {
-  [path: string]: SidebarItem[]
+  [path: string]: SidebarItem[] | { items: SidebarItem[]; base: string }
 }
 
 export type SidebarItem = {
   /**
-   * El rotulo del item.
+   * La etiqueta de texto del artículo.
    */
   text?: string
 
   /**
-   * El link del item.
+   * El enlace del artículo.
    */
   link?: string
 
   /**
-   * Los hijos del item.
+   * Los hijos del elemento.
    */
   items?: SidebarItem[]
 
   /**
-   * Si no se especifica, el grupo no es retráctil.
+   * Si no se especifica, el grupo no se puede contraer.
    *
    * Si es 'true', el grupo se puede contraer y está contraído de forma predeterminada.
    *
    * Si es 'false', el grupo se puede contraer pero se expande de forma predeterminada.
    */
   collapsed?: boolean
+
+  /**
+   * Ruta base para los elementos secundarios.
+   */
+  base?: string
+
+  /**
+   * Personaliza el texto que aparece en el pie de página de la página anterior/siguiente.
+   */
+  docFooterText?: string
+
+  rel?: string
+  target?: string
 }
 ```
 
 ## aside
 
 - Tipo: `boolean | 'left'`
-- Estandar: `true`
-- Puede ser anulado por la página a través de [frontmatter](./frontmatter-config#aside)
+- Predeterminado: `true`
+- Se puede sobrescribir por página mediante [frontmatter](./frontmatter-config#aside)
 
-Definir este valor como `false` evita que se muestre el elemento lateral.\
-Definir este valor como `true` presenta el lado de la derecha.\
-Definir este valor como `left` presenta el lado de la izquierda.
+Definir este valor como `false`, impide la visualización del contenedor lateral.
+Definir este valor como `true`, muestra el contenedor lateral a la derecha.
+Definir este valor como `left`, muestra el contenedor lateral a la izquierda.
 
-Si desea deshabilitarlo para todas las vistas, debe usar `outline: false` en vez de eso.
+Si desea deshabilitarlo para todas los viewports, debe usar `outline: false` en su lugar.
 
 ## outline
 
-- Tipo: `Outline | Outline['level'] | false`
-- El nivel se puede superponer por página mediante [frontmatter](./frontmatter-config#outline)
+- Type: `Outline | Outline['level'] | false`
+- El nivel se puede sobrescribir por página mediante [frontmatter](./frontmatter-config#outline)
 
-Definir este valor como `false` evita que el elemento se muestre _outline_. Consulte la interfaz para más detalles:
+Definir este valor como `false`, evita mostrar el contorno (outline) del contenedor. Consulte esta interfaz para obtener más detalles:
 
 ```ts
 interface Outline {
   /**
-   * Los niveles de título que se mostrarán en el esquema.
-   * Un solo número significa que solo se mostrarán los títulos de ese nivel.
-   * Si se pasa una tupla, el primer número es el nivel mínimo y el segundo número es el nivel máximo.
-   * `'deep'` es lo mismo que `[2, 6]`, lo que significa que todos los titulos `<h2>` a `<h6>` serán mostrados.
+   * Niveles de encabezados que se mostrarán en el esquema.
+   * Un solo número indica que solo se mostrarán los encabezados de ese nivel.
+   * Si se pasa una tupla, el primer número corresponde al nivel mínimo y el segundo al nivel máximo.
+   * `'deep'` es equivalente a `[2, 6]`, lo que significa que se mostrarán todos los encabezados desde `<h2>` hasta `<h6>`.
    *
    * @default 2
    */
   level?: number | [number, number] | 'deep'
 
   /**
-   * El titulo que se mostrará en el equema.
+   * El titulo que se mostrará en el esquema.
    *
    * @default 'On this page'
    */
@@ -219,10 +250,12 @@ Puedes configurar esta opción para mostrar enlaces de redes sociales con ícono
 export default {
   themeConfig: {
     socialLinks: [
+      // Puedes añadir cualquier icono de simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
-      // También puedes agregar íconos personalizados pasando SVG como string:
-       {
+      { icon: 'discord', link: '/community', target: '_self' },
+      // También puedes agregar íconos personalizados pasando SVG como 
+      {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
         },
@@ -240,15 +273,16 @@ interface SocialLink {
   icon: string | { svg: string }
   link: string
   ariaLabel?: string
+  target?: string
 }
 ```
 
 ## footer
 
 - Tipo: `Footer`
-- Se puede superponer por página mediante [frontmatter](./frontmatter-config#footer)
+- Se puede sobrescribir por página mediante [frontmatter](./frontmatter-config#footer)
 
-Configuración de pie de página. Puede agregar un mensaje o texto de derechos de autor en el pie de página; sin embargo, solo se mostrará cuando la página no contenga una barra lateral. Esto se debe a preocupaciones de diseño.
+Configuración de pie de página. Puede agregar un mensaje o texto de derechos de autor en el pie de página; sin embargo, solo se mostrará cuando la página no contenga una barra lateral. Esto se debe a consideraciones de diseño.
 
 ```ts
 export default {
@@ -271,7 +305,7 @@ export interface Footer {
 ## editLink
 
 - Tipo: `EditLink`
-- Se puede superponer por página mediante [frontmatter](./frontmatter-config#editlink)
+- Se puede sobrescribir por página mediante [frontmatter](./frontmatter-config#editlink)
 
 _EditLink_ le permite mostrar un enlace para editar la página en los servicios de administración Git, como GitHub o GitLab. Consulte [Tema por defecto: Editar Link](./default-theme-edit-link) para más detalles.
 
@@ -303,7 +337,7 @@ Permite la personalización del formato de fecha y texto actualizado por ultima 
 export default {
   themeConfig: {
     lastUpdated: {
-      text: 'Actualizado en',
+      text: 'Actualizado el',
       formatOptions: {
         dateStyle: 'full',
         timeStyle: 'medium'
@@ -352,15 +386,13 @@ Una opción para mostrar [Carbon Ads](https://www.carbonads.net/).
 export default {
   themeConfig: {
     carbonAds: {
-      code: 'su-código-carbon',
-      placement: 'su-colocación-carbon',
+      code: 'tu-código-carbon',
+      placement: 'tu-vinculación-carbon',
       format: 'classic'
     }
   }
 }
 ```
-
-La opción `format` admite `classic`, `responsive` y `cover`.
 
 ```ts
 export interface CarbonAdsOptions {
@@ -382,8 +414,8 @@ Se puede utilizar para personalizar el texto que aparece encima de los enlaces a
 export default {
   themeConfig: {
     docFooter: {
-      prev: 'Página anterior',
-      next: 'Próxima página'
+      prev: 'Anterior',
+      next: 'Siguiente'
     }
   }
 }
@@ -399,48 +431,90 @@ export interface DocFooter {
 ## darkModeSwitchLabel
 
 - Tipo: `string`
-- Estandar: `Appearance`
+- Predeterminado: `Appearance`
 
 Se puede utilizar para personalizar la etiqueta del botón del modo oscuro. Esta etiqueta solo se muestra en la vista móvil.
 
 ## lightModeSwitchTitle
 
 - Tipo: `string`
-- Estandar: `Switch to light theme`
+- Predeterminado: `Switch to light theme`
 
-Se puede utilizar para personalizar el título del botón borrar que aparece al pasar el mouse.
+Se puede utilizar para personalizar el título del interruptor de modo de claro que aparece al pasar el cursor por encima.
 
 ## darkModeSwitchTitle
 
 - Tipo: `string`
-- Estandar: `Switch to dark theme`
+- Predeterminado: `Switch to dark theme`
 
-Se puede utilizar para personalizar el título del botón del modo oscuro que aparece al pasar el mouse.
+Se puede utilizar para personalizar el título del interruptor del modo oscuro que aparece al pasar el cursor por encima.
 
 ## sidebarMenuLabel
 
 - Tipo: `string`
-- Estandar: `Menu`
+- Predeterminado: `Menu`
 
 Se puede utilizar para personalizar la etiqueta del menú de la barra lateral. Esta etiqueta solo se muestra en la vista móvil.
 
 ## returnToTopLabel
 
 - Tipo: `string`
-- Estandar: `Return to top`
+- Predeterminado: `Return to top`
 
-Se puede utilizar para personalizar la etiqueta del botón Volver al principio. Esta etiqueta solo se muestra en la vista móvil.
+Se puede usar para personalizar la etiqueta del botón "Volver al inicio". Esta etiqueta solo se muestra en la vista móvil.
 
 ## langMenuLabel
 
 - Tipo: `string`
-- Estandar: `Change language`
+- Predeterminado: `Change language`
 
-Se puede utilizar para personalizar la etiqueta aria del botón de idioma en la barra de navegación. Esto sólo se usa si estás usando [i18n](../guide/i18n).
+Se puede usar para personalizar la etiqueta aria del botón de cambio de idioma en la barra de navegación. Esto solo se usa si estás usando [i18n](../guide/i18n).
+
+## skipToContentLabel
+
+- Tipo: `string`
+- Predeterminado: `Skip to content`
+
+Se puede usar para personalizar la etiqueta del enlace "Saltar al contenido". Este enlace se muestra cuando el usuario navega por el sitio web mediante el teclado.
 
 ## externalLinkIcon
 
 - Tipo: `boolean`
-- Estandar: `false`
+- Predeterminado: `false`
 
-Se debe mostrar um ícono de link externo junto a los enlaces externos en markdown.
+Indica si se debe mostrar un icono de enlace externo junto a los enlaces externos en Markdown.
+
+## `useLayout` <Badge type="info" text="componible" />
+
+Devuelve datos relacionados con el diseño. El objeto devuelto tiene el siguiente tipo:
+
+```ts
+interface {
+  isHome: ComputedRef<boolean>
+
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
+
+**Ejemplo:**
+
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
+
+const { hasSidebar } = useLayout()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Mostrar solo cuando exista la barra lateral.</div>
+</template>
+```

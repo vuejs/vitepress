@@ -1,6 +1,6 @@
 ---
-description: Despliega tu sitio VitePress en plataformas populares como Netlify, Vercel, GitHub Pages y más.
 outline: deep
+description: Despliega tu sitio VitePress en plataformas populares como Netlify, Vercel, GitHub Pages y más.
 ---
 
 # Despliegue su Sitio VitePress {#deploy-your-vitepress-site}
@@ -8,7 +8,7 @@ outline: deep
 Las siguientes orientaciones están basadas en algunos supuestos:
 
 - El sitio VitePress está dentro del directorio `docs` de su proyecto.
-- Está usando la directorio por defecto para el build (`.vitepress/dist`).
+- Está usando la directorio por defecto para el la compilación (`.vitepress/dist`).
 - VitePress está instalado como una dependencia local en su proyecto, y usted configuró los siguientes scripts en su `package.json`:
 
   ```json [package.json]
@@ -46,27 +46,27 @@ Las siguientes orientaciones están basadas en algunos supuestos:
    }
    ```
 
-   Ahora el método `docs:preview` implantará el servidor en `http://localhost:8080`.
+  Ahora, el método `docs:preview` iniciará el servidor en `http://localhost:8080`.
 
-## Configurando un Path Base Publico {#setting-a-public-base-path}
+## Configurando una Ruta Base Pública {#setting-a-public-base-path}
 
-Por defecto, asumimos que el sitio será implantado en el path raiz de un dominio (`/`). Si su sitio fuera servido en un subpath, por ejemplo, `https://meusite.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
+Por defecto, asumimos que el sitio será implantado en la ruta raíz de un dominio (`/`). Si su sitio fuera servido en una sub-ruta, por ejemplo, `https://mipagina.com/blog/`, necesitará entonces configurar la opción [`base`](../reference/site-config#base) para `'/blog/'` en la configuración VitePress.
 
-**Ejemplo:** Al usar GitHub Pages (ou GitLab Pages) e implantar en `user.github.io/repo/`, defina su `base` como `/repo/`.
+**Ejemplo:** Si utilizas GitHub (o GitLab) Pages y realizas el despliegue en `user.github.io/repo/`, entonces establece tu `base` en `/repo/`.
 
 ## Headers de Cache HTTP {#http-cache-headers}
 
-Si tiene control sobre los headers HTTP de su servidor en producción, se puede configurar headers `cache-control` para obtener mejor desempeño en vistar repetidas.
+Si tiene control sobre los headers HTTP de su servidor en producción, se puede configurar headers `cache-control` para obtener mejor desempeño al visitar repetidas.
 
 La compilación de producción usa nombres de archivos con hash para assets estáticos (JavaScript, CSS e otros assets que no están en `public`). Se inspecciona la previa de producción usando las herramientas de desarrollador de su navegador en la pestaña red, verá archivos como `app.4f283b18.js`.
 
-Este hash `4f283b18` es generado a partir del contenido de este archivo. La misma URL con hash es garantizada para servir el mismo contenido del archivo - se el contenido cambia, las URLs también cambian. Esto significa que puede utilizar con seguridad los headers de cahe más fuertespara esos archivos. Todos esos archivos serán colocados en `assets/` en la directorio de salida, entonces puede configurar el siguiente header para ellos:
+Este hash `4f283b18` se genera a partir del contenido de este archivo. Se garantiza que la misma URL con hash servirá el mismo contenido del archivo; si el contenido cambia, las URL también cambian. Esto significa que puede usar con seguridad los encabezados de caché más seguros para estos archivos. Todos estos archivos se colocarán en `assets/` en el directorio de salida, por lo que puede configurar el siguiente encabezado para ellos:
 
 ```
 Cache-Control: max-age=31536000,immutable
 ```
 
-::: details Ejemplo de archivo `_headers` do Netlify
+::: details Ejemplo de archivo `_headers` Netlify
 
 ```
 /assets/*
@@ -74,13 +74,13 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-Nota: el archivo `_headers` debe ser colocado en [diretório public](./asset-handling#the-public-directory) - en nuestro caso, `docs/public/_headers` - para que el sea copiado exactamente para la directorio de salida.
+Nota: el archivo `_headers` debe colocarse en el [directorio público](./asset-handling#the-public-directory) - en nuestro caso, `docs/public/_headers` - para que se copie tal cual al directorio de salida.
 
 [Documentación de headers personalizados de Netlify](https://docs.netlify.com/routing/headers/)
 
 :::
 
-::: details de Ejemplo de configuración Vercel em `vercel.json`
+::: details de Ejemplo de configuración Vercel en `vercel.json`
 
 ```json
 {
@@ -98,13 +98,13 @@ Nota: el archivo `_headers` debe ser colocado en [diretório public](./asset-han
 }
 ```
 
-Nota: el archivo `vercel.json` debe ser colocado en la raiz de su **repositório**.
+Nota: el archivo `vercel.json` debe ser colocado en la raíz de su **repositorio**.
 
-[Documentación Vercel sobre configuración de headers ](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[Documentación Vercel sobre configuración de headers](https://vercel.com/docs/concepts/projects/project-configuration#headers)
 
 :::
 
-## Guias de Plataforma {#platform-guides}
+## Guías de Plataforma {#platform-guides}
 
 ### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
@@ -115,25 +115,25 @@ Configure un nuevo proyecto y altere estas configuraciones usando su panel:
 - **Versión de Node:** `20` (o superior)
 
 ::: warning
-No active opciones como _Auto Minify_ para código HTML. Eso removera comentarios de salida que tiene significado para Vue. Habrán errores de incompatibilidad de hidratación se fueran removidos.
+No active opciones como _Auto Minify_ para código HTML. Eso removerá comentarios de salida que tiene significado para Vue. Habrán errores de incompatibilidad de hidratación si fueran removidos.
 :::
 
 ### GitHub Pages
 
-1. Cree un archivo llamado `deploy.yml` dentro del directorio `.github/workflows` do seu projeto com algum conteúdo como este:
+1. Crea un archivo llamado `deploy.yml` dentro del directorio `.github/workflows` de tu proyecto con un contenido como este:
 
    ```yaml [.github/workflows/deploy.yml]
    # Ejemplo de flujo de trabajo para compilar e implantar un sitio VitePress en GitHub Pages
    #
-   name: Implante el sitio VitePress en Pages
+   name: Despliegue el sitio VitePress en Pages
 
    on:
-     # Ejecute en push direccionados a la branch `main`.
-     # Cambie para `master` si estuviera usando la branch `master` por defecto.
+     # Se ejecuta en los pushes dirigidos a la rama `main`. Cámbialo a `master`
+     # si estás usando la rama `master` como rama predeterminada.
      push:
        branches: [main]
 
-     # Permite ejecutar manualmente este flujo de trabajo en la guia Actions
+     # Permite ejecutar este flujo de trabajo manualmente desde la pestaña Acciones
      workflow_dispatch:
 
    # Define permisos GITHUB_TOKEN para la implementación en GitHub Pages
@@ -142,8 +142,9 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
      pages: write
      id-token: write
 
-   # Permite apenas una implantación simultánea, omitiendo ejecuciones en fila entre la ejecución en progreso y la última de la fila.
-   # Sin embargo, NO cancela ejecuciones en progreso, pues queremos permitir que esas implantaciones de producción sean concuidas.
+   # Permitir solo una implementación simultánea, omitiendo las ejecuciones en cola entre la ejecución en curso y la última en cola.
+
+   # Sin embargo, NO cancelar las ejecuciones en curso, ya que queremos permitir que estas implementaciones de producción se completen.
    concurrency:
      group: pages
      cancel-in-progress: false
@@ -156,28 +157,35 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
          - name: Checkout
            uses: actions/checkout@v5
            with:
-             fetch-depth: 0 # No necesario se lastUpdated no estuviera habilitado
+             fetch-depth: 0 # No necesario si lastUpdated no estuviera habilitado
          # - uses: pnpm/action-setup@v4 # Desconecte eso si estuviera usando pnpm
          #   with:
-         #     version: 9
+         #     version: 9 # No es necesario si has configurado "packageManager" en package.json
          # - uses: oven-sh/setup-bun@v1 # Desconecte eso se estuviera usando Bun
          - name: Setup Node
            uses: actions/setup-node@v6
            with:
              node-version: 24
              cache: npm # o pnpm / yarn
+         - name: Cache VitePress
+           uses: actions/cache@v4
+           with:
+             path: docs/.vitepress/cache
+             key: ${{ runner.os }}-vitepress-${{ hashFiles('docs/**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+             restore-keys: |
+               ${{ runner.os }}-vitepress-
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies
            run: npm ci # o pnpm install / yarn install / bun install
-        - name: Build with VitePress
-          run: npm run docs:build # o pnpm docs:build / yarn docs:build / bun run docs:build
+         - name: Build with VitePress
+           run: npm run docs:build # o pnpm docs:build / yarn docs:build / bun run docs:build
          - name: Upload artifact
            uses: actions/upload-pages-artifact@v3
            with:
              path: docs/.vitepress/dist
 
-     # Trabajo de implantación
+     # Trabajo de despliegue
      deploy:
        environment:
          name: github-pages
@@ -192,18 +200,18 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
    ```
 
    ::: warning
-   Asegurese de que la opción `base` en su VitePress esté configurada correctamentse. Vea [Configuranco un Path base Público](#setting-a-public-base-path) para más detalles.
+   Asegúrese de que la opción `base` en su VitePress esté configurada correctamente. Vea [Configurando una Ruta Base Pública](#setting-a-public-base-path) para más detalles.
    :::
 
 2. En las configuraciones de su repositorio sobre el item del menú "Pages", seleccione "GitHub Actions" en "Build and deployment > Source".
 
-3. Envie sus modificaciones para el branch `main` y espere la conclusión del flujo de trabajo de GitHub Actions. Verá su sitio implantado en `https://<username>.github.io/[repository]/` o `https://<custom-domain>/` dependiendo de sus configuraciones. Su sitio será implantado automáticamente en cada push para la branch `main`.
+3. Envie sus modificaciones para el branch `main` y espere la conclusión del flujo de trabajo de GitHub Actions. Verá su sitio implantado en `https://<usuario>.github.io/[repositorio]/` o `https://<dominio-personalizado>/` dependiendo de sus configuraciones. Su sitio será implantado automáticamente en cada push para la branch `main`.
 
 ### GitLab Pages
 
-1. Defina `outDir` en la configuración VitePress como `../public`. Configure la opción `base` para `'/<repository>/'` se desea implantar en `https://<username>.gitlab.io/<repository>/`. No necesita `base` si está implementando en un dominio personalizado, páginas de usuario o grupo, o si la configuración "Use unique domain" está habilitada en GitLab.
+1. Establezca `outDir` en la configuración de VitePress a `../public`. Configure la opción `base` a `'/<repositorio>/'` si desea implementar en `https://<usuario>.gitlab.io/<repositorio>/`. No necesita `base` si está implementando en un dominio personalizado, páginas de usuario o grupo, o si tiene habilitada la opción "Usar dominio único" en GitLab.
 
-2. Cree un archivo llamado `.gitlab-ci.yml` en la raiz del proyecto con el contenido abajo. Esto construirá e implantará su sitio siempre que haga alteraciones en el contenido.
+2. Cree un archivo llamado `.gitlab-ci.yml` en la raíz del proyecto con el contenido abajo. Esto construirá e implantará su sitio siempre que haga cambios en el contenido.
 
    ```yaml [.gitlab-ci.yml]
    image: node:24
@@ -212,7 +220,7 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
        paths:
          - node_modules/
      script:
-       # - apk add git # Desconecte eso se estuviera usando imagenes pequeñas de Docker como Alpine y tuviera lastUpdated habilitado
+       # - apk add git # Descomente esto si está utilizando imágenes de Docker pequeñas como alpine y tiene la última actualización habilitada.
        - npm install
        - npm run docs:build
      artifacts:
@@ -222,9 +230,11 @@ No active opciones como _Auto Minify_ para código HTML. Eso removera comentario
        - main
    ```
 
+<!-- Mantener los encabezados ordenados alfabéticamente, dejar nginx al final -->
+
 ### Azure
 
-1. Siga la [documentación oficial](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. Siga la [documentación oficial](https://learn.microsoft.com/es-es/azure/static-web-apps/build-configuration).
 
 2. Configure esos valores en su archivo de configuración (y remueva aquellos que no necesita, como `api_location`):
 
@@ -238,7 +248,7 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
 
 ### Firebase
 
-1. Cree `firebase.json` y `.firebaserc` en la raiz de su proyecto:
+1. Cree `firebase.json` y `.firebaserc` en la raíz de su proyecto:
 
    `firebase.json`:
 
@@ -261,7 +271,7 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
    }
    ```
 
-2. Después de ejecutar `npm run docs:build`, ejecute este comando para implantar:
+2. Después de ejecutar `npm run docs:build`, ejecute este comando para desplegar:
 
    ```sh
    firebase deploy
@@ -269,9 +279,9 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
 
 ### Heroku
 
-1. Siga la documentación y el guia proporcionados por [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. Siga la documentación y el guía proporcionados por [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
-2. Cree un archivo llamado `static.json` en la raiz de su proyecto con el contenido abajo:
+2. Cree un archivo llamado `static.json` en la raíz de su proyecto con el siguiente contenido:
 
    ```json [static.json]
    {
@@ -285,7 +295,7 @@ Puedes desplegar tu proyecto VitePress con [Hostinger](https://www.hostinger.com
 
 ### Kinsta
 
-Puede implantar su sitio VitePress em [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).
+Puede implantar su sitio VitePress en [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).
 
 ### Stormkit
 

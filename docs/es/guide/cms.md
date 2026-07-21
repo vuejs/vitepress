@@ -7,9 +7,9 @@ outline: deep
 
 ## Flujo de Trabajo general {#general-workflow}
 
-Conectar VitePress a un CMS girará mayormente en torno a [Rutas dinámicas](./routing#dynamic-routes). Asegurese de entender cómo funcionan antes de proceder.
+Conectar VitePress a un CMS girará mayormente en torno a [Rutas dinámicas](./routing#dynamic-routes). Asegúrese de entender cómo funcionan antes de proceder.
 
-Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flujo de trabajo genérico que requiere ser adaptado para cada escenario específico.
+Como cada CMS funcionará de forma diferente, aquí podemos proveer apenas un flujo de trabajo genérico que requiere ser adaptado para cada escenario específico.
 
 1. Si su CMS exige autenticación, cree un archivo `.env` para almacenar los tokens del API y cargarlos como:
 
@@ -20,7 +20,7 @@ Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flu
     const env = loadEnv('', process.cwd())
     ```
 
-2. Obtenga los datos necesarios del CMS y aplique formato en paths de datos apropiados:
+2. Obtenga los datos necesarios del CMS y aplique formato en rutas de datos apropiados:
 
     ```js
     export default {
@@ -28,7 +28,7 @@ Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flu
         // use la biblioteca del cliente CMS respectiva si es necesario
         const data = await (await fetch('https://my-cms-api', {
           headers: {
-            // token caso necesario
+            // token si es necesario
           }
         })).json()
 
@@ -42,7 +42,7 @@ Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flu
     }
     ```
 
-3. Presente el contenido en la página:
+3. Renderice el contenido en la página:
 
     ```md
     # {{ $params.title }}
@@ -52,6 +52,6 @@ Como cada CMS funcionará de forma diferente, aqui podemos proveer apenas un flu
     <!-- @content -->
     ```
 
-## Guias de Integración {#integration-guides}
+## Guías de Integración {#integration-guides}
 
-Se usted escribió una guía sobre cómo integrar VitePress con un CMS específico, por favor use el link "Edite esta página" abajo para enviarlo hacia aqui!
+Se usted escribió una guía sobre cómo integrar VitePress con un CMS específico, por favor use el link "Edite esta página" abajo para enviarlo hacia aquí!

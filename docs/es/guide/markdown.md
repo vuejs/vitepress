@@ -4,29 +4,29 @@ description: Extensiones Markdown integradas en VitePress, incluyendo contenedor
 
 # Extensiones Markdown {#markdown-extensions}
 
-VitePress viene con Extensiones embutidas.
+VitePress viene con Extensiones Markdown integradas.
 
-## Anchors de Header {#header-anchors}
+## Anclajes de encabezado {#header-anchors}
 
-Los Header reciben la aplicación automáticamente de links anchor. La presentación de los anchor puede ser configurada usando la opción `markdown.anchor`.
+Los encabezados obtienen automáticamente enlaces de anclaje. La visualización de los anclajes se puede configurar mediante la opción `markdown.anchor`.
 
-### Anchor personalizados {#custom-anchors}
+### Anclajes personalizados {#custom-anchors}
 
-Para especificar un _tag_ anchor personalizado para um header en vex de usar la generada automáticamente, adicione un sufijo al header:
+Para especificar una etiqueta de anclaje personalizada para un encabezado en lugar de usar la generada automáticamente, agregue un sufijo al encabezado:
 
 ```
-# Usando anchors personalizados {#mi-anchor}
+# Usando anclas personalizadas {#mi-anclajes}
 ```
 
-Esto permite que tenga un link del header como `#mi-anchor` en vez del default `#usando-anchors-personalizados`.
+Esto permite que tenga un enlace del encabezado como `#mi-anclajes` en vez del default `#usando-anclas-personalizadas`.
 
-## Links {#links}
+## Enlaces {#links}
 
-Ambos links internos y externos reciben tratamiento especial.
+Tanto los enlaces internos como los externos reciben un trato especial.
 
-### Links Internos {#internal-links}
+### Enlaces Internos {#internal-links}
 
-Los links internos son convertidos en links de enrutador para navegación SPA. Además de eso , todo archivo `index.md` contenido en cada subdirectorio será automáticamente convertido en `index.html`, con la URL correspondiente `/`.
+Los enlaces internos se convierten en enlaces de enrutador para la navegación SPA. Además, cada archivo `index.md` contenido en cada subdirectorio se convertirá automáticamente en `index.html`, con la URL correspondiente `/`.
 
 Por ejemplo, dada la siguiente estructura de directorios:
 
@@ -46,7 +46,7 @@ Por ejemplo, dada la siguiente estructura de directorios:
 Y suponiendo que está en `foo/one.md`:
 
 ```md
-[Página Inicial](/) <!-- lleva al usuario al index.md raiz -->
+[Página Inicial](/) <!-- lleva al usuario al index.md raíz -->
 [foo](/foo/) <!-- lleva al usuario al index.html del directorio foo -->
 [foo heading](./#heading) <!-- ancla al usuario a un header del archivo índice foo -->
 [bar - three](../bar/three) <!-- puede omitir la extensión -->
@@ -56,14 +56,14 @@ Y suponiendo que está en `foo/one.md`:
 
 ### Sufijo de Página {#page-suffix}
 
-Páginas y links internos son generados con el sufijo `.html` por defecto.
+Páginas y enlaces internos son generados con el sufijo `.html` por defecto.
 
-### Links Externos {#external-links}
+### Enlaces Externos {#external-links}
 
-Links externos reciben automáticamente `target="_blank" rel="noreferrer"`:
+Enlaces externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
-- [VitePress no GitHub](https://github.com/vuejs/vitepress)
+- [VitePress en GitHub](https://github.com/vuejs/vitepress)
 
 ## Frontmatter {#frontmatter}
 
@@ -71,12 +71,12 @@ Links externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 
 ```yaml
 ---
-título: Escribiendo como un Hacker
-idioma: es-CO
+title: Blogueando como un hacker
+lang: es-CO
 ---
 ```
 
-Esos datos estarán disponibles para el resto de la página, junto con todos los componentes personalizados y de temas.
+Estos datos estarán disponibles para el resto de la página, junto con todos los componentes personalizados y de temas.
 
 Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
@@ -85,20 +85,20 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 **Entrada**
 
 ```md
-| Tablas        |    Son        | Geniales|
-| ------------- | :-----------: |   ----: |
-| col 3 está    | à direita     |   $1600 |
-| col 2 está    | centralizada  |     $12 |
-| listras       |   são legais  |      $1 |
+| Tablas         |           Son          | Geniales  |
+| -------------- | :--------------------: | --------: |
+| columna 3 está | alineada a la derecha  | $1600     |
+| columna 2 está | centrada               | $12       |
+| rayas de cebra | son elegantes          | $1        |
 ```
 
 **Salida**
 
-| Tablas        |    Son        | Geniales |
-| ------------- | :-----------: |   -----: |
-| col 3 está    | à direita     |   \$1600 |
-| col 2 está    | centralizada  |     \$12 |
-| listras       |   são legais  |      \$1 |
+| Tablas         |           Son          | Geniales  |
+| -------------- | :--------------------: | --------: |
+| columna 3 está | alineada a la derecha  | \$1600    |
+| columna 2 está | centrada               |  \$12     |
+| rayas de cebra | son elegantes          |   \$1     |
 
 ## Emoji :tada:
 
@@ -114,7 +114,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
 
-## Tabla de Contenido (TOC)
+## Tabla de Contenido (TOC) {#table-of-contents}
 
 **Entrada**
 
@@ -186,7 +186,7 @@ Puede definir un título personalizado adicionando el texto inmediatamente despu
 
 **Entrada**
 
-```md
+````md
 ::: danger STOP
 Zona de peligro, no siga
 :::
@@ -196,8 +196,7 @@ Zona de peligro, no siga
 console.log('Hola, VitePress!')
 ```
 :::
-```
-```
+````
 
 **Salida**
 
@@ -211,7 +210,7 @@ console.log('Hola, VitePress!')
 ```
 :::
 
-Además de eso, puede definir títulos personalizados globalmente adicionando el siguiente contenifo en el archivo de configuración del sitio, útil si no estuviera escribiendo en ingles:
+Además, puede definir títulos personalizados globalmente agregando el siguiente contenido en la configuración del sitio, útil si no estuviera escribiendo en ingles:
 
 ```ts
 // config.ts
@@ -230,9 +229,31 @@ export default defineConfig({
 })
 ```
 
+### Atributos adicionales {#additional-attributes}
+
+Puedes añadir atributos adicionales a los contenedores personalizados. Para esta función, utilizamos [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs), compatible con casi todos los elementos Markdown. Por ejemplo, puedes establecer el atributo `open` para que el bloque de detalles se abra por defecto:
+
+**Entrada**
+
+````md
+::: details Haz clic aquí para mostrar u ocultar el código  {open}
+```js
+console.log('Hola, VitePress!')
+```
+:::
+````
+
+**Salida**
+
+::: details Haz clic aquí para mostrar u ocultar el código {open}
+```js
+console.log('Hola, VitePress!')
+```
+:::
+
 ### `raw`
 
-Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
+Este es un contenedor especial que se puede usar para evitar conflictos de estilo y enrutamiento con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
 
 **Sintaxis**
 
@@ -242,7 +263,7 @@ Envuelve en un `<div class="vp-raw">`
 :::
 ```
 
-La clase `vp-raw` también puede ser usada directamente en elementos. El aislamiento de estilo es actualmente opcional:
+`vp-raw` también puede ser usada directamente en elementos. El aislamiento de estilo es actualmente opcional:
 
 - Instale `postcss` con su gestor de paquetes preferido:
 
@@ -264,17 +285,17 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
+    includeFiles: [/custom\.css/] // por defecto [/vp-doc\.css/, /base\.css/]
   })
   ```
 
 ## Alertas en estilo GitHub {#github-flavored-alerts}
 
-VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para presentar como un bloque de llamada. Ellos serán presentados de la misma forma que [elementos personalizados](#custom-containers).
+VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para presentar como un bloque de llamada. Ellos serán presentados de la misma forma que [contenedores personalizados](#custom-containers).
 
 ```md
 > [!NOTE]
-> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rapidamente.
+> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rápidamente.
 
 > [!TIP]
 > Informaciones opcionales para ayudar al usuario a tener más éxito.
@@ -290,7 +311,7 @@ VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en
 ```
 
 > [!NOTE]
-> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rapidamente.
+> Destaca informaciones que los usuarios deben tener en consideración, incluso leyendo rápidamente.
 
 > [!TIP]
 > Informaciones opcionales para ayudar al usuario a tener más éxito.
@@ -346,9 +367,9 @@ export default {
 </ul>
 ```
 
-Una [lista de lenguajes válidas](https://shiki.style/languages) está disponible en el repositório Shiki.
+Una [lista de lenguajes válidas](https://shiki.style/languages) está disponible en el repositorio de Shiki.
 
-También puede personalizar el tema de destaque de sintaxis en la configuración de la aplicación. Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
+También puede personalizar el tema del resaltado de sintaxis, configurar alias de idioma y establecer etiquetas de idioma personalizadas en la configuración de la aplicación. Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
 ## Destaque de Linea en Bloques de Código {#line-highlighting-in-code-blocks}
 
@@ -359,7 +380,7 @@ También puede personalizar el tema de destaque de sintaxis en la configuración
 export default {
   data () {
     return {
-      msg: 'Destacado!'
+      msg: '¡Destacado!'
     }
   }
 }
@@ -372,17 +393,17 @@ export default {
 export default {
   data () {
     return {
-      msg: 'Destacado!'
+      msg: '¡Destacado!'
     }
   }
 }
 ```
 
-Además de una única linea, puede también especificar múltiples lineas únicas, intervalos, o ambos:
+Además de una única línea, puede también especificar múltiples líneas únicas, intervalos, o ambos:
 
-- Intervalos de linea: por ejemplo, `{5-8}`, `{3-10}`, `{10-17}`
-- Múltiples lineas únicas: por ejemplo, `{4,7,9}`
-- Intervalos de linea y lineas únicas: por ejemplo, `{4,7-13,16,23-27,40}`
+- Intervalos de línea: por ejemplo, `{5-8}`, `{3-10}`, `{10-17}`
+- Múltiples líneas únicas: por ejemplo, `{4,7,9}`
+- Intervalos de línea y líneas únicas: por ejemplo, `{4,7-13,16,23-27,40}`
 
 **Entrada**
 
@@ -391,10 +412,10 @@ Además de una única linea, puede también especificar múltiples lineas única
 export default { // Destacado
   data () {
     return {
-      msg: `Destacado!
-      Esta linea no está destacada,
+      msg: `¡Destacado!
+      Esta línea no está destacada,
       pero esta y las próximas están.`,
-      motd: 'VitePress es increible',
+      motd: 'VitePress es increíble',
       lorem: 'ipsum'
     }
   }
@@ -408,17 +429,17 @@ export default { // Destacado
 export default { // Destacado
   data () {
     return {
-      msg: `Destacado!
-      Esta linea no está destacada,
+      msg: `¡Destacado!
+      Esta línea no está destacada,
       pero esta y las próximas están.`,
-      motd: 'VitePress es increible',
-      lorem: 'ipsum',
+      motd: 'VitePress es increíble',
+      lorem: 'ipsum'
     }
   }
 }
 ```
 
-Alternativamente, es posible destacar directamente en la linea usando el comentario `// [!code highlight]`.
+Alternativamente, es posible destacar directamente en la línea usando el comentario `// [!code highlight]`.
 
 **Entrada**
 
@@ -427,39 +448,7 @@ Alternativamente, es posible destacar directamente en la linea usando el comenta
 export default {
   data () {
     return {
-      msg: 'Destacado!' // [!!code highlight]
-    }
-  }
-}
-```
-````
-
-**Saída**
-
-```js
-export default {
-  data() {
-    return {
-      msg: 'Destacado!' // [!code highlight]
-    }
-  }
-}
-```
-
-## Enfoque en Bloques de Código {#focus-in-code-blocks}
-
-Adicionando el comentario `// [!code focus]` en una linea, esta será destacada y desenfocará las otras partes del código.
-
-Además, puede definir el número de lineas para enfocar usando `// [!code focus:<lineas>]`.
-
-**Entrada**
-
-````
-```js
-export default {
-  data () {
-    return {
-      msg: 'Enfocado!' // [!!code focus]
+      msg: '¡Destacado!' // [!!code highlight]
     }
   }
 }
@@ -470,9 +459,41 @@ export default {
 
 ```js
 export default {
-  data() {
+  data () {
     return {
-      msg: 'Enfocado!' // [!code focus]
+      msg: '¡Destacado!' // [!code highlight]
+    }
+  }
+}
+```
+
+## Enfoque en Bloques de Código {#focus-in-code-blocks}
+
+Adicionando el comentario `// [!code focus]` en una línea, esta será destacada y desenfocará las otras partes del código.
+
+Además, puede definir el número de líneas para enfocar usando `// [!code focus:<lineas>]`.
+
+**Entrada**
+
+````
+```js
+export default {
+  data () {
+    return {
+      msg: '¡Enfocado!' // [!!code focus]
+    }
+  }
+}
+```
+````
+
+**Salida**
+
+```js
+export default {
+  data () {
+    return {
+      msg: '¡Enfocado!' // [!code focus]
     }
   }
 }
@@ -480,7 +501,7 @@ export default {
 
 ## Diferencias Coloreadas en Bloques de Código {#colored-diffs-in-code-blocks}
 
-Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una linea creará una diferencia en esa linea, manteniendo los colores del bloque de código.
+Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una línea creará una diferencia en esa línea, manteniendo los colores del bloque de código.
 
 **Entrada**
 
@@ -512,7 +533,7 @@ export default {
 
 ## Errores y Avisos en Bloques de Código {#errors-and-warnings-in-code-blocks}
 
-Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una linea coloreará los bloques conforme necesário.
+Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una línea coloreará los bloques conforme necesario.
 
 **Entrada**
 
@@ -522,7 +543,7 @@ export default {
   data () {
     return {
       msg: 'Error', // [!!code error]
-      msg: 'Aviso' // [!!code warning]
+      msg: 'Advertencia' // [!!code warning]
     }
   }
 }
@@ -536,15 +557,15 @@ export default {
   data() {
     return {
       msg: 'Error', // [!code error]
-      msg: 'Aviso' // [!code warning]
+      msg: 'Advertencia' // [!code warning]
     }
   }
 }
 ```
 
-## Números de Linea {#line-numbers}
+## Números de Línea {#line-numbers}
 
-Puede habilitar números de linea para cada bloque de código a través del archivo de configuración:
+Puede habilitar números de línea para cada bloque de código a través del archivo de configuración:
 
 ```js
 export default {
@@ -554,52 +575,52 @@ export default {
 }
 ```
 
-Consulte las [opciones markdown](../reference/site-config#markdown) para más detalles.
+Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
-Puede adicionar la marca `:line-numbers` / `:no-line-numbers` en sus bloques de código para substituir el valor definido en la configuración.
+Puedes agregar la marca `:line-numbers` / `:no-line-numbers` en tus bloques de código delimitados para substituir el valor definido en la configuración.
 
-También puede personalizar el número inicial de linea adicionando `=` después `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de las lineas en los bloques de código comenzarán a partir de `2`.
+También puede personalizar el número inicial de línea adicionando `=` después `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de las líneas en los bloques de código comenzarán a partir de `2`.
 
 **Entrada**
 
 ````md
 ```ts {1}
-// números de linea desactivados por defecto
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea desactivados por defecto
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers {1}
-// números de linea activados
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea activados
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// números de linea activados y comienzan en 2
-const line3 = 'Esta es la linea 3'
-const line4 = 'Esta es la linea 4'
+// números de línea activados y comienzan en 2
+const line3 = 'Esta es la línea 3'
+const line4 = 'Esta es la línea 4'
 ```
 ````
 
 **Salida**
 
 ```ts {1}
-// números de linea desactivados por defecto
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea desactivados por defecto
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers {1}
-// números de linea activados
-const line2 = 'Esta es la linea 2'
-const line3 = 'Esta es la linea 3'
+// números de línea activados
+const line2 = 'Esta es la línea 2'
+const line3 = 'Esta es la línea 3'
 ```
 
 ```ts:line-numbers=2 {1}
-// números de linea activados y comienzan en 2
-const line3 = 'Esta es la linea 3'
-const line4 = 'Esta es la linea 4'
+// números de línea activados y comienzan en 2
+const line3 = 'Esta es la línea 3'
+const line4 = 'Esta es la línea 4'
 ```
 
 ## Importar _Snippets_ de Código {#import-code-snippets}
@@ -610,7 +631,7 @@ Puede importar pedazos de código de archivos existentes usando la siguiente sin
 <<< @/filepath
 ```
 
-También soporta [destaque de linea](#line-highlighting-in-code-blocks):
+También soporta [resaltado de línea](#line-highlighting-in-code-blocks):
 
 ```md
 <<< @/filepath{highlightLines}
@@ -631,8 +652,7 @@ También soporta [destaque de linea](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-
-El valor de `@` corresponde a la raiz del código fuente. Por defecto, es la raiz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de paths relativos:
+El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la raíz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de rutas relativos:
 
 ```md
 <<< ../snippets/snippet.js
@@ -640,7 +660,7 @@ El valor de `@` corresponde a la raiz del código fuente. Por defecto, es la rai
 
 :::
 
-También puede usar una [región VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir apenas la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de `#` siguiendo el path del archivo:
+También puede usar una [región VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir apenas la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de `#` siguiendo la ruta del archivo:
 
 **Entrada**
 
@@ -661,7 +681,7 @@ También puede especificar el idioma dentro de llaves (`{}`), así:
 ```md
 <<< @/snippets/snippet.cs{c#}
 
-<!-- con destaque de linea: -->
+<!-- con resaltado de líneas: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
 
@@ -705,7 +725,7 @@ export default config
 :::
 ````
 
-**Salída**
+**Salida**
 
 ::: code-group
 
@@ -750,7 +770,7 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 :::
 ```
 
-**Output**
+**Salida**
 
 ::: code-group
 
@@ -762,10 +782,10 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 
 ## Inclusión de Archivo Markdown {#markdown-file-inclusion}
 
-Puede incluir un archivo markdown en otro archvo markdown, incluso anidado.
+Puede incluir un archivo markdown en otro archivo markdown, incluso anidado.
 
 ::: tip
-Puede prefijar el path del markdown con `@`, el actuará como la raiz de origen. Por defecto, es la raiz del projecto VitePress, a menos que `srcDir` sea configurado.
+También puedes prefijar `@` a la ruta de Markdown, y actuará como raíz de origen. Por defecto, la raíz de origen es la raíz del proyecto VitePress, a menos que se configure `srcDir`.
 :::
 
 Por ejemplo, puede incluir un archivo markdown relativo usando esto:
@@ -780,7 +800,7 @@ Por ejemplo, puede incluir un archivo markdown relativo usando esto:
 <!--@@include: ./parts/basics.md-->
 ```
 
-**Archivo de Parte** (`parts/basics.md`)
+**Archivo Parcial** (`parts/basics.md`)
 
 ```md
 Algunas cosas básicas.
@@ -804,11 +824,11 @@ Algunas cosas básicas
 Puede ser creada usando `.foorc.json`.
 ```
 
-También soporta la selección de un intervalo de lineas:
+También soporta la selección de un intervalo de líneas:
 
 **Entrada**
 
-```md
+```md:line-numbers
 # Documentación
 
 ## Conceptos Básicos
@@ -816,10 +836,10 @@ También soporta la selección de un intervalo de lineas:
 <!--@@include: ./parts/basics.md{3,}-->
 ```
 
-**Archivo de Parte** (`parts/basics.md`)
+**Archivo Parcial** (`parts/basics.md`)
 
-```md
-Algunas cosas básicas.
+```md:line-numbers
+Algunas cosas para empezar.
 
 ### Configuración
 
@@ -828,7 +848,7 @@ Puede ser creada usando `.foorc.json`.
 
 **Código Equivalente**
 
-```md
+```md:line-numbers
 # Documentación
 
 ## Conceptos Básicos
@@ -838,10 +858,95 @@ Puede ser creada usando `.foorc.json`.
 Puede ser creada usando `.foorc.json`.
 ```
 
-El formato del intervalo de lineas seleccionado puede ser: `{3,}`, `{,10}`, `{1,10}`
+El formato del rango de líneas seleccionado puede ser: `{3,}`, `{,10}`, `{1,10}`
+
+También puedes usar una [región de VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir solo la parte correspondiente del archivo de código. Puedes proporcionar un nombre de región personalizado después de un `#` que sigue a la ruta del archivo:
+
+**Entrada**
+
+```md:line-numbers
+# Documentación
+
+## Conceptos Básicos
+
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
+```
+
+**Archivo Parcial** (`parts/basics.md`)
+
+```md:line-numbers
+<!-- #region basic-usage -->
+## Línea de uso 1
+
+## Línea de uso 2
+
+## Línea de uso 3
+<!-- #endregion basic-usage -->
+```
+
+**Código Equivalente**
+
+```md:line-numbers
+# Documentación
+
+## Línea de uso 1
+
+## Línea de uso 2
+
+## Línea de uso 3
+```
 
 ::: warning
-Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegurese de que el contenido está siendo mostrado como se espera.:::
+Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegúrese de que el contenido está siendo mostrado como se espera.
+:::
+
+En lugar de regiones de VS Code, también puedes usar anclas de encabezado para incluir una sección específica del archivo. Por ejemplo, si tienes un encabezado en tu archivo Markdown como este:
+
+```md
+## Mi sección principal
+
+Aquí hay contenido.
+
+### Mi subsección
+
+Aquí hay más contenido.
+
+## Otra sección
+
+Contenido fuera de `Mi sección base`.
+```
+
+Puedes incluir la sección `Mi sección base` de esta manera:
+
+```md
+## Mi sección extendida
+<!--@@include: ./parts/basics.md#mi-seccion-base-->
+```
+
+**Código Equivalente**
+
+```md
+## Mi sección principal
+
+Aquí hay contenido.
+
+### Mi subsección
+
+Aquí hay más contenido.
+```
+
+Aquí, `mi-seccion-base` es el ID generado del elemento de encabezado. Si no es fácil de adivinar, puede abrir el archivo de la parte en su navegador y hacer clic en el ancla del encabezado (el símbolo `#` a la izquierda del encabezado al pasar el cursor sobre él) para ver el ID en la barra de direcciones. O bien, utilice las herramientas para desarrolladores del navegador para inspeccionar el elemento. Como alternativa, también puede especificar el ID en el archivo de la parte de esta manera:
+
+```md
+## Mi Sección Base {#id-personalizada}
+```
+
+y inclúyelo así:
+
+```md
+<!--@@include: ./parts/basics.md#id-personalizada-->
+```
 
 ## Ecuaciones Matemáticas {#math-equations}
 
@@ -867,11 +972,12 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **Ecuaciones de Maxwell:**
 
-| ecuación                                                                                                                                                                  | descripción                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                               |
+| ecuación                                                                                                                                                                  | descripción                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                                     |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                           |
+```
 
 **Salída**
 
@@ -880,21 +986,21 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 **Ecuaciones de Maxwell:**
 
-| ecuación                                                                                                                                                                  | descripción                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                               |
+| ecuación                                                                                                                                                                  | descripción                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| $\nabla \cdot \vec{\mathbf{B}}  = 0$                                                                                                                                      | la divergencia de $\vec{\mathbf{B}}$ es cero                                                     |
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | la rotacional de $\vec{\mathbf{E}}$ es proporcional a la tasa de variación de $\vec{\mathbf{B}}$ |
-| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _hã?_                                                                                     |
+| $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                           |
 
-## _Lazy Loading_ de Imagenes {#image-lazy-loading}
+## Carga diferida de imágenes {#image-lazy-loading}
 
-Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoading` como `true` en su archivo de configuración:
+Puedes habilitar la carga diferida (lazy loading) para cada imagen añadida mediante Markdown configurando `lazyLoading` a `true` en tu archivo de configuración:
 
 ```js
 export default {
   markdown: {
     image: {
-      // la carga perezosa de imagenes está desactivada por defecto
+      // La carga diferida de imágenes está deshabilitada por defecto.
       lazyLoading: true
     }
   }
