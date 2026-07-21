@@ -21,25 +21,16 @@ hero:
     alt: VitePress
 
 features:
-  - icon: 📝
+  - icon: <span class="memo"></span>
     title: 콘텐츠에 집중
     details: 마크다운으로만 아름다운 문서 사이트를 쉽게 만들기.
-  - icon:
-      light: /vite-light.svg
-      dark: /vite-dark.svg
-      wrap: true
-      width: 30
-      height: 30
+  - icon: <span class="vite"></span>
     title: Vite DX(개발자 경험) 즐겨보기
     details: 즉각적인 서버 시작, 매우 빠른 업데이트, Vite 생태계 플러그인을 활용.
-  - icon:
-      src: /vue.svg
-      wrap: true
-      width: 30
-      height: 30
+  - icon: <span class="vue"></span>
     title: Vue로 커스터마이징
     details: Vue 문법과 컴포넌트를 마크다운에서 직접 사용하거나 Vue로 커스텀 테마를 구축.
-  - icon: 🚀
+  - icon: <span class="rocket"></span>
     title: 웹사이트를 빠르게 제공
     details: 정적 HTML로 빠른 초기 로딩, 클라이언트 측 라우팅을 통한 빠른 탐색.
 ---
