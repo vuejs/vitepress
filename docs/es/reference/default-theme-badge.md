@@ -2,41 +2,41 @@
 description: Usa el componente Badge para agregar etiquetas de estado a los encabezados en la documentación de VitePress.
 ---
 
-# Badge {#badge}
+# Insignia {#badge}
 
-Los Badge te permite agregar estados a tus encabezados. Por ejemplo, podría resultar útil especificar el tipo de sección o la version compatible.
+Las insignias te permite agregar estados a tus encabezados. Por ejemplo, podría resultar útil especificar el tipo de sección o la version compatible.
 
 ## Uso {#usage}
 
 Puedes usar el componente `Badge` que está disponible globalmente.
 
 ```html
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="caution" />
+### Título <Badge type="info" text="predeterminado" />
+### Título <Badge type="tip" text="^1.9.0" />
+### Título <Badge type="warning" text="beta" />
+### Título <Badge type="danger" text="precaución" />
 ```
 
-el código anterior se representa como:
+el código anterior se muestra como:
 
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="caution" />
+### Título <Badge type="info" text="predeterminado" />
+### Título <Badge type="tip" text="^1.9.0" />
+### Título <Badge type="warning" text="beta" />
+### Título <Badge type="danger" text="precaución" />
 
-## Personalizar hijos {#custom-children}
+## Personalizar Hijos {#custom-children}
 
-`<Badge>` acepta `children` (hijos), que se mostrará en el badge.
+`<Badge>` acepta `children` (hijos), que se mostrará en la insignia.
 
 ```html
-### Title <Badge type="info">custom element</Badge>
+### Título <Badge type="info">elemento personalizado</Badge>
 ```
 
-### Title <Badge type="info">custom element</Badge>
+### Título <Badge type="info">elemento personalizado</Badge>
 
 ## Personalizar Tipo de Color {#customize-type-color}
 
-Puedes personalizar el estilo del badge anulando las variables CSS. los siguiente son los valores predeterminados:
+Puedes personalizar el estilo de las insignias sobrescribiendo las variables CSS. Los siguientes son los valores predeterminados:
 
 ```css
 :root {
@@ -60,7 +60,7 @@ Puedes personalizar el estilo del badge anulando las variables CSS. los siguient
 
 ## `<Badge>`
 
-El componente `<Badge>` acepta las siguiente propiedades:
+`<Badge>` component acepta las siguiente propiedades (props):
 
 ```ts
 interface Props {
