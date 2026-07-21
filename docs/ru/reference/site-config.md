@@ -461,7 +461,7 @@ export default {
 - Тип: `string`
 - По умолчанию: `./.vitepress/cache`
 
-Каталог для файлов кэша, относительно [корня проекта](../guide/routing#root-and-source-directory). См. также: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+Каталог для файлов кэша, относительно [корня проекта](../guide/routing#root-and-source-directory). См. также: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -502,13 +502,6 @@ export default {
   ]
 }
 ```
-
-### metaChunk <Badge type="warning" text="экспериментально" /> {#metachunk}
-
-- Тип: `boolean`
-- По умолчанию: `false`
-
-Если установлено значение `true`, метаданные страницы извлекаются в отдельный фрагмент JavaScript, а не вставляются в исходный HTML. Это уменьшает полезную нагрузку HTML каждой страницы и делает метаданные страниц кэшируемыми, что позволяет снизить пропускную способность сервера при наличии большого количества страниц на сайте.
 
 ### mpa <Badge type="warning" text="экспериментально" /> {#mpa}
 
@@ -567,7 +560,7 @@ export default {
 
 - Тип: `import('vite').UserConfig`
 
-Передаёт необработанную [конфигурацию Vite](https://vitejs.dev/config/) внутреннему серверу разработки / сборщику Vite.
+Передаёт необработанную [конфигурацию Vite](https://vite.dev/config/) внутреннему серверу разработки / сборщику Vite.
 
 ```js
 export default {

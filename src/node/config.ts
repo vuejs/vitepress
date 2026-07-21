@@ -156,7 +156,6 @@ export async function resolveConfig(
     vite: userConfig.vite,
     shouldPreload: userConfig.shouldPreload,
     mpa: !!userConfig.mpa,
-    metaChunk: !!userConfig.metaChunk,
     ignoreDeadLinks: userConfig.ignoreDeadLinks,
     cleanUrls: !!userConfig.cleanUrls,
     useWebFonts:
@@ -333,15 +332,22 @@ export function mergeConfig<A extends object, B extends object>(
 
 function mergeMarkdownConfig(a: MarkdownOptions, b: MarkdownOptions) {
   const merged = mergeConfig(a, b, false)
-  const baseConfig = a.config
-  const extendedConfig = b.config
-  if (baseConfig && extendedConfig) {
-    merged.config = async (md) => {
-      await baseConfig(md)
-      await extendedConfig(md)
-    }
-  }
+  merged.preConfig = mergeMarkdownHooks(a.preConfig, b.preConfig)
+  merged.config = mergeMarkdownHooks(a.config, b.config)
   return merged
+}
+
+function mergeMarkdownHooks(
+  base: MarkdownOptions['config'],
+  extended: MarkdownOptions['config']
+): MarkdownOptions['config'] {
+  if (!base || !extended) {
+    return base ?? extended
+  }
+  return async (md) => {
+    await base(md)
+    await extended(md)
+  }
 }
 
 export async function resolveSiteData(

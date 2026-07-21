@@ -201,7 +201,7 @@ HTML, обёрнутый `<code>`, будет отображаться как е
 
 ## Использование препроцессоров CSS {#using-css-pre-processors}
 
-VitePress имеет [встроенную поддержку](https://vitejs.dev/guide/features.html#css-pre-processors) для препроцессоров CSS: файлы `.scss`, `.sass`, `.less`, `.styl` и `.stylus`. Для них не нужно устанавливать специфические для Vite плагины, но сам соответствующий препроцессор должен быть установлен:
+VitePress имеет [встроенную поддержку](https://vite.dev/guide/features.html#css-pre-processors) для препроцессоров CSS: файлы `.scss`, `.sass`, `.less`, `.styl` и `.stylus`. Для них не нужно устанавливать специфические для Vite плагины, но сам соответствующий препроцессор должен быть установлен:
 
 ::: code-group
 

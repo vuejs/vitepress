@@ -140,6 +140,7 @@ Users who intentionally reference non-existent files or want to document include
 
 - `markdown-it-attrs` is disabled for fenced code blocks. For most users no change is required. If you want to add classes to code blocks, do it using shiki transformers instead.
 - Rename `cjkFriendly` to `cjkFriendlyEmphasis` in your vitepress config. Most people should be unaffected unless they want to disable the CJK emphasis behavior added v2.0.0-alpha.12.
+- `useData().lastUpdated` now defaults to 0 if `lastUpdated` is enabled in config. No change is needed unless you were manually doing strict comparison in your layout or components.
 
 ## [2.0.0-alpha.12](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2025-08-20)
 
@@ -819,7 +820,7 @@ Users who intentionally reference non-existent files or want to document include
 
 ### BREAKING CHANGES
 
-- VitePress now runs on Vite 5. Please refer https://vitejs.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
+- VitePress now runs on Vite 5. Please refer https://vite.dev/guide/migration for breaking changes and migration guide if you're relying on some Vite-specific things.
 
 # [1.0.0-rc.25](https://github.com/vuejs/vitepress/compare/v1.0.0-rc.24...v1.0.0-rc.25) (2023-11-05)
 

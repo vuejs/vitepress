@@ -119,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Vite를 사용하므로, Vite의 [glob import 기능](https://vitejs.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수 있습니다.
+Vite를 사용하므로, Vite의 [glob import 기능](https://vite.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수 있습니다.
 
 ## 레이아웃 슬롯 {#layout-slots}
 
@@ -309,7 +309,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## 내부 컴포넌트 재정의하기 {#overriding-internal-components}
 
-Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 커스텀 컴포넌트로 대체할 수 있습니다:
+Vite의 [별칭](https://vite.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 커스텀 컴포넌트로 대체할 수 있습니다:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
