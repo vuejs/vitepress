@@ -206,3 +206,12 @@
   font-size: var(--vp-custom-block-font-size);
   color: inherit;
 }
+
+.custom-block.no-title {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.custom-block.no-title .custom-block-title {
+  display: none;
+}
