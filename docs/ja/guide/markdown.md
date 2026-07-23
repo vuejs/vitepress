@@ -1015,15 +1015,15 @@ VitePress は Markdown レンダラーとして [markdown-it](https://github.com
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // markdown-it-anchor のオプション
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // @mdit/plugin-anchor のオプション
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // @mdit-vue/plugin-toc のオプション

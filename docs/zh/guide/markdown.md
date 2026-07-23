@@ -907,15 +907,15 @@ VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作�
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // markdown-it-anchor 的选项
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // @mdit/plugin-anchor 的选项
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
     // @mdit-vue/plugin-toc 的选项
     // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options
