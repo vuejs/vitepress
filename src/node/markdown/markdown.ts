@@ -121,10 +121,17 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   languageLabel?: Record<string, string>
   /**
-   * Show line numbers in code blocks
+   * Show line numbers in code blocks. Requires the `preWrapper` plugin.
    * @default false
    */
   lineNumbers?: boolean
+  /**
+   * Wrap code blocks in a container carrying the language label and the
+   * copy button. The default theme's code block styling relies on this
+   * markup. Disabling it also disables `lineNumbers`.
+   * @default true
+   */
+  preWrapper?: boolean
   /**
    * Fallback language when the specified language is not available.
    */
@@ -153,24 +160,28 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== Markdown It Plugins ==================== */
 
   /**
-   * Options for `markdown-it-anchor`
+   * Options for `markdown-it-anchor`. Set to `false` to disable adding ids
+   * and anchor links to headings. Note that the default theme's outline and
+   * heading hash links rely on these ids.
    * @see https://github.com/valeriangalliat/markdown-it-anchor
    */
-  anchor?: anchorPlugin.AnchorOptions
+  anchor?: anchorPlugin.AnchorOptions | false
   /**
    * Options for `markdown-it-attrs`. Set to `false` to disable.
    * @see https://github.com/arve0/markdown-it-attrs
    */
   attrs?: MarkdownItAttrsOptions | false
   /**
-   * Options for `markdown-it-emoji`
+   * Options for `markdown-it-emoji`. Set to `false` to disable.
    * @see https://github.com/markdown-it/markdown-it-emoji
    */
-  emoji?: {
-    defs?: Record<string, string>
-    enabled?: string[]
-    shortcuts?: Record<string, string | string[]>
-  }
+  emoji?:
+    | {
+        defs?: Record<string, string>
+        enabled?: string[]
+        shortcuts?: Record<string, string | string[]>
+      }
+    | false
   /**
    * Options for `@mdit-vue/plugin-frontmatter`
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
@@ -187,15 +198,22 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   sfc?: SfcPluginOptions
   /**
-   * Options for `@mdit-vue/plugin-toc`
+   * Options for `@mdit-vue/plugin-toc`. Set to `false` to disable the
+   * `[[toc]]` syntax.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc
    */
-  toc?: TocPluginOptions
+  toc?: TocPluginOptions | false
   /**
-   * Options for `@mdit-vue/plugin-component`
+   * Options for `@mdit-vue/plugin-component`. Set to `false` to disable.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
    */
-  component?: ComponentPluginOptions
+  component?: ComponentPluginOptions | false
+  /**
+   * Enables importing code snippets from files with `<<<`.
+   * @default true
+   * @see https://vitepress.dev/guide/markdown#import-code-snippets
+   */
+  snippet?: boolean
   /**
    * Options for `markdown-it-container`
    * @see https://github.com/markdown-it/markdown-it-container
@@ -210,7 +228,13 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://vitepress.dev/guide/markdown#math-equations
    */
   math?: boolean | any
-  image?: ImageOptions
+  /**
+   * Options for the image plugin (resolves image sources against the public
+   * directory, adds dimensions, and supports lazy loading). Set to `false`
+   * to disable.
+   * @see https://vitepress.dev/guide/markdown#image-lazy-loading
+   */
+  image?: ImageOptions | false
   /**
    * Allows disabling the github alerts plugin
    * @default true
@@ -278,24 +302,33 @@ export async function createMarkdownRenderer(
     await options.preConfig(md)
   }
 
-  const slugify = options.anchor?.slugify ?? defaultSlugify
+  const slugify =
+    (options.anchor ? options.anchor.slugify : undefined) ?? defaultSlugify
 
   // custom plugins
-  componentPlugin(md, options.component)
-  preWrapperPlugin(md, {
-    codeCopyButtonTitle,
-    languageLabel: options.languageLabel
-  })
-  snippetPlugin(md, srcDir)
+  if (options.component !== false) {
+    componentPlugin(md, options.component)
+  }
+  if (options.preWrapper !== false) {
+    preWrapperPlugin(md, {
+      codeCopyButtonTitle,
+      languageLabel: options.languageLabel
+    })
+    lineNumberPlugin(md, options.lineNumbers)
+  }
+  if (options.snippet !== false) {
+    snippetPlugin(md, srcDir)
+  }
   containerPlugin(md, options.container)
-  imagePlugin(md, publicDir, options.image)
+  if (options.image !== false) {
+    imagePlugin(md, publicDir, options.image)
+  }
   linkPlugin(
     md,
     { target: '_blank', rel: 'noreferrer', ...options.externalLinks },
     base,
     slugify
   )
-  lineNumberPlugin(md, options.lineNumbers)
 
   if (options.tableTabIndex !== false) {
     tablePlugin(md)
@@ -309,44 +342,48 @@ export async function createMarkdownRenderer(
   if (options.attrs !== false) {
     attrsPlugin(md, options.attrs)
   }
-  emojiPlugin(md, options.emoji)
+  if (options.emoji !== false) {
+    emojiPlugin(md, options.emoji)
+  }
 
   // mdit-vue plugins
-  anchorPlugin(md, {
-    slugify,
-    getTokensText: (tokens) => {
-      return tokens
-        .filter((t) => !['html_inline', 'emoji'].includes(t.type))
-        .map((t) => t.content)
-        .join('')
-    },
-    permalink: (slug, _, state, idx) => {
-      const title =
-        state.tokens[idx + 1]?.children
-          ?.filter((token) => ['text', 'code_inline'].includes(token.type))
-          .reduce((acc, t) => acc + t.content, '')
-          .trim() || ''
+  if (options.anchor !== false) {
+    anchorPlugin(md, {
+      slugify,
+      getTokensText: (tokens) => {
+        return tokens
+          .filter((t) => !['html_inline', 'emoji'].includes(t.type))
+          .map((t) => t.content)
+          .join('')
+      },
+      permalink: (slug, _, state, idx) => {
+        const title =
+          state.tokens[idx + 1]?.children
+            ?.filter((token) => ['text', 'code_inline'].includes(token.type))
+            .reduce((acc, t) => acc + t.content, '')
+            .trim() || ''
 
-      const linkTokens = [
-        Object.assign(new state.Token('text', '', 0), { content: ' ' }),
-        Object.assign(new state.Token('link_open', 'a', 1), {
-          attrs: [
-            ['class', 'header-anchor'],
-            ['href', `#${slug}`],
-            ['aria-label', `Permalink to “${title}”`]
-          ]
-        }),
-        Object.assign(new state.Token('html_inline', '', 0), {
-          content: '&#8203;',
-          meta: { isPermalinkSymbol: true }
-        }),
-        new state.Token('link_close', 'a', -1)
-      ]
+        const linkTokens = [
+          Object.assign(new state.Token('text', '', 0), { content: ' ' }),
+          Object.assign(new state.Token('link_open', 'a', 1), {
+            attrs: [
+              ['class', 'header-anchor'],
+              ['href', `#${slug}`],
+              ['aria-label', `Permalink to “${title}”`]
+            ]
+          }),
+          Object.assign(new state.Token('html_inline', '', 0), {
+            content: '&#8203;',
+            meta: { isPermalinkSymbol: true }
+          }),
+          new state.Token('link_close', 'a', -1)
+        ]
 
-      state.tokens[idx + 1].children?.push(...linkTokens)
-    },
-    ...options.anchor
-  })
+        state.tokens[idx + 1].children?.push(...linkTokens)
+      },
+      ...options.anchor
+    })
+  }
 
   frontmatterPlugin(md, options.frontmatter)
 
@@ -360,14 +397,18 @@ export async function createMarkdownRenderer(
 
   sfcPlugin(md, options.sfc)
   titlePlugin(md)
-  tocPlugin(md, {
-    slugify,
-    ...options.toc,
-    format: (s) => {
-      const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
-      return options.toc?.format?.(title) ?? title
-    }
-  })
+
+  const tocOptions = options.toc
+  if (tocOptions !== false) {
+    tocPlugin(md, {
+      slugify,
+      ...tocOptions,
+      format: (s) => {
+        const title = s.replaceAll('&amp;', '&') // encoded twice because of restoreEntities
+        return tocOptions?.format?.(title) ?? title
+      }
+    })
+  }
 
   if (options.math) {
     try {
