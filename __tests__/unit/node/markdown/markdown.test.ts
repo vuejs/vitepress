@@ -1,3 +1,6 @@
+import { anchor as anchorPlugin } from '@mdit/plugin-anchor'
+import attrsPlugin from 'markdown-it-attrs'
+import { MarkdownItAsync } from 'markdown-it-async'
 import {
   createMarkdownRenderer,
   disposeMdItInstance,
@@ -109,5 +112,21 @@ describe('node/markdown/markdown', () => {
         '<strong>'
       )
     })
+  })
+
+  // attrs applies at a fixed position in the core chain (before linkify),
+  // while anchor pushes to its end, so anchor always sees user-defined ids
+  // no matter which plugin is registered first
+  test('anchor respects ids from attrs regardless of plugin order', async () => {
+    for (const plugins of [
+      [attrsPlugin, anchorPlugin],
+      [anchorPlugin, attrsPlugin]
+    ] as const) {
+      const md = new MarkdownItAsync()
+      for (const plugin of plugins) md.use(plugin)
+      expect(await md.renderAsync('## Title {#custom-id}')).toContain(
+        'id="custom-id"'
+      )
+    }
   })
 })
