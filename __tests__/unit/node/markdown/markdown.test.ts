@@ -101,5 +101,13 @@ describe('node/markdown/markdown', () => {
         'tabindex'
       )
     })
+
+    test('cjkFriendlyEmphasis', async () => {
+      const src = 'これは**「テスト」**です'
+      expect(await render(src)).toContain('<strong>「テスト」</strong>')
+      expect(await render(src, { cjkFriendlyEmphasis: false })).not.toContain(
+        '<strong>'
+      )
+    })
   })
 })
