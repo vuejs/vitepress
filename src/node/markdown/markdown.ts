@@ -361,8 +361,6 @@ export async function createMarkdownRenderer(
     mditCjkFriendly(md)
   }
   if (options.anchor !== false) {
-    // must be applied after attrs so that user-defined ids from curly
-    // attributes take precedence over slugified ones
     anchorPlugin(md, {
       slugify,
       getTokensText: (tokens) => {
