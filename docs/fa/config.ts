@@ -264,8 +264,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'جستجو برای',
           stoppedStreamingText: 'شما این پاسخ را متوقف کردید',
           errorTitleText: 'خطای گفتگو',
-          threadDepthExceededMessage:
-            'برای حفظ دقت پاسخ ها، این گفت وگو بسته شد.',
           startNewConversationButtonText: 'شروع گفت وگوی جدید'
         }
       }
