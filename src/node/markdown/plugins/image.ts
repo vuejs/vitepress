@@ -13,13 +13,13 @@ export interface Options {
    * Support native lazy loading for the `<img>` tag.
    * @default false
    */
-  lazyLoading?: boolean
+  lazyLoad?: boolean
 }
 
 export const imagePlugin = (
   md: MarkdownItAsync,
   publicDir: string,
-  { lazyLoading }: Options = {}
+  { lazyLoad }: Options = {}
 ) => {
   const imageRule = md.renderer.rules.image!
   md.renderer.rules.image = (tokens, idx, options, env: MarkdownEnv, self) => {
@@ -40,7 +40,7 @@ export const imagePlugin = (
       addImageDimensions(token, url, publicDir, env)
     }
 
-    if (lazyLoading && !token.attrGet('loading')) {
+    if (lazyLoad && !token.attrGet('loading')) {
       token.attrSet('loading', 'lazy')
     }
 

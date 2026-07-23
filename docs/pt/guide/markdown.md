@@ -887,14 +887,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## _Lazy Loading_ de Imagens {#image-lazy-loading}
 
-Você pode ativar o "carregamento folgado" para cada imagem adicionada via markdown definindo `lazyLoading` como `true` no seu arquivo de configuração:
+Você pode ativar o "carregamento folgado" para cada imagem adicionada via markdown definindo `lazyLoad` como `true` no seu arquivo de configuração:
 
 ```js
 export default {
   markdown: {
     image: {
       // o carregamento folgado de imagens está desativado por padrão
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }

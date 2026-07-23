@@ -123,9 +123,9 @@ describe('node/markdown/plugins/image', () => {
   })
 
   describe('lazy loading', () => {
-    const mdLazy = createRenderer({ lazyLoading: true })
+    const mdLazy = createRenderer({ lazyLoad: true })
 
-    test('adds loading="lazy" when lazyLoading is enabled', async () => {
+    test('adds loading="lazy" when lazy loading is enabled', async () => {
       const html = await mdLazy.renderAsync('![logo](foo.png)')
 
       expect(html).toContain('loading="lazy"')

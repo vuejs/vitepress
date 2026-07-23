@@ -996,14 +996,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 画像の遅延読み込み {#image-lazy-loading}
 
-Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoading` を `true` にします：
+Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoad` を `true` にします：
 
 ```js
 export default {
   markdown: {
     image: {
       // 既定では画像の遅延読み込みは無効
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
