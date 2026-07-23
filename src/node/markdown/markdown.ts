@@ -52,6 +52,14 @@ export type { Header } from '../shared'
 // not exported from @mdit/plugin-emoji, so derive it from the plugin signature
 type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
 
+// `true` and `undefined` enable a plugin with its default options - only an
+// object carries user-provided plugin options
+function normalizePluginOptions<T>(
+  value: T | boolean | undefined
+): T | undefined {
+  return typeof value === 'boolean' ? undefined : value
+}
+
 export type ThemeOptions =
   | ThemeRegistrationAny
   | BuiltinTheme
@@ -191,18 +199,18 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * transformers instead.
    * @see https://mdit-plugins.github.io/attrs.html
    */
-  attrs?: MarkdownItAttrsOptions | false
+  attrs?: MarkdownItAttrsOptions | boolean
   /**
    * Options for `@mdit/plugin-emoji`. Set to `false` to disable.
    * @see https://mdit-plugins.github.io/emoji.html
    */
-  emoji?: EmojiPluginOptions | false
+  emoji?: EmojiPluginOptions | boolean
   /**
    * Options for `@mdit/plugin-tasklist` (GitHub-style task lists,
    * `- [ ] task`). Set to `false` to disable.
    * @see https://mdit-plugins.github.io/tasklist.html
    */
-  tasklist?: MarkdownItTaskListOptions | false
+  tasklist?: MarkdownItTaskListOptions | boolean
   /**
    * Improves emphasis (`**bold**`) handling in Japanese, Chinese, and
    * Korean text.
@@ -216,7 +224,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * heading hash links rely on these ids.
    * @see https://mdit-plugins.github.io/anchor.html
    */
-  anchor?: AnchorOptions | false
+  anchor?: AnchorOptions | boolean
   /**
    * Options for `@mdit-vue/plugin-headers`. Set to `true` or pass options
    * to collect page headers into page data.
@@ -229,7 +237,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * `[[toc]]` syntax.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc
    */
-  toc?: TocPluginOptions | false
+  toc?: TocPluginOptions | boolean
   /**
    * Math support.
    *
@@ -263,7 +271,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * to disable.
    * @see https://vitepress.dev/guide/markdown#image-lazy-loading
    */
-  image?: ImageOptions | false
+  image?: ImageOptions | boolean
 
   /* ==================== Vue Integration ==================== */
 
@@ -271,7 +279,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * Options for `@mdit-vue/plugin-component`. Set to `false` to disable.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-component
    */
-  component?: ComponentPluginOptions | false
+  component?: ComponentPluginOptions | boolean
   /**
    * Options for `@mdit-vue/plugin-frontmatter`.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-frontmatter
@@ -332,7 +340,7 @@ export async function createMarkdownRenderer(
   }
 
   const slugify =
-    (options.anchor ? options.anchor.slugify : undefined) ?? defaultSlugify
+    normalizePluginOptions(options.anchor)?.slugify ?? defaultSlugify
 
   // VitePress customizations
   if (options.preWrapper !== false) {
@@ -351,7 +359,7 @@ export async function createMarkdownRenderer(
     gitHubAlertsPlugin(md, options.container)
   }
   if (options.image !== false) {
-    imagePlugin(md, publicDir, options.image)
+    imagePlugin(md, publicDir, normalizePluginOptions(options.image))
   }
   linkPlugin(
     md,
@@ -369,14 +377,14 @@ export async function createMarkdownRenderer(
       // no `fence` - code block meta (e.g. line highlighting) must reach
       // the highlighter intact
       rule: ['inline', 'table', 'list', 'heading', 'hr', 'softbreak', 'block'],
-      ...options.attrs
+      ...normalizePluginOptions(options.attrs)
     })
   }
   if (options.emoji !== false) {
-    emojiPlugin(md, options.emoji)
+    emojiPlugin(md, normalizePluginOptions(options.emoji))
   }
   if (options.tasklist !== false) {
-    tasklistPlugin(md, options.tasklist)
+    tasklistPlugin(md, normalizePluginOptions(options.tasklist))
   }
   if (options.cjkFriendlyEmphasis !== false) {
     mditCjkFriendly(md)
@@ -415,14 +423,14 @@ export async function createMarkdownRenderer(
 
         state.tokens[idx + 1].children?.push(...linkTokens)
       },
-      ...options.anchor
+      ...normalizePluginOptions(options.anchor)
     })
   }
   if (options.math) {
     try {
       const mathPlugin = await import('markdown-it-mathjax3')
       ;(mathPlugin.default ?? mathPlugin)(md, {
-        ...(typeof options.math === 'boolean' ? {} : options.math)
+        ...normalizePluginOptions(options.math)
       })
       const origMathInline = md.renderer.rules.math_inline!
       md.renderer.rules.math_inline = function (...args) {
@@ -445,20 +453,20 @@ export async function createMarkdownRenderer(
 
   // mdit-vue plugins
   if (options.component !== false) {
-    componentPlugin(md, options.component)
+    componentPlugin(md, normalizePluginOptions(options.component))
   }
   frontmatterPlugin(md, options.frontmatter)
   if (options.headers) {
     headersPlugin(md, {
       level: [2, 3, 4, 5, 6],
       slugify,
-      ...(typeof options.headers === 'boolean' ? undefined : options.headers)
+      ...normalizePluginOptions(options.headers)
     })
   }
   sfcPlugin(md, options.sfc)
   titlePlugin(md)
-  const tocOptions = options.toc
-  if (tocOptions !== false) {
+  const tocOptions = normalizePluginOptions(options.toc)
+  if (options.toc !== false) {
     tocPlugin(md, {
       slugify,
       ...tocOptions,
