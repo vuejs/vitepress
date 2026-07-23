@@ -38,6 +38,7 @@ import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
 import { snippetPlugin } from './plugins/snippet'
+import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
 
@@ -217,6 +218,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   gfmAlerts?: boolean
   /**
+   * Add `tabindex="0"` to tables so keyboard users can focus and scroll them.
+   * @default true
+   */
+  tableTabIndex?: boolean
+  /**
    * Allows disabling the CJK-friendly plugin.
    * This plugin adds support for emphasis marks (**bold**) in Japanese, Chinese, and Korean text.
    * @default true
@@ -291,13 +297,8 @@ export async function createMarkdownRenderer(
   )
   lineNumberPlugin(md, options.lineNumbers)
 
-  const tableOpen = md.renderer.rules.table_open
-  md.renderer.rules.table_open = function (tokens, idx, options, env, self) {
-    const token = tokens[idx]
-    if (token.attrIndex('tabindex') < 0) token.attrPush(['tabindex', '0'])
-    return tableOpen
-      ? tableOpen(tokens, idx, options, env, self)
-      : self.renderToken(tokens, idx, options)
+  if (options.tableTabIndex !== false) {
+    tablePlugin(md)
   }
 
   if (options.gfmAlerts !== false) {
