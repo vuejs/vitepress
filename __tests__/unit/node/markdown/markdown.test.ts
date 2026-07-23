@@ -121,6 +121,26 @@ describe('node/markdown/markdown', () => {
         '<strong>'
       )
     })
+
+    test('`true` enables a plugin with its default options', async () => {
+      const html = await render(
+        '## Title {#custom-id}\n\n[[toc]]\n\n:tada:\n\n- [ ] todo',
+        {
+          anchor: true,
+          attrs: true,
+          emoji: true,
+          tasklist: true,
+          toc: true,
+          image: true,
+          component: true
+        }
+      )
+      expect(html).toContain('id="custom-id"')
+      expect(html).toContain('header-anchor')
+      expect(html).toContain('table-of-contents')
+      expect(html).toContain('🎉')
+      expect(html).toContain('<input type="checkbox"')
+    })
   })
 
   describe('attrs', () => {
