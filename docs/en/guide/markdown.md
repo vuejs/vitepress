@@ -100,6 +100,20 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
+## Task Lists
+
+**Input**
+
+```md
+- [ ] Write the press release
+- [x] Update the website
+```
+
+**Output**
+
+- [ ] Write the press release
+- [x] Update the website
+
 ## Emoji :tada:
 
 **Input**

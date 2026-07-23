@@ -20,6 +20,10 @@ import {
   type MarkdownItAttrsOptions
 } from '@mdit/plugin-attrs'
 import { fullEmoji as emojiPlugin } from '@mdit/plugin-emoji'
+import {
+  tasklist as tasklistPlugin,
+  type MarkdownItTaskListOptions
+} from '@mdit/plugin-tasklist'
 import type {
   CodeToHastOptions,
   LanguageInput,
@@ -194,6 +198,12 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   emoji?: EmojiPluginOptions | false
   /**
+   * Options for `@mdit/plugin-tasklist` (GitHub-style task lists,
+   * `- [ ] task`). Set to `false` to disable.
+   * @see https://mdit-plugins.github.io/tasklist.html
+   */
+  tasklist?: MarkdownItTaskListOptions | false
+  /**
    * Improves emphasis (`**bold**`) handling in Japanese, Chinese, and
    * Korean text.
    * @default true
@@ -364,6 +374,9 @@ export async function createMarkdownRenderer(
   }
   if (options.emoji !== false) {
     emojiPlugin(md, options.emoji)
+  }
+  if (options.tasklist !== false) {
+    tasklistPlugin(md, options.tasklist)
   }
   if (options.cjkFriendlyEmphasis !== false) {
     mditCjkFriendly(md)

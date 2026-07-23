@@ -163,6 +163,16 @@
   margin: 8px 0 0;
 }
 
+.vp-doc li.task-list-item {
+  list-style: none;
+}
+
+.vp-doc .task-list-item-checkbox {
+  margin: 0 4px 2px -1.25rem;
+  vertical-align: middle;
+  accent-color: var(--vp-c-brand-1);
+}
+
 /**
  * Table
  * -------------------------------------------------------------------------- */

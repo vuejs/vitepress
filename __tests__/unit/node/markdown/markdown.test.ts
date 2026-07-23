@@ -42,6 +42,15 @@ describe('node/markdown/markdown', () => {
       expect(await render(':tada:', { emoji: false })).toContain(':tada:')
     })
 
+    test('tasklist', async () => {
+      const src = '- [ ] todo'
+      expect(await render(src)).toContain('<input type="checkbox"')
+
+      const disabled = await render(src, { tasklist: false })
+      expect(disabled).not.toContain('<input')
+      expect(disabled).toContain('[ ] todo')
+    })
+
     test('toc', async () => {
       const src = '# Title\n\n[[toc]]'
       expect(await render(src)).toContain('table-of-contents')
@@ -136,6 +145,26 @@ describe('node/markdown/markdown', () => {
       expect(await render('| a |\n| --- |\n| b |\n\n{.cls}')).toContain(
         '<table class="cls"'
       )
+    })
+  })
+
+  describe('tasklist', () => {
+    test('renders checkboxes with their checked state', async () => {
+      const html = await render('- [ ] todo\n- [x] done')
+      expect(html).toContain('<ul class="task-list-container">')
+      expect(html).toContain('<li class="task-list-item">')
+
+      const inputs = html.match(/<input[^>]*>/g)!
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).not.toContain('checked')
+      expect(inputs[1]).toContain('checked')
+      for (const input of inputs) expect(input).toContain('disabled')
+    })
+
+    test('forwards options to the plugin', async () => {
+      const html = await render('- [ ] todo', { tasklist: { label: false } })
+      expect(html).toContain('<input type="checkbox"')
+      expect(html).not.toContain('<label')
     })
   })
 
