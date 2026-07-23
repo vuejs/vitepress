@@ -1,5 +1,5 @@
 import { anchor as anchorPlugin } from '@mdit/plugin-anchor'
-import attrsPlugin from 'markdown-it-attrs'
+import { attrs as attrsPlugin } from '@mdit/plugin-attrs'
 import { MarkdownItAsync } from 'markdown-it-async'
 import {
   createMarkdownRenderer,

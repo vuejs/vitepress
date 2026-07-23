@@ -15,6 +15,10 @@ import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify as defaultSlugify } from '@mdit-vue/shared'
 import { anchor as anchorPlugin, type AnchorOptions } from '@mdit/plugin-anchor'
+import {
+  attrs as attrsPlugin,
+  type MarkdownItAttrsOptions
+} from '@mdit/plugin-attrs'
 import { fullEmoji as emojiPlugin } from '@mdit/plugin-emoji'
 import type {
   CodeToHastOptions,
@@ -23,7 +27,6 @@ import type {
   ThemeRegistrationAny
 } from '@shikijs/types'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
-import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
@@ -178,8 +181,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== Markdown Extensions ==================== */
 
   /**
-   * Options for `markdown-it-attrs`. Set to `false` to disable.
-   * @see https://github.com/arve0/markdown-it-attrs
+   * Options for `@mdit/plugin-attrs`. Set to `false` to disable. The `fence`
+   * rule is off by default so that curly attributes never consume code block
+   * meta (e.g. line highlighting) - add classes to code blocks using shiki
+   * transformers instead.
+   * @see https://mdit-plugins.github.io/attrs.html
    */
   attrs?: MarkdownItAttrsOptions | false
   /**
@@ -349,7 +355,12 @@ export async function createMarkdownRenderer(
 
   // community plugins
   if (options.attrs !== false) {
-    attrsPlugin(md, options.attrs)
+    attrsPlugin(md, {
+      // no `fence` - code block meta (e.g. line highlighting) must reach
+      // the highlighter intact
+      rule: ['inline', 'table', 'list', 'heading', 'hr', 'softbreak', 'block'],
+      ...options.attrs
+    })
   }
   if (options.emoji !== false) {
     emojiPlugin(md, options.emoji)

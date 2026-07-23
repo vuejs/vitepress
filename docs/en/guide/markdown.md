@@ -261,7 +261,7 @@ console.log('Hello, VitePress!')
 
 ### Additional Attributes
 
-You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+You can add additional attributes to the custom containers. We use [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
 
 **Input**
 
