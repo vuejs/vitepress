@@ -14,6 +14,38 @@ describe('node/markdownToVue', () => {
     }
   })
 
+  test('records link path as written for dead links', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-link-path-'))
+
+    const file = path.join(root, 'index.md')
+    const src = [
+      '[a](./a.md)',
+      '[b](./b#hash)',
+      '[c](./中文.md)',
+      '[d](/d)'
+    ].join('\n\n')
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file, 'public')
+
+    expect(result.deadLinks).toEqual([
+      { url: './a.md', file, line: 1 },
+      { url: './b#hash', file, line: 3 },
+      { url: './中文.md', file, line: 5 },
+      { url: '/d', file, line: 7 }
+    ])
+  })
+
   test('records source line numbers for dead links', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
 
@@ -34,7 +66,7 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
-      url: './missing',
+      url: './missing.md',
       file,
       line: 5
     })
@@ -61,7 +93,7 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
-      url: './missing',
+      url: './missing.md',
       file,
       line: 8
     })

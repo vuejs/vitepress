@@ -155,8 +155,8 @@ export async function createMarkdownToVueRenderFn(
       content,
       frontmatter = {},
       headers = [],
-      linkLines = [],
       links = [],
+      linkMetadatas = [],
       sfcBlocks,
       title = ''
     } = env
@@ -195,22 +195,19 @@ export async function createMarkdownToVueRenderFn(
       const dir = path.dirname(file)
       for (const [index, rawUrl] of links.entries()) {
         let url = rawUrl
+        const metadata = linkMetadatas[index]
         const line =
-          linkLines[index] == null
-            ? undefined
-            : linkLines[index] + contentLineOffset
+          metadata?.line != null ? metadata.line + contentLineOffset : undefined
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
 
-        let resolved = decodeURIComponent(
-          slash(
-            url.startsWith('/')
-              ? url.slice(1)
-              : path.relative(srcDir, path.resolve(dir, url))
-          )
+        let resolved = slash(
+          url.startsWith('/')
+            ? url.slice(1)
+            : path.relative(srcDir, path.resolve(dir, url))
         )
         resolved =
           siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
@@ -223,7 +220,7 @@ export async function createMarkdownToVueRenderFn(
           ) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url, line)
+          recordDeadLink(metadata.rawLink, line)
         }
       }
     }

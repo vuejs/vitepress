@@ -53,12 +53,12 @@ describe('node/markdown/plugins/link', () => {
     const env: {
       cleanUrls: boolean
       links?: string[]
-      linkLines?: number[]
+      linkMetadatas?: { rawLink: string; line?: number }[]
     } = { cleanUrls: false }
 
     await md.renderAsync('Intro\n\n[Missing](./missing.md)\n', env)
 
-    expect(env.links).toEqual(['./missing'])
-    expect(env.linkLines).toEqual([3])
+    expect(env.links).toEqual(['./missing.html'])
+    expect(env.linkMetadatas).toEqual([{ rawLink: './missing.md', line: 3 }])
   })
 })
