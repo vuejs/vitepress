@@ -223,11 +223,6 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://github.com/tats-u/markdown-cjk-friendly
    */
   cjkFriendlyEmphasis?: boolean
-  /**
-   * @see cjkFriendlyEmphasis
-   * @deprecated use `cjkFriendly` instead
-   */
-  cjkFriendly?: boolean
 }
 
 export type MarkdownRenderer = MarkdownItAsync
@@ -398,7 +393,7 @@ export async function createMarkdownRenderer(
     }
   }
 
-  if (options.cjkFriendlyEmphasis !== false && options.cjkFriendly !== false) {
+  if (options.cjkFriendlyEmphasis !== false) {
     mditCjkFriendly(md)
   }
 
