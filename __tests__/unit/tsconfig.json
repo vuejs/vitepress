@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "vitest/globals",
+      "vite/client",
+      "../../src/client/shims.d.ts"
+    ],
+    "paths": {
+      "client/*": ["../../src/client/*"],
+      "node/*": ["../../src/node/*"],
+      "shared/*": ["../../src/shared/*"],
+      "vitepress": ["../../src/client/index.ts"],
+      "vitepress/theme": ["../../theme.d.ts"]
+    }
+  }
+}
