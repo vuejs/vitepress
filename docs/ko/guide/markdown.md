@@ -112,7 +112,7 @@ lang: en-US
 
 :tada: :100:
 
-[모든 이모지의 목록](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)이 제공됩니다.
+[모든 이모지의 목록](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)이 제공됩니다.
 
 ## 목차 {#table-of-contents}
 

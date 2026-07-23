@@ -116,6 +116,9 @@ importers:
       '@mdit/plugin-anchor':
         specifier: ^1.1.1
         version: 1.1.1(markdown-it@14.2.0)
+      '@mdit/plugin-emoji':
+        specifier: ^1.1.0
+        version: 1.1.0(markdown-it@14.2.0)
       '@polka/compression':
         specifier: ^1.0.0-next.28
         version: 1.0.0-next.28
@@ -149,9 +152,6 @@ importers:
       '@types/markdown-it-container':
         specifier: ^4.0.0
         version: 4.0.0
-      '@types/markdown-it-emoji':
-        specifier: ^3.0.1
-        version: 3.0.1
       '@types/minimist':
         specifier: ^1.2.5
         version: 1.2.5
@@ -212,9 +212,6 @@ importers:
       markdown-it-container:
         specifier: ^4.0.0
         version: 4.0.0
-      markdown-it-emoji:
-        specifier: ^3.0.0
-        version: 3.0.0
       markdown-it-mathjax3:
         specifier: ^4.3.2
         version: 4.3.2
@@ -645,6 +642,15 @@ packages:
     peerDependencies:
       markdown-it: ^14.2.0
 
+  '@mdit/plugin-emoji@1.1.0':
+    resolution: {integrity: sha512-rdGhZ0OVhK0EhiVpw8v22BdTq7XZ6Adrcbq3hR2Cx/YwGnL+kSXFtcGOeJXphiSics7oNgpIKdNyl974z7Cj1A==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      markdown-it: ^14.2.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+
   '@napi-rs/wasm-runtime@1.1.6':
     resolution: {integrity: sha512-ZLv/JdUfkvOy9eCnnBaGfiO+XimbjebAeO+MRQqD/B+FR1tnRN0tpKSJHRbE8sFfS6aqsXZ67TQjfwfsxULVbg==}
     peerDependencies:
@@ -1063,9 +1069,6 @@ packages:
 
   '@types/markdown-it-container@4.0.0':
     resolution: {integrity: sha512-GmD8OECLfzPHv8VyvFRzslqdwXoDBJ2H40fxXFjrarbqvJZSB/BJKZXN5e3k7Mx7GQanSNzTYhzeS3H9o0gAOw==}
-
-  '@types/markdown-it-emoji@3.0.1':
-    resolution: {integrity: sha512-cz1j8R35XivBqq9mwnsrP2fsz2yicLhB8+PDtuVkKOExwEdsVBNI+ROL3sbhtR5occRZ66vT0QnwFZCqdjf3pA==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -2058,9 +2061,6 @@ packages:
 
   markdown-it-container@4.0.0:
     resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
-
-  markdown-it-emoji@3.0.0:
-    resolution: {integrity: sha512-+rUD93bXHubA4arpEZO3q80so0qgoFJEKRkRbjKX8RTdca89v2kfyF+xR3i2sQTwql9tpPZPOQN5B+PunspXRg==}
 
   markdown-it-mathjax3@4.3.2:
     resolution: {integrity: sha512-TX3GW5NjmupgFtMJGRauioMbbkGsOXAAt1DZ/rzzYmTHqzkO1rNAdiMD4NiruurToPApn2kYy76x02QN26qr2w==}
@@ -3240,6 +3240,12 @@ snapshots:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.2.0
 
+  '@mdit/plugin-emoji@1.1.0(markdown-it@14.2.0)':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+    optionalDependencies:
+      markdown-it: 14.2.0
+
   '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
     dependencies:
       '@emnapi/core': 1.11.1
@@ -3546,10 +3552,6 @@ snapshots:
       '@types/markdown-it': 14.1.2
 
   '@types/markdown-it-container@4.0.0':
-    dependencies:
-      '@types/markdown-it': 14.1.2
-
-  '@types/markdown-it-emoji@3.0.1':
     dependencies:
       '@types/markdown-it': 14.1.2
 
@@ -4520,8 +4522,6 @@ snapshots:
       '@types/markdown-it': 14.1.2
 
   markdown-it-container@4.0.0: {}
-
-  markdown-it-emoji@3.0.0: {}
 
   markdown-it-mathjax3@4.3.2:
     dependencies:

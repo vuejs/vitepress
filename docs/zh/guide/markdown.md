@@ -112,7 +112,7 @@ lang: en-US
 
 :tada: :100:
 
-这里可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
+这里可以找到[所有支持的 emoji 列表](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)。
 
 ## 目录表 (TOC) {#table-of-contents}
 

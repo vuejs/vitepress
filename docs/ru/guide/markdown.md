@@ -112,7 +112,7 @@ lang: ru-RU
 
 :tada: :100:
 
-[Список всех эмодзи](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs).
+[Список всех эмодзи](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts).
 
 ## Оглавление {#table-of-contents}
 
