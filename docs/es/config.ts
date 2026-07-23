@@ -267,8 +267,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'Buscado',
           stoppedStreamingText: 'Has detenido esta respuesta',
           errorTitleText: 'Error de chat',
-          threadDepthExceededMessage:
-            'Esta conversación se ha cerrado para mantener respuestas precisas.',
           startNewConversationButtonText: 'Iniciar una nueva conversación'
         }
       }

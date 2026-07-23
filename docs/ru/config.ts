@@ -262,8 +262,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'Искал',
           stoppedStreamingText: 'Вы остановили этот ответ',
           errorTitleText: 'Ошибка чата',
-          threadDepthExceededMessage:
-            'Этот разговор закрыт, чтобы сохранить точность ответов.',
           startNewConversationButtonText: 'Начать новый разговор'
         }
       }

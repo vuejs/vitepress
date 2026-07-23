@@ -231,8 +231,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: '検索しました',
           stoppedStreamingText: 'この応答を停止しました',
           errorTitleText: 'チャットエラー',
-          threadDepthExceededMessage:
-            '回答の正確性を保つため、この会話は終了しました。',
           startNewConversationButtonText: '新しい会話を開始'
         }
       }

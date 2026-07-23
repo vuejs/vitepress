@@ -303,8 +303,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: '검색함',
           stoppedStreamingText: '이 응답을 중지했습니다',
           errorTitleText: '채팅 오류',
-          threadDepthExceededMessage:
-            '정확성을 유지하기 위해 이 대화는 종료되었습니다.',
           startNewConversationButtonText: '새 대화 시작'
         }
       }
