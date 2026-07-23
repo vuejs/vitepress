@@ -14,13 +14,13 @@ import { sfcPlugin, type SfcPluginOptions } from '@mdit-vue/plugin-sfc'
 import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify as defaultSlugify } from '@mdit-vue/shared'
+import { anchor as anchorPlugin, type AnchorOptions } from '@mdit/plugin-anchor'
 import type {
   CodeToHastOptions,
   LanguageInput,
   ShikiTransformer,
   ThemeRegistrationAny
 } from '@shikijs/types'
-import anchorPlugin from 'markdown-it-anchor'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
@@ -198,12 +198,12 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   cjkFriendlyEmphasis?: boolean
   /**
-   * Options for `markdown-it-anchor`. Set to `false` to disable adding ids
+   * Options for `@mdit/plugin-anchor`. Set to `false` to disable adding ids
    * and anchor links to headings. Note that the default theme's outline and
    * heading hash links rely on these ids.
-   * @see https://github.com/valeriangalliat/markdown-it-anchor
+   * @see https://mdit-plugins.github.io/anchor.html
    */
-  anchor?: anchorPlugin.AnchorOptions | false
+  anchor?: AnchorOptions | false
   /**
    * Options for `@mdit-vue/plugin-headers`. Set to `true` or pass options
    * to collect page headers into page data.

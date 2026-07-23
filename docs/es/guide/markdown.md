@@ -907,15 +907,15 @@ VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como int
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // opciones para markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // opciones para @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // opciones para @mdit-vue/plugin-toc

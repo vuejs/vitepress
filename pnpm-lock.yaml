@@ -14,9 +14,6 @@ patchedDependencies:
   '@types/mdurl@2.0.0':
     hash: 3460e7d18ce390685cf4b8d8237fb20df9ad952c1336f479995a508a6395bfa4
     path: patches/@types__mdurl@2.0.0.patch
-  markdown-it-anchor@9.2.0:
-    hash: cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9
-    path: patches/markdown-it-anchor@9.2.0.patch
   markdown-it-attrs@4.3.1:
     hash: 12883b753541724964b5246a739df34c4b76db10415bbb63c35dce408cfe977e
     path: patches/markdown-it-attrs@4.3.1.patch
@@ -116,6 +113,9 @@ importers:
       '@mdit-vue/shared':
         specifier: ^3.0.2
         version: 3.0.2
+      '@mdit/plugin-anchor':
+        specifier: ^1.1.1
+        version: 1.1.1(markdown-it@14.2.0)
       '@polka/compression':
         specifier: ^1.0.0-next.28
         version: 1.0.0-next.28
@@ -200,9 +200,6 @@ importers:
       markdown-it:
         specifier: ^14.2.0
         version: 14.2.0
-      markdown-it-anchor:
-        specifier: ^9.2.0
-        version: 9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.2.0)
       markdown-it-async:
         specifier: ^2.2.0
         version: 2.2.0
@@ -642,6 +639,11 @@ packages:
   '@mdit-vue/types@3.0.2':
     resolution: {integrity: sha512-00aAZ0F0NLik6I6Yba2emGbHLxv+QYrPH00qQ5dFKXlAo1Ll2RHDXwY7nN2WAfrx2pP+WrvSRFTGFCNGdzBDHw==}
     engines: {node: '>=20.0.0'}
+
+  '@mdit/plugin-anchor@1.1.1':
+    resolution: {integrity: sha512-42m7dxzvfLbo3YnteMB70aXFQ1TtnalyNLyPUDj5rr1FqTNf8pnHjQbgmf6FCjshg6BrfLVx7zpHJ7UUehQ/fA==}
+    peerDependencies:
+      markdown-it: ^14.2.0
 
   '@napi-rs/wasm-runtime@1.1.6':
     resolution: {integrity: sha512-ZLv/JdUfkvOy9eCnnBaGfiO+XimbjebAeO+MRQqD/B+FR1tnRN0tpKSJHRbE8sFfS6aqsXZ67TQjfwfsxULVbg==}
@@ -2035,12 +2037,6 @@ packages:
   mark.js@8.11.1:
     resolution: {integrity: sha512-1I+1qpDt4idfgLQG+BNWmrqku+7/2bi5nLf4YwF8y8zXvmfiTBY3PV3ZibfrjBueCByROpuBjLLFCajqkgYoLQ==}
 
-  markdown-it-anchor@9.2.0:
-    resolution: {integrity: sha512-sa2ErMQ6kKOA4l31gLGYliFQrMKkqSO0ZJgGhDHKijPf0pNFM9vghjAh3gn26pS4JDRs7Iwa9S36gxm3vgZTzg==}
-    peerDependencies:
-      '@types/markdown-it': '*'
-      markdown-it: '*'
-
   markdown-it-async@2.2.0:
     resolution: {integrity: sha512-sITME+kf799vMeO/ww/CjH6q+c05f6TLpn6VOmmWCGNqPJzSh+uFgZoMB9s0plNtW6afy63qglNAC3MhrhP/gg==}
 
@@ -3238,6 +3234,11 @@ snapshots:
       markdown-it: 14.2.0
 
   '@mdit-vue/types@3.0.2': {}
+
+  '@mdit/plugin-anchor@1.1.1(markdown-it@14.2.0)':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+      markdown-it: 14.2.0
 
   '@napi-rs/wasm-runtime@1.1.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
     dependencies:
@@ -4501,11 +4502,6 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.5
 
   mark.js@8.11.1: {}
-
-  markdown-it-anchor@9.2.0(patch_hash=cdc28e7c329be30688ad192126ba505446611fbe526ad51483e4b1287aa35cf9)(@types/markdown-it@14.1.2)(markdown-it@14.2.0):
-    dependencies:
-      '@types/markdown-it': 14.1.2
-      markdown-it: 14.2.0
 
   markdown-it-async@2.2.0:
     dependencies:
