@@ -18,7 +18,7 @@ const { theme } = useData()
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPNavBarSocialLinks {
     display: flex;
     align-items: center;

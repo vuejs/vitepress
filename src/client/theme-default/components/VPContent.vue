@@ -78,7 +78,7 @@ function isRegistered(component: string): boolean {
   margin: 0;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPContent {
     padding-top: var(--vp-nav-height);
   }
@@ -89,7 +89,7 @@ function isRegistered(component: string): boolean {
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPContent.has-sidebar {
     padding-right: calc((100% - var(--vp-layout-max-width)) / 2);
     padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));

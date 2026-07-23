@@ -84,19 +84,19 @@ const showFooter = computed(
 
 <style scoped>
 .VPDocFooter {
-  margin-top: 64px;
+  margin-top: 4rem;
 }
 
 .edit-info {
-  padding-bottom: 18px;
+  padding-bottom: 1.125rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .edit-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 14px;
+    padding-bottom: 0.875rem;
   }
 }
 
@@ -104,8 +104,8 @@ const showFooter = computed(
   display: flex;
   align-items: center;
   border: 0;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition: color 0.25s;
@@ -116,28 +116,28 @@ const showFooter = computed(
 }
 
 .edit-link-icon {
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
 .prev-next {
   border-top: 1px solid var(--vp-c-divider);
-  padding-top: 24px;
+  padding-top: 1.5rem;
   display: grid;
-  grid-row-gap: 8px;
+  grid-row-gap: 0.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .prev-next {
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 16px;
+    grid-column-gap: 1rem;
   }
 }
 
 .pager-link {
   display: block;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  padding: 11px 16px 13px;
+  border-radius: 0.5rem;
+  padding: 0.6875rem 1rem 0.8125rem;
   width: 100%;
   height: 100%;
   transition: border-color 0.25s;
@@ -154,16 +154,16 @@ const showFooter = computed(
 
 .desc {
   display: block;
-  line-height: 20px;
-  font-size: 12px;
+  line-height: 1.25rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .title {
   display: block;
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition: color 0.25s;

@@ -37,12 +37,12 @@ const { frontmatter, theme } = useData()
 
 <style scoped>
 .VPHome {
-  margin-bottom: 96px;
+  margin-bottom: 6rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPHome {
-    margin-bottom: 128px;
+    margin-bottom: 8rem;
   }
 }
 </style>

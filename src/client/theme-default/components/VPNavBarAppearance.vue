@@ -23,7 +23,7 @@ const { site } = useData()
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPNavBarAppearance {
     display: flex;
     align-items: center;

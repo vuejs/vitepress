@@ -200,17 +200,17 @@ function isEditingContent(event: KeyboardEvent): boolean {
   align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarSearch {
-    gap: 8px;
+    gap: 0.5rem;
     flex-grow: 1;
-    padding-left: 24px;
+    padding-left: 1.5rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBarSearch {
-    padding-left: 32px;
+    padding-left: 2rem;
   }
 }
 </style>

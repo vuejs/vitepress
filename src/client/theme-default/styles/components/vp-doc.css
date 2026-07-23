@@ -12,37 +12,37 @@
   font-weight: 600;
   outline: none;
   scroll-margin-top: calc(
-    var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 24px
+    var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1.5rem
   );
 }
 
 .vp-doc h1 {
   letter-spacing: -0.02em;
-  line-height: 40px;
-  font-size: 28px;
+  line-height: 2.5rem;
+  font-size: 1.75rem;
 }
 
 .vp-doc h2 {
-  margin: 48px 0 16px;
+  margin: 3rem 0 1rem;
   border-top: 1px solid var(--vp-c-divider);
-  padding-top: 24px;
+  padding-top: 1.5rem;
   letter-spacing: -0.02em;
-  line-height: 32px;
-  font-size: 24px;
+  line-height: 2rem;
+  font-size: 1.5rem;
 }
 
 .vp-doc h3 {
-  margin: 32px 0 0;
+  margin: 2rem 0 0;
   letter-spacing: -0.01em;
-  line-height: 28px;
-  font-size: 20px;
+  line-height: 1.75rem;
+  font-size: 1.25rem;
 }
 
 .vp-doc h4 {
-  margin: 24px 0 0;
+  margin: 1.5rem 0 0;
   letter-spacing: -0.01em;
-  line-height: 24px;
-  font-size: 18px;
+  line-height: 1.5rem;
+  font-size: 1.125rem;
 }
 
 .vp-doc .header-anchor {
@@ -78,16 +78,16 @@
   opacity: 1;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .vp-doc h1 {
     letter-spacing: -0.02em;
-    line-height: 40px;
-    font-size: 32px;
+    line-height: 2.5rem;
+    font-size: 2rem;
   }
 }
 
 .vp-doc h2 .header-anchor {
-  top: 24px;
+  top: 1.5rem;
 }
 
 /**
@@ -97,24 +97,24 @@
 .vp-doc p,
 .vp-doc img,
 .vp-doc summary {
-  margin: 16px 0;
+  margin: 1rem 0;
 }
 
 .vp-doc p {
-  line-height: 28px;
+  line-height: 1.75rem;
 }
 
 .vp-doc blockquote {
-  margin: 16px 0;
+  margin: 1rem 0;
   border-left: 2px solid var(--vp-c-divider);
-  padding-left: 16px;
+  padding-left: 1rem;
   transition: border-color 0.5s;
   color: var(--vp-c-text-2);
 }
 
 .vp-doc blockquote > p {
   margin: 0;
-  font-size: 16px;
+  font-size: 1rem;
   transition: color 0.5s;
 }
 
@@ -122,7 +122,7 @@
   font-weight: 500;
   color: var(--vp-c-brand-1);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 0.125rem;
   transition:
     color 0.25s,
     opacity 0.25s;
@@ -143,7 +143,7 @@
 .vp-doc ul,
 .vp-doc ol {
   padding-left: 1.25rem;
-  margin: 16px 0;
+  margin: 1rem 0;
 }
 
 .vp-doc ul {
@@ -155,12 +155,12 @@
 }
 
 .vp-doc li + li {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .vp-doc li > ol,
 .vp-doc li > ul {
-  margin: 8px 0 0;
+  margin: 0.5rem 0 0;
 }
 
 /**
@@ -170,7 +170,7 @@
 .vp-doc table {
   display: block;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 1.25rem 0;
   overflow-x: auto;
 }
 
@@ -187,19 +187,19 @@
 .vp-doc th,
 .vp-doc td {
   border: 1px solid var(--vp-c-divider);
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
 }
 
 .vp-doc th {
   text-align: left;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--vp-c-text-2);
   background-color: var(--vp-c-bg-soft);
 }
 
 .vp-doc td {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /**
@@ -207,7 +207,7 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc hr {
-  margin: 16px 0;
+  margin: 1rem 0;
   border: none;
   border-top: 1px solid var(--vp-c-divider);
 }
@@ -217,12 +217,12 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc .custom-block {
-  margin: 16px 0;
+  margin: 1rem 0;
 }
 
 .vp-doc .custom-block p {
-  margin: 8px 0;
-  line-height: 24px;
+  margin: 0.5rem 0;
+  line-height: 1.5rem;
 }
 
 .vp-doc .custom-block p:first-child {
@@ -230,8 +230,8 @@
 }
 
 .vp-doc .custom-block div[class*='language-'] {
-  margin: 8px 0 !important;
-  border-radius: 8px;
+  margin: 0.5rem 0 !important;
+  border-radius: 0.5rem;
 }
 
 .vp-doc .custom-block div[class*='language-'] code {
@@ -241,12 +241,12 @@
 
 .vp-doc .custom-block .vp-code-group,
 .vp-doc .custom-block [class*='vp-code-block'] {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .vp-doc .custom-block .vp-code-group .tabs {
   margin: 0;
-  border-radius: 8px 8px 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .vp-doc .custom-block .vp-code-group div[class*='language-'],
@@ -265,8 +265,8 @@
 }
 
 .vp-doc :not(pre) > code {
-  border-radius: 4px;
-  padding: 3px 6px;
+  border-radius: 0.25rem;
+  padding: 0.1875rem 0.375rem;
   background-color: var(--vp-code-bg);
   transition:
     color 0.25s,
@@ -291,30 +291,30 @@
 .vp-doc div[class*='language-'],
 .vp-block {
   position: relative;
-  margin: 16px -24px;
+  margin: 1rem -1.5rem;
   background-color: var(--vp-code-block-bg);
   overflow-x: auto;
   transition: background-color 0.5s;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .vp-doc div[class*='language-'],
   .vp-block {
-    border-radius: 8px;
-    margin: 16px 0;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 39.9375rem) {
   .vp-doc li div[class*='language-'] {
-    border-radius: 8px 0 0 8px;
+    border-radius: 0.5rem 0 0 0.5rem;
   }
 }
 
 .vp-doc div[class*='language-'] + div[class*='language-'],
 .vp-doc div[class$='-api'] + div[class*='language-'],
 .vp-doc div[class*='language-'] + div[class$='-api'] > div[class*='language-'] {
-  margin-top: -8px;
+  margin-top: -0.5rem;
 }
 
 .vp-doc [class*='language-'] pre,
@@ -328,7 +328,7 @@
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 20px 0;
+  padding: 1.25rem 0;
   background: transparent;
   overflow-x: auto;
   /*rtl:ignore*/
@@ -337,7 +337,7 @@
 
 .vp-doc [class*='language-'] code {
   display: block;
-  padding: 0 24px;
+  padding: 0 1.5rem;
   width: fit-content;
   min-width: 100%;
   line-height: var(--vp-code-line-height);
@@ -349,9 +349,9 @@
 .vp-doc [class*='language-'] code .highlighted {
   background-color: var(--vp-code-line-highlight-color);
   transition: background-color 0.5s;
-  margin: 0 -24px;
-  padding: 0 24px;
-  width: calc(100% + 2 * 24px);
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  width: calc(100% + 2 * 1.5rem);
   display: inline-block;
 }
 
@@ -365,15 +365,15 @@
 
 .vp-doc [class*='language-'] code .diff {
   transition: background-color 0.5s;
-  margin: 0 -24px;
-  padding: 0 24px;
-  width: calc(100% + 2 * 24px);
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+  width: calc(100% + 2 * 1.5rem);
   display: inline-block;
 }
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 10px;
+  left: 0.625rem;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
@@ -417,7 +417,7 @@
 
 .vp-doc div[class*='language-'].line-numbers-mode {
   /*rtl:ignore*/
-  padding-left: 32px;
+  padding-left: 2rem;
 }
 
 .vp-doc .line-numbers-wrapper {
@@ -429,8 +429,8 @@
   z-index: 3;
   /*rtl:ignore*/
   border-right: 1px solid var(--vp-code-block-divider-color);
-  padding-top: 20px;
-  width: 32px;
+  padding-top: 1.25rem;
+  width: 2rem;
   text-align: center;
   font-family: var(--vp-font-family-mono);
   line-height: var(--vp-code-line-height);
@@ -445,20 +445,20 @@
   /*rtl:ignore*/
   direction: ltr;
   position: absolute;
-  top: 12px;
+  top: 0.75rem;
   /*rtl:ignore*/
-  right: 12px;
+  right: 0.75rem;
   z-index: 3;
   border: 1px solid var(--vp-code-copy-code-border-color);
-  border-radius: 4px;
-  width: 40px;
-  height: 40px;
+  border-radius: 0.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: var(--vp-code-copy-code-bg);
   opacity: 0;
   cursor: pointer;
   background-image: var(--vp-icon-copy);
   background-position: 50%;
-  background-size: 20px;
+  background-size: 1.25rem;
   background-repeat: no-repeat;
   transition:
     border-color 0.25s,
@@ -480,7 +480,7 @@
 .vp-doc [class*='language-'] > button.copy.copied,
 .vp-doc [class*='language-'] > button.copy:hover.copied {
   /*rtl:ignore*/
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 0.25rem 0.25rem 0;
   background-color: var(--vp-code-copy-code-hover-bg);
   background-image: var(--vp-icon-copied);
 }
@@ -498,12 +498,12 @@
   /*rtl:ignore*/
   border-right: 0;
   /*rtl:ignore*/
-  border-radius: 4px 0 0 4px;
-  padding: 0 10px;
+  border-radius: 0.25rem 0 0 0.25rem;
+  padding: 0 0.625rem;
   width: fit-content;
-  height: 40px;
+  height: 2.5rem;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
@@ -513,11 +513,11 @@
 
 .vp-doc [class*='language-'] > span.lang {
   position: absolute;
-  top: 2px;
+  top: 0.125rem;
   /*rtl:ignore*/
-  right: 8px;
+  right: 0.5rem;
   z-index: 2;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   user-select: none;
   color: var(--vp-code-lang-color);
@@ -536,12 +536,12 @@
  * -------------------------------------------------------------------------- */
 
 .vp-doc .VPTeamMembers {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
 .vp-doc .VPTeamMembers.small.count-1 .container {
   margin: 0 !important;
-  max-width: calc((100% - 24px) / 2) !important;
+  max-width: calc((100% - 1.5rem) / 2) !important;
 }
 
 .vp-doc .VPTeamMembers.small.count-2 .container,
@@ -551,7 +551,7 @@
 
 .vp-doc .VPTeamMembers.medium.count-1 .container {
   margin: 0 !important;
-  max-width: calc((100% - 24px) / 2) !important;
+  max-width: calc((100% - 1.5rem) / 2) !important;
 }
 
 /**
@@ -561,8 +561,8 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline;
-  margin-left: 4px;
-  padding-left: 11px;
+  margin-left: 0.25rem;
+  padding-left: 0.6875rem;
   background: currentColor;
   color: var(--vp-c-text-3);
   flex-shrink: 0;
@@ -573,8 +573,8 @@
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 11px 11px;
-  mask-size: 11px 11px;
+  -webkit-mask-size: 0.6875rem 0.6875rem;
+  mask-size: 0.6875rem 0.6875rem;
   /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: bottom;
   font-size: 10px;

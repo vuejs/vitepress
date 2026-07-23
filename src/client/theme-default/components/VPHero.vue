@@ -73,18 +73,18 @@ const { heroImageSlotExists } = inject(
 <style scoped>
 .VPHero {
   margin-top: calc((var(--vp-nav-height) + var(--vp-layout-top-height, 0px)) * -1);
-  padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px) 24px 48px;
+  padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 3rem) 1.5rem 3rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .VPHero {
-    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px) 48px 64px;
+    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 5rem) 3rem 4rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPHero {
-    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 80px) 64px 64px;
+    padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 5rem) 4rem 4rem;
   }
 }
 
@@ -92,10 +92,10 @@ const { heroImageSlotExists } = inject(
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .container {
     flex-direction: row;
   }
@@ -113,20 +113,20 @@ const { heroImageSlotExists } = inject(
   text-align: center;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPHero.has-image .container {
     text-align: left;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .main {
     order: 1;
     width: calc((100% / 3) * 2);
   }
 
   .VPHero.has-image .main {
-    max-width: 592px;
+    max-width: 37rem;
   }
 }
 
@@ -138,10 +138,10 @@ const { heroImageSlotExists } = inject(
 .name,
 .text {
   width: fit-content;
-  max-width: 392px;
-  letter-spacing: -0.4px;
-  line-height: 40px;
-  font-size: 32px;
+  max-width: 24.5rem;
+  letter-spacing: -0.025rem;
+  line-height: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   white-space: pre-wrap;
 
@@ -167,20 +167,20 @@ const { heroImageSlotExists } = inject(
   -webkit-text-fill-color: var(--vp-home-hero-name-color);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .name,
   .text {
-    max-width: 576px;
-    line-height: 56px;
-    font-size: 48px;
+    max-width: 36rem;
+    line-height: 3.5rem;
+    font-size: 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .name,
   .text {
-    line-height: 64px;
-    font-size: 56px;
+    line-height: 4rem;
+    font-size: 3.5rem;
   }
 
   .VPHero.has-image .name,
@@ -190,10 +190,10 @@ const { heroImageSlotExists } = inject(
 }
 
 .tagline {
-  padding-top: 8px;
-  max-width: 392px;
-  line-height: 28px;
-  font-size: 18px;
+  padding-top: 0.5rem;
+  max-width: 24.5rem;
+  line-height: 1.75rem;
+  font-size: 1.125rem;
   font-weight: 500;
   white-space: pre-wrap;
   color: var(--vp-c-text-2);
@@ -203,19 +203,19 @@ const { heroImageSlotExists } = inject(
   margin: 0 auto;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .tagline {
-    padding-top: 12px;
-    max-width: 576px;
-    line-height: 32px;
-    font-size: 20px;
+    padding-top: 0.75rem;
+    max-width: 36rem;
+    line-height: 2rem;
+    font-size: 1.25rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .tagline {
-    line-height: 36px;
-    font-size: 24px;
+    line-height: 2.25rem;
+    font-size: 1.5rem;
   }
 
   .VPHero.has-image .tagline {
@@ -226,21 +226,21 @@ const { heroImageSlotExists } = inject(
 .actions {
   display: flex;
   flex-wrap: wrap;
-  margin: -6px;
-  padding-top: 24px;
+  margin: -0.375rem;
+  padding-top: 1.5rem;
 }
 
 .VPHero.has-image .actions {
   justify-content: center;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .actions {
-    padding-top: 32px;
+    padding-top: 2rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPHero.has-image .actions {
     justify-content: flex-start;
   }
@@ -248,21 +248,21 @@ const { heroImageSlotExists } = inject(
 
 .action {
   flex-shrink: 0;
-  padding: 6px;
+  padding: 0.375rem;
 }
 
 .image {
   order: 1;
-  margin: -76px -24px -48px;
+  margin: -4.75rem -1.5rem -3rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .image {
-    margin: -108px -24px -48px;
+    margin: -6.75rem -1.5rem -3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .image {
     flex-grow: 1;
     order: 2;
@@ -274,18 +274,18 @@ const { heroImageSlotExists } = inject(
 .image-container {
   position: relative;
   margin: 0 auto;
-  width: 320px;
-  height: 320px;
+  width: 20rem;
+  height: 20rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .image-container {
-    width: 392px;
-    height: 392px;
+    width: 24.5rem;
+    height: 24.5rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .image-container {
     display: flex;
     justify-content: center;
@@ -293,7 +293,7 @@ const { heroImageSlotExists } = inject(
     width: 100%;
     height: 100%;
     /*rtl:ignore*/
-    transform: translate(-32px, -32px);
+    transform: translate(-2rem, -2rem);
   }
 }
 
@@ -303,25 +303,25 @@ const { heroImageSlotExists } = inject(
   /*rtl:ignore*/
   left: 50%;
   border-radius: 50%;
-  width: 192px;
-  height: 192px;
+  width: 12rem;
+  height: 12rem;
   background-image: var(--vp-home-hero-image-background-image);
   filter: var(--vp-home-hero-image-filter);
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .image-bg {
-    width: 256px;
-    height: 256px;
+    width: 16rem;
+    height: 16rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .image-bg {
-    width: 320px;
-    height: 320px;
+    width: 20rem;
+    height: 20rem;
   }
 }
 
@@ -330,8 +330,8 @@ const { heroImageSlotExists } = inject(
   top: 50%;
   /*rtl:ignore*/
   left: 50%;
-  max-width: 192px;
-  max-height: 192px;
+  max-width: 12rem;
+  max-height: 12rem;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -339,17 +339,17 @@ const { heroImageSlotExists } = inject(
   transform: translate(-50%, -50%);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   :deep(.image-src) {
-    max-width: 256px;
-    max-height: 256px;
+    max-width: 16rem;
+    max-height: 16rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :deep(.image-src) {
-    max-width: 320px;
-    max-height: 320px;
+    max-width: 20rem;
+    max-height: 20rem;
   }
 }
 </style>

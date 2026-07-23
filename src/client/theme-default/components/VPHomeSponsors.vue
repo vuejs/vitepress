@@ -49,44 +49,44 @@ withDefaults(defineProps<Props>(), {
 <style scoped>
 .VPHomeSponsors {
   border-top: 1px solid var(--vp-c-gutter);
-  padding-top: 88px !important;
+  padding-top: 5.5rem !important;
 }
 
 .VPHomeSponsors {
-  margin: 96px 0;
+  margin: 6rem 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPHomeSponsors {
-    margin: 128px 0;
+    margin: 8rem 0;
   }
 }
 
 .VPHomeSponsors {
-  padding: 0 24px;
+  padding: 0 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPHomeSponsors {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPHomeSponsors {
-    padding: 0 64px;
+    padding: 0 4rem;
   }
 }
 
 .container {
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
 }
 
 .love {
   margin: 0 auto;
   width: fit-content;
-  font-size: 28px;
+  font-size: 1.75rem;
   color: var(--vp-c-text-3);
 }
 
@@ -96,21 +96,21 @@ withDefaults(defineProps<Props>(), {
 
 .message {
   margin: 0 auto;
-  padding-top: 10px;
-  max-width: 320px;
+  padding-top: 0.625rem;
+  max-width: 20rem;
   text-align: center;
-  line-height: 24px;
-  font-size: 16px;
+  line-height: 1.5rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .sponsors {
-  padding-top: 32px;
+  padding-top: 2rem;
 }
 
 .action {
-  padding-top: 40px;
+  padding-top: 2.5rem;
   text-align: center;
 }
 </style>

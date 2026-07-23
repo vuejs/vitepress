@@ -33,7 +33,7 @@ defineProps<{
   transition-duration: .25s;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPBackdrop {
     display: none;
   }

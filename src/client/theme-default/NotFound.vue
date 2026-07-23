@@ -33,55 +33,55 @@ const { currentLang } = useLangs()
 
 <style scoped>
 .NotFound {
-  padding: 64px 24px 96px;
+  padding: 4rem 1.5rem 6rem;
   text-align: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .NotFound {
-    padding: 96px 32px 168px;
+    padding: 6rem 2rem 10.5rem;
   }
 }
 
 .code {
-  line-height: 64px;
-  font-size: 64px;
+  line-height: 4rem;
+  font-size: 4rem;
   font-weight: 600;
 }
 
 .title {
-  padding-top: 12px;
-  letter-spacing: 2px;
-  line-height: 20px;
-  font-size: 20px;
+  padding-top: 0.75rem;
+  letter-spacing: 0.125rem;
+  line-height: 1.25rem;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
 .divider {
-  margin: 24px auto 18px;
-  width: 64px;
+  margin: 1.5rem auto 1.125rem;
+  width: 4rem;
   height: 1px;
   background-color: var(--vp-c-divider);
 }
 
 .quote {
   margin: 0 auto;
-  max-width: 256px;
-  font-size: 14px;
+  max-width: 16rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .action {
-  padding-top: 20px;
+  padding-top: 1.25rem;
 }
 
 .link {
   display: inline-block;
   border: 1px solid var(--vp-c-brand-1);
-  border-radius: 16px;
-  padding: 3px 16px;
-  font-size: 14px;
+  border-radius: 1rem;
+  padding: 0.1875rem 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition:

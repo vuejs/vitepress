@@ -103,18 +103,18 @@
     #bd34fe 50%,
     #47caff 50%
   );
-  --vp-home-hero-image-filter: blur(44px);
+  --vp-home-hero-image-filter: blur(2.75rem);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   :root {
-    --vp-home-hero-image-filter: blur(56px);
+    --vp-home-hero-image-filter: blur(3.5rem);
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :root {
-    --vp-home-hero-image-filter: blur(68px);
+    --vp-home-hero-image-filter: blur(4.25rem);
   }
 }
 

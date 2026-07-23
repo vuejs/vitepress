@@ -16,24 +16,24 @@
     #bd34fe 50%,
     #47caff 50%
   );
-  --vp-home-hero-image-filter: blur(44px);
+  --vp-home-hero-image-filter: blur(2.75rem);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   :root {
-    --vp-home-hero-image-filter: blur(56px);
+    --vp-home-hero-image-filter: blur(3.5rem);
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :root {
-    --vp-home-hero-image-filter: blur(68px);
+    --vp-home-hero-image-filter: blur(4.25rem);
   }
 }
 
 .VPHero .VPImage {
-  filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
-  padding: 18px;
+  filter: drop-shadow(-0.125rem 0.25rem 0.375rem rgba(0, 0, 0, 0.2));
+  padding: 1.125rem;
 }
 
 .VPFeature .icon span {

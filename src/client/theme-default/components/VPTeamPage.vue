@@ -6,53 +6,53 @@
 
 <style scoped>
 .VPTeamPage {
-  margin: 96px 0;
+  margin: 6rem 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPTeamPage {
-    margin: 128px 0;
+    margin: 8rem 0;
   }
 }
 
 .VPHome :slotted(.VPTeamPageTitle) {
   border-top: 1px solid var(--vp-c-gutter);
-  padding-top: 88px !important;
+  padding-top: 5.5rem !important;
 }
 
 :slotted(.VPTeamPageSection + .VPTeamPageSection),
 :slotted(.VPTeamMembers + .VPTeamPageSection) {
-  margin-top: 64px;
+  margin-top: 4rem;
 }
 
 :slotted(.VPTeamMembers + .VPTeamMembers) {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   :slotted(.VPTeamPageTitle + .VPTeamPageSection) {
-    margin-top: 16px;
+    margin-top: 1rem;
   }
 
   :slotted(.VPTeamPageSection + .VPTeamPageSection),
   :slotted(.VPTeamMembers + .VPTeamPageSection) {
-    margin-top: 96px;
+    margin-top: 6rem;
   }
 }
 
 :slotted(.VPTeamMembers) {
-  padding: 0 24px;
+  padding: 0 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   :slotted(.VPTeamMembers) {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :slotted(.VPTeamMembers) {
-    padding: 0 64px;
+    padding: 0 4rem;
   }
 }
 </style>

@@ -1,8 +1,8 @@
 .custom-block {
   border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 16px 16px 8px;
-  line-height: 24px;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 0.5rem;
+  line-height: 1.5rem;
   font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
 }
@@ -171,25 +171,25 @@
 }
 
 .custom-block p + p {
-  margin: 8px 0;
+  margin: 0.5rem 0;
 }
 
 .custom-block.details summary {
-  margin: 0 0 8px;
+  margin: 0 0 0.5rem;
   font-weight: 700;
   cursor: pointer;
   user-select: none;
 }
 
 .custom-block.details summary + p {
-  margin: 8px 0;
+  margin: 0.5rem 0;
 }
 
 .custom-block a {
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 0.125rem;
   transition: opacity 0.25s;
 }
 

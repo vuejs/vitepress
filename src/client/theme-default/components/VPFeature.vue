@@ -58,7 +58,7 @@ defineProps<{
 .VPFeature {
   display: block;
   border: 1px solid var(--vp-c-bg-soft);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   height: 100%;
   background-color: var(--vp-c-bg-soft);
   transition: border-color 0.25s, background-color 0.25s;
@@ -71,60 +71,60 @@ defineProps<{
 .box {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 1.5rem;
   height: 100%;
 }
 
 .box > :deep(.VPImage) {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  border-radius: 0.375rem;
   background-color: var(--vp-c-default-soft);
-  width: 48px;
-  height: 48px;
-  font-size: 24px;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
   transition: background-color 0.25s;
 }
 
 .title {
-  line-height: 24px;
-  font-size: 16px;
+  line-height: 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
 .details {
   flex-grow: 1;
-  padding-top: 8px;
-  line-height: 24px;
-  font-size: 14px;
+  padding-top: 0.5rem;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 ul.details {
   list-style-type: disc;
-  padding-left: 14px;
+  padding-left: 0.875rem;
 }
 
 .link-text {
-  padding-top: 8px;
+  padding-top: 0.5rem;
 }
 
 .link-text-value {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
 }
 
 .link-text-icon {
-  margin-left: 6px;
+  margin-left: 0.375rem;
 }
 </style>

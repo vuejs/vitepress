@@ -86,7 +86,7 @@ const { isHome, hasSidebar } = useLayout()
   background-color: var(--vp-nav-bg-color);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar:not(.home) {
     background-color: transparent;
   }
@@ -97,16 +97,16 @@ const { isHome, hasSidebar } = useLayout()
 }
 
 .wrapper {
-  padding: 0 8px 0 24px;
+  padding: 0 0.5rem 0 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .wrapper {
-    padding: 0 32px;
+    padding: 0 2rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar.has-sidebar .wrapper {
     padding: 0;
   }
@@ -116,7 +116,7 @@ const { isHome, hasSidebar } = useLayout()
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: calc(var(--vp-layout-max-width) - 64px);
+  max-width: calc(var(--vp-layout-max-width) - 4rem);
   height: var(--vp-nav-height);
   pointer-events: none;
 }
@@ -130,7 +130,7 @@ const { isHome, hasSidebar } = useLayout()
   pointer-events: auto;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar.has-sidebar .container {
     max-width: 100%;
   }
@@ -142,23 +142,23 @@ const { isHome, hasSidebar } = useLayout()
   transition: background-color 0.5s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar.has-sidebar .title {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 2;
-    padding: 0 32px;
+    padding: 0 2rem;
     width: var(--vp-sidebar-width);
     height: var(--vp-nav-height);
     background-color: transparent;
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPNavBar.has-sidebar .title {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: max(2rem, calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2));
+    width: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2 + var(--vp-sidebar-width) - 2rem);
   }
 }
 
@@ -166,19 +166,19 @@ const { isHome, hasSidebar } = useLayout()
   flex-grow: 1;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar.has-sidebar .content {
     position: relative;
     z-index: 1;
     padding-left: var(--vp-sidebar-width);
-    padding-right: 32px;
+    padding-right: 2rem;
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPNavBar.has-sidebar .content {
     padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-    padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 32px);
+    padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 2rem);
   }
 }
 
@@ -190,7 +190,7 @@ const { isHome, hasSidebar } = useLayout()
   transition: background-color 0.5s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar:not(.home.top) .content-body {
     position: relative;
     background-color: var(--vp-nav-bg-color);
@@ -211,25 +211,25 @@ const { isHome, hasSidebar } = useLayout()
 .menu + .social-links::before,
 .translations + .appearance::before,
 .appearance + .social-links::before {
-  margin-right: 8px;
-  margin-left: 8px;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   width: 1px;
-  height: 24px;
+  height: 1.5rem;
   background-color: var(--vp-c-divider);
   content: "";
 }
 
 .menu + .appearance::before,
 .translations + .appearance::before {
-  margin-right: 16px;
+  margin-right: 1rem;
 }
 
 .appearance + .social-links::before {
-  margin-left: 16px;
+  margin-left: 1rem;
 }
 
 .social-links {
-  margin-right: -8px;
+  margin-right: -0.5rem;
 }
 
 .divider {
@@ -237,13 +237,13 @@ const { isHome, hasSidebar } = useLayout()
   height: 1px;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar.has-sidebar .divider {
     padding-left: var(--vp-sidebar-width);
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPNavBar.has-sidebar .divider {
     padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
   }
@@ -259,7 +259,7 @@ const { isHome, hasSidebar } = useLayout()
   background-color: var(--vp-c-gutter);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBar:not(.home.top) .divider-line {
     background-color: var(--vp-c-gutter);
   }

@@ -47,17 +47,17 @@ defineOptions({ inheritAttrs: false })
 
 <style scoped>
 .VPMenuGroup + .VPMenuLink {
-  margin: 12px -12px 0;
+  margin: 0.75rem -0.75rem 0;
   border-top: 1px solid var(--vp-c-divider);
-  padding: 12px 12px 0;
+  padding: 0.75rem 0.75rem 0;
 }
 
 .link {
   display: block;
-  border-radius: 6px;
-  padding: 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  border-radius: 0.375rem;
+  padding: 0 0.75rem;
+  line-height: 2rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
   text-align: left;

@@ -17,22 +17,22 @@ withDefaults(defineProps<Props>(), {
 <style>
 .VPBadge {
   display: inline-block;
-  margin-left: 2px;
+  margin-left: 0.125rem;
   border: 1px solid transparent;
-  border-radius: 12px;
-  padding: 0 10px;
-  line-height: 22px;
-  font-size: 12px;
+  border-radius: 0.75rem;
+  padding: 0 0.625rem;
+  line-height: 1.375rem;
+  font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
-  transform: translateY(-2px);
+  transform: translateY(-0.125rem);
 }
 
 .VPBadge.small {
-  padding: 0 6px;
-  line-height: 18px;
-  font-size: 10px;
-  transform: translateY(-8px);
+  padding: 0 0.375rem;
+  line-height: 1.125rem;
+  font-size: 0.625rem;
+  transform: translateY(-0.5rem);
 }
 
 .VPDocFooter .VPBadge {
@@ -41,12 +41,12 @@ withDefaults(defineProps<Props>(), {
 
 .vp-doc h1 > .VPBadge,
 .vp-doc h2 > .VPBadge {
-  margin: 0 0 0 2px;
+  margin: 0 0 0 0.125rem;
   vertical-align: middle;
 }
 
 .vp-doc h2 > .VPBadge {
-  padding: 0 8px;
+  padding: 0 0.5rem;
 }
 
 .vp-doc h3 > .VPBadge {
@@ -57,7 +57,7 @@ withDefaults(defineProps<Props>(), {
 .vp-doc h5 > .VPBadge,
 .vp-doc h6 > .VPBadge {
   vertical-align: middle;
-  line-height: 18px;
+  line-height: 1.125rem;
 }
 
 .VPBadge.info {

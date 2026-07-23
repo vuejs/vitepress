@@ -56,82 +56,82 @@ withDefaults(defineProps<Props>(), {
 .VPTeamMembersItem {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  border-radius: 12px;
+  gap: 0.125rem;
+  border-radius: 0.75rem;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 .VPTeamMembersItem.small .profile {
-  padding: 32px;
+  padding: 2rem;
 }
 
 .VPTeamMembersItem.small .data {
-  padding-top: 20px;
+  padding-top: 1.25rem;
 }
 
 .VPTeamMembersItem.small .avatar {
-  width: 64px;
-  height: 64px;
+  width: 4rem;
+  height: 4rem;
 }
 
 .VPTeamMembersItem.small .name {
-  line-height: 24px;
-  font-size: 16px;
+  line-height: 1.5rem;
+  font-size: 1rem;
 }
 
 .VPTeamMembersItem.small .affiliation {
-  padding-top: 4px;
-  line-height: 20px;
-  font-size: 14px;
+  padding-top: 0.25rem;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
 }
 
 .VPTeamMembersItem.small .desc {
-  padding-top: 12px;
-  line-height: 20px;
-  font-size: 14px;
+  padding-top: 0.75rem;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
 }
 
 .VPTeamMembersItem.small .links {
-  margin: 0 -16px -20px;
-  padding: 10px 0 0;
+  margin: 0 -1rem -1.25rem;
+  padding: 0.625rem 0 0;
 }
 
 .VPTeamMembersItem.medium .profile {
-  padding: 48px 32px;
+  padding: 3rem 2rem;
 }
 
 .VPTeamMembersItem.medium .data {
-  padding-top: 24px;
+  padding-top: 1.5rem;
   text-align: center;
 }
 
 .VPTeamMembersItem.medium .avatar {
-  width: 96px;
-  height: 96px;
+  width: 6rem;
+  height: 6rem;
 }
 
 .VPTeamMembersItem.medium .name {
-  letter-spacing: 0.15px;
-  line-height: 28px;
-  font-size: 20px;
+  letter-spacing: 0.0094rem;
+  line-height: 1.75rem;
+  font-size: 1.25rem;
 }
 
 .VPTeamMembersItem.medium .affiliation {
-  padding-top: 4px;
-  font-size: 16px;
+  padding-top: 0.25rem;
+  font-size: 1rem;
 }
 
 .VPTeamMembersItem.medium .desc {
-  padding-top: 16px;
-  max-width: 288px;
-  font-size: 16px;
+  padding-top: 1rem;
+  max-width: 18rem;
+  font-size: 1rem;
 }
 
 .VPTeamMembersItem.medium .links {
-  margin: 0 -16px -12px;
-  padding: 16px 12px 0;
+  margin: 0 -1rem -0.75rem;
+  padding: 1rem 0.75rem 0;
 }
 
 .profile {
@@ -193,7 +193,7 @@ withDefaults(defineProps<Props>(), {
 .links {
   display: flex;
   justify-content: center;
-  height: 56px;
+  height: 3.5rem;
 }
 
 .sp-link {
@@ -201,8 +201,8 @@ withDefaults(defineProps<Props>(), {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 16px;
-  font-size: 14px;
+  padding: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-sponsor);
   background-color: var(--vp-c-bg-soft);
@@ -217,7 +217,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .sp-icon {
-  margin-right: 8px;
-  font-size: 16px;
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 </style>
