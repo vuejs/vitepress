@@ -16,49 +16,36 @@ import type { MarkdownEnv } from '../../shared'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp =
-  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  /^(.+?)(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
+    ,
     filepath = '',
-    extension = '',
     region = '',
     lines = '',
     lang = '',
     attrs = '',
     rawTitle = ''
-  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+  ] = rawPathRegexp.exec(rawPath) || []
 
-  const title = rawTitle || filepath.split('/').pop() || ''
+  const filename = filepath.split('/').pop() ?? ''
+
+  const extension = filename.includes('.') ? filename.split('.').pop()! : ''
+
+  const title = rawTitle || filename
 
   return { filepath, extension, region, lines, lang, attrs, title }
 }
 
-export function dedent(text: string): string {
-  const lines = text.split('\n')
-
-  const minIndentLength = lines.reduce((acc, line) => {
-    for (let i = 0; i < line.length; i++) {
-      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
-    }
-    return acc
-  }, Infinity)
-
-  if (minIndentLength < Infinity) {
-    return lines.map((x) => x.slice(minIndentLength)).join('\n')
-  }
-
-  return text
-}
-
 const markers = [
   {
-    start: /^\s*\/\/\s*#?region\b\s*(.*?)\s*$/,
-    end: /^\s*\/\/\s*#?endregion\b\s*(.*?)\s*$/
+    start: /^\s*\/\/\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*\/\/\s*#endregion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*<!--\s*#?region\b\s*(.*?)\s*-->/,
-    end: /^\s*<!--\s*#?endregion\b\s*(.*?)\s*-->/
+    start: /^\s*<!--\s*#region\b\s*(.*?)\s*-->/,
+    end: /^\s*<!--\s*#endregion\b\s*(.*?)\s*-->/
   },
   {
     start: /^\s*\/\*\s*#region\b\s*(.*?)\s*\*\//,
@@ -69,12 +56,12 @@ const markers = [
     end: /^\s*#[eE]nd ?[rR]egion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*#\s*#?region\b\s*(.*?)\s*$/,
-    end: /^\s*#\s*#?endregion\b\s*(.*?)\s*$/
+    start: /^\s*#\s+region\b\s*(.*?)\s*$/,
+    end: /^\s*#\s+endregion\b\s*(.*?)\s*$/
   },
   {
-    start: /^\s*(?:--|::|@?REM)\s*#region\b\s*(.*?)\s*$/,
-    end: /^\s*(?:--|::|@?REM)\s*#endregion\b\s*(.*?)\s*$/
+    start: /^\s*(?:--|::|(?:@\s*)?[rR][eE][mM]\s)\s*#region\b\s*(.*?)\s*$/,
+    end: /^\s*(?:--|::|(?:@\s*)?[rR][eE][mM]\s)\s*#endregion\b\s*(.*?)\s*$/
   },
   {
     start: /^\s*#pragma\s+region\b\s*(.*?)\s*$/,
@@ -83,44 +70,75 @@ const markers = [
   {
     start: /^\s*\(\*\s*#region\b\s*(.*?)\s*\*\)/,
     end: /^\s*\(\*\s*#endregion\b\s*(.*?)\s*\*\)/
+  },
+  {
+    start: /^\s*"[/][/]+\s*#region\b\s*(.*?)":\s*"",?$/,
+    end: /^\s*"[/][/]+\s*#endregion\b\s*(.*?)":\s*"",?$/
   }
 ]
 
-export function findRegion(lines: Array<string>, regionName: string) {
-  let chosen: { re: (typeof markers)[number]; start: number } | null = null
-  // find the regex pair for a start marker that matches the given region name
+export function findRegions(lines: string[], region: string) {
+  const returned: { start: number; end: number }[] = []
+
+  let nestedCounter = 0
+  let start: number | null = null
+
   for (let i = 0; i < lines.length; i++) {
-    for (const re of markers) {
-      if (re.start.exec(lines[i])?.[1] === regionName) {
-        chosen = { re, start: i + 1 }
+    for (const m of markers) {
+      // find region start
+      const startMatch = m.start.exec(lines[i])
+      if (startMatch?.[1] === region) {
+        if (nestedCounter === 0) start = i + 1
+        nestedCounter++
+        break
+      }
+
+      if (nestedCounter === 0) continue
+
+      // find region end
+      const endMatch = m.end.exec(lines[i])
+      if (endMatch?.[1] === region || endMatch?.[1] === '') {
+        nestedCounter--
+        // if all nested regions ended
+        if (nestedCounter === 0 && start != null) {
+          returned.push({ start, end: i })
+          start = null
+        }
         break
       }
     }
-    if (chosen) break
-  }
-  if (!chosen) return null
-
-  let counter = 1
-  // scan the rest of the lines to find the matching end marker, handling nested markers
-  for (let i = chosen.start; i < lines.length; i++) {
-    // check for an inner start marker for the same region
-    if (chosen.re.start.exec(lines[i])?.[1] === regionName) {
-      counter++
-      continue
-    }
-    // check for an end marker for the same region
-    const endRegion = chosen.re.end.exec(lines[i])?.[1]
-    // allow empty region name on the end marker as a fallback
-    if (endRegion === regionName || endRegion === '') {
-      if (--counter === 0) return { ...chosen, end: i }
-    }
   }
 
-  return null
+  return returned
 }
 
-export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
-  const parser: RuleBlock = (state, startLine, endLine, silent) => {
+export function stripMarkers(lines: string[]): string[] {
+  return lines.filter(
+    (l) => !markers.some((m) => m.start.test(l) || m.end.test(l))
+  )
+}
+
+export function dedent(lines: string[]): string[] {
+  const minIndentLength = lines.reduce((acc, line) => {
+    for (let i = 0; i < line.length; i++) {
+      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
+    }
+    return acc
+  }, Infinity)
+
+  if (minIndentLength < Infinity) {
+    return lines.map((x) => x.slice(minIndentLength))
+  }
+
+  return lines
+}
+
+export const snippetPlugin = (
+  md: MarkdownItAsync,
+  srcDir: string,
+  stripMarkersFromSnippets = false
+) => {
+  const parser: RuleBlock = (state, startLine, _endLine, silent) => {
     const CH = '<'.charCodeAt(0)
     const pos = state.bMarks[startLine] + state.tShift[startLine]
     const max = state.eMarks[startLine]
@@ -175,7 +193,7 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     // @ts-ignore
-    const [src, regionName] = token.src ?? []
+    const [src, region] = token.src ?? []
 
     if (!src) return fence(...args)
 
@@ -183,32 +201,37 @@ export const snippetPlugin = (md: MarkdownItAsync, srcDir: string) => {
       includes.push(src)
     }
 
-    const isAFile = fs.statSync(src).isFile()
-    if (!fs.existsSync(src) || !isAFile) {
-      token.content = isAFile
-        ? `Code snippet path not found: ${src}`
-        : `Invalid code snippet option`
+    if (!fs.existsSync(src)) {
+      token.content = `Code snippet path not found: ${src}`
       token.info = ''
       return fence(...args)
     }
 
-    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+    if (!fs.statSync(src).isFile()) {
+      token.content = `Invalid code snippet option`
+      token.info = ''
+      return fence(...args)
+    }
 
-    if (regionName) {
-      const lines = content.split('\n')
-      const region = findRegion(lines, regionName)
+    let lines = fs.readFileSync(src, 'utf8').split(/\r?\n/)
 
-      if (region) {
-        content = dedent(
-          lines
-            .slice(region.start, region.end)
-            .filter((l) => !(region.re.start.test(l) || region.re.end.test(l)))
-            .join('\n')
-        )
+    if (region) {
+      const regions = findRegions(lines, region)
+
+      if (regions.length > 0) {
+        lines = regions.flatMap((r) => lines.slice(r.start, r.end))
+      } else {
+        token.content = `No region #${region} found in path: ${src}`
+        token.info = ''
+        return fence(...args)
       }
     }
 
-    token.content = content
+    if (stripMarkersFromSnippets) {
+      lines = stripMarkers(lines)
+    }
+
+    token.content = dedent(lines).join('\n')
     return fence(...args)
   }
 
