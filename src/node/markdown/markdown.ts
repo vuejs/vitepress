@@ -158,10 +158,10 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   anchor?: anchorPlugin.AnchorOptions
   /**
-   * Options for `markdown-it-attrs`
+   * Options for `markdown-it-attrs`. Set to `false` to disable.
    * @see https://github.com/arve0/markdown-it-attrs
    */
-  attrs?: MarkdownItAttrsOptions & { disable?: boolean }
+  attrs?: MarkdownItAttrsOptions | false
   /**
    * Options for `markdown-it-emoji`
    * @see https://github.com/markdown-it/markdown-it-emoji
@@ -306,7 +306,7 @@ export async function createMarkdownRenderer(
   }
 
   // third party plugins
-  if (!options.attrs?.disable) {
+  if (options.attrs !== false) {
     attrsPlugin(md, options.attrs)
   }
   emojiPlugin(md, options.emoji)
