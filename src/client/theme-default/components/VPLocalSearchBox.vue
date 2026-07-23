@@ -117,8 +117,7 @@ const showDetailedList = useLocalStorage(
 const disableDetailedView = computed(() => {
   return (
     theme.value.search?.provider === 'local' &&
-    (theme.value.search.options?.disableDetailedView === true ||
-      theme.value.search.options?.detailedView === false)
+    theme.value.search.options?.detailedView === false
   )
 })
 
