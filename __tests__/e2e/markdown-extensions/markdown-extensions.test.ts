@@ -7,6 +7,30 @@ const getClassList = async (locator: Locator) => {
 
 const trim = (str?: string | null) => str?.replace(/\u200B/g, '').trim()
 
+const expectMobileCopyButtonOutsideCode = async (
+  block: Locator,
+  limit?: Locator
+) => {
+  const button = block.locator('> button.copy')
+  const firstLine = block.locator('code > span').first()
+  await block.scrollIntoViewIfNeeded()
+
+  const [buttonBox, firstLineBox, limitBox] = await Promise.all([
+    button.boundingBox(),
+    firstLine.boundingBox(),
+    (limit ?? block).boundingBox()
+  ])
+  expect(buttonBox).toBeTruthy()
+  expect(firstLineBox).toBeTruthy()
+  expect(limitBox).toBeTruthy()
+  expect(buttonBox!.y + buttonBox!.height).toBeLessThanOrEqual(limitBox!.y)
+  expect(buttonBox!.y + buttonBox!.height).toBeLessThanOrEqual(firstLineBox!.y)
+  expect(await button.evaluate((el) => getComputedStyle(el).opacity)).toBe('1')
+  expect(
+    await button.evaluate((el) => getComputedStyle(el).pointerEvents)
+  ).toBe('auto')
+}
+
 beforeEach(async () => {
   await goto('/markdown-extensions/')
 })
@@ -164,9 +188,48 @@ describe('Custom Containers', () => {
       'Click me to view the code'
     )
   })
+
+  test('copy button stays outside mobile custom container code', async () => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await goto('/markdown-extensions/')
+
+    const block = page.locator('#custom-title ~ .custom-block').nth(1)
+    await block.locator('summary').click()
+    await expectMobileCopyButtonOutsideCode(
+      block.locator('div[class*="language-"]')
+    )
+  })
 })
 
 describe('Line Highlighting in Code Blocks', () => {
+  test('copy button does not overlap mobile code text', async () => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await goto('/markdown-extensions/')
+
+    const block = page.locator('#single-line + div')
+    await expectMobileCopyButtonOutsideCode(block)
+
+    await block.hover()
+    await expectMobileCopyButtonOutsideCode(block)
+
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await goto('/markdown-extensions/')
+    const desktopBlock = page.locator('#single-line + div')
+    const desktopButton = desktopBlock.locator('> button.copy')
+
+    await desktopBlock.hover()
+    await page.waitForFunction(
+      (el) => getComputedStyle(el).opacity === '1',
+      await desktopButton.elementHandle()
+    )
+    expect(
+      await desktopButton.evaluate((el) => getComputedStyle(el).opacity)
+    ).toBe('1')
+    expect(
+      await desktopButton.evaluate((el) => getComputedStyle(el).pointerEvents)
+    ).toBe('auto')
+  })
+
   test('single line', async () => {
     const classList = await getClassList(
       page.locator('#single-line + div code > span').nth(3)
@@ -259,7 +322,10 @@ describe('Code Groups', () => {
 
     // tabs
     const labels = div.locator('.tabs > label')
-    const labelNames = ['foo.md', 'snippet with region']
+    const labelNames = [
+      'foo.md',
+      'snippet with region and a long mobile tab label'
+    ]
     const count = await labels.count()
     expect(count).toBe(2)
     for (let i = 0; i < count; i++) {
@@ -276,6 +342,19 @@ describe('Code Groups', () => {
     expect(
       await getClassList(blocks.nth(1).locator('code > span').nth(0))
     ).toContain('highlighted')
+  })
+
+  test('copy button stays outside mobile code group tabs', async () => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await goto('/markdown-extensions/')
+
+    const div = page.locator('#with-other-features-1 + div')
+    await div.scrollIntoViewIfNeeded()
+    await div.locator('.tabs > label').nth(1).click()
+    await expectMobileCopyButtonOutsideCode(
+      div.locator('.blocks > div.active'),
+      div.locator('> .tabs')
+    )
   })
 })
 
