@@ -888,14 +888,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 图片懒加载 {#image-lazy-loading}
 
-通过在配置文件中将 `lazyLoading` 设置为 `true`，可以为通过 markdown 添加的每张图片启用懒加载。
+通过在配置文件中将 `lazyLoad` 设置为 `true`，可以为通过 markdown 添加的每张图片启用懒加载。
 
 ```js
 export default {
   markdown: {
     image: {
       // 默认禁用；设置为 true 可为所有图片启用懒加载。
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }

@@ -888,14 +888,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## _Lazy Loading_ de Imagenes {#image-lazy-loading}
 
-Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoading` como `true` en su archivo de configuración:
+Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoad` como `true` en su archivo de configuración:
 
 ```js
 export default {
   markdown: {
     image: {
       // la carga perezosa de imagenes está desactivada por defecto
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }

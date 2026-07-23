@@ -1024,14 +1024,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Image Lazy Loading
 
-You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+You can enable lazy loading for each image added via markdown by setting `lazyLoad` to `true` in your config file:
 
 ```js
 export default {
   markdown: {
     image: {
       // image lazy loading is disabled by default
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }

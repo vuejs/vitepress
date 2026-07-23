@@ -880,14 +880,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## بارگذاری lazy تصویر {#image-lazy-loading}
 
-می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoading` به `true` در فایل پیکربندی فعال کنید:
+می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoad` به `true` در فایل پیکربندی فعال کنید:
 
 ```js
 export default {
   markdown: {
     image: {
       // بارگذاری تنبلی تصویر به طور پیش‌فرض غیرفعال است
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }

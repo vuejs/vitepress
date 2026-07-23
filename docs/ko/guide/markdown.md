@@ -925,14 +925,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 이미지 지연 로딩 {#image-lazy-loading}
 
-마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 구성 파일에서 `lazyLoading`을 `true`로 설정하세요:
+마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 구성 파일에서 `lazyLoad`을 `true`로 설정하세요:
 
 ```js
 export default {
   markdown: {
     image: {
       // 이미지 지연 로딩은 기본적으로 비활성화 되어 있습니다
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
