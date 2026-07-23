@@ -1,18 +1,53 @@
 <script setup lang="ts">
-import { useRoute } from 'vitepress'
-import { computed } from 'vue'
+import { useRoute, useRouter } from 'vitepress'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
+import { usePrevNext } from '../composables/prev-next'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const { theme } = useData()
 const route = useRoute()
+const router = useRouter()
 const { hasSidebar, hasAside, leftAside } = useLayout()
+const control = usePrevNext()
 
 const pageName = computed(() =>
   route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 )
+
+function onKeydown(e: KeyboardEvent) {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return
+  if (e.defaultPrevented) return
+
+  const activeElement = document.activeElement
+  if (activeElement) {
+    const tagName = activeElement.tagName
+    if (
+      tagName === 'INPUT' ||
+      tagName === 'TEXTAREA' ||
+      tagName === 'SELECT' ||
+      (activeElement as HTMLElement).isContentEditable
+    ) {
+      return
+    }
+  }
+
+  if (e.key === 'ArrowLeft' && control.value.prev?.link) {
+    router.go(control.value.prev.link)
+  } else if (e.key === 'ArrowRight' && control.value.next?.link) {
+    router.go(control.value.next.link)
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeydown)
+})
 </script>
 
 <template>
