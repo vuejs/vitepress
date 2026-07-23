@@ -31,13 +31,6 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * @deprecated Use `outline.label` instead.
-     *
-     * @default 'On this page'
-     */
-    outlineTitle?: string
-
-    /**
      * The nav items.
      */
     nav?: NavItem[]
