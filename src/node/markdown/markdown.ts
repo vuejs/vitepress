@@ -15,6 +15,7 @@ import { titlePlugin } from '@mdit-vue/plugin-title'
 import { tocPlugin, type TocPluginOptions } from '@mdit-vue/plugin-toc'
 import { slugify as defaultSlugify } from '@mdit-vue/shared'
 import { anchor as anchorPlugin, type AnchorOptions } from '@mdit/plugin-anchor'
+import { fullEmoji as emojiPlugin } from '@mdit/plugin-emoji'
 import type {
   CodeToHastOptions,
   LanguageInput,
@@ -24,7 +25,6 @@ import type {
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import attrsPlugin, { type MarkdownItAttrsOptions } from 'markdown-it-attrs'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
-import { full as emojiPlugin } from 'markdown-it-emoji'
 import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
@@ -41,6 +41,9 @@ import { snippetPlugin } from './plugins/snippet'
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
+
+// not exported from @mdit/plugin-emoji, so derive it from the plugin signature
+type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
 
 export type ThemeOptions =
   | ThemeRegistrationAny
@@ -180,16 +183,10 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   attrs?: MarkdownItAttrsOptions | false
   /**
-   * Options for `markdown-it-emoji`. Set to `false` to disable.
-   * @see https://github.com/markdown-it/markdown-it-emoji
+   * Options for `@mdit/plugin-emoji`. Set to `false` to disable.
+   * @see https://mdit-plugins.github.io/emoji.html
    */
-  emoji?:
-    | {
-        defs?: Record<string, string>
-        enabled?: string[]
-        shortcuts?: Record<string, string | string[]>
-      }
-    | false
+  emoji?: EmojiPluginOptions | false
   /**
    * Improves emphasis (`**bold**`) handling in Japanese, Chinese, and
    * Korean text.

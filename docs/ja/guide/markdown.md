@@ -110,7 +110,7 @@ lang: ja-JP
 
 :tada: :100:
 
-すべての絵文字の [一覧はこちら](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
+すべての絵文字の [一覧はこちら](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)。
 
 ## 目次 {#table-of-contents}
 

@@ -112,7 +112,7 @@ lang: fa-IR
 
 :tada: :100:
 
-یک [لیست از همه اموجی ها](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) در دسترس است.
+یک [لیست از همه اموجی ها](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) در دسترس است.
 
 ## فهرست مطالب {#table-of-contents}
 

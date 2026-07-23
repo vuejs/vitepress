@@ -112,7 +112,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
+Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) está disponible.
 
 ## Tabla de Contenido (TOC)
 
