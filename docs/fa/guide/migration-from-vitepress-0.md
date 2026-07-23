@@ -14,7 +14,7 @@
 - `repo`، `repoLabel`، `docsDir`، `docsBranch`، `editLinks`، `editLinkText` به منظور API انعطاف‌پذیرتر حذف شده‌اند.
   - برای اضافه کردن لینک GitHub با آیکون به نوار ناوبری، از ویژگی [پیوندهای اجتماعی](../reference/default-theme-nav#navigation-links) استفاده کنید.
   - برای اضافه کردن ویژگی "ویرایش این صفحه"، از ویژگی [پیوند ویرایش](../reference/default-theme-edit-link) استفاده کنید.
-- گزینه `lastUpdated` حالا به `config.lastUpdated` و `themeConfig.lastUpdatedText` تقسیم شده است.
+- گزینه `lastUpdated` حالا به `config.lastUpdated` و `themeConfig.lastUpdated.text` تقسیم شده است.
 - `carbonAds.carbon` به `carbonAds.code` تغییر کرده است.
 
 ## پیکربندی Frontmatter

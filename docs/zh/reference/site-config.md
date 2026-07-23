@@ -503,7 +503,7 @@ export default {
 
 是否使用 Git 获取每个页面的最后更新时间戳。时间戳将包含在每个页面的页面数据中，可通过 [`useData`](./runtime-api#usedata) 访问。
 
-使用默认主题时，启用此选项将显示每个页面的最后更新时间。可以通过 [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 选项自定义文本。
+使用默认主题时，启用此选项将显示每个页面的最后更新时间。可以通过 [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) 选项自定义文本。
 
 ## 自定义 {#customization}
 

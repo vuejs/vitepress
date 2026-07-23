@@ -505,7 +505,7 @@ export default {
 
 각 페이지의 마지막 업데이트 타임스탬프를 Git을 사용하여 가져올지 여부를 설정합니다. 타임스탬프는 각 페이지의 페이지 데이터에 포함되며, [`useData`](./runtime-api#usedata)를 통해 접근할 수 있습니다.
 
-기본 테마를 사용할 때, 이 옵션을 활성화하면 각 페이지의 마지막 업데이트 시간이 표시됩니다. [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 옵션을 통해 텍스트를 커스터마이징할 수 있습니다.
+기본 테마를 사용할 때, 이 옵션을 활성화하면 각 페이지의 마지막 업데이트 시간이 표시됩니다. [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) 옵션을 통해 텍스트를 커스터마이징할 수 있습니다.
 
 ## 커스터마이징 {#customization}
 

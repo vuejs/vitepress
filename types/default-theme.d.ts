@@ -55,15 +55,6 @@ export namespace DefaultTheme {
      */
     editLink?: EditLink
 
-    /**
-     * @deprecated Use `lastUpdated.text` instead.
-     *
-     * Set custom last updated text.
-     *
-     * @default 'Last updated'
-     */
-    lastUpdatedText?: string
-
     lastUpdated?: LastUpdatedOptions
 
     /**

@@ -14,7 +14,7 @@ If you're coming from VitePress 0.x version, there're several breaking changes d
 - `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks`, `editLinkText` are removed in favor of more flexible api.
   - For adding GitHub link with icon to the nav, use [Social Links](../reference/default-theme-nav#navigation-links) feature.
   - For adding "Edit this page" feature, use [Edit Link](../reference/default-theme-edit-link) feature.
-- `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdatedText`.
+- `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdated.text`.
 - `carbonAds.carbon` is changed to `carbonAds.code`.
 
 ## Frontmatter Config {#frontmatter-config}
