@@ -229,7 +229,7 @@ export default defineConfig({
 
 ### 追加属性 {#additional-attributes}
 
-カスタムコンテナには追加の属性を付与できます。この機能には [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) を使用しており、ほぼすべての Markdown 要素でサポートされます。たとえば `open` 属性を付けると、details ブロックをデフォルトで開いた状態にできます。
+カスタムコンテナには追加の属性を付与できます。この機能には [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) を使用しており、ほぼすべての Markdown 要素でサポートされます。たとえば `open` 属性を付けると、details ブロックをデフォルトで開いた状態にできます。
 
 **入力**
 
