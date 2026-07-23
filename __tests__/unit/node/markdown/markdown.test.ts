@@ -114,6 +114,31 @@ describe('node/markdown/markdown', () => {
     })
   })
 
+  describe('attrs', () => {
+    test('does not consume fence info', async () => {
+      // line-highlight / meta syntax must reach the highlighter untouched
+      const meta = await render('```js{4}\nconst a = 1\n```')
+      expect(meta).toContain('language-js')
+      expect(meta).not.toContain('4=""')
+
+      // curly attributes have no effect on fenced code blocks
+      const backtick = await render('```js {.foo}\nconst a = 1\n```')
+      expect(backtick).not.toContain('class="foo"')
+      const tilde = await render('~~~js {.foo}\nconst a = 1\n~~~')
+      expect(tilde).not.toContain('class="foo"')
+    })
+
+    test('applies to inline elements and blocks', async () => {
+      expect(await render('*hi*{.cls}')).toContain('<em class="cls">')
+      expect(await render('`code`{.cls}')).toContain('class="cls"')
+      expect(await render('text {.cls}')).toContain('<p class="cls">')
+      expect(await render('- item\n{.cls}')).toContain('<ul class="cls">')
+      expect(await render('| a |\n| --- |\n| b |\n\n{.cls}')).toContain(
+        '<table class="cls"'
+      )
+    })
+  })
+
   // attrs applies at a fixed position in the core chain (before linkify),
   // while anchor pushes to its end, so anchor always sees user-defined ids
   // no matter which plugin is registered first
