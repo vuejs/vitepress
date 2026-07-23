@@ -116,6 +116,9 @@ importers:
       '@mdit/plugin-emoji':
         specifier: ^1.1.0
         version: 1.1.0(markdown-it@14.2.0)
+      '@mdit/plugin-tasklist':
+        specifier: ^1.0.1
+        version: 1.0.1(markdown-it@14.2.0)
       '@polka/compression':
         specifier: ^1.0.0-next.28
         version: 1.0.0-next.28
@@ -653,6 +656,15 @@ packages:
 
   '@mdit/plugin-emoji@1.1.0':
     resolution: {integrity: sha512-rdGhZ0OVhK0EhiVpw8v22BdTq7XZ6Adrcbq3hR2Cx/YwGnL+kSXFtcGOeJXphiSics7oNgpIKdNyl974z7Cj1A==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      markdown-it: ^14.2.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+
+  '@mdit/plugin-tasklist@1.0.1':
+    resolution: {integrity: sha512-Ks/Tihw5ibbkP2qOZzltkbiTk8RfpxDRvqdn4hl1wIs3VmeKITIQ36gN4DsuotSauA9SBe/mL0QJIfuSCrXqrw==}
     engines: {node: '>=22'}
     peerDependencies:
       markdown-it: ^14.2.0
@@ -3254,6 +3266,12 @@ snapshots:
       markdown-it: 14.2.0
 
   '@mdit/plugin-emoji@1.1.0(markdown-it@14.2.0)':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+    optionalDependencies:
+      markdown-it: 14.2.0
+
+  '@mdit/plugin-tasklist@1.0.1(markdown-it@14.2.0)':
     dependencies:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
