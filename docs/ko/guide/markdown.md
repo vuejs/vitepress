@@ -112,7 +112,7 @@ lang: en-US
 
 :tada: :100:
 
-[모든 이모지의 목록](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)이 제공됩니다.
+[모든 이모지의 목록](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)이 제공됩니다.
 
 ## 목차 {#table-of-contents}
 
@@ -925,14 +925,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 이미지 지연 로딩 {#image-lazy-loading}
 
-마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 구성 파일에서 `lazyLoading`을 `true`로 설정하세요:
+마크다운을 통해 추가된 각 이미지에 대해 지연 로딩을 활성화하려면 구성 파일에서 `lazyLoad`을 `true`로 설정하세요:
 
 ```js
 export default {
   markdown: {
     image: {
       // 이미지 지연 로딩은 기본적으로 비활성화 되어 있습니다
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -944,15 +944,15 @@ VitePress는 마크다운 렌더러로 [markdown-it](https://github.com/markdown
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // markdown-it-anchor의 옵션
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // @mdit/plugin-anchor의 옵션
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // @mdit-vue/plugin-toc의 옵션

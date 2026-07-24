@@ -112,7 +112,7 @@ Para mais detalhes, veja [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Uma [lista de todos os emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponível.
+Uma [lista de todos os emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) está disponível.
 
 ## Tabela de Conteúdo (TOC)
 
@@ -887,14 +887,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## _Lazy Loading_ de Imagens {#image-lazy-loading}
 
-Você pode ativar o "carregamento folgado" para cada imagem adicionada via markdown definindo `lazyLoading` como `true` no seu arquivo de configuração:
+Você pode ativar o "carregamento folgado" para cada imagem adicionada via markdown definindo `lazyLoad` como `true` no seu arquivo de configuração:
 
 ```js
 export default {
   markdown: {
     image: {
       // o carregamento folgado de imagens está desativado por padrão
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -906,15 +906,15 @@ VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como int
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // opções para markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // opções para @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // opções para @mdit-vue/plugin-toc

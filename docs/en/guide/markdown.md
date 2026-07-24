@@ -100,6 +100,20 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
+## Task Lists
+
+**Input**
+
+```md
+- [ ] Write the press release
+- [x] Update the website
+```
+
+**Output**
+
+- [ ] Write the press release
+- [x] Update the website
+
 ## Emoji :tada:
 
 **Input**
@@ -112,7 +126,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
+A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) is available.
 
 ## Table of Contents
 
@@ -261,7 +275,7 @@ console.log('Hello, VitePress!')
 
 ### Additional Attributes
 
-You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+You can add additional attributes to the custom containers. We use [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
 
 **Input**
 
@@ -1024,14 +1038,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Image Lazy Loading
 
-You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+You can enable lazy loading for each image added via markdown by setting `lazyLoad` to `true` in your config file:
 
 ```js
 export default {
   markdown: {
     image: {
       // image lazy loading is disabled by default
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -1043,15 +1057,15 @@ VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the 
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // options for markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // options for @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // options for @mdit-vue/plugin-toc

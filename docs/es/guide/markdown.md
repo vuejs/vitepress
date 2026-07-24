@@ -112,7 +112,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
+Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) está disponible.
 
 ## Tabla de Contenido (TOC)
 
@@ -888,14 +888,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## _Lazy Loading_ de Imagenes {#image-lazy-loading}
 
-Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoading` como `true` en su archivo de configuración:
+Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoad` como `true` en su archivo de configuración:
 
 ```js
 export default {
   markdown: {
     image: {
       // la carga perezosa de imagenes está desactivada por defecto
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -907,15 +907,15 @@ VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como int
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // opciones para markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // opciones para @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // opciones para @mdit-vue/plugin-toc

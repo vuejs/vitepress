@@ -112,7 +112,7 @@ lang: fa-IR
 
 :tada: :100:
 
-یک [لیست از همه اموجی ها](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) در دسترس است.
+یک [لیست از همه اموجی ها](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) در دسترس است.
 
 ## فهرست مطالب {#table-of-contents}
 
@@ -880,14 +880,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## بارگذاری lazy تصویر {#image-lazy-loading}
 
-می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoading` به `true` در فایل پیکربندی فعال کنید:
+می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoad` به `true` در فایل پیکربندی فعال کنید:
 
 ```js
 export default {
   markdown: {
     image: {
       // بارگذاری تنبلی تصویر به طور پیش‌فرض غیرفعال است
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -899,15 +899,15 @@ export default {
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // گزینه‌های markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // گزینه‌های @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // گزینه‌های @mdit-vue/plugin-toc

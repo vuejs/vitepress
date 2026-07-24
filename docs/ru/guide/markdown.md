@@ -112,7 +112,7 @@ lang: ru-RU
 
 :tada: :100:
 
-[Список всех эмодзи](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs).
+[Список всех эмодзи](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts).
 
 ## Оглавление {#table-of-contents}
 
@@ -235,7 +235,7 @@ export default defineConfig({
 
 ### Дополнительные атрибуты {#additional-attributes}
 
-Вы можете добавить дополнительные атрибуты к пользовательским контейнерам. Мы используем [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) для этой функции, и она поддерживается почти для всех элементов Markdown. Например, можно установить атрибут `open`, чтобы сделать блок подробностей открытым по умолчанию:
+Вы можете добавить дополнительные атрибуты к пользовательским контейнерам. Мы используем [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) для этой функции, и она поддерживается почти для всех элементов Markdown. Например, можно установить атрибут `open`, чтобы сделать блок подробностей открытым по умолчанию:
 
 **Разметка**
 
@@ -996,14 +996,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Ленивая загрузка изображений {#image-lazy-loading}
 
-Вы можете включить ленивую загрузку для каждого изображения, добавленного через markdown, установив значение `true` для опции `lazyLoading` в вашем файле конфигурации:
+Вы можете включить ленивую загрузку для каждого изображения, добавленного через markdown, установив значение `true` для опции `lazyLoad` в вашем файле конфигурации:
 
 ```js
 export default {
   markdown: {
     image: {
       // ленивая загрузка изображений отключена по умолчанию
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -1015,15 +1015,15 @@ VitePress использует [markdown-it](https://github.com/markdown-it/mark
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // опции для markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // опции для @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // опции для @mdit-vue/plugin-toc

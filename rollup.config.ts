@@ -5,6 +5,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import { rm } from 'node:fs/promises'
 import { builtinModules, createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
@@ -53,11 +54,27 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const typesExternal = [
-  ...external,
-  /\/vitepress\/(?!(dist|node_modules|vitepress)\/).*\.d\.ts$/,
-  /^markdown-it(?:\/|$)/
-]
+// keep .d.ts files under the repo root (e.g. types/*) external so module
+// augmentations in the bundle still target the same files users reference.
+// compared on normalized resolved paths so this works regardless of the
+// checkout location, path separators, or drive-letter casing.
+const normalizePath = (id: string): string => {
+  const normalized = id.replaceAll('\\', '/')
+  return process.platform === 'win32' ? normalized.toLowerCase() : normalized
+}
+
+const root = normalizePath(fileURLToPath(new URL('.', import.meta.url)))
+
+const typesExternal = (id: string): boolean => {
+  if (external.includes(id) || /^markdown-it(?:\/|$)/.test(id)) return true
+  const normalized = normalizePath(id)
+  return (
+    normalized.endsWith('.d.ts') &&
+    normalized.startsWith(root) &&
+    !normalized.startsWith(`${root}dist/`) &&
+    !normalized.startsWith(`${root}node_modules/`)
+  )
+}
 
 const dtsNode = dts({
   respectExternal: true,

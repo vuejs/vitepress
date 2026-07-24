@@ -21,7 +21,7 @@ describe('node/config', () => {
       {
         markdown: {
           attrs: {
-            allowedAttributes: ['id']
+            allowed: ['id']
           },
           async preConfig() {
             calls.push('extended-pre')
@@ -35,7 +35,7 @@ describe('node/config', () => {
 
     expect(merged.markdown?.lineNumbers).toBe(true)
     expect(merged.markdown?.attrs).toEqual({
-      allowedAttributes: ['id']
+      allowed: ['id']
     })
 
     await merged.markdown?.preConfig?.(md)

@@ -110,7 +110,7 @@ lang: ja-JP
 
 :tada: :100:
 
-すべての絵文字の [一覧はこちら](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
+すべての絵文字の [一覧はこちら](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)。
 
 ## 目次 {#table-of-contents}
 
@@ -229,7 +229,7 @@ export default defineConfig({
 
 ### 追加属性 {#additional-attributes}
 
-カスタムコンテナには追加の属性を付与できます。この機能には [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) を使用しており、ほぼすべての Markdown 要素でサポートされます。たとえば `open` 属性を付けると、details ブロックをデフォルトで開いた状態にできます。
+カスタムコンテナには追加の属性を付与できます。この機能には [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) を使用しており、ほぼすべての Markdown 要素でサポートされます。たとえば `open` 属性を付けると、details ブロックをデフォルトで開いた状態にできます。
 
 **入力**
 
@@ -996,14 +996,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 画像の遅延読み込み {#image-lazy-loading}
 
-Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoading` を `true` にします：
+Markdown で追加した各画像に対して遅延読み込みを有効化するには、設定ファイルで `lazyLoad` を `true` にします：
 
 ```js
 export default {
   markdown: {
     image: {
       // 既定では画像の遅延読み込みは無効
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -1015,15 +1015,15 @@ VitePress は Markdown レンダラーとして [markdown-it](https://github.com
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // markdown-it-anchor のオプション
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // @mdit/plugin-anchor のオプション
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // @mdit-vue/plugin-toc のオプション

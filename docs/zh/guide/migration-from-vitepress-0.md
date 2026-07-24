@@ -14,7 +14,7 @@
 - 删除了 `repo`、`repoLabel`、`docsDir`、`docsBranch`、`editLinks`、`editLinkText`，以支持更灵活的 API。
   - 要将带有图标的 GitHub 链接添加到导航，请使用 [社交链接](../reference/default-theme-config#nav) 功能。
   - 要添加“编辑此页面”功能，请使用 [编辑链接](../reference/default-theme-edit-link) 功能。
-- `lastUpdated` 选项现在分为 `config.lastUpdated` 和 `themeConfig.lastUpdatedText`。
+- `lastUpdated` 选项现在分为 `config.lastUpdated` 和 `themeConfig.lastUpdated.text`。
 - `carbonAds.carbon` 更改为 `carbonAds.code`。
 
 ## frontmatter 配置 {#frontmatter-config}
