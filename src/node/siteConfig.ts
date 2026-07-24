@@ -110,6 +110,7 @@ export interface UserConfig<
    * If you are a theme author, to support this, place your web font import
    * between `webfont-marker-begin` and `webfont-marker-end` comments.
    *
+   * @experimental
    * @default true in webcontainers, else false
    */
   useWebFonts?: boolean
@@ -118,21 +119,15 @@ export interface UserConfig<
    * This option allows you to configure the concurrency of the build.
    * A lower number will reduce the memory usage but will increase the build time.
    *
-   * @experimental
    * @default 64
    */
   buildConcurrency?: number
 
   /**
-   * @experimental
-   *
    * source -> destination
    */
   rewrites?: Record<string, string> | ((id: string) => string)
 
-  /**
-   * @experimental
-   */
   sitemap?: SitemapStreamOptions & {
     hostname: string
     transformItems?: (items: SitemapItem[]) => Awaitable<SitemapItem[]>
