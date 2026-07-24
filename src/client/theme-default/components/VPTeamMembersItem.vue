@@ -77,20 +77,17 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.small .name {
-  line-height: 24px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .VPTeamMembersItem.small .affiliation {
   padding-top: 4px;
-  line-height: 20px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .VPTeamMembersItem.small .desc {
   padding-top: 12px;
-  line-height: 20px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .VPTeamMembersItem.small .links {
@@ -114,19 +111,18 @@ withDefaults(defineProps<Props>(), {
 
 .VPTeamMembersItem.medium .name {
   letter-spacing: 0.15px;
-  line-height: 28px;
-  font-size: 20px;
+  font-size: var(--vp-custom-block-font-size-xlarge);
 }
 
 .VPTeamMembersItem.medium .affiliation {
   padding-top: 4px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .VPTeamMembersItem.medium .desc {
   padding-top: 16px;
   max-width: 288px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .VPTeamMembersItem.medium .links {
@@ -202,7 +198,7 @@ withDefaults(defineProps<Props>(), {
   align-items: center;
   text-align: center;
   padding: 16px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-sponsor);
   background-color: var(--vp-c-bg-soft);
@@ -218,6 +214,6 @@ withDefaults(defineProps<Props>(), {
 
 .sp-icon {
   margin-right: 8px;
-  font-size: 16px;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 </style>

@@ -67,8 +67,7 @@ if (carbonOptions) {
   border-radius: 12px;
   min-height: 256px;
   text-align: center;
-  line-height: 18px;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   background-color: var(--vp-carbon-ads-bg-color);
 }
@@ -93,7 +92,7 @@ if (carbonOptions) {
 .VPCarbonAds :deep(.carbon-poweredby) {
   display: block;
   padding-top: 6px;
-  font-size: 11px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-carbon-ads-poweredby-color);
   text-transform: uppercase;

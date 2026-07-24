@@ -685,12 +685,12 @@ function onMouseMove(e: MouseEvent) {
 
 .local-search-icon {
   display: block;
-  font-size: 18px;
+  font-size: var(--vp-custom-block-font-size-large);
 }
 
 .navigate-icon {
   display: block;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .search-icon {

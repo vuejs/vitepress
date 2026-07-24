@@ -56,15 +56,15 @@ const component = computed(() => {
 .VPButton.medium {
   border-radius: 20px;
   padding: 0 20px;
-  line-height: 38px;
-  font-size: 14px;
+  line-height: 2.7;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .VPButton.big {
   border-radius: 24px;
   padding: 0 24px;
-  line-height: 46px;
-  font-size: 16px;
+  line-height: 2.8;
+  font-size: var(--vp-custom-block-font-size-medium);
 }
 
 .VPButton.brand {

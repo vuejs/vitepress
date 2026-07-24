@@ -28,12 +28,12 @@
 
 .vp-sponsor.normal .vp-sponsor-tier {
   padding: 13px 0 11px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
 }
 
 .vp-sponsor.aside .vp-sponsor-tier {
   padding: 9px 0 7px;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
 }
 
 .vp-sponsor-grid + .vp-sponsor-tier {

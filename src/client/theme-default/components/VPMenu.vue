@@ -65,8 +65,8 @@ defineProps<{
 
 .VPMenu :deep(.label) {
   flex-grow: 1;
-  line-height: 28px;
-  font-size: 12px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;

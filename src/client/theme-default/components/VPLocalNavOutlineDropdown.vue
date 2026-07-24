@@ -95,9 +95,9 @@ function scrollToTop() {
 <style scoped>
 .VPLocalNavOutlineDropdown button {
   display: block;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
-  line-height: 24px;
+  line-height: 2;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
   position: relative;
@@ -116,18 +116,18 @@ function scrollToTop() {
   display: inline-block;
   vertical-align: middle;
   margin-left: 2px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   transform: rotate(0) /*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 
 @media (min-width: 960px) {
   .VPLocalNavOutlineDropdown button {
-    font-size: 14px;
+    font-size: var(--vp-custom-block-font-size);
   }
 
   .icon {
-    font-size: 16px;
+    font-size: var(--vp-custom-block-font-size-medium);
   }
 }
 
@@ -166,8 +166,8 @@ function scrollToTop() {
 .top-link {
   display: block;
   padding: 0 16px;
-  line-height: 48px;
-  font-size: 14px;
+  line-height: 3.4;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-brand-1);
 }

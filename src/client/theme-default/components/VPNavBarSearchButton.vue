@@ -23,7 +23,7 @@ defineProps<{
   gap: 8px;
   height: var(--vp-nav-height);
   padding: 8px 14px;
-  font-size: 20px;
+  font-size: var(--vp-custom-block-font-size-xlarge);
 }
 
 .text,
@@ -44,14 +44,13 @@ kbd {
     padding: 8px 12px;
     background-color: var(--vp-c-bg-alt);
     border-radius: 8px;
-    font-size: 14px;
-    line-height: 1;
+    font-size: var(--vp-custom-block-font-size);
     color: var(--vp-c-text-2);
   }
 
   .text {
     display: inline;
-    font-size: 13px;
+    font-size: var(--vp-custom-block-code-font-size);
   }
 
   .keys {
@@ -61,7 +60,7 @@ kbd {
     padding: 4px 6px;
     border: 1px solid var(--vp-c-divider);
     border-radius: 4px;
-    font-size: 12px;
+    font-size: var(--vp-custom-block-font-size-small);
   }
 }
 </style>

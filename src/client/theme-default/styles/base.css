@@ -34,9 +34,9 @@
     width: 100%;
     min-width: 320px;
     min-height: 100vh;
-    line-height: 24px;
+    line-height: 1.5;
     font-family: var(--vp-font-family-base);
-    font-size: 16px;
+    font-size: var(--vp-custom-block-font-size-medium);
     font-weight: 400;
     color: var(--vp-c-text-1);
     background-color: var(--vp-c-bg);
@@ -58,8 +58,7 @@
   h5,
   h6 {
     margin: 0;
-    line-height: 24px;
-    font-size: 16px;
+    font-size: var(--vp-custom-block-font-size-medium);
     font-weight: 400;
   }
 

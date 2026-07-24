@@ -25,8 +25,8 @@ defineProps<{
 }
 
 .title {
-  line-height: 32px;
-  font-size: 13px;
+  line-height: 2.5;
+  font-size: var(--vp-custom-block-code-font-size);
   font-weight: 700;
   color: var(--vp-c-text-2);
   transition: color 0.25s;

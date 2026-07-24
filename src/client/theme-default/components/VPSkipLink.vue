@@ -25,7 +25,7 @@ watch(() => route.path, () => backToTop.value.focus())
   padding: 8px 16px;
   z-index: 999;
   border-radius: 8px;
-  font-size: 12px;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: bold;
   text-decoration: none;
   color: var(--vp-c-brand-1);

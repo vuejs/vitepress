@@ -447,8 +447,21 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-custom-block-font-size: 14px;
-  --vp-custom-block-code-font-size: 13px;
+  --vp-custom-block-font-size-xsmall: 0.625rem; /* 10px */
+  --vp-custom-block-font-size-small: 0.75rem; /* 12px */
+  --vp-custom-block-font-size: 0.875rem; /* 14px */
+  --vp-custom-block-font-size-medium: 1rem; /* 16px */
+  --vp-custom-block-font-size-large: 1.125rem; /* 18px */
+  --vp-custom-block-font-size-xlarge: 1.25rem; /* 20px */
+  --vp-custom-block-font-size-xxlarge: 1.5rem; /* 24px */
+  --vp-custom-block-font-size-3xlarge: 1.75rem; /* 28px */
+  --vp-custom-block-font-size-4xlarge: 2rem; /* 32px */
+  --vp-custom-block-font-size-5xlarge: 2.25rem; /* 36px */
+  --vp-custom-block-font-size-6xlarge: 3rem; /* 48px */
+  --vp-custom-block-font-size-7xlarge: 3.5rem; /* 56px */
+  --vp-custom-block-font-size-8xlarge: 3.75rem; /* 60px */
+  --vp-custom-block-font-size-9xlarge: 4rem; /* 64px */
+  --vp-custom-block-code-font-size: 0.8125rem; /* 13px */
 
   --vp-custom-block-info-border: transparent;
   --vp-custom-block-info-text: var(--vp-c-text-1);

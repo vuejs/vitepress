@@ -104,8 +104,8 @@ const showFooter = computed(
   display: flex;
   align-items: center;
   border: 0;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition: color 0.25s;
@@ -154,16 +154,15 @@ const showFooter = computed(
 
 .desc {
   display: block;
-  line-height: 20px;
-  font-size: 12px;
+  line-height: 1.7;
+  font-size: var(--vp-custom-block-font-size-small);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .title {
   display: block;
-  line-height: 20px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition: color 0.25s;

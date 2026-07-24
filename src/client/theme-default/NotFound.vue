@@ -44,16 +44,14 @@ const { currentLang } = useLangs()
 }
 
 .code {
-  line-height: 64px;
-  font-size: 64px;
+  font-size: var(--vp-custom-block-font-size-9xlarge);
   font-weight: 600;
 }
 
 .title {
   padding-top: 12px;
   letter-spacing: 2px;
-  line-height: 20px;
-  font-size: 20px;
+  font-size: var(--vp-custom-block-font-size-xlarge);
   font-weight: 700;
 }
 
@@ -67,7 +65,7 @@ const { currentLang } = useLangs()
 .quote {
   margin: 0 auto;
   max-width: 256px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -81,7 +79,7 @@ const { currentLang } = useLangs()
   border: 1px solid var(--vp-c-brand-1);
   border-radius: 16px;
   padding: 3px 16px;
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-brand-1);
   transition:

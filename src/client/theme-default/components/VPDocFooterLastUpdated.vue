@@ -46,16 +46,16 @@ onMounted(() => {
 
 <style scoped>
 .VPLastUpdated {
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.7;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 @media (min-width: 640px) {
   .VPLastUpdated {
-    line-height: 32px;
-    font-size: 14px;
+    line-height: 2.3;
+    font-size: var(--vp-custom-block-font-size);
     font-weight: 500;
   }
 }

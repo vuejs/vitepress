@@ -46,7 +46,7 @@ const isActiveLink = computed(() => {
   align-items: center;
   padding: 0 12px;
   line-height: var(--vp-nav-height);
-  font-size: 14px;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

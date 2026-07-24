@@ -86,8 +86,8 @@ function toggle() {
   align-items: center;
   padding: 12px 4px 11px 0;
   width: 100%;
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.7;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 500;
   color: var(--vp-c-text-1);
   transition: color 0.25s;

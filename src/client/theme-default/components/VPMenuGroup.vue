@@ -38,8 +38,8 @@ defineProps<{
 
 .title {
   padding: 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2.3;
+  font-size: var(--vp-custom-block-font-size);
   font-weight: 600;
   color: var(--vp-c-text-2);
   white-space: nowrap;
