@@ -122,6 +122,9 @@ importers:
       '@polka/compression':
         specifier: ^1.0.0-next.28
         version: 1.0.0-next.28
+      '@rolldown/pluginutils':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@rollup/plugin-alias':
         specifier: ^6.0.0
         version: 6.0.0(rollup@4.62.2)

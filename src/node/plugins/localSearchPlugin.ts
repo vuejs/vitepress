@@ -1,3 +1,4 @@
+import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
 import fs from 'node:fs'
 import { readFile } from 'node:fs/promises'
@@ -28,13 +29,15 @@ export async function localSearchPlugin(
   if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
       name: 'vitepress:local-search',
-      resolveId(id) {
-        if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
+      resolveId: {
+        filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_ID) },
+        handler() {
           return LOCAL_SEARCH_INDEX_REQUEST_PATH
         }
       },
-      load(id) {
-        if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
+      load: {
+        filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_REQUEST_PATH) },
+        handler() {
           return `export default '{}'`
         }
       }
@@ -176,36 +179,40 @@ export async function localSearchPlugin(
       pending = scanForBuild().then(onIndexUpdated)
     },
 
-    resolveId(id) {
-      if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
+    resolveId: {
+      filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_ID) },
+      handler(id) {
         return `/${id}`
       }
     },
 
-    async load(id) {
-      if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        await pending
-        if (process.env.NODE_ENV === 'production') {
-          await scanForBuild()
+    load: {
+      filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_REQUEST_PATH) },
+      async handler(id) {
+        if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
+          await pending
+          if (process.env.NODE_ENV === 'production') {
+            await scanForBuild()
+          }
+          let records: string[] = []
+          for (const [locale] of indexByLocales) {
+            records.push(
+              `${JSON.stringify(
+                locale
+              )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
+            )
+          }
+          return `export default {${records.join(',')}}`
+        } else {
+          await pending
+          return `export default ${JSON.stringify(
+            JSON.stringify(
+              indexByLocales.get(
+                id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
+              ) ?? {}
+            )
+          )}`
         }
-        let records: string[] = []
-        for (const [locale] of indexByLocales) {
-          records.push(
-            `${JSON.stringify(
-              locale
-            )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
-          )
-        }
-        return `export default {${records.join(',')}}`
-      } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
-        await pending
-        return `export default ${JSON.stringify(
-          JSON.stringify(
-            indexByLocales.get(
-              id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
-            ) ?? {}
-          )
-        )}`
       }
     },
 

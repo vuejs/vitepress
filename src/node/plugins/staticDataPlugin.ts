@@ -56,8 +56,9 @@ export const staticDataPlugin: Plugin = {
     server = _server
   },
 
-  async load(id) {
-    if (loaderMatch.test(id)) {
+  load: {
+    filter: { id: loaderMatch },
+    async handler(id) {
       let _resolve: ((res: any) => void) | undefined
       if (isBuild) {
         if (idToPendingPromiseMap[id]) return idToPendingPromiseMap[id]
