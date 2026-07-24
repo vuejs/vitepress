@@ -50,17 +50,50 @@ BASE_VAR = """\
 }
 """
 
+# The 'Inter Core' faces leave the `cjkExclusions` characters uncovered so that
+# they fall through to the next family in the stack, which therefore must be
+# an explicit CJK font: a Latin system font (or `sans-serif`) would claim most
+# of the excluded punctuation before the language-aware system fallback ever
+# got a chance to pick the right CJK font. The names below cover the defaults
+# of macOS / Windows / Linux (fonts-noto-cjk); families that are not installed
+# are simply skipped, and sites can splice a CJK webfont between 'Inter Core'
+# and the system families. Bare zh means Hans per BCP 47 likely subtags, and
+# with no Traditional Chinese rule it also covers zh-Hant/zh-TW/zh-HK/zh-MO
+# pages. If Hant handling is ever requested, add after the zh rule (same
+# specificity, so the later rule wins; the region tags must be enumerated
+# because `:lang(zh-Hant)` cannot match e.g. `lang="zh-TW"`):
+#   [lang]:where(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) {
+#     --vp-font-family-base:
+#       'Inter Core', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC',
+#       ...;
+#   }
+# (Hong Kong variants also exist: 'PingFang HK' / 'Noto Sans CJK HK'.)
 CJK_BASE_VAR = """\
-[lang]:where(:lang(zh), :lang(ja), :lang(ko)) {
+[lang]:where(:lang(zh)) {
   --vp-font-family-base:
-    'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(ja)) {
+  --vp-font-family-base:
+    'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(ko)) {
+  --vp-font-family-base:
+    'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 """
 
 # used instead of everything else in this file when `useWebFonts` is enabled
 # (only the content between the markers survives) - see
-# src/node/plugins/webFontsPlugin.ts. There is no Inter4CJK on Google Fonts,
+# src/node/plugins/webFontsPlugin.ts. There is no 'Inter Core' on Google Fonts,
 # so CJK documents use the regular Inter there.
 WEBFONT_IMPORT = f"""\
 /* webfont-marker-begin */
@@ -73,7 +106,7 @@ WEBFONT_IMPORT = f"""\
 # The `cjkExclusions` key of the json lists characters that have both a
 # Western (proportional) and an East Asian (em-square) form with no
 # encoding-level distinction - mostly East Asian Ambiguous punctuation and
-# symbols (UAX #11). The generated Inter4CJK faces reuse the same font files
+# symbols (UAX #11). The generated 'Inter Core' faces reuse the same font files
 # but leave these out of their unicode-ranges so that CJK fonts render them
 # in CJK documents. References:
 # https://www.unicode.org/L2/L2014/14006-sv-western-vs-cjk.pdf
@@ -84,7 +117,7 @@ WEBFONT_IMPORT = f"""\
 # & U+2015 (used like U+2014 in Japanese), U+203B (Japanese reference mark),
 # U+007E (zh's request; both forms are fine in ja because it is unused there)
 CJK_COMMENT = """\
-/* Inter4CJK reuses the files above, but leaves out characters that should
+/* 'Inter Core' reuses the files above, but leaves out characters that should
    be rendered by CJK fonts in CJK documents - see scripts/subsetFonts.py */
 """
 
@@ -187,7 +220,7 @@ def write_css(subsets: dict[str, str], cjk_exclusions: set[int]) -> None:
             cjk_cps = parse_ranges(value) - cjk_exclusions
             if cjk_cps:
                 cjk.append(
-                    face("Inter4CJK", css_style, file, format_ranges(cjk_cps))
+                    face("'Inter Core'", css_style, file, format_ranges(cjk_cps))
                 )
 
     FONTS_CSS.write_text(

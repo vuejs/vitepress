@@ -154,11 +154,11 @@
   unicode-range: U+02CD, U+02D8-02D9, U+02DB, U+0302, U+0306-0307, U+030A, U+030C, U+030F, U+0313, U+0315, U+031B, U+0326-0328, U+032C, U+0337-0338, U+0342-0343, U+0346-036F, U+0E3F, U+1DC0-1DF5, U+1DFC-1DFF, U+2070-2071, U+2074-208E, U+2090-209C, U+20DB-20DE, U+20E8, U+20F0, U+2100-2101, U+2103, U+2105-2106, U+2109, U+2117, U+211E-2121, U+2126, U+212A-212B, U+212E, U+2132, U+213B, U+214D, U+2150-217F, U+2183-2186, U+2189, U+2190, U+2192, U+2194-2199, U+21AA, U+21B0-21B1, U+21B3-21B5, U+21BA-21BB, U+21D0, U+21D2, U+21D4, U+21DE-21DF, U+21E4-21E5, U+21E7, U+21EA, U+2202, U+2205-2206, U+220F, U+2211, U+221A, U+221E, U+222B, U+2236, U+2248, U+2260, U+2264-2265, U+2295-2298, U+2303-2305, U+2325-2327, U+232B, U+2380, U+2387, U+238B, U+23CE-23CF, U+2423, U+2460-2468, U+24B6-24CF, U+24EA, U+25A0-25A2, U+25AA, U+25B2-25B3, U+25B6-25B7, U+25BA-25BD, U+25C0-25C1, U+25C4-25C7, U+25CA-25CB, U+25CF, U+25E6, U+25EF, U+2600, U+2605-2606, U+263C, U+2661, U+2665, U+266A-266B, U+26A0, U+2713, U+2717, U+2756, U+2764, U+2780-2788, U+27EF, U+27F5-27FA, U+2913, U+2A38, U+2B06, U+2B12-2B13, U+2B1C, U+2B24, U+2E18, U+A92E, U+1F12F-1F149, U+1F16A-1F16B, U+1F850, U+1F852;
 }
 
-/* Inter4CJK reuses the files above, but leaves out characters that should
+/* 'Inter Core' reuses the files above, but leaves out characters that should
    be rendered by CJK fonts in CJK documents - see scripts/subsetFonts.py */
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -167,7 +167,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -176,7 +176,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -185,7 +185,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -194,7 +194,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -203,7 +203,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -212,7 +212,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -221,7 +221,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -230,7 +230,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -239,7 +239,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -248,7 +248,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -257,7 +257,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -266,7 +266,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -275,7 +275,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -284,7 +284,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -293,7 +293,7 @@
 }
 
 @font-face {
-  font-family: Inter4CJK;
+  font-family: 'Inter Core';
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -307,8 +307,23 @@
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-[lang]:where(:lang(zh), :lang(ja), :lang(ko)) {
+[lang]:where(:lang(zh)) {
   --vp-font-family-base:
-    'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(ja)) {
+  --vp-font-family-base:
+    'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(ko)) {
+  --vp-font-family-base:
+    'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
