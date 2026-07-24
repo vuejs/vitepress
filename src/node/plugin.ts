@@ -1,3 +1,4 @@
+import { exactRegex } from '@rolldown/pluginutils'
 import path from 'node:path'
 import c from 'picocolors'
 import {
@@ -166,11 +167,12 @@ export async function createVitePressPlugin(
         : baseConfig
     },
 
-    resolveId(id, importer, resolveOptions) {
-      if (id === SITE_DATA_ID) {
-        return SITE_DATA_REQUEST_PATH
-      }
-      if (startsWithThemeRE.test(id)) {
+    resolveId: {
+      filter: { id: [exactRegex(SITE_DATA_ID), startsWithThemeRE] },
+      handler(id, importer, resolveOptions) {
+        if (id === SITE_DATA_ID) {
+          return SITE_DATA_REQUEST_PATH
+        }
         return this.resolve(
           siteConfig.themeDir + id.slice(6),
           importer,
@@ -179,8 +181,9 @@ export async function createVitePressPlugin(
       }
     },
 
-    load(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
+    load: {
+      filter: { id: exactRegex(SITE_DATA_REQUEST_PATH) },
+      handler() {
         let data = siteData
         // head info is not needed by the client in production build
         if (config.command === 'build') {
@@ -196,48 +199,50 @@ export async function createVitePressPlugin(
       }
     },
 
-    // TODO: use plugin hook filters
-    async transform(code, id) {
-      if (docsearchRE.test(normalizePath(id))) {
-        return code
-          .replaceAll('[data-theme=dark]', '.dark')
-          .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
-          .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
-      }
-      if (id.endsWith('.vue')) {
-        return processClientJS(code, id)
-      }
-      if (id.endsWith('.md')) {
-        const relativePath = path.posix.relative(srcDir, id)
-        // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
-          code,
-          id
-        )
-        allDeadLinks.push(...deadLinks)
-        if (includes.length) {
-          includes.forEach((i) => {
-            ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
-            this.addWatchFile(i)
-          })
+    transform: {
+      filter: { id: [docsearchRE, /\.vue$/, /\.md$/] },
+      async handler(code, id) {
+        if (docsearchRE.test(normalizePath(id))) {
+          return code
+            .replaceAll('[data-theme=dark]', '.dark')
+            .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
+            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
         }
-        if (
-          this.environment.mode === 'dev' &&
-          this.environment.name === 'client'
-        ) {
-          logDeadLinks(deadLinks, siteConfig.logger, true)
-          const payload: PageDataPayload = {
-            path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
-            pageData
+        if (id.endsWith('.vue')) {
+          return processClientJS(code, id)
+        }
+        if (id.endsWith('.md')) {
+          const relativePath = path.posix.relative(srcDir, id)
+          // transform .md files into vueSrc so plugin-vue can handle it
+          const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
+            code,
+            id
+          )
+          allDeadLinks.push(...deadLinks)
+          if (includes.length) {
+            includes.forEach((i) => {
+              ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
+              this.addWatchFile(i)
+            })
           }
-          // notify the client to update page data
-          this.environment.hot.send({
-            type: 'custom',
-            event: 'vitepress:pageData',
-            data: payload
-          })
+          if (
+            this.environment.mode === 'dev' &&
+            this.environment.name === 'client'
+          ) {
+            logDeadLinks(deadLinks, siteConfig.logger, true)
+            const payload: PageDataPayload = {
+              path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
+              pageData
+            }
+            // notify the client to update page data
+            this.environment.hot.send({
+              type: 'custom',
+              event: 'vitepress:pageData',
+              data: payload
+            })
+          }
+          return processClientJS(vueSrc, id)
         }
-        return processClientJS(vueSrc, id)
       }
     },
 

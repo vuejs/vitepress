@@ -134,6 +134,7 @@
     "@mdit/plugin-emoji": "^1.1.0",
     "@mdit/plugin-tasklist": "^1.0.1",
     "@polka/compression": "^1.0.0-next.28",
+    "@rolldown/pluginutils": "^1.0.1",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-json": "^6.1.0",
