@@ -7,11 +7,12 @@ const pkg = require('vitepress/package.json')
 export default defineAdditionalConfig({
   description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
 
-  // prettier-ignore
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap', rel: 'stylesheet' }],
+    [
+      'link',
+      // for the vazirmatn font-face defined in .vitepress/theme/styles.css
+      { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' }
+    ]
   ],
 
   themeConfig: {
