@@ -1,3 +1,4 @@
+import './without-fonts'
 import './styles/fonts.css'
 
 export * from './without-fonts'
