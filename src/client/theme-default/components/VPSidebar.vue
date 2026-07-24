@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { useScrollLock } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { inBrowser, useRoute } from 'vitepress'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebarGroups, hasSidebar } = useLayout()
+const route = useRoute()
 
 const props = defineProps<{
   open: boolean
@@ -35,6 +36,72 @@ watch(
   },
   { deep: true }
 )
+
+const userScrolled = ref(false)
+const isProgrammaticScrolling = ref(false)
+
+const scrollToActiveItem = async (smooth: boolean = true) => {
+  // if SSR || (Mobile && Not open)
+  if (!inBrowser || (window.innerWidth < 960 && !props.open)) return
+
+  await nextTick()
+  const container = navEl.value
+  const activeItem = container?.querySelector('.VPSidebarItem.is-active')
+  if (!container || !activeItem) return
+
+  // set flags
+  isProgrammaticScrolling.value = true
+  userScrolled.value = false
+
+  activeItem.scrollIntoView({
+    behavior: smooth ? 'smooth' : 'instant',
+    block: 'center',
+    inline: 'nearest'
+  })
+
+  // reset flag when scroll ends
+  container.addEventListener('scrollend', () => {
+    isProgrammaticScrolling.value = false
+  }, { once: true })
+}
+
+const onSidebarScroll = () => {
+  // ignore programmatic scrolls
+  if (!isProgrammaticScrolling.value) userScrolled.value = true
+}
+
+const onWindowResize = () => {
+  // scroll only if the user has not scrolled manually
+  if (!userScrolled.value) scrollToActiveItem(false)
+}
+
+// route changes
+watch(() => route.path, () => scrollToActiveItem(true))
+
+// sidebar content changes
+watch(sidebarGroups, () => scrollToActiveItem(false), { deep: true })
+
+// Mobile: when opened
+watch(() => props.open, (newOpen) => {
+  if (newOpen) scrollToActiveItem(false)
+})
+
+// scroll once; attach event listeners
+onMounted(() => {
+  scrollToActiveItem(false)
+  if (inBrowser && navEl.value) {
+    navEl.value.addEventListener('scroll', onSidebarScroll)
+    window.addEventListener('resize', onWindowResize)
+  }
+})
+
+// clean up event listeners
+onBeforeUnmount(() => {
+  if (inBrowser && navEl.value) {
+    navEl.value.removeEventListener('scroll', onSidebarScroll)
+    window.removeEventListener('resize', onWindowResize)
+  }
+})
 </script>
 
 <template>
