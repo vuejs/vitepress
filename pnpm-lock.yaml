@@ -113,6 +113,9 @@ importers:
       '@mdit/plugin-attrs':
         specifier: ^1.0.2
         version: 1.0.2(markdown-it@14.2.0)
+      '@mdit/plugin-container':
+        specifier: ^1.0.1
+        version: 1.0.1(markdown-it@14.2.0)
       '@mdit/plugin-emoji':
         specifier: ^1.1.0
         version: 1.1.0(markdown-it@14.2.0)
@@ -149,9 +152,6 @@ importers:
       '@types/mark.js':
         specifier: ^8.11.12
         version: 8.11.12
-      '@types/markdown-it-container':
-        specifier: ^4.0.0
-        version: 4.0.0
       '@types/minimist':
         specifier: ^1.2.5
         version: 1.2.5
@@ -206,9 +206,6 @@ importers:
       markdown-it-cjk-friendly:
         specifier: ^2.0.2
         version: 2.0.2(@types/markdown-it@14.1.2)(markdown-it@14.2.0)
-      markdown-it-container:
-        specifier: ^4.0.0
-        version: 4.0.0
       markdown-it-mathjax3:
         specifier: ^4.3.2
         version: 4.3.2
@@ -657,6 +654,15 @@ packages:
       markdown-it:
         optional: true
 
+  '@mdit/plugin-container@1.0.1':
+    resolution: {integrity: sha512-dT6eoqKxpWcsIHYPTNjIOq/pIzhv6LJTNXjfLSk847goQtlvMZ/Y+kRKH+wQGqDKmNwxDbEQfDbcoqhNXEjuhA==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      markdown-it: ^14.2.0
+    peerDependenciesMeta:
+      markdown-it:
+        optional: true
+
   '@mdit/plugin-emoji@1.1.0':
     resolution: {integrity: sha512-rdGhZ0OVhK0EhiVpw8v22BdTq7XZ6Adrcbq3hR2Cx/YwGnL+kSXFtcGOeJXphiSics7oNgpIKdNyl974z7Cj1A==}
     engines: {node: '>=22'}
@@ -1087,9 +1093,6 @@ packages:
 
   '@types/mark.js@8.11.12':
     resolution: {integrity: sha512-244ZnaIBpz4c6xutliAnYVZp6xJlmC569jZqnR3ElO1Y01ooYASSVQEqpd2x0A2UfrgVMs5V9/9tUAdZaDMytQ==}
-
-  '@types/markdown-it-container@4.0.0':
-    resolution: {integrity: sha512-GmD8OECLfzPHv8VyvFRzslqdwXoDBJ2H40fxXFjrarbqvJZSB/BJKZXN5e3k7Mx7GQanSNzTYhzeS3H9o0gAOw==}
 
   '@types/markdown-it@14.1.2':
     resolution: {integrity: sha512-promo4eFwuiW+TfGxhi+0x3czqTYJkG8qB17ZUJiVF10Xm7NLVRSLUsfRTU/6h1e24VvRnXCx+hG7li58lkzog==}
@@ -2073,9 +2076,6 @@ packages:
     peerDependenciesMeta:
       '@types/markdown-it':
         optional: true
-
-  markdown-it-container@4.0.0:
-    resolution: {integrity: sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==}
 
   markdown-it-mathjax3@4.3.2:
     resolution: {integrity: sha512-TX3GW5NjmupgFtMJGRauioMbbkGsOXAAt1DZ/rzzYmTHqzkO1rNAdiMD4NiruurToPApn2kYy76x02QN26qr2w==}
@@ -3268,6 +3268,12 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.2.0
 
+  '@mdit/plugin-container@1.0.1(markdown-it@14.2.0)':
+    dependencies:
+      '@types/markdown-it': 14.1.2
+    optionalDependencies:
+      markdown-it: 14.2.0
+
   '@mdit/plugin-emoji@1.1.0(markdown-it@14.2.0)':
     dependencies:
       '@types/markdown-it': 14.1.2
@@ -3580,10 +3586,6 @@ snapshots:
   '@types/mark.js@8.11.12':
     dependencies:
       '@types/jquery': 4.0.1
-
-  '@types/markdown-it-container@4.0.0':
-    dependencies:
-      '@types/markdown-it': 14.1.2
 
   '@types/markdown-it@14.1.2':
     dependencies:
@@ -4546,8 +4548,6 @@ snapshots:
       markdown-it: 14.2.0
     optionalDependencies:
       '@types/markdown-it': 14.1.2
-
-  markdown-it-container@4.0.0: {}
 
   markdown-it-mathjax3@4.3.2:
     dependencies:

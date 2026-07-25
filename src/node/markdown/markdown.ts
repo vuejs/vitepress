@@ -36,8 +36,11 @@ import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
 import type { Awaitable } from '../shared'
-import { containerPlugin, type ContainerOptions } from './plugins/containers'
-import { gitHubAlertsPlugin } from './plugins/githubAlerts'
+import {
+  containerPlugin,
+  gitHubAlertsPlugin,
+  type ContainerOptions
+} from './plugins/containers'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -354,7 +357,7 @@ export async function createMarkdownRenderer(
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir)
   }
-  containerPlugin(md, options.container)
+  containerPlugin(md, options.container, options.attrs !== false)
   if (options.gfmAlerts !== false) {
     gitHubAlertsPlugin(md, options.container)
   }
