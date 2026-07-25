@@ -45,6 +45,7 @@ export default defineConfig({
 
   markdown: {
     math: true,
+    codeCopyButtonTitle: 'Copy code',
     codeTransformers: [
       // We use `[!!code` and `@@include` in demo to prevent transformation,
       // here we revert it back.
@@ -57,35 +58,6 @@ export default defineConfig({
       }
     ],
     config(md) {
-      // TODO: remove when https://github.com/vuejs/vitepress/issues/4431 is fixed
-      const fence = md.renderer.rules.fence!
-      md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-        const { localeIndex = 'root' } = env
-        const codeCopyButtonTitle = (() => {
-          switch (localeIndex) {
-            case 'es':
-              return 'Copiar código'
-            case 'fa':
-              return 'کپی کد'
-            case 'ko':
-              return '코드 복사'
-            case 'pt':
-              return 'Copiar código'
-            case 'ru':
-              return 'Скопировать код'
-            case 'zh':
-              return '复制代码'
-            case 'ja':
-              return 'コードをコピー'
-            default:
-              return 'Copy code'
-          }
-        })()
-        return fence(tokens, idx, options, env, self).replace(
-          '<button title="Copy Code" class="copy"></button>',
-          `<button title="${codeCopyButtonTitle}" class="copy"></button>`
-        )
-      }
       md.use(groupIconMdPlugin)
     }
   },
