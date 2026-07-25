@@ -35,7 +35,12 @@ import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
-import type { Awaitable, LocaleConfig, MarkdownLocaleOptions } from '../shared'
+import type {
+  Awaitable,
+  CodeCopyButtonOptions,
+  LocaleConfig,
+  MarkdownLocaleOptions
+} from '../shared'
 import {
   containerPlugin,
   gitHubAlertsPlugin,
@@ -176,10 +181,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   preWrapper?: boolean
   /**
-   * The tooltip text for the copy button in code blocks.
-   * @default 'Copy Code'
+   * Strings for the copy button in code blocks: `tooltipText` is the
+   * button's tooltip and `copiedText` is shown next to it after copying.
+   * @default { tooltipText: 'Copy code', copiedText: 'Copied' }
    */
-  codeCopyButtonTitle?: string
+  codeCopyButton?: CodeCopyButtonOptions
   /**
    * Custom language labels for display.
    * Overrides the default language label shown in code blocks.
@@ -349,7 +355,10 @@ export async function createMarkdownRenderer(
   publicDir ??= path.resolve(srcDir, 'public')
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
-  const codeCopyButtonTitle = options.codeCopyButtonTitle || 'Copy Code'
+  const codeCopyButton = {
+    tooltipText: options.codeCopyButton?.tooltipText || 'Copy code',
+    copiedText: options.codeCopyButton?.copiedText || 'Copied'
+  }
 
   const [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
@@ -372,7 +381,7 @@ export async function createMarkdownRenderer(
   // VitePress customizations
   if (options.preWrapper !== false) {
     preWrapperPlugin(md, {
-      codeCopyButtonTitle,
+      codeCopyButton,
       languageLabel: options.languageLabel,
       locales: options.locales
     })

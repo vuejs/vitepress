@@ -10,6 +10,7 @@ export type {
   AdditionalConfigDict,
   AdditionalConfigLoader,
   Awaitable,
+  CodeCopyButtonOptions,
   ContainerOptions,
   DefaultTheme,
   HeadConfig,

@@ -91,7 +91,7 @@ describe('node/markdown/plugins/containers', () => {
       <p>content</p>
       </div>
       <details  class="details custom-block"><summary>Click me to toggle the code</summary>
-      <div class="language-js"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
+      <div class="language-js"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
       </code></pre>
       </div></details>
       "
@@ -273,9 +273,9 @@ describe('node/markdown/plugins/containers', () => {
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
       "<div class="vp-code-group"><div class="tabs"><input type="radio" name="group-0" id="tab-1" checked><label data-title="config.js" for="tab-1">config.js</label><input type="radio" name="group-0" id="tab-2" ><label data-title="config.ts" for="tab-2">config.ts</label></div><div class="blocks">
-      <div class="language-js active"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js active"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
       </code></pre>
-      </div><div class="language-ts"><button title="Copy Code" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
+      </div><div class="language-ts"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
       </code></pre>
       </div></div></div>
       "
@@ -435,7 +435,7 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
       <ul>
       <li>list item</li>
       </ul>
-      <div class="language-js"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
       </code></pre>
       </div></div>
       "
@@ -569,18 +569,24 @@ describe('node/markdown/plugins/containers (locales)', () => {
     ).rejects.toThrow('is not registered in the root markdown config')
   })
 
-  test('resolves the code copy button title for the active locale', async () => {
+  test('resolves the code copy button strings for the active locale', async () => {
     const src = '```js\nconst a = 1\n```'
     const opts: MarkdownOptions = {
-      codeCopyButtonTitle: 'Copy Code',
-      locales: { zh: { codeCopyButtonTitle: '复制代码' } }
+      codeCopyButton: { copiedText: 'Copied!' },
+      locales: {
+        zh: {
+          codeCopyButton: { tooltipText: '复制代码', copiedText: '已复制' }
+        }
+      }
     }
-    expect(await render(src, opts, { localeIndex: 'zh' })).toContain(
-      'title="复制代码"'
-    )
-    expect(await render(src, opts, { localeIndex: 'es' })).toContain(
-      'title="Copy Code"'
-    )
-    expect(await render(src, opts)).toContain('title="Copy Code"')
+    const zh = await render(src, opts, { localeIndex: 'zh' })
+    expect(zh).toContain('title="复制代码"')
+    expect(zh).toContain('data-copied="已复制"')
+    const es = await render(src, opts, { localeIndex: 'es' })
+    expect(es).toContain('title="Copy code"')
+    expect(es).toContain('data-copied="Copied!"')
+    const root = await render(src, opts)
+    expect(root).toContain('title="Copy code"')
+    expect(root).toContain('data-copied="Copied!"')
   })
 })

@@ -230,6 +230,19 @@ export interface ContainerOptions {
   customContainers?: Record<string, string>
 }
 
+export interface CodeCopyButtonOptions {
+  /**
+   * The tooltip (`title` attribute) of the copy button in code blocks.
+   * @default 'Copy code'
+   */
+  tooltipText?: string
+  /**
+   * The text shown next to the copy button after copying.
+   * @default 'Copied'
+   */
+  copiedText?: string
+}
+
 /**
  * Build-time markdown strings that can be overridden per locale. Set them
  * under `locales.<index>.markdown` in the site config; values fall back to
@@ -242,9 +255,9 @@ export interface MarkdownLocaleOptions {
    */
   container?: ContainerOptions
   /**
-   * Locale-specific tooltip text for the copy button in code blocks.
+   * Locale-specific strings for the copy button in code blocks.
    */
-  codeCopyButtonTitle?: string
+  codeCopyButton?: CodeCopyButtonOptions
 }
 
 export type LocaleConfig<ThemeConfig = any> = Record<
