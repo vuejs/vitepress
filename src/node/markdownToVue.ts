@@ -6,6 +6,7 @@ import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
+  mergeMarkdownLocales,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
@@ -94,7 +95,7 @@ export async function createMarkdownToVueRenderFn(
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
-    options,
+    mergeMarkdownLocales(options, siteConfig?.site.locales),
     base,
     siteConfig?.logger,
     siteConfig?.publicDir

@@ -4,7 +4,10 @@ import path from 'node:path'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
-import { createMarkdownRenderer } from './markdown/markdown'
+import {
+  createMarkdownRenderer,
+  mergeMarkdownLocales
+} from './markdown/markdown'
 import type { Awaitable } from './shared'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
@@ -102,7 +105,7 @@ export function createContentLoader<T = ContentData[]>(
 
       const md = await createMarkdownRenderer(
         config.srcDir,
-        config.markdown,
+        mergeMarkdownLocales(config.markdown, config.site.locales),
         config.site.base,
         config.logger,
         config.publicDir

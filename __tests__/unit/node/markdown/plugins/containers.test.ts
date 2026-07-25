@@ -3,14 +3,19 @@ import {
   disposeMdItInstance,
   type MarkdownOptions
 } from 'node/markdown/markdown'
+import type { MarkdownEnv } from 'node/shared'
 
-async function render(src: string, options: MarkdownOptions = {}) {
+async function render(
+  src: string,
+  options: MarkdownOptions = {},
+  env?: Partial<MarkdownEnv>
+) {
   disposeMdItInstance()
   const md = await createMarkdownRenderer('.', {
     highlight: (code) => code,
     ...options
   })
-  return md.renderAsync(src)
+  return md.renderAsync(src, env)
 }
 
 describe('node/markdown/plugins/containers', () => {
@@ -477,5 +482,105 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
       </blockquote>
       "
     `)
+  })
+})
+
+describe('node/markdown/plugins/containers (locales)', () => {
+  const options: MarkdownOptions = {
+    container: {
+      tipLabel: 'ROOT TIP',
+      customContainers: { success: 'SUCCESS' }
+    },
+    locales: {
+      zh: {
+        container: {
+          tipLabel: '提示',
+          detailsLabel: '详细信息',
+          customContainers: { success: '成功' }
+        }
+      }
+    }
+  }
+
+  test('resolves container titles for the active locale', async () => {
+    const src =
+      '::: tip\n内容\n:::\n\n::: details\n内容\n:::\n\n::: success\n内容\n:::'
+    expect(await render(src, options, { localeIndex: 'zh' }))
+      .toMatchInlineSnapshot(`
+        "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">提示</p>
+        <p>内容</p>
+        </div>
+        <details  class="details custom-block"><summary>详细信息</summary>
+        <p>内容</p>
+        </details>
+        <div  class="success custom-block"><p class="custom-block-title custom-block-title-default">成功</p>
+        <p>内容</p>
+        </div>
+        "
+      `)
+  })
+
+  test('falls back to root titles for other locales', async () => {
+    const src = '::: tip\ncontent\n:::'
+    const root = await render(src, options)
+    expect(await render(src, options, { localeIndex: 'es' })).toBe(root)
+    expect(root).toMatchInlineSnapshot(`
+      "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">ROOT TIP</p>
+      <p>content</p>
+      </div>
+      "
+    `)
+  })
+
+  test('explicit titles win over locale defaults', async () => {
+    expect(
+      await render('::: tip Custom Title\n内容\n:::', options, {
+        localeIndex: 'zh'
+      })
+    ).toMatchInlineSnapshot(`
+      "<div  class="tip custom-block"><p class="custom-block-title">Custom Title</p>
+      <p>内容</p>
+      </div>
+      "
+    `)
+  })
+
+  test('resolves alert titles for the active locale', async () => {
+    expect(
+      await render('> [!TIP]\n> 内容\n\n> [!SUCCESS]\n> 内容', options, {
+        localeIndex: 'zh'
+      })
+    ).toMatchInlineSnapshot(`
+      "<div class="tip custom-block github-alert"><p class="custom-block-title">提示</p>
+      <p>内容</p>
+      </div>
+      <div class="success custom-block github-alert"><p class="custom-block-title">成功</p>
+      <p>内容</p>
+      </div>
+      "
+    `)
+  })
+
+  test('rejects locale titles for unregistered containers', async () => {
+    await expect(
+      render('text', {
+        locales: { zh: { container: { customContainers: { nope: 'X' } } } }
+      })
+    ).rejects.toThrow('is not registered in the root markdown config')
+  })
+
+  test('resolves the code copy button title for the active locale', async () => {
+    const src = '```js\nconst a = 1\n```'
+    const opts: MarkdownOptions = {
+      codeCopyButtonTitle: 'Copy Code',
+      locales: { zh: { codeCopyButtonTitle: '复制代码' } }
+    }
+    expect(await render(src, opts, { localeIndex: 'zh' })).toContain(
+      'title="复制代码"'
+    )
+    expect(await render(src, opts, { localeIndex: 'es' })).toContain(
+      'title="Copy Code"'
+    )
+    expect(await render(src, opts)).toContain('title="Copy Code"')
   })
 })

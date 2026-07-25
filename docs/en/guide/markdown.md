@@ -243,6 +243,8 @@ export default defineConfig({
 })
 ```
 
+On multilingual sites, these labels can also be overridden per locale - see [Per-locale Markdown Strings](./i18n#per-locale-markdown-strings).
+
 ### Registering New Containers
 
 Beyond the built-in types, you can register additional containers by mapping their names to their default titles:

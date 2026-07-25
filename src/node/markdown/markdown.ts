@@ -35,7 +35,7 @@ import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import path from 'node:path'
 import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
 import type { Logger } from 'vite'
-import type { Awaitable } from '../shared'
+import type { Awaitable, LocaleConfig, MarkdownLocaleOptions } from '../shared'
 import {
   containerPlugin,
   gitHubAlertsPlugin,
@@ -91,6 +91,13 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @default { target: '_blank', rel: 'noreferrer' }
    */
   externalLinks?: Record<string, string>
+  /**
+   * Per-locale overrides for build-time markdown strings (container titles
+   * and the code copy button title), keyed by locale index. Populated
+   * automatically from `locales.<index>.markdown` in the site config - pass
+   * directly only when using `createMarkdownRenderer` standalone.
+   */
+  locales?: Record<string, MarkdownLocaleOptions>
 
   /* ==================== Syntax Highlighting ==================== */
 
@@ -298,6 +305,22 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
 
 export type MarkdownRenderer = MarkdownItAsync
 
+// folds `locales.<index>.markdown` entries from the site config into
+// `MarkdownOptions.locales` so per-locale strings reach the renderer -
+// site config entries win over directly passed ones
+export function mergeMarkdownLocales(
+  options: MarkdownOptions = {},
+  locales?: LocaleConfig
+): MarkdownOptions {
+  const entries = Object.entries(locales ?? {}).filter(([, l]) => l?.markdown)
+  if (!entries.length) return options
+  const merged = { ...options.locales }
+  for (const [index, { markdown }] of entries) {
+    merged[index] = { ...merged[index], ...markdown }
+  }
+  return { ...options, locales: merged }
+}
+
 // highlight is marked as any to avoid type conflicts with plugins expecting
 // regular markdown-it which has sync highlight function. Such plugins will fail
 // if they access highlight directly but currently none of the ones we use do that.
@@ -350,7 +373,8 @@ export async function createMarkdownRenderer(
   if (options.preWrapper !== false) {
     preWrapperPlugin(md, {
       codeCopyButtonTitle,
-      languageLabel: options.languageLabel
+      languageLabel: options.languageLabel,
+      locales: options.locales
     })
     // must be applied after preWrapper as it augments its output
     lineNumberPlugin(md, options.lineNumbers)
@@ -358,9 +382,12 @@ export async function createMarkdownRenderer(
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir)
   }
-  containerPlugin(md, options.container, options.attrs !== false)
+  containerPlugin(md, options.container, {
+    attrs: options.attrs !== false,
+    locales: options.locales
+  })
   if (options.gfmAlerts !== false) {
-    gitHubAlertsPlugin(md, options.container)
+    gitHubAlertsPlugin(md, options.container, { locales: options.locales })
   }
   if (options.image !== false) {
     imagePlugin(md, publicDir, normalizePluginOptions(options.image))
