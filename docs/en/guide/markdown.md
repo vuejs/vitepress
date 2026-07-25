@@ -243,6 +243,47 @@ export default defineConfig({
 })
 ```
 
+### Registering New Containers
+
+Beyond the built-in types, you can register additional containers by mapping their names to their default titles:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      customContainers: {
+        success: 'SUCCESS'
+      }
+    }
+  }
+  // ...
+})
+```
+
+Registered names work like the built-in ones - including custom titles, attributes, and the [GitHub-style alert syntax](#github-flavored-alerts):
+
+```md
+::: success
+You have completed the walkthrough!
+:::
+
+> [!SUCCESS] Custom title
+> This renders the same way.
+```
+
+New containers ship without any styling, so add some in your theme using the container name as the class. For this example, the default theme's palette already provides fitting colors:
+
+```css
+/* .vitepress/theme/custom.css */
+.custom-block.success {
+  border-color: transparent;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-success-soft);
+}
+```
+
 ### Nesting
 
 The `:::` markers follow the same rules as fenced code blocks (` ``` `): a fence is only closed by a matching fence that is **at least as long** as the one that opened it. To nest containers (or to mix them with [code groups](#code-groups)) make the outer fence longer than the ones inside it.
@@ -351,7 +392,7 @@ Wraps in a `<div class="vp-raw">`
 
 ## GitHub-flavored Alerts
 
-VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers).
+VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers). Unlike on GitHub, text placed right after the marker becomes the title of the alert (`> [!NOTE] Custom Title`), and [containers you registered yourself](#registering-new-containers) work here too.
 
 ```md
 > [!NOTE]
