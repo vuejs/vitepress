@@ -71,8 +71,11 @@ function createOpenRender(
     const token = tokens[idx]
     let info = token.info.trim().slice(name.length).trim()
     if (attrs) info = applyFenceAttrs(token, info)
+    // details always needs its summary, so no-title is ignored there
+    const noTitle = attrPop(token, 'no-title') === '' && name !== 'details'
     token.attrJoin('class', `${name} custom-block`)
     const renderedAttrs = md.renderer.renderAttrs(token)
+    if (noTitle) return `<div ${renderedAttrs}>\n`
     const title = md.renderInline(info || defaultTitle, {
       references: env.references
     })
@@ -82,6 +85,12 @@ function createOpenRender(
       'custom-block-title' + (info ? '' : ' custom-block-title-default')
     return `<div ${renderedAttrs}><p class="${titleClass}">${title}</p>\n`
   }
+}
+
+function attrPop(token: Token, name: string): string | null {
+  const idx = token.attrIndex(name)
+  if (idx < 0) return null
+  return token.attrs!.splice(idx, 1)[0][1]
 }
 
 // `::: tip Title {#id .class key="value" bare}` - the attrs plugin only

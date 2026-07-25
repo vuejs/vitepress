@@ -157,6 +157,34 @@ describe('node/markdown/plugins/containers', () => {
     `)
   })
 
+  test('skips the title element with a no-title attr', async () => {
+    const src = [
+      '::: tip {no-title}',
+      'content',
+      ':::',
+      '',
+      '::: warning Discarded {no-title .extra-class}',
+      'content',
+      ':::',
+      '',
+      '::: details {no-title}',
+      'still needs its summary',
+      ':::'
+    ].join('\n')
+    expect(await render(src)).toMatchInlineSnapshot(`
+      "<div  class="tip custom-block">
+      <p>content</p>
+      </div>
+      <div  class="extra-class warning custom-block">
+      <p>content</p>
+      </div>
+      <details  class="details custom-block"><summary>Details</summary>
+      <p>still needs its summary</p>
+      </details>
+      "
+    `)
+  })
+
   test('keeps fence line braces verbatim when attrs are disabled', async () => {
     expect(
       await render('::: details Click me {open}\ncontent\n:::', {

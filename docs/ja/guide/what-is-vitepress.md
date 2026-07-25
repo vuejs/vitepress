@@ -6,11 +6,9 @@ description: VitePressはViteとVueを基盤とした、高速でコンテンツ
 
 VitePress は、高速でコンテンツ中心の Web サイトを構築するための [静的サイトジェネレーター（SSG）](https://en.wikipedia.org/wiki/Static_site_generator) です。要するに、VitePress は [Markdown](https://en.wikipedia.org/wiki/Markdown) で書かれたソースコンテンツにテーマを適用し、どこにでも簡単にデプロイできる静的 HTML ページを生成します。
 
-<div class="tip custom-block" style="padding-top: 8px">
-
+::: tip {no-title}
 まずは試してみたい？ [クイックスタート](./getting-started) へどうぞ。
-
-</div>
+:::
 
 ## ユースケース {#use-cases}
 
