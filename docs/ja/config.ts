@@ -8,8 +8,6 @@ import {
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
-// imported by the root config - locale markdown strings cannot be
-// applied from additional config files
 export const markdown: MarkdownLocaleOptions = {
   container: {
     tipLabel: 'ヒント',
