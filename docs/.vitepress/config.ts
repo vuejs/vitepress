@@ -45,7 +45,6 @@ export default defineConfig({
 
   markdown: {
     math: true,
-    codeCopyButtonTitle: 'Copy code',
     codeTransformers: [
       // We use `[!!code` and `@@include` in demo to prevent transformation,
       // here we revert it back.

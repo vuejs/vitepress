@@ -365,7 +365,6 @@
   --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
   --vp-code-copy-code-hover-bg: var(--vp-c-bg);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
-  --vp-code-copy-copied-text-content: 'Copied';
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);
   --vp-code-tab-text-color: var(--vp-c-text-2);
@@ -373,26 +372,6 @@
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
-}
-
-:lang(es),
-:lang(pt) {
-  --vp-code-copy-copied-text-content: 'Copiado';
-}
-:lang(fa) {
-  --vp-code-copy-copied-text-content: 'کپی شد';
-}
-:lang(ja) {
-  --vp-code-copy-copied-text-content: 'コピー完了';
-}
-:lang(ko) {
-  --vp-code-copy-copied-text-content: '복사됨';
-}
-:lang(ru) {
-  --vp-code-copy-copied-text-content: 'Скопировано';
-}
-:lang(zh) {
-  --vp-code-copy-copied-text-content: '已复制';
 }
 
 /**
