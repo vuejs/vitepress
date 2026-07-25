@@ -1,8 +1,13 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
+import type { MarkdownEnv, MarkdownLocaleOptions } from '../../shared'
 
 export interface Options {
   codeCopyButtonTitle: string
   languageLabel?: Record<string, string>
+  /**
+   * Per-locale overrides for the copy button title, keyed by locale index.
+   */
+  locales?: Record<string, MarkdownLocaleOptions | undefined>
 }
 
 export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
@@ -13,7 +18,7 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
 
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx] = args
+    const [tokens, idx, , env] = args
     const token = tokens[idx]
 
     // remove title from info
@@ -25,9 +30,14 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     const lang = extractLang(token.info)
     const label = langLabel[lang.toLowerCase()] || lang.replace(/_/g, ' ')
 
+    const { localeIndex } = (env ?? {}) as MarkdownEnv
+    const codeCopyButtonTitle =
+      (localeIndex && options.locales?.[localeIndex]?.codeCopyButtonTitle) ||
+      options.codeCopyButtonTitle
+
     return (
       `<div class="language-${lang}${active}">` +
-      `<button title="${options.codeCopyButtonTitle}" class="copy"></button>` +
+      `<button title="${codeCopyButtonTitle}" class="copy"></button>` +
       `<span class="lang">${label}</span>` +
       fence(...args) +
       '</div>'

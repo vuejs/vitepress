@@ -208,9 +208,52 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
   themeConfig?: DeepPartial<ThemeConfig>
 }
 
+export interface ContainerOptions {
+  infoLabel?: string
+  noteLabel?: string
+  tipLabel?: string
+  warningLabel?: string
+  dangerLabel?: string
+  detailsLabel?: string
+  importantLabel?: string
+  cautionLabel?: string
+  /**
+   * Additional containers to register, mapping the container name to its
+   * default title. Registered names work both as `::: name` blocks and as
+   * GitHub-style alerts (`> [!NAME]`), and are styleable in the theme via
+   * `.custom-block.name`. Names must be lowercase and may only contain
+   * letters, numbers, hyphens, and underscores.
+   *
+   * In locale-specific overrides only the titles of containers registered
+   * at the root level can be changed - new names cannot be added there.
+   */
+  customContainers?: Record<string, string>
+}
+
+/**
+ * Build-time markdown strings that can be overridden per locale. Set them
+ * under `locales.<index>.markdown` in the site config; values fall back to
+ * the root `markdown` options when a locale leaves them unset.
+ */
+export interface MarkdownLocaleOptions {
+  /**
+   * Locale-specific labels for containers (`::: tip` etc.) and
+   * GitHub-flavored alerts.
+   */
+  container?: ContainerOptions
+  /**
+   * Locale-specific tooltip text for the copy button in code blocks.
+   */
+  codeCopyButtonTitle?: string
+}
+
 export type LocaleConfig<ThemeConfig = any> = Record<
   string,
-  LocaleSpecificConfig<ThemeConfig> & { label: string; link?: string }
+  LocaleSpecificConfig<ThemeConfig> & {
+    label: string
+    link?: string
+    markdown?: MarkdownLocaleOptions
+  }
 >
 
 export type AdditionalConfig<ThemeConfig = any> =

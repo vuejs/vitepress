@@ -10,12 +10,14 @@ export type {
   AdditionalConfigDict,
   AdditionalConfigLoader,
   Awaitable,
+  ContainerOptions,
   DefaultTheme,
   HeadConfig,
   Header,
   LocaleConfig,
   LocaleSpecificConfig,
   MarkdownEnv,
+  MarkdownLocaleOptions,
   PageData,
   PageDataPayload,
   Route,
@@ -109,7 +111,8 @@ export function resolveSiteDataByRoute(
   relativePath: string
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
-  const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
+  const { label, link, markdown, ...localeConfig } =
+    siteData.locales[localeIndex] ?? {}
   Object.assign(localeConfig, { localeIndex })
 
   const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)

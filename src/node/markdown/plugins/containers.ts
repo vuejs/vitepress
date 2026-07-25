@@ -2,32 +2,31 @@ import { container } from '@mdit/plugin-container'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
-import type { MarkdownEnv } from '../../shared'
+import type {
+  ContainerOptions,
+  MarkdownEnv,
+  MarkdownLocaleOptions
+} from '../../shared'
 import { extractTitle } from './preWrapper'
 
-export interface ContainerOptions {
-  infoLabel?: string
-  noteLabel?: string
-  tipLabel?: string
-  warningLabel?: string
-  dangerLabel?: string
-  detailsLabel?: string
-  importantLabel?: string
-  cautionLabel?: string
+export type { ContainerOptions } from '../../shared'
+
+export interface ContainerPluginOptions {
   /**
-   * Additional containers to register, mapping the container name to its
-   * default title. Registered names work both as `::: name` blocks and as
-   * GitHub-style alerts (`> [!NAME]`), and are styleable in the theme via
-   * `.custom-block.name`. Names must be lowercase and may only contain
-   * letters, numbers, hyphens, and underscores.
+   * Whether fence-line `{...}` attributes are parsed. Mirrors the state of
+   * the `markdown.attrs` option.
    */
-  customContainers?: Record<string, string>
+  attrs?: boolean
+  /**
+   * Per-locale overrides for container titles, keyed by locale index.
+   */
+  locales?: Record<string, MarkdownLocaleOptions | undefined>
 }
 
 export const containerPlugin = (
   md: MarkdownItAsync,
   options?: ContainerOptions,
-  attrs = true
+  { attrs = true, locales }: ContainerPluginOptions = {}
 ) => {
   md
     // explicitly escape Vue syntax
@@ -47,25 +46,47 @@ export const containerPlugin = (
       closeRender: () => `</div></div>\n`
     })
 
-  for (const [name, defaultTitle] of Object.entries(resolveTitles(options))) {
+  const titles = resolveTitlesByLocale(options, locales)
+
+  for (const name of Object.keys(titles.base)) {
     md.use(container, {
       name,
-      openRender: createOpenRender(md, name, defaultTitle, attrs),
+      openRender: createOpenRender(md, name, titles, attrs),
       closeRender: () => (name === 'details' ? `</details>\n` : `</div>\n`)
     })
   }
 }
 
-function resolveTitles(options?: ContainerOptions): Record<string, string> {
-  const titles: Record<string, string> = {
-    tip: options?.tipLabel || 'TIP',
-    info: options?.infoLabel || 'INFO',
-    warning: options?.warningLabel || 'WARNING',
-    danger: options?.dangerLabel || 'DANGER',
-    details: options?.detailsLabel || 'Details',
-    note: options?.noteLabel || 'NOTE',
-    important: options?.importantLabel || 'IMPORTANT',
-    caution: options?.cautionLabel || 'CAUTION'
+interface LocaleTitles {
+  base: Record<string, string>
+  byLocale: Record<string, Record<string, string>>
+}
+
+function titlesFor(
+  titles: LocaleTitles,
+  localeIndex: string | undefined
+): Record<string, string> {
+  return (localeIndex && titles.byLocale[localeIndex]) || titles.base
+}
+
+const containerLabels = [
+  ['tip', 'tipLabel', 'TIP'],
+  ['info', 'infoLabel', 'INFO'],
+  ['warning', 'warningLabel', 'WARNING'],
+  ['danger', 'dangerLabel', 'DANGER'],
+  ['details', 'detailsLabel', 'Details'],
+  ['note', 'noteLabel', 'NOTE'],
+  ['important', 'importantLabel', 'IMPORTANT'],
+  ['caution', 'cautionLabel', 'CAUTION']
+] as const
+
+function resolveTitlesByLocale(
+  options?: ContainerOptions,
+  locales?: Record<string, MarkdownLocaleOptions | undefined>
+): LocaleTitles {
+  const base: Record<string, string> = {}
+  for (const [name, key, defaultTitle] of containerLabels) {
+    base[name] = options?.[key] || defaultTitle
   }
   for (const [name, title] of Object.entries(options?.customContainers ?? {})) {
     if (
@@ -76,15 +97,38 @@ function resolveTitles(options?: ContainerOptions): Record<string, string> {
         `Invalid custom container name: "${name}". Names must be lowercase ` +
           `([a-z0-9_-]) and cannot be "v-pre", "raw", or "code-group".`
       )
-    titles[name] = title
+    base[name] = title
   }
-  return titles
+
+  const byLocale: Record<string, Record<string, string>> = {}
+  for (const [localeIndex, localeOptions] of Object.entries(locales ?? {})) {
+    const overrides = localeOptions?.container
+    if (!overrides) continue
+    const titles = { ...base }
+    for (const [name, key] of containerLabels) {
+      if (overrides[key]) titles[name] = overrides[key]
+    }
+    for (const [name, title] of Object.entries(
+      overrides.customContainers ?? {}
+    )) {
+      if (!Object.hasOwn(base, name))
+        throw new Error(
+          `Custom container "${name}" in locale "${localeIndex}" is not ` +
+            `registered in the root markdown config. Locales can only ` +
+            `override titles of existing containers.`
+        )
+      titles[name] = title
+    }
+    byLocale[localeIndex] = titles
+  }
+
+  return { base, byLocale }
 }
 
 function createOpenRender(
   md: MarkdownItAsync,
   name: string,
-  defaultTitle: string,
+  titles: LocaleTitles,
   attrs: boolean
 ): RenderRule {
   return (tokens, idx, _options, env: MarkdownEnv & { references?: any }) => {
@@ -96,9 +140,10 @@ function createOpenRender(
     token.attrJoin('class', `${name} custom-block`)
     const renderedAttrs = md.renderer.renderAttrs(token)
     if (noTitle) return `<div ${renderedAttrs}>\n`
-    const title = md.renderInline(info || defaultTitle, {
-      references: env.references
-    })
+    const title = md.renderInline(
+      info || titlesFor(titles, env.localeIndex)[name],
+      { references: env.references }
+    )
     if (name === 'details')
       return `<details ${renderedAttrs}><summary>${title}</summary>\n`
     const titleClass =
@@ -172,11 +217,10 @@ const alertMarkerRE = /^\[!([\w-]+)\]([^\n\r]*)/
 
 export const gitHubAlertsPlugin = (
   md: MarkdownItAsync,
-  options?: ContainerOptions
+  options?: ContainerOptions,
+  { locales }: Pick<ContainerPluginOptions, 'locales'> = {}
 ) => {
-  const titles = resolveTitles(options)
-  // details makes no sense as a blockquote-style alert
-  delete titles.details
+  const titles = resolveTitlesByLocale(options, locales)
 
   md.core.ruler.after('block', 'github-alerts', (state) => {
     const tokens = state.tokens
@@ -200,8 +244,11 @@ export const gitHubAlertsPlugin = (
         const match = firstContent.content.match(alertMarkerRE)
         if (!match) continue
         const type = match[1].toLowerCase()
-        if (!Object.hasOwn(titles, type)) continue
-        const title = match[2].trim() || titles[type]
+        // details makes no sense as a blockquote-style alert
+        if (type === 'details' || !Object.hasOwn(titles.base, type)) continue
+        const title =
+          match[2].trim() ||
+          titlesFor(titles, (state.env as MarkdownEnv)?.localeIndex)[type]
         firstContent.content = firstContent.content
           .slice(match[0].length)
           .trimStart()

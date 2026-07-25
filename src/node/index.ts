@@ -17,4 +17,9 @@ export * from './server'
 export * from './utils/getGitTimestamp'
 
 // shared types
-export type { HeadConfig, Header, SiteData } from '../../types/shared'
+export type {
+  HeadConfig,
+  Header,
+  MarkdownLocaleOptions,
+  SiteData
+} from '../../types/shared'
