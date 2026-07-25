@@ -295,6 +295,22 @@ console.log('Hello, VitePress!')
 ```
 :::
 
+The special `no-title` attribute renders a container without a title element (it has no effect on `details`, which always needs its summary):
+
+**Input**
+
+```md
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+:::
+```
+
+**Output**
+
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+:::
+
 ### `raw`
 
 This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
