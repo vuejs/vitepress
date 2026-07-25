@@ -9,6 +9,13 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
+import { markdown as esMarkdown } from '../es/config'
+import { markdown as faMarkdown } from '../fa/config'
+import { markdown as jaMarkdown } from '../ja/config'
+import { markdown as koMarkdown } from '../ko/config'
+import { markdown as ptMarkdown } from '../pt/config'
+import { markdown as ruMarkdown } from '../ru/config'
+import { markdown as zhMarkdown } from '../zh/config'
 
 const prod = !!process.env.NETLIFY
 const siteUrl = 'https://vitepress.dev'
@@ -121,15 +128,16 @@ export default defineConfig({
     carbonAds: { code: 'CEBDT27Y', placement: 'vuejsorg' }
   },
 
+  // prettier-ignore
   locales: {
     root: { label: 'English', lang: 'en-US', dir: 'ltr' },
-    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr' },
-    pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr' },
-    ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr' },
-    es: { label: 'Español', lang: 'es', dir: 'ltr' },
-    ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr' },
-    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl' },
-    ja: { label: '日本語', lang: 'ja', dir: 'ltr' }
+    zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr', markdown: zhMarkdown },
+    pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr', markdown: ptMarkdown },
+    ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr', markdown: ruMarkdown },
+    es: { label: 'Español', lang: 'es', dir: 'ltr', markdown: esMarkdown },
+    ko: { label: '한국어', lang: 'ko-KR', dir: 'ltr', markdown: koMarkdown },
+    fa: { label: 'فارسی', lang: 'fa-IR', dir: 'rtl', markdown: faMarkdown },
+    ja: { label: '日本語', lang: 'ja', dir: 'ltr', markdown: jaMarkdown }
   },
 
   vite: {

@@ -1,8 +1,28 @@
 import { createRequire } from 'node:module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+// imported by the root config - locale markdown strings cannot be
+// applied from additional config files
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'СОВЕТ',
+    infoLabel: 'ИНФОРМАЦИЯ',
+    warningLabel: 'ПРЕДУПРЕЖДЕНИЕ',
+    dangerLabel: 'ОПАСНОСТЬ',
+    detailsLabel: 'Подробная информация',
+    noteLabel: 'ЗАМЕТКА',
+    importantLabel: 'ВАЖНО',
+    cautionLabel: 'ВНИМАНИЕ'
+  },
+  codeCopyButtonTitle: 'Скопировать код'
+}
 
 export default defineAdditionalConfig({
   description: 'Генератор статических сайтов на основе Vite и Vue.',
