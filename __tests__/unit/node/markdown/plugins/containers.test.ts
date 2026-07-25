@@ -126,6 +126,39 @@ describe('node/markdown/plugins/containers', () => {
     `)
   })
 
+  test('registers custom containers from container options', async () => {
+    const src = [
+      '::: success',
+      'You have completed the walkthrough!',
+      ':::',
+      '',
+      '::: success Well done {no-title}',
+      'content',
+      ':::'
+    ].join('\n')
+    expect(
+      await render(src, {
+        container: { customContainers: { success: 'SUCCESS' } }
+      })
+    ).toMatchInlineSnapshot(`
+      "<div  class="success custom-block"><p class="custom-block-title custom-block-title-default">SUCCESS</p>
+      <p>You have completed the walkthrough!</p>
+      </div>
+      <div  class="success custom-block">
+      <p>content</p>
+      </div>
+      "
+    `)
+  })
+
+  test('rejects invalid custom container names', async () => {
+    for (const name of ['raw', 'v-pre', 'code-group', 'Bad Name', 'UPPER']) {
+      await expect(
+        render('text', { container: { customContainers: { [name]: 'X' } } })
+      ).rejects.toThrow('Invalid custom container name')
+    }
+  })
+
   test('supports attrs on the fence line', async () => {
     const src = [
       '::: details Click me {open}',
@@ -357,6 +390,22 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
     ).toMatchInlineSnapshot(`
       "<div class="tip custom-block github-alert"><p class="custom-block-title">提示</p>
       <p>content</p>
+      </div>
+      "
+    `)
+  })
+
+  test('renders custom containers as alerts', async () => {
+    expect(
+      await render('> [!SUCCESS]\n> done\n\n> [!success] With title\n> done', {
+        container: { customContainers: { success: 'SUCCESS' } }
+      })
+    ).toMatchInlineSnapshot(`
+      "<div class="success custom-block github-alert"><p class="custom-block-title">SUCCESS</p>
+      <p>done</p>
+      </div>
+      <div class="success custom-block github-alert"><p class="custom-block-title">With title</p>
+      <p>done</p>
       </div>
       "
     `)

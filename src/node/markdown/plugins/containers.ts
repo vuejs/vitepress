@@ -14,6 +14,14 @@ export interface ContainerOptions {
   detailsLabel?: string
   importantLabel?: string
   cautionLabel?: string
+  /**
+   * Additional containers to register, mapping the container name to its
+   * default title. Registered names work both as `::: name` blocks and as
+   * GitHub-style alerts (`> [!NAME]`), and are styleable in the theme via
+   * `.custom-block.name`. Names must be lowercase and may only contain
+   * letters, numbers, hyphens, and underscores.
+   */
+  customContainers?: Record<string, string>
 }
 
 export const containerPlugin = (
@@ -49,7 +57,7 @@ export const containerPlugin = (
 }
 
 function resolveTitles(options?: ContainerOptions): Record<string, string> {
-  return {
+  const titles: Record<string, string> = {
     tip: options?.tipLabel || 'TIP',
     info: options?.infoLabel || 'INFO',
     warning: options?.warningLabel || 'WARNING',
@@ -59,6 +67,18 @@ function resolveTitles(options?: ContainerOptions): Record<string, string> {
     important: options?.importantLabel || 'IMPORTANT',
     caution: options?.cautionLabel || 'CAUTION'
   }
+  for (const [name, title] of Object.entries(options?.customContainers ?? {})) {
+    if (
+      !/^[a-z0-9_-]+$/.test(name) ||
+      ['v-pre', 'raw', 'code-group'].includes(name)
+    )
+      throw new Error(
+        `Invalid custom container name: "${name}". Names must be lowercase ` +
+          `([a-z0-9_-]) and cannot be "v-pre", "raw", or "code-group".`
+      )
+    titles[name] = title
+  }
+  return titles
 }
 
 function createOpenRender(

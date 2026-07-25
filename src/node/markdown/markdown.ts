@@ -251,8 +251,9 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   math?: boolean | any
   /**
-   * Custom labels for the built-in containers (`::: tip` etc.). Also used
-   * as the default titles of GitHub-flavored alerts.
+   * Custom labels for the built-in containers (`::: tip` etc.) and
+   * additional user-defined containers. Labels are also used as the
+   * default titles of GitHub-flavored alerts.
    * @see https://vitepress.dev/guide/markdown#custom-containers
    */
   container?: ContainerOptions
