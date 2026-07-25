@@ -382,6 +382,9 @@
 :lang(fa) {
   --vp-code-copy-copied-text-content: 'کپی شد';
 }
+:lang(ja) {
+  --vp-code-copy-copied-text-content: 'コピー完了';
+}
 :lang(ko) {
   --vp-code-copy-copied-text-content: '복사됨';
 }
@@ -390,9 +393,6 @@
 }
 :lang(zh) {
   --vp-code-copy-copied-text-content: '已复制';
-}
-:lang(ja) {
-  --vp-code-copy-copied-text-content: 'コピー完了';
 }
 
 /**
