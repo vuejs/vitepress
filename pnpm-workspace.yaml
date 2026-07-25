@@ -14,7 +14,4 @@ onlyBuiltDependencies:
 overrides:
   ora>string-width: ^5
 
-patchedDependencies:
-  '@types/mdurl@2.0.0': patches/@types__mdurl@2.0.0.patch
-
 shellEmulator: true
