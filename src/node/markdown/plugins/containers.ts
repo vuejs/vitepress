@@ -138,7 +138,7 @@ function createOpenRender(
     // details always needs its summary, so no-title is ignored there
     const noTitle = attrPop(token, 'no-title') === '' && name !== 'details'
     token.attrJoin('class', `${name} custom-block`)
-    const renderedAttrs = md.renderer.renderAttrs(token)
+    const renderedAttrs = md.renderer.renderAttrs(token).trim()
     if (noTitle) return `<div ${renderedAttrs}>\n`
     const title = md.renderInline(
       info || titlesFor(titles, env.localeIndex)[name],

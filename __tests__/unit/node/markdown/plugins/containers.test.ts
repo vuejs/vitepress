@@ -32,25 +32,25 @@ describe('node/markdown/plugins/containers', () => {
       .map((t) => `::: ${t}\ncontent of ${t}\n:::`)
       .join('\n\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">TIP</p>
+      "<div class="tip custom-block"><p class="custom-block-title custom-block-title-default">TIP</p>
       <p>content of tip</p>
       </div>
-      <div  class="info custom-block"><p class="custom-block-title custom-block-title-default">INFO</p>
+      <div class="info custom-block"><p class="custom-block-title custom-block-title-default">INFO</p>
       <p>content of info</p>
       </div>
-      <div  class="warning custom-block"><p class="custom-block-title custom-block-title-default">WARNING</p>
+      <div class="warning custom-block"><p class="custom-block-title custom-block-title-default">WARNING</p>
       <p>content of warning</p>
       </div>
-      <div  class="danger custom-block"><p class="custom-block-title custom-block-title-default">DANGER</p>
+      <div class="danger custom-block"><p class="custom-block-title custom-block-title-default">DANGER</p>
       <p>content of danger</p>
       </div>
-      <div  class="note custom-block"><p class="custom-block-title custom-block-title-default">NOTE</p>
+      <div class="note custom-block"><p class="custom-block-title custom-block-title-default">NOTE</p>
       <p>content of note</p>
       </div>
-      <div  class="important custom-block"><p class="custom-block-title custom-block-title-default">IMPORTANT</p>
+      <div class="important custom-block"><p class="custom-block-title custom-block-title-default">IMPORTANT</p>
       <p>content of important</p>
       </div>
-      <div  class="caution custom-block"><p class="custom-block-title custom-block-title-default">CAUTION</p>
+      <div class="caution custom-block"><p class="custom-block-title custom-block-title-default">CAUTION</p>
       <p>content of caution</p>
       </div>
       "
@@ -60,11 +60,11 @@ describe('node/markdown/plugins/containers', () => {
   test('renders details as a disclosure with summary', async () => {
     expect(await render('::: details\nhidden content\n:::'))
       .toMatchInlineSnapshot(`
-      "<details  class="details custom-block"><summary>Details</summary>
-      <p>hidden content</p>
-      </details>
-      "
-    `)
+        "<details class="details custom-block"><summary>Details</summary>
+        <p>hidden content</p>
+        </details>
+        "
+      `)
   })
 
   test('renders custom titles, including inline markdown', async () => {
@@ -84,13 +84,13 @@ describe('node/markdown/plugins/containers', () => {
       ':::'
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<div  class="danger custom-block"><p class="custom-block-title">STOP</p>
+      "<div class="danger custom-block"><p class="custom-block-title">STOP</p>
       <p>Danger zone, do not proceed</p>
       </div>
-      <div  class="tip custom-block"><p class="custom-block-title">A <strong>bold</strong> <em>title</em> with <code>code</code></p>
+      <div class="tip custom-block"><p class="custom-block-title">A <strong>bold</strong> <em>title</em> with <code>code</code></p>
       <p>content</p>
       </div>
-      <details  class="details custom-block"><summary>Click me to toggle the code</summary>
+      <details class="details custom-block"><summary>Click me to toggle the code</summary>
       <div class="language-js"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
       </code></pre>
       </div></details>
@@ -107,7 +107,7 @@ describe('node/markdown/plugins/containers', () => {
       '[guide]: /guide/'
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title">See <a href="/guide/">the guide</a></p>
+      "<div class="tip custom-block"><p class="custom-block-title">See <a href="/guide/">the guide</a></p>
       <p>content</p>
       </div>
       "
@@ -121,10 +121,10 @@ describe('node/markdown/plugins/containers', () => {
         container: { tipLabel: '提示', detailsLabel: '详细信息' }
       })
     ).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">提示</p>
+      "<div class="tip custom-block"><p class="custom-block-title custom-block-title-default">提示</p>
       <p>提示内容</p>
       </div>
-      <details  class="details custom-block"><summary>详细信息</summary>
+      <details class="details custom-block"><summary>详细信息</summary>
       <p>详情内容</p>
       </details>
       "
@@ -146,10 +146,10 @@ describe('node/markdown/plugins/containers', () => {
         container: { customContainers: { success: 'SUCCESS' } }
       })
     ).toMatchInlineSnapshot(`
-      "<div  class="success custom-block"><p class="custom-block-title custom-block-title-default">SUCCESS</p>
+      "<div class="success custom-block"><p class="custom-block-title custom-block-title-default">SUCCESS</p>
       <p>You have completed the walkthrough!</p>
       </div>
-      <div  class="success custom-block">
+      <div class="success custom-block">
       <p>content</p>
       </div>
       "
@@ -175,10 +175,10 @@ describe('node/markdown/plugins/containers', () => {
       ':::'
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<details  open="" class="details custom-block"><summary>Click me</summary>
+      "<details open="" class="details custom-block"><summary>Click me</summary>
       <p>content</p>
       </details>
-      <div  class="extra-class tip custom-block" id="custom-id"><p class="custom-block-title">Custom</p>
+      <div class="extra-class tip custom-block" id="custom-id"><p class="custom-block-title">Custom</p>
       <p>content</p>
       </div>
       "
@@ -188,11 +188,11 @@ describe('node/markdown/plugins/containers', () => {
   test('supports quoted and bare attr values on the fence line', async () => {
     expect(await render('::: tip Custom {data-a="b c" data-d=e}\ncontent\n:::'))
       .toMatchInlineSnapshot(`
-      "<div  data-a="b c" data-d="e" class="tip custom-block"><p class="custom-block-title">Custom</p>
-      <p>content</p>
-      </div>
-      "
-    `)
+        "<div data-a="b c" data-d="e" class="tip custom-block"><p class="custom-block-title">Custom</p>
+        <p>content</p>
+        </div>
+        "
+      `)
   })
 
   test('skips the title element with a no-title attr', async () => {
@@ -210,17 +210,33 @@ describe('node/markdown/plugins/containers', () => {
       ':::'
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block">
+      "<div class="tip custom-block">
       <p>content</p>
       </div>
-      <div  class="extra-class warning custom-block">
+      <div class="extra-class warning custom-block">
       <p>content</p>
       </div>
-      <details  class="details custom-block"><summary>Details</summary>
+      <details class="details custom-block"><summary>Details</summary>
       <p>still needs its summary</p>
       </details>
       "
     `)
+  })
+
+  // FIXME: enable after attrs plugin version bump
+  test.skip('respects attrs plugin options on the fence line', async () => {
+    const delimiters = await render(
+      '::: tip Custom %(.extra-class)%\ncontent\n:::',
+      { attrs: { left: '%(', right: ')%' } }
+    )
+    expect(delimiters).toContain('<div class="extra-class tip custom-block">')
+
+    const allowed = await render(
+      '::: tip Custom {.extra-class data-x=1}\ncontent\n:::',
+      { attrs: { allowed: ['class'] } }
+    )
+    expect(allowed).toContain('<div class="extra-class tip custom-block">')
+    expect(allowed).not.toContain('data-x')
   })
 
   test('keeps fence line braces verbatim when attrs are disabled', async () => {
@@ -229,7 +245,7 @@ describe('node/markdown/plugins/containers', () => {
         attrs: false
       })
     ).toMatchInlineSnapshot(`
-      "<details  class="details custom-block"><summary>Click me {open}</summary>
+      "<details class="details custom-block"><summary>Click me {open}</summary>
       <p>content</p>
       </details>
       "
@@ -293,9 +309,9 @@ describe('node/markdown/plugins/containers', () => {
       '::::'
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
-      "<div  class="info custom-block"><p class="custom-block-title">Outer</p>
+      "<div class="info custom-block"><p class="custom-block-title">Outer</p>
       <p>outer content</p>
-      <details  class="details custom-block"><summary>Inner</summary>
+      <details class="details custom-block"><summary>Inner</summary>
       <p>inner content</p>
       </details>
       </div>
@@ -306,16 +322,16 @@ describe('node/markdown/plugins/containers', () => {
   test('auto-closes unclosed containers', async () => {
     expect(await render('::: warning\nno closing fence'))
       .toMatchInlineSnapshot(`
-      "<div  class="warning custom-block"><p class="custom-block-title custom-block-title-default">WARNING</p>
-      <p>no closing fence</p>
-      </div>
-      "
-    `)
+        "<div class="warning custom-block"><p class="custom-block-title custom-block-title-default">WARNING</p>
+        <p>no closing fence</p>
+        </div>
+        "
+      `)
   })
 
   test('parses fences without a space before the name', async () => {
     expect(await render(':::tip\ncontent\n:::')).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">TIP</p>
+      "<div class="tip custom-block"><p class="custom-block-title custom-block-title-default">TIP</p>
       <p>content</p>
       </div>
       "
@@ -507,13 +523,13 @@ describe('node/markdown/plugins/containers (locales)', () => {
       '::: tip\n内容\n:::\n\n::: details\n内容\n:::\n\n::: success\n内容\n:::'
     expect(await render(src, options, { localeIndex: 'zh' }))
       .toMatchInlineSnapshot(`
-        "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">提示</p>
+        "<div class="tip custom-block"><p class="custom-block-title custom-block-title-default">提示</p>
         <p>内容</p>
         </div>
-        <details  class="details custom-block"><summary>详细信息</summary>
+        <details class="details custom-block"><summary>详细信息</summary>
         <p>内容</p>
         </details>
-        <div  class="success custom-block"><p class="custom-block-title custom-block-title-default">成功</p>
+        <div class="success custom-block"><p class="custom-block-title custom-block-title-default">成功</p>
         <p>内容</p>
         </div>
         "
@@ -525,7 +541,7 @@ describe('node/markdown/plugins/containers (locales)', () => {
     const root = await render(src, options)
     expect(await render(src, options, { localeIndex: 'es' })).toBe(root)
     expect(root).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title custom-block-title-default">ROOT TIP</p>
+      "<div class="tip custom-block"><p class="custom-block-title custom-block-title-default">ROOT TIP</p>
       <p>content</p>
       </div>
       "
@@ -538,7 +554,7 @@ describe('node/markdown/plugins/containers (locales)', () => {
         localeIndex: 'zh'
       })
     ).toMatchInlineSnapshot(`
-      "<div  class="tip custom-block"><p class="custom-block-title">Custom Title</p>
+      "<div class="tip custom-block"><p class="custom-block-title">Custom Title</p>
       <p>内容</p>
       </div>
       "
