@@ -19,7 +19,10 @@ export const markdown: MarkdownLocaleOptions = {
     importantLabel: 'مهم',
     cautionLabel: 'احتیاط'
   },
-  codeCopyButton: { tooltipText: 'کپی کد', copiedText: 'کپی شد' }
+  codeCopyButton: {
+    tooltipText: 'کپی کد',
+    copiedText: 'کپی شد'
+  }
 }
 
 export default defineAdditionalConfig({

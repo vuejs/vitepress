@@ -19,7 +19,10 @@ export const markdown: MarkdownLocaleOptions = {
     importantLabel: '重要',
     cautionLabel: '注意'
   },
-  codeCopyButton: { tooltipText: 'コードをコピー', copiedText: 'コピー完了' }
+  codeCopyButton: {
+    tooltipText: 'コードをコピー',
+    copiedText: 'コピー完了'
+  }
 }
 
 export default defineAdditionalConfig({

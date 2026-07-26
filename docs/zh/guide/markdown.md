@@ -1,5 +1,6 @@
 ---
 description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+outline: deep
 ---
 
 # Markdown 扩展 {#markdown-extensions}
@@ -112,7 +113,7 @@ lang: en-US
 
 :tada: :100:
 
-这里可以找到[所有支持的 emoji 列表](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)。
+这里可以找到[所有支持的 emoji 列表](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts)。
 
 ## 目录表 (TOC) {#table-of-contents}
 

@@ -1,5 +1,6 @@
 ---
 description: Встроенные расширения Markdown в VitePress, включая пользовательские контейнеры, блоки кода с подсветкой синтаксиса, выделение строк, группы кода и многое другое.
+outline: deep
 ---
 
 # Расширения Markdown {#markdown-extensions}
@@ -112,7 +113,7 @@ lang: ru-RU
 
 :tada: :100:
 
-[Список всех эмодзи](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts).
+[Список всех эмодзи](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts).
 
 ## Оглавление {#table-of-contents}
 

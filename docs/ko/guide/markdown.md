@@ -1,5 +1,6 @@
 ---
 description: 커스텀 컨테이너, 구문 강조 코드 블록, 라인 하이라이팅, 코드 그룹 등 VitePress 내장 마크다운 확장 기능을 소개합니다.
+outline: deep
 ---
 
 # 마크다운 확장 기능 {#markdown-extensions}
@@ -112,7 +113,7 @@ lang: en-US
 
 :tada: :100:
 
-[모든 이모지의 목록](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)이 제공됩니다.
+[모든 이모지의 목록](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts)이 제공됩니다.
 
 ## 목차 {#table-of-contents}
 

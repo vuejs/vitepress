@@ -1,5 +1,6 @@
 ---
 description: VitePress組み込みのMarkdown拡張機能。カスタムコンテナ、コードブロックのシンタックスハイライト、行ハイライト、コードグループなど。
+outline: deep
 ---
 
 # Markdown 拡張 {#markdown-extensions}
@@ -110,7 +111,7 @@ lang: ja-JP
 
 :tada: :100:
 
-すべての絵文字の [一覧はこちら](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts)。
+すべての絵文字の [一覧はこちら](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts)。
 
 ## 目次 {#table-of-contents}
 

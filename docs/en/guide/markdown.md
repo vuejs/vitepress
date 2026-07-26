@@ -1,5 +1,6 @@
 ---
 description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+outline: deep
 ---
 
 # Markdown Extensions
@@ -126,7 +127,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) is available.
+A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) is available.
 
 ## Table of Contents
 

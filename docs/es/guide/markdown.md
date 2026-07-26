@@ -1,5 +1,6 @@
 ---
 description: Extensiones Markdown integradas en VitePress, incluyendo contenedores personalizados, bloques de código con resaltado de sintaxis, resaltado de líneas, grupos de código y más.
+outline: deep
 ---
 
 # Extensiones Markdown {#markdown-extensions}
@@ -112,7 +113,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/emoji/src/data/full.ts) está disponible.
+Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) está disponible.
 
 ## Tabla de Contenido (TOC)
 

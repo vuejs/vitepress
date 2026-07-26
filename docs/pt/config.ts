@@ -19,7 +19,10 @@ export const markdown: MarkdownLocaleOptions = {
     importantLabel: 'IMPORTANTE',
     cautionLabel: 'CUIDADO'
   },
-  codeCopyButton: { tooltipText: 'Copiar código', copiedText: 'Copiado' }
+  codeCopyButton: {
+    tooltipText: 'Copiar código',
+    copiedText: 'Copiado'
+  }
 }
 
 export default defineAdditionalConfig({
