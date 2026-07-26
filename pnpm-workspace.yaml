@@ -2,16 +2,15 @@ packages:
   - docs
   - __tests__/*
 
+allowBuilds:
+  esbuild: true
+  playwright-chromium: true
+  simple-git-hooks: true
+
 autoInstallPeers: false
 
 ignoreWorkspaceRootCheck: true
 
-onlyBuiltDependencies:
-  - esbuild
-  - playwright-chromium
-  - simple-git-hooks
-
-overrides:
-  ora>string-width: ^5
+minimumReleaseAge: 1440
 
 shellEmulator: true
