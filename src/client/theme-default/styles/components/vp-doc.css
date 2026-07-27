@@ -1,4 +1,29 @@
 /**
+ * Anchors
+ * -------------------------------------------------------------------------- */
+
+.vp-doc [id] {
+  scroll-margin-top: calc(
+    47px + var(--vp-layout-top-height, 0px) +
+      var(--vp-extra-scroll-margin, 24px)
+  );
+
+  @media (min-width: 960px) {
+    scroll-margin-top: calc(
+      var(--vp-nav-height) + 47px + var(--vp-layout-top-height, 0px) +
+        var(--vp-extra-scroll-margin, 24px)
+    );
+  }
+
+  @media (min-width: 1280px) {
+    scroll-margin-top: calc(
+      var(--vp-nav-height) + var(--vp-layout-top-height, 0px) +
+        var(--vp-extra-scroll-margin, 24px)
+    );
+  }
+}
+
+/**
  * Headings
  * -------------------------------------------------------------------------- */
 
@@ -11,9 +36,6 @@
   position: relative;
   font-weight: 600;
   outline: none;
-  scroll-margin-top: calc(
-    var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 24px
-  );
 }
 
 .vp-doc h1 {
@@ -29,6 +51,8 @@
   letter-spacing: -0.02em;
   line-height: 32px;
   font-size: 24px;
+  /* since it already has a top padding of 24px, we don't need extra scroll margin */
+  --vp-extra-scroll-margin: 0px;
 }
 
 .vp-doc h3 {
