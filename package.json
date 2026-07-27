@@ -131,6 +131,7 @@
     "@mdit/plugin-attrs": "^1.0.2",
     "@mdit/plugin-container": "^1.0.1",
     "@mdit/plugin-emoji": "^1.1.0",
+    "@mdit/plugin-footnote": "^1.0.1",
     "@mdit/plugin-tasklist": "^1.0.1",
     "@polka/compression": "^1.0.0-next.28",
     "@rolldown/pluginutils": "^1.0.1",

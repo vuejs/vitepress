@@ -20,6 +20,7 @@ import {
   type MarkdownItAttrsOptions
 } from '@mdit/plugin-attrs'
 import { fullEmoji as emojiPlugin } from '@mdit/plugin-emoji'
+import { footnote as footnotePlugin } from '@mdit/plugin-footnote'
 import {
   tasklist as tasklistPlugin,
   type MarkdownItTaskListOptions
@@ -228,6 +229,13 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   tasklist?: MarkdownItTaskListOptions | boolean
   /**
+   * Whether to enable footnotes (`[^1]` references with definitions, plus
+   * inline `^[note]` syntax).
+   * @default true
+   * @see https://mdit-plugins.github.io/footnote.html
+   */
+  footnote?: boolean
+  /**
    * Improves emphasis (`**bold**`) handling in Japanese, Chinese, and
    * Korean text.
    * @default true
@@ -425,6 +433,9 @@ export async function createMarkdownRenderer(
   }
   if (options.tasklist !== false) {
     tasklistPlugin(md, normalizePluginOptions(options.tasklist))
+  }
+  if (options.footnote !== false) {
+    footnotePlugin(md)
   }
   if (options.cjkFriendlyEmphasis !== false) {
     mditCjkFriendly(md)
