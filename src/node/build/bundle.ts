@@ -172,16 +172,20 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult: Rolldown.RolldownOutput | null = null
-  let serverResult!: Rolldown.RolldownOutput
-
-  // prettier-ignore
-  await task('building client + server bundles', async () => {
-    if (!config.mpa) clientResult =
-      (await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput
-    serverResult =
-      (await build(await resolveViteConfig(true))) as Rolldown.RolldownOutput
-  })
+  let { clientResult, serverResult } = await task(
+    'building client + server bundles',
+    async () => {
+      const clientResult = config.mpa
+        ? null
+        : ((await build(
+            await resolveViteConfig(false)
+          )) as Rolldown.RolldownOutput)
+      const serverResult = (await build(
+        await resolveViteConfig(true)
+      )) as Rolldown.RolldownOutput
+      return { clientResult, serverResult }
+    }
+  )
 
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
