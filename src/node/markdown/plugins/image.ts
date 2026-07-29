@@ -40,7 +40,7 @@ export const imagePlugin = (
       addImageDimensions(token, url, publicDir, env)
     }
 
-    if (lazyLoad && !token.attrGet('loading')) {
+    if (lazyLoad && token.attrIndex('loading') < 0) {
       token.attrSet('loading', 'lazy')
     }
 
