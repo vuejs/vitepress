@@ -229,9 +229,13 @@ export async function localSearchPlugin(
       if (this.environment.name !== 'client') return
 
       if (file.endsWith('.md')) {
-        await indexFile(slash(path.relative(siteConfig.srcDir, file)))
-        debug('🔍️ Updated', file)
-        onIndexUpdated()
+        const page = slash(path.relative(siteConfig.srcDir, file))
+        // only index actual pages, not includes or route templates
+        if (siteConfig.pages.includes(page)) {
+          await indexFile(page)
+          debug('🔍️ Updated', file)
+          onIndexUpdated()
+        }
       }
     }
   }
