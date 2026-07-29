@@ -212,7 +212,6 @@ export async function createVitePressPlugin(
           return processClientJS(code, id)
         }
         if (id.endsWith('.md')) {
-          const relativePath = path.posix.relative(srcDir, id)
           // transform .md files into vueSrc so plugin-vue can handle it
           const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
             code,
@@ -226,7 +225,7 @@ export async function createVitePressPlugin(
           allDeadLinks.push(...deadLinks)
           if (includes.length) {
             includes.forEach((i) => {
-              ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
+              ;(importerMap[slash(i)] ??= new Set()).add(slash(id))
               this.addWatchFile(i)
             })
           }
@@ -368,10 +367,6 @@ export async function createVitePressPlugin(
         await resolvePages(siteConfig)
       }
 
-      if (type === 'delete') {
-        delete importerMap[relativePath]
-      }
-
       if (
         file === configPath ||
         configDeps.includes(file) ||
@@ -403,23 +398,32 @@ export async function createVitePressPlugin(
 
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
-    async hotUpdate({ file, modules: existingMods }) {
+    async hotUpdate({ file, type, modules: existingMods }) {
       if (this.environment.name !== 'client') return
       const modules: EnvironmentModuleNode[] = []
+      const fileId = slash(file)
 
       if (file.endsWith('.md')) {
         const mod = this.environment.moduleGraph.getModuleById(file)
         mod && modules.push(mod)
       }
 
-      importerMap[slash(file)]?.forEach((relativePath) => {
+      importerMap[fileId]?.forEach((importerId) => {
+        const relativePath = slash(path.relative(srcDir, importerId))
         // the compile cache is keyed by the rewritten path
         clearCache(siteConfig.rewrites.map[relativePath] || relativePath)
-        const mod = this.environment.moduleGraph.getModuleById(
-          path.posix.join(srcDir, relativePath)
-        )
+        const mod = this.environment.moduleGraph.getModuleById(importerId)
         mod && modules.push(mod)
       })
+
+      if (type === 'delete') {
+        // a deleted include: its importers were just invalidated above
+        delete importerMap[fileId]
+        // a deleted page: prune it from every importer set
+        for (const importers of Object.values(importerMap)) {
+          importers?.delete(fileId)
+        }
+      }
 
       return modules.length ? [...existingMods, ...modules] : undefined
     }
