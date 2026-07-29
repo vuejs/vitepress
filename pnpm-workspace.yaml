@@ -14,5 +14,6 @@ ignoreWorkspaceRootCheck: true
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@mdit/*'
+  - '@vueuse/*'
 
 shellEmulator: true

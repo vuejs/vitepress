@@ -98,9 +98,9 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@docsearch/css": "^4.6.3",
-    "@docsearch/js": "^4.6.3",
-    "@docsearch/sidepanel-js": "^4.6.3",
+    "@docsearch/css": "^4.7.0",
+    "@docsearch/js": "^4.7.0",
+    "@docsearch/sidepanel-js": "^4.7.0",
     "@iconify-json/simple-icons": "^1.2.92",
     "@shikijs/core": "^4.3.1",
     "@shikijs/transformers": "^4.3.1",
@@ -109,8 +109,8 @@
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/devtools-api": "^8.2.1",
     "@vue/shared": "^3.5.40",
-    "@vueuse/core": "^14.3.0",
-    "@vueuse/integrations": "^14.3.0",
+    "@vueuse/core": "^14.4.0",
+    "@vueuse/integrations": "^14.4.0",
     "focus-trap": "^8.2.2",
     "mark.js": "8.11.1",
     "minisearch": "^7.2.0",

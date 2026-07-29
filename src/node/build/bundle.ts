@@ -85,9 +85,7 @@ export async function bundle(
       pageToHashMap,
       clientJSMap
     ),
-    ssr: {
-      noExternal: ['vitepress', '@docsearch/css']
-    },
+    ssr: { noExternal: ['vitepress', '@docsearch/css'] },
     build: {
       ...restOptions,
       emptyOutDir: true,
@@ -166,11 +164,7 @@ export async function bundle(
                 }
               })
         },
-        checks: {
-          invalidAnnotation: false, // FIXME: remove when vueuse releases a new version
-          pluginTimings: false,
-          ...rolldownOptions?.checks
-        }
+        checks: { pluginTimings: false, ...rolldownOptions?.checks }
       }
     },
     configFile: config.vite?.configFile
