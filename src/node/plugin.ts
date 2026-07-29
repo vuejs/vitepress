@@ -208,12 +208,6 @@ export async function createVitePressPlugin(
     transform: {
       filter: { id: [docsearchRE, /\.vue$/, /\.md$/] },
       async handler(code, id) {
-        if (docsearchRE.test(normalizePath(id))) {
-          return code
-            .replaceAll('[data-theme=dark]', '.dark')
-            .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
-            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
-        }
         if (id.endsWith('.vue')) {
           return processClientJS(code, id)
         }
@@ -253,6 +247,12 @@ export async function createVitePressPlugin(
             })
           }
           return processClientJS(vueSrc, id)
+        }
+        if (docsearchRE.test(normalizePath(id))) {
+          return code
+            .replaceAll('[data-theme=dark]', '.dark')
+            .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
+            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
         }
       }
     },
