@@ -35,6 +35,9 @@ const excludedModules = [
   clientDir
 ]
 
+const cache = new Map<string, boolean>()
+const cacheTheme = new Map<string, boolean>()
+
 // bundles the VitePress app for both client AND server.
 export async function bundle(
   config: SiteConfig,
@@ -186,9 +189,6 @@ export async function bundle(
 
   return { clientResult, serverResult, pageToHashMap: sortedPageToHashMap }
 }
-
-const cache = new Map<string, boolean>()
-const cacheTheme = new Map<string, boolean>()
 
 function chunkName(
   themeEntryRE: RegExp,

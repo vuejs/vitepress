@@ -33,6 +33,10 @@ export * from './siteConfig'
 
 const debug = createDebug('vitepress:config')
 
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
+const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
+
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
@@ -180,10 +184,6 @@ export async function resolveConfig(
 
   return config as SiteConfig
 }
-
-const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
-const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
-const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
 
 export function isAdditionalConfigFile(path: string) {
   return additionalConfigRE.test(path)

@@ -15,6 +15,9 @@ const debug = createDebug('vitepress:local-search')
 const LOCAL_SEARCH_INDEX_ID = '@localSearchIndex'
 const LOCAL_SEARCH_INDEX_REQUEST_PATH = '/' + LOCAL_SEARCH_INDEX_ID
 
+const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
+const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
+
 interface IndexObject {
   id: string
   text: string
@@ -247,9 +250,6 @@ export async function localSearchPlugin(
     }
   }
 }
-
-const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
-const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
 /**
  * Splits HTML into sections based on headings
