@@ -1,5 +1,5 @@
 import matter from 'gray-matter'
-import fs from 'node:fs'
+import { readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
@@ -116,12 +116,12 @@ export function createContentLoader<T = ContentData[]>(
         async (file) => {
           if (!file.endsWith('.md')) return null
 
-          const timestamp = fs.statSync(file).mtimeMs
+          const timestamp = (await stat(file)).mtimeMs
           const cached = cache.get(file)
 
           if (cached && timestamp === cached.timestamp) return cached.data
 
-          const src = fs.readFileSync(file, 'utf8')
+          const src = await readFile(file, 'utf8')
 
           const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
