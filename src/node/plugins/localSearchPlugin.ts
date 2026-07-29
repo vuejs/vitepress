@@ -220,7 +220,7 @@ export async function localSearchPlugin(
       if (this.environment.name !== 'client') return
 
       if (file.endsWith('.md')) {
-        await indexFile(file)
+        await indexFile(slash(path.relative(siteConfig.srcDir, file)))
         debug('🔍️ Updated', file)
         onIndexUpdated()
       }
