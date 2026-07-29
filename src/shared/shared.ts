@@ -109,14 +109,20 @@ export function getLocaleForPath(
  */
 export function resolveSiteDataByRoute(
   siteData: SiteData,
-  relativePath: string
+  relativePath: string,
+  filePath?: string
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
   const { label, link, markdown, ...localeConfig } =
     siteData.locales[localeIndex] ?? {}
   Object.assign(localeConfig, { localeIndex })
 
-  const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
+  // additional configs are colocated with sources, so resolve them by the
+  // source path (filePath) rather than the rewritten one
+  const additionalConfigs = resolveAdditionalConfig(
+    siteData,
+    filePath || relativePath
+  )
 
   if (inBrowser && (import.meta as any).env?.DEV) {
     ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
