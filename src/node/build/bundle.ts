@@ -122,45 +122,7 @@ export async function bundle(
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 codeSplitting: {
-                  groups: [
-                    {
-                      name(id, ctx) {
-                        const getModuleInfo = ctx.getModuleInfo.bind(ctx)
-
-                        // avoid emitting multiple files for assets
-                        // see: https://github.com/rolldown/rolldown/issues/4246
-                        if (getModuleInfo(id)?.meta['vite:asset']) {
-                          return 'assets'
-                        }
-
-                        // move known framework code into a stable chunk so that
-                        // custom theme changes do not invalidate hash for all pages
-                        if (
-                          id.startsWith('\0vite') ||
-                          id.includes('plugin-vue:export-helper') ||
-                          (id.includes(`${clientDir}/app`) &&
-                            id !== `${clientDir}/app/index.js`) ||
-                          (isEagerChunk(id, getModuleInfo) &&
-                            /@vue\/(runtime|shared|reactivity)/.test(id))
-                        ) {
-                          return 'framework'
-                        }
-
-                        if (
-                          (id.startsWith(`${clientDir}/theme-default`) ||
-                            !excludedModules.some((i) => id.includes(i))) &&
-                          staticImportedByEntry(
-                            id,
-                            getModuleInfo,
-                            cacheTheme,
-                            themeEntryRE
-                          )
-                        ) {
-                          return 'theme'
-                        }
-                      }
-                    }
-                  ]
+                  groups: [{ name: chunkName.bind(null, themeEntryRE) }]
                 }
               })
         },
@@ -227,6 +189,40 @@ export async function bundle(
 
 const cache = new Map<string, boolean>()
 const cacheTheme = new Map<string, boolean>()
+
+function chunkName(
+  themeEntryRE: RegExp,
+  id: string,
+  ctx: { getModuleInfo: Rolldown.GetModuleInfo }
+): string | undefined {
+  const getModuleInfo = ctx.getModuleInfo.bind(ctx)
+
+  // avoid emitting multiple files for assets
+  // see: https://github.com/rolldown/rolldown/issues/4246
+  if (getModuleInfo(id)?.meta['vite:asset']) {
+    return 'assets'
+  }
+
+  // move known framework code into a stable chunk so that
+  // custom theme changes do not invalidate hash for all pages
+  if (
+    id.startsWith('\0vite') ||
+    id.includes('plugin-vue:export-helper') ||
+    (id.includes(`${clientDir}/app`) && id !== `${clientDir}/app/index.js`) ||
+    (isEagerChunk(id, getModuleInfo) &&
+      /@vue\/(runtime|shared|reactivity)/.test(id))
+  ) {
+    return 'framework'
+  }
+
+  if (
+    (id.startsWith(`${clientDir}/theme-default`) ||
+      !excludedModules.some((i) => id.includes(i))) &&
+    staticImportedByEntry(id, getModuleInfo, cacheTheme, themeEntryRE)
+  ) {
+    return 'theme'
+  }
+}
 
 /**
  * Check if a module is statically imported by at least one entry.
