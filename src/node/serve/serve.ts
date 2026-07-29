@@ -1,4 +1,5 @@
 import compression from '@polka/compression'
+import { once } from 'node:events'
 import path from 'node:path'
 import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
@@ -42,19 +43,15 @@ export async function serve(options: ServeOptions = {}) {
     }
   })
 
-  if (base) {
-    return polka({ onNoMatch })
-      .use(base, compress, serve)
-      .listen(port, () => {
-        config.logger.info(
-          `Built site served at http://localhost:${port}/${base}/`
-        )
-      })
-  }
+  const app = base
+    ? polka({ onNoMatch }).use(base, compress, serve)
+    : polka({ onNoMatch }).use(compress, serve)
 
-  return polka({ onNoMatch })
-    .use(compress, serve)
-    .listen(port, () => {
-      config.logger.info(`Built site served at http://localhost:${port}/`)
-    })
+  app.listen(port)
+  await once(app.server, 'listening')
+  config.logger.info(
+    `Built site served at http://localhost:${port}/${base ? `${base}/` : ''}`
+  )
+
+  return app
 }
