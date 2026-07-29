@@ -270,14 +270,14 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @default false
    * @see https://vitepress.dev/guide/markdown#math-equations
    */
-  math?: boolean | any
+  math?: any | boolean
   /**
    * Custom labels for the built-in containers (`::: tip` etc.) and
    * additional user-defined containers. Labels are also used as the
    * default titles of GitHub-flavored alerts.
    * @see https://vitepress.dev/guide/markdown#custom-containers
    */
-  container?: ContainerOptions
+  container?: ContainerOptions | boolean
   /**
    * Whether to enable GitHub-flavored alerts (`> [!NOTE]`).
    * @default true
@@ -399,12 +399,12 @@ export async function createMarkdownRenderer(
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir)
   }
-  containerPlugin(md, options.container, {
-    attrs: options.attrs !== false,
-    locales: options.locales
-  })
+  const containerOptions = normalizePluginOptions(options.container)
+  if (options.container !== false) {
+    containerPlugin(md, containerOptions, { locales: options.locales })
+  }
   if (options.gfmAlerts !== false) {
-    gitHubAlertsPlugin(md, options.container, { locales: options.locales })
+    gitHubAlertsPlugin(md, containerOptions, { locales: options.locales })
   }
   if (options.image !== false) {
     imagePlugin(md, publicDir, normalizePluginOptions(options.image))
@@ -424,7 +424,17 @@ export async function createMarkdownRenderer(
     attrsPlugin(md, {
       // no `fence` - code block meta (e.g. line highlighting) must reach
       // the highlighter intact
-      rule: ['inline', 'table', 'list', 'heading', 'hr', 'softbreak', 'block'],
+      rule: [
+        'inline',
+        'table',
+        'list',
+        'heading',
+        'hr',
+        'softbreak',
+        'blockInfo',
+        'blockEnd',
+        'tasklist'
+      ],
       ...normalizePluginOptions(options.attrs)
     })
   }

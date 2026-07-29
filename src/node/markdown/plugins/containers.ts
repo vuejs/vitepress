@@ -13,11 +13,6 @@ export type { ContainerOptions } from '../../shared'
 
 export interface ContainerPluginOptions {
   /**
-   * Whether fence-line `{...}` attributes are parsed. Mirrors the state of
-   * the `markdown.attrs` option.
-   */
-  attrs?: boolean
-  /**
    * Per-locale overrides for container titles, keyed by locale index.
    */
   locales?: Record<string, MarkdownLocaleOptions | undefined>
@@ -26,7 +21,7 @@ export interface ContainerPluginOptions {
 export const containerPlugin = (
   md: MarkdownItAsync,
   options?: ContainerOptions,
-  { attrs = true, locales }: ContainerPluginOptions = {}
+  { locales }: ContainerPluginOptions = {}
 ) => {
   md
     // explicitly escape Vue syntax
@@ -51,7 +46,7 @@ export const containerPlugin = (
   for (const name of Object.keys(titles.base)) {
     md.use(container, {
       name,
-      openRender: createOpenRender(md, name, titles, attrs),
+      openRender: createOpenRender(md, name, titles),
       closeRender: () => (name === 'details' ? `</details>\n` : `</div>\n`)
     })
   }
@@ -128,13 +123,11 @@ function resolveTitlesByLocale(
 function createOpenRender(
   md: MarkdownItAsync,
   name: string,
-  titles: LocaleTitles,
-  attrs: boolean
+  titles: LocaleTitles
 ): RenderRule {
   return (tokens, idx, _options, env: MarkdownEnv & { references?: any }) => {
     const token = tokens[idx]
     let info = token.info.trim().slice(name.length).trim()
-    if (attrs) info = applyFenceAttrs(token, info)
     // details always needs its summary, so no-title is ignored there
     const noTitle = attrPop(token, 'no-title') === '' && name !== 'details'
     token.attrJoin('class', `${name} custom-block`)
@@ -156,27 +149,6 @@ function attrPop(token: Token, name: string): string | null {
   const idx = token.attrIndex(name)
   if (idx < 0) return null
   return token.attrs!.splice(idx, 1)[0][1]
-}
-
-// `::: tip Title {#id .class key="value" bare}` - the attrs plugin only
-// handles fence lines through its `fence` rule, which is disabled to keep
-// code block meta intact, so its trailing-braces syntax is parsed here
-const fenceAttrsRE = /(?:^|\s)\{\s*([^{}]+?)\s*\}$/
-const attrRE = /([^\s=]+)(?:=("[^"]*"|\S*))?/g
-
-function applyFenceAttrs(token: Token, info: string): string {
-  const match = fenceAttrsRE.exec(info)
-  if (!match) return info
-  for (const [, name, value = ''] of match[1].matchAll(attrRE)) {
-    if (name.startsWith('.')) {
-      if (name.length > 1) token.attrJoin('class', name.slice(1))
-    } else if (name.startsWith('#')) {
-      if (name.length > 1) token.attrPush(['id', name.slice(1)])
-    } else {
-      token.attrPush([name, value.replace(/^"(.*)"$/, '$1')])
-    }
-  }
-  return info.slice(0, match.index)
 }
 
 function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {

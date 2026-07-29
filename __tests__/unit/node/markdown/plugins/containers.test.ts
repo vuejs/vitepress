@@ -223,8 +223,7 @@ describe('node/markdown/plugins/containers', () => {
     `)
   })
 
-  // FIXME: enable after attrs plugin version bump
-  test.skip('respects attrs plugin options on the fence line', async () => {
+  test('respects attrs plugin options on the fence line', async () => {
     const delimiters = await render(
       '::: tip Custom %(.extra-class)%\ncontent\n:::',
       { attrs: { left: '%(', right: ')%' } }
