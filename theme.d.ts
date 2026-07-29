@@ -1,7 +1,7 @@
 // so that users can do `import DefaultTheme from 'vitepress/theme'`
 
+import type { EnhanceAppContext } from 'vitepress'
 import type { ComputedRef, DefineComponent, ShallowRef } from 'vue'
-import type { EnhanceAppContext } from './dist/client/index.js'
 import type { DefaultTheme } from './types/default-theme.js'
 
 export type { DefaultTheme } from './types/default-theme.js'
