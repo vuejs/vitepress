@@ -1,10 +1,11 @@
 import { getIconsCSS } from '@iconify/utils'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
+import { mkdir, rm, symlink, unlink, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import pMap from 'p-map'
-import { packageDirectorySync } from 'package-directory'
+import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
@@ -35,7 +36,7 @@ export async function build(
   await buildOptions.onAfterConfigResolve?.(siteConfig)
   delete buildOptions.onAfterConfigResolve
 
-  const unlinkVue = linkVue()
+  const unlinkVue = await linkVue()
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -105,7 +106,10 @@ export async function build(
       // ----
 
       const additionalHeadTags: HeadConfig[] = []
-      const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
+      const metadataScript = await generateMetadataScript(
+        pageToHashMap,
+        siteConfig
+      )
 
       if (isDefaultTheme) {
         const fontURL = assets.find((file) =>
@@ -156,19 +160,19 @@ export async function build(
         mode: 'mask'
       }).replace(/[^]*?}\n*/, '')
 
-      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
+      await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
     })
 
     // emit page hash map for the case where a user session is open
     // when the site got redeployed (which invalidates current hash map)
-    fs.writeFileSync(
+    await writeFile(
       path.join(siteConfig.outDir, 'hashmap.json'),
       JSON.stringify(pageToHashMap)
     )
   } finally {
-    unlinkVue()
+    await unlinkVue()
     if (!process.env.DEBUG) {
-      fs.rmSync(siteConfig.tempDir, {
+      await rm(siteConfig.tempDir, {
         recursive: true,
         force: true,
         maxRetries: 10
@@ -185,27 +189,25 @@ export async function build(
   )
 }
 
-function linkVue() {
-  const root = packageDirectorySync()
+async function linkVue() {
+  const root = await packageDirectory()
   if (root) {
     const dest = path.resolve(root, 'node_modules/vue')
     // if user did not install vue by themselves, link VitePress' version
     if (!fs.existsSync(dest)) {
       const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-      fs.mkdirSync(path.dirname(dest), { recursive: true })
-      fs.symlinkSync(src, dest, 'junction')
-      return () => {
-        fs.unlinkSync(dest)
-      }
+      await mkdir(path.dirname(dest), { recursive: true })
+      await symlink(src, dest, 'junction')
+      return () => unlink(dest)
     }
   }
-  return () => {}
+  return async () => {}
 }
 
-function generateMetadataScript(
+async function generateMetadataScript(
   pageToHashMap: Record<string, string>,
   config: SiteConfig
-) {
+): Promise<{ html: string; inHead: boolean }> {
   if (config.mpa) {
     return { html: '', inHead: false }
   }
@@ -237,8 +239,8 @@ function generateMetadataScript(
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
   const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
 
-  fs.mkdirSync(path.dirname(resolvedMetadataFile), { recursive: true })
-  fs.writeFileSync(resolvedMetadataFile, metadataContent)
+  await mkdir(path.dirname(resolvedMetadataFile), { recursive: true })
+  await writeFile(resolvedMetadataFile, metadataContent)
 
   return {
     html: `<script type="module" src="${metadataFileURL}"></script>`,
