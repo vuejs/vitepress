@@ -242,7 +242,7 @@ export async function createVitePressPlugin(
           ) {
             logDeadLinks(deadLinks, siteConfig.logger, true)
             const payload: PageDataPayload = {
-              path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
+              path: `/${pageData.relativePath}`,
               pageData
             }
             // notify the client to update page data
