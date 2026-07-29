@@ -11,6 +11,49 @@ export type CLIShortcut = {
   ): Awaitable<void>
 }
 
+const SHORTCUTS: CLIShortcut[] = [
+  {
+    key: 'r',
+    description: 'restart the server',
+    async action(server, restartServer) {
+      server.config.logger.info(c.green(`restarting server...\n`), {
+        clear: true,
+        timestamp: true
+      })
+      await restartServer()
+    }
+  },
+  {
+    key: 'u',
+    description: 'show server url',
+    action(server) {
+      server.config.logger.info('')
+      server.printUrls()
+    }
+  },
+  {
+    key: 'o',
+    description: 'open in browser',
+    action(server) {
+      server.openBrowser()
+    }
+  },
+  {
+    key: 'c',
+    description: 'clear console',
+    action(server) {
+      server.config.logger.clearScreen('error')
+    }
+  },
+  {
+    key: 'q',
+    description: 'quit',
+    async action(server) {
+      await server.close().finally(() => process.exit())
+    }
+  }
+]
+
 export function bindShortcuts(
   server: ViteDevServer,
   restartServer: () => Promise<void>
@@ -69,46 +112,3 @@ export function bindShortcuts(
     process.stdin.setRawMode(false)
   })
 }
-
-const SHORTCUTS: CLIShortcut[] = [
-  {
-    key: 'r',
-    description: 'restart the server',
-    async action(server, restartServer) {
-      server.config.logger.info(c.green(`restarting server...\n`), {
-        clear: true,
-        timestamp: true
-      })
-      await restartServer()
-    }
-  },
-  {
-    key: 'u',
-    description: 'show server url',
-    action(server) {
-      server.config.logger.info('')
-      server.printUrls()
-    }
-  },
-  {
-    key: 'o',
-    description: 'open in browser',
-    action(server) {
-      server.openBrowser()
-    }
-  },
-  {
-    key: 'c',
-    description: 'clear console',
-    action(server) {
-      server.config.logger.clearScreen('error')
-    }
-  },
-  {
-    key: 'q',
-    description: 'quit',
-    async action(server) {
-      await server.close().finally(() => process.exit())
-    }
-  }
-]

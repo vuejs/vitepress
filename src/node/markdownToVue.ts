@@ -26,6 +26,18 @@ import { processIncludes } from './utils/processIncludes'
 const debug = createDebug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 
+const scriptRE = /<\/script>/
+const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
+const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
+const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
+const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
+
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, [string, string]>()
+let __rewrites = new Map<string, string>()
+let __ts: number
+
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
@@ -42,11 +54,6 @@ export function clearCache(relativePath?: string) {
   relativePath = JSON.stringify({ relativePath }).slice(1)
   cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
 }
-
-let __pages: string[] = []
-let __dynamicRoutes = new Map<string, [string, string]>()
-let __rewrites = new Map<string, string>()
-let __ts: number
 
 function normalizeDriveLetter(file: string) {
   return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
@@ -279,13 +286,6 @@ export async function createMarkdownToVueRenderFn(
     return result
   }
 }
-
-const scriptRE = /<\/script>/
-const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
-const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
-const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
-const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
-const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
 function injectPageDataCode(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(

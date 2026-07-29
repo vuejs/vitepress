@@ -14,19 +14,6 @@ const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
 let server: ViteDevServer
 
-export interface LoaderModule<T = any> {
-  watch?: string[] | string
-  load: (watchedFiles: string[]) => Awaitable<T>
-  options?: { globOptions?: GlobOptions }
-}
-
-/**
- * Helper for defining loaders with type inference
- */
-export function defineLoader<T>(loader: LoaderModule<T>): LoaderModule<T> {
-  return loader
-}
-
 // Map from loader module id to its module info
 const idToLoaderModulesMap: Record<
   string,
@@ -44,6 +31,19 @@ const depToLoaderModuleIdsMap: Record<string, Set<string>> = Object.create(null)
 let idToPendingPromiseMap: Record<string, Promise<string> | undefined> =
   Object.create(null)
 let isBuild = false
+
+export interface LoaderModule<T = any> {
+  watch?: string[] | string
+  load: (watchedFiles: string[]) => Awaitable<T>
+  options?: { globOptions?: GlobOptions }
+}
+
+/**
+ * Helper for defining loaders with type inference
+ */
+export function defineLoader<T>(loader: LoaderModule<T>): LoaderModule<T> {
+  return loader
+}
 
 export const staticDataPlugin: Plugin = {
   name: 'vitepress:data',

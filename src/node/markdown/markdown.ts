@@ -61,14 +61,6 @@ export type { Header } from '../shared'
 // not exported from @mdit/plugin-emoji, so derive it from the plugin signature
 type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
 
-// `true` and `undefined` enable a plugin with its default options - only an
-// object carries user-provided plugin options
-function normalizePluginOptions<T>(
-  value: T | boolean | undefined
-): T | undefined {
-  return typeof value === 'boolean' ? undefined : value
-}
-
 export type ThemeOptions =
   | ThemeRegistrationAny
   | BuiltinTheme
@@ -544,4 +536,12 @@ export async function createMarkdownRenderer(
   }
 
   return md
+}
+
+// `true` and `undefined` enable a plugin with its default options - only an
+// object carries user-provided plugin options
+function normalizePluginOptions<T>(
+  value: T | boolean | undefined
+): T | undefined {
+  return typeof value === 'boolean' ? undefined : value
 }
