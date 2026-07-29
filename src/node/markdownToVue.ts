@@ -87,10 +87,10 @@ function getResolutionCache(siteConfig: SiteConfig) {
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
-  options: MarkdownOptions = {},
-  base = '/',
-  includeLastUpdatedData = false,
-  cleanUrls = false,
+  options: MarkdownOptions,
+  base: string,
+  includeLastUpdatedData: boolean,
+  cleanUrls: boolean,
   siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
