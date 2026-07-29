@@ -131,9 +131,10 @@ export function createContentLoader<T = ContentData[]>(
               : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
 
+          const relFile = normalizePath(path.relative(config.srcDir, file))
           const url =
             '/' +
-            normalizePath(path.relative(config.srcDir, file))
+            (config.rewrites.map[relFile] || relFile)
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
 
