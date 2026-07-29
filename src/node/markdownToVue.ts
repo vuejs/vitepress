@@ -213,11 +213,18 @@ export async function createMarkdownToVueRenderFn(
               : path.relative(srcDir, path.resolve(dir, url))
           )
         )
-        resolved =
-          siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+        const rewriteSource = siteConfig?.rewrites.inv[resolved + '.md']
+        if (rewriteSource) resolved = rewriteSource.slice(0, -3)
+
+        // a link to the pre-rewrite path of a rewritten page 404s in the
+        // built site even though the page itself exists
+        const rewritten = rewriteSource
+          ? undefined
+          : siteConfig?.rewrites.map[resolved + '.md']
 
         if (
-          !pages.includes(resolved) &&
+          (!pages.includes(resolved) ||
+            (rewritten != null && rewritten !== resolved + '.md')) &&
           !(
             siteConfig?.publicDir &&
             fs.existsSync(path.join(siteConfig.publicDir, `${resolved}.html`))
