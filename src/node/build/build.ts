@@ -56,119 +56,13 @@ export async function build(
   const pageMetaMap = Object.create(null) as Record<string, PageMeta>
 
   try {
-    const { clientResult, serverResult, pageToHashMap } = await bundle(
-      siteConfig,
-      buildOptions,
-      pageMetaMap
-    )
+    const out = await bundle(siteConfig, buildOptions, pageMetaMap)
 
     if (process.env.BUNDLE_ONLY) {
       return
     }
 
-    const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await nativeImport(entryPath)
-
-    await task('rendering pages', async () => {
-      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-        clientResult?.output || []
-
-      const appChunk = clientOutput.find(
-        (chunk): chunk is Rolldown.OutputChunk =>
-          chunk.type === 'chunk' &&
-          chunk.isEntry &&
-          !!chunk.facadeModuleId?.endsWith('.js')
-      )
-
-      const isDefaultTheme = clientOutput.some(
-        (chunk): chunk is Rolldown.OutputChunk =>
-          chunk.type === 'chunk' &&
-          chunk.name === 'theme' &&
-          chunk.moduleIds.some((id) => id.includes('client/theme-default'))
-      )
-
-      // ----
-
-      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-        (siteConfig.mpa ? serverResult : clientResult)?.output || []
-
-      const cssChunk = resultOutput.find(
-        (chunk): chunk is Rolldown.OutputAsset =>
-          chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      )
-
-      // prettier-ignore
-      const assets = resultOutput.filter(
-        (chunk): chunk is Rolldown.OutputAsset =>
-          chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-      ).map((asset) => siteConfig.site.base + asset.fileName)
-
-      // ----
-
-      const additionalHeadTags: HeadConfig[] = []
-      const metadataScript = await generateMetadataScript(
-        pageToHashMap,
-        siteConfig
-      )
-
-      if (isDefaultTheme) {
-        const fontURL = assets.find((file) =>
-          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
-        )
-        if (fontURL) {
-          additionalHeadTags.push([
-            'link',
-            {
-              rel: 'preload',
-              href: fontURL,
-              as: 'font',
-              type: 'font/woff2',
-              crossorigin: ''
-            }
-          ])
-        }
-      }
-
-      const usedIcons = new Set<string>()
-
-      await pMap(
-        ['404.md', ...siteConfig.pages],
-        async (page) => {
-          await renderPage(
-            render,
-            siteConfig,
-            siteConfig.rewrites.map[page] || page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            assets,
-            pageToHashMap,
-            metadataScript,
-            additionalHeadTags,
-            usedIcons
-          )
-        },
-        { concurrency: siteConfig.buildConcurrency }
-      )
-
-      const icons = require('@iconify-json/simple-icons/icons.json')
-      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
-        iconSelector: '.vpi-social-{name}',
-        commonSelector: '.vpi-social',
-        varName: 'icon',
-        format: process.env.DEBUG ? 'expanded' : 'compressed',
-        mode: 'mask'
-      }).replace(/[^]*?}\n*/, '')
-
-      await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
-    })
-
-    // emit page hash map for the case where a user session is open
-    // when the site got redeployed (which invalidates current hash map)
-    await writeFile(
-      path.join(siteConfig.outDir, 'hashmap.json'),
-      JSON.stringify(pageToHashMap)
-    )
+    await task('rendering pages', render.bind(null, siteConfig, out))
   } finally {
     await unlinkVue()
     if (!process.env.DEBUG) {
@@ -202,6 +96,114 @@ async function linkVue() {
     }
   }
   return async () => {}
+}
+
+async function render(
+  siteConfig: SiteConfig,
+  {
+    clientResult,
+    serverResult,
+    pageToHashMap
+  }: Awaited<ReturnType<typeof bundle>>
+): Promise<void> {
+  const entryPath = path.join(siteConfig.tempDir, 'app.js')
+  const { render } = await nativeImport(entryPath)
+
+  const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    clientResult?.output || []
+
+  const appChunk = clientOutput.find(
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' &&
+      chunk.isEntry &&
+      !!chunk.facadeModuleId?.endsWith('.js')
+  )
+
+  const isDefaultTheme = clientOutput.some(
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' &&
+      chunk.name === 'theme' &&
+      chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+  )
+
+  // ----
+
+  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+  const cssChunk = resultOutput.find(
+    (chunk): chunk is Rolldown.OutputAsset =>
+      chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+  )
+
+  // prettier-ignore
+  const assets = resultOutput.filter(
+    (chunk): chunk is Rolldown.OutputAsset =>
+      chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+  ).map((asset) => siteConfig.site.base + asset.fileName)
+
+  // ----
+
+  const additionalHeadTags: HeadConfig[] = []
+  const metadataScript = await generateMetadataScript(pageToHashMap, siteConfig)
+
+  if (isDefaultTheme) {
+    const fontURL = assets.find((file) =>
+      /inter-roman-latin\.[\w-]+\.woff2/.test(file)
+    )
+    if (fontURL) {
+      additionalHeadTags.push([
+        'link',
+        {
+          rel: 'preload',
+          href: fontURL,
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: ''
+        }
+      ])
+    }
+  }
+
+  const usedIcons = new Set<string>()
+
+  await pMap(
+    ['404.md', ...siteConfig.pages],
+    async (page) => {
+      await renderPage(
+        render,
+        siteConfig,
+        siteConfig.rewrites.map[page] || page,
+        clientResult,
+        appChunk,
+        cssChunk,
+        assets,
+        pageToHashMap,
+        metadataScript,
+        additionalHeadTags,
+        usedIcons
+      )
+    },
+    { concurrency: siteConfig.buildConcurrency }
+  )
+
+  const icons = require('@iconify-json/simple-icons/icons.json')
+  const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+    iconSelector: '.vpi-social-{name}',
+    commonSelector: '.vpi-social',
+    varName: 'icon',
+    format: process.env.DEBUG ? 'expanded' : 'compressed',
+    mode: 'mask'
+  }).replace(/[^]*?}\n*/, '')
+
+  await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
+
+  // emit page hash map for the case where a user session is open
+  // when the site got redeployed (which invalidates current hash map)
+  await writeFile(
+    path.join(siteConfig.outDir, 'hashmap.json'),
+    JSON.stringify(pageToHashMap)
+  )
 }
 
 async function generateMetadataScript(
