@@ -10,68 +10,63 @@ import {
 } from 'sitemap'
 import type { SiteConfig } from '../config'
 import type { PageMeta } from '../plugin'
-import { task } from '../utils/task'
 
 export async function generateSitemap(
   siteConfig: SiteConfig,
   pageMetaMap: Record<string, PageMeta>
 ) {
-  if (!siteConfig.sitemap?.hostname) return
+  const locales = siteConfig.userConfig.locales || {}
+  const defaultLang =
+    locales.root?.lang || siteConfig.userConfig.lang || 'en-US'
 
-  await task('generating sitemap', async () => {
-    const locales = siteConfig.userConfig.locales || {}
-    const defaultLang =
-      locales.root?.lang || siteConfig.userConfig.lang || 'en-US'
+  // locale directories whose pages are translations of each other
+  const localeDirs = Object.keys(locales).filter(
+    (locale) => locale !== 'root' && locales[locale].lang
+  )
 
-    // locale directories whose pages are translations of each other
-    const localeDirs = Object.keys(locales).filter(
-      (locale) => locale !== 'root' && locales[locale].lang
-    )
+  // group each page with its translations under a locale-independent key
+  const pageGroups: Record<
+    string,
+    { lang: string; url: string; lastmod?: number }[]
+  > = {}
 
-    // group each page with its translations under a locale-independent key
-    const pageGroups: Record<
-      string,
-      { lang: string; url: string; lastmod?: number }[]
-    > = {}
+  for (const sourcePage of siteConfig.pages) {
+    const page = siteConfig.rewrites.map[sourcePage] || sourcePage
+    const localeDir = page.split('/')[0]
 
-    for (const sourcePage of siteConfig.pages) {
-      const page = siteConfig.rewrites.map[sourcePage] || sourcePage
-      const localeDir = page.split('/')[0]
+    const url = page
+      .replace(/(^|\/)index\.md$/, '$1')
+      .replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
 
-      const url = page
-        .replace(/(^|\/)index\.md$/, '$1')
-        .replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
+    const key = localeDirs.includes(localeDir)
+      ? page.slice(localeDir.length + 1)
+      : page
 
-      const key = localeDirs.includes(localeDir)
-        ? page.slice(localeDir.length + 1)
-        : page
+    ;(pageGroups[key] ??= []).push({
+      lang: locales[localeDir]?.lang || defaultLang,
+      url,
+      lastmod: pageMetaMap[page]?.lastUpdated || undefined
+    })
+  }
 
-      ;(pageGroups[key] ??= []).push({
-        lang: locales[localeDir]?.lang || defaultLang,
-        url,
-        lastmod: pageMetaMap[page]?.lastUpdated || undefined
-      })
-    }
+  // translated pages link to all their variants (including themselves)
+  let items: SitemapItem[] = Object.values(pageGroups).flatMap((variants) =>
+    variants.length < 2
+      ? { url: variants[0].url, lastmod: variants[0].lastmod }
+      : variants.map(({ url, lastmod }) => ({
+          url,
+          lastmod,
+          links: variants
+        }))
+  )
+  items = (await siteConfig.sitemap?.transformItems?.(items)) || items
 
-    // translated pages link to all their variants (including themselves)
-    let items: SitemapItem[] = Object.values(pageGroups).flatMap((variants) =>
-      variants.length < 2
-        ? { url: variants[0].url, lastmod: variants[0].lastmod }
-        : variants.map(({ url, lastmod }) => ({
-            url,
-            lastmod,
-            links: variants
-          }))
-    )
-    items = (await siteConfig.sitemap?.transformItems?.(items)) || items
+  const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
+  const sitemapStream = new SitemapStream(siteConfig.sitemap)
 
-    const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
-    const sitemapStream = new SitemapStream(siteConfig.sitemap)
-
-    items.forEach((item) => sitemapStream.write(item))
-    sitemapStream.end()
-    await pipeline(sitemapStream, fs.createWriteStream(sitemapPath))
-  })
+  items.forEach((item) => sitemapStream.write(item))
+  sitemapStream.end()
+  await pipeline(sitemapStream, fs.createWriteStream(sitemapPath))
 }
 
 // ============================== Patched Types ===============================
