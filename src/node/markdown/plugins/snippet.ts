@@ -23,8 +23,8 @@ export interface Options {
  *
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
-export const rawPathRegexp =
-  /^(.+?)(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+const RAW_PATH_RE =
+  /^(.+?)(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -35,7 +35,7 @@ export function rawPathToToken(rawPath: string) {
     lang = '',
     attrs = '',
     rawTitle = ''
-  ] = rawPathRegexp.exec(rawPath) || []
+  ] = RAW_PATH_RE.exec(rawPath) || []
 
   const filename = filepath.split('/').pop() ?? ''
 
@@ -193,7 +193,7 @@ export const snippetPlugin = (
     const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
 
     // @ts-ignore
-    token.src = [resolvedPath, region.slice(1)]
+    token.src = [resolvedPath, region]
     token.markup = '```'
     token.map = [startLine, startLine + 1]
 
