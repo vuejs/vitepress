@@ -59,7 +59,7 @@ export async function localSearchPlugin(
       }
       throw e
     })
-    const src = processIncludes(md, srcDir, raw, file, [], cleanUrls)
+    const src = await processIncludes(md, srcDir, raw, file, [], cleanUrls)
     if (options._render) {
       return options._render(src, env, md)
     } else {

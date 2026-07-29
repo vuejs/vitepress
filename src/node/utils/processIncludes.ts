@@ -1,6 +1,6 @@
 import matter from 'gray-matter'
-import type { MarkdownItAsync } from 'markdown-it-async'
-import fs from 'node:fs'
+import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
+import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { findRegion } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
@@ -12,12 +12,12 @@ export function processIncludes(
   file: string,
   includes: string[],
   cleanUrls: boolean
-): string {
+): Promise<string> {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const regionRE = /(#[^\s\{]+)/
   const rangeRE = /\{(\d*),(\d*)\}$/
 
-  return src.replace(includesRE, (m: string, m1: string) => {
+  return replaceAsync(src, includesRE, async (m: string, m1: string) => {
     if (!m1.length) return m
 
     const range = m1.match(rangeRE)
@@ -36,7 +36,7 @@ export function processIncludes(
       ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
       : path.join(path.dirname(file), m1)
 
-    let content = fs.readFileSync(includePath, 'utf8')
+    let content = await readFile(includePath, 'utf8')
 
     if (region) {
       const [regionName] = region

@@ -138,7 +138,7 @@ export async function createMarkdownToVueRenderFn(
 
     // resolve includes
     let includes: string[] = []
-    src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
+    src = await processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
 
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
