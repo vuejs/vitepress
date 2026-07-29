@@ -1,4 +1,5 @@
 import { readFile as fsReadFile } from 'node:fs/promises'
+import { setTimeout } from 'node:timers/promises'
 
 const retryCodes = new Set(['EMFILE', 'ENFILE'])
 
@@ -13,7 +14,7 @@ export async function readFile(file: string): Promise<string> {
     } catch (e) {
       const code = (e as NodeJS.ErrnoException).code
       if (attempt >= 9 || !code || !retryCodes.has(code)) throw e
-      await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 10))
+      await setTimeout(2 ** attempt * 10)
     }
   }
 }
