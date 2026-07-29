@@ -94,11 +94,11 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       '@mdit/plugin-anchor':
-        specifier: ^1.1.2
-        version: 1.1.2(markdown-it@14.3.0)
+        specifier: ^1.1.3
+        version: 1.1.3(markdown-it@14.3.0)
       '@mdit/plugin-attrs':
-        specifier: ^1.1.0
-        version: 1.1.0(markdown-it@14.3.0)
+        specifier: ^1.1.1
+        version: 1.1.1(markdown-it@14.3.0)
       '@mdit/plugin-container':
         specifier: ^1.0.2
         version: 1.0.2(markdown-it@14.3.0)
@@ -640,13 +640,13 @@ packages:
       markdown-it:
         optional: true
 
-  '@mdit/plugin-anchor@1.1.2':
-    resolution: {integrity: sha512-/p+GIjjG2E8iQRGtIxAYgbVeZ37U0Rxn5w/KYNKzhgrpGGMYvgDKneLwV/pYDoxxZSKTXF8tpZeuFNY4jR0S4g==}
+  '@mdit/plugin-anchor@1.1.3':
+    resolution: {integrity: sha512-lkB9c+NTR//ZLv4MgrDb2ewYulr/WOCWPx0aQC/HbccWJc0JVPMeYwalWfzj517pvKbHGQdOpGRTcFcnn+NG0g==}
     peerDependencies:
       markdown-it: ^14.2.0
 
-  '@mdit/plugin-attrs@1.1.0':
-    resolution: {integrity: sha512-xdRnlnvjUoIGWNPmESk2BICLcyZFOk79Avpu/4dyf73Yz5JhQAhuJ+CAtaGTWQzp2NV5EVdlxg07qQc3f6BTfw==}
+  '@mdit/plugin-attrs@1.1.1':
+    resolution: {integrity: sha512-DgBqzdg8stCGtCsQUJLWhHsyk2HnNp/2d/h5WV9Op2lMGnHA8hjOgnHbmwp0AD8djfv+uUCD6VlOCw3y4L/rGQ==}
     engines: {node: '>=22'}
     peerDependencies:
       markdown-it: ^14.2.0
@@ -2554,8 +2554,8 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
 
-  tinyrainbow@3.1.0:
-    resolution: {integrity: sha512-Bf+ILmBgretUrdJxzXM0SgXLZ3XfiaUuOj/IKQHuTXip+05Xn+uyEYdVg0kYDipTBcLrCVyUzAPz7QmArb0mmw==}
+  tinyrainbow@3.1.1:
+    resolution: {integrity: sha512-yau8yJdTt989Mm0Bd/236QnzEiPf2xLLTqUZRUJOo/3CB078LSwzei343DgtJVmfJKJE3TMINY1u42SQsP6mXw==}
     engines: {node: '>=14.0.0'}
 
   to-regex-range@5.0.1:
@@ -3116,12 +3116,12 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.3.0
 
-  '@mdit/plugin-anchor@1.1.2(markdown-it@14.3.0)':
+  '@mdit/plugin-anchor@1.1.3(markdown-it@14.3.0)':
     dependencies:
       '@types/markdown-it': 14.1.2
       markdown-it: 14.3.0
 
-  '@mdit/plugin-attrs@1.1.0(markdown-it@14.3.0)':
+  '@mdit/plugin-attrs@1.1.1(markdown-it@14.3.0)':
     dependencies:
       '@mdit/helper': 1.0.1(markdown-it@14.3.0)
       '@types/markdown-it': 14.1.2
@@ -3516,7 +3516,7 @@ snapshots:
       '@vitest/spy': 4.1.10
       '@vitest/utils': 4.1.10
       chai: 6.2.2
-      tinyrainbow: 3.1.0
+      tinyrainbow: 3.1.1
 
   '@vitest/mocker@4.1.10(vite@8.1.5(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))':
     dependencies:
@@ -3528,7 +3528,7 @@ snapshots:
 
   '@vitest/pretty-format@4.1.10':
     dependencies:
-      tinyrainbow: 3.1.0
+      tinyrainbow: 3.1.1
 
   '@vitest/runner@4.1.10':
     dependencies:
@@ -3548,7 +3548,7 @@ snapshots:
     dependencies:
       '@vitest/pretty-format': 4.1.10
       convert-source-map: 2.0.0
-      tinyrainbow: 3.1.0
+      tinyrainbow: 3.1.1
 
   '@volar/language-core@2.4.28':
     dependencies:
@@ -5033,7 +5033,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.5)
       picomatch: 4.0.5
 
-  tinyrainbow@3.1.0: {}
+  tinyrainbow@3.1.1: {}
 
   to-regex-range@5.0.1:
     dependencies:
@@ -5199,7 +5199,7 @@ snapshots:
       tinybench: 2.9.0
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
-      tinyrainbow: 3.1.0
+      tinyrainbow: 3.1.1
       vite: 8.1.5(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
