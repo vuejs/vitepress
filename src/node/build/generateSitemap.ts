@@ -1,4 +1,3 @@
-import matter from 'gray-matter'
 import fs from 'node:fs'
 import path from 'node:path'
 import {
@@ -9,78 +8,72 @@ import {
   type NewsItem
 } from 'sitemap'
 import type { SiteConfig } from '../config'
-import { slash } from '../shared'
-import { getGitTimestamp } from '../utils/getGitTimestamp'
+import type { PageMeta } from '../plugin'
 import { task } from '../utils/task'
 
-export async function generateSitemap(siteConfig: SiteConfig) {
+export async function generateSitemap(
+  siteConfig: SiteConfig,
+  pageMetaMap: Record<string, PageMeta>
+) {
   if (!siteConfig.sitemap?.hostname) return
-
-  const getLastmod = async (url: string) => {
-    if (!siteConfig.lastUpdated) return undefined
-
-    let file = url.replace(/(^|\/)$/, '$1index')
-    file = file.replace(/(\.html)?$/, '.md')
-    file = siteConfig.rewrites.inv[file] || file
-    file = path.join(siteConfig.srcDir, file)
-
-    if (!fs.existsSync(file)) return undefined
-
-    const { data } = matter.read(file)
-    if (data.lastUpdated === false) return undefined
-    if (data.lastUpdated instanceof Date) return +data.lastUpdated
-
-    return (await getGitTimestamp(slash(file))) || undefined
-  }
 
   await task('generating sitemap', async () => {
     const locales = siteConfig.userConfig.locales || {}
-    const filteredLocales = Object.keys(locales).filter(
-      (locale) => locales[locale].lang && locale !== 'root'
-    )
     const defaultLang =
-      locales?.root?.lang || siteConfig.userConfig.lang || 'en-US'
+      locales.root?.lang || siteConfig.userConfig.lang || 'en-US'
 
-    const pages = siteConfig.pages.map(
-      (page) => siteConfig.rewrites.map[page] || page
+    // locale directories whose pages are translations of each other
+    const localeDirs = Object.keys(locales).filter(
+      (locale) => locale !== 'root' && locales[locale].lang
     )
 
-    const groupedPages: Record<string, { lang: string; url: string }[]> = {}
-    pages.forEach((page) => {
-      const locale = page.split('/')[0]
-      const lang = locales[locale]?.lang || defaultLang
+    // group each page with its translations under a locale-independent key
+    const pageGroups: Record<
+      string,
+      { lang: string; url: string; lastmod?: number }[]
+    > = {}
 
-      let url = page.replace(/(^|\/)index\.md$/, '$1')
-      url = url.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
-      if (filteredLocales.includes(locale)) page = page.slice(locale.length + 1)
+    for (const sourcePage of siteConfig.pages) {
+      const page = siteConfig.rewrites.map[sourcePage] || sourcePage
+      const localeDir = page.split('/')[0]
 
-      if (!groupedPages[page]) groupedPages[page] = []
-      groupedPages[page].push({ url, lang })
-    })
+      const url = page
+        .replace(/(^|\/)index\.md$/, '$1')
+        .replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
 
-    const _items = await Promise.all(
-      Object.values(groupedPages).map(async (pages) => {
-        if (pages.length < 2)
-          return { url: pages[0].url, lastmod: await getLastmod(pages[0].url) }
+      const key = localeDirs.includes(localeDir)
+        ? page.slice(localeDir.length + 1)
+        : page
 
-        return await Promise.all(
-          pages.map(async ({ url }) => {
-            return { url, lastmod: await getLastmod(url), links: pages }
-          })
-        )
+      ;(pageGroups[key] ??= []).push({
+        lang: locales[localeDir]?.lang || defaultLang,
+        url,
+        lastmod: pageMetaMap[page]?.lastUpdated || undefined
       })
-    )
+    }
 
-    let items: SitemapItem[] = _items.flat()
+    // translated pages link to all their variants (including themselves)
+    let items: SitemapItem[] = Object.values(pageGroups).flatMap((variants) =>
+      variants.length < 2
+        ? { url: variants[0].url, lastmod: variants[0].lastmod }
+        : variants.map(({ url, lastmod }) => ({
+            url,
+            lastmod,
+            links: variants
+          }))
+    )
     items = (await siteConfig.sitemap?.transformItems?.(items)) || items
 
-    const sitemapStream = new SitemapStream(siteConfig.sitemap)
     const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
+    const sitemapStream = new SitemapStream(siteConfig.sitemap)
     const writeStream = fs.createWriteStream(sitemapPath)
 
     sitemapStream.pipe(writeStream)
     items.forEach((item) => sitemapStream.write(item))
     sitemapStream.end()
+    await new Promise((resolve, reject) =>
+      writeStream.on('finish', resolve).on('error', reject)
+    )
   })
 }
 
