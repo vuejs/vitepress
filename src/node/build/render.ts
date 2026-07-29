@@ -34,7 +34,6 @@ export async function renderPage(
   usedIcons: Set<string>
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
-  const siteData = resolveSiteDataByRoute(config.site, page)
 
   // render page
   const context = await render(routePath)
@@ -69,6 +68,8 @@ export async function renderPage(
       throw e
     }
   }
+
+  const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description

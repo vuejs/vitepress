@@ -246,9 +246,11 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   /**
-   * Config overrides applied to pages by directory: either a dict mapping a
-   * directory (e.g. `/guide/`) to overrides, where deeper directories take
-   * precedence, or a function returning the overrides to apply for a page.
+   * Config overrides applied to pages by source directory: either a dict
+   * mapping a directory (e.g. `/guide/`) to overrides, where deeper
+   * directories take precedence, or a function returning the overrides to
+   * apply for a page. Directories are resolved against the source paths of
+   * pages, before rewrites.
    */
   additionalConfig?:
     AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
@@ -523,7 +525,8 @@ export type AdditionalConfig<ThemeConfig = any> =
   LocaleSpecificConfig<ThemeConfig>
 
 /**
- * Additional configs keyed by the directory they apply to (e.g. `/guide/`).
+ * Additional configs keyed by the source directory they apply to
+ * (e.g. `/guide/`).
  */
 export type AdditionalConfigDict<ThemeConfig = any> = Record<
   string,
@@ -531,11 +534,11 @@ export type AdditionalConfigDict<ThemeConfig = any> = Record<
 >
 
 /**
- * Resolves the additional configs of a page from its relative path, ordered
+ * Resolves the additional configs of a page from its source path, ordered
  * from highest to lowest priority.
  */
 export type AdditionalConfigLoader<ThemeConfig = any> = (
-  relativePath: string
+  filePath: string
 ) => AdditionalConfig<ThemeConfig>[] | void
 
 // Manually declaring all properties as rollup-plugin-dts

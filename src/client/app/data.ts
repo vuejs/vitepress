@@ -29,7 +29,11 @@ export const siteDataRef: Ref<SiteData> = shallowRef(
 // per-app data
 export function initData(route: Route): VitePressData {
   const site = computed(() =>
-    resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
+    resolveSiteDataByRoute(
+      siteDataRef.value,
+      route.data.relativePath,
+      route.data.filePath
+    )
   )
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
