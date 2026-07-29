@@ -190,10 +190,9 @@ export const snippetPlugin = (
     }  ${attrs ?? ''}`
 
     const { realPath, path: _path } = state.env as MarkdownEnv
-    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+    const src = path.resolve(path.dirname(realPath ?? _path), filepath)
 
-    // @ts-ignore
-    token.src = [resolvedPath, region]
+    token.meta = { src, region }
     token.markup = '```'
     token.map = [startLine, startLine + 1]
 
@@ -205,8 +204,7 @@ export const snippetPlugin = (
   md.renderer.rules.fence = (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
-    // @ts-ignore
-    const [src, region] = token.src ?? []
+    const { src, region } = token.meta ?? {}
 
     if (!src) return fence(...args)
 
