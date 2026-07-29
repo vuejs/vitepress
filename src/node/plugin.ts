@@ -65,11 +65,17 @@ const isPageChunk = <T extends Rolldown.OutputChunk | Rolldown.RenderedChunk>(
 
 const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 
+// per-page metadata collected during transform, keyed by relativePath
+export interface PageMeta {
+  lastUpdated?: number
+}
+
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>,
+  pageMetaMap?: Record<string, PageMeta>,
   restartServer?: () => Promise<void>
 ) {
   const {
@@ -218,6 +224,11 @@ export async function createVitePressPlugin(
             code,
             id
           )
+          if (pageMetaMap) {
+            pageMetaMap[pageData.relativePath] = {
+              lastUpdated: pageData.lastUpdated
+            }
+          }
           allDeadLinks.push(...deadLinks)
           if (includes.length) {
             includes.forEach((i) => {

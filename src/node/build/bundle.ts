@@ -12,7 +12,7 @@ import {
 } from 'vite'
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
-import { createVitePressPlugin } from '../plugin'
+import { createVitePressPlugin, type PageMeta } from '../plugin'
 import { escapeRegExp, sanitizeFileName, slash } from '../shared'
 import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
@@ -38,7 +38,8 @@ const excludedModules = [
 // bundles the VitePress app for both client AND server.
 export async function bundle(
   config: SiteConfig,
-  options: BuildOptions
+  options: BuildOptions,
+  pageMetaMap?: Record<string, PageMeta>
 ): Promise<{
   clientResult: Rolldown.RolldownOutput | null
   serverResult: Rolldown.RolldownOutput
@@ -83,7 +84,8 @@ export async function bundle(
       config,
       ssr,
       pageToHashMap,
-      clientJSMap
+      clientJSMap,
+      pageMetaMap
     ),
     ssr: { noExternal: ['vitepress', '@docsearch/css'] },
     build: {

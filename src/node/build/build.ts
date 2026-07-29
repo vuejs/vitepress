@@ -12,6 +12,7 @@ import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
+import type { PageMeta } from '../plugin'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
@@ -51,10 +52,13 @@ export async function build(
     delete buildOptions.outDir
   }
 
+  const pageMetaMap = Object.create(null) as Record<string, PageMeta>
+
   try {
     const { clientResult, serverResult, pageToHashMap } = await bundle(
       siteConfig,
-      buildOptions
+      buildOptions,
+      pageMetaMap
     )
 
     if (process.env.BUNDLE_ONLY) {
@@ -172,7 +176,7 @@ export async function build(
     }
   }
 
-  await generateSitemap(siteConfig)
+  await generateSitemap(siteConfig, pageMetaMap)
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 
