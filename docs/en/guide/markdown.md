@@ -115,6 +115,22 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 - [ ] Write the press release
 - [x] Update the website
 
+## Footnotes
+
+**Input**
+
+```md
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+```
+
+**Output**
+
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+
 ## Emoji :tada:
 
 **Input**

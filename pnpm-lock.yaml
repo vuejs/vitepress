@@ -105,6 +105,9 @@ importers:
       '@mdit/plugin-emoji':
         specifier: ^1.1.0
         version: 1.1.0(markdown-it@14.3.0)
+      '@mdit/plugin-footnote':
+        specifier: ^1.0.1
+        version: 1.0.1(markdown-it@14.3.0)
       '@mdit/plugin-tasklist':
         specifier: ^1.0.1
         version: 1.0.1(markdown-it@14.3.0)
@@ -664,6 +667,12 @@ packages:
     peerDependenciesMeta:
       markdown-it:
         optional: true
+
+  '@mdit/plugin-footnote@1.0.1':
+    resolution: {integrity: sha512-PrH02dlVQT8/vPvfGrLHpcHq8N0+gOaAVNOfuhwlPqWCL4He3o+buUCxm1Uem02+UR8/TRBW50M/XD/dVSe2jw==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      markdown-it: ^14.2.0
 
   '@mdit/plugin-tasklist@1.0.1':
     resolution: {integrity: sha512-Ks/Tihw5ibbkP2qOZzltkbiTk8RfpxDRvqdn4hl1wIs3VmeKITIQ36gN4DsuotSauA9SBe/mL0QJIfuSCrXqrw==}
@@ -3115,6 +3124,11 @@ snapshots:
     dependencies:
       '@types/markdown-it': 14.1.2
     optionalDependencies:
+      markdown-it: 14.3.0
+
+  '@mdit/plugin-footnote@1.0.1(markdown-it@14.3.0)':
+    dependencies:
+      '@types/markdown-it': 14.1.2
       markdown-it: 14.3.0
 
   '@mdit/plugin-tasklist@1.0.1(markdown-it@14.3.0)':
