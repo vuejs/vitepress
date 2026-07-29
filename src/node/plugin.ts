@@ -413,7 +413,8 @@ export async function createVitePressPlugin(
       }
 
       importerMap[slash(file)]?.forEach((relativePath) => {
-        clearCache(relativePath)
+        // the compile cache is keyed by the rewritten path
+        clearCache(siteConfig.rewrites.map[relativePath] || relativePath)
         const mod = this.environment.moduleGraph.getModuleById(
           path.posix.join(srcDir, relativePath)
         )
