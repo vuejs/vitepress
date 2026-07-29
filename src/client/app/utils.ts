@@ -18,7 +18,7 @@ export function joinPath(base: string, path: string) {
 }
 
 /**
- * Append base to internal (non-relative) urls
+ * Prepend base to internal (non-relative) urls
  */
 export function withBase(path: string) {
   return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
