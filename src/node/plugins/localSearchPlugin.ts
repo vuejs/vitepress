@@ -1,6 +1,5 @@
 import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
-import fs from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { createDebug } from 'obug'
@@ -50,16 +49,21 @@ export async function localSearchPlugin(
   const options = siteConfig.site.themeConfig.search.options || {}
 
   async function render(file: string) {
-    if (!fs.existsSync(file)) return ''
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const md_raw = await readFile(file, 'utf8')
-    const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
+    const raw = await readFile(file, 'utf8').catch((e) => {
+      if (e.code === 'ENOENT') {
+        debug(`File not found: ${file}`)
+        return ''
+      }
+      throw e
+    })
+    const src = processIncludes(md, srcDir, raw, file, [], cleanUrls)
     if (options._render) {
-      return await options._render(md_src, env, md)
+      return options._render(src, env, md)
     } else {
-      const html = await md.renderAsync(md_src, env)
+      const html = await md.renderAsync(src, env)
       return env.frontmatter?.search === false ? '' : html
     }
   }
@@ -128,6 +132,7 @@ export async function localSearchPlugin(
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
     const html = await render(file)
+    if (!html) return
     const sections =
       // user provided generator
       (await options.miniSearch?._splitIntoSections?.(file, html)) ??
@@ -169,15 +174,17 @@ export async function localSearchPlugin(
       )
     },
 
-    config: () => ({
-      optimizeDeps: {
-        include: [
-          'vitepress > @vueuse/integrations/useFocusTrap',
-          'vitepress > mark.js/src/vanilla.js',
-          'vitepress > minisearch'
-        ]
+    config() {
+      return {
+        optimizeDeps: {
+          include: [
+            'vitepress > @vueuse/integrations/useFocusTrap',
+            'vitepress > mark.js/src/vanilla.js',
+            'vitepress > minisearch'
+          ]
+        }
       }
-    }),
+    },
 
     configureServer(_server) {
       server = _server
