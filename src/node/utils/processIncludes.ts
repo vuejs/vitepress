@@ -1,9 +1,9 @@
 import matter from 'gray-matter'
 import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { findRegion } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
+import { readFile } from './fs'
 
 export function processIncludes(
   md: MarkdownItAsync,
@@ -41,7 +41,7 @@ export function processIncludes(
     // chain are cycles, the same file may still be included by siblings
     if (includePath === file || ancestors.includes(includePath)) return m
 
-    let content = await readFile(includePath, 'utf8')
+    let content = await readFile(includePath)
 
     if (region) {
       const [regionName] = region

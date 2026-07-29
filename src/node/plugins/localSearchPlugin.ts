@@ -1,6 +1,5 @@
 import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { createDebug } from 'obug'
 import type { Plugin, ViteDevServer } from 'vite'
@@ -8,6 +7,7 @@ import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
+import { readFile } from '../utils/fs'
 import { processIncludes } from '../utils/processIncludes'
 
 const debug = createDebug('vitepress:local-search')
@@ -52,7 +52,7 @@ export async function localSearchPlugin(
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const raw = await readFile(file, 'utf8').catch((e) => {
+    const raw = await readFile(file).catch((e) => {
       if (e.code === 'ENOENT') {
         debug(`File not found: ${file}`)
         return ''

@@ -1,9 +1,9 @@
 import compression from '@polka/compression'
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
 import { resolveConfig } from '../config'
+import { readFile } from '../utils/fs'
 
 export interface ServeOptions {
   base?: string
@@ -21,10 +21,7 @@ export async function serve(options: ServeOptions = {}) {
 
   const notAnAsset = (pathname: string) =>
     !pathname.includes(`/${config.assetsDir}/`)
-  const notFound = await readFile(
-    path.resolve(config.outDir, './404.html'),
-    'utf8'
-  )
+  const notFound = await readFile(path.resolve(config.outDir, './404.html'))
   const onNoMatch: IOptions['onNoMatch'] = (req, res) => {
     res.statusCode = 404
     if (notAnAsset(req.path)) res.write(notFound)

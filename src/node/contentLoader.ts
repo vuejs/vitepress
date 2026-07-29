@@ -1,5 +1,5 @@
 import matter from 'gray-matter'
-import { readFile, stat } from 'node:fs/promises'
+import { stat } from 'node:fs/promises'
 import path from 'node:path'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
@@ -9,6 +9,7 @@ import {
   mergeMarkdownLocales
 } from './markdown/markdown'
 import type { Awaitable, MarkdownEnv } from './shared'
+import { readFile } from './utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
@@ -121,7 +122,7 @@ export function createContentLoader<T = ContentData[]>(
 
           if (cached && timestamp === cached.timestamp) return cached.data
 
-          const src = await readFile(file, 'utf8')
+          const src = await readFile(file)
 
           const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
