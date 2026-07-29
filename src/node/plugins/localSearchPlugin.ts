@@ -82,8 +82,13 @@ export async function localSearchPlugin(
   let server: ViteDevServer | undefined
   let pending: Promise<void>
 
+  let indexVersion = 0
+
   function onIndexUpdated() {
     if (!server) return
+    // bust the per-locale import urls emitted below — the browser module
+    // cache and the transform cache would otherwise serve the old index
+    indexVersion++
     server.moduleGraph.onFileChange(LOCAL_SEARCH_INDEX_REQUEST_PATH)
     // HMR
     const mod = server.moduleGraph.getModuleById(
@@ -199,7 +204,9 @@ export async function localSearchPlugin(
             records.push(
               `${JSON.stringify(
                 locale
-              )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
+              )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}${
+                server ? `?v=${indexVersion}` : ''
+              }')`
             )
           }
           return `export default {${records.join(',')}}`
@@ -208,7 +215,9 @@ export async function localSearchPlugin(
           return `export default ${JSON.stringify(
             JSON.stringify(
               indexByLocales.get(
-                id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
+                id
+                  .replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
+                  .replace(/\?.*$/, '')
               ) ?? {}
             )
           )}`
