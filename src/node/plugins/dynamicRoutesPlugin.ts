@@ -113,7 +113,7 @@ export async function resolvePages(
   )
   const finalPages = [...pages, ...externalPages].sort()
 
-  const rewrites = resolveRewrites(pages, siteConfig.userConfig.rewrites)
+  const rewrites = resolveRewrites(finalPages, siteConfig.userConfig.rewrites)
 
   Object.assign(siteConfig, {
     pages: finalPages,
