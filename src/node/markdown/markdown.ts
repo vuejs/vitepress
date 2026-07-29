@@ -69,17 +69,24 @@ export type ThemeOptions =
       dark: ThemeRegistrationAny | BuiltinTheme
     }
 
+// highlight is marked as any to avoid type conflicts with plugins expecting
+// regular markdown-it which has sync highlight function. Such plugins will fail
+// if they access highlight directly but currently none of the ones we use do that.
+export type MarkdownRenderer = MarkdownItAsync & {
+  options: { highlight?: any }
+}
+
 export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== General Options ==================== */
 
   /**
    * Configure the markdown-it instance before any plugins are applied.
    */
-  preConfig?: (md: MarkdownItAsync) => Awaitable<void>
+  preConfig?: (md: MarkdownRenderer) => Awaitable<void>
   /**
    * Configure the markdown-it instance after all built-in plugins are applied.
    */
-  config?: (md: MarkdownItAsync) => Awaitable<void>
+  config?: (md: MarkdownRenderer) => Awaitable<void>
   /**
    * Disable cache (experimental)
    */
@@ -309,8 +316,6 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   sfc?: SfcPluginOptions
 }
 
-export type MarkdownRenderer = MarkdownItAsync
-
 // folds `locales.<index>.markdown` entries from the site config into
 // `MarkdownOptions.locales` so per-locale strings reach the renderer -
 // site config entries win over directly passed ones
@@ -327,10 +332,7 @@ export function mergeMarkdownLocales(
   return { ...options, locales: merged }
 }
 
-// highlight is marked as any to avoid type conflicts with plugins expecting
-// regular markdown-it which has sync highlight function. Such plugins will fail
-// if they access highlight directly but currently none of the ones we use do that.
-let md: (MarkdownRenderer & { options: { highlight?: any } }) | undefined
+let md: MarkdownRenderer | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
