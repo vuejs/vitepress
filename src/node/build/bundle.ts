@@ -61,9 +61,7 @@ export async function bundle(
   })
 
   const themeEntryRE = new RegExp(
-    `^${escapeRegExp(
-      path.resolve(config.themeDir, 'index.js').replace(/\\/g, '/')
-    ).slice(0, -2)}m?(j|t)s`
+    `^${escapeRegExp(slash(path.resolve(config.themeDir, 'index.js'))).slice(0, -2)}m?(j|t)s`
   )
 
   // resolve options to pass to vite
