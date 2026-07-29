@@ -46,7 +46,8 @@ export function rawPathToToken(rawPath: string) {
   return { filepath, extension, region, lines, lang, attrs, title }
 }
 
-const markers = [
+const MIGHT_BE_MARKER_RE = /region/i
+const MARKER_RES = [
   {
     start: /^\s*\/\/\s*#region\b\s*(.*?)\s*$/,
     end: /^\s*\/\/\s*#endregion\b\s*(.*?)\s*$/
@@ -92,7 +93,9 @@ export function findRegions(lines: string[], region: string) {
   let start: number | null = null
 
   for (let i = 0; i < lines.length; i++) {
-    for (const m of markers) {
+    if (!MIGHT_BE_MARKER_RE.test(lines[i])) continue
+
+    for (const m of MARKER_RES) {
       // find region start
       const startMatch = m.start.exec(lines[i])
       if (startMatch?.[1] === region) {
@@ -122,7 +125,9 @@ export function findRegions(lines: string[], region: string) {
 
 export function stripMarkers(lines: string[]): string[] {
   return lines.filter(
-    (l) => !markers.some((m) => m.start.test(l) || m.end.test(l))
+    (l) =>
+      !MIGHT_BE_MARKER_RE.test(l) ||
+      !MARKER_RES.some((m) => m.start.test(l) || m.end.test(l))
   )
 }
 
