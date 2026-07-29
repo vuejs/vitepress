@@ -120,7 +120,7 @@ export async function bundle(
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
+                    ? `${config.assetsDir}/chunks/[hash].js`
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 codeSplitting: {
