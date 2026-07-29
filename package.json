@@ -37,6 +37,7 @@
   },
   "main": "dist/node/index.js",
   "types": "types/index.d.ts",
+  "web-types": "./dist/web-types.json",
   "bin": {
     "vitepress": "bin/vitepress.js"
   },
@@ -58,7 +59,7 @@
     "dev:node": "DEV=true pnpm build:node -w",
     "dev:shared": "node scripts/copyShared.ts",
     "dev:watch": "node scripts/watchAndCopy.ts",
-    "build": "pnpm build:prepare && pnpm build:client && pnpm build:node",
+    "build": "pnpm build:prepare && pnpm build:client && pnpm build:node && node scripts/genWebTypes.ts",
     "build:prepare": "pnpm clean && node scripts/copyShared.ts",
     "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient.ts",
     "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
