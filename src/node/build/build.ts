@@ -56,7 +56,10 @@ export async function build(
   const pageMetaMap = Object.create(null) as Record<string, PageMeta>
 
   try {
-    const out = await bundle(siteConfig, buildOptions, pageMetaMap)
+    const out = await task(
+      'building client + server bundles',
+      bundle.bind(null, siteConfig, buildOptions, pageMetaMap)
+    )
 
     if (process.env.BUNDLE_ONLY) {
       return
@@ -74,7 +77,13 @@ export async function build(
     }
   }
 
-  await generateSitemap(siteConfig, pageMetaMap)
+  if (siteConfig.sitemap?.hostname) {
+    await task(
+      'generating sitemap',
+      generateSitemap.bind(null, siteConfig, pageMetaMap)
+    )
+  }
+
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 

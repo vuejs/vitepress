@@ -14,7 +14,6 @@ import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin, type PageMeta } from '../plugin'
 import { escapeRegExp, sanitizeFileName, slash } from '../shared'
-import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
 // https://github.com/vitejs/vite/blob/a55d0b34400e3360c4100d05e422ae9cf10fa07b/packages/vite/src/node/constants.ts#L50
@@ -135,20 +134,12 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let { clientResult, serverResult } = await task(
-    'building client + server bundles',
-    async () => {
-      const clientResult = config.mpa
-        ? null
-        : ((await build(
-            await resolveViteConfig(false)
-          )) as Rolldown.RolldownOutput)
-      const serverResult = (await build(
-        await resolveViteConfig(true)
-      )) as Rolldown.RolldownOutput
-      return { clientResult, serverResult }
-    }
-  )
+  let clientResult = config.mpa
+    ? null
+    : ((await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput)
+  const serverResult = (await build(
+    await resolveViteConfig(true)
+  )) as Rolldown.RolldownOutput
 
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
