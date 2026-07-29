@@ -27,7 +27,7 @@ export async function build(
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
 ) {
-  const start = Date.now()
+  const start = performance.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
@@ -181,7 +181,7 @@ export async function build(
   clearCache()
 
   siteConfig.logger.info(
-    `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
+    `build complete in ${((performance.now() - start) / 1000).toFixed(2)}s.`
   )
 }
 
