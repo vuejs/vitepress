@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { pipeline } from 'node:stream/promises'
 import {
   SitemapStream,
   type EnumChangefreq,
@@ -66,14 +67,10 @@ export async function generateSitemap(
 
     const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
     const sitemapStream = new SitemapStream(siteConfig.sitemap)
-    const writeStream = fs.createWriteStream(sitemapPath)
 
-    sitemapStream.pipe(writeStream)
     items.forEach((item) => sitemapStream.write(item))
     sitemapStream.end()
-    await new Promise((resolve, reject) =>
-      writeStream.on('finish', resolve).on('error', reject)
-    )
+    await pipeline(sitemapStream, fs.createWriteStream(sitemapPath))
   })
 }
 
