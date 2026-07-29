@@ -110,7 +110,7 @@ export async function resolvePages(
     siteConfig.pages?.filter((p) => !discoveredPages.has(p)) || []
 
   const finalDynamicRoutes = [...dynamicRoutes, ...externalDynamicRoutes].sort(
-    (a, b) => a.path.localeCompare(b.path)
+    (a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0)
   )
   const finalPages = [...pages, ...externalPages].sort()
 
