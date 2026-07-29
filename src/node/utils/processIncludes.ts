@@ -11,7 +11,8 @@ export function processIncludes(
   src: string,
   file: string,
   includes: string[],
-  cleanUrls: boolean
+  cleanUrls: boolean,
+  ancestors: string[] = []
 ): Promise<string> {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const regionRE = /(#[^\s\{]+)/
@@ -35,6 +36,10 @@ export function processIncludes(
     const includePath = atPresent
       ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
       : path.join(path.dirname(file), m1)
+
+    // leave circular includes unexpanded — only repeats along the ancestor
+    // chain are cycles, the same file may still be included by siblings
+    if (includePath === file || ancestors.includes(includePath)) return m
 
     let content = await readFile(includePath, 'utf8')
 
@@ -102,7 +107,8 @@ export function processIncludes(
       content,
       includePath,
       includes,
-      cleanUrls
+      cleanUrls,
+      [...ancestors, file]
     )
   })
 }
