@@ -54,7 +54,7 @@ export async function localSearchPlugin(
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const md_raw = await readFile(file, 'utf-8')
+    const md_raw = await readFile(file, 'utf8')
     const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
     if (options._render) {
       return await options._render(md_src, env, md)

@@ -248,7 +248,7 @@ export async function resolveUserConfig(
       resolve(root, `config/index.${ext}`),
       resolve(root, `config.${ext}`)
     ])
-    .find(fs.existsSync)
+    .find((p) => fs.existsSync(p))
 
   let userConfig: RawConfigExports = {}
   let configDeps: string[] = []

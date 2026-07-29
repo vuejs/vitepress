@@ -178,7 +178,7 @@ export function scaffold({
 
   const pkgPath = path.resolve('package.json')
   const userPkg = fs.existsSync(pkgPath)
-    ? JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    ? JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
     : {}
 
   const useMjs = userPkg.type !== 'module'
@@ -197,7 +197,7 @@ export function scaffold({
       targetPath = path.resolve(resolvedSrcDir, file)
     }
 
-    const content = fs.readFileSync(filePath, 'utf-8')
+    const content = fs.readFileSync(filePath, 'utf8')
     const compiled = template(content)(data)
 
     fs.mkdirSync(path.dirname(targetPath), { recursive: true })

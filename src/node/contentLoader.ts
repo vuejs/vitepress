@@ -121,7 +121,7 @@ export function createContentLoader<T = ContentData[]>(
 
           if (cached && timestamp === cached.timestamp) return cached.data
 
-          const src = fs.readFileSync(file, 'utf-8')
+          const src = fs.readFileSync(file, 'utf8')
 
           const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(

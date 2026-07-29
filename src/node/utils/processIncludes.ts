@@ -36,7 +36,7 @@ export function processIncludes(
       ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
       : path.join(path.dirname(file), m1)
 
-    let content = fs.readFileSync(includePath, 'utf-8')
+    let content = fs.readFileSync(includePath, 'utf8')
 
     if (region) {
       const [regionName] = region

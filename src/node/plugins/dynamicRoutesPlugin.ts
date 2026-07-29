@@ -157,7 +157,7 @@ export const dynamicRoutesPlugin = async (
           moduleGraph.add(id, [routeFile])
           moduleGraph.add(routeFile, [matched.loaderPath])
 
-          let baseContent = fs.readFileSync(routeFile, 'utf-8')
+          let baseContent = fs.readFileSync(routeFile, 'utf8')
 
           // inject raw content
           // this is intended for integration with CMS
