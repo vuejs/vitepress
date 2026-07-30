@@ -1,5 +1,6 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { LRUCache } from 'lru-cache'
+import { hash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createDebug } from 'obug'
@@ -24,7 +25,12 @@ import { getGitTimestamp } from './utils/getGitTimestamp'
 import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const cache = new LRUCache<string, MarkdownCompileResult>({
+  maxSize: 64 * 1024 * 1024,
+  sizeCalculation(value, key) {
+    return Math.max(1, 2 * (key.length + value.vueSrc.length))
+  }
+})
 
 const scriptRE = /<\/script>/
 const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
@@ -51,8 +57,7 @@ export function clearCache(relativePath?: string) {
     return
   }
 
-  relativePath = JSON.stringify({ relativePath }).slice(1)
-  cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
+  cache.find((_, key) => key.endsWith(`:${relativePath}`) && cache.delete(key))
 }
 
 function normalizeDriveLetter(file: string) {
@@ -122,7 +127,8 @@ export async function createMarkdownToVueRenderFn(
     file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, ts, relativePath })
+    const srcHash = hash('sha256', src, 'base64url')
+    const cacheKey = `${srcHash}:${ts}:${relativePath}`
     if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
