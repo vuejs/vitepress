@@ -12,6 +12,7 @@ import { clearCache } from '../markdownToVue'
 import type { PageMeta } from '../plugin'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
@@ -33,7 +34,11 @@ export async function build(
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
 
-  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  if (buildOptions.onAfterConfigResolve) {
+    await buildOptions.onAfterConfigResolve(siteConfig)
+  } else {
+    logVersion(siteConfig.logger)
+  }
   delete buildOptions.onAfterConfigResolve
 
   const unlinkVue = await linkVue()
