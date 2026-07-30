@@ -14,19 +14,6 @@ const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
 let server: ViteDevServer
 
-export interface LoaderModule<T = any> {
-  watch?: string[] | string
-  load: (watchedFiles: string[]) => Awaitable<T>
-  options?: { globOptions?: GlobOptions }
-}
-
-/**
- * Helper for defining loaders with type inference
- */
-export function defineLoader<T>(loader: LoaderModule<T>): LoaderModule<T> {
-  return loader
-}
-
 // Map from loader module id to its module info
 const idToLoaderModulesMap: Record<
   string,
@@ -45,6 +32,19 @@ let idToPendingPromiseMap: Record<string, Promise<string> | undefined> =
   Object.create(null)
 let isBuild = false
 
+export interface LoaderModule<T = any> {
+  watch?: string[] | string
+  load: (watchedFiles: string[]) => Awaitable<T>
+  options?: { globOptions?: GlobOptions }
+}
+
+/**
+ * Helper for defining loaders with type inference
+ */
+export function defineLoader<T>(loader: LoaderModule<T>): LoaderModule<T> {
+  return loader
+}
+
 export const staticDataPlugin: Plugin = {
   name: 'vitepress:data',
 
@@ -56,60 +56,11 @@ export const staticDataPlugin: Plugin = {
     server = _server
   },
 
-  async load(id) {
-    if (loaderMatch.test(id)) {
-      let _resolve: ((res: any) => void) | undefined
-      if (isBuild) {
-        if (idToPendingPromiseMap[id]) return idToPendingPromiseMap[id]
-        idToPendingPromiseMap[id] = new Promise((r) => {
-          _resolve = r
-        })
-      }
-
-      const base = path.dirname(id)
-      let watch: LoaderModule['watch']
-      let load: LoaderModule['load']
-      let options: LoaderModule['options']
-
-      const existing = idToLoaderModulesMap[id]
-      if (existing) {
-        ;({ watch, load, options } = existing)
-      } else {
-        // use vite's load config util as a way to load Node.js file with
-        // TS & native ESM support
-        const res = await loadConfigFromFile({} as any, id.replace(/\?.*$/, ''))
-
-        // record deps for hmr
-        if (server && res) {
-          for (const dep of res.dependencies) {
-            const depPath = normalizePath(path.resolve(dep))
-            if (!depToLoaderModuleIdsMap[depPath]) {
-              depToLoaderModuleIdsMap[depPath] = new Set()
-            }
-            depToLoaderModuleIdsMap[depPath].add(id)
-          }
-        }
-
-        const loaderModule = res?.config as LoaderModule
-        watch = normalizeGlob(loaderModule.watch, base)
-        load = loaderModule.load
-        options = loaderModule.options || {}
-      }
-
-      // load the data
-      const watchedFiles = await glob(watch, {
-        absolute: true,
-        ...options.globOptions
-      })
-      const data = await load(watchedFiles)
-
-      // record loader module for HMR
-      if (server) idToLoaderModulesMap[id] = { watch, load, options }
-
-      const result = `export const data = JSON.parse(${JSON.stringify(JSON.stringify(data))})`
-
-      if (_resolve) _resolve(result)
-      return result
+  load: {
+    filter: { id: loaderMatch },
+    handler(id) {
+      if (isBuild) return (idToPendingPromiseMap[id] ??= loadData(id))
+      return loadData(id)
     }
   },
 
@@ -144,4 +95,48 @@ export const staticDataPlugin: Plugin = {
 
     return modules.length ? [...existingMods, ...modules] : undefined
   }
+}
+
+async function loadData(id: string): Promise<string> {
+  const base = path.dirname(id)
+  let watch: LoaderModule['watch']
+  let load: LoaderModule['load']
+  let options: LoaderModule['options']
+
+  const existing = idToLoaderModulesMap[id]
+  if (existing) {
+    ;({ watch, load, options } = existing)
+  } else {
+    // use vite's load config util as a way to load Node.js file with
+    // TS & native ESM support
+    const res = await loadConfigFromFile({} as any, id.replace(/\?.*$/, ''))
+
+    // record deps for hmr
+    if (server && res) {
+      for (const dep of res.dependencies) {
+        const depPath = normalizePath(path.resolve(dep))
+        if (!depToLoaderModuleIdsMap[depPath]) {
+          depToLoaderModuleIdsMap[depPath] = new Set()
+        }
+        depToLoaderModuleIdsMap[depPath].add(id)
+      }
+    }
+
+    const loaderModule = res?.config as LoaderModule
+    watch = normalizeGlob(loaderModule.watch, base)
+    load = loaderModule.load
+    options = loaderModule.options || {}
+  }
+
+  // load the data
+  const watchedFiles = await glob(watch, {
+    absolute: true,
+    ...options.globOptions
+  })
+  const data = await load(watchedFiles)
+
+  // record loader module for HMR
+  if (server) idToLoaderModulesMap[id] = { watch, load, options }
+
+  return `export const data = JSON.parse(${JSON.stringify(JSON.stringify(data))})`
 }

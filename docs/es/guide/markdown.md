@@ -1,5 +1,6 @@
 ---
 description: Extensiones Markdown integradas en VitePress, incluyendo contenedores personalizados, bloques de código con resaltado de sintaxis, resaltado de líneas, grupos de código y más.
+outline: deep
 ---
 
 # Extensiones Markdown {#markdown-extensions}
@@ -112,7 +113,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
+Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) está disponible.
 
 ## Tabla de Contenido (TOC) {#table-of-contents}
 
@@ -994,14 +995,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Carga diferida de imágenes {#image-lazy-loading}
 
-Puedes habilitar la carga diferida (lazy loading) para cada imagen añadida mediante Markdown configurando `lazyLoading` a `true` en tu archivo de configuración:
+Puedes habilitar la carga diferida (lazy loading) para cada imagen añadida mediante Markdown configurando `lazyLoad` a `true` en tu archivo de configuración:
 
 ```js
 export default {
   markdown: {
     image: {
       // La carga diferida de imágenes está deshabilitada por defecto.
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -1013,15 +1014,15 @@ VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como int
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // opciones para markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // opciones para @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // opciones para @mdit-vue/plugin-toc

@@ -1,5 +1,6 @@
 import { spawn } from 'cross-spawn'
 import type { SpawnOptions } from 'node:child_process'
+import { once } from 'node:events'
 import fs from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
@@ -18,24 +19,20 @@ const tags = ['latest', 'next'] as const
 
 const dir = fileURLToPath(new URL('.', import.meta.url))
 const inc = (i: semver.ReleaseType) => _inc(currentVersion, i)
-const run = (bin: string, args: string[], opts: SpawnOptions = {}) =>
-  new Promise<void>((resolve, reject) => {
-    const child = spawn(bin, args, {
-      stdio: 'inherit',
-      ...opts
-    })
-
-    child.on('error', reject)
-    child.on('close', (code, signal) => {
-      if (code === 0) {
-        resolve()
-      } else if (signal) {
-        reject(new Error(`${bin} exited with signal ${signal}`))
-      } else {
-        reject(new Error(`${bin} exited with code ${code}`))
-      }
-    })
-  })
+const run = async (bin: string, args: string[], opts: SpawnOptions = {}) => {
+  const child = spawn(bin, args, { stdio: 'inherit', ...opts })
+  const [code, signal] = (await once(child, 'close')) as [
+    number | null,
+    NodeJS.Signals | null
+  ]
+  if (code !== 0) {
+    throw new Error(
+      signal
+        ? `${bin} exited with signal ${signal}`
+        : `${bin} exited with code ${code}`
+    )
+  }
+}
 const cancel = () => prompts.cancel('Operation cancelled')
 
 async function main() {

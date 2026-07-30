@@ -39,7 +39,7 @@ afterAll(async () => {
 test.each(variations)('init %s', async (_, { theme, useTs }) => {
   const root = getTempRoot()
   await rm(root, { recursive: true, force: true })
-  scaffold({ root, theme, useTs, injectNpmScripts: false })
+  await scaffold({ root, theme, useTs, injectNpmScripts: false })
 
   const port = await getPort()
   const server = await createServer(root, { port })

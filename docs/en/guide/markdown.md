@@ -1,5 +1,6 @@
 ---
 description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+outline: deep
 ---
 
 # Markdown Extensions
@@ -100,6 +101,36 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
+## Task Lists
+
+**Input**
+
+```md
+- [ ] Write the press release
+- [x] Update the website
+```
+
+**Output**
+
+- [ ] Write the press release
+- [x] Update the website
+
+## Footnotes
+
+**Input**
+
+```md
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+```
+
+**Output**
+
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+
 ## Emoji :tada:
 
 **Input**
@@ -112,7 +143,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
+A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) is available.
 
 ## Table of Contents
 
@@ -229,9 +260,82 @@ export default defineConfig({
 })
 ```
 
+On multilingual sites, these labels can also be overridden per locale - see [Per-locale Markdown Strings](./i18n#per-locale-markdown-strings).
+
+### Registering New Containers
+
+Beyond the built-in types, you can register additional containers by mapping their names to their default titles:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      customContainers: {
+        success: 'SUCCESS'
+      }
+    }
+  }
+  // ...
+})
+```
+
+Registered names work like the built-in ones - including custom titles, attributes, and the [GitHub-style alert syntax](#github-flavored-alerts):
+
+```md
+::: success
+You have completed the walkthrough!
+:::
+
+> [!SUCCESS] Custom title
+> This renders the same way.
+```
+
+New containers ship without any styling, so add some in your theme using the container name as the class. For this example, the default theme's palette already provides fitting colors:
+
+```css
+/* .vitepress/theme/custom.css */
+.custom-block.success {
+  border-color: transparent;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-success-soft);
+}
+```
+
+### Nesting
+
+The `:::` markers follow the same rules as fenced code blocks (` ``` `): a fence is only closed by a matching fence that is **at least as long** as the one that opened it. To nest containers (or to mix them with [code groups](#code-groups)) make the outer fence longer than the ones inside it.
+
+**Input**
+
+`````md
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+`````
+
+**Output**
+
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+
 ### Additional Attributes
 
-You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+You can add additional attributes to the custom containers. We use [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
 
 **Input**
 
@@ -249,6 +353,22 @@ console.log('Hello, VitePress!')
 ```js
 console.log('Hello, VitePress!')
 ```
+:::
+
+The special `no-title` attribute renders a container without a title element (it has no effect on `details`, which always needs its summary):
+
+**Input**
+
+```md
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+:::
+```
+
+**Output**
+
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
 :::
 
 ### `raw`
@@ -291,7 +411,7 @@ Wraps in a `<div class="vp-raw">`
 
 ## GitHub-flavored Alerts
 
-VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers).
+VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers). Unlike on GitHub, text placed right after the marker becomes the title of the alert (`> [!NOTE] Custom Title`), and [containers you registered yourself](#registering-new-containers) work here too.
 
 ```md
 > [!NOTE]
@@ -994,14 +1114,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Image Lazy Loading
 
-You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+You can enable lazy loading for each image added via markdown by setting `lazyLoad` to `true` in your config file:
 
 ```js
 export default {
   markdown: {
     image: {
       // image lazy loading is disabled by default
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -1013,15 +1133,15 @@ VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the 
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // options for markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // options for @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // options for @mdit-vue/plugin-toc

@@ -68,7 +68,7 @@ describe('node/plugins/localSearchPlugin', () => {
       { publicDir: siteConfig.publicDir }
     )
 
-    const indexModule = (await (plugin.load as any)?.call(
+    const indexModule = (await (plugin.load as any)?.handler.call(
       {},
       '/@localSearchIndex'
     )) as string
@@ -79,10 +79,16 @@ describe('node/plugins/localSearchPlugin', () => {
     expect(indexModule).toContain('"zh": () => import(\'@localSearchIndexzh\')')
 
     const rootIndex = loadIndex(
-      (await (plugin.load as any)?.call({}, '/@localSearchIndexroot')) as string
+      (await (plugin.load as any)?.handler.call(
+        {},
+        '/@localSearchIndexroot'
+      )) as string
     )
     const zhIndex = loadIndex(
-      (await (plugin.load as any)?.call({}, '/@localSearchIndexzh')) as string
+      (await (plugin.load as any)?.handler.call(
+        {},
+        '/@localSearchIndexzh'
+      )) as string
     )
 
     expect(rootIndex.search('rootonlytoken')).toMatchObject([

@@ -140,7 +140,7 @@ For custom themes, the same router is available from [`enhanceApp`](../guide/cus
 
 - **Type**: `(path: string) => string`
 
-Appends the configured [`base`](./site-config#base) to a given URL path. Also see [Base URL](../guide/asset-handling#base-url).
+Prepends the configured [`base`](./site-config#base) to a given URL path. Also see [Base URL](../guide/asset-handling#base-url).
 
 ## `<Content />` <Badge type="info" text="component" />
 

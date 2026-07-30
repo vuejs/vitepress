@@ -51,7 +51,7 @@ export const linkPlugin = (
       hrefAttr[1] = url
       if (isExternal(url)) {
         Object.entries(externalAttrs).forEach(([key, val]) => {
-          token.attrSet(key, val)
+          if (token.attrIndex(key) < 0) token.attrSet(key, val)
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {

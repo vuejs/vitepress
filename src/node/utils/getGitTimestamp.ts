@@ -1,4 +1,5 @@
 import { spawn, sync } from 'cross-spawn'
+import { once } from 'node:events'
 import fs from 'node:fs'
 import path from 'node:path'
 import { Transform, type TransformCallback } from 'node:stream'
@@ -120,23 +121,17 @@ export async function cacheAllGitTimestamps(
     ...pathspec
   ]
 
-  return new Promise((resolve, reject) => {
-    cache.clear()
-    const child = spawn('git', args, { cwd: root })
+  cache.clear()
+  const child = spawn('git', args, { cwd: root })
+  const records = child.stdout.pipe(new GitLogParser())
+  child.on('error', (err) => records.destroy(err))
 
-    child.stdout
-      .pipe(new GitLogParser())
-      .on('data', (rec: GitLogRecord) => {
-        for (const file of rec.files) {
-          const slashed = slash(path.resolve(gitRoot, file))
-          if (!cache.has(slashed)) cache.set(slashed, rec.ts)
-        }
-      })
-      .on('error', reject)
-      .on('end', resolve)
-
-    child.on('error', reject)
-  })
+  for await (const rec of records as AsyncIterable<GitLogRecord>) {
+    for (const file of rec.files) {
+      const slashed = slash(path.resolve(gitRoot, file))
+      if (!cache.has(slashed)) cache.set(slashed, rec.ts)
+    }
+  }
 }
 
 export async function getGitTimestamp(file: string): Promise<number> {
@@ -148,24 +143,19 @@ export async function getGitTimestamp(file: string): Promise<number> {
 
   if (!fs.existsSync(file)) return 0
 
-  return new Promise((resolve, reject) => {
-    const child = spawn(
-      'git',
-      ['log', '-1', '--pretty=%at', '--', path.basename(file)],
-      { cwd: path.dirname(file) }
-    )
+  const child = spawn(
+    'git',
+    ['log', '-1', '--pretty=%at', '--', path.basename(file)],
+    { cwd: path.dirname(file) }
+  )
 
-    let output = ''
-    child.stdout.on('data', (d) => (output += String(d)))
+  let output = ''
+  child.stdout.on('data', (d) => (output += String(d)))
+  await once(child, 'close')
 
-    child.on('close', () => {
-      const ts = Number.parseInt(output.trim(), 10) * 1000
-      if (!(ts > 0)) return resolve(0)
+  const ts = Number.parseInt(output.trim(), 10) * 1000
+  if (!(ts > 0)) return 0
 
-      cache.set(file, ts)
-      resolve(ts)
-    })
-
-    child.on('error', reject)
-  })
+  cache.set(file, ts)
+  return ts
 }

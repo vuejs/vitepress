@@ -1,8 +1,29 @@
 import { createRequire } from 'node:module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'ヒント',
+    infoLabel: '情報',
+    warningLabel: '警告',
+    dangerLabel: '危険',
+    detailsLabel: '詳細',
+    noteLabel: 'メモ',
+    importantLabel: '重要',
+    cautionLabel: '注意'
+  },
+  codeCopyButton: {
+    tooltipText: 'コードをコピー',
+    copiedText: 'コピー完了'
+  }
+}
 
 export default defineAdditionalConfig({
   description: 'Vite と Vue による静的サイトジェネレーター',
@@ -231,8 +252,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: '検索しました',
           stoppedStreamingText: 'この応答を停止しました',
           errorTitleText: 'チャットエラー',
-          threadDepthExceededMessage:
-            '回答の正確性を保つため、この会話は終了しました。',
           startNewConversationButtonText: '新しい会話を開始'
         }
       }

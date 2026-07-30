@@ -12,6 +12,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { readFile } from '../utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
@@ -109,11 +110,11 @@ export async function resolvePages(
     siteConfig.pages?.filter((p) => !discoveredPages.has(p)) || []
 
   const finalDynamicRoutes = [...dynamicRoutes, ...externalDynamicRoutes].sort(
-    (a, b) => a.path.localeCompare(b.path)
+    (a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0)
   )
   const finalPages = [...pages, ...externalPages].sort()
 
-  const rewrites = resolveRewrites(pages, siteConfig.userConfig.rewrites)
+  const rewrites = resolveRewrites(finalPages, siteConfig.userConfig.rewrites)
 
   Object.assign(siteConfig, {
     pages: finalPages,
@@ -133,42 +134,47 @@ export const dynamicRoutesPlugin = async (
     name: 'vitepress:dynamic-routes',
     enforce: 'pre',
 
-    resolveId(id) {
-      if (!id.endsWith('.md')) return
-      const normalizedId = id.startsWith(config.srcDir)
-        ? id
-        : normalizePath(path.resolve(config.srcDir, id.replace(/^\//, '')))
-      const matched = config.dynamicRoutes.find(
-        (r) => r.fullPath === normalizedId
-      )
-      if (matched) return normalizedId
+    resolveId: {
+      filter: { id: /\.md$/ },
+      handler(id) {
+        const normalizedId = id.startsWith(config.srcDir)
+          ? id
+          : normalizePath(path.resolve(config.srcDir, id.replace(/^\//, '')))
+        const matched = config.dynamicRoutes.find(
+          (r) => r.fullPath === normalizedId
+        )
+        if (matched) return normalizedId
+      }
     },
 
-    load(id) {
-      const matched = config.dynamicRoutes.find((r) => r.fullPath === id)
-      if (matched) {
-        const { route, params, content } = matched
-        const routeFile = normalizePath(path.resolve(config.srcDir, route))
+    load: {
+      filter: { id: /\.md$/ },
+      async handler(id) {
+        const matched = config.dynamicRoutes.find((r) => r.fullPath === id)
+        if (matched) {
+          const { route, params, content } = matched
+          const routeFile = normalizePath(path.resolve(config.srcDir, route))
 
-        moduleGraph.add(id, [routeFile])
-        moduleGraph.add(routeFile, [matched.loaderPath])
+          moduleGraph.add(id, [routeFile])
+          moduleGraph.add(routeFile, [matched.loaderPath])
 
-        let baseContent = fs.readFileSync(routeFile, 'utf-8')
+          let baseContent = await readFile(routeFile)
 
-        // inject raw content
-        // this is intended for integration with CMS
-        // we use a special injection syntax so the content is rendered as
-        // static local content instead of included as runtime data.
-        if (content) {
-          baseContent = baseContent.replace(
-            /<!--\s*@content\s*-->/,
-            content.replace(/\$/g, '$$$')
-          )
+          // inject raw content
+          // this is intended for integration with CMS
+          // we use a special injection syntax so the content is rendered as
+          // static local content instead of included as runtime data.
+          if (content) {
+            baseContent = baseContent.replace(
+              /<!--\s*@content\s*-->/,
+              content.replace(/\$/g, '$$$')
+            )
+          }
+
+          // params are injected with special markers and extracted as part of
+          // __pageData in ../markdownToVue.ts
+          return `__VP_PARAMS_START${JSON.stringify(params)}__VP_PARAMS_END__${baseContent}`
         }
-
-        // params are injected with special markers and extracted as part of
-        // __pageData in ../markdownToVue.ts
-        return `__VP_PARAMS_START${JSON.stringify(params)}__VP_PARAMS_END__${baseContent}`
       }
     },
 

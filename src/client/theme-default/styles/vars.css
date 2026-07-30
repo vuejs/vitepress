@@ -262,25 +262,14 @@
 
 :root {
   --vp-font-family-base:
-    'Inter', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --vp-font-family-mono:
     ui-monospace, 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono',
     'Courier New', monospace;
-  font-optical-sizing: auto;
 }
 
-/* :root and [lang] have the same specificity.
-   [lang] covers the case of e.g. <div lang="zh-CN"> in a non-Chinese page.
-*/
-/* Korean compatibility is unverified, so application of custom Inter to Korean is pending. */
-[lang]:where(:lang(zh, ja)) {
-  --vp-font-family-base:
-    'Inter4CJK', -apple-system, BlinkMacSystemFont, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
-
-[lang]:where(:lang(zh, ja, ko)) {
+[lang]:where(:lang(zh), :lang(ja), :lang(ko)) {
   h1,
   h2,
   h3,
@@ -376,7 +365,6 @@
   --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
   --vp-code-copy-code-hover-bg: var(--vp-c-bg);
   --vp-code-copy-code-active-text: var(--vp-c-text-2);
-  --vp-code-copy-copied-text-content: 'Copied';
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);
   --vp-code-tab-text-color: var(--vp-c-text-2);
@@ -384,26 +372,6 @@
   --vp-code-tab-hover-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-1);
   --vp-code-tab-active-bar-color: var(--vp-c-brand-1);
-}
-
-:lang(es),
-:lang(pt) {
-  --vp-code-copy-copied-text-content: 'Copiado';
-}
-:lang(fa) {
-  --vp-code-copy-copied-text-content: 'کپی شد';
-}
-:lang(ko) {
-  --vp-code-copy-copied-text-content: '복사됨';
-}
-:lang(ru) {
-  --vp-code-copy-copied-text-content: 'Скопировано';
-}
-:lang(zh) {
-  --vp-code-copy-copied-text-content: '已复制';
-}
-:lang(ja) {
-  --vp-code-copy-copied-text-content: 'コピー完了';
 }
 
 /**
