@@ -2,7 +2,7 @@
 description: Elige entre los layouts doc, page y home en el tema predeterminado de VitePress.
 ---
 
-# Layout {#layout}
+# Layout
 
 Puedes elegir el layout de la página definiendo una opción de `layout` para el [frontmatter](./frontmatter-config) De la página. Hay tres opciones de layout: `doc`, `page` y `home`. Si no se especifica nada, la página será tratada como una página. `doc`.
 
@@ -20,8 +20,8 @@ Casi todos los elementos genéricos como `p` o `h2`, recibirá un estilo especia
 
 También proporciona recursos de documentación específicos que se enumeran a continuación. Estas funciones solo están habilitadas en este layout.
 
-- Editar link
-- Links Anterior y próximo.
+- Editar enlace
+- Enlace Anterior y próximo.
 - _Outline_
 - [Carbon Ads](./default-theme-carbon-ads)
 
@@ -35,11 +35,11 @@ Tenga en cuenta que incluso en este mismo layout, la barra lateral seguirá apar
 
 ## Layout de Home {#home-layout}
 
-La opción `home` gerará un modelo de _"Homepage"_. En este layout podrás definir opciones extras, como `hero` y `features`, para personalizar todavá más el contenido. Visite [Tema predeterminado: Página Inicial](./default-theme-home-page)  para obter más detalles.
+La opción `home` generará un modelo de _"Homepage"_. En este layout podrás definir opciones extras, como `hero` y `features`, para personalizar todavía más el contenido. Visite [Tema predeterminado: Página Inicial](./default-theme-home-page)  para obtener más detalles.
 
 ## Sin Layout {#no-layout}
 
-Si no quieres ningún diseño, puedes pasar `layout: false` a través del frontmatter. Esta opción es útil si deseas una página de destino completamente personalizable (sin barra lateral, barra de navegacón o pie de página por defecto).
+Si no quieres ningún diseño, puedes pasar `layout: false` a través del frontmatter. Esta opción es útil si deseas una página de destino completamente personalizable (sin barra lateral, barra de navegación o pie de página por defecto).
 
 ## Layout Personalizado {#custom-layout}
 
