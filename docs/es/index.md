@@ -11,7 +11,7 @@ hero:
       text: ¿Qué es VitePress?
       link: ./guide/what-is-vitepress
     - theme: alt
-      text: Iniciar
+      text: Comenzar
       link: ./guide/getting-started
     - theme: alt
       text: GitHub
