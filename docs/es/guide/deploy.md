@@ -8,7 +8,7 @@ description: Despliega tu sitio VitePress en plataformas populares como Netlify,
 Las siguientes orientaciones están basadas en algunos supuestos:
 
 - El sitio VitePress está dentro del directorio `docs` de su proyecto.
-- Está usando la directorio por defecto para el la compilación (`.vitepress/dist`).
+- Está usando el directorio por defecto para la compilación (`.vitepress/dist`).
 - VitePress está instalado como una dependencia local en su proyecto, y usted configuró los siguientes scripts en su `package.json`:
 
   ```json [package.json]

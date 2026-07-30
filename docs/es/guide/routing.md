@@ -56,7 +56,7 @@ Esto resultará en el siguiente mapeo de fuente para HTML:
 
 ```
 docs/index.md            -->  /index.html (accesible como /)
-docs/comenzar.md  -->  /comenzar.html
+docs/comenzar.md         -->  /comenzar.html
 ```
 
 ### Directorio Fuente {#source-directory}
@@ -77,7 +77,7 @@ El mapeo resultante de código fuente a HTML:
 
 ```
 src/index.md            -->  /index.html (accesible como /)
-src/comenzar.md  -->  /comenzar.html
+src/comenzar.md         -->  /comenzar.html
 ```
 
 ## Enlaces Entre Páginas {#linking-between-pages}
@@ -87,7 +87,7 @@ Puedes usar rutas absolutas y relativas para enlazar páginas. Ten en cuenta que
 ```md
 <!-- Hacer -->
 [Comenzar](./comenzar)
-[Comenzar](../guide/comenzar)
+[Comenzar](../guia/comenzar)
 
 <!-- No hacer -->
 [Comenzar](./comenzar.md)

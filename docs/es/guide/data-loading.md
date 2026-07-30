@@ -1,5 +1,5 @@
 ---
-description: Carga datos arbitrarios en tiempo de compilación usando cargadores de datos de VitePress e impórtalo desde páginas o componentes.
+description: Carga datos arbitrarios en tiempo de compilación usando cargadores de datos de VitePress e impórtalos desde páginas o componentes.
 ---
 
 # Carga de Datos en Tiempo de Compilación {#build-time-data-loading}

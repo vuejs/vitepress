@@ -83,7 +83,7 @@ Si tiene la intención de realizar una personalización que usa componentes Vue 
 
 ## Estructura de Archivos {#file-structure}
 
-Si está construyendo un sitio web independiente con VitePress, puede generar la estructura básica del sitio en su directorio actual (`./`). Sin embargo, si está instalando VitePress en un proyecto existente junto con otro código fuente, se recomendado construir el sitio en un directorio anidado (por ejemplo, `./docs`) para que esté separado del resto del proyecto.
+Si está construyendo un sitio web independiente con VitePress, puede generar la estructura básica del sitio en su directorio actual (`./`). Sin embargo, si está instalando VitePress en un proyecto existente junto con otro código fuente, se recomienda construir el sitio en un directorio anidado (por ejemplo, `./docs`) para que esté separado del resto del proyecto.
 
 Asumiendo la opción de desarrollar el proyecto VitePress en `./docs`, la estructura de archivos generada debe parecerse a la siguiente:
 
@@ -106,7 +106,7 @@ Por defecto, VitePress almacena el caché del servidor de desarrollo en `.vitepr
 
 ### El archivo de configuración {#the-config-file}
 
-El archivo de configuración (`.vitepress/config.js`) permite que personalice varios aspectos de su sitio VitePress, con las opciones más básicas siendo el titulo y la descripción del sitio:
+El archivo de configuración (`.vitepress/config.js`) permite que personalice varios aspectos de su sitio VitePress, con las opciones más básicas siendo el título y la descripción del sitio:
 
 ```js [.vitepress/config.js]
 export default {
