@@ -4,7 +4,7 @@ description: Usa el componente Badge para agregar etiquetas de estado a los enca
 
 # Insignia {#badge}
 
-Las insignias te permite agregar estados a tus encabezados. Por ejemplo, podría resultar útil especificar el tipo de sección o la version compatible.
+Las insignias te permiten agregar estados a tus encabezados. Por ejemplo, podría resultar útil especificar el tipo de sección o la versión compatible.
 
 ## Uso {#usage}
 
@@ -60,7 +60,7 @@ Puedes personalizar el estilo de las insignias sobrescribiendo las variables CSS
 
 ## `<Badge>`
 
-`<Badge>` component acepta las siguiente propiedades (props):
+ El componente `<Badge>` acepta las siguientes propiedades (props):
 
 ```ts
 interface Props {

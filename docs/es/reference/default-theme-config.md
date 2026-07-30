@@ -134,7 +134,7 @@ interface NavItemWithChildren {
 
 - Tipo: `Sidebar`
 
-The configuración del elemento del menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+The configuración del elemento del menu item. Más detalles en [Tema por defecto: Barra lateral](./default-theme-sidebar).
 
 ```ts
 export default {
@@ -214,7 +214,7 @@ Si desea deshabilitarlo para todas los viewports, debe usar `outline: false` en 
 
 ## outline
 
-- Type: `Outline | Outline['level'] | false`
+- Tipo: `Outline | Outline['level'] | false`
 - El nivel se puede sobrescribir por página mediante [frontmatter](./frontmatter-config#outline)
 
 Definir este valor como `false`, evita mostrar el contorno (outline) del contenedor. Consulte esta interfaz para obtener más detalles:
@@ -254,7 +254,7 @@ export default {
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       { icon: 'discord', link: '/community', target: '_self' },
-      // También puedes agregar íconos personalizados pasando SVG como 
+      // También puedes agregar íconos personalizados pasando SVG como string: 
       {
         icon: {
           svg: '<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Dribbble</title><path d="M12...6.38z"/></svg>'
