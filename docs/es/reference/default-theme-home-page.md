@@ -24,14 +24,14 @@ layout: home
 
 hero:
   name: VitePress
-  text: Generador de sitios web estáticos con Vite & Vue.
+  text: Generador de Sitios Estáticos Vite y Vue
   tagline: Lorem ipsum...
   image:
     src: /logo.png
     alt: VitePress
   actions:
     - theme: brand
-      text: Iniciar
+      text: Comenzar
       link: /guide/what-is-vitepress
     - theme: alt
       text: Ver en GitHub
@@ -52,10 +52,10 @@ interface Hero {
   // Eslogan que se muestra abajo del `text`.
   tagline?: string
 
-  // La imagen se muestra junto al área de texto y eslogan.
+  // La imagen se muestra junto al texto y el eslogan.
   image?: ThemeableImage
 
-  // Botones accionables para mostrar en la sección principal de la página de inicio.
+  // Botones de acción que se mostrarán en la sección principal.
   actions?: HeroAction[]
 }
 
@@ -74,17 +74,17 @@ interface HeroAction {
   // Destino del enlace del botón.
   link: string
 
-  // Atributo target del link.
+  // Atributo target del enlace.
   target?: string
 
-  // Atributo rel del link.
+  // Atributo rel del enlace.
   rel?: string
 }
 ```
 
 ### Personalizando el color del nombre {#customizing-the-name-color}
 
-VitePress usa el color de la marca (`--vp-c-brand-1`) para `name`. Sin embargo, puedes personalizar este color anulando la variable `--vp-home-hero-name-color`.
+VitePress usa el color de la marca (`--vp-c-brand-1`) para `name`. Sin embargo, puedes personalizar este color sobrescribiendo la variable `--vp-home-hero-name-color`.
 
 ```css
 :root {
@@ -101,11 +101,11 @@ También puedes personalizarlo aún más combinando  `--vp-home-hero-name-backgr
 }
 ```
 
-## Sección de caracteristicas {#features-section}
+## Sección de características {#features-section}
 
-En la sección de funciones, puede enumerar cualquier cantidad de funciones que desee mostrar inmediatamente después de la sección. _Hero_. Para configurarlo seleccione la opción `features` para el frontmatter.
+En la sección de características, puede enumerar cualquier cantidad de características que desee mostrar inmediatamente después de la sección. _Hero_. Para configurarlo seleccione la opción `features` para el frontmatter.
 
-Puede proporcionar un icono para cada función, que puede ser un emoji o cualquier tipo de imagen. Cuando el icono configurado es una imagen (svg, png, jpeg...), debes proporcionar al ícono el ancho y alto apropiados; También puedes proporcionar la descripción, su tamaño intrínseco y sus variantes para temas oscuros y claros cuando sea necesario.
+Puedes asignar un icono a cada característica, que puede ser un emoji o cualquier tipo de imagen. Si el icono configurado es una imagen (svg, png, jpeg, etc.), debes especificar el ancho y la altura correctos; también puedes incluir la descripción, su tamaño intrínseco y sus variantes para temas claros y oscuros, si fuera necesario.
 
 ```yaml
 ---
@@ -113,38 +113,38 @@ layout: home
 
 features:
   - icon: 🛠️
-    title: Sencillo y minimalista, siempre
+    title: Simple and minimal, always
     details: Lorem ipsum...
   - icon:
-      src: /cool-feature-icon.svg
-    title: Otra caracteristica interesante
+      src: /icono-de-caracteristica-genial.svg
+    title: Another cool feature
     details: Lorem ipsum...
   - icon:
-      dark: /dark-feature-icon.svg
-      light: /light-feature-icon.svg
-    title: Otra caracteristica interesante
+      dark: /icono-de-caracteristica-oscuro.svg
+      light: /icono-de-caracteristica-claro.svg
+    title: Otra característica interesante
     details: Lorem ipsum...
 ---
 ```
 
 ```ts
 interface Feature {
-  // Muestra el icono en cada cuadro de función.
+  // Muestra el icono en cada cuadro de característica.
   icon?: FeatureIcon
 
-  // Título de la caracteristica.
+  // Título de la característica.
   title: string
 
-  // Detalles de la caracteristicas.
+  // Detalles de la características.
   details: string
 
-  // Enlace al hacer clic en el componente de funcionalidad
-  // El vínculo puede ser interno o externo.
+  // Enlace que aparece al hacer clic en el componente de la característica.
+  // El enlace puede ser interno o externo.
   //
-  // ej. `guide/reference/default-theme-home-page` ou `https://example.com`
+  // ej. `guide/reference/default-theme-home-page` o `https://example.com`
   link?: string
 
-  // Texto del enlace que se mostrará dentro del componente de funcionalidad.
+  // Texto del enlace que se mostrará dentro del componente de característica.
   //  Mejor usado con opción `link`.
   //
   // ej. `Sepa más`, `Visitar página`, etc.
@@ -170,3 +170,30 @@ type FeatureIcon =
       height: string
     }
 ```
+
+## Contenido Markdown {#markdown-content}
+
+Puedes agregar contenido adicional a la página de inicio de tu sitio simplemente agregando Markdown debajo del divisor del frontmatter `---`.
+
+````md
+---
+layout: home
+
+hero:
+  name: VitePress
+  text: Generador de Sitios Estáticos Vite y Vue
+---
+
+# Comenzar
+
+¡Puedes empezar a usar VitePress inmediatamente usando `npx`!
+
+```sh
+npm init
+npx vitepress init
+```
+````
+
+::: info
+VitePress no siempre aplicaba estilos automáticamente al contenido adicional de la página `layout: home`. Para volver al comportamiento anterior, puedes agregar `markdownStyles: false` al encabezado.
+:::
