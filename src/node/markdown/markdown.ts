@@ -510,6 +510,10 @@ export async function createMarkdownRenderer(
   if (options.component !== false) {
     componentPlugin(md, normalizePluginOptions(options.component))
   }
+  // pass an empty options object to gray-matter, otherwise it would memoize
+  // the results in an unbounded cache, where the key is the full file content.
+  // https://github.com/jonschlinkert/gray-matter/blob/310f9349381775d10a221cef903989eb5acc8843/index.js#L44-L47
+  ;(options.frontmatter ??= {}).grayMatterOptions ??= {}
   frontmatterPlugin(md, options.frontmatter)
   if (options.headers) {
     headersPlugin(md, {
