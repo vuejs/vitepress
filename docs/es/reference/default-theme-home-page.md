@@ -24,7 +24,7 @@ layout: home
 
 hero:
   name: VitePress
-  text: Generador de Sitios Estáticos Vite y Vue
+  text: Generador de sitios estáticos desarrollado con Vite y Vue.
   tagline: Lorem ipsum...
   image:
     src: /logo.png
@@ -113,11 +113,11 @@ layout: home
 
 features:
   - icon: 🛠️
-    title: Simple and minimal, always
+    title: Sencillo y minimalista, siempre
     details: Lorem ipsum...
   - icon:
       src: /icono-de-caracteristica-genial.svg
-    title: Another cool feature
+    title: Otra característica interesante
     details: Lorem ipsum...
   - icon:
       dark: /icono-de-caracteristica-oscuro.svg
@@ -181,7 +181,7 @@ layout: home
 
 hero:
   name: VitePress
-  text: Generador de Sitios Estáticos Vite y Vue
+  text: Generador de sitios estáticos desarrollado con Vite y Vue.
 ---
 
 # Comenzar

@@ -372,7 +372,7 @@ Una [lista de lenguajes válidas](https://shiki.style/languages) está disponibl
 
 También puede personalizar el tema del resaltado de sintaxis, configurar alias de idioma y establecer etiquetas de idioma personalizadas en la configuración de la aplicación. Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
-## Destaque de Linea en Bloques de Código {#line-highlighting-in-code-blocks}
+## Destaque de Línea en Bloques de Código {#line-highlighting-in-code-blocks}
 
 **Entrada**
 
@@ -686,7 +686,7 @@ También puede especificar el idioma dentro de llaves (`{}`), así:
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#}
 
-<!-- con números de linea: -->
+<!-- con números de línea: -->
 
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```

@@ -134,7 +134,7 @@ interface NavItemWithChildren {
 
 - Tipo: `Sidebar`
 
-The configuración del elemento del menu item. Más detalles en [Tema por defecto: Barra lateral](./default-theme-sidebar).
+La configuración del elemento del menu item. Más detalles en [Tema por defecto: Barra lateral](./default-theme-sidebar).
 
 ```ts
 export default {

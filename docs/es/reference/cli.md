@@ -2,7 +2,7 @@
 description: Referencia de los comandos CLI de VitePress, incluyendo dev, build, preview e init.
 ---
 
-# Interfaz de Linea de Comando {#command-line-interface}
+# Interfaz de Línea de Comando {#command-line-interface}
 
 ## `vitepress dev`
 

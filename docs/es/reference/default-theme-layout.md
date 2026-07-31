@@ -21,7 +21,7 @@ Casi todos los elementos genéricos como `p` o `h2`, recibirá un estilo especia
 También proporciona recursos de documentación específicos que se enumeran a continuación. Estas funciones solo están habilitadas en este layout.
 
 - Editar enlace
-- Enlace Anterior y próximo.
+- Enlace Anterior y Siguiente.
 - _Outline_
 - [Carbon Ads](./default-theme-carbon-ads)
 

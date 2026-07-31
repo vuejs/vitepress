@@ -4,7 +4,7 @@ description: Muestra la marca de tiempo de la última actualización en las pág
 
 # Última Actualización {#last-updated}
 
-La hora de la última actualización del contenido se mostrará en la esquina inferior derecha de la página. Para habilitar, agregue la opción `lastUpdated` a tu archivo de configuración.
+La hora de la última actualización del contenido se mostrará en la esquina inferior derecha de la página. Para habilitar, agregue la opción `lastUpdated` a su archivo de configuración.
 
 ::: info
 VitePress muestra la hora de la última actualización utilizando la marca de tiempo del commit de Git más reciente para cada archivo. Para habilitar esta función, el archivo Markdown debe estar suscrito a Git.
@@ -22,7 +22,7 @@ Para solucionar esto en **GitHub Actions**, utilice lo siguiente en su flujo de 
 
 Otras plataformas de CI/CD tienen configuraciones similares.
 
-Si dichas opciones no están disponibles, puede anteponer al comando `docs:build` en su `package.json` con un fetch manual:
+Si dichas opciones no están disponibles, puede ejecutar un fetch manual antes, configurándolo en el comando `docs:build` de su `package.json` de la siguiente forma:
 
 ```json
 "docs:build": "git fetch --unshallow && vitepress build docs"
