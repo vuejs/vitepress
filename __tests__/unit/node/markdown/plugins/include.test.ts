@@ -445,4 +445,90 @@ describe('node/markdown/plugins/include', () => {
     expect(warnings[1]).toContain('nope')
     expect(warnings[2]).toContain('b.md')
   })
+
+  test('keeps relative urls as is with rebaseRelativeUrls: false', async () => {
+    await write('sub/part.md', '![img](./img.png)\n\n[link](./target.md)\n')
+
+    const { html } = await render('<!-- @include: ./sub/part.md -->\n', {
+      include: { rebaseRelativeUrls: false }
+    })
+    expect(html).toContain('src="./img.png"')
+    expect(html).toContain('href="./target.html"')
+    expect(html).not.toContain('@include-')
+  })
+
+  test('rebases relative urls inside included files by default', async () => {
+    await write('sub/part.md', '![img](./img.png)\n\n[link](./target.md)\n')
+
+    const { html } = await render(
+      '<!-- @include: ./sub/part.md -->\n\n[after](./after.md)\n'
+    )
+    expect(html).toContain('src="./sub/img.png"')
+    expect(html).toContain('href="./sub/target.html"')
+    // links outside the included content are unaffected
+    expect(html).toContain('href="./after.html"')
+    // the internal markers never reach the output
+    expect(html).not.toContain('@include')
+  })
+
+  test('rebases urls through nested includes', async () => {
+    await write(
+      'a/one.md',
+      'one\n\n<!-- @include: ../b/two.md -->\n\n![oneimg](./one.png)\n'
+    )
+    await write('b/two.md', '![twoimg](./two.png)\n')
+
+    const { html } = await render('<!-- @include: ./a/one.md -->\n')
+    expect(html).toContain('src="./b/two.png"')
+    expect(html).toContain('src="./a/one.png"')
+  })
+
+  test('rebases urls after an include ending with an html block', async () => {
+    await write(
+      'sub/part.md',
+      '![inside](./inside.png)\n\n<div class="card">\ntail\n</div>\n'
+    )
+
+    const { html } = await render(
+      '<!-- @include: ./sub/part.md -->\n\n![after](./after.png)\n\n[after](./after.md)\n'
+    )
+    expect(html).toContain('src="./sub/inside.png"')
+    // the stack must be popped even though the marker follows an html block
+    expect(html).toContain('src="./after.png"')
+    expect(html).toContain('href="./after.html"')
+    expect(html).not.toContain('@include-')
+  })
+
+  test('does not leak rebase markers into fenced includes', async () => {
+    await write('sub/part.md', 'partial line\n')
+
+    const { html } = await render(
+      '```md\n<!-- @include: ./sub/part.md -->\n```\n'
+    )
+    expect(html).toContain('partial line')
+    expect(html).not.toContain('@include-')
+  })
+
+  test('does not leak rebase markers for inline includes', async () => {
+    await write('sub/part.md', 'partial line\n')
+
+    const { html } = await render(
+      'before <!-- @include: ./sub/part.md --> after\n\n[link](./x.md)\n'
+    )
+    expect(html).toContain('partial line')
+    expect(html).not.toContain('@include-')
+    // an inline include leaves the surrounding page urls untouched
+    expect(html).toContain('href="./x.html"')
+  })
+
+  test('does not rebase absolute or external urls', async () => {
+    await write(
+      'sub/part.md',
+      '[ext](https://example.com/x)\n\n[abs](/abs/target.md)\n'
+    )
+
+    const { html } = await render('<!-- @include: ./sub/part.md -->\n')
+    expect(html).toContain('href="https://example.com/x"')
+    expect(html).toContain('href="/abs/target.html"')
+  })
 })

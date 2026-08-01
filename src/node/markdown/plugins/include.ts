@@ -13,12 +13,25 @@ export interface Options {
    * @default false
    */
   silent?: boolean
+  /**
+   * Rewrite relative image and link urls inside included markdown files so
+   * they resolve from the included file's location instead of the page
+   * including it.
+   * @default true
+   */
+  rebaseRelativeUrls?: boolean
 }
 
 const includeRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 const rangeRE = /\{(\d*),(\d*)\}$/
 const regionRE = /#([^\s{]+)$/
 const separatorRE = /[\\/]/
+const fenceRE = /^ {0,3}(`{3,}|~{3,})/
+const rebaseMarkerRE = /^[ \t]*<!-- @include-(?:start: (.*)|end) -->[ \t]*$/gm
+
+// per-render stacks of included-file directories, driven by the rebase
+// markers while rendering
+const rebaseStacks = new WeakMap<object, string[]>()
 
 /**
  * Expands `<!-- @include: path -->` directives before rendering. Wraps
@@ -44,6 +57,8 @@ export function includePlugin(
     mdEnv!.src = src
     return renderAsync(src, env)
   }
+
+  if (options.rebaseRelativeUrls !== false) registerRebaseRules(md)
 }
 
 async function processIncludes(
@@ -56,7 +71,9 @@ async function processIncludes(
   logger: Pick<Logger, 'warn'>,
   ancestors: string[] = []
 ): Promise<string> {
-  return replaceAsync(src, includeRE, async (m: string, m1: string) => {
+  return replaceAsync(src, includeRE, async (...args: string[]) => {
+    const [m, , rawOffset] = args
+    let [, m1] = args
     if (!m1.length) return m
 
     const fail = (message: string): string => {
@@ -148,7 +165,18 @@ async function processIncludes(
       [...ancestors, file]
     )
 
-    return expanded
+    // wrap included markdown in markers driving the url rebasing at render
+    // time; they are removed from the output by the html_block rule. Blank
+    // lines keep them out of adjacent html blocks, and directives that are
+    // not on a line of their own - inline ones and those inside fences -
+    // are left unwrapped so the markers can't end up in the output.
+    const offset = rawOffset as unknown as number
+    return options.rebaseRelativeUrls !== false &&
+      path.extname(includePath) === '.md' &&
+      isOwnLine(src, offset, m.length) &&
+      !isInsideFence(src, offset)
+      ? `<!-- @include-start: ${path.dirname(includePath)} -->\n\n${expanded}\n\n<!-- @include-end -->`
+      : expanded
   })
 }
 
@@ -183,4 +211,70 @@ function findHeadingSection(
   }
 
   return { start: heading.map![1], end }
+}
+
+function isOwnLine(src: string, offset: number, length: number) {
+  const before = src.lastIndexOf('\n', offset - 1) + 1
+  let after = src.indexOf('\n', offset + length)
+  if (after === -1) after = src.length
+  return (
+    !src.slice(before, offset).trim() &&
+    !src.slice(offset + length, after).trim()
+  )
+}
+
+function isInsideFence(src: string, offset: number) {
+  let fence: string | undefined
+  for (const line of src.slice(0, offset).split('\n')) {
+    const marker = fenceRE.exec(line)?.[1]
+    if (!marker) continue
+    if (fence == null) fence = marker[0]
+    else if (marker[0] === fence) fence = undefined
+  }
+  return fence != null
+}
+
+function registerRebaseRules(md: MarkdownItAsync) {
+  const htmlBlock = md.renderer.rules.html_block!
+  md.renderer.rules.html_block = (tokens, idx, opts, env, self) => {
+    const token = tokens[idx]
+    if (!token.content.includes('<!-- @include-')) {
+      return htmlBlock(tokens, idx, opts, env, self)
+    }
+
+    // markers are emitted on their own lines, but an adjacent html block can
+    // still absorb them into its token, so they are matched anywhere in the
+    // content and removed from it
+    token.content = token.content.replace(rebaseMarkerRE, (_, dir?: string) => {
+      let stack = rebaseStacks.get(env)
+      if (!stack) rebaseStacks.set(env, (stack = []))
+      if (dir == null) stack.pop()
+      else stack.push(dir)
+      return ''
+    })
+
+    return token.content.trim() ? htmlBlock(tokens, idx, opts, env, self) : ''
+  }
+
+  for (const rule of ['image', 'link_open'] as const) {
+    const render =
+      md.renderer.rules[rule] ??
+      ((tokens, idx, opts, _env, self) => self.renderToken(tokens, idx, opts))
+    md.renderer.rules[rule] = (tokens, idx, opts, env, self) => {
+      const dir = rebaseStacks.get(env)?.at(-1)
+      const file = (env as MarkdownEnv).path
+      if (dir && file) {
+        const token = tokens[idx]
+        const attr = rule === 'image' ? 'src' : 'href'
+        const url = token.attrGet(attr)
+        if (url?.[0] === '.') {
+          const rebased = slash(
+            path.join(path.relative(path.dirname(file), dir), url)
+          )
+          token.attrSet(attr, rebased[0] === '.' ? rebased : `./${rebased}`)
+        }
+      }
+      return render(tokens, idx, opts, env, self)
+    }
+  }
 }
