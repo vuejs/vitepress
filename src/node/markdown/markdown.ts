@@ -53,7 +53,10 @@ import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
-import { snippetPlugin } from './plugins/snippet'
+import {
+  snippetPlugin,
+  type Options as SnippetPluginOptions
+} from './plugins/snippet'
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
@@ -200,11 +203,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   lineNumbers?: boolean
   /**
-   * Enables importing code snippets from files with `<<<`.
-   * @default true
+   * Options for importing code snippets from files with `<<<`. Set to
+   * `false` to disable.
    * @see https://vitepress.dev/guide/markdown#import-code-snippets
    */
-  snippet?: boolean
+  snippet?: SnippetPluginOptions | boolean
 
   /* ==================== Markdown Extensions ==================== */
 
@@ -391,7 +394,7 @@ export async function createMarkdownRenderer(
     lineNumberPlugin(md, options.lineNumbers)
   }
   if (options.snippet !== false) {
-    snippetPlugin(md, srcDir)
+    snippetPlugin(md, srcDir, normalizePluginOptions(options.snippet), logger)
   }
   const containerOptions = normalizePluginOptions(options.container)
   if (options.container !== false) {
