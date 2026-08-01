@@ -126,10 +126,10 @@ export async function createVitePressPlugin(
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
-        markdown,
+        markdown ?? {},
         config.base,
-        lastUpdated,
-        cleanUrls,
+        lastUpdated ?? false,
+        cleanUrls ?? false,
         siteConfig
       )
     },

@@ -64,14 +64,6 @@ export type { Header } from '../shared'
 // not exported from @mdit/plugin-emoji, so derive it from the plugin signature
 type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
 
-// `true` and `undefined` enable a plugin with its default options - only an
-// object carries user-provided plugin options
-function normalizePluginOptions<T>(
-  value: T | boolean | undefined
-): T | undefined {
-  return typeof value === 'boolean' ? undefined : value
-}
-
 export type ThemeOptions =
   | ThemeRegistrationAny
   | BuiltinTheme
@@ -80,17 +72,24 @@ export type ThemeOptions =
       dark: ThemeRegistrationAny | BuiltinTheme
     }
 
+// highlight is marked as any to avoid type conflicts with plugins expecting
+// regular markdown-it which has sync highlight function. Such plugins will fail
+// if they access highlight directly but currently none of the ones we use do that.
+export type MarkdownRenderer = MarkdownItAsync & {
+  options: { highlight?: any }
+}
+
 export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== General Options ==================== */
 
   /**
    * Configure the markdown-it instance before any plugins are applied.
    */
-  preConfig?: (md: MarkdownItAsync) => Awaitable<void>
+  preConfig?: (md: MarkdownRenderer) => Awaitable<void>
   /**
    * Configure the markdown-it instance after all built-in plugins are applied.
    */
-  config?: (md: MarkdownItAsync) => Awaitable<void>
+  config?: (md: MarkdownRenderer) => Awaitable<void>
   /**
    * Disable cache (experimental)
    */
@@ -320,8 +319,6 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   sfc?: SfcPluginOptions
 }
 
-export type MarkdownRenderer = MarkdownItAsync
-
 // folds `locales.<index>.markdown` entries from the site config into
 // `MarkdownOptions.locales` so per-locale strings reach the renderer -
 // site config entries win over directly passed ones
@@ -338,10 +335,7 @@ export function mergeMarkdownLocales(
   return { ...options, locales: merged }
 }
 
-// highlight is marked as any to avoid type conflicts with plugins expecting
-// regular markdown-it which has sync highlight function. Such plugins will fail
-// if they access highlight directly but currently none of the ones we use do that.
-let md: (MarkdownRenderer & { options: { highlight?: any } }) | undefined
+let md: MarkdownRenderer | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
@@ -519,6 +513,10 @@ export async function createMarkdownRenderer(
   if (options.component !== false) {
     componentPlugin(md, normalizePluginOptions(options.component))
   }
+  // pass an empty options object to gray-matter, otherwise it would memoize
+  // the results in an unbounded cache, where the key is the full file content.
+  // https://github.com/jonschlinkert/gray-matter/blob/310f9349381775d10a221cef903989eb5acc8843/index.js#L44-L47
+  ;(options.frontmatter ??= {}).grayMatterOptions ??= {}
   frontmatterPlugin(md, options.frontmatter)
   if (options.headers) {
     headersPlugin(md, {
@@ -547,4 +545,12 @@ export async function createMarkdownRenderer(
   }
 
   return md
+}
+
+// `true` and `undefined` enable a plugin with its default options - only an
+// object carries user-provided plugin options
+function normalizePluginOptions<T>(
+  value: T | boolean | undefined
+): T | undefined {
+  return typeof value === 'boolean' ? undefined : value
 }

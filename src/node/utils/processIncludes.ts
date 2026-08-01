@@ -1,9 +1,9 @@
 import matter from 'gray-matter'
-import type { MarkdownItAsync } from 'markdown-it-async'
-import fs from 'node:fs'
+import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
 import path from 'node:path'
 import { findRegions } from '../markdown/plugins/snippet'
 import { slash, type MarkdownEnv } from '../shared'
+import { readFile } from './fs'
 
 export function processIncludes(
   md: MarkdownItAsync,
@@ -11,13 +11,14 @@ export function processIncludes(
   src: string,
   file: string,
   includes: string[],
-  cleanUrls: boolean
-): string {
+  cleanUrls: boolean,
+  ancestors: string[] = []
+): Promise<string> {
   const includesRE = /<!--\s*@include:\s*(.*?)\s*-->/g
   const regionRE = /#([^\s\{]+)$/
   const rangeRE = /\{(\d*),(\d*)\}$/
 
-  return src.replace(includesRE, (m: string, m1: string) => {
+  return replaceAsync(src, includesRE, async (m: string, m1: string) => {
     if (!m1.length) return m
 
     const rangeMeta = m1.match(rangeRE)
@@ -35,7 +36,11 @@ export function processIncludes(
       ? path.join(srcDir, m1.slice(m1[1] === '/' ? 2 : 1))
       : path.join(path.dirname(file), m1)
 
-    let content = fs.readFileSync(includePath, 'utf-8')
+    // leave circular includes unexpanded — only repeats along the ancestor
+    // chain are cycles, the same file may still be included by siblings
+    if (includePath === file || ancestors.includes(includePath)) return m
+
+    let content = await readFile(includePath)
 
     // for markdown files, if a range is used without a region,
     // the line numbers must account for the frontmatter,
@@ -104,7 +109,8 @@ export function processIncludes(
       lines.join('\n'),
       includePath,
       includes,
-      cleanUrls
+      cleanUrls,
+      [...ancestors, file]
     )
   })
 }

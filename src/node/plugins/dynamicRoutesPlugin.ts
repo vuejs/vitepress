@@ -12,6 +12,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
+import { readFile } from '../utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
@@ -109,7 +110,7 @@ export async function resolvePages(
     siteConfig.pages?.filter((p) => !discoveredPages.has(p)) || []
 
   const finalDynamicRoutes = [...dynamicRoutes, ...externalDynamicRoutes].sort(
-    (a, b) => a.path.localeCompare(b.path)
+    (a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0)
   )
   const finalPages = [...pages, ...externalPages].sort()
 
@@ -148,7 +149,7 @@ export const dynamicRoutesPlugin = async (
 
     load: {
       filter: { id: /\.md$/ },
-      handler(id) {
+      async handler(id) {
         const matched = config.dynamicRoutes.find((r) => r.fullPath === id)
         if (matched) {
           const { route, params, content } = matched
@@ -157,7 +158,7 @@ export const dynamicRoutesPlugin = async (
           moduleGraph.add(id, [routeFile])
           moduleGraph.add(routeFile, [matched.loaderPath])
 
-          let baseContent = fs.readFileSync(routeFile, 'utf-8')
+          let baseContent = await readFile(routeFile)
 
           // inject raw content
           // this is intended for integration with CMS

@@ -18,6 +18,19 @@ export interface ContainerPluginOptions {
   locales?: Record<string, MarkdownLocaleOptions | undefined>
 }
 
+const containerLabels = [
+  ['tip', 'tipLabel', 'TIP'],
+  ['info', 'infoLabel', 'INFO'],
+  ['warning', 'warningLabel', 'WARNING'],
+  ['danger', 'dangerLabel', 'DANGER'],
+  ['details', 'detailsLabel', 'Details'],
+  ['note', 'noteLabel', 'NOTE'],
+  ['important', 'importantLabel', 'IMPORTANT'],
+  ['caution', 'cautionLabel', 'CAUTION']
+] as const
+
+const alertMarkerRE = /^\[!([\w-]+)\]([^\n\r]*)/
+
 export const containerPlugin = (
   md: MarkdownItAsync,
   options?: ContainerOptions,
@@ -63,17 +76,6 @@ function titlesFor(
 ): Record<string, string> {
   return (localeIndex && titles.byLocale[localeIndex]) || titles.base
 }
-
-const containerLabels = [
-  ['tip', 'tipLabel', 'TIP'],
-  ['info', 'infoLabel', 'INFO'],
-  ['warning', 'warningLabel', 'WARNING'],
-  ['danger', 'dangerLabel', 'DANGER'],
-  ['details', 'detailsLabel', 'Details'],
-  ['note', 'noteLabel', 'NOTE'],
-  ['important', 'importantLabel', 'IMPORTANT'],
-  ['caution', 'cautionLabel', 'CAUTION']
-] as const
 
 function resolveTitlesByLocale(
   options?: ContainerOptions,
@@ -184,8 +186,6 @@ function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {
     return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
   }
 }
-
-const alertMarkerRE = /^\[!([\w-]+)\]([^\n\r]*)/
 
 export const gitHubAlertsPlugin = (
   md: MarkdownItAsync,

@@ -17,3 +17,5 @@ minimumReleaseAgeExclude:
   - '@vueuse/*'
 
 shellEmulator: true
+
+strictPeerDependencies: true

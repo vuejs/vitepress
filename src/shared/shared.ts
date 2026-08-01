@@ -37,6 +37,14 @@ const HASH_WITHOUT_FRAGMENT_RE = /#.*?(?=:~:|$)/
 const HASH_OR_QUERY_RE = /[?#].*$/
 const INDEX_OR_EXT_RE = /(?:(^|\/)index)?(?:\.(?:md|html))?$/
 
+// https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
+const INVALID_CHAR_REGEX = /[\u0000-\u001F"#$&*+,:;<=>?[\]^`{|}\u007F]/g
+const DRIVE_LETTER_REGEX = /^[a-z]:/i
+
+const KNOWN_EXTENSIONS = new Set()
+
+const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
+
 export const inBrowser = typeof document !== 'undefined'
 
 export const notFoundPageData: PageData = {
@@ -217,11 +225,6 @@ export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
   return merged
 }
 
-// https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
-
-const INVALID_CHAR_REGEX = /[\u0000-\u001F"#$&*+,:;<=>?[\]^`{|}\u007F]/g
-const DRIVE_LETTER_REGEX = /^[a-z]:/i
-
 export function sanitizeFileName(name: string): string {
   const match = DRIVE_LETTER_REGEX.exec(name)
   const driveLetter = match ? match[0] : ''
@@ -238,8 +241,6 @@ export function sanitizeFileName(name: string): string {
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
-
-const KNOWN_EXTENSIONS = new Set()
 
 export function treatAsHtml(filename: string): boolean {
   if (KNOWN_EXTENSIONS.size === 0) {
@@ -368,7 +369,6 @@ export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
 
-const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
 export function isShell(lang: string): boolean {
   return shellLangs.includes(lang)
 }

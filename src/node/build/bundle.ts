@@ -14,7 +14,6 @@ import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin, type PageMeta } from '../plugin'
 import { escapeRegExp, sanitizeFileName, slash } from '../shared'
-import { task } from '../utils/task'
 import { buildMPAClient } from './buildMPAClient'
 
 // https://github.com/vitejs/vite/blob/a55d0b34400e3360c4100d05e422ae9cf10fa07b/packages/vite/src/node/constants.ts#L50
@@ -34,6 +33,9 @@ const excludedModules = [
   'node_modules/vue/',
   clientDir
 ]
+
+const cache = new Map<string, boolean>()
+const cacheTheme = new Map<string, boolean>()
 
 // bundles the VitePress app for both client AND server.
 export async function bundle(
@@ -61,9 +63,7 @@ export async function bundle(
   })
 
   const themeEntryRE = new RegExp(
-    `^${escapeRegExp(
-      path.resolve(config.themeDir, 'index.js').replace(/\\/g, '/')
-    ).slice(0, -2)}m?(j|t)s`
+    `^${escapeRegExp(slash(path.resolve(config.themeDir, 'index.js'))).slice(0, -2)}m?(j|t)s`
   )
 
   // resolve options to pass to vite
@@ -120,49 +120,11 @@ export async function bundle(
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
-                    ? `${config.assetsDir}/chunks/ui-custom.[hash].js`
+                    ? `${config.assetsDir}/chunks/[hash].js`
                     : `${config.assetsDir}/chunks/[name].[hash].js`
                 },
                 codeSplitting: {
-                  groups: [
-                    {
-                      name(id, ctx) {
-                        const getModuleInfo = ctx.getModuleInfo.bind(ctx)
-
-                        // avoid emitting multiple files for assets
-                        // see: https://github.com/rolldown/rolldown/issues/4246
-                        if (getModuleInfo(id)?.meta['vite:asset']) {
-                          return 'assets'
-                        }
-
-                        // move known framework code into a stable chunk so that
-                        // custom theme changes do not invalidate hash for all pages
-                        if (
-                          id.startsWith('\0vite') ||
-                          id.includes('plugin-vue:export-helper') ||
-                          (id.includes(`${clientDir}/app`) &&
-                            id !== `${clientDir}/app/index.js`) ||
-                          (isEagerChunk(id, getModuleInfo) &&
-                            /@vue\/(runtime|shared|reactivity)/.test(id))
-                        ) {
-                          return 'framework'
-                        }
-
-                        if (
-                          (id.startsWith(`${clientDir}/theme-default`) ||
-                            !excludedModules.some((i) => id.includes(i))) &&
-                          staticImportedByEntry(
-                            id,
-                            getModuleInfo,
-                            cacheTheme,
-                            themeEntryRE
-                          )
-                        ) {
-                          return 'theme'
-                        }
-                      }
-                    }
-                  ]
+                  groups: [{ name: chunkName.bind(null, themeEntryRE) }]
                 }
               })
         },
@@ -172,16 +134,12 @@ export async function bundle(
     configFile: config.vite?.configFile
   })
 
-  let clientResult: Rolldown.RolldownOutput | null = null
-  let serverResult!: Rolldown.RolldownOutput
-
-  // prettier-ignore
-  await task('building client + server bundles', async () => {
-    if (!config.mpa) clientResult =
-      (await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput
-    serverResult =
-      (await build(await resolveViteConfig(true))) as Rolldown.RolldownOutput
-  })
+  let clientResult = config.mpa
+    ? null
+    : ((await build(await resolveViteConfig(false))) as Rolldown.RolldownOutput)
+  const serverResult = (await build(
+    await resolveViteConfig(true)
+  )) as Rolldown.RolldownOutput
 
   if (config.mpa) {
     // in MPA mode, we need to copy over the non-js asset files from the
@@ -223,8 +181,39 @@ export async function bundle(
   return { clientResult, serverResult, pageToHashMap: sortedPageToHashMap }
 }
 
-const cache = new Map<string, boolean>()
-const cacheTheme = new Map<string, boolean>()
+function chunkName(
+  themeEntryRE: RegExp,
+  id: string,
+  ctx: { getModuleInfo: Rolldown.GetModuleInfo }
+): string | undefined {
+  const getModuleInfo = ctx.getModuleInfo.bind(ctx)
+
+  // avoid emitting multiple files for assets
+  // see: https://github.com/rolldown/rolldown/issues/4246
+  if (getModuleInfo(id)?.meta['vite:asset']) {
+    return 'assets'
+  }
+
+  // move known framework code into a stable chunk so that
+  // custom theme changes do not invalidate hash for all pages
+  if (
+    id.startsWith('\0vite') ||
+    id.includes('plugin-vue:export-helper') ||
+    (id.includes(`${clientDir}/app`) && id !== `${clientDir}/app/index.js`) ||
+    (isEagerChunk(id, getModuleInfo) &&
+      /@vue\/(runtime|shared|reactivity)/.test(id))
+  ) {
+    return 'framework'
+  }
+
+  if (
+    (id.startsWith(`${clientDir}/theme-default`) ||
+      !excludedModules.some((i) => id.includes(i))) &&
+    staticImportedByEntry(id, getModuleInfo, cacheTheme, themeEntryRE)
+  ) {
+    return 'theme'
+  }
+}
 
 /**
  * Check if a module is statically imported by at least one entry.

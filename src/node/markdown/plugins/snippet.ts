@@ -12,6 +12,8 @@ export interface Options {
   stripMarkersFromSnippets?: boolean
 }
 
+type FenceRenderer = NonNullable<MarkdownItAsync['renderer']['rules']['fence']>
+
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
  *    where #region, {meta} and [title] are optional
@@ -25,26 +27,6 @@ export interface Options {
  */
 const RAW_PATH_RE =
   /^(.+?)(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
-
-export function rawPathToToken(rawPath: string) {
-  const [
-    ,
-    filepath = '',
-    region = '',
-    lines = '',
-    lang = '',
-    attrs = '',
-    rawTitle = ''
-  ] = RAW_PATH_RE.exec(rawPath) || []
-
-  const filename = filepath.split('/').pop() ?? ''
-
-  const extension = filename.includes('.') ? filename.split('.').pop()! : ''
-
-  const title = rawTitle || filename
-
-  return { filepath, extension, region, lines, lang, attrs, title }
-}
 
 const MIGHT_BE_MARKER_RE = /region/i
 const MARKER_RES = [
@@ -85,6 +67,28 @@ const MARKER_RES = [
     end: /^\s*"[/][/]+\s*#endregion\b\s*(.*?)":\s*"",?$/
   }
 ]
+
+const snippetMarker = '<<<'
+
+export function rawPathToToken(rawPath: string) {
+  const [
+    ,
+    filepath = '',
+    region = '',
+    lines = '',
+    lang = '',
+    attrs = '',
+    rawTitle = ''
+  ] = RAW_PATH_RE.exec(rawPath) || []
+
+  const filename = filepath.split('/').pop() ?? ''
+
+  const extension = filename.includes('.') ? filename.split('.').pop()! : ''
+
+  const title = rawTitle || filename
+
+  return { filepath, extension, region, lines, lang, attrs, title }
+}
 
 export function findRegions(lines: string[], region: string) {
   const returned: { start: number; end: number }[] = []
@@ -146,31 +150,33 @@ export function dedent(lines: string[]): string[] {
   return lines
 }
 
-export const snippetPlugin = (
+export function snippetPlugin(
   md: MarkdownItAsync,
   srcDir: string,
   options?: Options
-) => {
-  const parser: RuleBlock = (state, startLine, _endLine, silent) => {
-    const CH = '<'.charCodeAt(0)
+) {
+  const renderFence = md.renderer.rules.fence!
+  md.renderer.rules.fence = createSnippetRenderer(renderFence, options)
+  md.block.ruler.before('fence', 'snippet', createSnippetParser(srcDir))
+}
+
+function createSnippetParser(srcDir: string): RuleBlock {
+  return (state, startLine, _endLine, silent) => {
     const pos = state.bMarks[startLine] + state.tShift[startLine]
     const max = state.eMarks[startLine]
 
     // if it's indented more than 3 spaces, it should be a code block
-    if (state.sCount[startLine] - state.blkIndent >= 4) {
+    if (
+      state.sCount[startLine] - state.blkIndent >= 4 ||
+      pos + snippetMarker.length > max ||
+      !state.src.startsWith(snippetMarker, pos)
+    ) {
       return false
     }
 
-    for (let i = 0; i < 3; ++i) {
-      const ch = state.src.charCodeAt(pos + i)
-      if (ch !== CH || pos + i >= max) return false
-    }
+    if (silent) return true
 
-    if (silent) {
-      return true
-    }
-
-    const start = pos + 3
+    const start = pos + snippetMarker.length
     const end = state.skipSpacesBack(max, pos)
 
     const rawPath = state.src
@@ -187,7 +193,7 @@ export const snippetPlugin = (
     const token = state.push('fence', 'code', 0)
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
       title ? `[${title}]` : ''
-    }  ${attrs ?? ''}`
+    }  ${attrs}`
 
     const { realPath, path: _path } = state.env as MarkdownEnv
     const src = path.resolve(path.dirname(realPath ?? _path), filepath)
@@ -198,44 +204,56 @@ export const snippetPlugin = (
 
     return true
   }
+}
 
-  const fence = md.renderer.rules.fence!
+function getFileOrError(src: string): { content: string; error?: string } {
+  try {
+    const content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+    return { content }
+  } catch (error) {
+    switch ((error as NodeJS.ErrnoException).code) {
+      case 'ENOENT':
+        return { content: '', error: `Code snippet path not found: ${src}` }
+      case 'EISDIR':
+        return { content: '', error: 'Invalid code snippet option' }
+      default:
+        throw error
+    }
+  }
+}
 
-  md.renderer.rules.fence = (...args) => {
+function createSnippetRenderer(
+  renderFence: FenceRenderer,
+  options?: Options
+): FenceRenderer {
+  return (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
     const { src, region } = token.meta ?? {}
 
-    if (!src) return fence(...args)
+    if (!src) return renderFence(...args)
 
-    if (includes) {
-      includes.push(src)
-    }
+    includes?.push(src)
 
-    if (!fs.existsSync(src)) {
-      token.content = `Code snippet path not found: ${src}`
+    const { content, error } = getFileOrError(src)
+    if (error) {
+      token.content = error
       token.info = ''
-      return fence(...args)
+      return renderFence(...args)
     }
 
-    if (!fs.statSync(src).isFile()) {
-      token.content = `Invalid code snippet option`
-      token.info = ''
-      return fence(...args)
-    }
-
-    let lines = fs.readFileSync(src, 'utf8').split(/\r?\n/)
+    let lines = content.split('\n')
 
     if (region) {
       const regions = findRegions(lines, region)
 
-      if (regions.length > 0) {
-        lines = regions.flatMap((r) => lines.slice(r.start, r.end))
-      } else {
+      if (regions.length === 0) {
         token.content = `No region #${region} found in path: ${src}`
         token.info = ''
-        return fence(...args)
+        return renderFence(...args)
       }
+
+      lines = regions.flatMap((r) => lines.slice(r.start, r.end))
     }
 
     if (options?.stripMarkersFromSnippets) {
@@ -243,8 +261,6 @@ export const snippetPlugin = (
     }
 
     token.content = dedent(lines).join('\n')
-    return fence(...args)
+    return renderFence(...args)
   }
-
-  md.block.ruler.before('fence', 'snippet', parser)
 }
