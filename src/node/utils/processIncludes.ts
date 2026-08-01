@@ -1,7 +1,7 @@
 import matter from 'gray-matter'
 import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
 import path from 'node:path'
-import { findRegion } from '../markdown/plugins/snippet'
+import { findRegions } from '../markdown/regions'
 import { slash, type MarkdownEnv } from '../shared'
 import { readTextFile } from './fs'
 
@@ -47,7 +47,7 @@ export function processIncludes(
       const [regionName] = region
       const lines = content.split(/\r?\n/)
       let selectedLines = lines
-      let { start, end } = findRegion(lines, regionName.slice(1)) ?? {}
+      let { start, end } = findRegions(lines, regionName.slice(1))[0] ?? {}
 
       if (start === undefined) {
         // region not found, it might be a header
