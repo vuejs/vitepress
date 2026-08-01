@@ -595,9 +595,15 @@ export interface MarkdownEnv {
    */
   linkLines?: number[]
   /**
-   * The absolute paths of the files inlined via `<!--@include-->`.
+   * The absolute paths of the files inlined via `<!--@include-->` and
+   * imported via `<<<` code snippets, used for watch invalidation.
    */
   includes?: string[]
+  /**
+   * The markdown source with includes expanded, set during rendering when
+   * include processing is enabled.
+   */
+  src?: string
   /**
    * The absolute path of the actual source file on disk: the route template
    * for dynamic routes, or the original file when rewrites are in use.

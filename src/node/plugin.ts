@@ -212,23 +212,30 @@ export async function createVitePressPlugin(
           return processClientJS(code, id)
         }
         if (id.endsWith('.md')) {
+          const watchIncludes = (files: string[] = []) => {
+            files.forEach((i) => {
+              ;(importerMap[slash(i)] ??= new Set()).add(slash(id))
+              this.addWatchFile(i)
+            })
+          }
+
           // transform .md files into vueSrc so plugin-vue can handle it
           const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
             code,
             id
-          )
+          ).catch((e: { includes?: string[] }) => {
+            // watch the files the failed render did reach, so that creating a
+            // missing snippet or include recovers the page
+            watchIncludes(e.includes)
+            throw e
+          })
           if (pageMetaMap) {
             pageMetaMap[pageData.relativePath] = {
               lastUpdated: pageData.lastUpdated
             }
           }
           allDeadLinks.push(...deadLinks)
-          if (includes.length) {
-            includes.forEach((i) => {
-              ;(importerMap[slash(i)] ??= new Set()).add(slash(id))
-              this.addWatchFile(i)
-            })
-          }
+          watchIncludes(includes)
           if (
             this.environment.mode === 'dev' &&
             this.environment.name === 'client'

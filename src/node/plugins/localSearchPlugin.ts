@@ -8,7 +8,6 @@ import type { DefaultTheme } from '../defaultTheme'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { readTextFile } from '../utils/fs'
-import { processIncludes } from '../utils/processIncludes'
 
 const debug = createDebug('vitepress:local-search')
 
@@ -62,11 +61,10 @@ export async function localSearchPlugin(
       }
       throw e
     })
-    const src = await processIncludes(md, srcDir, raw, file, [], cleanUrls)
     if (options._render) {
-      return options._render(src, env, md)
+      return options._render(raw, env, md)
     } else {
-      const html = await md.renderAsync(src, env)
+      const html = await md.renderAsync(raw, env)
       return env.frontmatter?.search === false ? '' : html
     }
   }
