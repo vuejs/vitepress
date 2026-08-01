@@ -1,5 +1,6 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
+import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { MarkdownEnv } from '../../shared'
@@ -12,18 +13,29 @@ export interface Options {
   stripMarkersFromSnippets?: boolean
 }
 
-type FenceRenderer = NonNullable<MarkdownItAsync['renderer']['rules']['fence']>
+const SNIPPET_TOKEN = '<<<'
 
 /**
- * raw path format: "/path/to/file.extension#region {meta} [title]"
- *    where #region, {meta} and [title] are optional
- *    meta can be like '1,2,4-6 lang', 'lang' or '1,2,4-6'
- *    lang can contain special characters like C++, C#, F#, etc.
- *    path can be relative to the current file or absolute
- *    file extension is optional
- *    path can contain spaces and dots
+ * raw path format: `/path/to/file.extension#region {meta} [title]`, where:
+ * - `#region`, `{meta}`, and `[title]` are optional
+ * - meta can be like `1,2,4-6 lang`, `lang` or `1,2,4-6`
+ * - lang can contain special characters like `C++`, `C#`, `F#`, etc.
+ * - path can be relative to the current file or absolute
+ * - file extension is optional
+ * - path can contain spaces and dots
  *
- * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
+ * captures:
+ * ```ts
+ * [
+ *   '/path/to/file.extension#region {1,2,4-6 lang other=attrs} [title]',
+ *   '/path/to/file.extension',
+ *   'region',
+ *   '1,2,4-6',
+ *   'lang',
+ *   'other=attrs',
+ *   'title',
+ * ]
+ * ```
  */
 const RAW_PATH_RE =
   /^(.+?)(?:#([\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
@@ -67,8 +79,6 @@ const MARKER_RES = [
     end: /^\s*"[/][/]+\s*#endregion\b\s*(.*?)":\s*"",?$/
   }
 ]
-
-const snippetMarker = '<<<'
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -150,65 +160,9 @@ export function dedent(lines: string[]): string[] {
   return lines
 }
 
-export function snippetPlugin(
-  md: MarkdownItAsync,
-  srcDir: string,
-  options?: Options
-) {
-  const renderFence = md.renderer.rules.fence!
-  md.renderer.rules.fence = createSnippetRenderer(renderFence, options)
-  md.block.ruler.before('fence', 'snippet', createSnippetParser(srcDir))
-}
-
-function createSnippetParser(srcDir: string): RuleBlock {
-  return (state, startLine, _endLine, silent) => {
-    const pos = state.bMarks[startLine] + state.tShift[startLine]
-    const max = state.eMarks[startLine]
-
-    // if it's indented more than 3 spaces, it should be a code block
-    if (
-      state.sCount[startLine] - state.blkIndent >= 4 ||
-      pos + snippetMarker.length > max ||
-      !state.src.startsWith(snippetMarker, pos)
-    ) {
-      return false
-    }
-
-    if (silent) return true
-
-    const start = pos + snippetMarker.length
-    const end = state.skipSpacesBack(max, pos)
-
-    const rawPath = state.src
-      .slice(start, end)
-      .trim()
-      .replace(/^@/, srcDir)
-      .trim()
-
-    const { filepath, extension, region, lines, lang, attrs, title } =
-      rawPathToToken(rawPath)
-
-    state.line = startLine + 1
-
-    const token = state.push('fence', 'code', 0)
-    token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
-      title ? `[${title}]` : ''
-    }  ${attrs}`
-
-    const { realPath, path: _path } = state.env as MarkdownEnv
-    const src = path.resolve(path.dirname(realPath ?? _path), filepath)
-
-    token.meta = { src, region }
-    token.markup = '```'
-    token.map = [startLine, startLine + 1]
-
-    return true
-  }
-}
-
 function getFileOrError(src: string): { content: string; error?: string } {
   try {
-    const content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+    const content = fs.readFileSync(src, 'utf8').replaceAll(/\r/g, '')
     return { content }
   } catch (error) {
     switch ((error as NodeJS.ErrnoException).code) {
@@ -223,9 +177,9 @@ function getFileOrError(src: string): { content: string; error?: string } {
 }
 
 function createSnippetRenderer(
-  renderFence: FenceRenderer,
+  renderFence: RenderRule,
   options?: Options
-): FenceRenderer {
+): RenderRule {
   return (...args) => {
     const [tokens, idx, , { includes }] = args
     const token = tokens[idx]
@@ -263,4 +217,58 @@ function createSnippetRenderer(
     token.content = dedent(lines).join('\n')
     return renderFence(...args)
   }
+}
+
+function createSnippetParser(srcDir: string): RuleBlock {
+  return (state, startLine, _endLine, silent) => {
+    const pos = state.bMarks[startLine] + state.tShift[startLine]
+    const max = state.eMarks[startLine]
+
+    // if it's indented more than 3 spaces, it should be a code block
+    if (
+      state.sCount[startLine] - state.blkIndent >= 4 ||
+      pos + SNIPPET_TOKEN.length > max ||
+      !state.src.startsWith(SNIPPET_TOKEN, pos)
+    ) {
+      return false
+    }
+
+    if (silent) return true
+
+    const start = pos + SNIPPET_TOKEN.length
+    const end = state.skipSpacesBack(max, pos)
+
+    const rawPath = state.src.slice(start, end).trim().replace(/^@/, srcDir)
+
+    const { filepath, extension, region, lines, lang, attrs, title } =
+      rawPathToToken(rawPath)
+
+    state.line = startLine + 1
+
+    const token = state.push('fence', 'code', 0)
+    token.info =
+      (lang || extension) +
+      (lines ? `{${lines}}` : '') +
+      (title ? `[${title}]` : '') +
+      (' ' + attrs)
+
+    const { realPath, path: _path } = state.env as MarkdownEnv
+    const src = path.resolve(path.dirname(realPath ?? _path), filepath)
+
+    token.meta = { src, region }
+    token.markup = '```'
+    token.map = [startLine, startLine + 1]
+
+    return true
+  }
+}
+
+export function snippetPlugin(
+  md: MarkdownItAsync,
+  srcDir: string,
+  options?: Options
+) {
+  const renderFence = md.renderer.rules.fence!
+  md.renderer.rules.fence = createSnippetRenderer(renderFence, options)
+  md.block.ruler.before('fence', 'snippet', createSnippetParser(srcDir))
 }
