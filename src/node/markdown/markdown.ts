@@ -406,9 +406,6 @@ export async function createMarkdownRenderer(
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir, normalizePluginOptions(options.snippet), logger)
   }
-  if (options.include !== false) {
-    includePlugin(md, srcDir, normalizePluginOptions(options.include), logger)
-  }
   const containerOptions = normalizePluginOptions(options.container)
   if (options.container !== false) {
     containerPlugin(md, containerOptions, { locales: options.locales })
@@ -425,6 +422,11 @@ export async function createMarkdownRenderer(
     base,
     slugify
   )
+  // must come after the image and link plugins so that url rebasing runs
+  // before their href/src handling
+  if (options.include !== false) {
+    includePlugin(md, srcDir, normalizePluginOptions(options.include), logger)
+  }
   if (options.tableTabIndex !== false) {
     tablePlugin(md)
   }
