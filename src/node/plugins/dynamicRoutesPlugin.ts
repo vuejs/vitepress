@@ -12,7 +12,7 @@ import {
 } from 'vite'
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
-import { readFile } from '../utils/fs'
+import { readTextFile } from '../utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
@@ -158,7 +158,7 @@ export const dynamicRoutesPlugin = async (
           moduleGraph.add(id, [routeFile])
           moduleGraph.add(routeFile, [matched.loaderPath])
 
-          let baseContent = await readFile(routeFile)
+          let baseContent = await readTextFile(routeFile)
 
           // inject raw content
           // this is intended for integration with CMS
