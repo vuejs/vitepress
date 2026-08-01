@@ -9,7 +9,7 @@ import {
   mergeMarkdownLocales
 } from './markdown/markdown'
 import type { Awaitable, MarkdownEnv } from './shared'
-import { readFile } from './utils/fs'
+import { readTextFile } from './utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
@@ -122,7 +122,7 @@ export function createContentLoader<T = ContentData[]>(
 
           if (cached && timestamp === cached.timestamp) return cached.data
 
-          const src = await readFile(file)
+          const src = await readTextFile(file)
 
           const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
