@@ -796,6 +796,16 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
+If a file contains multiple regions with the same name, all of them are imported and concatenated — including regions written in different comment styles, such as a `<!-- #region -->` in the template and a `// #region` in the script of the same Vue SFC. The marker comments delimiting them are removed from the output; set `markdown.snippet.stripRegionMarkers` to `'all'` to also remove markers of other comment styles nested inside the region, or to `false` to keep all of them.
+
+::: tip
+Region names may contain letters, digits, `_`, `-` and `.`. Since the name is taken from the end of the path, a file whose name itself contains a `#` needs an explicit region — write `<<< ./my#file.js#region` rather than `<<< ./my#file.js`.
+:::
+
+::: warning
+Importing a file or region that does not exist throws a build error. Set `markdown.snippet.silent: true` to log a warning and render nothing instead.
+:::
+
 You can also specify the language inside the braces (`{}`) like this:
 
 ```md
@@ -810,7 +820,9 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-This is helpful if source language cannot be inferred from your file extension.
+This is helpful if source language cannot be inferred from your file extension. Only alphanumeric extensions are inferred, so files like `main.c++` or `scss.code-snippets` need the language spelled out this way.
+
+Anything after the language inside the braces is passed along to the code block as extra attributes — for example, `<<< @/snippets/snippet.ts{ts twoslash}` enables twoslash processing when [`@shikijs/vitepress-twoslash`](https://shiki.style/packages/vitepress#twoslash) is configured. Note that attributes may not contain square brackets.
 
 ## Code Groups
 
@@ -1018,7 +1030,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 ```
 
 ::: warning
-Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+Including a missing file, region, heading anchor, or an out-of-range line selection throws a build error. Set `markdown.include.silent: true` to log a warning and skip the inclusion instead.
 :::
 
 Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
@@ -1067,6 +1079,28 @@ and include it like this:
 ```md
 <!--@@include: ./parts/basics.md#custom-id-->
 ```
+
+Relative links and images inside included files resolve from the _included_ file's location, so a partial can link to its neighbors no matter which page includes it. Set `markdown.include.rebaseRelativeUrls: false` to leave them resolving relative to the including page instead.
+
+### Including Code Files {#including-code-files}
+
+Since inclusion happens before code blocks are parsed, the directive also works inside fences. Combined with a line range, this lets you show only part of a code file — an alternative to [importing snippets](#import-code-snippets) when regions are not an option:
+
+**Input**
+
+````md
+```js
+<!--@@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+````
+
+**Output**
+
+```js
+<!--@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+
+Note that the included lines are inserted verbatim (indentation is preserved), and content containing backticks needs a longer outer fence.
 
 ## Math Equations
 
