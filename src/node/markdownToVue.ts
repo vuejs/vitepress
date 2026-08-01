@@ -22,7 +22,6 @@ import {
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({
@@ -149,31 +148,38 @@ export async function createMarkdownToVueRenderFn(
       }
     )
 
-    // resolve includes
-    let includes: string[] = []
-    src = await processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
-
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
-    // reset env before render
+    // reset env before render; the include plugin fills `includes` and
+    // exposes the include-expanded source as `env.src`
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls,
-      includes,
+      includes: [],
       realPath: fileOrig,
       localeIndex
     }
-    const html = await md.renderAsync(src, env)
+    let html: string
+    try {
+      html = await md.renderAsync(src, env)
+    } catch (e) {
+      // surface the dependencies collected so far, so that the caller can
+      // watch them and a missing snippet or include recovers once created
+      ;(e as { includes?: string[] }).includes = env.includes
+      throw e
+    }
     const {
       content,
       frontmatter = {},
       headers = [],
+      includes = [],
       linkLines = [],
       links = [],
       sfcBlocks,
       title = ''
     } = env
+    src = env.src ?? src
     const contentLineOffset = countLineBreaks(
       content && src.endsWith(content) ? src.slice(0, -content.length) : ''
     )

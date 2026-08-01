@@ -54,6 +54,10 @@ import { linkPlugin } from './plugins/link'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
 import {
+  includePlugin,
+  type Options as IncludePluginOptions
+} from './plugins/include'
+import {
   snippetPlugin,
   type Options as SnippetPluginOptions
 } from './plugins/snippet'
@@ -208,6 +212,12 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://vitepress.dev/guide/markdown#import-code-snippets
    */
   snippet?: SnippetPluginOptions | boolean
+  /**
+   * Options for including markdown files with `<!-- @include: path -->`.
+   * Set to `false` to disable.
+   * @see https://vitepress.dev/guide/markdown#markdown-file-inclusion
+   */
+  include?: IncludePluginOptions | boolean
 
   /* ==================== Markdown Extensions ==================== */
 
@@ -395,6 +405,9 @@ export async function createMarkdownRenderer(
   }
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir, normalizePluginOptions(options.snippet), logger)
+  }
+  if (options.include !== false) {
+    includePlugin(md, srcDir, normalizePluginOptions(options.include), logger)
   }
   const containerOptions = normalizePluginOptions(options.container)
   if (options.container !== false) {
