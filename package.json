@@ -102,9 +102,9 @@
     "@docsearch/js": "^4.7.0",
     "@docsearch/sidepanel-js": "^4.7.0",
     "@iconify-json/simple-icons": "^1.2.92",
-    "@shikijs/core": "^4.3.1",
-    "@shikijs/transformers": "^4.3.1",
-    "@shikijs/types": "^4.3.1",
+    "@shikijs/core": "^4.4.1",
+    "@shikijs/transformers": "^4.4.1",
+    "@shikijs/types": "^4.4.1",
     "@types/markdown-it": "^14.1.2",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/devtools-api": "^8.2.1",
@@ -114,8 +114,8 @@
     "focus-trap": "^8.2.2",
     "mark.js": "8.11.1",
     "minisearch": "^7.2.0",
-    "shiki": "^4.3.1",
-    "vite": "^8.1.5",
+    "shiki": "^4.4.1",
+    "vite": "^8.2.0",
     "vue": "^3.5.40"
   },
   "devDependencies": {
@@ -156,7 +156,7 @@
     "get-port": "^7.2.0",
     "gray-matter": "^4.0.3",
     "image-size": "^2.0.2",
-    "lint-staged": "^17.2.0",
+    "lint-staged": "^17.3.0",
     "lodash.template": "^4.18.1",
     "lru-cache": "^11.5.2",
     "markdown-it": "^14.3.0",
@@ -172,7 +172,7 @@
     "path-to-regexp": "^6.3.0",
     "picocolors": "^1.1.1",
     "picomatch": "^4.0.5",
-    "playwright-chromium": "^1.62.0",
+    "playwright-chromium": "^1.62.1",
     "polka": "^1.0.0-next.28",
     "postcss": "^8.5.6",
     "postcss-selector-parser": "^7.1.4",
@@ -188,7 +188,7 @@
     "tinyglobby": "^0.2.17",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10",
-    "vue-tsc": "^3.3.8",
+    "vue-tsc": "^3.3.9",
     "wait-on": "^9.1.0"
   },
   "peerDependencies": {
@@ -203,5 +203,5 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@11.17.0"
+  "packageManager": "pnpm@11.18.0"
 }
