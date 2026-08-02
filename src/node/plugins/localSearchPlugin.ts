@@ -2,6 +2,7 @@ import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
 import path from 'node:path'
 import { createDebug } from 'obug'
+import c from 'picocolors'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
@@ -132,7 +133,18 @@ export async function localSearchPlugin(
     )
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
-    const html = await render(file)
+    let html: string
+    try {
+      html = await render(file)
+    } catch (e) {
+      // in dev this runs unawaited, so a page that fails to render must not
+      // reject and take the server down with it — the page reports the error
+      // itself through the markdown transform
+      siteConfig.logger.warn(
+        c.yellow(`Failed to index ${page} for search: ${(e as Error).message}`)
+      )
+      return
+    }
     if (!html) return
     const sections =
       // user provided generator
