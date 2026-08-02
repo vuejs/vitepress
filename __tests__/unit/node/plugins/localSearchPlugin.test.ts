@@ -101,6 +101,49 @@ describe('node/plugins/localSearchPlugin', () => {
     ])
     expect(zhIndex.search('rootonlytoken')).toEqual([])
   })
+
+  test('warns and skips pages that fail to render', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+
+    await writeFile(path.join(root, 'index.md'), '# Home\n\nhealthytoken\n')
+    await writeFile(
+      path.join(root, 'broken.md'),
+      '# Broken\n\n<!-- @include: ./missing.md -->\n'
+    )
+    await writeFile(
+      path.join(configDir, 'config.ts'),
+      "export default { themeConfig: { search: { provider: 'local' } } }"
+    )
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const warn = vi
+      .spyOn(siteConfig.logger, 'warn')
+      .mockImplementation(() => {})
+    const plugin = await localSearchPlugin(siteConfig)
+
+    await (plugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+
+    // the include throws, but indexing the remaining pages must still resolve —
+    // in dev this runs unawaited and a rejection would take the server down
+    await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
+
+    const index = loadIndex(
+      (await (plugin.load as any)?.handler.call(
+        {},
+        '/@localSearchIndexroot'
+      )) as string
+    )
+
+    expect(index.search('healthytoken')).toHaveLength(1)
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('Failed to index broken.md for search')
+    )
+  })
 })
 
 function loadIndex(serializedModule: string) {
