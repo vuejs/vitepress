@@ -50,8 +50,8 @@ export async function localSearchPlugin(
     }
   }
 
-  // Lazily created only when an artifact cannot satisfy search indexing. This
-  // lets a fully seeded production build avoid initializing Markdown/Shiki.
+  // Create the renderer only when an artifact cannot provide search content.
+  // A fully seeded build does not initialize Markdown or Shiki.
   let publicDir = siteConfig.publicDir
   let mdPromise: ReturnType<typeof createMarkdownRenderer> | undefined
   const getMarkdownRenderer = () =>
@@ -77,9 +77,9 @@ export async function localSearchPlugin(
       src = await processIncludes(md, srcDir, raw, file, [], cleanUrls)
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
-      // Dynamic routes have no physical output file. Their seeded artifact is
-      // the only source available; physical pages retain the historical raw
-      // read/include semantics and avoid applying enforce-pre transforms twice.
+      // Dynamic routes have no physical output file, so use their seeded
+      // artifact. For physical pages, keep the existing raw read and include
+      // behavior. This avoids a second pre-transform.
       src = artifact?.markdownSource ?? ''
       if (!src) debug(`File not found: ${file}`)
     }

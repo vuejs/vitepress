@@ -29,10 +29,9 @@ function serializeContext(context: SSGContext): SerializedSSGContext {
     __watcherHandles?: unknown
   }
 
-  // Vue leaves these private render-time structures on SSRContext after it
-  // has produced the public `teleports` output. Watcher handles contain
-  // functions and therefore cannot cross the V8 serialization boundary; the
-  // teleport buffers are redundant once renderToString has resolved them.
+  // Vue leaves private data in SSRContext after rendering. Watcher handles
+  // contain functions that V8 cannot serialize. Teleport buffers are not
+  // necessary after `renderToString` creates the public output.
   delete serialized.__teleportBuffers
   delete serialized.__watcherHandles
   return serialized
@@ -126,9 +125,9 @@ async function renderBatch(
       },
       {
         concurrency: descriptor.renderConcurrency,
-        // Do not close the shared ModuleRunner while another mapper is still
-        // importing or rendering. p-map reports an AggregateError after the
-        // bounded batch has settled when any page fails.
+        // Keep the shared ModuleRunner open while another mapper imports or
+        // renders. If a page fails, p-map reports the errors after the batch
+        // finishes.
         stopOnError: false
       }
     )

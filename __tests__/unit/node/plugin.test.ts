@@ -61,8 +61,8 @@ describe('node/plugin coordinator client', () => {
       publicDir: siteConfig.publicDir
     } as any)
 
-    // This lifecycle still runs on an all-warm build while the highlighter
-    // remains lazy until a Markdown cache miss actually needs it.
+    // This lifecycle runs when all pages are warm. The highlighter remains
+    // idle until a Markdown cache miss needs it.
     expect(configureMarkdown).toHaveBeenCalledTimes(1)
 
     const preloadPlugin = plugins.at(-1) as Plugin

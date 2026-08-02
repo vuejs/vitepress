@@ -69,43 +69,42 @@ export type SsrAssetResolver = (
 
 export interface SsrModuleCompilerOptions {
   /**
-   * Persist materialized module-runner results in the request/module CAS.
-   * Disable this for artifact-only seed passes whose transformed JavaScript is
-   * never evaluated. Pending-request deduplication and Vite graph release stay
-   * active either way.
+   * Store ModuleRunner results in the request and module CAS. Disable this for
+   * seed passes that never evaluate transformed JavaScript. Request
+   * deduplication and Vite graph cleanup continue.
    * @default true
    */
   persistArtifacts?: boolean
   /**
-   * Persist entry-module results whose ModuleRunner request has no importer.
-   * Page entries are normally consumed exactly once, so batched builds can
-   * disable this without affecting dependency reuse between workers.
+   * Store entry results when a ModuleRunner request has no importer. Batched
+   * builds can disable this because they usually use each page entry once.
+   * Workers can still reuse dependencies.
    * @default true
    */
   persistEntries?: boolean
   /**
-   * Remove one-shot entry nodes after their transformed output is persisted.
-   * This is independent from persistence so an offline worker can read the
-   * entry while the coordinator still keeps a bounded Vite graph.
+   * Remove one-use entry nodes after the compiler stores their output. This
+   * setting does not control persistence. It keeps the coordinator's Vite
+   * graph bounded while offline workers read stored entries.
    * @default `persistEntries === false`
    */
   releaseEntries?: boolean
   /** Write one request manifest instead of thousands of pointer files. */
   snapshotOnly?: boolean
   /**
-   * Publish the full-site request manifest after materialization. A caller
-   * that publishes entry-scoped snapshots can disable this duplicate index.
+   * Publish the full-site request manifest after compilation. Disable this
+   * duplicate index when the caller publishes entry snapshots.
    * @default true
    */
   publishFullSnapshot?: boolean
   /**
-   * Map the source identities of VitePress and its theme to native ESM bridge
-   * entries emitted with the shared runtime bundle.
+   * Map VitePress and theme source IDs to native ESM entries in the shared
+   * runtime bundle.
    */
   runtimeBridges?: SsrModuleReplacementMap
   /**
-   * Resolve an asset request to its final URL in the client build. Non-bundled
-   * Vite environments otherwise emit development-only `/@fs/` URLs.
+   * Resolve an asset request to its final client URL. Otherwise, unbundled Vite
+   * environments return development `/@fs/` URLs.
    */
   resolveAsset?: SsrModuleReplacementMap | SsrAssetResolver
 }
@@ -139,18 +138,18 @@ function getDependencyImporter(
   result: MaterializedFetchResult
 ): string | undefined {
   if (!('id' in result)) return
-  // ModuleRunner deliberately prefers `file` over the resolved module id.
-  // Query-bearing Vue/Markdown submodules therefore import their children as
-  // the clean physical file, while virtual modules fall back to `id`.
+  // ModuleRunner prefers `file` to the resolved module ID. Thus, Vue and
+  // Markdown submodules import from the physical file. Virtual modules use
+  // `id`.
   return result.file || result.id
 }
 
 function normalizeMaterializedResult(
   result: MaterializedFetchResult
 ): MaterializedFetchResult {
-  // This compiler has no watcher or HMR source invalidations. Replaying Vite's
-  // initial `invalidate: true` can clear an already evaluated singleton when
-  // the same resolved module is reached through another URL spelling.
+  // This compiler has no watcher or HMR invalidation. Do not replay Vite's
+  // initial `invalidate` marker. It can clear a singleton reached through a
+  // different URL.
   return 'invalidate' in result && result.invalidate !== false
     ? { ...result, invalidate: false }
     : result
@@ -257,10 +256,9 @@ function deleteGraphEntriesByValue<K, V>(map: Map<K, V>, value: V): void {
 }
 
 /**
- * Vite does not currently expose a public removal API for an immutable dev
- * environment's module graph. Page entries are one-shot roots, so detach them
- * explicitly after their transformed code has crossed the worker boundary.
- * Shared dependencies remain in the graph and in the request CAS.
+ * Vite does not expose an API that removes entries from this module graph.
+ * Page entries are one-use roots. Remove them after the compiler stores their
+ * transformed code. Keep shared dependencies in the graph and request CAS.
  */
 function removeOneShotEntry(
   graph: EnvironmentModuleGraph,
@@ -268,9 +266,8 @@ function removeOneShotEntry(
   requestId: string,
   settled = false
 ): void {
-  // A Markdown file can be both a requested page root and a dependency of a
-  // different page. Never remove a node that still has a live importer; only
-  // its heavyweight transform result may be discarded in that case.
+  // A Markdown file can be a page root and a dependency. Keep a node that has
+  // a live importer. Only discard its large transform result.
   if (!settled && module.importers.size > 0) {
     graph.updateModuleTransformResult(module, null)
     return
@@ -317,10 +314,9 @@ function removeOneShotEntry(
 }
 
 /**
- * Coordinator-owned Vite transform environment for SSR page modules.
- *
- * Workers never load Vite or contact this object. Immutable results are
- * streamed into a content-addressed store before offline rendering begins.
+ * Own the Vite transform environment for SSR page modules. Workers do not load
+ * Vite or access this object. Before rendering, the compiler writes immutable
+ * results to a content-addressed store.
  */
 export class SsrModuleCompiler {
   private readonly requestsDir: string
@@ -360,9 +356,8 @@ export class SsrModuleCompiler {
 
     const inlineConfig = mergeConfig(this.inlineConfig, {
       server: {
-        // This coordinator-owned SSR environment is a complete immutable
-        // compilation phase, not an auxiliary dev environment. Run every
-        // plugin's lifecycle hooks (notably plugin-vue's compiler setup).
+        // This SSR environment performs a complete compilation. Run every
+        // plugin lifecycle hook, including the plugin-vue compiler setup.
         perEnvironmentStartEndDuringDev: true
       },
       environments: {
@@ -411,10 +406,9 @@ export class SsrModuleCompiler {
 
     try {
       await environment.init()
-      // This immutable compiler has no watcher. Vite's runnable environment
-      // defaults the shared plugin meta to watch mode even though closeBundle
-      // is final here; switch only that lifecycle flag so internal adapters
-      // (notably esbuild-compatible plugins) release their resources on close.
+      // This compiler has no watcher, but Vite sets the plugin metadata to watch
+      // mode. Clear only that flag. This lets internal adapters release their
+      // resources when `closeBundle` runs.
       const pluginContainer = environment.pluginContainer as unknown as {
         minimalContext: { meta: { watchMode: boolean } }
       }
@@ -439,9 +433,9 @@ export class SsrModuleCompiler {
   }
 
   /**
-   * Materialize complete statically discoverable page graphs into the disk CAS.
-   * Each wave releases its Vue descriptors before the next begins, so the Vite
-   * compiler is a bounded materialization phase and can close before rendering.
+   * Compile all static page graphs into the disk CAS. After each wave, release
+   * its Vue descriptors. This bounds memory and lets Vite close before
+   * rendering.
    */
   async materializeGraphs(
     entries: readonly string[],
@@ -549,10 +543,9 @@ export class SsrModuleCompiler {
   }
 
   /**
-   * Publish the complete request closure for a bounded set of entry modules.
-   * The snapshot contains only request keys and CAS hashes; transformed code
-   * remains deduplicated in the shared module store and is loaded lazily by a
-   * disposable worker.
+   * Publish the request closure for a set of entry modules. The snapshot
+   * contains only request keys and CAS hashes. A worker loads deduplicated code
+   * from the shared store on demand.
    */
   async writeSnapshotForEntries(
     entries: readonly string[],
@@ -612,11 +605,10 @@ export class SsrModuleCompiler {
     const importer = typeof rawImporter === 'string' ? rawImporter : undefined
     const fetchOptions = rawOptions ?? undefined
 
-    // Render builds are immutable: there is no watcher and every first fetch
-    // completes before it is returned to a worker. When ModuleRunner says it
-    // already has a module, acknowledge that cache instead of replaying the
-    // materialized result (whose initial `invalidate` flag would force
-    // evaluation again and can break singleton and circular-module semantics).
+    // Render builds have no watcher. Each first fetch completes before a worker
+    // receives it. If ModuleRunner has the module, confirm the cache instead of
+    // replaying the first result. A replay can evaluate singletons twice and
+    // break circular modules.
     if (fetchOptions?.cached) return { cache: true }
 
     const key = createSsrModuleRequestKey(id, importer)
@@ -627,8 +619,8 @@ export class SsrModuleCompiler {
     const pending = this.pendingRequests.get(key)
     if (pending) return pending
 
-    // Register before the first cache I/O await so close() can reliably wait
-    // for every accepted fetch, including a request currently reading the CAS.
+    // Register the fetch before the first cache operation. Then `close()` can
+    // wait for every request, including current CAS reads.
     const request = (async () => {
       if (persistRequest) {
         const existing = await this.readRequest(key)
@@ -716,8 +708,8 @@ export class SsrModuleCompiler {
     if (!environment) return
 
     const closePromise = (async () => {
-      // A failed materialization can still leave an accepted transform or CAS
-      // write settling. Keep the environment alive until all of them finish.
+      // A failed compilation can leave transforms or CAS writes in progress.
+      // Keep the environment open until all accepted work finishes.
       await Promise.allSettled([...this.pendingRequests.values()])
       this.environment = undefined
       this.config = undefined
@@ -727,11 +719,9 @@ export class SsrModuleCompiler {
       this.requestManifest.clear()
       this.requestMetadata.clear()
 
-      // DevEnvironment.close() intentionally uses Promise.allSettled and
-      // therefore hides buildEnd/closeBundle failures from its plugin
-      // container. Close that container explicitly first so batching reports
-      // teardown failures, then always close the whole environment to release
-      // the optimizer, hot channel, pending requests, and runner as well.
+      // `DevEnvironment.close()` hides plugin cleanup errors. Close the plugin
+      // container first so the build reports these errors. Then close the
+      // environment to release all remaining resources.
       const closeErrors: unknown[] = []
       try {
         await environment.pluginContainer.close()
@@ -782,9 +772,8 @@ export class SsrModuleCompiler {
     const resolved = needsResolution
       ? await environment.pluginContainer.resolveId(id, importer)
       : null
-    // Query-bearing requests have distinct module semantics (`?raw`, `?url`,
-    // Vue submodules, and user plugin queries). Never clean-match one of them
-    // to a runtime facade for the underlying source module.
+    // Requests with queries have different module behavior. Never match `?raw`,
+    // `?url`, Vue submodules, or plugin queries to the source runtime facade.
     const runtimeCandidates = idCandidates(false, id, resolved?.id)
     const assetCandidates = idCandidates(false, id, resolved?.id)
 
@@ -810,8 +799,8 @@ export class SsrModuleCompiler {
         result = await this.createAssetModule(id, assetUrl)
       } else {
         result = await environment.fetchModule(id, importer, options)
-        // A newly started worker can never use a coordinator-only cache marker.
-        // Retry materialized so the result can be persisted and transferred.
+        // A new worker cannot use a coordinator-only cache marker. Fetch the
+        // result again so the store can transfer it.
         if ('cache' in result) {
           result = await environment.fetchModule(id, importer, {
             ...options,
@@ -834,8 +823,8 @@ export class SsrModuleCompiler {
       }
       return materialized
     } finally {
-      // Always release transformed source, including when a cache write fails
-      // or persistence is intentionally disabled for a one-shot entry.
+      // Always release the source transform. Do this after a failed cache write
+      // and when the compiler does not store a one-use entry.
       this.releaseTransform(
         materialized,
         id,

@@ -88,25 +88,20 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   config?: (md: MarkdownRenderer) => Awaitable<void>
   /**
-   * Disable compiled Markdown caching (experimental).
-   *
-   * In a batched production build this also disables reuse of compiled page
-   * artifacts across builds. Artifacts are still shared by the client build,
-   * SSR compiler and render coordinator within the current build.
+   * Set to `false` to disable the compiled Markdown cache (experimental). In a
+   * batched build, this also prevents reuse across builds. The current build
+   * still shares artifacts between the client, SSR compiler, and coordinator.
    */
   cache?: boolean
   /**
-   * A whole-page Markdown artifact cache fingerprint (experimental).
+   * Fingerprint external state that can change a compiled page (experimental).
+   * Set this when page output depends on state that VitePress cannot inspect.
+   * Examples include environment variables and values captured by hook
+   * callbacks. Change the key when this state can change HTML, Vue source, or
+   * page data. A key permits reuse across builds when callbacks are present.
    *
-   * Set this when Markdown output can depend on state that VitePress cannot
-   * inspect, such as environment variables or values captured by Markdown,
-   * Vite or page-data hook closures. Change the key whenever any such state
-   * can change the compiled HTML, Vue source or page data. Supplying a key is
-   * an explicit opt-in to persistent cross-build page-artifact reuse when
-   * opaque callbacks are present.
-   *
-   * This is broader than `shikiCacheKey`, which fingerprints only syntax
-   * highlighting. `cache: false` takes precedence over this option.
+   * This key covers the complete page. `shikiCacheKey` covers only syntax
+   * highlighting. `cache: false` overrides this option.
    */
   cacheKey?: string
   /**
@@ -189,8 +184,8 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
   /**
-   * Extra persistent-highlight cache fingerprint for configuration captured by
-   * opaque transformer or `shikiSetup` closures.
+   * Persistent highlight-cache key for state captured by transformer or
+   * `shikiSetup` callbacks.
    */
   shikiCacheKey?: string
 

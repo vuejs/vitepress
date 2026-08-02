@@ -44,16 +44,16 @@ async function renderWithLoader(
 }
 
 /**
- * Render through the production route loader. This keeps the legacy full SSR
- * bundle entry working while the artifact renderer uses `renderPage` below.
+ * Render with the production route loader. This supports the legacy SSR
+ * bundle while the artifact renderer uses `renderPage`.
  */
 export function render(path: string) {
   return renderWithLoader(path)
 }
 
 /**
- * Render an already-loaded page module, or a conservative static Markdown
- * payload, through the shared application and theme runtime.
+ * Render a loaded page module or a safe static Markdown payload. Use the
+ * shared application and theme runtime.
  */
 export function renderPage(path: string, payload: SsrPagePayload) {
   const pageModule =

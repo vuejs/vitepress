@@ -114,11 +114,10 @@ function compactScript(result: MutableCompileScriptResult): void {
 }
 
 /**
- * @vitejs/plugin-vue keeps production SFC descriptors in process-global maps.
- * On documentation sites this otherwise retains every Markdown page's full
- * source, block locations and template AST after its compiled module has been
- * emitted. Track the same descriptor objects through the public compiler
- * option and compact them only after the owning build/batch has completed.
+ * @vitejs/plugin-vue stores SFC descriptors in global maps. This can retain
+ * page source, block locations, and template ASTs after compilation. Track the
+ * same descriptors through the public compiler option. Compact them after the
+ * build or batch finishes.
  */
 export function createVueDescriptorMemoryPlugin(
   vuePlugin: Plugin
@@ -190,10 +189,9 @@ export function createVueDescriptorMemoryPlugin(
         sourceCompiler = resolvedCompiler
         originalParse = resolvedCompiler.parse
 
-        // plugin-vue resolves @vue/compiler-sfc to a process-global module
-        // namespace. Never patch that namespace directly: concurrent Vite
-        // builds can use it at the same time. Give only this plugin instance
-        // an isolated facade and replace it through plugin-vue's public API.
+        // plugin-vue uses a global @vue/compiler-sfc module. Do not patch this
+        // shared module because builds can use it at the same time. Give this
+        // plugin instance a separate facade through the public API.
         const facade = Object.create(resolvedCompiler) as MutableVueCompiler
         facade.parse = function (...args) {
           const result = originalParse!.apply(sourceCompiler, args)
@@ -237,8 +235,8 @@ export function createVueDescriptorMemoryPlugin(
       sequential: true,
       handler(error) {
         release()
-        // Rollup does not guarantee closeBundle after graph-construction
-        // failure, so restore this plugin instance's facade here on errors.
+        // Rollup can omit `closeBundle` after a graph error. Restore this plugin
+        // facade here when the build fails.
         if (error) dispose()
       }
     },

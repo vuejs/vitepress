@@ -114,9 +114,8 @@ function createBuildModePluginContext(
     get(target, property) {
       if (property === 'environment') return buildEnvironment
       if (property === 'meta') return buildMeta
-      // Rolldown's production context does not expose these serve-only APIs.
-      // Hide Vite's runnable-environment additions so feature detection is
-      // identical to a production plugin context.
+      // Rolldown production contexts do not expose these serve-only APIs. Hide
+      // the runnable-environment methods so plugins see a production context.
       if (property === 'setAssetSource' || property === 'getWatchFiles') {
         return undefined
       }
@@ -161,11 +160,10 @@ function adaptPluginHookContext(hook: unknown, pluginName: string): unknown {
 }
 
 /**
- * A RunnableDevEnvironment supplies the transform/module graph needed by the
- * offline compiler, but its raw user contexts identify as dev/watch mode and
- * silently ignore Rolldown-only methods. Present production semantics to user
- * hooks and fail unsupported output/whole-graph access explicitly. Vite's own
- * plugins retain their native runnable-environment contexts.
+ * A RunnableDevEnvironment supplies the transform graph for the offline
+ * compiler. Its user contexts report development and watch modes. They also
+ * ignore Rolldown-only methods. Give user hooks production values and clear
+ * errors for unsupported methods. Keep Vite plugin contexts unchanged.
  *
  * @internal Exported for focused pipeline tests.
  */
@@ -173,9 +171,8 @@ export function adaptSsrBatchPagePlugins(plugins: readonly Plugin[]): Plugin[] {
   return plugins.map((plugin) => {
     if (isViteInternalPlugin(plugin.name)) return plugin
 
-    // A Proxy cannot legally return a wrapped hook for a frozen plugin's
-    // non-configurable property. Copy resolved values onto a loose facade so
-    // frozen and class-based plugin objects remain supported.
+    // A Proxy cannot wrap a non-configurable hook in a frozen plugin. Copy the
+    // values to a mutable facade to support frozen and class plugins.
     const adapted = Object.create(Object.getPrototypeOf(plugin)) as Plugin &
       Record<PropertyKey, unknown>
     for (const property of Reflect.ownKeys(plugin)) {
@@ -216,11 +213,9 @@ async function collectOutputPlugins(
 }
 
 /**
- * Batched page modules are transformed in an unbundled Vite environment, so
- * Rolldown's bundle-graph and output-generation phases never run for them.
- * Reject user hooks that would otherwise observe or mutate the legacy SSR
- * page bundle. `buildEnd` is deliberately supported: the unbundled plugin
- * container runs it during compiler teardown.
+ * Vite transforms batched page modules without a Rolldown bundle. Reject user
+ * hooks that inspect or change the missing SSR page bundle. Support `buildEnd`
+ * because the plugin container runs it when the compiler closes.
  *
  * @internal Exported for focused pipeline tests.
  */
@@ -398,8 +393,8 @@ export function createWorkerExecArgv(execArgv: string[]): string[] {
     }
   }
 
-  // Inspector flags can also arrive through NODE_OPTIONS, which is inherited
-  // by workers. Explicit command-line negatives take precedence there.
+  // NODE_OPTIONS can pass inspector flags to workers. Explicit disable flags
+  // take priority.
   for (const flag of [
     '--no-inspect',
     '--no-inspect-brk',

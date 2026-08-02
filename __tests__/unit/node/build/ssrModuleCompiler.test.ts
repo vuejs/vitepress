@@ -979,8 +979,8 @@ describe('SsrModuleCompiler', () => {
         dynamicA: 'dynamic-a'
       })
 
-      // Pointer files for page B exist in the shared store, but an explicit
-      // batch snapshot is authoritative and cannot escape its closure.
+      // The shared store contains pointer files for page B. The batch snapshot
+      // must limit the worker to its declared modules.
       await expect(runner.import(pageB)).rejects.toThrow(
         /Missing precompiled SSR module/
       )

@@ -90,8 +90,8 @@ export function captureClientAssetUrls(
       type,
       hostId,
       hostType: 'js',
-      // These URLs are consumed while executing SSR, but must point at files
-      // emitted by the client build.
+      // SSR uses these URLs, but they must identify files from the client
+      // build.
       ssr: true
     })
     if (typeof custom === 'string') {
@@ -111,8 +111,8 @@ export function captureClientAssetUrls(
       renderBuiltUrl = resolved.experimental.renderBuiltUrl
     },
     transform: {
-      // Rolldown applies this filter natively, avoiding a JS hook call for the
-      // app, every Markdown page module, and every Vue component.
+      // Rolldown applies this filter without a JavaScript hook call. This
+      // avoids calls for the app, Markdown pages, and Vue components.
       filter: {
         id: {
           exclude:
@@ -129,14 +129,13 @@ export function captureClientAssetUrls(
           pending.set(normalizePath(id), {
             type: 'asset',
             referenceId: asset[1],
-            // Vite stores the query/hash postfix verbatim. Decoding it changes
-            // URL semantics (and can throw for a literal `%`), so preserve it.
+            // Vite preserves the query and hash postfix. Do not decode it
+            // because `%` can be a literal character.
             postfix: asset[2] || ''
           })
         } else if (publicAssetRE.test(value)) {
-          // A non-bundled SSR environment would otherwise produce a dev URL
-          // for public files. Mirror Vite's final client URL, including `base`,
-          // and remove only the asset-plugin's `?url` control query.
+          // An unbundled SSR environment otherwise returns a development URL.
+          // Use the final client URL and remove only the `?url` control query.
           pending.set(normalizePath(id), {
             type: 'public',
             url: removeUrlQuery(id)
@@ -177,9 +176,8 @@ function useClientAssetUrlsForSsr(assetMap: ClientAssetMap): Plugin {
     name: 'vitepress:ssr-client-asset-urls',
     enforce: 'pre',
     load(id) {
-      // `load` receives the fully resolved ID, which is also what the client
-      // capture pass records. Intercepting here avoids resolving every normal
-      // runtime import twice and still lets earlier custom loaders win.
+      // `load` and the client capture pass use the fully resolved ID. Handle it
+      // here to avoid a second resolution and allow earlier custom loaders.
       const assetUrl = assetMap[normalizePath(id)]
       if (assetUrl === undefined) return
       return {
@@ -197,9 +195,9 @@ export function createSsrRuntimeInput(
 ) {
   const input: Record<string, string> = {
     app: path.resolve(APP_PATH, 'ssrRuntime.js'),
-    // These bridge entries share their chunks with the app entry. Page
-    // artifact runners can externalize VitePress imports to them without
-    // creating a second set of injection symbols or Vue app state.
+    // These bridge entries share chunks with the app entry. Artifact runners
+    // can externalize imports without duplicating injection symbols or Vue
+    // state.
     vitepress: path.resolve(DIST_CLIENT_PATH, 'index.js'),
     theme: path.resolve(DEFAULT_THEME_PATH, 'index.js')
   }
@@ -211,9 +209,8 @@ export function createSsrRuntimeInput(
     return input
   }
 
-  // Let Vite resolve the real theme entry, including plugin-provided or
-  // non-standard extensions. Other bridge facades are emitted only after
-  // Rolldown proves that the source is reachable from this runtime graph.
+  // Let Vite resolve the theme entry and custom extensions. Emit other bridge
+  // facades only for sources that Rolldown finds in the runtime graph.
   input['site-theme'] = '@theme/index'
   return input
 }
@@ -235,9 +232,9 @@ function isSsrRuntimeGraphSource(
   }
 
   if (id.startsWith('\0')) {
-    // Virtual JavaScript modules have no useful extension to inspect. Known
-    // style/asset queries were rejected above; declarations and Vite's own
-    // implementation modules are not source identities a page can import.
+    // Virtual JavaScript modules have no useful extension. Previous checks
+    // rejected styles and assets. Pages cannot import declarations or Vite
+    // implementation modules as source identities.
     return (
       !id.startsWith('\0vite/') &&
       !id.startsWith('\0vite:') &&
@@ -245,15 +242,13 @@ function isSsrRuntimeGraphSource(
     )
   }
 
-  // Bare and native modules must retain Vite's normal SSR externalization.
-  // Package files are excluded even when a plugin forces a dependency into
-  // the runtime bundle; bridging dependencies would create an entry per
-  // package implementation module and defeat Node's package semantics.
+  // Keep Vite's normal SSR externalization for bare and native modules. Exclude
+  // package files even when a plugin bundles a dependency. A bridge for each
+  // package module would change Node's package semantics.
   if (!path.isAbsolute(id) || dependencyPathRE.test(id)) return false
 
-  // VitePress already exposes strict entries for its public client and
-  // default-theme roots. Descendant implementation files are package code,
-  // not site-local singleton identities.
+  // VitePress has strict entries for its client and default-theme roots. Treat
+  // descendant implementation files as package code, not site singletons.
   if (
     id === normalizePath(DIST_CLIENT_PATH) ||
     id.startsWith(`${normalizePath(DIST_CLIENT_PATH)}/`)
@@ -261,9 +256,9 @@ function isSsrRuntimeGraphSource(
     return false
   }
 
-  // Reaching moduleParsed proves that a loader turned this local source into
-  // JavaScript. Do not require a conventional extension: user plugins can
-  // provide importable singleton modules from extensionless/custom files.
+  // A `moduleParsed` call proves that a loader produced JavaScript. Accept
+  // custom and extensionless files because plugins can provide singleton
+  // modules from them.
   return true
 }
 
@@ -301,9 +296,8 @@ export function createSsrRuntimeBridgePlugin(
       type: 'chunk',
       id: moduleInfo.id,
       name: `site-runtime-${createHash('sha256').update(id).digest('hex').slice(0, 16)}`,
-      // Every source identity needs its own importable facade. Rolldown
-      // shares the implementation chunk with app.js rather than evaluating
-      // the module a second time.
+      // Create an importable facade for each source identity. Rolldown shares
+      // the implementation chunk with app.js and does not evaluate it twice.
       preserveSignature: 'strict'
     })
   }
@@ -335,18 +329,15 @@ export function createSsrRuntimeBridgePlugin(
   return {
     name: 'vitepress:ssr-runtime-theme-bridges',
     resolveId(id) {
-      // A virtual module's owner commonly resolves only its public spelling
-      // (for example `virtual:state` -> `\0plugin:state`). Emitted chunk
-      // entries are resolved again from their canonical ID, so preserve that
-      // already-resolved identity for the facade without asking the owner to
-      // support a second resolve shape.
+      // A virtual module owner can resolve only its public ID. Rolldown resolves
+      // emitted entries from the canonical ID. Preserve it without a second
+      // resolution.
       if (id.startsWith('\0') && emitted.has(normalizePath(id))) return id
     },
     async buildStart() {
-      // Record the resolved identity of the declared site-theme entry as well
-      // as file-backed descendants discovered below. This preserves custom
-      // resolver support when `@theme/index` maps to a virtual module or a
-      // source outside the conventional theme directory.
+      // Record the resolved theme entry and its file descendants. This supports
+      // custom resolvers that map `@theme/index` to a virtual or external
+      // source.
       const resolved = await this.resolve('@theme/index', undefined, {
         isEntry: true
       })
@@ -376,9 +367,9 @@ export function createSsrRuntimeBridgePlugin(
           reachableFromTheme.has(normalizePath(importer))
         )
       ) {
-        // A module can be parsed through another runtime entry before its
-        // custom-theme importer is discovered. Walking the now-known forward
-        // graph makes the result independent of module traversal order.
+        // Rolldown can parse a module before it finds the custom-theme importer.
+        // Walk the known forward graph so traversal order cannot change the
+        // result.
         reachableFromTheme.delete(id)
         visitThemeGraph(this, moduleInfo.id)
       }
@@ -419,9 +410,8 @@ const disableIsolatedSsrPublicCopyPlugin: Plugin = {
   config: {
     order: 'post',
     handler(config) {
-      // The VitePress config hook merges the user's Vite config after the
-      // inline build config. Reassert this invariant after every user hook so
-      // disposable SSR output directories never receive the public tree.
+      // The user Vite config merges after the inline build config. Reapply this
+      // value after user hooks so SSR output never receives the public tree.
       const build = (config.build ??= {})
       build.copyPublicDir = false
       if (config.environments?.ssr?.build) {
@@ -462,9 +452,9 @@ export interface ViteBuildConfigOptions {
 }
 
 /**
- * Create the Vite config used by the client, legacy SSR, shared SSR runtime,
- * and page-artifact compiler. Keeping this in one place prevents those build
- * paths from drifting in aliases, defines, and user plugin behavior.
+ * Create the Vite config for the client, legacy SSR, SSR runtime, and page
+ * artifact compiler. Keep aliases, definitions, and plugin behavior consistent
+ * across these build paths.
  */
 export async function createViteBuildConfig(
   config: SiteConfig,
@@ -492,7 +482,7 @@ export async function createViteBuildConfig(
   const createPageInput = () => {
     const input: Record<string, string> = {}
     pages.forEach((file) => {
-      // page filename conversion: foo/bar.md -> foo_bar.md
+      // Convert the page file name: foo/bar.md -> foo_bar.md.
       const alias = config.rewrites.map[file] || file
       input[slash(alias).replace(/\//g, '_')] = path.resolve(
         config.srcDir,
@@ -596,7 +586,7 @@ export async function createViteBuildConfig(
   }
 }
 
-// bundles the VitePress app for the client, server, or both.
+// Bundle the VitePress app for the client, server, or both.
 export async function bundle(
   config: SiteConfig,
   options: BuildOptions,

@@ -12,8 +12,8 @@ export interface SsrStaticPagePayload {
 }
 
 /**
- * Everything a disposable worker needs for one route. `page` is the rewritten
- * output page while `moduleId` points at the original source module.
+ * Contains all data that a worker needs for one route. `page` is the rewritten
+ * output page. `moduleId` identifies the original source module.
  */
 export interface SsrRenderWorkerPage {
   page: string

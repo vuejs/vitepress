@@ -52,9 +52,9 @@ interface CurrentPageArtifact {
 
 export interface PageArtifactStoreOptions {
   /**
-   * A fingerprint for everything that can affect Markdown output. The build
-   * coordinator should include the VitePress version, resolved route digest,
-   * config dependencies, base, Markdown options and relevant environment data.
+   * Fingerprint all input that can change Markdown output. Include the
+   * VitePress version, routes, config dependencies, base, Markdown options,
+   * and relevant environment data.
    */
   namespace: string
   /** Prevent creation of missing artifacts. Useful in render-only workers. */
@@ -62,12 +62,10 @@ export interface PageArtifactStoreOptions {
 }
 
 /**
- * A small content-addressed store for the expensive Markdown -> Vue boundary.
- *
- * The manifest only retains hashes and dependency paths. Rendered HTML bodies
- * and route-specific overlays are written immediately to separate CAS objects,
- * so compiling a large site does not retain every page in memory and exactly
- * identical bodies can share storage even when their overlays differ.
+ * Store compiled Markdown and Vue data by content hash. The manifest keeps
+ * only hashes and dependency paths. Write HTML bodies and route overlays to
+ * separate objects. This limits memory use and lets identical bodies share
+ * storage.
  */
 export class PageArtifactStore {
   readonly root: string
@@ -78,8 +76,8 @@ export class PageArtifactStore {
   readonly #objectsDir: string
   readonly #bodiesDir: string
   readonly #entries = new Map<string, PageArtifactManifestEntry>()
-  // Only CAS coordinates are retained. Finalized Vue/HTML strings are read
-  // back on demand so a streaming build never accumulates every page in RAM.
+  // Keep only CAS references in memory. Read final Vue and HTML strings on
+  // demand so a streaming build does not retain every page.
   readonly #current = new Map<string, CurrentPageArtifact>()
   readonly #pending = new Map<string, Promise<MarkdownCompileResult>>()
   readonly #dependencyHashes = new Map<string, Promise<string>>()
@@ -102,8 +100,8 @@ export class PageArtifactStore {
   }
 
   /**
-   * Reads an artifact only when both its transformed Markdown input and every
-   * include/snippet dependency still match the manifest.
+   * Read an artifact only if its Markdown input and all included dependencies
+   * still match the manifest.
    */
   async get(
     page: string,
@@ -125,8 +123,8 @@ export class PageArtifactStore {
   }
 
   /**
-   * Returns an artifact already validated or created during this build. This is
-   * intended for coordinator-owned consumers such as local search generation.
+   * Return an artifact that this build validated or created. Use this for
+   * coordinator tasks such as local search.
    */
   async getCurrent(page: string): Promise<MarkdownCompileResult | undefined> {
     await this.#load()
@@ -163,8 +161,8 @@ export class PageArtifactStore {
   }
 
   /**
-   * Deduplicates concurrent requests for the same page/input. A read-only
-   * consumer can omit `compile` to turn a cache miss into an actionable error.
+   * Deduplicate concurrent requests for the same page and input. A read-only
+   * caller can omit `compile` to make a cache miss an error.
    */
   async getOrCreate(
     page: string,
@@ -289,8 +287,8 @@ export class PageArtifactStore {
         }
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
-          // A partial/corrupt cache must never make a build fail. Treat it as a
-          // miss; a successful build will atomically replace the manifest.
+          // Do not fail a build because the cache is incomplete or corrupt.
+          // Treat it as a miss. A successful build replaces the manifest.
           return
         }
       }

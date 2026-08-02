@@ -35,8 +35,8 @@ const cache = new LRUCache<string, MarkdownCompileResult>({
       Buffer.byteLength(result.vueSrc) +
       Buffer.byteLength(result.html) +
       (result.markdownSource ? Buffer.byteLength(result.markdownSource) : 0) +
-      // Keep the cache bounded even for pages with unusually large page data
-      // or link/header arrays without serializing those objects a second time.
+      // Limit the cache when page data or link arrays are large. Do not
+      // serialize these objects a second time.
       1024
     )
   }
@@ -65,9 +65,9 @@ export interface MarkdownCompileResult {
   /** Markdown after include/snippet expansion, reusable by local search. */
   markdownSource?: string
   /**
-   * The documented Markdown environment produced by the primary render. This
-   * is deliberately a plain snapshot rather than the renderer-owned object so
-   * plugin-private/cyclic state cannot leak into the persistent artifact.
+   * Snapshot of the documented Markdown environment from the first render.
+   * Store a plain copy so private or cyclic plugin data does not enter the
+   * persistent artifact.
    */
   markdownEnv?: MarkdownEnv
   pageData: PageData
@@ -77,21 +77,21 @@ export interface MarkdownCompileResult {
   linkContext?: PageLinkContext
   includes: string[]
   /**
-   * Present when the page can be inserted without evaluating a page Vue
-   * module. `staticHtml` is omitted when `html` is already SSR-ready.
+   * Set when the page can render without a Vue module. Omit `staticHtml` when
+   * `html` is ready for SSR.
    */
   staticPage?: true
   /** SSR-ready static HTML with compile-time-only `v-pre` markers removed. */
   staticHtml?: string
   /**
-   * Internal marker used when refreshing a cached module after page-data hooks.
-   * User-authored default exports must never be rewritten as component names.
+   * Marks a cached module refresh after page-data hooks. Do not rewrite user
+   * default exports as component names.
    */
   generatedPageComponentName?: true
   /**
-   * User-authored SFC blocks can make plugin-vue's filename-derived component
-   * id and Vite's importer identity observable. Compile these pages through the
-   * physical Markdown id so client and SSR transforms see the same filename.
+   * User SFC blocks can expose the component ID and importer ID. Compile these
+   * pages with the physical Markdown ID. Client and SSR transforms then see
+   * the same file name.
    */
   requiresSourceModuleIdentity?: true
 }
@@ -198,9 +198,8 @@ export async function createMarkdownToVueRenderFn(
       siteConfig?.cacheDir
     ))
 
-  // The artifact seed owns the once-per-build lifecycle of renderer setup
-  // hooks, even when every page is a persistent-cache hit. Later client/runtime
-  // environments stay completely lazy and therefore cannot repeat setup.
+  // The artifact seed runs renderer setup hooks once per build. It also runs
+  // them when all pages come from the cache. Later environments remain lazy.
   if (initializeRenderer && (options.preConfig || options.config)) {
     await getMarkdownRenderer()
   }
@@ -224,8 +223,8 @@ export async function createMarkdownToVueRenderFn(
 
     if (transforms.length === 0) return artifact
 
-    // Hooks are allowed to mutate their argument. Keep the persistent pre-hook
-    // artifact immutable so every build starts from the same Markdown result.
+    // Hooks can change their input. Keep the cached pre-hook artifact unchanged
+    // so each build starts with the same Markdown result.
     let pageData = clonePageData(artifact.pageData)
     for (const transform of transforms) {
       if (transform) {
@@ -567,8 +566,8 @@ const STATIC_HTML_ASSET_SOURCES: Record<
 }
 const STATIC_BADGE_TYPES = new Set(['info', 'tip', 'warning', 'danger'])
 
-// Deliberately conservative. A false negative only uses the normal Vue SSR
-// path; a false positive could change output or hydration semantics.
+// Use a conservative check. A false negative uses normal Vue SSR. A false
+// positive could change output or hydration.
 function createStaticHtml(
   html: string,
   sfcBlocks:
@@ -580,8 +579,8 @@ function createStaticHtml(
     | undefined,
   siteConfig: SiteConfig
 ): string | undefined {
-  // Resolved Vite hooks are screened by the caller. Vue compiler options can
-  // also change the generated template, so keep their proof local here.
+  // The caller checks resolved Vite hooks. Check Vue compiler options here
+  // because they can also change the generated template.
   if (hasUnsafeVueTransforms(siteConfig.vue)) {
     return
   }
@@ -597,33 +596,29 @@ function createStaticHtml(
   const expandedHtml = expandStaticDefaultThemeBadges(html, siteConfig)
   if (expandedHtml == null) return
 
-  // Shiki marks non-Vue code blocks with v-pre so arbitrary code text is not
-  // parsed as Vue. The compiler removes that boundary attribute and otherwise
-  // emits the subtree verbatim. Mask those known-safe subtrees while checking
-  // the rest of the document, then remove the compile-time marker from the
-  // direct SSR payload to match Vue's output exactly.
+  // Shiki adds `v-pre` so Vue does not parse code blocks. Vue removes this
+  // attribute but keeps the subtree. Mask safe subtrees during this check.
+  // Then remove `v-pre` from the SSR output to match Vue.
   const inspectedHtml = expandedHtml.replace(
     /<pre\b(?=[^>]*\bv-pre(?:\s|=|>))[^>]*>[^]*?<\/pre>/gi,
     '<pre></pre>'
   )
 
-  // Interpolations and Vue directive shorthand outside known Shiki v-pre
-  // blocks are excluded. False negatives stay on the compiled-module path.
+  // Reject interpolations and Vue shorthand outside Shiki `v-pre` blocks. A
+  // false negative uses the compiled module.
   if (/\{\{[^]*?\}\}/.test(inspectedHtml)) return
   if (/<[A-Za-z][^>]*\s(?:v-|[.:@#])[^>]*>/.test(inspectedHtml)) return
-  // Vue treats these tags/attributes as VNode control flow rather than plain
-  // HTML. Keeping the fast path conservative avoids changing SSR output for
-  // hand-written HTML embedded in Markdown.
+  // Vue treats these tags and attributes as VNode control flow. Exclude this
+  // HTML from the fast path to preserve SSR output.
   if (/<\/?(?:slot|template)\b/i.test(inspectedHtml)) return
   if (/<[A-Za-z][^>]*\s(?:key|ref|is|slot)(?=\s|=|\/?>)/i.test(inspectedHtml)) {
     return
   }
   if (/<textarea\b[^>]*\svalue(?=\s|=|\/?>)/i.test(inspectedHtml)) return
 
-  // The direct-static path skips Vite/Vue's asset URL transform. Mirror
-  // Vite's default HTML asset-source matrix and reject every URL that is not
-  // intrinsically final. Build-time plugin-vue uses includeAbsolute, so root
-  // URLs are unsafe too: Vite may hash a public asset or prefix a non-root base.
+  // The static path skips the asset URL transform. Accept only final URLs from
+  // Vite's default source matrix. Root URLs are unsafe because Vite can hash an
+  // asset or add the site base.
   if (hasRewritableStaticAssetUrl(expandedHtml, siteConfig)) return
 
   const tagRE = /<\/?([A-Za-z][\w.-]*)\b/g
@@ -636,9 +631,9 @@ function createStaticHtml(
 }
 
 /**
- * Fold the default theme's presentational Badge component into its exact Vue
- * SSR markup. Slot fragment comments are intentional hydration boundaries.
- * Any non-literal prop or nested markup leaves the page on the compiled path.
+ * Replace the default Badge component with its exact SSR markup. Keep slot
+ * comments because they mark hydration boundaries. Use the compiled path for
+ * non-literal properties or nested markup.
  */
 function expandStaticDefaultThemeBadges(
   html: string,
@@ -646,9 +641,8 @@ function expandStaticDefaultThemeBadges(
 ): string | undefined {
   if (!/<\/?Badge\b/.test(html)) return html
 
-  // A custom theme may register Badge with different markup or behavior. Only
-  // fold the component when its implementation is the built-in default theme
-  // that this exact SSR markup belongs to.
+  // A custom theme can provide a different Badge component. Replace it only
+  // when the site uses the built-in default theme.
   if (
     slash(path.resolve(siteConfig.themeDir)) !==
     slash(path.resolve(DEFAULT_THEME_PATH))
@@ -703,9 +697,9 @@ export function prepareStaticHtmlForSsr(html: string): string {
 }
 
 /**
- * Client entry for a direct-static page. Keeping the body as one static vnode
- * avoids running Vue's template compiler across content that the coordinator
- * has already proven to contain no runtime behavior.
+ * Create the client entry for a static page. Store the body in one static
+ * vnode. This avoids Vue compilation after the coordinator proves that the
+ * page has no runtime behavior.
  */
 export function createStaticPageVueSource(
   artifact: MarkdownCompileResult
@@ -733,11 +727,9 @@ function normalizeStaticHtmlWhitespace(html: string): string {
     }
   )
 
-  // Vue's default template whitespace mode removes newline-only text nodes
-  // between elements. Raw Markdown HTML retains those newlines, which shifts
-  // hydration's child cursor and can make a lean client page patch the wrong
-  // element. Preserve whitespace-sensitive element contents, but mirror the
-  // compiled template at ordinary block boundaries.
+  // Vue removes newline-only text nodes between elements. Raw Markdown keeps
+  // them and can move the hydration cursor. Preserve whitespace inside
+  // sensitive elements, but match Vue at normal block boundaries.
   return masked
     .replace(/>\s*\n\s*</g, '><')
     .replace(
@@ -855,22 +847,19 @@ function isRootPublicAsset(url: string, siteConfig: SiteConfig): boolean {
 }
 
 /**
- * Use a generated `.vue` identity beside the physical Markdown source. The
- * sibling location preserves relative asset resolution while preventing
- * Markdown-only pre transforms from running a second time over generated SFC
- * source in the coordinator's SSR compiler.
+ * Use a generated `.vue` ID next to the Markdown source. This location keeps
+ * relative asset resolution. It also prevents Markdown pre-transforms from
+ * processing the generated SFC a second time.
  */
 export function createSsrPageArtifactModuleId(sourceFile: string): string {
   return `${slash(path.resolve(sourceFile))}${SSR_PAGE_ARTIFACT_SUFFIX}`
 }
 
 /**
- * Whether the coordinator can compile the stored post-Markdown SFC directly.
- *
- * User transforms that apply to `.md` can branch on the SSR environment even
- * when they are filtered and enforce-pre, so they require the physical path
- * unless they explicitly opt into the artifact-safety contract. Resolve/load
- * hooks must likewise be unable to observe the substitute module id.
+ * Return whether the coordinator can compile the stored SFC. Markdown
+ * transforms can depend on the SSR environment. Use the physical module unless
+ * the plugin accepts the artifact-safety contract. Resolve and load hooks must
+ * not observe the substitute module ID.
  */
 export function canCompileSsrPageArtifact(
   siteConfig: SiteConfig,
@@ -960,11 +949,9 @@ function hasUnsafeStaticPluginSemantics(
 }
 
 /**
- * Whether a resolved Vite environment can consume the coordinator's client
- * Markdown artifact without observing a different physical module pipeline.
- * The batched coordinator evaluates this once for the client environment and
- * again after the real unbundled SSR environment has resolved, because
- * `applyToEnvironment` may return different plugin objects for each one.
+ * Return whether a Vite environment can use the client Markdown artifact
+ * without changing the module pipeline. Check the client and SSR environments
+ * separately. `applyToEnvironment` can return different plugins for each one.
  *
  * @internal
  */
@@ -1035,8 +1022,8 @@ function hasUnsafeSsrArtifactModuleHooks(value: unknown): boolean {
     resolveId?: unknown
     then?: unknown
   }
-  // Plugin promises are resolved by Vite later. Until then, neither their
-  // hooks nor their filters can be proven insensitive to the synthetic id.
+  // Vite resolves plugin promises later. Until then, assume that their hooks
+  // and filters can observe the synthetic ID.
   if (typeof plugin.then === 'function') return true
   const resolvedPlugin = plugin as ArtifactAwarePlugin
   if (
@@ -1047,9 +1034,8 @@ function hasUnsafeSsrArtifactModuleHooks(value: unknown): boolean {
     return false
   }
 
-  // resolveId filters select the import source, not its importer, and load
-  // hooks can apply to dependencies of the page. Without compiling the graph,
-  // any such hook can observe a synthetic page id directly or as an importer.
+  // `resolveId` filters select the source, not the importer. Load hooks can also
+  // apply to page dependencies. Both hooks can observe the synthetic page ID.
   return plugin.resolveId != null || plugin.load != null
 }
 
@@ -1068,8 +1054,8 @@ function hasUnsafeViteTransforms(value: unknown, sourceFile: string): boolean {
     transform?: unknown
     then?: unknown
   }
-  // Vite accepts promised plugin options. Their eventual transform ordering is
-  // opaque here, so use the compiled path.
+  // Vite accepts promised plugin options. Their transform order is not known
+  // here, so use the compiled path.
   if (typeof plugin.then === 'function') return true
   const resolvedPlugin = plugin as ArtifactAwarePlugin
   if (
@@ -1098,10 +1084,9 @@ function hasUnsafeViteTransforms(value: unknown, sourceFile: string): boolean {
     const appliesToArtifact = filter(createSsrPageArtifactModuleId(sourceFile))
     if (!appliesToSource && !appliesToArtifact) return false
 
-    // Even an enforce-pre, source-only transform can inspect the SSR flag or
-    // `this.environment`. Reusing its client result would then differ from the
-    // legacy server build. Such a transform must explicitly promise that its
-    // Markdown result and observable side effects are environment-invariant.
+    // A source pre-transform can inspect the SSR flag or `this.environment`.
+    // Reusing its client result could change server output. Require an explicit
+    // promise that its output and side effects do not depend on the environment.
     return true
   } catch {
     return true

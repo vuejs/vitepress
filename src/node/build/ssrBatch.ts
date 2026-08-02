@@ -51,10 +51,9 @@ async function generateMetadataScript(
     return { html: '', inHead: false }
   }
 
-  // We embed the hash map and site config strings into each page directly
-  // so that it doesn't alter the main chunk's hash on every build.
-  // It's also embedded as a string and JSON.parsed from the client because
-  // it's faster than embedding as JS object literal.
+  // Embed the hash map and site config as strings in each page. This prevents
+  // build data from changing the main chunk hash. The client parses the strings
+  // as JSON because this is faster than a JavaScript object literal.
   const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
   const siteDataString = JSON.stringify(
     JSON.stringify(serializeFunctions({ ...config.site, head: [] }))

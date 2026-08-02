@@ -345,8 +345,8 @@ async function writeCachedHighlight(
     await writeFile(temporary, html, { mode: 0o600 })
     await rename(temporary, file)
   } catch {
-    // Highlight caching is an optimization; read-only or partially cleared
-    // cache directories must not make the documentation build fail.
+    // Highlight caching is optional. Do not fail the build if its directory is
+    // read-only or incomplete.
   } finally {
     await unlink(temporary).catch(() => {})
   }

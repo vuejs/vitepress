@@ -37,10 +37,9 @@ export function createSsrModuleRequestKey(
   id: string,
   importer: string | undefined
 ): string {
-  // Plugin resolveId hooks and final asset resolvers may use the importer even
-  // when `id` is already an absolute path or file URL. Keep that identity in
-  // the request key; equal transformed results still deduplicate in the
-  // content-addressed module store after resolution.
+  // Plugin resolvers can use the importer even when `id` is absolute. Include
+  // the importer in the request key. The module store still deduplicates equal
+  // results after resolution.
   return JSON.stringify([SSR_MODULE_ARTIFACT_VERSION, id, importer ?? null])
 }
 
@@ -135,8 +134,8 @@ export class SsrModuleArtifactReader {
     const key = createSsrModuleRequestKey(id, importer)
     const artifactHash = (await this.#snapshot)?.get(key)
     if (!artifactHash) {
-      // A batch snapshot is a complete capability list for that worker. Do
-      // not let pointer files from a broader store silently escape the slice.
+      // A batch snapshot lists all modules that its worker can use. Do not let
+      // pointer files from the full store extend this list.
       if (this.#snapshotIsAuthoritative) return
       return readStoredSsrModuleRequestByKey(this.storeRoot, key)
     }

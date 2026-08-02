@@ -175,8 +175,8 @@ test('emits bounded facades for all site-local and virtual theme dependencies', 
   const emitFile = vi.fn((_file: Rolldown.EmittedFile) => 'bridge')
 
   const resolve = await invokeBuildStart(plugin, indexId)
-  // A source may be parsed first through another runtime entry. The final
-  // bridge set must not depend on Rolldown's traversal order.
+  // Rolldown can parse a source through another runtime entry first. Its
+  // traversal order must not change the final bridge set.
   invokeModuleParsed(plugin, { id: sharedId, isEntry: false }, emitFile)
   invokeModuleParsed(plugin, { id: virtualId, isEntry: false }, emitFile)
   invokeModuleParsed(

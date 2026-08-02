@@ -41,11 +41,9 @@ export interface SerializedRenderMetadata extends Omit<
 }
 
 /**
- * The output of Vue SSR before VitePress runs user hooks and writes HTML.
- *
- * Keeping this boundary free of SiteConfig allows lightweight render workers
- * to return their result to the coordinator, where closure-bearing build hooks
- * can run without resolving the user's config again.
+ * Contains Vue SSR output before VitePress runs user hooks or writes HTML.
+ * This type does not include SiteConfig. Thus, render workers can return the
+ * result without resolving the user config. The coordinator runs build hooks.
  */
 export interface RenderedPage {
   page: string
@@ -174,8 +172,8 @@ export async function renderPage(
 }
 
 /**
- * Render a page and load its page data without invoking user build hooks or
- * writing to the final output directory.
+ * Render a page and load its page data. Do not run user build hooks or write
+ * to the final output directory.
  */
 export async function renderPageToResult(
   render: (path: string) => Promise<SSGContext>,
@@ -203,7 +201,7 @@ export async function renderPageToResult(
   return { page, pageData, hasCustom404, context }
 }
 
-/** Convert Set-backed SSR state into a transport-friendly representation. */
+/** Convert sets in the SSR state to a transport-safe form. */
 export function serializeRenderedPage(
   renderedPage: RenderedPage
 ): SerializedRenderedPage {
@@ -216,7 +214,7 @@ export function serializeRenderedPage(
   }
 }
 
-/** Restore the SSR context shape expected by postRender and the finalizer. */
+/** Restore the SSR context shape for postRender and the finalizer. */
 export function deserializeRenderedPage(
   renderedPage: SerializedRenderedPage
 ): RenderedPage {
@@ -231,7 +229,7 @@ export function deserializeRenderedPage(
 }
 
 /**
- * Run coordinator-owned hooks and emit one final HTML page.
+ * Run build hooks in the coordinator and write one final HTML page.
  */
 export async function finalizeRenderedPage(
   renderedPage: RenderedPage,
@@ -251,8 +249,8 @@ export async function finalizeRenderedPage(
   vpSocialIcons.forEach((icon) => usedIcons.add(icon))
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
-  // for any initial page load, we only need the lean version of the page js
-  // since the static content is already on the page!
+  // Initial page loads need only the lean page JavaScript. The page already
+  // contains its static content.
   const pageHash = pageToHashMap[pageName.toLowerCase()]
   const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
 

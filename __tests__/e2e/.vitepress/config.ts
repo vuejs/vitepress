@@ -194,8 +194,8 @@ export default defineConfig({
   },
   vite: {
     build: {
-      // Exercises the batch-only post-config guard that prevents every SSR
-      // worker from copying the public directory into disposable output.
+      // Test the batching guard. It prevents SSR workers from copying the
+      // public directory into temporary output.
       copyPublicDir: true
     },
     plugins: [

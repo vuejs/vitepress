@@ -364,8 +364,8 @@ async function buildWithBatchedSsr(
   let clientBuild: Awaited<ReturnType<typeof bundle>> | undefined
 
   try {
-    // The derived key belongs to the coordinator's immutable Markdown cache,
-    // not to the public SiteConfig observed by render and build hooks.
+    // Store the derived key in the coordinator's Markdown cache. Do not expose
+    // it through the public SiteConfig used by build hooks.
     siteConfig.markdown = {
       ...siteConfig.markdown,
       shikiCacheKey: createHash('sha256')
@@ -413,9 +413,8 @@ async function buildWithBatchedSsr(
 
   const { renderMetadata, additionalHeadTags, metadataScript } =
     await prepareRenderInputs(siteConfig, clientResult, null, pageToHashMap)
-  // `clientResult` owns the complete Rolldown output graph. Dropping only the
-  // destructured local leaves the same object reachable through `clientBuild`
-  // for the entire SSR phase, which can retain several GiB on large sites.
+  // `clientBuild` also references the output graph through `clientResult`.
+  // Clear both references before SSR to release memory on large sites.
   clientBuild.clientResult = null
   clientBuild.serverResult = null
   clientBuild = undefined
@@ -512,12 +511,10 @@ async function buildWithBatchedSsr(
   try {
     await compiler.init()
 
-    // Client and SSR environments may receive different plugin instances from
-    // `vite.config.*` or `applyToEnvironment`. Finalize the optimization only
-    // after the actual unbundled SSR environment is resolved. Any hook that can
-    // observe the physical Markdown/module identity demotes the page to that
-    // path; the store still reuses the client Markdown result when the SSR
-    // source transform proves byte-identical at runtime.
+    // Client and SSR can use different plugin instances. Resolve the SSR
+    // environment before you decide whether to reuse the client artifact.
+    // Use the physical Markdown module when a hook can observe its identity.
+    // The store still reuses a client transform that produces identical bytes.
     const resolvedSsrConfig = compiler.resolvedConfig.environments.ssr
     const resolvedSsrArtifactPlugins = [
       resolvedSsrConfig.plugins,
@@ -559,9 +556,8 @@ async function buildWithBatchedSsr(
       )
     )
 
-    // Workers read an immutable request-key capability list instead of the
-    // full-site manifest. Transformed module bodies remain deduplicated in the
-    // shared CAS and are pulled lazily as ModuleRunner reaches them.
+    // Each batch snapshot lists only the requests that its worker can read.
+    // Module bodies remain deduplicated in the shared CAS and load on demand.
     for (const { offset, pages } of batches) {
       const entries = [
         ...new Set(

@@ -83,20 +83,18 @@ export interface VitePressPluginOptions {
   /** Shared Markdown artifacts produced by the build coordinator. */
   pageArtifactStore?: PageArtifactStore
   /**
-   * Make the coordinator's client graph own the artifact-seeding pass. Every
-   * page is transformed into that graph before virtual consumers such as local
-   * search load, and the normal client entries then reuse the same modules.
+   * Use the client graph for the artifact seed. Transform every page before
+   * virtual consumers load. Normal client entries then reuse the same modules.
    */
   coordinatorClient?: boolean
   /**
-   * Generated `.vue` module id -> rewritten page artifact. These modules let
-   * the isolated SSR compiler consume the coordinator's post-Markdown SFC
-   * without re-running source-only Markdown transforms.
+   * Map generated `.vue` module IDs to page artifacts. The SSR compiler uses
+   * the stored SFC without repeating Markdown-only transforms.
    */
   ssrPageArtifacts?: ReadonlyMap<string, string>
   /**
-   * Skip the normal git-history prewarm. A coordinator that owns the build can
-   * use this after calling `cacheAllGitTimestamps` once for all consumers.
+   * Skip the normal Git history prewarm. Use this after the coordinator calls
+   * `cacheAllGitTimestamps` for all consumers.
    */
   skipGitScan?: boolean
 }
@@ -183,10 +181,9 @@ export async function createVitePressPlugin(
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
-      // The browser build owns the copied public tree. Later isolated SSR
-      // environments may resolve different Vite settings, but must not mutate
-      // the coordinator's client-resolved path after its cache namespace and
-      // asset map have been established.
+      // The client build owns the copied public tree. SSR environments can use
+      // different Vite settings. They must not change the client path because
+      // it defines the cache namespace and asset map.
       if (!isSsrBatch) siteConfig.publicDir = config.publicDir
       // pre-resolve git timestamps
       if (lastUpdated && !isSsrBatch && !skipGitScan) {
@@ -373,9 +370,8 @@ export async function createVitePressPlugin(
               data: payload
             })
           }
-          // An artifact-only coordinator environment needs Vite to execute all
-          // enforce-pre source transforms and this Markdown transform. Keeping
-          // Vue out of that pass avoids compiling throwaway client/SSR JS.
+          // The artifact environment must run Vite pre-transforms and this
+          // Markdown transform. Exclude Vue to avoid unused JavaScript output.
           return artifactOnly
             ? 'export default {}'
             : processClientJS(
@@ -540,9 +536,9 @@ export async function createVitePressPlugin(
     }
   }
 
-  // This must be the final user-visible buildStart hook. Loading modules from
-  // an earlier hook would run user transforms before a later user buildStart
-  // had initialized their state, unlike Rollup's normal module-load ordering.
+  // Place this after all user `buildStart` hooks. An earlier hook could run
+  // transforms before a later hook initializes its state. Rollup does not use
+  // that order.
   const coordinatorPreloadPlugin: Plugin | undefined = coordinatorClient
     ? {
         name: 'vitepress:coordinator-page-preload',
@@ -570,10 +566,9 @@ export async function createVitePressPlugin(
                 try {
                   await this.load({
                     id: resolved.id,
-                    // Wait for plugin-vue's template/script/style submodules.
-                    // The declared entry will reuse this same transformed graph,
-                    // so its heavyweight SFC descriptor can then be compacted
-                    // while later pages are still streaming through the build.
+                    // Wait for the plugin-vue submodules. The declared entry
+                    // reuses this graph. Then compact its SFC descriptor while
+                    // later pages continue through the build.
                     resolveDependencies: true
                   })
                 } finally {

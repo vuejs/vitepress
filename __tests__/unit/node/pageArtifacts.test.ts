@@ -101,8 +101,8 @@ describe('PageArtifactStore', () => {
     expect(compile).toHaveBeenCalledTimes(1)
     expect(results).toEqual([artifact, artifact, artifact, artifact])
 
-    // The page key belongs to the manifest, not to the immutable object. Two
-    // entries with byte-identical output therefore share one object file.
+    // The manifest owns the page key. Entries with identical output share one
+    // object file.
     await store.put('alias.md', '# Alias', artifact)
     await store.flush()
 
@@ -213,8 +213,8 @@ describe('PageArtifactStore', () => {
 
     expect(warmCompile).not.toHaveBeenCalled()
     expect(warmFinalize).toHaveBeenCalledTimes(1)
-    // The warm hook starts from the persistent pre-hook page data. It must not
-    // receive the previous build's transformed result.
+    // The warm hook receives cached data from before the page hooks. It must
+    // not receive a transformed result from the previous build.
     expect(warmFirst.pageData.title).toBe('Page:warm build')
     expect(warmSecond.pageData.title).toBe('Page:warm build')
     expect((await warm.getCurrent('page.md'))?.pageData.title).toBe(

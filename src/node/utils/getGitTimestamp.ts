@@ -163,8 +163,8 @@ export async function cacheAllGitTimestamps(
     )
   }
 
-  // Publish a complete repository snapshot atomically. Other repository
-  // caches stay valid for concurrent/sequential multi-site builds.
+  // Publish the complete repository snapshot in one operation. Keep other
+  // repository caches valid during multi-site builds.
   publishGitCache(gitRoot, nextCache, cacheMissing)
 }
 
@@ -173,10 +173,9 @@ export async function getGitTimestamp(file: string): Promise<number> {
   const cached = cache.get(normalizedFile)
   if (cached !== undefined) return cached
 
-  // A production pre-scan is authoritative for the repository history. Files
-  // missing from it are untracked (or have no commits), so spawning one git
-  // process per miss only repeats work and is especially costly for generated
-  // dynamic routes.
+  // The production scan is the complete history snapshot. Missing files are
+  // untracked or have no commits. Do not start a Git process for each miss,
+  // especially for generated routes.
   if (
     [...authoritativeRoots].some((root) => isWithinRoot(normalizedFile, root))
   ) {
