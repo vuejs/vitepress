@@ -12,6 +12,13 @@ declare module '../../types/default-theme.js' {
   namespace DefaultTheme {
     interface LocalSearchOptions {
       /**
+       * Transforms the already-rendered page HTML before indexing (node only).
+       * This avoids a second Markdown/Shiki pass and is preferred over
+       * `_render` when the customization only filters or edits HTML.
+       * Return an empty string to skip indexing.
+       */
+      _transformHtml?: (html: string, env: MarkdownEnv) => Awaitable<string>
+      /**
        * Allows transformation of content before indexing (node only)
        * Return empty string to skip indexing
        */

@@ -8,6 +8,7 @@ import { slash } from '../shared'
 
 const debug = createDebug('vitepress:git')
 const cache = new Map<string, number>()
+const authoritativeRoots = new Set<string>()
 
 const RS = 0x1e
 const NUL = 0x00
@@ -106,11 +107,25 @@ class GitLogParser extends Transform {
 
 export async function cacheAllGitTimestamps(
   root: string,
-  pathspec: string[] = ['*.md']
+  pathspec: string[] = ['*.md'],
+  cacheMissing = false
 ): Promise<void> {
   const cp = sync('git', ['rev-parse', '--show-toplevel'], { cwd: root })
   if (cp.error) throw cp.error
-  const gitRoot = cp.stdout.toString('utf8').trim()
+  if (cp.status !== 0) {
+    throw new Error(
+      `git rev-parse failed (${cp.signal ? `signal ${cp.signal}` : `exit ${cp.status}`}): ${cp.stderr.toString('utf8').trim()}`
+    )
+  }
+  const gitRoot = slash(path.resolve(cp.stdout.toString('utf8').trim()))
+  const head = sync('git', ['rev-parse', '--verify', 'HEAD^{commit}'], {
+    cwd: root
+  })
+  if (head.error) throw head.error
+  if (head.status !== 0) {
+    publishGitCache(gitRoot, new Map(), cacheMissing)
+    return
+  }
 
   const args = [
     'log',
@@ -121,27 +136,66 @@ export async function cacheAllGitTimestamps(
     ...pathspec
   ]
 
-  cache.clear()
   const child = spawn('git', args, { cwd: root })
   const records = child.stdout.pipe(new GitLogParser())
   child.on('error', (err) => records.destroy(err))
+  let stderr = ''
+  child.stderr.setEncoding('utf8')
+  child.stderr.on('data', (chunk) => {
+    stderr += chunk
+  })
+  const close = once(child, 'close') as Promise<
+    [code: number | null, signal: NodeJS.Signals | null]
+  >
+  const nextCache = new Map<string, number>()
 
   for await (const rec of records as AsyncIterable<GitLogRecord>) {
     for (const file of rec.files) {
       const slashed = slash(path.resolve(gitRoot, file))
-      if (!cache.has(slashed)) cache.set(slashed, rec.ts)
+      if (!nextCache.has(slashed)) nextCache.set(slashed, rec.ts)
     }
   }
+
+  const [code, signal] = await close
+  if (code !== 0) {
+    throw new Error(
+      `git log failed (${signal ? `signal ${signal}` : `exit ${code}`}): ${stderr.trim()}`
+    )
+  }
+
+  // Publish a complete repository snapshot atomically. Other repository
+  // caches stay valid for concurrent/sequential multi-site builds.
+  publishGitCache(gitRoot, nextCache, cacheMissing)
 }
 
 export async function getGitTimestamp(file: string): Promise<number> {
-  const cached = cache.get(file)
-  if (cached) return cached
+  const normalizedFile = slash(path.resolve(file))
+  const cached = cache.get(normalizedFile)
+  if (cached !== undefined) return cached
+
+  // A production pre-scan is authoritative for the repository history. Files
+  // missing from it are untracked (or have no commits), so spawning one git
+  // process per miss only repeats work and is especially costly for generated
+  // dynamic routes.
+  if (
+    [...authoritativeRoots].some((root) => isWithinRoot(normalizedFile, root))
+  ) {
+    cache.set(normalizedFile, 0)
+    return 0
+  }
 
   // most likely will never happen except for recently added files in dev
   debug(`[cache miss] ${file}`)
 
-  if (!fs.existsSync(file)) return 0
+  if (!fs.existsSync(file)) {
+    return 0
+  }
+
+  const head = sync('git', ['rev-parse', '--verify', 'HEAD^{commit}'], {
+    cwd: path.dirname(file)
+  })
+  if (head.error) throw head.error
+  if (head.status !== 0) return 0
 
   const child = spawn(
     'git',
@@ -151,11 +205,38 @@ export async function getGitTimestamp(file: string): Promise<number> {
 
   let output = ''
   child.stdout.on('data', (d) => (output += String(d)))
-  await once(child, 'close')
+  const [code, signal] = (await once(child, 'close')) as [
+    number | null,
+    NodeJS.Signals | null
+  ]
+  if (code !== 0) {
+    throw new Error(
+      `git log failed for ${file} (${signal ? `signal ${signal}` : `exit ${code}`}).`
+    )
+  }
 
   const ts = Number.parseInt(output.trim(), 10) * 1000
-  if (!(ts > 0)) return 0
+  if (!(ts > 0)) {
+    return 0
+  }
 
-  cache.set(file, ts)
+  cache.set(normalizedFile, ts)
   return ts
+}
+
+function isWithinRoot(file: string, root: string): boolean {
+  return file === root || file.startsWith(`${root}/`)
+}
+
+function publishGitCache(
+  gitRoot: string,
+  nextCache: ReadonlyMap<string, number>,
+  cacheMissing: boolean
+): void {
+  for (const file of cache.keys()) {
+    if (isWithinRoot(file, gitRoot)) cache.delete(file)
+  }
+  for (const [file, timestamp] of nextCache) cache.set(file, timestamp)
+  if (cacheMissing) authoritativeRoots.add(gitRoot)
+  else authoritativeRoots.delete(gitRoot)
 }

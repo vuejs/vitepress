@@ -39,7 +39,11 @@ const plugins = [
 ]
 
 const esmBuild: RollupOptions = {
-  input: ['src/node/index.ts', 'src/node/cli.ts'],
+  input: [
+    'src/node/index.ts',
+    'src/node/cli.ts',
+    'src/node/build/ssrWorker.ts'
+  ],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,

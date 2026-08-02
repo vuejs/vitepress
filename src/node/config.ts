@@ -172,7 +172,9 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
-    buildConcurrency: userConfig.buildConcurrency ?? 64
+    buildConcurrency: userConfig.buildConcurrency ?? 64,
+    ssrBuildBatchSize: userConfig.ssrBuildBatchSize,
+    ssrBuildWorkerConcurrency: userConfig.ssrBuildWorkerConcurrency ?? 1
   }
 
   // to be shared with content loaders

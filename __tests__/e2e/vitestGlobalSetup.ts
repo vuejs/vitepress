@@ -21,7 +21,28 @@ export async function setup() {
   process.env['PORT'] = port.toString()
 
   if (process.env['VITE_TEST_BUILD']) {
-    await build(root)
+    if (process.env.VITE_TEST_SSR_BATCH) {
+      let afterConfigResolveCalls = 0
+      await build(root, {
+        onAfterConfigResolve(siteConfig) {
+          afterConfigResolveCalls++
+          siteConfig.site.head.push([
+            'meta',
+            {
+              name: 'ssr-batch-after-config-resolve',
+              content: 'coordinator mutation retained'
+            }
+          ])
+        }
+      })
+      if (afterConfigResolveCalls !== 1) {
+        throw new Error(
+          `Expected one coordinator config hook call, received ${afterConfigResolveCalls}`
+        )
+      }
+    } else {
+      await build(root)
+    }
     server = (await serve({ root, port })).server
   } else {
     server = await createServer(root, { port })
@@ -30,7 +51,8 @@ export async function setup() {
 }
 
 export async function teardown() {
-  await browserServer.close()
+  await browserServer?.close()
+  if (!server) return
   if ('ws' in server) {
     await server.close()
   } else {

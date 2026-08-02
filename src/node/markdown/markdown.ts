@@ -88,9 +88,27 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   config?: (md: MarkdownRenderer) => Awaitable<void>
   /**
-   * Disable cache (experimental)
+   * Disable compiled Markdown caching (experimental).
+   *
+   * In a batched production build this also disables reuse of compiled page
+   * artifacts across builds. Artifacts are still shared by the client build,
+   * SSR compiler and render coordinator within the current build.
    */
   cache?: boolean
+  /**
+   * A whole-page Markdown artifact cache fingerprint (experimental).
+   *
+   * Set this when Markdown output can depend on state that VitePress cannot
+   * inspect, such as environment variables or values captured by Markdown,
+   * Vite or page-data hook closures. Change the key whenever any such state
+   * can change the compiled HTML, Vue source or page data. Supplying a key is
+   * an explicit opt-in to persistent cross-build page-artifact reuse when
+   * opaque callbacks are present.
+   *
+   * This is broader than `shikiCacheKey`, which fingerprints only syntax
+   * highlighting. `cache: false` takes precedence over this option.
+   */
+  cacheKey?: string
   /**
    * HTML attributes applied to external links.
    * @default { target: '_blank', rel: 'noreferrer' }
@@ -170,6 +188,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * Configure the Shiki instance.
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+  /**
+   * Extra persistent-highlight cache fingerprint for configuration captured by
+   * opaque transformer or `shikiSetup` closures.
+   */
+  shikiCacheKey?: string
 
   /* ==================== Code Blocks ==================== */
 
@@ -350,7 +373,8 @@ export async function createMarkdownRenderer(
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console,
-  publicDir?: string
+  publicDir?: string,
+  cacheDir?: string
 ): Promise<MarkdownRenderer> {
   if (md) return md
 
@@ -364,7 +388,7 @@ export async function createMarkdownRenderer(
 
   const [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
-    : await createHighlighter(theme, options, logger)
+    : await createHighlighter(theme, options, logger, cacheDir)
 
   _disposeHighlighter = dispose
 

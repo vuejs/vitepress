@@ -63,10 +63,12 @@ const VitePressApp = defineComponent({
   }
 })
 
-export async function createApp() {
+export type PageModuleLoader = Parameters<typeof createRouter>[0]
+
+export async function createApp(loadPageModule?: PageModuleLoader) {
   ;(globalThis as any).__VITEPRESS__ = true
 
-  const router = newRouter()
+  const router = newRouter(loadPageModule)
 
   const app = newApp()
 
@@ -117,7 +119,11 @@ function newApp(): App {
     : createClientApp(VitePressApp)
 }
 
-function newRouter(): Router {
+function newRouter(loadPageModule?: PageModuleLoader): Router {
+  if (loadPageModule) {
+    return createRouter(loadPageModule, Theme.NotFound)
+  }
+
   let isInitialPageLoad = inBrowser
 
   return createRouter((path) => {

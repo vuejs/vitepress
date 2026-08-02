@@ -1,6 +1,10 @@
 import MiniSearch from 'minisearch'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import { resolveConfig } from 'node/config'
+import type { MarkdownCompileResult } from 'node/markdownToVue'
+import { PageArtifactStore } from 'node/pageArtifacts'
 import { localSearchPlugin } from 'node/plugins/localSearchPlugin'
+import type { MarkdownEnv } from 'node/shared'
 import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -100,6 +104,61 @@ describe('node/plugins/localSearchPlugin', () => {
       { id: '/zh/guide.html#chinese-home' }
     ])
     expect(zhIndex.search('rootonlytoken')).toEqual([])
+  })
+
+  test('runs custom _render hooks again on a warm artifact build', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-hook-'))
+    const source = '# Search hook\n\nsearchhooktoken\n'
+    await writeFile(path.join(root, 'index.md'), source)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const renderHook = vi.fn(
+      async (src: string, env: MarkdownEnv, md: MarkdownItAsync) =>
+        md.renderAsync(src, env)
+    )
+    siteConfig.site.themeConfig = {
+      search: { provider: 'local', options: { _render: renderHook } }
+    }
+
+    const artifact: MarkdownCompileResult = {
+      vueSrc: '<template><div><h1>Search hook</h1></div></template>',
+      html: '<h1 id="search-hook">Search hook<a href="#search-hook"></a></h1>',
+      pageData: {
+        title: 'Search hook',
+        description: '',
+        frontmatter: {},
+        headers: [],
+        relativePath: 'index.md',
+        filePath: 'index.md'
+      },
+      deadLinks: [],
+      includes: []
+    }
+    const coldStore = new PageArtifactStore(siteConfig.cacheDir, {
+      namespace: 'local-search-hook'
+    })
+    await coldStore.put('index.md', source, artifact)
+    await coldStore.flush()
+
+    const coldPlugin = await localSearchPlugin(siteConfig, false, coldStore)
+    ;(coldPlugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+    await (coldPlugin.load as any).handler.call({}, '/@localSearchIndex')
+
+    const warmStore = new PageArtifactStore(siteConfig.cacheDir, {
+      namespace: 'local-search-hook'
+    })
+    await warmStore.get('index.md', source)
+    const warmPlugin = await localSearchPlugin(siteConfig, false, warmStore)
+    ;(warmPlugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+    await (warmPlugin.load as any).handler.call({}, '/@localSearchIndex')
+
+    expect(renderHook).toHaveBeenCalledTimes(2)
   })
 })
 

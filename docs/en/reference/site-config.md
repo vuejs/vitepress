@@ -510,6 +510,60 @@ export default {
 
 When set to `true`, the production app will be built in [MPA Mode](../guide/mpa-mode). MPA mode ships 0kb JavaScript by default, at the cost of disabling client-side navigation and requires explicit opt-in for interactivity.
 
+### buildConcurrency
+
+- Type: `number`
+- Default: `64`
+
+The maximum number of pages VitePress renders or finalizes concurrently during a build. Lower values reduce peak memory usage at the cost of build time. The value must be a positive integer.
+
+When [SSR batching](#ssrbuildbatchsize) is enabled, this remains a global page-work budget. The coordinator divides it across the active workers and uses the same per-worker share while finalizing their results. With two active workers and `buildConcurrency: 64`, for example, each worker renders at most 32 pages concurrently. The effective per-worker limit is approximately:
+
+```text
+min(ssrBuildBatchSize, floor(buildConcurrency / activeWorkers))
+```
+
+This prevents page-level concurrency from multiplying merely because multiple workers are enabled; each worker's copy of the shared runtime still adds memory independently.
+
+### ssrBuildBatchSize <Badge type="warning" text="experimental" />
+
+- Type: `number`
+- Default: `undefined`
+
+Sets the maximum number of pages that one server-side rendering (SSR) worker processes. The value must be a positive integer.
+
+Use this option to reduce memory use when you build a large site. A smaller batch uses less memory but can increase build time.
+
+VitePress compiles the site once and then renders the pages in batches. Each batch runs in a new worker process.
+
+```ts
+export default {
+  ssrBuildBatchSize: 64
+}
+```
+
+This option does not work with [`mpa`](#mpa). If you use custom Vite plugins, VitePress reports an error when a hook does not support batching.
+
+### ssrBuildWorkerConcurrency <Badge type="warning" text="experimental" />
+
+- Type: `number`
+- Default: `1`
+
+Sets the maximum number of SSR workers that run at the same time. This option applies only when you set [`ssrBuildBatchSize`](#ssrbuildbatchsize).
+
+The value must be a positive integer. More workers can reduce build time, but each worker uses more memory.
+
+```ts
+export default {
+  ssrBuildBatchSize: 64,
+  ssrBuildWorkerConcurrency: 2
+}
+```
+
+Start with `1`. Increase the value only if the build system has sufficient memory.
+
+The [`buildConcurrency`](#buildconcurrency) option still limits the total number of pages that VitePress renders at the same time.
+
 ## Theming
 
 ### appearance

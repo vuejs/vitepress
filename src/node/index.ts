@@ -1,5 +1,5 @@
 export { loadEnv, type Plugin } from 'vite'
-export * from './build/build'
+export { build } from './build/build'
 export * from './config'
 export * from './contentLoader'
 export type { DefaultTheme } from './defaultTheme'
@@ -14,7 +14,7 @@ export { defineLoader, type LoaderModule } from './plugins/staticDataPlugin'
 export * from './postcss/isolateStyles'
 export * from './serve/serve'
 export * from './server'
-export * from './utils/getGitTimestamp'
+export { cacheAllGitTimestamps, getGitTimestamp } from './utils/getGitTimestamp'
 
 // shared types
 export type {

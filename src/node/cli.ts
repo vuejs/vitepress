@@ -1,14 +1,9 @@
 import minimist from 'minimist'
 import c from 'picocolors'
 import { createLogger, version as viteVersion, type Logger } from 'vite'
-import {
-  build,
-  createServer,
-  disposeMdItInstance,
-  resolveConfig,
-  serve
-} from '.'
+import { createServer, disposeMdItInstance, resolveConfig, serve } from '.'
 import { version } from '../../package.json'
+import { buildFromCli } from './build/build'
 import { init } from './init/init'
 import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
@@ -81,7 +76,7 @@ if (!command || command === 'dev') {
   init(argv.root)
 } else {
   if (command === 'build') {
-    build(root, {
+    buildFromCli(root, {
       ...argv,
       onAfterConfigResolve(siteConfig) {
         logVersion(siteConfig.logger)

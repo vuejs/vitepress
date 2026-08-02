@@ -80,6 +80,9 @@ test('resolved config-file hooks preserve legacy physical Markdown SSR semantics
   expect(html).toContain(
     '<p data-resolved-transform-mode="server">environment-sensitive Markdown transform</p>'
   )
+  expect(html).toContain(
+    '<p data-resolved-plugin-context="build:false">production plugin context</p>'
+  )
   expect(html).not.toContain('data-resolved-transform-mode="client"')
 })
 

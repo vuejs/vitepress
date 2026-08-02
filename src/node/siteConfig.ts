@@ -223,6 +223,26 @@ export interface UserConfig<
    */
   buildConcurrency?: number
   /**
+   * Maximum number of pages loaded by each disposable SSR render worker.
+   * Markdown, the browser bundle, and the shared SSR application/theme runtime
+   * are compiled once by the coordinator; render workers never run Vite.
+   *
+   * Smaller values release Node's page-module cache more often. Unlike legacy
+   * SSR bundling, reducing this value does not rebuild the application, theme,
+   * or Markdown pages for every batch.
+   * @experimental
+   */
+  ssrBuildBatchSize?: number
+  /**
+   * Maximum number of lightweight SSR render workers to run concurrently.
+   * Workers reuse the coordinator's transformed page artifacts and never run
+   * Vite or resolve the site configuration themselves.
+   *
+   * @experimental
+   * @default 1
+   */
+  ssrBuildWorkerConcurrency?: number
+  /**
    * Source-to-destination page path mappings, or a function returning
    * the destination path for a source path. Used to serve pages at
    * URLs different from their directory structure.
@@ -384,4 +404,9 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
    * Number of pages rendered concurrently during the build.
    */
   buildConcurrency: number
+  /**
+   * Maximum number of pages loaded by each SSR render worker.
+   */
+  ssrBuildBatchSize?: number
+  ssrBuildWorkerConcurrency: number
 }

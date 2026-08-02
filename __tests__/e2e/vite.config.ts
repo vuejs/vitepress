@@ -38,7 +38,8 @@ export default defineConfig({
             filter: { id: artifactSafetyPageRE },
             handler(code, _id, options) {
               const mode = options?.ssr ? 'server' : 'client'
-              return `${code}\n<p data-resolved-transform-mode="${mode}">environment-sensitive Markdown transform</p>`
+              const pluginContext = `${this.environment.mode}:${this.meta.watchMode}`
+              return `${code}\n<p data-resolved-transform-mode="${mode}">environment-sensitive Markdown transform</p>\n<p data-resolved-plugin-context="${pluginContext}">production plugin context</p>`
             }
           }
         }

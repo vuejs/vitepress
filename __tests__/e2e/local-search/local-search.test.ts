@@ -83,6 +83,29 @@ describe('local search', () => {
     ).toBe(0)
   })
 
+  test.runIf(process.env.VITE_TEST_SSR_BATCH)(
+    'indexes static-page HTML produced by the artifact pipeline',
+    async () => {
+      await page.locator('.VPNavBarSearchButton').click()
+
+      const input = await page.waitForSelector('input#localsearch-input')
+      await input.type('Static HTML marker')
+
+      await page.waitForFunction(() =>
+        [
+          ...document.querySelectorAll('#localsearch-list li[role=option]')
+        ].some((option) => option.textContent?.includes('Static batching page'))
+      )
+
+      expect(
+        await page
+          .locator('#localsearch-list li[role=option]')
+          .filter({ hasText: 'Static batching page' })
+          .count()
+      ).toBeGreaterThan(0)
+    }
+  )
+
   test('uses the same desktop breakpoint as the nav bar', async () => {
     try {
       for (const { width, isDesktop } of [

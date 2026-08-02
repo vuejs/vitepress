@@ -6,6 +6,8 @@ import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import { createMarkdownRenderer } from '../markdown/markdown'
+import type { MarkdownCompileResult } from '../markdownToVue'
+import type { PageArtifactStore } from '../pageArtifacts'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { readFile } from '../utils/fs'
 import { processIncludes } from '../utils/processIncludes'
@@ -26,9 +28,11 @@ interface IndexObject {
 }
 
 export async function localSearchPlugin(
-  siteConfig: SiteConfig<DefaultTheme.Config>
+  siteConfig: SiteConfig<DefaultTheme.Config>,
+  stubIndex = false,
+  pageArtifactStore?: PageArtifactStore
 ): Promise<Plugin> {
-  if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
+  if (stubIndex || siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
       name: 'vitepress:local-search',
       resolveId: {
@@ -46,24 +50,43 @@ export async function localSearchPlugin(
     }
   }
 
-  // created in configResolved to use the resolved publicDir
-  let md: Awaited<ReturnType<typeof createMarkdownRenderer>>
+  // Lazily created only when an artifact cannot satisfy search indexing. This
+  // lets a fully seeded production build avoid initializing Markdown/Shiki.
+  let publicDir = siteConfig.publicDir
+  let mdPromise: ReturnType<typeof createMarkdownRenderer> | undefined
+  const getMarkdownRenderer = () =>
+    (mdPromise ??= createMarkdownRenderer(
+      siteConfig.srcDir,
+      siteConfig.markdown,
+      siteConfig.site.base,
+      siteConfig.logger,
+      publicDir,
+      siteConfig.cacheDir
+    ))
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
-  async function render(file: string) {
+  async function render(file: string, artifact?: MarkdownCompileResult) {
     const { srcDir, cleanUrls = false } = siteConfig
+    const md = await getMarkdownRenderer()
     const relativePath = slash(path.relative(srcDir, file))
     const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const raw = await readFile(file).catch((e) => {
-      if (e.code === 'ENOENT') {
-        debug(`File not found: ${file}`)
-        return ''
-      }
-      throw e
-    })
-    const src = await processIncludes(md, srcDir, raw, file, [], cleanUrls)
-    if (options._render) {
+    let src: string
+    try {
+      const raw = await readFile(file)
+      src = await processIncludes(md, srcDir, raw, file, [], cleanUrls)
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+      // Dynamic routes have no physical output file. Their seeded artifact is
+      // the only source available; physical pages retain the historical raw
+      // read/include semantics and avoid applying enforce-pre transforms twice.
+      src = artifact?.markdownSource ?? ''
+      if (!src) debug(`File not found: ${file}`)
+    }
+    if (options._transformHtml) {
+      const html = await md.renderAsync(src, env)
+      return options._transformHtml(html, env)
+    } else if (options._render) {
       return options._render(src, env, md)
     } else {
       const html = await md.renderAsync(src, env)
@@ -126,6 +149,7 @@ export async function localSearchPlugin(
 
   async function indexFile(page: string) {
     const file = path.join(siteConfig.srcDir, page)
+    const artifactPage = siteConfig.rewrites.map[page] || page
     // get file metadata
     const fileId = getDocId(file)
     const locale = getLocaleForPath(
@@ -134,7 +158,28 @@ export async function localSearchPlugin(
     )
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
-    const html = await render(file)
+    const artifact = await pageArtifactStore?.getCurrent(artifactPage)
+    let html: string | undefined
+
+    if (artifact) {
+      if (options._transformHtml) {
+        html = await options._transformHtml(artifact.html, {
+          ...(artifact.markdownEnv ?? {
+            path: file,
+            relativePath: artifact.pageData.relativePath,
+            cleanUrls: siteConfig.cleanUrls ?? false,
+            frontmatter: artifact.pageData.frontmatter
+          })
+        })
+      } else if (!options._render) {
+        html =
+          artifact.pageData.frontmatter.search === false ? '' : artifact.html
+      }
+    }
+
+    if (html == null) {
+      html = await render(file, artifact)
+    }
     if (!html) return
     const sections =
       // user provided generator
@@ -167,14 +212,8 @@ export async function localSearchPlugin(
   return {
     name: 'vitepress:local-search',
 
-    async configResolved(config) {
-      md = await createMarkdownRenderer(
-        siteConfig.srcDir,
-        siteConfig.markdown,
-        siteConfig.site.base,
-        siteConfig.logger,
-        config.publicDir
-      )
+    configResolved(config) {
+      publicDir = config.publicDir
     },
 
     config() {
