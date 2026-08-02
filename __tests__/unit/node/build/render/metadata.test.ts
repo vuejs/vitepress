@@ -1,11 +1,5 @@
 import type { SiteConfig } from 'node/config'
-import {
-  createRenderMetadata,
-  deserializeRenderMetadata,
-  deserializeRenderedPage,
-  serializeRenderMetadata,
-  serializeRenderedPage
-} from 'node/build/render'
+import { createRenderMetadata } from 'node/build/render/metadata'
 import type { Rolldown } from 'vite'
 
 const chunk = (values: Partial<Rolldown.OutputChunk>): Rolldown.OutputChunk =>
@@ -29,7 +23,7 @@ const asset = (fileName: string): Rolldown.OutputAsset =>
     source: ''
   }) as Rolldown.OutputAsset
 
-test('retains only compact client metadata and round-trips maps', () => {
+test('retains only compact client metadata', () => {
   const pagePath = '/site/guide.md'
   const clientResult = {
     output: [
@@ -61,19 +55,14 @@ test('retains only compact client metadata and round-trips maps', () => {
   } as SiteConfig
 
   const metadata = createRenderMetadata(config, clientResult, null)
-  const serialized = serializeRenderMetadata(metadata)
-  const restored = deserializeRenderMetadata(serialized)
-
-  expect(restored.appChunk).toEqual({
+  expect(metadata.appChunk).toEqual({
     fileName: 'assets/app.123.js',
     imports: ['assets/framework.js']
   })
-  expect(restored.cssChunk).toEqual({ fileName: 'assets/style.123.css' })
-  expect(restored.assets).toEqual(['/docs/assets/logo.123.svg'])
-  expect(restored.isDefaultTheme).toBe(true)
-  expect(restored.pageImports.get(pagePath)).toEqual(['assets/theme.js'])
-  expect(JSON.stringify(serialized)).not.toContain('large page code')
-  expect(JSON.stringify(serialized)).not.toContain('large app code')
+  expect(metadata.cssChunk).toEqual({ fileName: 'assets/style.123.css' })
+  expect(metadata.assets).toEqual(['/docs/assets/logo.123.svg'])
+  expect(metadata.isDefaultTheme).toBe(true)
+  expect(metadata.pageImports.get(pagePath)).toEqual(['assets/theme.js'])
 })
 
 test('retains inlineable page chunks for normal MPA rendering', () => {
@@ -94,46 +83,9 @@ test('retains inlineable page chunks for normal MPA rendering', () => {
   const config = { mpa: true, site: { base: '/' } } as SiteConfig
 
   const metadata = createRenderMetadata(config, clientResult, serverResult)
-
   expect(metadata.pageChunks.get(pagePath)).toEqual({
     fileName: 'assets/index.js',
     code: 'console.log("client")'
   })
   expect(metadata.cssChunk).toEqual({ fileName: 'assets/mpa.css' })
-})
-
-test('round-trips worker render results with sorted Set-backed state', () => {
-  const renderedPage = {
-    page: 'guide.md',
-    pageData: {
-      title: 'Guide',
-      description: '',
-      frontmatter: {},
-      headers: [],
-      relativePath: 'guide.md',
-      filePath: 'guide.md'
-    },
-    hasCustom404: true,
-    context: {
-      content: '<main>Guide</main>',
-      teleports: { body: '<div>teleported</div>' },
-      vpSocialIcons: new Set(['z-icon', 'a-icon'])
-    }
-  }
-
-  const serialized = serializeRenderedPage(renderedPage)
-  expect(serialized.context.vpSocialIcons).toEqual(['a-icon', 'z-icon'])
-
-  const restored = deserializeRenderedPage(serialized)
-  expect(restored).toMatchObject({
-    page: renderedPage.page,
-    pageData: renderedPage.pageData,
-    hasCustom404: true,
-    context: {
-      content: '<main>Guide</main>',
-      teleports: { body: '<div>teleported</div>' }
-    }
-  })
-  expect(restored.context.vpSocialIcons).toBeInstanceOf(Set)
-  expect([...restored.context.vpSocialIcons]).toEqual(['a-icon', 'z-icon'])
 })

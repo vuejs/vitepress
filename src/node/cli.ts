@@ -3,7 +3,7 @@ import c from 'picocolors'
 import { createLogger, version as viteVersion, type Logger } from 'vite'
 import { createServer, disposeMdItInstance, resolveConfig, serve } from '.'
 import { version } from '../../package.json'
-import { buildFromCli } from './build/build'
+import { build } from './build/build'
 import { init } from './init/init'
 import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
@@ -76,7 +76,7 @@ if (!command || command === 'dev') {
   init(argv.root)
 } else {
   if (command === 'build') {
-    buildFromCli(root, {
+    build(root, {
       ...argv,
       onAfterConfigResolve(siteConfig) {
         logVersion(siteConfig.logger)

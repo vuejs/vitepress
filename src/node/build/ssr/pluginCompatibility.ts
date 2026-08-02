@@ -1,10 +1,5 @@
 import type { Plugin, Rolldown } from 'vite'
 
-export interface SsrBatchPlan {
-  offset: number
-  pages: string[]
-}
-
 const SSR_PAGE_UNBUNDLED_HOOKS = [
   'moduleParsed',
   'resolveDynamicImport',
@@ -59,10 +54,6 @@ function isViteInternalPlugin(name: string): boolean {
   )
 }
 
-function unbundledHooks(plugin: PageUnbundledPlugin): SsrPageUnbundledHook[] {
-  return SSR_PAGE_UNBUNDLED_HOOKS.filter((hook) => plugin[hook] != null)
-}
-
 function unsupportedPageContextMethod(
   pluginName: string,
   method: PropertyKey
@@ -114,8 +105,6 @@ function createBuildModePluginContext(
     get(target, property) {
       if (property === 'environment') return buildEnvironment
       if (property === 'meta') return buildMeta
-      // Rolldown production contexts do not expose these serve-only APIs. Hide
-      // the runnable-environment methods so plugins see a production context.
       if (property === 'setAssetSource' || property === 'getWatchFiles') {
         return undefined
       }
@@ -159,20 +148,10 @@ function adaptPluginHookContext(hook: unknown, pluginName: string): unknown {
     : { ...(hook as object), handler: wrapped }
 }
 
-/**
- * A RunnableDevEnvironment supplies the transform graph for the offline
- * compiler. Its user contexts report development and watch modes. They also
- * ignore Rolldown-only methods. Give user hooks production values and clear
- * errors for unsupported methods. Keep Vite plugin contexts unchanged.
- *
- * @internal Exported for focused pipeline tests.
- */
 export function adaptSsrBatchPagePlugins(plugins: readonly Plugin[]): Plugin[] {
   return plugins.map((plugin) => {
     if (isViteInternalPlugin(plugin.name)) return plugin
 
-    // A Proxy cannot wrap a non-configurable hook in a frozen plugin. Copy the
-    // values to a mutable facade to support frozen and class plugins.
     const adapted = Object.create(Object.getPrototypeOf(plugin)) as Plugin &
       Record<PropertyKey, unknown>
     for (const property of Reflect.ownKeys(plugin)) {
@@ -212,13 +191,6 @@ async function collectOutputPlugins(
   }
 }
 
-/**
- * Vite transforms batched page modules without a Rolldown bundle. Reject user
- * hooks that inspect or change the missing SSR page bundle. Support `buildEnd`
- * because the plugin container runs it when the compiler closes.
- *
- * @internal Exported for focused pipeline tests.
- */
 export async function validateSsrBatchPageOutputHooks(
   plugins: readonly Plugin[],
   output: Rolldown.OutputOptions | Rolldown.OutputOptions[] | undefined
@@ -227,7 +199,9 @@ export async function validateSsrBatchPageOutputHooks(
 
   for (const plugin of plugins) {
     if (isViteInternalPlugin(plugin.name)) continue
-    const hooks = unbundledHooks(plugin)
+    const hooks = SSR_PAGE_UNBUNDLED_HOOKS.filter(
+      (hook) => (plugin as PageUnbundledPlugin)[hook] != null
+    )
     if (hooks.length) {
       violations.push({ hooks, name: plugin.name, source: 'plugin' })
     }
@@ -235,12 +209,10 @@ export async function validateSsrBatchPageOutputHooks(
 
   const outputs = output ? (Array.isArray(output) ? output : [output]) : []
   for (const [index, options] of outputs.entries()) {
-    const optionHooks = SSR_PAGE_OUTPUT_ADDONS.filter(
-      (hook) => options[hook] != null
-    )
-    if (optionHooks.length) {
+    const hooks = SSR_PAGE_OUTPUT_ADDONS.filter((hook) => options[hook] != null)
+    if (hooks.length) {
       violations.push({
-        hooks: optionHooks,
+        hooks,
         name: outputs.length === 1 ? 'output' : `output[${index}]`,
         source: 'output options'
       })
@@ -249,10 +221,12 @@ export async function validateSsrBatchPageOutputHooks(
     const outputPlugins: PageUnbundledPlugin[] = []
     await collectOutputPlugins(options.plugins, outputPlugins)
     for (const plugin of outputPlugins) {
-      const hooks = unbundledHooks(plugin)
-      if (hooks.length) {
+      const pluginHooks = SSR_PAGE_UNBUNDLED_HOOKS.filter(
+        (hook) => plugin[hook] != null
+      )
+      if (pluginHooks.length) {
         violations.push({
-          hooks,
+          hooks: pluginHooks,
           name: plugin.name || '<anonymous>',
           source: 'output plugin'
         })
@@ -271,137 +245,4 @@ export async function validateSsrBatchPageOutputHooks(
   throw new Error(
     `SSR batching cannot preserve Rolldown bundle hooks for unbundled SSR page modules:\n${details}\nDisable ssrBuildBatchSize. If these hooks are bundled-only, register the plugin in vite.plugins and exclude it from the unbundled SSR environment with applyToEnvironment.`
   )
-}
-
-export function validateBuildConcurrency(value: unknown): number {
-  if (!Number.isInteger(value) || (value as number) < 1) {
-    throw new Error('buildConcurrency must be a positive integer.')
-  }
-  return value as number
-}
-
-export function validateSsrBuildBatchSize(value: unknown): number | undefined {
-  if (value === undefined) return
-  if (!Number.isInteger(value) || (value as number) < 1) {
-    throw new Error('ssrBuildBatchSize must be a positive integer.')
-  }
-  return value as number
-}
-
-export function validateSsrBuildWorkerConcurrency(value: unknown): number {
-  if (!Number.isInteger(value) || (value as number) < 1) {
-    throw new Error('ssrBuildWorkerConcurrency must be a positive integer.')
-  }
-  return value as number
-}
-
-export function createSsrBatchPlan(
-  sitePages: string[],
-  batchSize: number
-): SsrBatchPlan[] {
-  batchSize = validateSsrBuildBatchSize(batchSize)!
-  const renderQueue = [
-    '404.md',
-    ...sitePages.filter((page) => page !== '404.md')
-  ]
-  const batches: SsrBatchPlan[] = []
-
-  for (let offset = 0; offset < renderQueue.length; offset += batchSize) {
-    batches.push({
-      offset,
-      pages: renderQueue.slice(offset, offset + batchSize)
-    })
-  }
-
-  return batches
-}
-
-const WORKER_ENTRYPOINT_FLAGS = new Set([
-  '-c',
-  '--check',
-  '-i',
-  '--interactive',
-  '--test',
-  '--watch',
-  '--watch-preserve-output'
-])
-
-const WORKER_ENTRYPOINT_FLAGS_WITH_VALUES = new Set([
-  '-e',
-  '--eval',
-  '-p',
-  '--print',
-  '--input-type',
-  '--run',
-  '--watch-path',
-  '--test-concurrency',
-  '--test-isolation',
-  '--test-name-pattern',
-  '--test-reporter',
-  '--test-reporter-destination',
-  '--test-shard',
-  '--test-timeout'
-])
-
-export function createWorkerExecArgv(execArgv: string[]): string[] {
-  const result: string[] = []
-  for (let index = 0; index < execArgv.length; index++) {
-    const argument = execArgv[index]
-
-    if (argument === '--') continue
-
-    const shortEntrypointFlags = /^-([ceip]+)$/.exec(argument)?.[1]
-    if (shortEntrypointFlags) {
-      if (/[ep]/.test(shortEntrypointFlags) && index + 1 < execArgv.length) {
-        index++
-      }
-      continue
-    }
-
-    if (WORKER_ENTRYPOINT_FLAGS.has(argument)) continue
-
-    const valueFlag = [...WORKER_ENTRYPOINT_FLAGS_WITH_VALUES].find(
-      (flag) => argument === flag || argument.startsWith(`${flag}=`)
-    )
-    if (valueFlag) {
-      if (argument === valueFlag && index + 1 < execArgv.length) index++
-      continue
-    }
-
-    if (
-      argument.startsWith('--test-') ||
-      argument.startsWith('--experimental-test-') ||
-      argument.startsWith('--watch-')
-    ) {
-      if (
-        !argument.includes('=') &&
-        index + 1 < execArgv.length &&
-        !execArgv[index + 1].startsWith('-')
-      ) {
-        index++
-      }
-      continue
-    }
-
-    if (!argument.startsWith('--inspect')) result.push(argument)
-
-    if (
-      (argument === '--inspect-port' || argument === '--inspect-publish-uid') &&
-      index + 1 < execArgv.length
-    ) {
-      index++
-    }
-  }
-
-  // NODE_OPTIONS can pass inspector flags to workers. Explicit disable flags
-  // take priority.
-  for (const flag of [
-    '--no-inspect',
-    '--no-inspect-brk',
-    '--no-inspect-wait'
-  ]) {
-    if (process.allowedNodeEnvironmentFlags.has(flag)) result.push(flag)
-  }
-
-  return result
 }

@@ -1,15 +1,19 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import pMap from 'p-map'
 import { createNodeImportMeta, ModuleRunner } from 'vite/module-runner'
-import { notFoundPageData, type PageData, type SSGContext } from '../shared'
-import { nativeImport } from '../utils/nativeImport'
-import type { SerializedRenderedPage, SerializedSSGContext } from './render'
+import {
+  notFoundPageData,
+  type PageData,
+  type SSGContext
+} from '../../../shared'
+import { nativeImport } from '../../../utils/nativeImport'
+import { serializeRenderedPage } from '../../render/page'
+import { SsrModuleArtifactTransport } from '../modules/transport'
 import {
   serializeSsrRenderWorkerResult,
   type SsrRenderWorkerDescriptor,
   type SsrRenderWorkerResult
-} from './ssrWorkerProtocol'
-import { SsrModuleArtifactTransport } from './ssrModuleTransport'
+} from './protocol'
 
 interface RuntimeModule {
   renderPage(path: string, pageModule: unknown): Promise<SSGContext>
@@ -18,23 +22,6 @@ interface RuntimeModule {
 interface LoadedPageModule {
   default?: unknown
   __pageData?: PageData
-}
-
-function serializeContext(context: SSGContext): SerializedSSGContext {
-  const serialized = {
-    ...context,
-    vpSocialIcons: [...context.vpSocialIcons].sort()
-  } as SerializedSSGContext & {
-    __teleportBuffers?: unknown
-    __watcherHandles?: unknown
-  }
-
-  // Vue leaves private data in SSRContext after rendering. Watcher handles
-  // contain functions that V8 cannot serialize. Teleport buffers are not
-  // necessary after `renderToString` creates the public output.
-  delete serialized.__teleportBuffers
-  delete serialized.__watcherHandles
-  return serialized
 }
 
 function validatePageModule(
@@ -64,10 +51,7 @@ async function renderBatch(
     )
   }
 
-  const needsModuleRunner = descriptor.pages.some(
-    (page) => page.moduleId && !page.staticPage
-  )
-  const runner = needsModuleRunner
+  const runner = descriptor.pages.some((page) => page.moduleId)
     ? new ModuleRunner({
         transport: new SsrModuleArtifactTransport(
           descriptor.moduleStorePath,
@@ -79,39 +63,33 @@ async function renderBatch(
         sourcemapInterceptor: false
       })
     : undefined
+
   try {
     const pages = await pMap(
       descriptor.pages,
-      async (page): Promise<SerializedRenderedPage> => {
+      async (page) => {
         try {
-          const pageModule = page.staticPage
-            ? null
-            : page.moduleId
-              ? ((await runner!.import(page.moduleId)) as LoadedPageModule)
-              : null
+          const pageModule = page.moduleId
+            ? ((await runner!.import(page.moduleId)) as LoadedPageModule)
+            : null
           if (pageModule && page.moduleId) {
             validatePageModule(pageModule, page.moduleId)
           }
 
-          const payload = page.staticPage ?? pageModule
-          const context = await runtime.renderPage(page.routePath, payload)
+          const context = await runtime.renderPage(page.routePath, pageModule)
           const pageData =
-            page.staticPage?.pageData ??
             pageModule?.__pageData ??
             (page.page === '404.md' ? notFoundPageData : undefined)
-
           if (!pageData) {
-            throw new Error(
-              `SSR page ${page.page} has neither a static payload nor a page-data module.`
-            )
+            throw new Error(`SSR page ${page.page} has no page-data module.`)
           }
 
-          return {
+          return serializeRenderedPage({
             page: page.page,
             pageData,
-            hasCustom404: page.page !== '404.md' || payload !== null,
-            context: serializeContext(context)
-          }
+            hasCustom404: page.page !== '404.md' || pageModule !== null,
+            context
+          })
         } catch (error) {
           const detail =
             error instanceof Error
@@ -125,9 +103,6 @@ async function renderBatch(
       },
       {
         concurrency: descriptor.renderConcurrency,
-        // Keep the shared ModuleRunner open while another mapper imports or
-        // renders. If a page fails, p-map reports the errors after the batch
-        // finishes.
         stopOnError: false
       }
     )
@@ -139,9 +114,7 @@ async function renderBatch(
 
 async function main(): Promise<void> {
   const descriptorPath = process.argv[2]
-  if (!descriptorPath) {
-    throw new Error('Missing SSR worker descriptor path.')
-  }
+  if (!descriptorPath) throw new Error('Missing SSR worker descriptor path.')
 
   const descriptor = JSON.parse(
     await readFile(descriptorPath, 'utf8')
@@ -150,10 +123,9 @@ async function main(): Promise<void> {
     throw new Error('Unknown SSR worker descriptor type.')
   }
 
-  const result = await renderBatch(descriptor)
   await writeFile(
     descriptor.resultPath,
-    serializeSsrRenderWorkerResult(result),
+    serializeSsrRenderWorkerResult(await renderBatch(descriptor)),
     { mode: 0o600 }
   )
 }

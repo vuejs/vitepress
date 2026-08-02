@@ -14,12 +14,6 @@ export interface StoredSsrModuleArtifact {
   hasUnknownDynamicImports: boolean
 }
 
-export interface StoredSsrModuleRequest {
-  version: typeof SSR_MODULE_ARTIFACT_VERSION
-  key: string
-  artifact: string
-}
-
 export interface SsrModuleStoreSnapshot {
   version: typeof SSR_MODULE_ARTIFACT_VERSION
   requests: [key: string, artifact: string][]
@@ -43,49 +37,7 @@ export function createSsrModuleRequestKey(
   return JSON.stringify([SSR_MODULE_ARTIFACT_VERSION, id, importer ?? null])
 }
 
-export async function readStoredSsrModuleRequest(
-  storeRoot: string,
-  id: string,
-  importer: string | undefined
-): Promise<StoredSsrModuleArtifact | undefined> {
-  return readStoredSsrModuleRequestByKey(
-    storeRoot,
-    createSsrModuleRequestKey(id, importer)
-  )
-}
-
-export async function readStoredSsrModuleRequestByKey(
-  storeRoot: string,
-  key: string
-): Promise<StoredSsrModuleArtifact | undefined> {
-  const requestHash = hashSsrModuleValue(key)
-  try {
-    const request = JSON.parse(
-      await readFile(
-        ssrModuleCacheFile(path.join(storeRoot, 'requests'), requestHash),
-        'utf8'
-      )
-    ) as StoredSsrModuleRequest
-    if (
-      request.version !== SSR_MODULE_ARTIFACT_VERSION ||
-      request.key !== key
-    ) {
-      return
-    }
-
-    return readStoredSsrModuleArtifact(storeRoot, request.artifact)
-  } catch (error) {
-    if (
-      error instanceof SyntaxError ||
-      (error as NodeJS.ErrnoException).code === 'ENOENT'
-    ) {
-      return
-    }
-    throw error
-  }
-}
-
-export async function readStoredSsrModuleArtifact(
+async function readStoredSsrModuleArtifact(
   storeRoot: string,
   artifactHash: string
 ): Promise<StoredSsrModuleArtifact | undefined> {
@@ -110,8 +62,7 @@ export async function readStoredSsrModuleArtifact(
 }
 
 export class SsrModuleArtifactReader {
-  readonly #snapshot: Promise<Map<string, string> | undefined>
-  readonly #snapshotIsAuthoritative: boolean
+  readonly #snapshot: Promise<Map<string, string>>
   readonly #artifacts = new Map<
     string,
     Promise<StoredSsrModuleArtifact | undefined>
@@ -119,12 +70,9 @@ export class SsrModuleArtifactReader {
 
   constructor(
     private readonly storeRoot: string,
-    snapshotPath?: string
+    snapshotPath: string
   ) {
-    this.#snapshotIsAuthoritative = snapshotPath !== undefined
-    this.#snapshot = this.#readSnapshot(
-      snapshotPath ?? path.join(this.storeRoot, 'snapshot.json')
-    )
+    this.#snapshot = this.#readSnapshot(snapshotPath)
   }
 
   async read(
@@ -132,13 +80,8 @@ export class SsrModuleArtifactReader {
     importer: string | undefined
   ): Promise<StoredSsrModuleArtifact | undefined> {
     const key = createSsrModuleRequestKey(id, importer)
-    const artifactHash = (await this.#snapshot)?.get(key)
-    if (!artifactHash) {
-      // A batch snapshot lists all modules that its worker can use. Do not let
-      // pointer files from the full store extend this list.
-      if (this.#snapshotIsAuthoritative) return
-      return readStoredSsrModuleRequestByKey(this.storeRoot, key)
-    }
+    const artifactHash = (await this.#snapshot).get(key)
+    if (!artifactHash) return
 
     let artifact = this.#artifacts.get(artifactHash)
     if (!artifact) {
@@ -148,21 +91,19 @@ export class SsrModuleArtifactReader {
     return artifact
   }
 
-  async #readSnapshot(
-    snapshotPath: string
-  ): Promise<Map<string, string> | undefined> {
+  async #readSnapshot(snapshotPath: string): Promise<Map<string, string>> {
     try {
       const snapshot = JSON.parse(
         await readFile(snapshotPath, 'utf8')
       ) as SsrModuleStoreSnapshot
-      if (snapshot.version !== SSR_MODULE_ARTIFACT_VERSION) return
+      if (snapshot.version !== SSR_MODULE_ARTIFACT_VERSION) return new Map()
       return new Map(snapshot.requests)
     } catch (error) {
       if (
         error instanceof SyntaxError ||
         (error as NodeJS.ErrnoException).code === 'ENOENT'
       ) {
-        return
+        return new Map()
       }
       throw error
     }

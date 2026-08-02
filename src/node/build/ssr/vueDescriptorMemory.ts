@@ -114,7 +114,7 @@ function compactScript(result: MutableCompileScriptResult): void {
 }
 
 /**
- * @vitejs/plugin-vue stores SFC descriptors in global maps. This can retain
+ * @vitejs/plugin-vue stores SFC descriptors in global maps. Batched SSR can retain
  * page source, block locations, and template ASTs after compilation. Track the
  * same descriptors through the public compiler option. Compact them after the
  * build or batch finishes.

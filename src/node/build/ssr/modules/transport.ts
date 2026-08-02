@@ -1,6 +1,6 @@
 import type { ModuleRunnerTransport } from 'vite/module-runner'
-import { SsrModuleArtifactReader } from './ssrModuleStore'
-import type { SerializedSsrBuiltin } from './ssrWorkerProtocol'
+import { SsrModuleArtifactReader } from './store'
+import type { SerializedSsrBuiltin } from '../worker/protocol'
 
 interface ViteInvokePayload {
   type: 'custom'
@@ -18,7 +18,7 @@ export class SsrModuleArtifactTransport implements ModuleRunnerTransport {
   constructor(
     private readonly moduleStorePath: string,
     private readonly builtins: SerializedSsrBuiltin[],
-    moduleSnapshotPath?: string
+    moduleSnapshotPath: string
   ) {
     this.#reader = new SsrModuleArtifactReader(
       moduleStorePath,

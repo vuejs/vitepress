@@ -7,20 +7,15 @@ import {
 } from '@shikijs/transformers'
 import { LRUCache } from 'lru-cache'
 import { customAlphabet } from 'nanoid'
-import { createHash, randomUUID } from 'node:crypto'
-import { mkdir, readFile, rename, unlink, writeFile } from 'node:fs/promises'
-import path from 'node:path'
+import { createHash } from 'node:crypto'
 import c from 'picocolors'
 import type { BundledLanguage, ShikiTransformer } from 'shiki'
 import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
-import { version as shikiVersion } from 'shiki/package.json'
 import type { Logger } from 'vite'
-import { version as vitepressVersion } from '../../../../package.json'
 import { isShell } from '../../shared'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
-const HIGHLIGHT_CACHE_SCHEMA_VERSION = 2
 const HIGHLIGHT_MEMORY_CACHE_SIZE = 16 * 1024 * 1024
 
 /**
@@ -60,8 +55,7 @@ function transformerDisableShellSymbolSelect(): ShikiTransformer {
 export async function highlight(
   theme: ThemeOptions,
   options: MarkdownOptions,
-  logger: Pick<Logger, 'warn'> = console,
-  cacheDir?: string
+  logger: Pick<Logger, 'warn'> = console
 ): Promise<
   [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
 > {
@@ -138,35 +132,6 @@ export async function highlight(
     ...options.colorReplacements
   }
 
-  const cacheNamespace = hash(
-    stableSerialize({
-      schemaVersion: HIGHLIGHT_CACHE_SCHEMA_VERSION,
-      vitepressVersion,
-      shikiVersion,
-      theme,
-      languages: options.languages,
-      langAlias,
-      defaultLang,
-      transformerFactories: [
-        transformerMetaHighlight,
-        transformerNotationDiff,
-        transformerNotationFocus,
-        transformerNotationHighlight,
-        transformerNotationErrorLevel,
-        transformerDisableShellSymbolSelect,
-        'vitepress:add-dir',
-        'vitepress:v-pre',
-        'vitepress:empty-line'
-      ],
-      userTransformers,
-      colorReplacements,
-      shikiSetup: options.shikiSetup,
-      shikiCacheKey: options.shikiCacheKey
-    })
-  )
-  const cacheRoot = cacheDir
-    ? path.join(cacheDir, 'vitepress-shiki', cacheNamespace)
-    : undefined
   const memoryCache = new LRUCache<string, string>({
     maxSize: HIGHLIGHT_MEMORY_CACHE_SIZE,
     sizeCalculation: (value) => Buffer.byteLength(value)
@@ -193,24 +158,15 @@ export async function highlight(
       if (!vPre) lang = lang.slice(0, -4)
 
       str = str.trimEnd()
-      const cacheKey = hashParts([
-        cacheNamespace,
-        str,
-        lang,
-        attrs,
-        vPre ? 'v-pre' : 'vue'
-      ])
+      const cacheKey = createHash('sha256')
+        .update(JSON.stringify([str, lang, attrs, vPre]))
+        .digest('hex')
       const cached = memoryCache.get(cacheKey)
       if (cached != null) return cached
       const existing = pending.get(cacheKey)
       if (existing) return existing
 
       const operation = (async () => {
-        if (cacheRoot) {
-          const cached = await readCachedHighlight(cacheRoot, cacheKey)
-          if (cached != null) return cached
-        }
-
         const { highlighter, transformers } = await getRuntime()
 
         try {
@@ -296,11 +252,7 @@ export async function highlight(
           colorReplacements
         })
 
-        const result = restoreMustache(highlighted)
-        if (cacheRoot) {
-          await writeCachedHighlight(cacheRoot, cacheKey, result)
-        }
-        return result
+        return restoreMustache(highlighted)
       })()
 
       pending.set(cacheKey, operation)
@@ -320,98 +272,4 @@ export async function highlight(
         .catch(() => {})
     }
   ]
-}
-
-async function readCachedHighlight(
-  root: string,
-  cacheKey: string
-): Promise<string | undefined> {
-  try {
-    return await readFile(getCacheFile(root, cacheKey), 'utf8')
-  } catch {
-    return
-  }
-}
-
-async function writeCachedHighlight(
-  root: string,
-  cacheKey: string,
-  html: string
-): Promise<void> {
-  const file = getCacheFile(root, cacheKey)
-  const temporary = `${file}.${process.pid}.${randomUUID()}.tmp`
-  try {
-    await mkdir(path.dirname(file), { recursive: true })
-    await writeFile(temporary, html, { mode: 0o600 })
-    await rename(temporary, file)
-  } catch {
-    // Highlight caching is optional. Do not fail the build if its directory is
-    // read-only or incomplete.
-  } finally {
-    await unlink(temporary).catch(() => {})
-  }
-}
-
-function getCacheFile(root: string, cacheKey: string): string {
-  return path.join(root, cacheKey.slice(0, 2), `${cacheKey}.html`)
-}
-
-function hash(value: string): string {
-  return createHash('sha256').update(value).digest('hex')
-}
-
-function hashParts(parts: string[]): string {
-  const digest = createHash('sha256')
-  for (const part of parts) {
-    digest.update(`${Buffer.byteLength(part)}:`)
-    digest.update(part)
-  }
-  return digest.digest('hex')
-}
-
-function stableSerialize(value: unknown, seen = new Set<object>()): string {
-  if (value === null) return 'null'
-  if (value === undefined) return 'undefined'
-
-  const valueType = typeof value
-  if (valueType === 'string') return JSON.stringify(value)
-  if (valueType === 'number' || valueType === 'boolean') return String(value)
-  if (valueType === 'bigint') return `${value}n`
-  if (valueType === 'symbol') return String(value)
-  if (valueType === 'function') return `function:${String(value)}`
-
-  const object = value as object
-  if (seen.has(object)) return '[Circular]'
-  seen.add(object)
-  try {
-    if (object instanceof RegExp) return `regexp:${String(object)}`
-    if (object instanceof Date) return `date:${object.toISOString()}`
-    if (Array.isArray(object)) {
-      return `[${object.map((item) => stableSerialize(item, seen)).join(',')}]`
-    }
-    if (object instanceof Map) {
-      const entries = [...object].map(
-        ([key, item]) =>
-          `${stableSerialize(key, seen)}:${stableSerialize(item, seen)}`
-      )
-      return `map:{${entries.sort().join(',')}}`
-    }
-    if (object instanceof Set) {
-      return `set:[${[...object]
-        .map((item) => stableSerialize(item, seen))
-        .sort()
-        .join(',')}]`
-    }
-
-    const record = object as Record<string, unknown>
-    const constructorName = object.constructor?.name || 'Object'
-    return `${constructorName}:{${Object.keys(record)
-      .sort()
-      .map(
-        (key) => `${JSON.stringify(key)}:${stableSerialize(record[key], seen)}`
-      )
-      .join(',')}}`
-  } finally {
-    seen.delete(object)
-  }
 }

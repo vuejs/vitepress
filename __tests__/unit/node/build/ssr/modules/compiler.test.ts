@@ -1,8 +1,8 @@
 import {
   createSsrModuleCompiler,
   type SsrModuleCompiler
-} from 'node/build/ssrModuleCompiler'
-import { SsrModuleArtifactTransport } from 'node/build/ssrModuleTransport'
+} from 'node/build/ssr/modules/compiler'
+import { SsrModuleArtifactTransport } from 'node/build/ssr/modules/transport'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -118,8 +118,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -214,8 +213,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -269,8 +267,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -299,8 +296,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -324,8 +320,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -356,8 +351,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
 
@@ -385,8 +379,7 @@ describe('SsrModuleCompiler', () => {
           }
         }
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
 
@@ -417,15 +410,14 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
 
     await expect(compiler.init()).resolves.toBeUndefined()
   })
 
-  test('deduplicates transforms and serves materialized CAS output to a new compiler', async () => {
+  test('deduplicates concurrent and subsequent requests through the current manifest', async () => {
     const fixture = await createFixture()
     const virtualId = '\0test:ssr-page'
     let loadCalls = 0
@@ -464,38 +456,13 @@ describe('SsrModuleCompiler', () => {
       expect(first.code).toContain('materialized')
       expect(first.invalidate).toBe(false)
     }
-
-    await firstCompiler.close()
-    compilers.delete(firstCompiler)
-
-    const rejectUncachedLoad: Plugin = {
-      name: 'test:reject-uncached-ssr-page',
-      resolveId(id) {
-        if (id === 'virtual:ssr-page') return virtualId
-      },
-      load(id) {
-        if (id === virtualId) {
-          throw new Error('expected transformed module to come from the CAS')
-        }
-      }
-    }
-    const secondCompiler = createSsrModuleCompiler(
-      {
-        root: fixture.root,
-        logLevel: 'silent',
-        plugins: [rejectUncachedLoad]
-      },
-      fixture.artifactDir
+    await expect(firstCompiler.precompile('virtual:ssr-page')).resolves.toEqual(
+      first
     )
-    compilers.add(secondCompiler)
-    await secondCompiler.init()
-
-    await expect(
-      secondCompiler.precompile('virtual:ssr-page')
-    ).resolves.toEqual(first)
+    expect(loadCalls).toBe(1)
   })
 
-  test('does not persist entries and scopes dependency reuse by importer', async () => {
+  test('persists released entries and scopes dependency reuse by importer', async () => {
     const fixture = await createFixture()
     const entryId = '\0test:one-shot-entry'
     const dependencyId = path.join(fixture.root, 'shared-dependency.js')
@@ -527,15 +494,14 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistEntries: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
 
     await compiler.precompile('virtual:one-shot-entry')
     await compiler.precompile('virtual:one-shot-entry')
-    expect(entryLoads).toBe(2)
+    expect(entryLoads).toBe(1)
 
     const entryGraph = (
       compiler as unknown as {
@@ -568,8 +534,7 @@ describe('SsrModuleCompiler', () => {
 
     const compiler = createSsrModuleCompiler(
       { root: fixture.root, logLevel: 'silent' },
-      fixture.artifactDir,
-      { persistEntries: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -717,8 +682,7 @@ describe('SsrModuleCompiler', () => {
           }
         ]
       },
-      fixture.artifactDir,
-      { persistArtifacts: false }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -817,8 +781,7 @@ describe('SsrModuleCompiler', () => {
 
     const compiler = createSsrModuleCompiler(
       { root: fixture.root, logLevel: 'silent' },
-      fixture.artifactDir,
-      { persistEntries: true, releaseEntries: true }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -826,12 +789,18 @@ describe('SsrModuleCompiler', () => {
     const materialized = await compiler.materializeGraphs([entry], 2)
     expect(materialized.entries).toBe(1)
     expect(materialized.requests).toBe(3)
+    const snapshot = path.join(fixture.artifactDir, 'snapshots', 'page.json')
+    await compiler.writeSnapshotForEntries([entry], snapshot)
     const builtins = compiler.getBuiltins()
     await compiler.close()
     compilers.delete(compiler)
 
     const runner = new ModuleRunner({
-      transport: new SsrModuleArtifactTransport(fixture.artifactDir, builtins),
+      transport: new SsrModuleArtifactTransport(
+        fixture.artifactDir,
+        builtins,
+        snapshot
+      ),
       hmr: false,
       createImportMeta: createNodeImportMeta,
       sourcemapInterceptor: false
@@ -869,19 +838,24 @@ describe('SsrModuleCompiler', () => {
 
     const compiler = createSsrModuleCompiler(
       { root: fixture.root, logLevel: 'silent' },
-      fixture.artifactDir,
-      { persistEntries: true, releaseEntries: true }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
     await compiler.materializeGraphs([entry])
+    const snapshot = path.join(fixture.artifactDir, 'snapshots', 'query.json')
+    await compiler.writeSnapshotForEntries([entry], snapshot)
 
     const builtins = compiler.getBuiltins()
     await compiler.close()
     compilers.delete(compiler)
 
     const runner = new ModuleRunner({
-      transport: new SsrModuleArtifactTransport(fixture.artifactDir, builtins),
+      transport: new SsrModuleArtifactTransport(
+        fixture.artifactDir,
+        builtins,
+        snapshot
+      ),
       hmr: false,
       createImportMeta: createNodeImportMeta,
       sourcemapInterceptor: false
@@ -926,12 +900,7 @@ describe('SsrModuleCompiler', () => {
 
     const compiler = createSsrModuleCompiler(
       { root: fixture.root, logLevel: 'silent' },
-      fixture.artifactDir,
-      {
-        persistEntries: true,
-        releaseEntries: true,
-        publishFullSnapshot: false
-      }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -979,8 +948,8 @@ describe('SsrModuleCompiler', () => {
         dynamicA: 'dynamic-a'
       })
 
-      // The shared store contains pointer files for page B. The batch snapshot
-      // must limit the worker to its declared modules.
+      // The shared CAS contains page B. The batch snapshot must still limit the
+      // worker to its declared modules.
       await expect(runner.import(pageB)).rejects.toThrow(
         /Missing precompiled SSR module/
       )
@@ -1002,8 +971,7 @@ describe('SsrModuleCompiler', () => {
 
     const compiler = createSsrModuleCompiler(
       { root: fixture.root, logLevel: 'silent' },
-      fixture.artifactDir,
-      { persistEntries: true, releaseEntries: true }
+      fixture.artifactDir
     )
     compilers.add(compiler)
     await compiler.init()
@@ -1015,7 +983,11 @@ describe('SsrModuleCompiler', () => {
 
   test('reports a missing offline module with its importer', async () => {
     const fixture = await createFixture()
-    const transport = new SsrModuleArtifactTransport(fixture.artifactDir, [])
+    const transport = new SsrModuleArtifactTransport(
+      fixture.artifactDir,
+      [],
+      path.join(fixture.artifactDir, 'snapshots', 'missing.json')
+    )
 
     await expect(
       transport.invoke({

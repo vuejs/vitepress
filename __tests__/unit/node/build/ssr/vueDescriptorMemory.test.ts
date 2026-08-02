@@ -1,7 +1,7 @@
-import { createVueDescriptorMemoryPlugin } from 'node/plugins/vueDescriptorMemory'
+import { createVueDescriptorMemoryPlugin } from 'node/build/ssr/vueDescriptorMemory'
 import type { Plugin } from 'vite'
 
-describe('node/plugins/vueDescriptorMemory', () => {
+describe('node/build/ssr/vueDescriptorMemory', () => {
   test('compacts tracked compiler results without mutating the shared compiler', () => {
     const { compiler, parseCacheClear } = createCompiler()
     const vuePlugin = createVuePlugin(compiler)

@@ -84,7 +84,7 @@ describe('local search', () => {
   })
 
   test.runIf(process.env.VITE_TEST_SSR_BATCH)(
-    'indexes static-page HTML produced by the artifact pipeline',
+    'indexes page HTML produced by the artifact pipeline',
     async () => {
       await page.locator('.VPNavBarSearchButton').click()
 

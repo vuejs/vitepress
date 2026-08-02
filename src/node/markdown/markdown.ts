@@ -88,22 +88,9 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   config?: (md: MarkdownRenderer) => Awaitable<void>
   /**
-   * Set to `false` to disable the compiled Markdown cache (experimental). In a
-   * batched build, this also prevents reuse across builds. The current build
-   * still shares artifacts between the client, SSR compiler, and coordinator.
+   * Set to `false` to disable the compiled Markdown cache (experimental).
    */
   cache?: boolean
-  /**
-   * Fingerprint external state that can change a compiled page (experimental).
-   * Set this when page output depends on state that VitePress cannot inspect.
-   * Examples include environment variables and values captured by hook
-   * callbacks. Change the key when this state can change HTML, Vue source, or
-   * page data. A key permits reuse across builds when callbacks are present.
-   *
-   * This key covers the complete page. `shikiCacheKey` covers only syntax
-   * highlighting. `cache: false` overrides this option.
-   */
-  cacheKey?: string
   /**
    * HTML attributes applied to external links.
    * @default { target: '_blank', rel: 'noreferrer' }
@@ -183,12 +170,6 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * Configure the Shiki instance.
    */
   shikiSetup?: (shiki: Highlighter) => void | Promise<void>
-  /**
-   * Persistent highlight-cache key for state captured by transformer or
-   * `shikiSetup` callbacks.
-   */
-  shikiCacheKey?: string
-
   /* ==================== Code Blocks ==================== */
 
   /**
@@ -368,8 +349,7 @@ export async function createMarkdownRenderer(
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console,
-  publicDir?: string,
-  cacheDir?: string
+  publicDir?: string
 ): Promise<MarkdownRenderer> {
   if (md) return md
 
@@ -383,7 +363,7 @@ export async function createMarkdownRenderer(
 
   const [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
-    : await createHighlighter(theme, options, logger, cacheDir)
+    : await createHighlighter(theme, options, logger)
 
   _disposeHighlighter = dispose
 

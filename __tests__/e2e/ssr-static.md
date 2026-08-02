@@ -1,6 +1,6 @@
 ---
 title: Static batching page
-description: A page eligible for the direct static SSR path.
+description: A page used to verify batched SSR output.
 ---
 
 # Static batching page

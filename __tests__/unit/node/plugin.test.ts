@@ -1,5 +1,6 @@
 import { resolveConfig } from 'node/config'
-import { PageArtifactStore } from 'node/pageArtifacts'
+import { disposeMdItInstance } from 'node/markdown/markdown'
+import { PageArtifactStore } from 'node/build/artifacts/store'
 import { createVitePressPlugin } from 'node/plugin'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -10,6 +11,7 @@ describe('node/plugin coordinator client', () => {
   let root: string | undefined
 
   afterEach(async () => {
+    disposeMdItInstance()
     if (root) {
       await rm(root, { recursive: true, force: true })
       root = undefined
@@ -37,9 +39,7 @@ describe('node/plugin coordinator client', () => {
     siteConfig.markdown = { cache: false, config: configureMarkdown }
     siteConfig.vite = { plugins: [userPlugin] }
     siteConfig.buildConcurrency = 1
-    const store = new PageArtifactStore(siteConfig.cacheDir, {
-      namespace: 'client-preload'
-    })
+    const store = new PageArtifactStore(path.join(root, '.artifacts'))
     const plugins = await createVitePressPlugin(
       siteConfig,
       false,
@@ -61,8 +61,7 @@ describe('node/plugin coordinator client', () => {
       publicDir: siteConfig.publicDir
     } as any)
 
-    // This lifecycle runs when all pages are warm. The highlighter remains
-    // idle until a Markdown cache miss needs it.
+    // Renderer setup hooks run before coordinator preloading starts.
     expect(configureMarkdown).toHaveBeenCalledTimes(1)
 
     const preloadPlugin = plugins.at(-1) as Plugin
@@ -129,6 +128,49 @@ describe('node/plugin coordinator client', () => {
     } as any)
 
     expect(siteConfig.publicDir).toBe(clientPublicDir)
+  })
+
+  test('reuses artifacts while transforming the physical Markdown module', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-physical-artifact-'))
+    const file = path.join(root, 'index.md')
+    const source = '# Page\n'
+    await writeFile(file, source)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.markdown = { cache: false }
+    siteConfig.transformPageData = vi.fn(() => ({ title: 'Finalized' }))
+    const store = new PageArtifactStore(path.join(root, '.artifacts'))
+    const plugins = await createVitePressPlugin(
+      siteConfig,
+      false,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      {
+        coordinatorClient: true,
+        pageArtifactStore: store,
+        skipGitScan: true
+      }
+    )
+    const vitePressPlugin = plugins[0] as Plugin
+    await getHookHandler(vitePressPlugin.configResolved).call(undefined, {
+      base: '/',
+      command: 'build',
+      publicDir: siteConfig.publicDir
+    } as any)
+
+    const transform = getHookHandler(vitePressPlugin.transform as any)
+    const context = {
+      addWatchFile() {},
+      environment: { mode: 'build', name: 'client' }
+    }
+    const first = await transform.call(context, source, file)
+    const second = await transform.call(context, source, file)
+
+    expect(siteConfig.transformPageData).toHaveBeenCalledTimes(1)
+    expect(first).toBe(second)
+    expect(first).toContain('<template>')
   })
 })
 

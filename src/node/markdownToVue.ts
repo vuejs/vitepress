@@ -1,11 +1,8 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { isHTMLTag, isMathMLTag, isSVGTag } from '@vue/shared'
 import { LRUCache } from 'lru-cache'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createDebug } from 'obug'
-import { createFilter, type Plugin } from 'vite'
-import { DEFAULT_THEME_PATH } from './alias'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -52,7 +49,6 @@ const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
 const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
 const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
 const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
-const SSR_PAGE_ARTIFACT_SUFFIX = '.__vitepress_ssr.vue'
 
 let __dynamicRoutes = new Map<string, [string, string]>()
 let __rewrites = new Map<string, string>()
@@ -64,12 +60,6 @@ export interface MarkdownCompileResult {
   html: string
   /** Markdown after include/snippet expansion, reusable by local search. */
   markdownSource?: string
-  /**
-   * Snapshot of the documented Markdown environment from the first render.
-   * Store a plain copy so private or cyclic plugin data does not enter the
-   * persistent artifact.
-   */
-  markdownEnv?: MarkdownEnv
   pageData: PageData
   deadLinks: { url: string; file: string; line?: number }[]
   /** Raw link facts used to revalidate routes/public files every build. */
@@ -77,23 +67,10 @@ export interface MarkdownCompileResult {
   linkContext?: PageLinkContext
   includes: string[]
   /**
-   * Set when the page can render without a Vue module. Omit `staticHtml` when
-   * `html` is ready for SSR.
-   */
-  staticPage?: true
-  /** SSR-ready static HTML with compile-time-only `v-pre` markers removed. */
-  staticHtml?: string
-  /**
    * Marks a cached module refresh after page-data hooks. Do not rewrite user
    * default exports as component names.
    */
   generatedPageComponentName?: true
-  /**
-   * User SFC blocks can expose the component ID and importer ID. Compile these
-   * pages with the physical Markdown ID. Client and SSR transforms then see
-   * the same file name.
-   */
-  requiresSourceModuleIdentity?: true
 }
 
 export interface PageLinkCandidate {
@@ -170,9 +147,7 @@ export async function createMarkdownToVueRenderFn(
   siteConfig: SiteConfig,
   initializeRenderer = false,
   validateLinks = true,
-  deferPageDataTransforms = false,
-  artifactPlugins: unknown = siteConfig.vite?.plugins,
-  renderBuiltUrl: unknown = siteConfig.vite?.experimental?.renderBuiltUrl
+  deferPageDataTransforms = false
 ) {
   const localSearchOptions = (
     siteConfig.site.themeConfig as
@@ -183,10 +158,9 @@ export async function createMarkdownToVueRenderFn(
         }
       | undefined
   )?.search?.options
-  const captureSearchEnv =
-    typeof localSearchOptions?._transformHtml === 'function'
   const captureSearchSource =
-    !captureSearchEnv && typeof localSearchOptions?._render === 'function'
+    typeof localSearchOptions?._transformHtml === 'function' ||
+    typeof localSearchOptions?._render === 'function'
   let mdPromise: Promise<MarkdownRenderer> | undefined
   const getMarkdownRenderer = () =>
     (mdPromise ??= createMarkdownRenderer(
@@ -194,8 +168,7 @@ export async function createMarkdownToVueRenderFn(
       mergeMarkdownLocales(options, siteConfig?.site.locales),
       base,
       siteConfig?.logger,
-      siteConfig?.publicDir,
-      siteConfig?.cacheDir
+      siteConfig?.publicDir
     ))
 
   // The artifact seed runs renderer setup hooks once per build. It also runs
@@ -208,12 +181,6 @@ export async function createMarkdownToVueRenderFn(
     artifact: MarkdownCompileResult,
     file: string
   ): Promise<MarkdownCompileResult> => {
-    artifact = applyArtifactEnvironmentSafety(
-      artifact,
-      file,
-      artifactPlugins,
-      renderBuiltUrl
-    )
     const { dynamicRoutes } = getResolutionCache(siteConfig)
     const dynamicRoute = dynamicRoutes.get(file)
     const transforms = [
@@ -259,7 +226,7 @@ export async function createMarkdownToVueRenderFn(
       deferPageDataTransforms,
       relativePath
     })
-    if (options.cache !== false) {
+    if (!deferPageDataTransforms && options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -353,32 +320,12 @@ export async function createMarkdownToVueRenderFn(
       ...(sfcBlocks?.styles.map((item) => item.content) ?? []),
       ...(sfcBlocks?.customBlocks.map((item) => item.content) ?? [])
     ].join('\n')
-    const unsafeArtifactModuleSemantics = hasUnsafeArtifactModuleSemantics(
-      artifactPlugins,
-      fileOrig
-    )
-    const unsafeStaticPluginSemantics = hasUnsafeStaticPluginSemantics(
-      artifactPlugins,
-      fileOrig
-    )
-    const staticHtml =
-      unsafeStaticPluginSemantics || renderBuiltUrl != null
-        ? undefined
-        : createStaticHtml(html, sfcBlocks, siteConfig)
-    const requiresSourceModuleIdentity = !!(
-      sfcBlocks?.scripts?.length ||
-      sfcBlocks?.styles?.length ||
-      sfcBlocks?.customBlocks?.length ||
-      unsafeArtifactModuleSemantics
-    )
-
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
     const result: MarkdownCompileResult = {
       vueSrc,
       html,
       ...(captureSearchSource && dynamicRoute ? { markdownSource: src } : {}),
-      ...(captureSearchEnv ? { markdownEnv: snapshotMarkdownEnv(env) } : {}),
       pageData,
       deadLinks,
       linkCandidates,
@@ -386,23 +333,14 @@ export async function createMarkdownToVueRenderFn(
       includes,
       ...(injectedPageData.generatedComponentName
         ? { generatedPageComponentName: true as const }
-        : {}),
-      ...(requiresSourceModuleIdentity
-        ? { requiresSourceModuleIdentity: true as const }
-        : {}),
-      ...(staticHtml == null
-        ? {}
-        : {
-            staticPage: true as const,
-            ...(staticHtml === prepareStaticHtmlForSsr(html)
-              ? {}
-              : { staticHtml })
-          })
+        : {})
     }
     const finalized = deferPageDataTransforms
       ? result
       : await finalize(result, routeFile)
-    if (options.cache !== false) cache.set(cacheKey, finalized)
+    if (!deferPageDataTransforms && options.cache !== false) {
+      cache.set(cacheKey, finalized)
+    }
     return finalized
   }) as MarkdownToVueRenderFn
 
@@ -491,624 +429,6 @@ export function resolveDeadLinks(
   }
 
   return deadLinks
-}
-
-function snapshotMarkdownEnv(env: MarkdownEnv): MarkdownEnv {
-  const {
-    content,
-    excerpt,
-    frontmatter,
-    headers,
-    sfcBlocks,
-    title,
-    path,
-    relativePath,
-    cleanUrls,
-    links,
-    linkLines,
-    includes,
-    realPath,
-    localeIndex
-  } = env
-
-  return {
-    content,
-    excerpt,
-    frontmatter,
-    headers,
-    sfcBlocks,
-    title,
-    path,
-    relativePath,
-    cleanUrls,
-    links,
-    linkLines,
-    includes,
-    realPath,
-    localeIndex
-  }
-}
-
-const STATIC_HTML_META_ASSET_NAMES = new Set([
-  'msapplication-tileimage',
-  'msapplication-square70x70logo',
-  'msapplication-square150x150logo',
-  'msapplication-wide310x150logo',
-  'msapplication-square310x310logo',
-  'msapplication-config',
-  'twitter:image'
-])
-const STATIC_HTML_META_ASSET_PROPERTIES = new Set([
-  'og:image',
-  'og:image:url',
-  'og:image:secure_url',
-  'og:audio',
-  'og:audio:secure_url',
-  'og:video',
-  'og:video:secure_url'
-])
-const STATIC_HTML_ASSET_SOURCES: Record<
-  string,
-  { src?: readonly string[]; srcset?: readonly string[] }
-> = {
-  audio: { src: ['src'] },
-  embed: { src: ['src'] },
-  img: { src: ['src'], srcset: ['srcset'] },
-  image: { src: ['href', 'xlink:href'] },
-  input: { src: ['src'] },
-  link: { src: ['href'], srcset: ['imagesrcset'] },
-  object: { src: ['data'] },
-  source: { src: ['src'], srcset: ['srcset'] },
-  track: { src: ['src'] },
-  use: { src: ['href', 'xlink:href'] },
-  video: { src: ['src', 'poster'] },
-  meta: { src: ['content'] }
-}
-const STATIC_BADGE_TYPES = new Set(['info', 'tip', 'warning', 'danger'])
-
-// Use a conservative check. A false negative uses normal Vue SSR. A false
-// positive could change output or hydration.
-function createStaticHtml(
-  html: string,
-  sfcBlocks:
-    | {
-        scripts?: unknown[]
-        styles?: unknown[]
-        customBlocks?: unknown[]
-      }
-    | undefined,
-  siteConfig: SiteConfig
-): string | undefined {
-  // The caller checks resolved Vite hooks. Check Vue compiler options here
-  // because they can also change the generated template.
-  if (hasUnsafeVueTransforms(siteConfig.vue)) {
-    return
-  }
-
-  if (
-    sfcBlocks?.scripts?.length ||
-    sfcBlocks?.styles?.length ||
-    sfcBlocks?.customBlocks?.length
-  ) {
-    return
-  }
-
-  const expandedHtml = expandStaticDefaultThemeBadges(html, siteConfig)
-  if (expandedHtml == null) return
-
-  // Shiki adds `v-pre` so Vue does not parse code blocks. Vue removes this
-  // attribute but keeps the subtree. Mask safe subtrees during this check.
-  // Then remove `v-pre` from the SSR output to match Vue.
-  const inspectedHtml = expandedHtml.replace(
-    /<pre\b(?=[^>]*\bv-pre(?:\s|=|>))[^>]*>[^]*?<\/pre>/gi,
-    '<pre></pre>'
-  )
-
-  // Reject interpolations and Vue shorthand outside Shiki `v-pre` blocks. A
-  // false negative uses the compiled module.
-  if (/\{\{[^]*?\}\}/.test(inspectedHtml)) return
-  if (/<[A-Za-z][^>]*\s(?:v-|[.:@#])[^>]*>/.test(inspectedHtml)) return
-  // Vue treats these tags and attributes as VNode control flow. Exclude this
-  // HTML from the fast path to preserve SSR output.
-  if (/<\/?(?:slot|template)\b/i.test(inspectedHtml)) return
-  if (/<[A-Za-z][^>]*\s(?:key|ref|is|slot)(?=\s|=|\/?>)/i.test(inspectedHtml)) {
-    return
-  }
-  if (/<textarea\b[^>]*\svalue(?=\s|=|\/?>)/i.test(inspectedHtml)) return
-
-  // The static path skips the asset URL transform. Accept only final URLs from
-  // Vite's default source matrix. Root URLs are unsafe because Vite can hash an
-  // asset or add the site base.
-  if (hasRewritableStaticAssetUrl(expandedHtml, siteConfig)) return
-
-  const tagRE = /<\/?([A-Za-z][\w.-]*)\b/g
-  for (const match of inspectedHtml.matchAll(tagRE)) {
-    const tag = match[1]
-    if (!isHTMLTag(tag) && !isSVGTag(tag) && !isMathMLTag(tag)) return
-  }
-
-  return prepareStaticHtmlForSsr(expandedHtml)
-}
-
-/**
- * Replace the default Badge component with its exact SSR markup. Keep slot
- * comments because they mark hydration boundaries. Use the compiled path for
- * non-literal properties or nested markup.
- */
-function expandStaticDefaultThemeBadges(
-  html: string,
-  siteConfig: SiteConfig
-): string | undefined {
-  if (!/<\/?Badge\b/.test(html)) return html
-
-  // A custom theme can provide a different Badge component. Replace it only
-  // when the site uses the built-in default theme.
-  if (
-    slash(path.resolve(siteConfig.themeDir)) !==
-    slash(path.resolve(DEFAULT_THEME_PATH))
-  ) {
-    return
-  }
-
-  let unsupported = false
-  const expanded = html.replace(
-    /<Badge\b([^>]*)>([^<]*)<\/Badge>/g,
-    (source, rawAttributes: string, text: string) => {
-      const attributes = new Map<string, string>()
-      let consumed = ''
-      for (const match of rawAttributes.matchAll(
-        /\s+([A-Za-z][\w-]*)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'))?/g
-      )) {
-        consumed += match[0]
-        const name = match[1]
-        if (attributes.has(name)) {
-          unsupported = true
-          return source
-        }
-        attributes.set(name, match[2] ?? match[3] ?? '')
-      }
-      if (
-        consumed !== rawAttributes ||
-        [...attributes].some(([name]) => name !== 'type')
-      ) {
-        unsupported = true
-        return source
-      }
-
-      const type = attributes.get('type') || 'tip'
-      if (!STATIC_BADGE_TYPES.has(type)) {
-        unsupported = true
-        return source
-      }
-      return `<span class="VPBadge ${type}"><!--[-->${text}<!--]--></span>`
-    }
-  )
-  if (unsupported || /<\/?Badge\b/.test(expanded)) return
-  return expanded
-}
-
-/** @internal Prepare an eligible artifact only while materializing its batch. */
-export function prepareStaticHtmlForSsr(html: string): string {
-  const withoutVPre = html.replace(
-    /(<pre\b[^>]*?)\s+v-pre(?:=(?:"[^"]*"|'[^']*'|[^\s>]+))?/gi,
-    '$1'
-  )
-  return normalizeStaticHtmlWhitespace(withoutVPre)
-}
-
-/**
- * Create the client entry for a static page. Store the body in one static
- * vnode. This avoids Vue compilation after the coordinator proves that the
- * page has no runtime behavior.
- */
-export function createStaticPageVueSource(
-  artifact: MarkdownCompileResult
-): string {
-  if (!artifact.staticPage) {
-    throw new Error('Cannot create a static page module for a dynamic page.')
-  }
-  const html = artifact.staticHtml ?? prepareStaticHtmlForSsr(artifact.html)
-  return `<script>import { createStaticVNode } from 'vue'${createPageDataExportCode(
-    artifact.pageData
-  )}\nexport default {name:${JSON.stringify(
-    artifact.pageData.relativePath
-  )},render(){return createStaticVNode(${JSON.stringify(
-    `<div>${html}</div>`
-  )},1)}}</script>`
-}
-
-function normalizeStaticHtmlWhitespace(html: string): string {
-  const protectedContents: string[] = []
-  const masked = html.replace(
-    /(<(pre|textarea)\b[^>]*>)([^]*?)(<\/\2>)/gi,
-    (_match, open: string, _tag: string, content: string, close: string) => {
-      const index = protectedContents.push(content) - 1
-      return `${open}\uE000${index}\uE001${close}`
-    }
-  )
-
-  // Vue removes newline-only text nodes between elements. Raw Markdown keeps
-  // them and can move the hydration cursor. Preserve whitespace inside
-  // sensitive elements, but match Vue at normal block boundaries.
-  return masked
-    .replace(/>\s*\n\s*</g, '><')
-    .replace(
-      /\uE000(\d+)\uE001/g,
-      (_match, index: string) => protectedContents[Number(index)]
-    )
-    .trim()
-}
-
-function hasRewritableStaticAssetUrl(
-  html: string,
-  siteConfig: SiteConfig
-): boolean {
-  for (const match of html.matchAll(
-    /<([A-Za-z][\w.-]*)\b((?:"[^"]*"|'[^']*'|[^'">])*)>/g
-  )) {
-    const tag = match[1].toLowerCase()
-    const source = STATIC_HTML_ASSET_SOURCES[tag]
-    if (!source) continue
-
-    const attributes = new Map<string, string[]>()
-    for (const attribute of match[2].matchAll(
-      /\s+([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g
-    )) {
-      const name = attribute[1].toLowerCase()
-      const values = attributes.get(name) ?? []
-      values.push(attribute[2] ?? attribute[3] ?? attribute[4] ?? '')
-      attributes.set(name, values)
-    }
-
-    if (tag === 'meta' && !isAssetMetaTag(attributes)) continue
-    for (const name of source.src ?? []) {
-      const values = attributes.get(name) ?? []
-      if (
-        values.some(
-          (value) => value && !isFinalStaticAssetUrl(value, siteConfig)
-        )
-      ) {
-        return true
-      }
-    }
-    for (const name of source.srcset ?? []) {
-      const values = attributes.get(name) ?? []
-      if (
-        values.some((value) => value && !isFinalStaticSrcset(value, siteConfig))
-      ) {
-        return true
-      }
-    }
-  }
-  return false
-}
-
-function isAssetMetaTag(attributes: Map<string, string[]>): boolean {
-  if (
-    attributes
-      .get('name')
-      ?.some((name) =>
-        STATIC_HTML_META_ASSET_NAMES.has(name.trim().toLowerCase())
-      )
-  ) {
-    return true
-  }
-  return !!attributes
-    .get('property')
-    ?.some((property) =>
-      STATIC_HTML_META_ASSET_PROPERTIES.has(property.trim().toLowerCase())
-    )
-}
-
-function isFinalStaticSrcset(value: string, siteConfig: SiteConfig): boolean {
-  return value.split(',').every((candidate) => {
-    const url = candidate.trim().split(/\s+/, 1)[0]
-    return !url || isFinalStaticAssetUrl(url, siteConfig, false)
-  })
-}
-
-function isFinalStaticAssetUrl(
-  value: string,
-  siteConfig: SiteConfig,
-  allowBareHash = true
-): boolean {
-  const url = value.trim()
-  return (
-    !url ||
-    (allowBareHash && url === '#') ||
-    /^data:/i.test(url) ||
-    /^(?:https?:)?\/\//.test(url) ||
-    isRootPublicAsset(url, siteConfig)
-  )
-}
-
-function isRootPublicAsset(url: string, siteConfig: SiteConfig): boolean {
-  if (
-    !url.startsWith('/') ||
-    url.startsWith('//') ||
-    siteConfig.site.base !== '/' ||
-    !siteConfig.publicDir
-  ) {
-    return false
-  }
-
-  let pathname: string
-  try {
-    pathname = decodeURIComponent(url.replace(/[?#].*$/, ''))
-  } catch {
-    return false
-  }
-  const publicDir = path.resolve(siteConfig.publicDir)
-  const file = path.resolve(publicDir, `.${pathname}`)
-  return (
-    (file === publicDir || file.startsWith(`${publicDir}${path.sep}`)) &&
-    fs.existsSync(file)
-  )
-}
-
-/**
- * Use a generated `.vue` ID next to the Markdown source. This location keeps
- * relative asset resolution. It also prevents Markdown pre-transforms from
- * processing the generated SFC a second time.
- */
-export function createSsrPageArtifactModuleId(sourceFile: string): string {
-  return `${slash(path.resolve(sourceFile))}${SSR_PAGE_ARTIFACT_SUFFIX}`
-}
-
-/**
- * Return whether the coordinator can compile the stored SFC. Markdown
- * transforms can depend on the SSR environment. Use the physical module unless
- * the plugin accepts the artifact-safety contract. Resolve and load hooks must
- * not observe the substitute module ID.
- */
-export function canCompileSsrPageArtifact(
-  siteConfig: SiteConfig,
-  sourceFile: string,
-  artifact?: { requiresSourceModuleIdentity?: boolean }
-): boolean {
-  if (artifact) return !artifact.requiresSourceModuleIdentity
-  return !hasUnsafeArtifactModuleSemantics(siteConfig.vite?.plugins, sourceFile)
-}
-
-type ArtifactAwarePlugin = Plugin<{
-  vitepress?: { ssrArtifactSafe?: boolean }
-}>
-
-function isVitePressInternalPlugin(plugin: ArtifactAwarePlugin): boolean {
-  const name = plugin.name || ''
-  return (
-    name === 'alias' ||
-    name === 'vitepress' ||
-    name.startsWith('vite:') ||
-    name.startsWith('vitepress:') ||
-    name.startsWith('builtin:') ||
-    name.startsWith('native:')
-  )
-}
-
-function isExplicitlyArtifactSafe(plugin: ArtifactAwarePlugin): boolean {
-  return plugin.api?.vitepress?.ssrArtifactSafe === true
-}
-
-function isInactiveBuildPlugin(plugin: ArtifactAwarePlugin): boolean {
-  return plugin.apply === 'serve'
-}
-
-function applyArtifactEnvironmentSafety(
-  artifact: MarkdownCompileResult,
-  sourceFile: string,
-  plugins: unknown,
-  renderBuiltUrl: unknown
-): MarkdownCompileResult {
-  const unsafeArtifactModuleSemantics = hasUnsafeArtifactModuleSemantics(
-    plugins,
-    sourceFile
-  )
-  const unsafeStaticSemantics =
-    hasUnsafeStaticPluginSemantics(plugins, sourceFile) ||
-    renderBuiltUrl != null
-  if (!unsafeArtifactModuleSemantics && !unsafeStaticSemantics) return artifact
-  if (
-    (!unsafeArtifactModuleSemantics || artifact.requiresSourceModuleIdentity) &&
-    (!unsafeStaticSemantics || !artifact.staticPage)
-  ) {
-    return artifact
-  }
-
-  const safeArtifact = {
-    ...artifact,
-    ...(unsafeArtifactModuleSemantics
-      ? { requiresSourceModuleIdentity: true as const }
-      : {})
-  }
-  if (unsafeStaticSemantics) {
-    delete safeArtifact.staticPage
-    delete safeArtifact.staticHtml
-  }
-  return safeArtifact
-}
-
-function hasUnsafeArtifactModuleSemantics(
-  plugins: unknown,
-  sourceFile: string
-): boolean {
-  return (
-    hasUnsafeViteTransforms(plugins, sourceFile) ||
-    hasUnsafeSsrArtifactModuleHooks(plugins)
-  )
-}
-
-function hasUnsafeStaticPluginSemantics(
-  plugins: unknown,
-  sourceFile: string
-): boolean {
-  return (
-    hasUnsafeViteTransforms(plugins, sourceFile) ||
-    hasUnsafeStaticPageModuleHooks(plugins, sourceFile)
-  )
-}
-
-/**
- * Return whether a Vite environment can use the client Markdown artifact
- * without changing the module pipeline. Check the client and SSR environments
- * separately. `applyToEnvironment` can return different plugins for each one.
- *
- * @internal
- */
-export function canReuseSsrPageArtifactWithPlugins(
-  plugins: unknown,
-  sourceFile: string
-): boolean {
-  return !hasUnsafeArtifactModuleSemantics(plugins, sourceFile)
-}
-
-function hookAppliesToId(hook: unknown, id: string): boolean {
-  if (typeof hook === 'function') return true
-  if (!hook || typeof hook !== 'object') return false
-
-  const filteredHook = hook as {
-    filter?: { id?: unknown }
-    handler?: unknown
-  }
-  if (typeof filteredHook.handler !== 'function') return false
-  if (!filteredHook.filter?.id) return true
-  try {
-    return createFilter(filteredHook.filter.id as never)(id)
-  } catch {
-    return true
-  }
-}
-
-function hasUnsafeStaticPageModuleHooks(
-  value: unknown,
-  sourceFile: string
-): boolean {
-  if (!value) return false
-  if (Array.isArray(value)) {
-    return value.some((plugin) =>
-      hasUnsafeStaticPageModuleHooks(plugin, sourceFile)
-    )
-  }
-  if (typeof value !== 'object') return false
-
-  const plugin = value as ArtifactAwarePlugin & { then?: unknown }
-  if (typeof plugin.then === 'function') return true
-  if (
-    isVitePressInternalPlugin(plugin) ||
-    isExplicitlyArtifactSafe(plugin) ||
-    isInactiveBuildPlugin(plugin)
-  ) {
-    return false
-  }
-
-  return (
-    hookAppliesToId(plugin.resolveId, sourceFile) ||
-    hookAppliesToId(plugin.load, sourceFile)
-  )
-}
-
-function hasUnsafeSsrArtifactModuleHooks(value: unknown): boolean {
-  if (!value) return false
-  if (Array.isArray(value)) {
-    return value.some(hasUnsafeSsrArtifactModuleHooks)
-  }
-  if (typeof value !== 'object') return false
-
-  const plugin = value as {
-    api?: unknown
-    apply?: unknown
-    load?: unknown
-    name?: unknown
-    resolveId?: unknown
-    then?: unknown
-  }
-  // Vite resolves plugin promises later. Until then, assume that their hooks
-  // and filters can observe the synthetic ID.
-  if (typeof plugin.then === 'function') return true
-  const resolvedPlugin = plugin as ArtifactAwarePlugin
-  if (
-    isVitePressInternalPlugin(resolvedPlugin) ||
-    isExplicitlyArtifactSafe(resolvedPlugin) ||
-    isInactiveBuildPlugin(resolvedPlugin)
-  ) {
-    return false
-  }
-
-  // `resolveId` filters select the source, not the importer. Load hooks can also
-  // apply to page dependencies. Both hooks can observe the synthetic page ID.
-  return plugin.resolveId != null || plugin.load != null
-}
-
-function hasUnsafeViteTransforms(value: unknown, sourceFile: string): boolean {
-  if (!value) return false
-  if (Array.isArray(value)) {
-    return value.some((plugin) => hasUnsafeViteTransforms(plugin, sourceFile))
-  }
-  if (typeof value !== 'object') return false
-
-  const plugin = value as {
-    api?: unknown
-    apply?: unknown
-    enforce?: unknown
-    name?: unknown
-    transform?: unknown
-    then?: unknown
-  }
-  // Vite accepts promised plugin options. Their transform order is not known
-  // here, so use the compiled path.
-  if (typeof plugin.then === 'function') return true
-  const resolvedPlugin = plugin as ArtifactAwarePlugin
-  if (
-    isVitePressInternalPlugin(resolvedPlugin) ||
-    isExplicitlyArtifactSafe(resolvedPlugin) ||
-    isInactiveBuildPlugin(resolvedPlugin) ||
-    plugin.transform == null
-  ) {
-    return false
-  }
-
-  if (typeof plugin.apply === 'function') return true
-  if (typeof plugin.transform === 'function') return true
-
-  const transform = plugin.transform as {
-    filter?: { id?: unknown }
-    handler?: unknown
-  }
-  if (typeof transform.handler !== 'function' || !transform.filter?.id) {
-    return true
-  }
-
-  try {
-    const filter = createFilter(transform.filter.id as never)
-    const appliesToSource = filter(sourceFile)
-    const appliesToArtifact = filter(createSsrPageArtifactModuleId(sourceFile))
-    if (!appliesToSource && !appliesToArtifact) return false
-
-    // A source pre-transform can inspect the SSR flag or `this.environment`.
-    // Reusing its client result could change server output. Require an explicit
-    // promise that its output and side effects do not depend on the environment.
-    return true
-  } catch {
-    return true
-  }
-}
-
-function hasUnsafeVueTransforms(value: SiteConfig['vue']): boolean {
-  if (!value || Object.keys(value).length === 0) return false
-  const keys = Object.keys(value)
-  if (keys.some((key) => key !== 'template')) return true
-
-  const template = value.template
-  if (!template) return false
-  if (Object.keys(template).some((key) => key !== 'compilerOptions')) {
-    return true
-  }
-
-  const compilerOptions = template.compilerOptions
-  return !!(
-    compilerOptions &&
-    Object.keys(compilerOptions).some((key) => key !== 'isCustomElement')
-  )
 }
 
 function injectPageDataCode(tags: string[], data: PageData) {

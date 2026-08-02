@@ -7,7 +7,7 @@ import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import { createMarkdownRenderer } from '../markdown/markdown'
 import type { MarkdownCompileResult } from '../markdownToVue'
-import type { PageArtifactStore } from '../pageArtifacts'
+import type { PageArtifactStore } from '../build/artifacts/store'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { readFile } from '../utils/fs'
 import { processIncludes } from '../utils/processIncludes'
@@ -60,8 +60,7 @@ export async function localSearchPlugin(
       siteConfig.markdown,
       siteConfig.site.base,
       siteConfig.logger,
-      publicDir,
-      siteConfig.cacheDir
+      publicDir
     ))
 
   const options = siteConfig.site.themeConfig.search.options || {}
@@ -159,27 +158,12 @@ export async function localSearchPlugin(
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
     const artifact = await pageArtifactStore?.getCurrent(artifactPage)
-    let html: string | undefined
-
-    if (artifact) {
-      if (options._transformHtml) {
-        html = await options._transformHtml(artifact.html, {
-          ...(artifact.markdownEnv ?? {
-            path: file,
-            relativePath: artifact.pageData.relativePath,
-            cleanUrls: siteConfig.cleanUrls ?? false,
-            frontmatter: artifact.pageData.frontmatter
-          })
-        })
-      } else if (!options._render) {
-        html =
-          artifact.pageData.frontmatter.search === false ? '' : artifact.html
-      }
-    }
-
-    if (html == null) {
-      html = await render(file, artifact)
-    }
+    const html =
+      artifact && !options._transformHtml && !options._render
+        ? artifact.pageData.frontmatter.search === false
+          ? ''
+          : artifact.html
+        : await render(file, artifact)
     if (!html) return
     const sections =
       // user provided generator

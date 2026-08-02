@@ -19,11 +19,11 @@ import {
   type FetchFunctionOptions,
   type FetchResult
 } from 'vite/module-runner'
-import type { Awaitable } from '../shared'
+import type { Awaitable } from '../../../shared'
 import {
   getVueDescriptorMemoryApi,
   type VueDescriptorMemoryApi
-} from '../plugins/vueDescriptorMemory'
+} from '../vueDescriptorMemory'
 import {
   createSsrModuleRequestKey,
   hashSsrModuleValue,
@@ -31,16 +31,15 @@ import {
   SSR_MODULE_ARTIFACT_VERSION,
   type MaterializedSsrModuleResult,
   type SsrModuleStoreSnapshot,
-  type StoredSsrModuleArtifact,
-  type StoredSsrModuleRequest
-} from './ssrModuleStore'
+  type StoredSsrModuleArtifact
+} from './store'
 import {
   adaptSsrBatchPagePlugins,
   validateSsrBatchPageOutputHooks
-} from './ssrBatchUtils'
-import type { SerializedSsrBuiltin } from './ssrWorkerProtocol'
+} from '../pluginCompatibility'
+import type { SerializedSsrBuiltin } from '../worker/protocol'
 
-export type { SerializedSsrBuiltin } from './ssrWorkerProtocol'
+export type { SerializedSsrBuiltin } from '../worker/protocol'
 
 type MaterializedFetchResult = MaterializedSsrModuleResult
 
@@ -68,35 +67,6 @@ export type SsrAssetResolver = (
 ) => Awaitable<string | undefined>
 
 export interface SsrModuleCompilerOptions {
-  /**
-   * Store ModuleRunner results in the request and module CAS. Disable this for
-   * seed passes that never evaluate transformed JavaScript. Request
-   * deduplication and Vite graph cleanup continue.
-   * @default true
-   */
-  persistArtifacts?: boolean
-  /**
-   * Store entry results when a ModuleRunner request has no importer. Batched
-   * builds can disable this because they usually use each page entry once.
-   * Workers can still reuse dependencies.
-   * @default true
-   */
-  persistEntries?: boolean
-  /**
-   * Remove one-use entry nodes after the compiler stores their output. This
-   * setting does not control persistence. It keeps the coordinator's Vite
-   * graph bounded while offline workers read stored entries.
-   * @default `persistEntries === false`
-   */
-  releaseEntries?: boolean
-  /** Write one request manifest instead of thousands of pointer files. */
-  snapshotOnly?: boolean
-  /**
-   * Publish the full-site request manifest after compilation. Disable this
-   * duplicate index when the caller publishes entry snapshots.
-   * @default true
-   */
-  publishFullSnapshot?: boolean
   /**
    * Map VitePress and theme source IDs to native ESM entries in the shared
    * runtime bundle.
@@ -319,9 +289,7 @@ function removeOneShotEntry(
  * results to a content-addressed store.
  */
 export class SsrModuleCompiler {
-  private readonly requestsDir: string
   private readonly modulesDir: string
-  private readonly requestArtifacts = new Map<string, string>()
   private readonly requestManifest = new Map<string, string>()
   private readonly requestMetadata = new Map<string, SsrModuleRequestMetadata>()
   private readonly pendingRequests = new Map<
@@ -337,22 +305,16 @@ export class SsrModuleCompiler {
 
   constructor(
     private readonly inlineConfig: InlineConfig,
-    private readonly artifactDir: string,
+    artifactDir: string,
     private readonly options: SsrModuleCompilerOptions = {}
   ) {
-    this.requestsDir = path.join(artifactDir, 'requests')
     this.modulesDir = path.join(artifactDir, 'modules')
   }
 
   async init(): Promise<void> {
     if (this.environment) return
 
-    if (this.options.persistArtifacts !== false) {
-      await Promise.all([
-        mkdir(this.requestsDir, { recursive: true }),
-        mkdir(this.modulesDir, { recursive: true })
-      ])
-    }
+    await mkdir(this.modulesDir, { recursive: true })
 
     const inlineConfig = mergeConfig(this.inlineConfig, {
       server: {
@@ -423,7 +385,7 @@ export class SsrModuleCompiler {
     this.vueDescriptorMemory = getVueDescriptorMemoryApi(config)
   }
 
-  /** Transform an entry, optionally persist it, then release Vite's code. */
+  /** Transform and persist an entry, then release Vite's in-memory code. */
   precompile(id: string): Promise<FetchResult> {
     return this.handleFetch([
       id,
@@ -433,7 +395,7 @@ export class SsrModuleCompiler {
   }
 
   /**
-   * Compile all static page graphs into the disk CAS. After each wave, release
+   * Compile all page graphs into the disk CAS. After each wave, release
    * its Vue descriptors. This bounds memory and lets Vite close before
    * rendering.
    */
@@ -441,9 +403,6 @@ export class SsrModuleCompiler {
     entries: readonly string[],
     concurrency = 1
   ): Promise<SsrMaterializedGraph> {
-    if (this.options.persistArtifacts === false) {
-      throw new Error('Offline SSR graphs require persisted module artifacts.')
-    }
     if (!Number.isInteger(concurrency) || concurrency < 1) {
       throw new Error('SSR graph materialization concurrency must be positive.')
     }
@@ -531,10 +490,6 @@ export class SsrModuleCompiler {
       }
     }
 
-    if (this.options.publishFullSnapshot !== false) {
-      await this.writeFullSnapshot()
-    }
-
     return {
       entries: entries.length,
       requests,
@@ -612,9 +567,6 @@ export class SsrModuleCompiler {
     if (fetchOptions?.cached) return { cache: true }
 
     const key = createSsrModuleRequestKey(id, importer)
-    const persistRequest =
-      this.options.persistArtifacts !== false &&
-      (importer !== undefined || this.options.persistEntries !== false)
 
     const pending = this.pendingRequests.get(key)
     if (pending) return pending
@@ -622,17 +574,9 @@ export class SsrModuleCompiler {
     // Register the fetch before the first cache operation. Then `close()` can
     // wait for every request, including current CAS reads.
     const request = (async () => {
-      if (persistRequest) {
-        const existing = await this.readRequest(key)
-        if (existing) return normalizeMaterializedResult(existing)
-      }
-      return this.fetchAndPersist(
-        key,
-        id,
-        importer,
-        fetchOptions,
-        persistRequest
-      )
+      const existing = await this.readRequest(key)
+      if (existing) return normalizeMaterializedResult(existing)
+      return this.fetchAndPersist(key, id, importer, fetchOptions)
     })().finally(() => {
       this.pendingRequests.delete(key)
     })
@@ -677,7 +621,7 @@ export class SsrModuleCompiler {
       markdownModules,
       transformedModules,
       importerEdges,
-      cachedRequests: this.requestArtifacts.size,
+      cachedRequests: this.requestManifest.size,
       pendingRequests: this.pendingRequests.size,
       vueDescriptors: this.vueDescriptorMemory?.retainedFiles ?? 0
     }
@@ -715,7 +659,6 @@ export class SsrModuleCompiler {
       this.config = undefined
       this.vueDescriptorMemory = undefined
       this.pendingRequests.clear()
-      this.requestArtifacts.clear()
       this.requestManifest.clear()
       this.requestMetadata.clear()
 
@@ -762,8 +705,7 @@ export class SsrModuleCompiler {
     key: string,
     id: string,
     importer: string | undefined,
-    options: FetchFunctionOptions | undefined,
-    persistRequest: boolean
+    options: FetchFunctionOptions | undefined
   ): Promise<MaterializedFetchResult> {
     const environment = this.requireEnvironment()
     const needsResolution =
@@ -818,19 +760,12 @@ export class SsrModuleCompiler {
     const metadata = this.captureRequestMetadata(materialized, id)
     this.requestMetadata.set(key, metadata)
     try {
-      if (persistRequest) {
-        await this.persistRequest(key, materialized, metadata)
-      }
+      await this.persistRequest(key, materialized, metadata)
       return materialized
     } finally {
-      // Always release the source transform. Do this after a failed cache write
-      // and when the compiler does not store a one-use entry.
-      this.releaseTransform(
-        materialized,
-        id,
-        importer === undefined &&
-          (this.options.releaseEntries ?? this.options.persistEntries === false)
-      )
+      // Always release the source transform, including after a failed cache
+      // write. Page entries are one-use roots once their code is in the CAS.
+      this.releaseTransform(materialized, id, importer === undefined)
     }
   }
 
@@ -927,33 +862,8 @@ export class SsrModuleCompiler {
   private async readRequest(
     key: string
   ): Promise<MaterializedFetchResult | undefined> {
-    const requestHash = hashSsrModuleValue(key)
-    let artifactHash =
-      this.requestManifest.get(key) ?? this.requestArtifacts.get(requestHash)
-
-    if (!artifactHash) {
-      try {
-        const stored = JSON.parse(
-          await readFile(
-            ssrModuleCacheFile(this.requestsDir, requestHash),
-            'utf8'
-          )
-        ) as StoredSsrModuleRequest
-        if (
-          stored.version !== SSR_MODULE_ARTIFACT_VERSION ||
-          stored.key !== key
-        ) {
-          return
-        }
-        artifactHash = stored.artifact
-        this.requestArtifacts.set(requestHash, artifactHash)
-        this.requestManifest.set(key, artifactHash)
-      } catch (error) {
-        if (isErrnoException(error) && error.code === 'ENOENT') return
-        if (error instanceof SyntaxError) return
-        throw error
-      }
-    }
+    const artifactHash = this.requestManifest.get(key)
+    if (!artifactHash) return
 
     try {
       const artifact = JSON.parse(
@@ -997,26 +907,7 @@ export class SsrModuleCompiler {
       if (!isErrnoException(error) || error.code !== 'EEXIST') throw error
     }
 
-    const requestHash = hashSsrModuleValue(key)
-    const requestPath = ssrModuleCacheFile(this.requestsDir, requestHash)
-    const storedRequest: StoredSsrModuleRequest = {
-      version: SSR_MODULE_ARTIFACT_VERSION,
-      key,
-      artifact: artifactHash
-    }
-    if (!this.options.snapshotOnly) {
-      await mkdir(path.dirname(requestPath), { recursive: true })
-      await this.writeAtomically(requestPath, JSON.stringify(storedRequest))
-    }
-    this.requestArtifacts.set(requestHash, artifactHash)
     this.requestManifest.set(key, artifactHash)
-  }
-
-  private async writeFullSnapshot(): Promise<void> {
-    await this.writeSnapshot(
-      path.join(this.artifactDir, 'snapshot.json'),
-      [...this.requestManifest].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-    )
   }
 
   private async writeSnapshot(

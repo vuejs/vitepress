@@ -24,20 +24,19 @@ import { isAdditionalConfigFile, resolvePages, type SiteConfig } from './config'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
-  createStaticPageVueSource,
   resolveDeadLinks,
   type MarkdownCompileResult
 } from './markdownToVue'
-import type { PageArtifactStore } from './pageArtifacts'
+import type { PageArtifactStore } from './build/artifacts/store'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
-import { createVueDescriptorMemoryPlugin } from './plugins/vueDescriptorMemory'
+import { createVueDescriptorMemoryPlugin } from './build/ssr/vueDescriptorMemory'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
 import { slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
-import { cacheAllGitTimestamps, getGitTimestamp } from './utils/getGitTimestamp'
+import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
 declare module 'vite' {
   interface UserConfig {
@@ -48,7 +47,6 @@ declare module 'vite' {
 const themeRE = /(?:^|\/)\.vitepress\/theme\/index\.(m|c)?(j|t)s$/
 const startsWithThemeRE = /^@theme(?:\/|$)/
 const docsearchRE = /\bdocsearch\b/ // narrow it if any issue arises
-const ssrPageArtifactRE = /\.__vitepress_ssr\.vue$/
 
 const hashRE = /\.([-\w]+)\.js$/
 const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
@@ -78,8 +76,6 @@ export interface PageMeta {
 
 export interface VitePressPluginOptions {
   isSsrBatch?: boolean
-  /** Compile/store Markdown only, without running Vue's SFC compiler. */
-  artifactOnly?: boolean
   /** Shared Markdown artifacts produced by the build coordinator. */
   pageArtifactStore?: PageArtifactStore
   /**
@@ -87,11 +83,6 @@ export interface VitePressPluginOptions {
    * virtual consumers load. Normal client entries then reuse the same modules.
    */
   coordinatorClient?: boolean
-  /**
-   * Map generated `.vue` module IDs to page artifacts. The SSR compiler uses
-   * the stored SFC without repeating Markdown-only transforms.
-   */
-  ssrPageArtifacts?: ReadonlyMap<string, string>
   /**
    * Skip the normal Git history prewarm. Use this after the coordinator calls
    * `cacheAllGitTimestamps` for all consumers.
@@ -110,23 +101,13 @@ export async function createVitePressPlugin(
 ) {
   const {
     isSsrBatch = false,
-    artifactOnly = false,
     pageArtifactStore,
     coordinatorClient = false,
-    ssrPageArtifacts,
     skipGitScan = false
   } = options
-  if (artifactOnly && !pageArtifactStore) {
-    throw new Error('artifactOnly requires a pageArtifactStore.')
-  }
-  if (coordinatorClient && (!pageArtifactStore || ssr || artifactOnly)) {
+  if (coordinatorClient && (!pageArtifactStore || ssr)) {
     throw new Error(
       'coordinatorClient requires a non-SSR client build with a pageArtifactStore.'
-    )
-  }
-  if (ssrPageArtifacts && (!pageArtifactStore || !ssr || artifactOnly)) {
-    throw new Error(
-      'ssrPageArtifacts requires an SSR compiler with a pageArtifactStore.'
     )
   }
   const {
@@ -144,17 +125,16 @@ export async function createVitePressPlugin(
   let markdownToVue: Awaited<ReturnType<typeof createMarkdownToVueRenderFn>>
 
   // lazy require plugin-vue to respect NODE_ENV in @vue/compiler-x
-  const vuePlugin = artifactOnly
-    ? undefined
-    : await import('@vitejs/plugin-vue').then((r) =>
-        r.default({
-          include: /\.(?:vue|md)$/,
-          ...userVuePluginOptions
-        })
-      )
-  const vueDescriptorMemoryPlugin = vuePlugin
-    ? createVueDescriptorMemoryPlugin(vuePlugin)
-    : undefined
+  const vuePlugin = await import('@vitejs/plugin-vue').then((r) =>
+    r.default({
+      include: /\.(?:vue|md)$/,
+      ...userVuePluginOptions
+    })
+  )
+  const vueDescriptorMemoryPlugin =
+    coordinatorClient || isSsrBatch
+      ? createVueDescriptorMemoryPlugin(vuePlugin)
+      : undefined
 
   const processClientJS = (code: string, id: string) => {
     return scriptClientRE.test(code)
@@ -169,13 +149,6 @@ export async function createVitePressPlugin(
   let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
   let importerMap: Record<string, Set<string> | undefined> = {}
-  const dynamicRouteSources = new Map(
-    siteConfig.dynamicRoutes.map((route) => [
-      normalizePath(route.fullPath),
-      normalizePath(path.resolve(srcDir, route.route))
-    ])
-  )
-
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
 
@@ -200,16 +173,9 @@ export async function createVitePressPlugin(
         lastUpdated ?? false,
         cleanUrls ?? false,
         siteConfig,
-        artifactOnly || coordinatorClient,
+        coordinatorClient,
         !isSsrBatch,
-        !!pageArtifactStore,
-        [
-          config.plugins,
-          config.environments?.client?.plugins,
-          config.build?.rolldownOptions?.plugins,
-          config.environments?.client?.build.rolldownOptions.plugins
-        ],
-        config.experimental?.renderBuiltUrl
+        !!pageArtifactStore
       )
     },
 
@@ -254,12 +220,9 @@ export async function createVitePressPlugin(
 
     resolveId: {
       filter: {
-        id: [exactRegex(SITE_DATA_ID), startsWithThemeRE, ssrPageArtifactRE]
+        id: [exactRegex(SITE_DATA_ID), startsWithThemeRE]
       },
       handler(id, importer, resolveOptions) {
-        if (ssrPageArtifactRE.test(id)) {
-          return ssrPageArtifacts?.has(id) ? id : undefined
-        }
         if (id === SITE_DATA_ID) {
           return SITE_DATA_REQUEST_PATH
         }
@@ -272,22 +235,8 @@ export async function createVitePressPlugin(
     },
 
     load: {
-      filter: {
-        id: [exactRegex(SITE_DATA_REQUEST_PATH), ssrPageArtifactRE]
-      },
-      async handler(id) {
-        const artifactPage = ssrPageArtifacts?.get(id)
-        if (ssrPageArtifactRE.test(id)) {
-          if (!artifactPage) return
-          const artifact = await pageArtifactStore!.getCurrent(artifactPage)
-          if (!artifact) {
-            throw new Error(
-              `Missing coordinator Markdown artifact for SSR page ${artifactPage}.`
-            )
-          }
-          return artifact.vueSrc
-        }
-
+      filter: { id: exactRegex(SITE_DATA_REQUEST_PATH) },
+      handler() {
         let data = siteData
         // head info is not needed by the client in production build
         if (config.command === 'build') {
@@ -313,19 +262,11 @@ export async function createVitePressPlugin(
           // transform .md files into vueSrc so plugin-vue can handle it
           const sourcePath = slash(path.relative(srcDir, id))
           const artifactPage = siteConfig.rewrites.map[sourcePath] || sourcePath
-          let artifactInput = code
-          if (pageArtifactStore && lastUpdated) {
-            const timestampSource =
-              dynamicRouteSources.get(normalizePath(id)) || id
-            artifactInput += `\0vitepress:last-updated:${await getGitTimestamp(timestampSource)}`
-          }
           const artifact = pageArtifactStore
             ? await pageArtifactStore.getOrCreate(
                 artifactPage,
-                artifactInput,
-                pageArtifactStore.readOnly
-                  ? undefined
-                  : () => markdownToVue(code, id),
+                code,
+                () => markdownToVue(code, id),
                 (artifact) => markdownToVue.finalize(artifact, id)
               )
             : await markdownToVue(code, id)
@@ -370,16 +311,7 @@ export async function createVitePressPlugin(
               data: payload
             })
           }
-          // The artifact environment must run Vite pre-transforms and this
-          // Markdown transform. Exclude Vue to avoid unused JavaScript output.
-          return artifactOnly
-            ? 'export default {}'
-            : processClientJS(
-                artifact.staticPage
-                  ? createStaticPageVueSource(artifact)
-                  : vueSrc,
-                id
-              )
+          return processClientJS(vueSrc, id)
         }
         if (docsearchRE.test(normalizePath(id))) {
           return code
@@ -439,7 +371,6 @@ export async function createVitePressPlugin(
     },
 
     renderChunk(code, chunk) {
-      if (artifactOnly) return null
       if (!ssr && isPageChunk(chunk)) {
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
@@ -460,7 +391,6 @@ export async function createVitePressPlugin(
     generateBundle: {
       order: ssr ? null : 'post',
       handler(_options, bundle) {
-        if (artifactOnly) return
         if (ssr) {
           this.emitFile({
             type: 'asset',
@@ -615,19 +545,10 @@ export async function createVitePressPlugin(
     }
   }
 
-  if (artifactOnly) {
-    return [
-      vitePressPlugin,
-      // User enforce-pre transforms are part of the Markdown artifact input.
-      ...(userViteConfig?.plugins || []),
-      await dynamicRoutesPlugin(siteConfig)
-    ]
-  }
-
   return [
     vitePressPlugin,
     rewritesPlugin(siteConfig),
-    ...(vuePlugin ? [vuePlugin] : []),
+    vuePlugin,
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),

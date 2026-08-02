@@ -159,10 +159,10 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
+  srcExclude: process.env.VITE_TEST_SSR_BATCH ? [] : ['ssr-*.md'],
   ssrBuildBatchSize: process.env.VITE_TEST_SSR_BATCH ? 10 : undefined,
   ssrBuildWorkerConcurrency: process.env.VITE_TEST_SSR_BATCH ? 2 : undefined,
   markdown: {
-    shikiCacheKey: 'user-configured-shiki-cache-key',
     image: { lazyLoad: true },
     config(md) {
       renderCapturedMarkdown = () =>
@@ -257,15 +257,6 @@ export default defineConfig({
   },
   transformHead(context) {
     if (!process.env.VITE_TEST_SSR_BATCH) return
-    if (
-      context.siteConfig.markdown?.shikiCacheKey !==
-      'user-configured-shiki-cache-key'
-    ) {
-      throw new Error(
-        'SSR batching exposed its internal Shiki cache key to render hooks'
-      )
-    }
-
     batchHeadHookPages.add(context.page)
     return [
       [

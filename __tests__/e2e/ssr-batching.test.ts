@@ -86,7 +86,7 @@ test('resolved config-file hooks preserve legacy physical Markdown SSR semantics
   expect(html).not.toContain('data-resolved-transform-mode="client"')
 })
 
-test('the static SSR fast path hydrates with normal client-page semantics', async () => {
+test('a batched SSR page hydrates with normal client-page semantics', async () => {
   if (!process.env.VITE_TEST_SSR_BATCH) return
 
   await goto('/ssr-static.html')

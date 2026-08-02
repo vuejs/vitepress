@@ -42,7 +42,7 @@ const esmBuild: RollupOptions = {
   input: [
     'src/node/index.ts',
     'src/node/cli.ts',
-    'src/node/build/ssrWorker.ts'
+    'src/node/build/ssr/worker/entry.ts'
   ],
   output: {
     format: 'esm',
