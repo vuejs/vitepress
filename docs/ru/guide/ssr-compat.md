@@ -37,9 +37,9 @@ onMounted(() => {
 </script>
 ```
 
-### Условный импорт {#conditional-import}
+### Импорт по условию {#conditional-import}
 
-Вы также можете условно импортировать зависимость с помощью флага `import.meta.env.SSR` (часть [env-переменных Vite](https://vite.dev/guide/env-and-mode.html#env-variables)):
+Вы также можете условно импортировать зависимость с помощью флага `import.meta.env.SSR` (часть [переменных окружения Vite](https://vite-docs.ru/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {
