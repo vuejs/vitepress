@@ -6,7 +6,10 @@ import c from 'picocolors'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
-import { createMarkdownRenderer } from '../markdown/markdown'
+import {
+  createMarkdownRenderer,
+  mergeMarkdownLocales
+} from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { readTextFile } from '../utils/fs'
 
@@ -51,10 +54,15 @@ export async function localSearchPlugin(
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
-  async function render(file: string) {
+  async function render(file: string, localeIndex: string) {
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
-    const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
+    const env: MarkdownEnv = {
+      path: file,
+      relativePath,
+      cleanUrls,
+      localeIndex
+    }
     const raw = await readTextFile(file).catch((e) => {
       if (e.code === 'ENOENT') {
         debug(`File not found: ${file}`)
@@ -135,7 +143,7 @@ export async function localSearchPlugin(
     // retrieve file and split into "sections"
     let html: string
     try {
-      html = await render(file)
+      html = await render(file, locale)
     } catch (e) {
       // in dev this runs unawaited, so a page that fails to render must not
       // reject and take the server down with it — the page reports the error
@@ -178,9 +186,12 @@ export async function localSearchPlugin(
     name: 'vitepress:local-search',
 
     async configResolved(config) {
+      // fold in `locales.*.markdown` like markdownToVue does — the renderer
+      // is a singleton, so whichever configResolved hook creates it first
+      // must pass the complete options (#5350)
       md = await createMarkdownRenderer(
         siteConfig.srcDir,
-        siteConfig.markdown,
+        mergeMarkdownLocales(siteConfig.markdown, siteConfig.site.locales),
         siteConfig.site.base,
         siteConfig.logger,
         config.publicDir
