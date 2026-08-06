@@ -187,6 +187,14 @@
   margin: 8px 0 0;
 }
 
+.vp-doc li > p:first-child {
+  margin-top: 0;
+}
+
+.vp-doc li > p:last-child {
+  margin-bottom: 0;
+}
+
 .vp-doc li.task-list-item {
   list-style: none;
 }
