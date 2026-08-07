@@ -58,12 +58,12 @@ useActiveAnchor(container, marker)
 
 .outline-marker {
   position: absolute;
-  top: 32px;
+  top: 2rem;
   left: -1px;
   z-index: 0;
   opacity: 0;
-  width: 2px;
-  border-radius: 2px;
+  width: 0.125rem;
+  border-radius: 0.125rem;
   height: 1.125rem;
   background-color: var(--vp-c-brand-1);
   transition:

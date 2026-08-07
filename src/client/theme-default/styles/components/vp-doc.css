@@ -4,21 +4,21 @@
 
 .vp-doc [id] {
   scroll-margin-top: calc(
-    47px + var(--vp-layout-top-height, 0px) +
-      var(--vp-extra-scroll-margin, 24px)
+    2.9375rem + var(--vp-layout-top-height, 0px) +
+      var(--vp-extra-scroll-margin, 1.5rem)
   );
 
-  @media (min-width: 960px) {
+  @media (min-width: 60rem) {
     scroll-margin-top: calc(
-      var(--vp-nav-height) + 47px + var(--vp-layout-top-height, 0px) +
-        var(--vp-extra-scroll-margin, 24px)
+      var(--vp-nav-height) + 2.9375rem + var(--vp-layout-top-height, 0px) +
+        var(--vp-extra-scroll-margin, 1.5rem)
     );
   }
 
-  @media (min-width: 1280px) {
+  @media (min-width: 80rem) {
     scroll-margin-top: calc(
       var(--vp-nav-height) + var(--vp-layout-top-height, 0px) +
-        var(--vp-extra-scroll-margin, 24px)
+        var(--vp-extra-scroll-margin, 1.5rem)
     );
   }
 }
@@ -51,7 +51,7 @@
   letter-spacing: -0.02em;
   line-height: 2rem;
   font-size: 1.5rem;
-  /* since it already has a top padding of 24px, we don't need extra scroll margin */
+  /* since it already has a top padding of 1.5rem, we don't need extra scroll margin */
   --vp-extra-scroll-margin: 0px;
 }
 
@@ -200,7 +200,7 @@
 }
 
 .vp-doc .task-list-item-checkbox {
-  margin: 0 4px 2px -1.25rem;
+  margin: 0 0.25rem 0.125rem -1.25rem;
   vertical-align: middle;
   accent-color: var(--vp-c-brand-1);
 }
@@ -215,7 +215,7 @@
 }
 
 .vp-doc .footnotes {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /**
@@ -632,7 +632,7 @@
   mask-size: 0.6875rem 0.6875rem;
   /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: bottom;
-  font-size: 10px;
+  font-size: 0.625rem;
 }
 
 .vp-external-link-icon::after {

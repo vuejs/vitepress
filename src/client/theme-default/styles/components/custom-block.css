@@ -9,7 +9,7 @@
 
 /* containers rendered with `{no-title}` keep the reduced padding */
 .custom-block:has(> .custom-block-title, > summary) {
-  padding-top: 16px;
+  padding-top: 1rem;
 }
 
 .custom-block.info {
