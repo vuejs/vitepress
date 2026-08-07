@@ -155,9 +155,7 @@ export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
   markdown: {
-    image: {
-      lazyLoading: true
-    }
+    image: { lazyLoad: true }
   },
   themeConfig: {
     nav,

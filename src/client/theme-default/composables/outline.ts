@@ -13,7 +13,6 @@ export function resolveTitle(theme: DefaultTheme.Config): string {
     (typeof theme.outline === 'object' &&
       !Array.isArray(theme.outline) &&
       theme.outline.label) ||
-    theme.outlineTitle ||
     'On this page'
   )
 }
@@ -100,7 +99,6 @@ export function useActiveAnchor(
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScroll)
-    container.value.removeEventListener('click', onClick)
   })
 
   function onClick(e: MouseEvent) {

@@ -33,6 +33,10 @@ export * from './siteConfig'
 
 const debug = createDebug('vitepress:config')
 
+const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
+const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
+const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
+
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
@@ -181,10 +185,6 @@ export async function resolveConfig(
   return config as SiteConfig
 }
 
-const supportedConfigExtensions = ['js', 'ts', 'mjs', 'mts']
-const additionalConfigRE = /(?:^|\/|\\)config\.m?[jt]s$/
-const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
-
 export function isAdditionalConfigFile(path: string) {
   return additionalConfigRE.test(path)
 }
@@ -248,7 +248,7 @@ export async function resolveUserConfig(
       resolve(root, `config/index.${ext}`),
       resolve(root, `config.${ext}`)
     ])
-    .find(fs.existsSync)
+    .find((p) => fs.existsSync(p))
 
   let userConfig: RawConfigExports = {}
   let configDeps: string[] = []
@@ -332,15 +332,22 @@ export function mergeConfig<A extends object, B extends object>(
 
 function mergeMarkdownConfig(a: MarkdownOptions, b: MarkdownOptions) {
   const merged = mergeConfig(a, b, false)
-  const baseConfig = a.config
-  const extendedConfig = b.config
-  if (baseConfig && extendedConfig) {
-    merged.config = async (md) => {
-      await baseConfig(md)
-      await extendedConfig(md)
-    }
-  }
+  merged.preConfig = mergeMarkdownHooks(a.preConfig, b.preConfig)
+  merged.config = mergeMarkdownHooks(a.config, b.config)
   return merged
+}
+
+function mergeMarkdownHooks(
+  base: MarkdownOptions['config'],
+  extended: MarkdownOptions['config']
+): MarkdownOptions['config'] {
+  if (!base || !extended) {
+    return base ?? extended
+  }
+  return async (md) => {
+    await base(md)
+    await extended(md)
+  }
 }
 
 export async function resolveSiteData(

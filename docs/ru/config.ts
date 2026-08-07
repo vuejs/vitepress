@@ -1,8 +1,29 @@
 import { createRequire } from 'node:module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'СОВЕТ',
+    infoLabel: 'ИНФОРМАЦИЯ',
+    warningLabel: 'ПРЕДУПРЕЖДЕНИЕ',
+    dangerLabel: 'ОПАСНОСТЬ',
+    detailsLabel: 'Подробная информация',
+    noteLabel: 'ЗАМЕТКА',
+    importantLabel: 'ВАЖНО',
+    cautionLabel: 'ВНИМАНИЕ'
+  },
+  codeCopyButton: {
+    tooltipText: 'Скопировать код',
+    copiedText: 'Скопировано'
+  }
+}
 
 export default defineAdditionalConfig({
   description: 'Генератор статических сайтов на основе Vite и Vue.',
@@ -262,8 +283,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'Искал',
           stoppedStreamingText: 'Вы остановили этот ответ',
           errorTitleText: 'Ошибка чата',
-          threadDepthExceededMessage:
-            'Этот разговор закрыт, чтобы сохранить точность ответов.',
           startNewConversationButtonText: 'Начать новый разговор'
         }
       }

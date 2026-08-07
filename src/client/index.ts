@@ -9,7 +9,12 @@ export type { Route, VitePressData } from './shared'
 export type { EnhanceAppContext, Theme } from './app/theme'
 
 // shared types
+import type { PageData } from '../../types/shared'
 export type { HeadConfig, Header, PageData, SiteData } from '../../types/shared'
+
+// components
+import { ClientOnly } from './app/components/ClientOnly'
+import { Content } from './app/components/Content'
 
 // composables
 export { dataSymbol, useData } from './app/data'
@@ -25,4 +30,16 @@ export {
 } from './app/utils'
 
 // components
-export { Content } from './app/components/Content'
+export { ClientOnly, Content }
+
+declare module 'vue' {
+  interface GlobalComponents {
+    ClientOnly: typeof ClientOnly
+    Content: typeof Content
+  }
+
+  interface ComponentCustomProperties {
+    $frontmatter: PageData['frontmatter']
+    $params: PageData['params']
+  }
+}

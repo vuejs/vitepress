@@ -1,5 +1,6 @@
 ---
 description: VitePress 内置的 Markdown 扩展，包括自定义容器、代码块语法高亮、行高亮、代码组等功能。
+outline: deep
 ---
 
 # Markdown 扩展 {#markdown-extensions}
@@ -112,7 +113,7 @@ lang: en-US
 
 :tada: :100:
 
-这里可以找到[所有支持的 emoji 列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs)。
+这里可以找到[所有支持的 emoji 列表](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts)。
 
 ## 目录表 (TOC) {#table-of-contents}
 
@@ -888,14 +889,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## 图片懒加载 {#image-lazy-loading}
 
-通过在配置文件中将 `lazyLoading` 设置为 `true`，可以为通过 markdown 添加的每张图片启用懒加载。
+通过在配置文件中将 `lazyLoad` 设置为 `true`，可以为通过 markdown 添加的每张图片启用懒加载。
 
 ```js
 export default {
   markdown: {
     image: {
       // 默认禁用；设置为 true 可为所有图片启用懒加载。
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -907,15 +908,15 @@ VitePress 使用 [markdown-it](https://github.com/markdown-it/markdown-it) 作�
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // markdown-it-anchor 的选项
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // @mdit/plugin-anchor 的选项
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
     // @mdit-vue/plugin-toc 的选项
     // https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-toc#options

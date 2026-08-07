@@ -9,10 +9,12 @@ import {
 } from '@clack/prompts'
 import template from 'lodash.template'
 import fs from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import c from 'picocolors'
 import { slash } from '../shared'
+import { readFile } from '../utils/fs'
 
 export enum ScaffoldThemeType {
   Default = 'default theme',
@@ -141,10 +143,10 @@ export async function init(root?: string) {
     }
   )
 
-  outro(scaffold(options))
+  outro(await scaffold(options))
 }
 
-export function scaffold({
+export async function scaffold({
   root: root_ = './',
   srcDir: srcDir_ = root_,
   title = 'My Awesome Project',
@@ -178,12 +180,12 @@ export function scaffold({
 
   const pkgPath = path.resolve('package.json')
   const userPkg = fs.existsSync(pkgPath)
-    ? JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
+    ? JSON.parse(await readFile(pkgPath))
     : {}
 
   const useMjs = userPkg.type !== 'module'
 
-  const renderFile = (file: string) => {
+  const renderFile = async (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
 
@@ -197,11 +199,11 @@ export function scaffold({
       targetPath = path.resolve(resolvedSrcDir, file)
     }
 
-    const content = fs.readFileSync(filePath, 'utf-8')
+    const content = await readFile(filePath)
     const compiled = template(content)(data)
 
-    fs.mkdirSync(path.dirname(targetPath), { recursive: true })
-    fs.writeFileSync(targetPath, compiled)
+    await mkdir(path.dirname(targetPath), { recursive: true })
+    await writeFile(targetPath, compiled)
   }
 
   const filesToScaffold = [
@@ -225,7 +227,7 @@ export function scaffold({
   }
 
   for (const file of filesToScaffold) {
-    renderFile(file)
+    await renderFile(file)
   }
 
   const tips = []
@@ -260,7 +262,7 @@ export function scaffold({
     scripts[`${prefix}preview`] = `vitepress preview${dir}`
 
     Object.assign(userPkg.scripts || (userPkg.scripts = {}), scripts)
-    fs.writeFileSync(pkgPath, JSON.stringify(userPkg, null, 2))
+    await writeFile(pkgPath, JSON.stringify(userPkg, null, 2))
 
     return `Done! Now run ${c.cyan(`${pm} run ${prefix}dev`)} and start writing.${tip}`
   } else {

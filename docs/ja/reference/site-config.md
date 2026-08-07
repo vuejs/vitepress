@@ -505,7 +505,7 @@ export default {
 
 Git を使って各ページの最終更新時刻を取得します。タイムスタンプは各ページのデータに含まれ、[`useData`](./runtime-api#usedata) から参照できます。
 
-デフォルトテーマ使用時にこのオプションを有効にすると、各ページの最終更新時刻が表示されます。テキストは [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) でカスタマイズ可能です。
+デフォルトテーマ使用時にこのオプションを有効にすると、各ページの最終更新時刻が表示されます。テキストは [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) でカスタマイズ可能です。
 
 ## カスタマイズ {#customization}
 
