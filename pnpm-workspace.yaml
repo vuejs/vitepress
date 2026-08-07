@@ -16,6 +16,9 @@ minimumReleaseAgeExclude:
   - '@mdit/*'
   - '@vueuse/*'
 
+patchedDependencies:
+  vitepress-plugin-group-icons: patches/vitepress-plugin-group-icons.patch
+
 shellEmulator: true
 
 strictPeerDependencies: true

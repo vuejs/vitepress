@@ -171,7 +171,7 @@ function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {
       if ((tokens[i].type === 'fence' && tokens[i].tag === 'code') || isHtml) {
         const title = extractTitle(
           isHtml ? tokens[i].content : tokens[i].info,
-          isHtml
+          { html: isHtml, fallbackToLang: true }
         )
 
         if (title) {

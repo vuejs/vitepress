@@ -1,4 +1,5 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
+import type Token from 'markdown-it/lib/token.mjs'
 import type { MarkdownEnv, MarkdownLocaleOptions } from '../../shared'
 
 export interface Options {
@@ -21,7 +22,12 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     const [tokens, idx, , env] = args
     const token = tokens[idx]
 
-    // remove title from info
+    // @ts-ignore
+    const isFromSnippet = !!token.src
+    const title =
+      isFromSnippet || isInCodeGroup(tokens, idx)
+        ? ''
+        : extractTitle(token.info)
     token.info = token.info.replace(/\[.*\]/, '')
 
     const active = / active( |$)/.test(token.info) ? ' active' : ''
@@ -42,6 +48,11 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
 
     return (
       `<div class="language-${lang}${active}">` +
+      (title
+        ? `<div class="title-bar">` +
+          `<span class="title-text" data-title="${md.utils.escapeHtml(title)}">${title}</span>` +
+          `</div>`
+        : '') +
       `<button title="${tooltipText}" data-copied="${copiedText}" class="copy"></button>` +
       `<span class="lang">${label}</span>` +
       fence(...args) +
@@ -50,13 +61,21 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
   }
 }
 
-export function extractTitle(info: string, html = false) {
-  if (html) {
+export interface ExtractTitleOptions {
+  html?: boolean
+  fallbackToLang?: boolean
+}
+
+export function extractTitle(info: string, options?: ExtractTitleOptions) {
+  if (options?.html) {
     return (
       info.replace(/<!--[^]*?-->/g, '').match(/data-title="(.*?)"/)?.[1] || ''
     )
   }
-  return info.match(/\[(.*)\]/)?.[1] || extractLang(info) || 'txt'
+  return (
+    info.match(/\[(.*)\]/)?.[1] ||
+    (options?.fallbackToLang ? extractLang(info) || 'txt' : '')
+  )
 }
 
 function extractLang(info: string): string {
@@ -67,4 +86,19 @@ function extractLang(info: string): string {
       .replace(/^vue-html$/, 'template')
       .replace(/^ansi$/, '') || ''
   )
+}
+
+/**
+ * Whether the `idx` within `tokens` is inside a code-group container
+ */
+function isInCodeGroup(tokens: Token[], idx: number): boolean {
+  for (let i = idx - 1; i >= 0; --i) {
+    if (tokens[i].type === 'container_code-group_open') {
+      return true
+    }
+    if (tokens[i].type === 'container_code-group_close') {
+      return false
+    }
+  }
+  return false
 }
