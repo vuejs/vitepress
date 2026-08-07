@@ -36,7 +36,7 @@ describe('node/markdownToVue', () => {
       siteConfig
     )
 
-    const result = await render(src, file, 'public')
+    const result = await render(src, file)
 
     expect(result.deadLinks).toEqual([
       { url: './a.md', file, line: 1 },
