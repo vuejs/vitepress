@@ -56,7 +56,7 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
       `<button title="${tooltipText}" data-copied="${copiedText}" class="copy"></button>` +
       `<span class="lang">${label}</span>` +
       fence(...args) +
-      `</div>`
+      '</div>'
     )
   }
 }
