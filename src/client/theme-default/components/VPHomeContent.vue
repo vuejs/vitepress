@@ -26,7 +26,8 @@
 }
 
 .vp-doc :deep(.VPHomeSponsors),
-.vp-doc :deep(.VPTeamPage) {
+.vp-doc :deep(.VPTeamPageTitle),
+.vp-doc :deep(.VPTeamPageSection) {
   padding-left: 0;
   padding-right: 0;
 }
