@@ -1,11 +1,15 @@
-import fs from 'fs-extra'
 import matter from 'gray-matter'
+import { stat } from 'node:fs/promises'
 import path from 'node:path'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
 import type { SiteConfig } from './config'
-import { createMarkdownRenderer } from './markdown/markdown'
-import type { Awaitable } from './shared'
+import {
+  createMarkdownRenderer,
+  mergeMarkdownLocales
+} from './markdown/markdown'
+import type { Awaitable, MarkdownEnv } from './shared'
+import { readTextFile } from './utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
 export interface ContentOptions<T = ContentData[]> {
@@ -102,9 +106,10 @@ export function createContentLoader<T = ContentData[]>(
 
       const md = await createMarkdownRenderer(
         config.srcDir,
-        config.markdown,
+        mergeMarkdownLocales(config.markdown, config.site.locales),
         config.site.base,
-        config.logger
+        config.logger,
+        config.publicDir
       )
 
       const raw = await pMap(
@@ -112,12 +117,12 @@ export function createContentLoader<T = ContentData[]>(
         async (file) => {
           if (!file.endsWith('.md')) return null
 
-          const timestamp = fs.statSync(file).mtimeMs
+          const timestamp = (await stat(file)).mtimeMs
           const cached = cache.get(file)
 
           if (cached && timestamp === cached.timestamp) return cached.data
 
-          const src = fs.readFileSync(file, 'utf-8')
+          const src = await readTextFile(file)
 
           const renderExcerpt = options.excerpt
           const { data: frontmatter, excerpt } = matter(
@@ -127,15 +132,30 @@ export function createContentLoader<T = ContentData[]>(
               : { excerpt: renderExcerpt as any } // gray-matter types are wrong
           )
 
+          const relFile = normalizePath(path.relative(config.srcDir, file))
+          const relativePath = config.rewrites.map[relFile] || relFile
+
           const url =
             '/' +
-            normalizePath(path.relative(config.srcDir, file))
+            relativePath
               .replace(/(^|\/)index\.md$/, '$1')
               .replace(/\.md$/, config.cleanUrls ? '' : '.html')
 
-          const html = options.render ? await md.renderAsync(src) : undefined
+          // pass a markdown env so plugins (e.g. the internal link plugin)
+          // resolve links, `cleanUrls` and paths the same way as during a
+          // normal page render instead of falling back to defaults
+          const env: MarkdownEnv = {
+            path: file,
+            relativePath,
+            cleanUrls: !!config.cleanUrls,
+            realPath: file
+          }
+
+          const html = options.render
+            ? await md.renderAsync(src, env)
+            : undefined
           const renderedExcerpt = renderExcerpt
-            ? excerpt && (await md.renderAsync(excerpt))
+            ? excerpt && (await md.renderAsync(excerpt, env))
             : undefined
 
           const data: ContentData = {

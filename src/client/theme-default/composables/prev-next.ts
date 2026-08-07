@@ -1,20 +1,24 @@
 import { computed } from 'vue'
-import { isActive } from '../../shared'
+import { isActive, normalize } from '../../shared'
 import { getFlatSideBarLinks, getSidebar } from '../support/sidebar'
+import { uniqBy } from '../support/utils'
 import { useData } from './data'
 
 export function usePrevNext() {
-  const { page, theme, frontmatter } = useData()
+  const { theme, page, frontmatter } = useData()
 
-  return computed(() => {
+  return computed<{
+    prev?: { text?: string; link?: string; target?: string; rel?: string }
+    next?: { text?: string; link?: string; target?: string; rel?: string }
+  }>(() => {
     const sidebar = getSidebar(theme.value.sidebar, page.value.relativePath)
     const links = getFlatSideBarLinks(sidebar)
 
     // ignore inner-page links with hashes
-    const candidates = uniqBy(links, (link) => link.link.replace(/[?#].*$/, ''))
+    const candidates = uniqBy(links, (link) => normalize(link.link))
 
     const index = candidates.findIndex((link) => {
-      return isActive(page.value.relativePath, link.link)
+      return isActive(page.value.relativePath, '', link.link, false, true)
     })
 
     const hidePrev =
@@ -40,7 +44,15 @@ export function usePrevNext() {
             link:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.link
-                : undefined) ?? candidates[index - 1]?.link
+                : undefined) ?? candidates[index - 1]?.link,
+            target:
+              (typeof frontmatter.value.prev === 'object'
+                ? frontmatter.value.prev.target
+                : undefined) ?? candidates[index - 1]?.target,
+            rel:
+              (typeof frontmatter.value.prev === 'object'
+                ? frontmatter.value.prev.rel
+                : undefined) ?? candidates[index - 1]?.rel
           },
       next: hideNext
         ? undefined
@@ -56,19 +68,16 @@ export function usePrevNext() {
             link:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.link
-                : undefined) ?? candidates[index + 1]?.link
+                : undefined) ?? candidates[index + 1]?.link,
+            target:
+              (typeof frontmatter.value.next === 'object'
+                ? frontmatter.value.next.target
+                : undefined) ?? candidates[index + 1]?.target,
+            rel:
+              (typeof frontmatter.value.next === 'object'
+                ? frontmatter.value.next.rel
+                : undefined) ?? candidates[index + 1]?.rel
           }
-    } as {
-      prev?: { text?: string; link?: string }
-      next?: { text?: string; link?: string }
     }
-  })
-}
-
-function uniqBy<T>(array: T[], keyFn: (item: T) => any): T[] {
-  const seen = new Set()
-  return array.filter((item) => {
-    const k = keyFn(item)
-    return seen.has(k) ? false : seen.add(k)
   })
 }

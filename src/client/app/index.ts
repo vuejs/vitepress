@@ -168,7 +168,7 @@ if (inBrowser) {
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        scrollTo(location.hash)
+        setTimeout(() => scrollTo(location.hash), 100)
       }
     })
   })

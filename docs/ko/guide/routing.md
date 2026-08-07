@@ -291,7 +291,7 @@ export default {
 로컬 파일에서 경로 생성:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

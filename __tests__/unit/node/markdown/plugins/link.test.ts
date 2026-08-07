@@ -48,4 +48,17 @@ describe('node/markdown/plugins/link', () => {
       'href="/foo.html?title=Cat&amp;oldid=916388819#:~:text=Claws-,Like%20almost,the%20Felidae%2C,-cats"'
     )
   })
+
+  test('records source line numbers for collected links', async () => {
+    const env: {
+      cleanUrls: boolean
+      links?: string[]
+      linkLines?: number[]
+    } = { cleanUrls: false }
+
+    await md.renderAsync('Intro\n\n[Missing](./missing.md)\n', env)
+
+    expect(env.links).toEqual(['./missing'])
+    expect(env.linkLines).toEqual([3])
+  })
 })

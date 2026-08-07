@@ -203,7 +203,7 @@ Hello {{ 1 + 1 }}
 
 ## CSS プリプロセッサの利用 {#using-css-pre-processors}
 
-VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`、`.stylus`）を[標準サポート](https://vitejs.dev/guide/features.html#css-pre-processors)しています。Vite 固有のプラグインは不要ですが、各プリプロセッサ本体のインストールは必要です。
+VitePress は CSS プリプロセッサ（`.scss`、`.sass`、`.less`、`.styl`、`.stylus`）を[標準サポート](https://vite.dev/guide/features.html#css-pre-processors)しています。Vite 固有のプラグインは不要ですが、各プリプロセッサ本体のインストールは必要です。
 
 ```
 # .scss / .sass

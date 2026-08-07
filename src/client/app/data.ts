@@ -6,54 +6,20 @@ import {
   readonly,
   ref,
   shallowRef,
-  watch,
   type InjectionKey,
   type Ref
 } from 'vue'
 import {
   APPEARANCE_KEY,
   createTitle,
-  inBrowser,
   resolveSiteDataByRoute,
-  type PageData,
-  type SiteData
+  type Route,
+  type SiteData,
+  type VitePressData
 } from '../shared'
-import type { Route } from './router'
 
 export const dataSymbol: InjectionKey<VitePressData> = Symbol()
-
-export interface VitePressData<T = any> {
-  /**
-   * Site-level metadata
-   */
-  site: Ref<SiteData<T>>
-  /**
-   * themeConfig from .vitepress/config.js
-   */
-  theme: Ref<T>
-  /**
-   * Page-level metadata
-   */
-  page: Ref<PageData>
-  /**
-   * page frontmatter data
-   */
-  frontmatter: Ref<PageData['frontmatter']>
-  /**
-   * dynamic route params
-   */
-  params: Ref<PageData['params']>
-  title: Ref<string>
-  description: Ref<string>
-  lang: Ref<string>
-  dir: Ref<string>
-  localeIndex: Ref<string>
-  isDark: Ref<boolean>
-  /**
-   * Current location hash
-   */
-  hash: Ref<string>
-}
+export type { VitePressData } from '../shared'
 
 // site data is a singleton
 export const siteDataRef: Ref<SiteData> = shallowRef(
@@ -63,7 +29,11 @@ export const siteDataRef: Ref<SiteData> = shallowRef(
 // per-app data
 export function initData(route: Route): VitePressData {
   const site = computed(() =>
-    resolveSiteDataByRoute(siteDataRef.value, route.data.relativePath)
+    resolveSiteDataByRoute(
+      siteDataRef.value,
+      route.data.relativePath,
+      route.data.filePath
+    )
   )
 
   const appearance = site.value.appearance // fine with reactivity being lost here, config change triggers a restart
@@ -80,21 +50,6 @@ export function initData(route: Route): VitePressData {
             })
           : ref(false)
 
-  const hashRef = ref(inBrowser ? location.hash : '')
-
-  if (inBrowser) {
-    window.addEventListener('hashchange', () => {
-      hashRef.value = location.hash
-    })
-  }
-
-  watch(
-    () => route.data,
-    () => {
-      hashRef.value = inBrowser ? location.hash : ''
-    }
-  )
-
   return {
     site,
     theme: computed(() => site.value.themeConfig),
@@ -108,8 +63,7 @@ export function initData(route: Route): VitePressData {
     description: computed(
       () => route.data.description || site.value.description
     ),
-    isDark,
-    hash: computed(() => hashRef.value)
+    isDark
   }
 }
 

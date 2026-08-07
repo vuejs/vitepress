@@ -353,16 +353,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'su-código-carbon',
-      placement: 'su-colocación-carbon'
+      placement: 'su-colocación-carbon',
+      format: 'classic'
     }
   }
 }
 ```
 
+La opción `format` admite `classic`, `responsive` y `cover`.
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

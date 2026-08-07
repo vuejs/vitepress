@@ -430,7 +430,7 @@ export default {
 - Tipo: `string`
 - Padrão: `./.vitepress/cache`
 
-O diretório para arquivos de cache, relativo à [raiz do projeto](../guide/routing#root-and-source-directory). Veja também: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+O diretório para arquivos de cache, relativo à [raiz do projeto](../guide/routing#root-and-source-directory). Veja também: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -503,7 +503,7 @@ Esta opção injeta um script em linha que restaura as configurações dos usuá
 
 Para obter o selo de tempo da última atualização para cada página usando o Git. O selo de data será incluído nos dados de cada página, acessíveis via [`useData`](./runtime-api#usedata).
 
-Ao usar o tema padrão, habilitar esta opção exibirá o horário da última atualização de cada página. Você pode personalizar o texto via opção [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext).
+Ao usar o tema padrão, habilitar esta opção exibirá o horário da última atualização de cada página. Você pode personalizar o texto via opção [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated).
 
 ## Personalização {#customization}
 
@@ -525,7 +525,7 @@ Verifique a [declaração de tipo e jsdocs](https://github.com/vuejs/vitepress/b
 
 - Tipo: `import('vite').UserConfig`
 
-Passe a [Configuração Vite](https://vitejs.dev/config/) crua para o servidor interno / empacotador Vite.
+Passe a [Configuração Vite](https://vite.dev/config/) crua para o servidor interno / empacotador Vite.
 
 ```js
 export default {

@@ -1,3 +1,4 @@
+import type { SidepanelProps } from '@docsearch/sidepanel-js'
 import type { DefaultTheme } from 'vitepress/theme'
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { isObject } from '../../shared'
@@ -17,6 +18,14 @@ export interface ResolvedMode {
   mode: DocSearchMode
   showKeywordSearch: boolean
   useSidePanel: boolean
+}
+
+// FIXME: remove when https://github.com/algolia/docsearch/pull/2906 is released
+export type ResolvedSidePanelProps = SidepanelProps & {
+  agentStudio?: boolean
+  searchParameters?: DocSearchAskAi['searchParameters']
+  suggestedQuestions?: boolean
+  useStagingEnv?: boolean
 }
 
 /**
@@ -168,10 +177,8 @@ export function buildAskAiConfig(
     !isAskAiString && askAiProp.searchParameters
       ? { ...askAiProp.searchParameters }
       : undefined
+  const isAgentStudio = !isAskAiString && askAiProp.agentStudio === true
 
-  // If Ask AI defines its own facetFilters, merge lang filtering into those.
-  // Otherwise, reuse the keyword search facetFilters so Ask AI follows the
-  // same language filtering behavior by default.
   const askAiFacetFiltersSource =
     askAiSearchParameters?.facetFilters ??
     options.searchParameters?.facetFilters
@@ -180,10 +187,12 @@ export function buildAskAiConfig(
     lang
   )
 
-  const mergedAskAiSearchParameters = {
-    ...askAiSearchParameters,
-    facetFilters: askAiFacetFilters.length ? askAiFacetFilters : undefined
-  }
+  const mergedAskAiSearchParameters = isAgentStudio
+    ? askAiSearchParameters
+    : {
+        ...askAiSearchParameters,
+        facetFilters: askAiFacetFilters.length ? askAiFacetFilters : undefined
+      }
 
   const result: Record<string, any> = {
     ...(isAskAiString ? {} : askAiProp),
@@ -194,11 +203,35 @@ export function buildAskAiConfig(
   }
 
   // Keep `searchParameters` undefined unless it has at least one key.
-  if (Object.values(mergedAskAiSearchParameters).some((v) => v != null)) {
+  if (
+    mergedAskAiSearchParameters &&
+    Object.values(mergedAskAiSearchParameters).some((v) => v != null)
+  ) {
     result.searchParameters = mergedAskAiSearchParameters
   }
 
   return result
+}
+
+/**
+ * Builds the DocSearch side panel config from the resolved Ask AI options.
+ */
+export function buildSidePanelProps(
+  askAi: DocSearchAskAi,
+  options: DefaultTheme.AlgoliaSearchOptions
+): ResolvedSidePanelProps {
+  const { sidePanel, ...askAiRest } = JSON.parse(
+    JSON.stringify(askAi)
+  ) as DocSearchAskAi
+
+  return {
+    container: '#vp-docsearch-sidepanel',
+    indexName: options.indexName,
+    appId: options.appId,
+    apiKey: options.apiKey,
+    ...askAiRest,
+    ...(sidePanel && sidePanel !== true ? sidePanel : {})
+  } as ResolvedSidePanelProps
 }
 
 /**

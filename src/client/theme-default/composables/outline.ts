@@ -1,4 +1,3 @@
-import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
 import { throttleAndDebounce } from '../support/utils'
@@ -14,7 +13,6 @@ export function resolveTitle(theme: DefaultTheme.Config): string {
     (typeof theme.outline === 'object' &&
       !Array.isArray(theme.outline) &&
       theme.outline.label) ||
-    theme.outlineTitle ||
     'On this page'
   )
 }
@@ -86,10 +84,12 @@ export function useActiveAnchor(
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
+  let ignoreScrollOnce: boolean = false
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
+    container.value.addEventListener('click', onClick)
   })
 
   onUpdated(() => {
@@ -101,8 +101,27 @@ export function useActiveAnchor(
     window.removeEventListener('scroll', onScroll)
   })
 
+  function onClick(e: MouseEvent) {
+    if (!isAsideEnabled.value) {
+      return
+    }
+
+    const hash =
+      e.target instanceof Element ? e.target.closest('a')?.hash : null
+
+    if (hash) {
+      ignoreScrollOnce = true
+      activateLink(hash)
+    }
+  }
+
   function setActiveLink() {
     if (!isAsideEnabled.value) {
+      return
+    }
+
+    if (ignoreScrollOnce) {
+      ignoreScrollOnce = false
       return
     }
 
@@ -115,7 +134,9 @@ export function useActiveAnchor(
     const headers = resolvedHeaders
       .map(({ element, link }) => ({
         link,
-        top: getAbsoluteTop(element)
+        top: getAbsoluteTop(element),
+        scrollMarginTop:
+          Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0
       }))
       .filter(({ top }) => !Number.isNaN(top))
       .sort((a, b) => a.top - b.top)
@@ -140,8 +161,8 @@ export function useActiveAnchor(
 
     // find the last header above the top of viewport
     let activeLink: string | null = null
-    for (const { link, top } of headers) {
-      if (top > scrollY + getScrollOffset() + 4) {
+    for (const { link, top, scrollMarginTop } of headers) {
+      if (top > scrollY + scrollMarginTop + 4) {
         break
       }
       activeLink = link
@@ -158,7 +179,7 @@ export function useActiveAnchor(
       prevActiveLink = null
     } else {
       prevActiveLink = container.value.querySelector(
-        `a[href="${decodeURIComponent(hash)}"]`
+        `a[href$="${decodeURIComponent(hash)}"]`
       )
     }
 
@@ -200,8 +221,7 @@ function buildTree(
 
   const result: DefaultTheme.OutlineItem[] = []
   const stack: (
-    | DefaultTheme.OutlineItem
-    | { level: number; shouldIgnore: true }
+    DefaultTheme.OutlineItem | { level: number; shouldIgnore: true }
   )[] = []
 
   data.forEach((item) => {

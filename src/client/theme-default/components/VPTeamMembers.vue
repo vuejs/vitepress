@@ -17,11 +17,11 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 
 <template>
   <div class="VPTeamMembers" :class="classes">
-    <div class="container">
-      <div v-for="member in members" :key="member.name" class="item">
+    <ul class="container">
+      <li v-for="member in members" :key="member.name" class="item">
         <VPTeamMembersItem :size :member />
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -62,5 +62,16 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
   gap: 24px;
   margin: 0 auto;
   max-width: 1152px;
+}
+
+/* Reset styles from vp-doc if used in markdown */
+.vp-doc .VPTeamMembers .container {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+.vp-doc .VPTeamMembers .item {
+  margin: 0;
+  padding: 0;
 }
 </style>

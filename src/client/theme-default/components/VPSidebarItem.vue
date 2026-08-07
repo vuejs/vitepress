@@ -94,16 +94,16 @@ function onCaretClick() {
       </div>
     </div>
 
-    <div v-if="item.items && item.items.length" class="items">
-      <template v-if="depth < 5">
+    <ul v-if="item.items && item.items.length" class="items">
+      <li v-if="depth < 5">
         <VPSidebarItem
           v-for="i in item.items"
           :key="i.text"
           :item="i"
           :depth="depth + 1"
         />
-      </template>
-    </div>
+      </li>
+    </ul>
   </component>
 </template>
 

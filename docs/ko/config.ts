@@ -1,8 +1,29 @@
-import { createRequire } from 'module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { createRequire } from 'node:module'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: '팁',
+    infoLabel: '정보',
+    warningLabel: '경고',
+    dangerLabel: '위험',
+    detailsLabel: '세부 정보',
+    noteLabel: '노트',
+    importantLabel: '중요',
+    cautionLabel: '주의'
+  },
+  codeCopyButton: {
+    tooltipText: '코드 복사',
+    copiedText: '복사됨'
+  }
+}
 
 export default defineAdditionalConfig({
   description: 'Vite 및 Vue 기반 정적 사이트 생성기.',
@@ -303,8 +324,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: '검색함',
           stoppedStreamingText: '이 응답을 중지했습니다',
           errorTitleText: '채팅 오류',
-          threadDepthExceededMessage:
-            '정확성을 유지하기 위해 이 대화는 종료되었습니다.',
           startNewConversationButtonText: '새 대화 시작'
         }
       }

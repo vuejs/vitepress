@@ -1,8 +1,29 @@
-import { createRequire } from 'module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { createRequire } from 'node:module'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'CONSEJO',
+    infoLabel: 'INFORMACIÓN',
+    warningLabel: 'ADVERTENCIA',
+    dangerLabel: 'PELIGRO',
+    detailsLabel: 'Detalles',
+    noteLabel: 'NOTA',
+    importantLabel: 'IMPORTANTE',
+    cautionLabel: 'PRECAUCIÓN'
+  },
+  codeCopyButton: {
+    tooltipText: 'Copiar código',
+    copiedText: 'Copiado'
+  }
+}
 
 export default defineAdditionalConfig({
   description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
@@ -267,8 +288,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'Buscado',
           stoppedStreamingText: 'Has detenido esta respuesta',
           errorTitleText: 'Error de chat',
-          threadDepthExceededMessage:
-            'Esta conversación se ha cerrado para mantener respuestas precisas.',
           startNewConversationButtonText: 'Iniciar una nueva conversación'
         }
       }

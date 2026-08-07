@@ -3,8 +3,9 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
-import * as fs from 'node:fs/promises'
+import { rm } from 'node:fs/promises'
 import { builtinModules, createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
@@ -33,7 +34,7 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node20' }),
+  esbuild({ target: 'node22' }),
   json()
 ]
 
@@ -53,11 +54,27 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const typesExternal = [
-  ...external,
-  /\/vitepress\/(?!(dist|node_modules|vitepress)\/).*\.d\.ts$/,
-  /^markdown-it(?:\/|$)/
-]
+// keep .d.ts files under the repo root (e.g. types/*) external so module
+// augmentations in the bundle still target the same files users reference.
+// compared on normalized resolved paths so this works regardless of the
+// checkout location, path separators, or drive-letter casing.
+const normalizePath = (id: string): string => {
+  const normalized = id.replaceAll('\\', '/')
+  return process.platform === 'win32' ? normalized.toLowerCase() : normalized
+}
+
+const root = normalizePath(fileURLToPath(new URL('.', import.meta.url)))
+
+const typesExternal = (id: string): boolean => {
+  if (external.includes(id) || /^markdown-it(?:\/|$)/.test(id)) return true
+  const normalized = normalizePath(id)
+  return (
+    normalized.endsWith('.d.ts') &&
+    normalized.startsWith(root) &&
+    !normalized.startsWith(`${root}dist/`) &&
+    !normalized.startsWith(`${root}node_modules/`)
+  )
+}
 
 const dtsNode = dts({
   respectExternal: true,
@@ -88,7 +105,7 @@ const clientTypes: RollupOptions = {
       name: 'cleanup',
       async closeBundle() {
         if (PROD) {
-          await fs.rm('dist/client-types', { recursive: true })
+          await rm('dist/client-types', { recursive: true })
         }
       }
     }

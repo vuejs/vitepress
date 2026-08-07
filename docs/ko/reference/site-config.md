@@ -430,7 +430,7 @@ export default {
 - 타입: `string`
 - 기본값: `./.vitepress/cache`
 
-캐시 파일을 위한 디렉터리입니다. [프로젝트 루트](../guide/routing#root-and-source-directory)에 상대적입니다. [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir)을 참고하세요.
+캐시 파일을 위한 디렉터리입니다. [프로젝트 루트](../guide/routing#root-and-source-directory)에 상대적입니다. [cacheDir](https://vite.dev/config/shared-options.html#cachedir)을 참고하세요.
 
 ```ts
 export default {
@@ -472,13 +472,6 @@ export default {
 }
 ```
 
-### metaChunk <Badge type="warning" text="실험적" />
-
-- 타입: `boolean`
-- 기본값: `false`
-
-`true`로 설정하면 페이지 메타데이터를 초기 HTML에 인라인으로 삽입하는 대신 별도의 JavaScript 청크로 추출합니다. 이렇게 하면 각 페이지의 HTML 페이로드가 작아지고 페이지 메타데이터를 캐시할 수 있어, 사이트에 많은 페이지가 있을 때 서버 대역폭을 줄일 수 있습니다.
-
 ### mpa <Badge type="warning" text="실험적" />
 
 - 타입: `boolean`
@@ -512,7 +505,7 @@ export default {
 
 각 페이지의 마지막 업데이트 타임스탬프를 Git을 사용하여 가져올지 여부를 설정합니다. 타임스탬프는 각 페이지의 페이지 데이터에 포함되며, [`useData`](./runtime-api#usedata)를 통해 접근할 수 있습니다.
 
-기본 테마를 사용할 때, 이 옵션을 활성화하면 각 페이지의 마지막 업데이트 시간이 표시됩니다. [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) 옵션을 통해 텍스트를 커스터마이징할 수 있습니다.
+기본 테마를 사용할 때, 이 옵션을 활성화하면 각 페이지의 마지막 업데이트 시간이 표시됩니다. [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) 옵션을 통해 텍스트를 커스터마이징할 수 있습니다.
 
 ## 커스터마이징 {#customization}
 
@@ -534,7 +527,7 @@ export default {
 
 - 타입: `import('vite').UserConfig`
 
-내부 Vite 개발 서버/번들러에 직접 [Vite 구성](https://vitejs.dev/config/)을 전달합니다.
+내부 Vite 개발 서버/번들러에 직접 [Vite 구성](https://vite.dev/config/)을 전달합니다.
 
 ```js
 export default {

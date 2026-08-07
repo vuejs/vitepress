@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'seu-código-carbon',
-      placement: 'sua-veiculação-carbon'
+      placement: 'sua-veiculação-carbon',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 Esses valores são usados para chamar o sript em CDN do carbon como mostrado abaixo.
 
+A opção `format` aceita `classic`, `responsive` e `cover`.
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 Para aprender mais sobre a configuração Carbon Ads, por favor visite [Site Carbon Ads](https://www.carbonads.net/).

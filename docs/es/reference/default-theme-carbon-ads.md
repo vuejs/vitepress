@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'tu-código-carbon',
-      placement: 'tu-vinculación-carbon'
+      placement: 'tu-vinculación-carbon',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 Estos valores se utilizan para llamar al script en CDN de carbon como se muestra a continuación.
 
+La opción `format` admite `classic`, `responsive` y `cover`.
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 Para obtener más información de la configuración de Carbono Ads, por favor visite [Site Carbon Ads](https://www.carbonads.net/).

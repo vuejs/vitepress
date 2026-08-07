@@ -32,4 +32,13 @@ describe('render correct content', async () => {
     const outlineLinksCount = await outlineLinksLocator.count()
     expect(outlineLinksCount).toEqual(4)
   })
+
+  test('social link target override', async () => {
+    const socialLink = page.locator(
+      '.VPNavBarSocialLinks a[aria-label="Home social link"]'
+    )
+
+    expect(await socialLink.getAttribute('href')).toBe('/home')
+    expect(await socialLink.getAttribute('target')).toBe('_self')
+  })
 })

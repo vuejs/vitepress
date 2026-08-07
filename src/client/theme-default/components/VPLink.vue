@@ -2,14 +2,16 @@
 import { computed } from 'vue'
 import { isLinkExternal, normalizeLink } from '../support/utils'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   tag?: string
   href?: string
   noIcon?: boolean
   external?: boolean
   target?: string
   rel?: string
-}>()
+}>(), {
+  external: undefined,
+})
 
 const tag = computed(() => props.tag ?? (props.href ? 'a' : 'span'))
 const isExternal = computed(() =>

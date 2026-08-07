@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
 import { useRoute } from 'vitepress'
+import { ref, watch } from 'vue'
 import { useData } from '../composables/data'
 
 const { theme } = useData()

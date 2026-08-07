@@ -295,7 +295,7 @@ export default {
 تولید مسیرها از فایل‌های محلی:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

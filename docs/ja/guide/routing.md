@@ -304,7 +304,7 @@ export default {
 ローカルファイルから生成する例：
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

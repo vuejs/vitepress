@@ -11,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
@@ -19,8 +20,10 @@ export default {
 
 These values are used to call carbon CDN script as shown below.
 
+The `format` option supports `classic`, `responsive`, and `cover`.
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 To learn more about Carbon Ads configuration, please visit [Carbon Ads website](https://www.carbonads.net/).

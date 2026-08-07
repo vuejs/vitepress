@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
-import { useData } from '../composables/data'
 import { isActive } from '../../shared'
 import VPFlyout from './VPFlyout.vue'
 
@@ -9,11 +9,16 @@ const props = defineProps<{
   item: DefaultTheme.NavItemWithChildren
 }>()
 
-const { page } = useData()
+const route = useRoute()
 
 const isActiveGroup = computed(() => {
   if (props.item.activeMatch) {
-    return isActive(page.value.relativePath, props.item.activeMatch, true)
+    return isActive(
+      route.data.relativePath,
+      route.hash,
+      props.item.activeMatch,
+      true
+    )
   }
   return isChildActive(props.item)
 })
@@ -24,11 +29,12 @@ function isChildActive(navItem: DefaultTheme.NavItem): boolean {
   if ('link' in navItem) {
     const href =
       typeof navItem.link === 'function'
-        ? navItem.link(page.value)
+        ? navItem.link(route.data)
         : navItem.link
 
     return isActive(
-      page.value.relativePath,
+      route.data.relativePath,
+      route.hash,
       navItem.activeMatch || href,
       !!navItem.activeMatch
     )

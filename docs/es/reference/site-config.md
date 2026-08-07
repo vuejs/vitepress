@@ -430,7 +430,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/cache`
 
-El directorio para los archivos de caché, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+El directorio para los archivos de caché, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -503,7 +503,7 @@ Esta opción inyecta un script en línea que restaura la configuración de los u
 
 Para obtener la marca de tiempo de la última actualización para cada página usando Git. El sello de fecha se incluirá en los datos de cada página, accesible a través de [`useData`](./runtime-api#usedata).
 
-Cuando se utiliza el tema predeterminado, al habilitar esta opción se mostrará la última hora de actualización de cada página. Puedes personalizar el texto mediante la opción [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext).
+Cuando se utiliza el tema predeterminado, al habilitar esta opción se mostrará la última hora de actualización de cada página. Puedes personalizar el texto mediante la opción [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated).
 
 ## Personalización {#customization}
 
@@ -525,7 +525,7 @@ Consulte la [declaración de tipo y jsdocs](https://github.com/vuejs/vitepress/b
 
 - Tipo: `import('vite').UserConfig`
 
-Pase la [Configuración Vite](https://vitejs.dev/config/) sin procesar al servidor interno / empaquetador Vite.
+Pase la [Configuración Vite](https://vite.dev/config/) sin procesar al servidor interno / empaquetador Vite.
 
 ```js
 export default {

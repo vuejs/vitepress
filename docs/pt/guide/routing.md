@@ -290,7 +290,7 @@ O módulo de carregamento de caminhos é executado no Node.js e apenas durante o
 Gerando caminhos a partir de arquivos locais:
 
 ```js
-import fs from 'fs'
+import fs from 'node:fs'
 
 export default {
   paths() {

@@ -1,8 +1,29 @@
-import { createRequire } from 'module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { createRequire } from 'node:module'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'СОВЕТ',
+    infoLabel: 'ИНФОРМАЦИЯ',
+    warningLabel: 'ПРЕДУПРЕЖДЕНИЕ',
+    dangerLabel: 'ОПАСНОСТЬ',
+    detailsLabel: 'Подробная информация',
+    noteLabel: 'ЗАМЕТКА',
+    importantLabel: 'ВАЖНО',
+    cautionLabel: 'ВНИМАНИЕ'
+  },
+  codeCopyButton: {
+    tooltipText: 'Скопировать код',
+    copiedText: 'Скопировано'
+  }
+}
 
 export default defineAdditionalConfig({
   description: 'Генератор статических сайтов на основе Vite и Vue.',
@@ -189,7 +210,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           clearButtonAriaLabel: 'Очистить запрос',
           closeButtonText: 'Закрыть',
           closeButtonAriaLabel: 'Закрыть',
-          placeholderText: 'Поиск по документации или задайте вопрос Ask AI',
+          placeholderText: 'Искать в документации или задать вопрос Ask AI',
           placeholderTextAskAi: 'Задайте другой вопрос...',
           placeholderTextAskAiStreaming: 'Отвечаю...',
           searchInputLabel: 'Поиск',
@@ -262,8 +283,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'Искал',
           stoppedStreamingText: 'Вы остановили этот ответ',
           errorTitleText: 'Ошибка чата',
-          threadDepthExceededMessage:
-            'Этот разговор закрыт, чтобы сохранить точность ответов.',
           startNewConversationButtonText: 'Начать новый разговор'
         }
       }

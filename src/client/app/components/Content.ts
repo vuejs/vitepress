@@ -10,8 +10,8 @@ export const Content = defineComponent({
     as: { type: [Object, String], default: 'div' }
   },
   setup(props) {
-    const route = useRoute()
     const { frontmatter, site } = useData()
+    const route = useRoute()
     watch(frontmatter, runCbs, { deep: true, flush: 'post' })
     return () =>
       h(

@@ -1,17 +1,39 @@
-import { createRequire } from 'module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import { createRequire } from 'node:module'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
 
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: 'نکته',
+    infoLabel: 'اطلاعات',
+    warningLabel: 'اخطار',
+    dangerLabel: 'خطر',
+    detailsLabel: 'جزئیات',
+    noteLabel: 'یادداشت',
+    importantLabel: 'مهم',
+    cautionLabel: 'احتیاط'
+  },
+  codeCopyButton: {
+    tooltipText: 'کپی کد',
+    copiedText: 'کپی شد'
+  }
+}
+
 export default defineAdditionalConfig({
   description: 'ژنراتور استاتیک وب‌سایت با Vite و Vue',
 
-  // prettier-ignore
   head: [
-    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap', rel: 'stylesheet' }],
+    [
+      'link',
+      // for the vazirmatn font-face defined in .vitepress/theme/styles.css
+      { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' }
+    ]
   ],
 
   themeConfig: {
@@ -264,8 +286,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: 'جستجو برای',
           stoppedStreamingText: 'شما این پاسخ را متوقف کردید',
           errorTitleText: 'خطای گفتگو',
-          threadDepthExceededMessage:
-            'برای حفظ دقت پاسخ ها، این گفت وگو بسته شد.',
           startNewConversationButtonText: 'شروع گفت وگوی جدید'
         }
       }

@@ -119,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-因为我们使用 Vite，还可以利用 Vite 的 [glob 导入功能](https://cn.vitejs.dev/guide/features.html#glob-import)来自动注册一个组件目录。
+因为我们使用 Vite，还可以利用 Vite 的 [glob 导入功能](https://cn.vite.dev/guide/features.html#glob-import)来自动注册一个组件目录。
 
 ## 布局插槽 {#layout-slots}
 
@@ -308,7 +308,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## 重写内部组件 {#overriding-internal-components}
 
-可以使用 Vite 的 [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) 来用自定义组件替换默认主题的组件：
+可以使用 Vite 的 [aliases](https://vite.dev/config/shared-options.html#resolve-alias) 来用自定义组件替换默认主题的组件：
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
