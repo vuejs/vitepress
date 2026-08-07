@@ -1,7 +1,5 @@
-import { getScrollOffset } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
-import type { Header } from '../../shared'
 import { throttleAndDebounce } from '../support/utils'
 import { useAside } from './aside'
 
@@ -10,24 +8,22 @@ const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
 // cached list of anchor elements from resolveHeaders
 const resolvedHeaders: { element: HTMLHeadElement; link: string }[] = []
 
-export type MenuItem = Omit<Header, 'slug' | 'children'> & {
-  element: HTMLHeadElement
-  children?: MenuItem[]
-}
-
 export function resolveTitle(theme: DefaultTheme.Config): string {
   return (
     (typeof theme.outline === 'object' &&
       !Array.isArray(theme.outline) &&
       theme.outline.label) ||
-    theme.outlineTitle ||
     'On this page'
   )
 }
 
-export function getHeaders(range: DefaultTheme.Config['outline']): MenuItem[] {
+export function getHeaders(
+  range: DefaultTheme.Config['outline']
+): DefaultTheme.OutlineItem[] {
   const headers = [
-    ...document.querySelectorAll('.VPDoc :where(h1,h2,h3,h4,h5,h6)')
+    ...document.querySelectorAll(
+      '.VPDoc h1, .VPDoc h2, .VPDoc h3, .VPDoc h4, .VPDoc h5, .VPDoc h6'
+    )
   ]
     .filter((el) => el.id && el.hasChildNodes())
     .map((el) => {
@@ -57,9 +53,9 @@ function serializeHeader(h: Element): string {
 }
 
 export function resolveHeaders(
-  headers: MenuItem[],
+  headers: DefaultTheme.OutlineItem[],
   range?: DefaultTheme.Config['outline']
-): MenuItem[] {
+): DefaultTheme.OutlineItem[] {
   if (range === false) {
     return []
   }
@@ -88,10 +84,12 @@ export function useActiveAnchor(
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
   let prevActiveLink: HTMLAnchorElement | null = null
+  let ignoreScrollOnce: boolean = false
 
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
+    container.value.addEventListener('click', onClick)
   })
 
   onUpdated(() => {
@@ -103,8 +101,27 @@ export function useActiveAnchor(
     window.removeEventListener('scroll', onScroll)
   })
 
+  function onClick(e: MouseEvent) {
+    if (!isAsideEnabled.value) {
+      return
+    }
+
+    const hash =
+      e.target instanceof Element ? e.target.closest('a')?.hash : null
+
+    if (hash) {
+      ignoreScrollOnce = true
+      activateLink(hash)
+    }
+  }
+
   function setActiveLink() {
     if (!isAsideEnabled.value) {
+      return
+    }
+
+    if (ignoreScrollOnce) {
+      ignoreScrollOnce = false
       return
     }
 
@@ -117,7 +134,9 @@ export function useActiveAnchor(
     const headers = resolvedHeaders
       .map(({ element, link }) => ({
         link,
-        top: getAbsoluteTop(element)
+        top: getAbsoluteTop(element),
+        scrollMarginTop:
+          Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0
       }))
       .filter(({ top }) => !Number.isNaN(top))
       .sort((a, b) => a.top - b.top)
@@ -142,8 +161,8 @@ export function useActiveAnchor(
 
     // find the last header above the top of viewport
     let activeLink: string | null = null
-    for (const { link, top } of headers) {
-      if (top > scrollY + getScrollOffset() + 4) {
+    for (const { link, top, scrollMarginTop } of headers) {
+      if (top > scrollY + scrollMarginTop + 4) {
         break
       }
       activeLink = link
@@ -160,7 +179,7 @@ export function useActiveAnchor(
       prevActiveLink = null
     } else {
       prevActiveLink = container.value.querySelector(
-        `a[href="${decodeURIComponent(hash)}"]`
+        `a[href$="${decodeURIComponent(hash)}"]`
       )
     }
 
@@ -193,11 +212,17 @@ function getAbsoluteTop(element: HTMLElement): number {
   return offsetTop
 }
 
-function buildTree(data: MenuItem[], min: number, max: number): MenuItem[] {
+function buildTree(
+  data: DefaultTheme.OutlineItem[],
+  min: number,
+  max: number
+): DefaultTheme.OutlineItem[] {
   resolvedHeaders.length = 0
 
-  const result: MenuItem[] = []
-  const stack: (MenuItem | { level: number; shouldIgnore: true })[] = []
+  const result: DefaultTheme.OutlineItem[] = []
+  const stack: (
+    DefaultTheme.OutlineItem | { level: number; shouldIgnore: true }
+  )[] = []
 
   data.forEach((item) => {
     const node = { ...item, children: [] }

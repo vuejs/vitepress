@@ -1,3 +1,7 @@
+---
+description: Aprenda a usar frontmatter YAML em arquivos Markdown do VitePress para controlar metadados e comportamento da página.
+---
+
 # Frontmatter
 
 ## Utilização {#usage}

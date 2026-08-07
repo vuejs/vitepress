@@ -155,22 +155,36 @@ export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
   markdown: {
-    image: {
-      lazyLoading: true
-    }
+    image: { lazyLoad: true }
   },
   themeConfig: {
     nav,
     sidebar,
+    socialLinks: [
+      {
+        icon: 'github',
+        link: '/home',
+        ariaLabel: 'Home social link',
+        target: '_self'
+      }
+    ],
     search: {
       provider: 'local',
       options: {
-        _render(src, env, md) {
-          const html = md.render(src, env)
+        async _render(src, env, md) {
+          const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
           if (env.relativePath.startsWith('local-search/excluded')) return ''
           return html
         }
+      }
+    }
+  },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+        interval: 100
       }
     }
   }

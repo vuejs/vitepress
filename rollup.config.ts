@@ -1,14 +1,14 @@
-import * as fs from 'node:fs/promises'
-import { builtinModules, createRequire } from 'node:module'
 import alias from '@rollup/plugin-alias'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
+import { rm } from 'node:fs/promises'
+import { builtinModules, createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-import { globSync } from 'tinyglobby'
 
 const require = createRequire(import.meta.url)
 const pkg = require('./package.json')
@@ -34,16 +34,12 @@ const plugins = [
   }),
   commonjs(),
   nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node18' }),
+  esbuild({ target: 'node22' }),
   json()
 ]
 
 const esmBuild: RollupOptions = {
-  input: [
-    'src/node/index.ts',
-    'src/node/cli.ts',
-    ...globSync('src/node/worker_*.ts')
-  ],
+  input: ['src/node/index.ts', 'src/node/cli.ts'],
   output: {
     format: 'esm',
     entryFileNames: `[name].js`,
@@ -58,25 +54,33 @@ const esmBuild: RollupOptions = {
   }
 }
 
-const typesExternal = [
-  ...external,
-  /\/vitepress\/(?!(dist|node_modules)\/).*\.d\.ts$/,
-  'source-map-js',
-  'fast-glob'
-]
+// keep .d.ts files under the repo root (e.g. types/*) external so module
+// augmentations in the bundle still target the same files users reference.
+// compared on normalized resolved paths so this works regardless of the
+// checkout location, path separators, or drive-letter casing.
+const normalizePath = (id: string): string => {
+  const normalized = id.replaceAll('\\', '/')
+  return process.platform === 'win32' ? normalized.toLowerCase() : normalized
+}
+
+const root = normalizePath(fileURLToPath(new URL('.', import.meta.url)))
+
+const typesExternal = (id: string): boolean => {
+  if (external.includes(id) || /^markdown-it(?:\/|$)/.test(id)) return true
+  const normalized = normalizePath(id)
+  return (
+    normalized.endsWith('.d.ts') &&
+    normalized.startsWith(root) &&
+    !normalized.startsWith(`${root}dist/`) &&
+    !normalized.startsWith(`${root}node_modules/`)
+  )
+}
 
 const dtsNode = dts({
   respectExternal: true,
-  tsconfig: 'src/node/tsconfig.json'
+  tsconfig: 'src/node/tsconfig.json',
+  compilerOptions: { preserveSymlinks: false }
 })
-
-const originalResolveId = dtsNode.resolveId
-
-dtsNode.resolveId = async function (source, importer) {
-  const res = await (originalResolveId as Function).call(this, source, importer)
-  if (res?.id) res.id = await fs.realpath(res.id)
-  return res
-}
 
 const nodeTypes: RollupOptions = {
   input: 'src/node/index.ts',
@@ -101,7 +105,7 @@ const clientTypes: RollupOptions = {
       name: 'cleanup',
       async closeBundle() {
         if (PROD) {
-          await fs.rm('dist/client-types', { recursive: true })
+          await rm('dist/client-types', { recursive: true })
         }
       }
     }

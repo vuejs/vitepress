@@ -1,3 +1,7 @@
+---
+description: Referência de todas as opções de configuração disponíveis para o tema padrão do VitePress.
+---
+
 # Configuração do Tema Padrão {#default-theme-config}
 
 A configuração do tema permite que você personalize seu tema. Você pode definir a configuração do tema através da opção `themeConfig` no arquivo de configuração:
@@ -89,7 +93,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -349,16 +353,20 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'seu-código-carbon',
-      placement: 'sua-veiculação-carbon'
+      placement: 'sua-veiculação-carbon',
+      format: 'classic'
     }
   }
 }
 ```
 
+A opção `format` aceita `classic`, `responsive` e `cover`.
+
 ```ts
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 

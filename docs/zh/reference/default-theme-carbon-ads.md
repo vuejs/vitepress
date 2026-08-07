@@ -1,3 +1,7 @@
+---
+description: 使用默认主题的内置支持将 Carbon Ads 集成到 VitePress 站点中。
+---
+
 # Carbon Ads {#carbon-ads}
 
 VitePress 内置了对 [Carbon Ads](https://www.carbonads.net/) 的原生支持。通过在配置中定义 Carbon Ads 凭据，VitePress 将在页面上显示广告。
@@ -7,7 +11,8 @@ export default {
   themeConfig: {
     carbonAds: {
       code: 'your-carbon-code',
-      placement: 'your-carbon-placement'
+      placement: 'your-carbon-placement',
+      format: 'classic'
     }
   }
 }
@@ -15,8 +20,10 @@ export default {
 
 这些值用于调用 carbon CDN 脚本，如下所示。
 
+`format` 选项支持 `classic`、`responsive` 和 `cover`。
+
 ```js
-`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}`
+`//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
 要了解有关 Carbon Ads 配置的更多信息，请访问 [Carbon Ads 站点](https://www.carbonads.net/)。

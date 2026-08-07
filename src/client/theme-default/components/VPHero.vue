@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { type Ref, inject } from 'vue'
 import type { DefaultTheme } from 'vitepress/theme'
+import { computed, inject } from 'vue'
+import { layoutInfoInjectionKey } from '../composables/layout'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'
 
@@ -20,7 +21,10 @@ defineProps<{
   actions?: HeroAction[]
 }>()
 
-const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
+const { heroImageSlotExists } = inject(
+  layoutInfoInjectionKey,
+  { heroImageSlotExists: computed(() => false) }
+)
 </script>
 
 <template>
@@ -29,7 +33,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
       <div class="main">
         <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
-          <h1>
+          <h1 class="heading">
             <span v-if="name" v-html="name" class="name clip"></span>
             <span v-if="text" v-html="text" class="text"></span>
           </h1>
@@ -38,6 +42,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
         <slot name="home-hero-info-after" />
 
         <div v-if="actions" class="actions">
+          <slot name="home-hero-actions-before-actions" />
           <div v-for="action in actions" :key="action.link" class="action">
             <VPButton
               tag="a"
@@ -57,7 +62,7 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
         <div class="image-container">
           <div class="image-bg" />
           <slot name="home-hero-image">
-            <VPImage v-if="image" class="image-src" :image="image" />
+            <VPImage v-if="image" class="image-src" :image />
           </slot>
         </div>
       </div>
@@ -125,15 +130,25 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   }
 }
 
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+
 .name,
 .text {
-  display: inline-block;
+  width: fit-content;
   max-width: 392px;
   letter-spacing: -0.4px;
   line-height: 40px;
   font-size: 32px;
   font-weight: 700;
   white-space: pre-wrap;
+
+  &:lang(ja) {
+    font-feature-settings: 'palt';
+    word-break: auto-phrase;
+  }
 }
 
 .VPHero.has-image .name,
@@ -317,6 +332,9 @@ const heroImageSlotExists = inject('hero-image-slot-exists') as Ref<boolean>
   left: 50%;
   max-width: 192px;
   max-height: 192px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }

@@ -1,3 +1,7 @@
+---
+description: Configura el diseño de la página de inicio del tema predeterminado de VitePress con secciones hero, características y contenido personalizado.
+---
+
 # Página Inicial {#home-page}
 
 El tema predeterminado de VitePress proporciona un diseño de página de inicio, que también puedes ver en uso [en la página de inicio de este sitio web](../). Puedes usarlo en cualquiera de sus páginas especificando `layout: home` en [frontmatter](./frontmatter-config).

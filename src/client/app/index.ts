@@ -119,26 +119,21 @@ function newApp(): App {
 
 function newRouter(): Router {
   let isInitialPageLoad = inBrowser
-  let initialPath: string
 
   return createRouter((path) => {
     let pageFilePath = pathToFile(path)
     let pageModule = null
 
     if (pageFilePath) {
+      // use lean build if this is the initial page load
       if (isInitialPageLoad) {
-        initialPath = pageFilePath
-      }
-
-      // use lean build if this is the initial page load or navigating back
-      // to the initial loaded path (the static vnodes already adopted the
-      // static content on that load so no need to re-fetch the page)
-      if (isInitialPageLoad || initialPath === pageFilePath) {
         pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
       }
 
       if (import.meta.env.DEV) {
-        pageModule = import(/*@vite-ignore*/ pageFilePath).catch(() => {
+        pageModule = import(/*@vite-ignore*/ pageFilePath).catch((e) => {
+          // page load could fail for other reasons, don't swallow
+          console.error(e)
           // try with/without trailing slash
           // in prod this is handled in src/client/app/utils.ts#pathToFile
           const url = new URL(pageFilePath!, 'http://a.com')
@@ -166,19 +161,14 @@ function newRouter(): Router {
 if (inBrowser) {
   createApp().then(({ app, router, data }) => {
     // wait until page component is fetched before mounting
-    router.go().then(() => {
+    router.go(location.href, { initialLoad: true }).then(() => {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
       app.mount('#app')
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        const target = document.getElementById(
-          decodeURIComponent(location.hash).slice(1)
-        )
-        if (target) {
-          scrollTo(target, location.hash)
-        }
+        setTimeout(() => scrollTo(location.hash), 100)
       }
     })
   })

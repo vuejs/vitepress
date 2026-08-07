@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: VitePress 테마 컴포넌트와 커스텀 코드가 서버 사이드 렌더링과 호환되도록 하세요.
 ---
 
 # SSR 호환성 {#ssr-compatibility}
@@ -38,7 +39,7 @@ onMounted(() => {
 
 ### 조건부 가져오기 {#conditional-import}
 
-`import.meta.env.SSR` 플래그([Vite 환경 변수](https://vitejs.dev/guide/env-and-mode.html#env-variables)의 일부)를 사용하여 종속성을 조건부로 "import" 할 수도 있습니다:
+`import.meta.env.SSR` 플래그([Vite 환경 변수](https://vite.dev/guide/env-and-mode.html#env-variables)의 일부)를 사용하여 종속성을 조건부로 "import" 할 수도 있습니다:
 
 ```js
 if (!import.meta.env.SSR) {

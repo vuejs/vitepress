@@ -1,3 +1,7 @@
+---
+description: مرجع دستورات CLI ویت‌پرس شامل dev، build، preview و init.
+---
+
 # رابط خط فرمان {#command-line-interface}
 
 ## `vitepress dev` {#vitepress-dev}
@@ -43,7 +47,6 @@ vitepress build [root]
 | `--base <path>`                | مسیر پایه عمومی (پیش‌فرض: `/`) (`string`)                                                                       |
 | `--target <target>`            | هدف ترنسپایل (پیش‌فرض: `"modules"`) (`string`)                                                                 |
 | `--outDir <dir>`               | دایرکتوری خروجی نسبت به **cwd** (پیش‌فرض: `<root>/.vitepress/dist`) (`string`)                                |
-| `--minify [minifier]`          | فعال یا غیرفعال کردن فشرده‌سازی، یا تعیین فشرده‌سازی برای استفاده (پیش‌فرض: `"esbuild"`) (`boolean \| "terser" \| "esbuild"`) |
 | `--assetsInlineLimit <number>` | آستانه تبدیل پایه ۶۴ استاتیک به بایت (پیش‌فرض: `4096`) (`number`)                                             |
 
 ## `vitepress preview` {#vitepress-preview}

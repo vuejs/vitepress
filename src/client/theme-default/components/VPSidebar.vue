@@ -2,10 +2,10 @@
 import { useScrollLock } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import { ref, watch } from 'vue'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
-const { sidebarGroups, hasSidebar } = useSidebar()
+const { sidebarGroups, hasSidebar } = useLayout()
 
 const props = defineProps<{
   open: boolean
@@ -58,7 +58,7 @@ watch(
       </span>
 
       <slot name="sidebar-nav-before" />
-      <VPSidebarGroup :items="sidebarGroups" :key="key" />
+      <VPSidebarGroup :items="sidebarGroups" :key />
       <slot name="sidebar-nav-after" />
     </nav>
   </aside>
@@ -119,7 +119,7 @@ watch(
 @media (min-width: 960px) {
   .curtain {
     position: sticky;
-    top: -64px;
+    top: calc(var(--vp-nav-height) * -1);
     left: 0;
     z-index: 1;
     margin-top: calc(var(--vp-nav-height) * -1);

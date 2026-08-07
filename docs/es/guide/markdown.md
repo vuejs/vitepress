@@ -1,3 +1,8 @@
+---
+description: Extensiones Markdown integradas en VitePress, incluyendo contenedores personalizados, bloques de código con resaltado de sintaxis, resaltado de líneas, grupos de código y más.
+outline: deep
+---
+
 # Extensiones Markdown {#markdown-extensions}
 
 VitePress viene con Extensiones embutidas.
@@ -108,7 +113,7 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-Una [lista de todos los emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) está disponible.
+Una [lista de todos los emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) está disponible.
 
 ## Tabla de Contenido (TOC)
 
@@ -228,13 +233,13 @@ export default defineConfig({
 
 ### `raw`
 
-Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes. Puede tambien verificar [whyframe](https://whyframe.dev/docs/integrations/vitepress) para mejor aislamiento.
+Este es un recipiente especial que puee ser usado para evitar conflictos de estilo y enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
 
 **Sintaxis**
 
 ```md
 ::: raw
-Envuelve en un <div class="vp-raw">
+Envuelve en un `<div class="vp-raw">`
 :::
 ```
 
@@ -256,11 +261,11 @@ La clase `vp-raw` también puede ser usada directamente en elementos. El aislami
   }
   ```
 
-  El utiliza [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) internamente. Puede pasar opciones así:
+  Puede pasar opciones así:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // o padrão é /base\.css/
+    includeFiles: [/custom\.css/] // o padrão é [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -773,7 +778,7 @@ Por ejemplo, puede incluir un archivo markdown relativo usando esto:
 
 ## Conceptos Básicos
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Archivo de Parte** (`parts/basics.md`)
@@ -809,7 +814,7 @@ También soporta la selección de un intervalo de lineas:
 
 ## Conceptos Básicos
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Archivo de Parte** (`parts/basics.md`)
@@ -844,7 +849,7 @@ Observe que esto no genera errores si el archivo no está presente. Por lo tanto
 Esto es actualmente opcional. Para activarlo, necesita instalar `markdown-it-mathjax3` y definir `markdown.math` como `true` en su archivo de configuración:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]
@@ -884,14 +889,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## _Lazy Loading_ de Imagenes {#image-lazy-loading}
 
-Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoading` como `true` en su archivo de configuración:
+Puede activar la "carga perezosa" para cada imagen adicionada via markdown definiendo `lazyLoad` como `true` en su archivo de configuración:
 
 ```js
 export default {
   markdown: {
     image: {
       // la carga perezosa de imagenes está desactivada por defecto
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -903,15 +908,15 @@ VitePress usa [markdown-it](https://github.com/markdown-it/markdown-it) como int
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // opciones para markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // opciones para @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // opciones para @mdit-vue/plugin-toc

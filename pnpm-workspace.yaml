@@ -1,3 +1,21 @@
 packages:
   - docs
   - __tests__/*
+
+allowBuilds:
+  esbuild: true
+  playwright-chromium: true
+  simple-git-hooks: true
+
+autoInstallPeers: false
+
+ignoreWorkspaceRootCheck: true
+
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@mdit/*'
+  - '@vueuse/*'
+
+shellEmulator: true
+
+strictPeerDependencies: true

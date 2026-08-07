@@ -1,3 +1,7 @@
+---
+description: Configure the global footer displayed at the bottom of VitePress pages.
+---
+
 # Footer
 
 VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.

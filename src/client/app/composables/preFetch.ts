@@ -1,8 +1,8 @@
 // Customized pre-fetch for page chunks based on
 // https://github.com/GoogleChromeLabs/quicklink
 
-import { useRoute } from '../router'
 import { onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from '../router'
 import { inBrowser, pathToFile } from '../utils'
 
 const hasFetched = new Set<string>()

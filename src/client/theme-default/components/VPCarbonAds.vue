@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref, watch, onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useAside } from '../composables/aside'
-import { useData } from '../composables/data'
 
-const { page } = useData()
+const route = useRoute()
 const props = defineProps<{
   carbonAds: DefaultTheme.CarbonAdsOptions
 }>()
@@ -19,15 +19,20 @@ let isInitialized = false
 function init() {
   if (!isInitialized) {
     isInitialized = true
+    const params = new URLSearchParams({
+      serve: carbonOptions.code,
+      placement: carbonOptions.placement,
+      format: carbonOptions?.format || 'classic',
+    })
     const s = document.createElement('script')
     s.id = '_carbonads_js'
-    s.src = `//cdn.carbonads.com/carbon.js?serve=${carbonOptions.code}&placement=${carbonOptions.placement}`
+    s.src = `//cdn.carbonads.com/carbon.js?${params.toString()}`
     s.async = true
     container.value.appendChild(s)
   }
 }
 
-watch(() => page.value.relativePath, () => {
+watch(() => route.data.relativePath, () => {
   if (isInitialized && isAsideEnabled.value) {
     ;(window as any)._carbonads?.refresh()
   }

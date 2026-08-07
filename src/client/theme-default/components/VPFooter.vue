@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useData } from '../composables/data'
-import { useSidebar } from '../composables/sidebar'
+import { useLayout } from '../composables/layout'
 
 const { theme, frontmatter } = useData()
-const { hasSidebar } = useSidebar()
+const { hasSidebar } = useLayout()
 </script>
 
 <template>

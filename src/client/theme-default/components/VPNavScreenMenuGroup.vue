@@ -31,10 +31,10 @@ function toggle() {
       <span class="vpi-plus button-icon" />
     </button>
 
-    <div :id="groupId" class="items">
-      <template v-for="item in items" :key="JSON.stringify(item)">
+    <ul :id="groupId" class="items">
+      <li v-for="item in items" :key="JSON.stringify(item)">
         <div v-if="'link' in item" class="item">
-          <VPNavScreenMenuGroupLink :item="item" />
+          <VPNavScreenMenuGroupLink :item />
         </div>
 
         <div v-else-if="'component' in item" class="item">
@@ -44,8 +44,8 @@ function toggle() {
         <div v-else class="group">
           <VPNavScreenMenuGroupSection :text="item.text" :items="item.items" />
         </div>
-      </template>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 

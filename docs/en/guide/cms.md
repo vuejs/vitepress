@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Connect VitePress to a headless CMS using dynamic routes and data loaders.
 ---
 
 # Connecting to a CMS

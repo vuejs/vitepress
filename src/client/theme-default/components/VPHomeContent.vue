@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="vp-doc container"
-    style="--vp-offset: calc(50% - 50vw)"
-  >
+  <div class="vp-doc container">
     <slot />
   </div>
 </template>
@@ -30,8 +27,8 @@
 
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: var(--vp-offset, calc(50% - 50vw));
-  margin-right: var(--vp-offset, calc(50% - 50vw));
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
 .vp-doc :deep(.VPHomeSponsors h2) {

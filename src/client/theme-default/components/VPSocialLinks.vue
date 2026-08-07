@@ -2,26 +2,39 @@
 import type { DefaultTheme } from 'vitepress/theme'
 import VPSocialLink from './VPSocialLink.vue'
 
-defineProps<{
+withDefaults(defineProps<{
   links: DefaultTheme.SocialLink[]
-}>()
+  me?: boolean
+}>(), {
+  me: true
+})
 </script>
 
 <template>
-  <div class="VPSocialLinks">
-    <VPSocialLink
-      v-for="{ link, icon, ariaLabel } in links"
-      :key="link"
-      :icon="icon"
-      :link="link"
-      :ariaLabel="ariaLabel"
-    />
-  </div>
+  <ul class="VPSocialLinks">
+    <li v-for="{ link, icon, ariaLabel, target } in links" :key="link" class="item">
+      <VPSocialLink
+        :icon
+        :link
+        :ariaLabel
+        :target
+        :me
+      />
+    </li>
+  </ul>
 </template>
 
 <style scoped>
 .VPSocialLinks {
   display: flex;
   justify-content: center;
+}
+
+/* Reset styles from vp-doc if used in markdown */
+.vp-doc .VPSocialLinks,
+.vp-doc .VPSocialLinks .item {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 </style>

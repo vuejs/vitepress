@@ -14,7 +14,7 @@
 - `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks`, `editLinkText` удалены в пользу более гибкого api.
   - Для добавления ссылки GitHub с иконкой в навигацию используйте функцию [Социальные ссылки](../reference/default-theme-nav#navigation-links).
   - Для добавления ссылки «Редактировать эту страницу» используйте функцию [Ссылка для редактирования](../reference/default-theme-edit-link).
-- Опция `lastUpdated` теперь разделена на `config.lastUpdated` и `themeConfig.lastUpdatedText`.
+- Опция `lastUpdated` теперь разделена на `config.lastUpdated` и `themeConfig.lastUpdated.text`.
 - Опция `carbonAds.carbon` заменена на `carbonAds.code`.
 
 ## Конфигурация метаданных

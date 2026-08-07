@@ -3,8 +3,8 @@ import { computed } from 'vue'
 import { useData } from '../composables/data'
 import { useEditLink } from '../composables/edit-link'
 import { usePrevNext } from '../composables/prev-next'
-import VPLink from './VPLink.vue'
 import VPDocFooterLastUpdated from './VPDocFooterLastUpdated.vue'
+import VPLink from './VPLink.vue'
 
 const { theme, page, frontmatter } = useData()
 
@@ -53,6 +53,8 @@ const showFooter = computed(
           v-if="control.prev?.link"
           class="pager-link prev"
           :href="control.prev.link"
+          :target="control.prev.target"
+          :rel="control.prev.rel"
         >
           <span
             class="desc"
@@ -66,6 +68,8 @@ const showFooter = computed(
           v-if="control.next?.link"
           class="pager-link next"
           :href="control.next.link"
+          :target="control.next.target"
+          :rel="control.next.rel"
         >
           <span
             class="desc"

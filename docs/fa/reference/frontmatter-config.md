@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: مرجع تمام گزینه‌های پیکربندی frontmatter موجود برای صفحات Markdown ویت‌پرس.
 ---
 
 # تنظیمات Frontmatter {#frontmatter-config}

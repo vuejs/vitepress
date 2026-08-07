@@ -36,7 +36,7 @@ withDefaults(defineProps<Props>(), {
       </div>
 
       <div class="sponsors">
-        <VPSponsors :data="data" />
+        <VPSponsors :data />
       </div>
 
       <div v-if="actionLink" class="action">

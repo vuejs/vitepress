@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from 'node:fs'
 import { defineLoader } from 'vitepress'
 
 type Data = Record<string, boolean>[]

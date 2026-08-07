@@ -1,8 +1,12 @@
+---
+description: Learn how to reference and handle static assets such as images, media, and fonts in VitePress.
+---
+
 # Asset Handling
 
 ## Referencing Static Assets
 
-All Markdown files are compiled into Vue components and processed by [Vite](https://vitejs.dev/guide/assets.html). You can, **and should**, reference any assets using relative URLs:
+All Markdown files are compiled into Vue components and processed by [Vite](https://vite.dev/guide/assets.html). You can, **and should**, reference any assets using relative URLs:
 
 ```md
 ![An image](./image.png)

@@ -1,3 +1,7 @@
+---
+description: Usa el componente Badge para agregar etiquetas de estado a los encabezados en la documentación de VitePress.
+---
+
 # Badge {#badge}
 
 Los Badge te permite agregar estados a tus encabezados. Por ejemplo, podría resultar útil especificar el tipo de sección o la version compatible.

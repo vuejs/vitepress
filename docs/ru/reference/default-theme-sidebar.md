@@ -1,3 +1,7 @@
+---
+description: Настройте боковую панель навигации в теме VitePress по умолчанию с группами, сворачиваемыми секциями и множественными сайдбарами.
+---
+
 # Сайдбар {#sidebar}
 
 Сайдбар (боковая панель) — основной навигационный блок вашей документации. Меню боковой панели можно настроить в секции [`themeConfig.sidebar`](./default-theme-config#sidebar).
@@ -179,35 +183,62 @@ export default {
 }
 ```
 
-## `useSidebar` <Badge type="info" text="композабл" /> {#usesidebar}
+## Префикс пути {#path-prefix}
 
-Возвращает данные, связанные с сайдбаром. Возвращаемый объект имеет следующий тип:
+Если структура вашей документации содержит глубоко вложенные каталоги или группы, расположенные в одном подкаталоге, вы можете использовать параметр `base`, чтобы автоматически добавлять префикс пути ко всем вложенным элементам `items` внутри этой группы. Это избавляет от необходимости повторять один и тот же префикс пути для каждого `link`.
 
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
+Параметр `base` поддерживается как в конфигурациях с несколькими боковыми панелями, так и во вложенных группах боковой панели.
+
+### В нескольких боковых панелях {#in-multiple-sidebars}
+
+Вы можете определить `base` в корне конфигурации раздела боковой панели:
+
+```js {5}
+export default {
+  themeConfig: {
+    sidebar: {
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          // Эта ссылка будет разрешена в `/guide/introduction`
+          { text: 'Введение', link: 'introduction' },
+          // Эта ссылка будет разрешена в `/guide/getting-started`
+          { text: 'Первые шаги', link: 'getting-started' }
+        ]
+      }
+    }
+  }
 }
 ```
 
-**Пример:**
+### Во вложенных группах {#in-nested-groups}
 
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
+Параметр `base` также можно использовать во вложенных группах боковой панели. Он применяется к непосредственным дочерним элементам этой группы:
 
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Показывать только при наличии сайдбара</div>
-</template>
+```js{6,13}
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Справочник',
+        base: '/reference/',
+        items: [
+          // Эта ссылка будет разрешена в `/reference/site-config`
+          { text: 'Конфигурация сайта', link: 'site-config' },
+          {
+            text: 'Тема по умолчанию',
+            // Вложенный `base` переопределяет префикс пути родительской группы
+            base: '/reference/default-theme-',
+            items: [
+              // Эта ссылка будет разрешена в `/reference/default-theme-nav`
+              { text: 'Навигация', link: 'nav' },
+              // Эта ссылка будет разрешена в `/reference/default-theme-sidebar`
+              { text: 'Сайдбар', link: 'sidebar' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
 ```

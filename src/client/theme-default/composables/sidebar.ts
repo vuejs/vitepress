@@ -1,115 +1,25 @@
-import { useMediaQuery } from '@vueuse/core'
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import {
   computed,
+  nextTick,
   onMounted,
   onUnmounted,
   ref,
   watch,
   watchEffect,
-  watchPostEffect,
-  type ComputedRef,
-  type Ref
+  type ComputedRef
 } from 'vue'
 import { isActive } from '../../shared'
-import {
-  hasActiveLink as containsActiveLink,
-  getSidebar,
-  getSidebarGroups
-} from '../support/sidebar'
-import { useData } from './data'
+import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 
-export interface SidebarControl {
-  collapsed: Ref<boolean>
-  collapsible: ComputedRef<boolean>
-  isLink: ComputedRef<boolean>
-  isActiveLink: Ref<boolean>
-  hasActiveLink: ComputedRef<boolean>
-  hasChildren: ComputedRef<boolean>
-  toggle(): void
-}
-
-export function useSidebar() {
-  const { frontmatter, page, theme } = useData()
-  const is960 = useMediaQuery('(min-width: 960px)')
-
-  const isOpen = ref(false)
-
-  const _sidebar = computed(() => {
-    const sidebarConfig = theme.value.sidebar
-    const relativePath = page.value.relativePath
-    return sidebarConfig ? getSidebar(sidebarConfig, relativePath) : []
-  })
-
-  const sidebar = ref(_sidebar.value)
-
-  watch(_sidebar, (next, prev) => {
-    if (JSON.stringify(next) !== JSON.stringify(prev))
-      sidebar.value = _sidebar.value
-  })
-
-  const hasSidebar = computed(() => {
-    return (
-      frontmatter.value.sidebar !== false &&
-      sidebar.value.length > 0 &&
-      frontmatter.value.layout !== 'home'
-    )
-  })
-
-  const leftAside = computed(() => {
-    if (hasAside)
-      return frontmatter.value.aside == null
-        ? theme.value.aside === 'left'
-        : frontmatter.value.aside === 'left'
-    return false
-  })
-
-  const hasAside = computed(() => {
-    if (frontmatter.value.layout === 'home') return false
-    if (frontmatter.value.aside != null) return !!frontmatter.value.aside
-    return theme.value.aside !== false
-  })
-
-  const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
-
-  const sidebarGroups = computed(() => {
-    return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
-  })
-
-  function open() {
-    isOpen.value = true
-  }
-
-  function close() {
-    isOpen.value = false
-  }
-
-  function toggle() {
-    isOpen.value ? close() : open()
-  }
-
-  return {
-    isOpen,
-    sidebar,
-    sidebarGroups,
-    hasSidebar,
-    hasAside,
-    leftAside,
-    isSidebarEnabled,
-    open,
-    close,
-    toggle
-  }
-}
+const isOpen = ref(false)
 
 /**
  * a11y: cache the element that opened the Sidebar (the menu button) then
  * focus that button again when Menu is closed with Escape key.
  */
-export function useCloseSidebarOnEscape(
-  isOpen: Ref<boolean>,
-  close: () => void
-) {
+export function useCloseSidebarOnEscape(close: () => void) {
   let triggerElement: HTMLButtonElement | undefined
 
   watchEffect(() => {
@@ -134,10 +44,31 @@ export function useCloseSidebarOnEscape(
   }
 }
 
-export function useSidebarControl(
+export function useSidebarControl() {
+  function open() {
+    isOpen.value = true
+  }
+
+  function close() {
+    isOpen.value = false
+  }
+
+  function toggle() {
+    isOpen.value ? close() : open()
+  }
+
+  return {
+    isOpen,
+    open,
+    close,
+    toggle
+  }
+}
+
+export function useSidebarItemControl(
   item: ComputedRef<DefaultTheme.SidebarItem>
-): SidebarControl {
-  const { page, hash } = useData()
+) {
+  const route = useRoute()
 
   const collapsed = ref(false)
 
@@ -150,22 +81,39 @@ export function useSidebarControl(
   })
 
   const isActiveLink = ref(false)
-  const updateIsActiveLink = () => {
-    isActiveLink.value = isActive(page.value.relativePath, item.value.link)
+  const hasActiveLink = ref(false)
+
+  function updateActiveLink(): void {
+    if (item.value.link) {
+      isActiveLink.value = isActive(
+        route.data.relativePath,
+        route.hash,
+        item.value.link
+      )
+    } else {
+      isActiveLink.value = false
+    }
+    if (isActiveLink.value) {
+      hasActiveLink.value = true
+      nextTick(() => (collapsed.value = false))
+      return
+    }
+    if (!item.value.items) {
+      hasActiveLink.value = false
+      return
+    }
+    hasActiveLink.value = containsActiveLink(
+      route.data.relativePath,
+      route.hash,
+      item.value.items
+    )
+    if (hasActiveLink.value) {
+      nextTick(() => (collapsed.value = false))
+    }
   }
 
-  watch([page, item, hash], updateIsActiveLink)
-  onMounted(updateIsActiveLink)
-
-  const hasActiveLink = computed(() => {
-    if (isActiveLink.value) {
-      return true
-    }
-
-    return item.value.items
-      ? containsActiveLink(page.value.relativePath, item.value.items)
-      : false
-  })
+  watch([item, route], updateActiveLink)
+  onMounted(updateActiveLink)
 
   const hasChildren = computed(() => {
     return !!(item.value.items && item.value.items.length)
@@ -175,11 +123,7 @@ export function useSidebarControl(
     collapsed.value = !!(collapsible.value && item.value.collapsed)
   })
 
-  watchPostEffect(() => {
-    ;(isActiveLink.value || hasActiveLink.value) && (collapsed.value = false)
-  })
-
-  function toggle() {
+  function toggle(): void {
     if (collapsible.value) {
       collapsed.value = !collapsed.value
     }
@@ -189,8 +133,8 @@ export function useSidebarControl(
     collapsed,
     collapsible,
     isLink,
-    isActiveLink,
-    hasActiveLink,
+    isActiveLink: isActiveLink as ComputedRef<boolean>,
+    hasActiveLink: hasActiveLink as ComputedRef<boolean>,
     hasChildren,
     toggle
   }

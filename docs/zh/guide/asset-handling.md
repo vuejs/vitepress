@@ -1,8 +1,12 @@
+---
+description: 了解如何在 VitePress 中引用和处理静态资源，如图片、媒体文件和字体。
+---
+
 # 资源处理 {#asset-handling}
 
 ## 引用静态资源 {#referencing-static-assets}
 
-所有的 Markdown 文件都会被编译成 Vue 组件，并由 [Vite](https://cn.vitejs.dev/guide/assets.html) 处理。可以**并且应该**使用相对路径来引用资源：
+所有的 Markdown 文件都会被编译成 Vue 组件，并由 [Vite](https://cn.vite.dev/guide/assets.html) 处理。可以**并且应该**使用相对路径来引用资源：
 
 ```md
 ![An image](./image.png)

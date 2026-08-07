@@ -1,5 +1,5 @@
-import { type Ref, ref, watch, readonly, onUnmounted } from 'vue'
-import { inBrowser } from '../../shared'
+import { inBrowser } from 'vitepress'
+import { onUnmounted, readonly, type Ref, ref, watch } from 'vue'
 
 interface UseFlyoutOptions {
   el: Ref<HTMLElement | undefined>

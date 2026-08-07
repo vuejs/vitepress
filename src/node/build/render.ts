@@ -1,8 +1,7 @@
 import { isBooleanAttr } from '@vue/shared'
-import fs from 'fs-extra'
-import path from 'path'
-import { pathToFileURL } from 'url'
-import { normalizePath, transformWithEsbuild, type Rollup } from 'vite'
+import { mkdir, realpath, rm, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { minify, normalizePath, type Rolldown } from 'vite'
 import { version } from '../../../package.json'
 import type { SiteConfig } from '../config'
 import {
@@ -18,14 +17,15 @@ import {
   type PageData,
   type SSGContext
 } from '../shared'
+import { nativeImport } from '../utils/nativeImport'
 
 export async function renderPage(
   render: (path: string) => Promise<SSGContext>,
   config: SiteConfig,
   page: string, // foo.md
-  result: Rollup.RollupOutput | null,
-  appChunk: Rollup.OutputChunk | null,
-  cssChunk: Rollup.OutputAsset | null,
+  result: Rolldown.RolldownOutput | null | undefined,
+  appChunk: Rolldown.OutputChunk | null | undefined,
+  cssChunk: Rolldown.OutputAsset | null | undefined,
   assets: string[],
   pageToHashMap: Record<string, string>,
   metadataScript: { html: string; inHead: boolean },
@@ -33,7 +33,6 @@ export async function renderPage(
   usedIcons: Set<string>
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
-  const siteData = resolveSiteDataByRoute(config.site, routePath)
 
   // render page
   const context = await render(routePath)
@@ -56,8 +55,8 @@ export async function renderPage(
 
   try {
     // resolve page data so we can render head tags
-    const { __pageData } = await import(
-      pathToFileURL(path.join(config.tempDir, pageServerJsFileName)).href
+    const { __pageData } = await nativeImport(
+      path.join(config.tempDir, pageServerJsFileName)
     )
     pageData = __pageData
   } catch (e) {
@@ -68,6 +67,8 @@ export async function renderPage(
       throw e
     }
   }
+
+  const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
@@ -84,7 +85,7 @@ export async function renderPage(
               // resolve imports for index.js + page.md.js and inject script tags
               // for them as well so we fetch everything as early as possible
               // without having to wait for entry chunks to parse
-              ...resolvePageImports(config, page, result, appChunk),
+              ...(await resolvePageImports(config, page, result, appChunk)),
               pageClientJsFileName
             ])
           ]
@@ -139,14 +140,16 @@ export async function renderPage(
   let inlinedScript = ''
   if (config.mpa && result) {
     const matchingChunk = result.output.find(
-      (chunk) =>
+      (chunk): chunk is Rolldown.OutputChunk =>
         chunk.type === 'chunk' &&
         chunk.facadeModuleId === slash(path.join(config.srcDir, page))
-    ) as Rollup.OutputChunk
+    )
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
-        fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
+        await rm(path.resolve(config.outDir, matchingChunk.fileName), {
+          force: true
+        })
       } else {
         inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
       }
@@ -168,7 +171,7 @@ export async function renderPage(
     ${
       isDescriptionOverridden(head)
         ? ''
-        : `<meta name="description" content="${description}">`
+        : `<meta name="description" content="${escapeHtml(description)}">`
     }
     <meta name="generator" content="VitePress v${version}">
     ${stylesheetLink}
@@ -189,7 +192,7 @@ export async function renderPage(
 </html>`
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
-  await fs.ensureDir(path.dirname(htmlFileName))
+  await mkdir(path.dirname(htmlFileName), { recursive: true })
   const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
     page,
     siteConfig: config,
@@ -201,14 +204,14 @@ export async function renderPage(
     content,
     assets
   })
-  await fs.writeFile(htmlFileName, transformedHtml || html)
+  await writeFile(htmlFileName, transformedHtml || html)
 }
 
-function resolvePageImports(
+async function resolvePageImports(
   config: SiteConfig,
   page: string,
-  result: Rollup.RollupOutput,
-  appChunk: Rollup.OutputChunk
+  result: Rolldown.RolldownOutput,
+  appChunk: Rolldown.OutputChunk
 ) {
   page = config.rewrites.inv[page] || page
   // find the page's js chunk and inject script tags for its imports so that
@@ -216,7 +219,7 @@ function resolvePageImports(
   let srcPath = path.resolve(config.srcDir, page)
   try {
     if (!config.vite?.resolve?.preserveSymlinks) {
-      srcPath = fs.realpathSync(srcPath)
+      srcPath = await realpath(srcPath)
     }
   } catch (e) {
     // if the page is a virtual page generated by a dynamic route this would
@@ -224,13 +227,14 @@ function resolvePageImports(
   }
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
-    (chunk) => chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
-  ) as Rollup.OutputChunk
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
+  )
   return [
     ...appChunk.imports,
-    ...appChunk.dynamicImports,
-    ...pageChunk.imports,
-    ...pageChunk.dynamicImports
+    // ...appChunk.dynamicImports,
+    ...(pageChunk?.imports || [])
+    // ...pageChunk.dynamicImports
   ]
 }
 
@@ -243,11 +247,7 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
           tag === 'script' &&
           (attrs.type === undefined || attrs.type.includes('javascript'))
         ) {
-          innerHTML = (
-            await transformWithEsbuild(innerHTML, 'inline-script.js', {
-              minify: true
-            })
-          ).code.trim()
+          innerHTML = (await minify('inline-script.js', innerHTML)).code
         }
         return `${openTag}${innerHTML}</${tag}>`
       } else {

@@ -1,22 +1,62 @@
-import type { ViteDevServer } from 'vite'
 import c from 'picocolors'
-import { clearCache } from './markdownToVue'
-import { disposeMdItInstance } from './markdown/markdown'
-
-type CreateDevServer = () => Promise<void>
+import type { ViteDevServer } from 'vite'
+import type { Awaitable } from './shared'
 
 export type CLIShortcut = {
   key: string
   description: string
   action(
     server: ViteDevServer,
-    createDevServer: CreateDevServer
-  ): void | Promise<void>
+    restartServer: () => Promise<void>
+  ): Awaitable<void>
 }
+
+const SHORTCUTS: CLIShortcut[] = [
+  {
+    key: 'r',
+    description: 'restart the server',
+    async action(server, restartServer) {
+      server.config.logger.info(c.green(`restarting server...\n`), {
+        clear: true,
+        timestamp: true
+      })
+      await restartServer()
+    }
+  },
+  {
+    key: 'u',
+    description: 'show server url',
+    action(server) {
+      server.config.logger.info('')
+      server.printUrls()
+    }
+  },
+  {
+    key: 'o',
+    description: 'open in browser',
+    action(server) {
+      server.openBrowser()
+    }
+  },
+  {
+    key: 'c',
+    description: 'clear console',
+    action(server) {
+      server.config.logger.clearScreen('error')
+    }
+  },
+  {
+    key: 'q',
+    description: 'quit',
+    async action(server) {
+      await server.close().finally(() => process.exit())
+    }
+  }
+]
 
 export function bindShortcuts(
   server: ViteDevServer,
-  createDevServer: CreateDevServer
+  restartServer: () => Promise<void>
 ): void {
   if (!server.httpServer || !process.stdin.isTTY || process.env.CI) {
     return
@@ -59,7 +99,7 @@ export function bindShortcuts(
     if (!shortcut) return
 
     actionRunning = true
-    await shortcut.action(server, createDevServer)
+    await shortcut.action(server, restartServer)
     actionRunning = false
   }
 
@@ -72,49 +112,3 @@ export function bindShortcuts(
     process.stdin.setRawMode(false)
   })
 }
-
-const SHORTCUTS: CLIShortcut[] = [
-  {
-    key: 'r',
-    description: 'restart the server',
-    async action(server, createDevServer) {
-      server.config.logger.info(c.green(`restarting server...\n`), {
-        clear: true,
-        timestamp: true
-      })
-      disposeMdItInstance()
-      clearCache()
-      await server.close()
-      await createDevServer()
-    }
-  },
-  {
-    key: 'u',
-    description: 'show server url',
-    action(server) {
-      server.config.logger.info('')
-      server.printUrls()
-    }
-  },
-  {
-    key: 'o',
-    description: 'open in browser',
-    action(server) {
-      server.openBrowser()
-    }
-  },
-  {
-    key: 'c',
-    description: 'clear console',
-    action(server) {
-      server.config.logger.clearScreen('error')
-    }
-  },
-  {
-    key: 'q',
-    description: 'quit',
-    async action(server) {
-      await server.close().finally(() => process.exit())
-    }
-  }
-]

@@ -1,3 +1,7 @@
+---
+description: مرجع APIهای زمان اجرا ویت‌پرس شامل composableها، توابع کمکی و کامپوننت‌های داخلی.
+---
+
 # API زمان اجرا {#runtime-api}
 
 ویت‌پرس چندین API داخلی را ارائه می‌دهد تا به شما امکان دسترسی به داده‌های برنامه را بدهد. همچنین، ویت‌پرس با چندین کامپوننت داخلی همراه است که می‌توانید به صورت جهانی از آن‌ها استفاده کنید.
@@ -49,7 +53,7 @@ interface PageData {
   titleTemplate?: string | boolean
   description: string
   relativePath: string
-  filePath: string,
+  filePath: string
   headers: Header[]
   frontmatter: Record<string, any>
   params?: Record<string, any>

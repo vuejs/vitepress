@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`node/postcss/isolateStyles > transforms selectors and skips keyframes 1`] = `
+"
+/* simple classes */
+.example:not(:where(.vp-raw, .vp-raw *)) { color: red; }
+.class-a:not(:where(.vp-raw, .vp-raw *)) { color: coral; }
+.class-b:not(:where(.vp-raw, .vp-raw *)) { color: deepskyblue; }
+
+/* escaped colon in class */
+.baz\\:not\\(.bar\\):not(:where(.vp-raw, .vp-raw *)) { display: block; }
+.disabled\\:opacity-50:not(:where(.vp-raw, .vp-raw *)):disabled { opacity: .5; }
+
+/* pseudos (class + element) */
+.button:not(:where(.vp-raw, .vp-raw *)):hover { color: pink; }
+.button:not(:where(.vp-raw, .vp-raw *)):focus:hover { color: hotpink; }
+.item:not(:where(.vp-raw, .vp-raw *))::before { content: '•'; }
+:not(:where(.vp-raw, .vp-raw *))::first-letter { color: pink; }
+:not(:where(.vp-raw, .vp-raw *))::before { content: ''; }
+
+/* universal + :not */
+*:not(:where(.vp-raw, .vp-raw *)) { background-color: red; }
+*:not(:where(.vp-raw, .vp-raw *)):not(.b) { text-transform: uppercase; }
+
+/* combinators */
+.foo:hover .bar:not(:where(.vp-raw, .vp-raw *)) { background: blue; }
+ul > li.active:not(:where(.vp-raw, .vp-raw *)) { color: green; }
+a + b ~ c:not(:where(.vp-raw, .vp-raw *)) { color: orange; }
+
+/* ids + attribute selectors */
+#wow:not(:where(.vp-raw, .vp-raw *)) { color: yellow; }
+[data-world] .d:not(:where(.vp-raw, .vp-raw *)) { padding: 10px 20px; }
+
+/* :root and chained tags */
+:not(:where(.vp-raw, .vp-raw *)):root { --bs-blue: #0d6efd; }
+:root .a:not(:where(.vp-raw, .vp-raw *)) { --bs-green: #bada55; }
+html:not(:where(.vp-raw, .vp-raw *)) { margin: 0; }
+body:not(:where(.vp-raw, .vp-raw *)) { padding: 0; }
+html body div:not(:where(.vp-raw, .vp-raw *)) { color: blue; }
+
+/* grouping with commas */
+.a:not(:where(.vp-raw, .vp-raw *)), .b:not(:where(.vp-raw, .vp-raw *)) { color: red; }
+
+/* multiple repeated groups to ensure stability */
+.a:not(:where(.vp-raw, .vp-raw *)), .b:not(:where(.vp-raw, .vp-raw *)) { color: coral; }
+.a:not(:where(.vp-raw, .vp-raw *)) { animation: glow 1s linear infinite alternate; }
+
+/* nested blocks */
+.foo:not(:where(.vp-raw, .vp-raw *)) {
+  svg:not(:where(.vp-raw, .vp-raw *)) { display: none; }
+  .bar:not(:where(.vp-raw, .vp-raw *)) { display: inline; }
+}
+
+/* standalone pseudos */
+:not(:where(.vp-raw, .vp-raw *)):first-child { color: pink; }
+:not(:where(.vp-raw, .vp-raw *)):hover { color: blue; }
+:not(:where(.vp-raw, .vp-raw *)):active { color: red; }
+
+/* keyframes (should be ignored) */
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@-webkit-keyframes glow {
+  from { color: coral; }
+  to { color: red; }
+}
+@-moz-keyframes glow {
+  from { color: coral; }
+  to { color: red; }
+}
+@-o-keyframes glow {
+  from { color: coral; }
+  to { color: red; }
+}
+"
+`;

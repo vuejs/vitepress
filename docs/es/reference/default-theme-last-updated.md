@@ -1,3 +1,7 @@
+---
+description: Muestra la marca de tiempo de la última actualización en las páginas de VitePress basada en el historial de commits de Git.
+---
+
 # Última Actualización {#last-updated}
 
 La hora en que se actualizó el contenido por última vez se mostrará en la esquina inferior derecha de la página. Para habilitar, agregue la opción `lastUpdated` en su confirguración.

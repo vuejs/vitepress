@@ -1,4 +1,5 @@
 ---
+description: Настройте и расширьте тему VitePress по умолчанию с помощью пользовательских CSS, компонентов, макетов и слотов.
 outline: deep
 ---
 
@@ -70,7 +71,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // настраиваем regex соответствующим образом, чтобы он соответствовал вашему шрифту
-    const myFontFile = assets.find((file) => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -119,11 +120,11 @@ export default {
 } satisfies Theme
 ```
 
-Поскольку мы используем Vite, можно применять [глобальную функцию импорта](https://vitejs.dev/guide/features.html#glob-import) Vite для автоматической регистрации каталога компонентов.
+Поскольку мы используем Vite, можно применять [глобальную функцию импорта](https://vite-docs.ru/guide/features.html#glob-import) Vite для автоматической регистрации каталога компонентов.
 
 ## Слоты макета {#layout-slots}
 
-Компонент `<Layout/>` темы по умолчанию имеет несколько слотов, которые можно использовать для вставки содержимого в определённые места страницы. Вот пример внедрения компонента в структуру before:
+Компонент `<Layout/>` темы по умолчанию имеет несколько слотов, которые можно использовать для вставки содержимого в определённые места страницы. Вот пример внедрения компонента перед оглавлением:
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
@@ -131,8 +132,8 @@ import MyLayout from './MyLayout.vue'
 
 export default {
   extends: DefaultTheme,
-  // переопределяем макет с помощью компонента-обёртки, который
-  // вводит слоты
+  // переопределяем макет с помощью компонента-обёртки,
+  // который внедряет слоты
   Layout: MyLayout
 }
 ```
@@ -147,7 +148,7 @@ const { Layout } = DefaultTheme
 <template>
   <Layout>
     <template #aside-outline-before>
-      Верхнее содержимое моей пользовательской боковой панели
+      Мой пользовательский контент в верхней части боковой панели
     </template>
   </Layout>
 </template>
@@ -191,6 +192,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -253,6 +255,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -307,7 +310,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## Переопределение внутренних компонентов {#overriding-internal-components}
 
-Вы можете использовать [псевдонимы](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite, чтобы заменить стандартные компоненты темы на свои собственные:
+Вы можете использовать [псевдонимы](https://vite-docs.ru/config/shared-options.html#resolve-alias) Vite, чтобы заменить стандартные компоненты темы на свои собственные:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

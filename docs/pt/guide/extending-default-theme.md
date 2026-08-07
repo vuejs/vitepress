@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Personalize e estenda o tema padrão do VitePress com CSS, componentes, layouts e slots customizados.
 ---
 
 # Estendendo o Tema Padrão {#extending-the-default-theme}
@@ -70,7 +71,7 @@ Se a sua fonte é um arquivo local referenciado via `@font-face`, ela será proc
 export default {
   transformHead({ assets }) {
     // ajuste o regex para corresponder à sua fonte
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Como estamos usando Vite, você também pode aproveitar a [funcionalidade de importação glob](https://vitejs.dev/guide/features.html#glob-import) do Vite para registrar automaticamente um diretório de componentes.
+Como estamos usando Vite, você também pode aproveitar a [funcionalidade de importação glob](https://vite.dev/guide/features.html#glob-import) do Vite para registrar automaticamente um diretório de componentes.
 
 ## _Slots_ no Layout {#layout-slots}
 
@@ -189,6 +190,8 @@ Lista completa de _slots_ disponíveis no layout do tema padrão:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -251,6 +254,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -305,7 +309,7 @@ Em breve.
 
 ## Substituindo Componentes Internos {#overriding-internal-components}
 
-Você pode usar os [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir os componentes do tema padrão pelos seus personalizados:
+Você pode usar os [aliases](https://vite.dev/config/shared-options.html#resolve-alias) Vite para substituir os componentes do tema padrão pelos seus personalizados:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

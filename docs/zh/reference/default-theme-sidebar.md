@@ -1,3 +1,7 @@
+---
+description: 配置 VitePress 默认主题的侧边栏导航，包括分组、可折叠部分和多侧边栏。
+---
+
 # 侧边栏 {#sidebar}
 
 侧边栏是文档的主要导航块。可以在 [`themeConfig.sidebar`](./default-theme-config#sidebar) 中配置侧边栏菜单。
@@ -179,35 +183,62 @@ export default {
 }
 ```
 
-## `useSidebar` <Badge type="info" text="composable" />
+## 路径前缀 {#path-prefix}
 
-返回侧边栏相关数据。返回的对象具有以下类型：
+当文档结构具有较深的目录，或者多个分组位于同一个子目录下时，可以使用 `base` 选项为该分组下的所有嵌套 `items` 拼接的一个路径前缀。
 
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
+这样可以避免为每个 `link` 重复书写相同的路径。`base` 选项既支持在多侧边栏配置中使用，也支持在嵌套的侧边栏分组中使用。
+
+### 在多侧边栏中使用 {#in-multiple-sidebars}
+
+可以在多侧边栏配置的根部定义 `base`：
+
+```js {5}
+export default {
+  themeConfig: {
+    sidebar: {
+      '/guide/': {
+        base: '/guide/',
+        items: [
+          // 实际解析为 `/guide/introduction`
+          { text: 'Introduction', link: 'introduction' },
+          // 实际解析为 `/guide/getting-started`
+          { text: 'Getting Started', link: 'getting-started' }
+        ]
+      }
+    }
+  }
 }
 ```
 
-**示例：**
+### 在嵌套分组中使用 {#in-nested-groups}
 
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
+也可以在嵌套的侧边栏分组内部使用 `base`，它将作用于该分组的直接子项：
 
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Only show when sidebar exists</div>
-</template>
+```js {6,13}
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Reference',
+        base: '/reference/',
+        items: [
+          // 实际解析为 `/reference/site-config`
+          { text: 'Site Config', link: 'site-config' },
+          {
+            text: 'Default Theme',
+            // 嵌套的 base 会覆盖父级的路径前缀
+            base: '/reference/default-theme-',
+            items: [
+              // 实际解析为 `/reference/default-theme-nav`
+              { text: 'Nav', link: 'nav' },
+              // 实际解析为 `/reference/default-theme-sidebar`
+              { text: 'Sidebar', link: 'sidebar' }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
 ```

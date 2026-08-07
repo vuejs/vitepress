@@ -1,3 +1,7 @@
+---
+description: Choose between doc, page, and home layouts in the VitePress default theme.
+---
+
 # Layout
 
 You may choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter-config). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.

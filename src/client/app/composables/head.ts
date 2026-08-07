@@ -1,11 +1,11 @@
 import { watchEffect, type Ref } from 'vue'
 import {
-  type HeadConfig,
-  type SiteData,
   createTitle,
-  mergeHead
+  mergeHead,
+  type HeadConfig,
+  type Route,
+  type SiteData
 } from '../../shared'
-import type { Route } from '../router'
 
 export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
   let isFirstUpdate = true

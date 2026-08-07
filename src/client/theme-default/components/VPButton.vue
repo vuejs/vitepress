@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { normalizeLink } from '../support/utils'
 import { EXTERNAL_URL_RE } from '../../shared'
+import { normalizeLink } from '../support/utils'
 
 interface Props {
   tag?: string
   size?: 'medium' | 'big'
   theme?: 'brand' | 'alt' | 'sponsor'
-  text: string
+  text?: string
   href?: string
   target?: string;
   rel?: string;
@@ -35,7 +35,7 @@ const component = computed(() => {
     :target="props.target ?? (isExternal ? '_blank' : undefined)"
     :rel="props.rel ?? (isExternal ? 'noreferrer' : undefined)"
   >
-    {{ text }}
+    <slot>{{ text }}</slot>
   </component>
 </template>
 

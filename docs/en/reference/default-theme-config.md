@@ -1,3 +1,7 @@
+---
+description: Reference of all configuration options available for the VitePress default theme.
+---
+
 # Default Theme Config
 
 Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
@@ -21,9 +25,27 @@ export default {
 
 ## i18nRouting
 
-- Type: `boolean`
+- Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
 Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+
+Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current route, and the target locale key, and returns the target link.
+
+```ts
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  themeConfig: {
+    i18nRouting(data, route, targetLocale) {
+      const target = data.site.value.locales[targetLocale]
+      const targetLink =
+        target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
+
+      return `${targetLink}${route.data.relativePath.replace(/\.md$/, '')}${route.hash}`
+    }
+  }
+})
+```
 
 ## logo
 
@@ -89,7 +111,7 @@ type NavItem = NavItemWithLink | NavItemWithChildren
 
 interface NavItemWithLink {
   text: string
-  link: string
+  link: string | ((payload: PageData) => string)
   activeMatch?: string
   target?: string
   rel?: string
@@ -231,6 +253,7 @@ export default {
       // You can add any icon from simple-icons (https://simpleicons.org/):
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
+      { icon: 'discord', link: '/community', target: '_self' },
       // You can also add custom icons by passing SVG as string:
       {
         icon: {
@@ -250,6 +273,7 @@ interface SocialLink {
   icon: string | { svg: string }
   link: string
   ariaLabel?: string
+  target?: string
 }
 ```
 
@@ -364,6 +388,7 @@ export default {
     carbonAds: {
       code: 'your-carbon-code',
       placement: 'your-carbon-placement'
+      format: 'classic'
     }
   }
 }
@@ -373,6 +398,7 @@ export default {
 export interface CarbonAdsOptions {
   code: string
   placement: string
+  format?: 'classic' | 'responsive' | 'cover'
 }
 ```
 
@@ -457,3 +483,38 @@ Can be used to customize the label of the skip to content link. This link is sho
 - Default: `false`
 
 Whether to show an external link icon next to external links in markdown.
+
+## `useLayout` <Badge type="info" text="composable" />
+
+Returns layout-related data. The returned object has the following type:
+
+```ts
+interface {
+  isHome: ComputedRef<boolean>
+
+  sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
+  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
+  hasSidebar: ComputedRef<boolean>
+  isSidebarEnabled: ComputedRef<boolean>
+
+  hasAside: ComputedRef<boolean>
+  leftAside: ComputedRef<boolean>
+
+  headers: Readonly<ShallowRef<DefaultTheme.OutlineItem[]>>
+  hasLocalNav: ComputedRef<boolean>
+}
+```
+
+**Example:**
+
+```vue
+<script setup>
+import { useLayout } from 'vitepress/theme'
+
+const { hasSidebar } = useLayout()
+</script>
+
+<template>
+  <div v-if="hasSidebar">Only show when sidebar exists</div>
+</template>
+```

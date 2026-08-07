@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 커스텀 CSS, 컴포넌트, 레이아웃 및 슬롯을 사용하여 VitePress 기본 테마를 커스터마이징하고 확장하세요.
 ---
 
 # 기본 테마 확장하기 {#extending-the-default-theme}
@@ -70,7 +71,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // 폰트를 매칭하기 위해 정규식을 적절히 조정하세요
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Vite를 사용하므로, Vite의 [glob import 기능](https://vitejs.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수 있습니다.
+Vite를 사용하므로, Vite의 [glob import 기능](https://vite.dev/guide/features.html#glob-import)을 활용하여 컴포넌트 디렉터리를 자동으로 등록할 수 있습니다.
 
 ## 레이아웃 슬롯 {#layout-slots}
 
@@ -190,6 +191,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -252,6 +254,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -306,7 +309,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## 내부 컴포넌트 재정의하기 {#overriding-internal-components}
 
-Vite의 [별칭](https://vitejs.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 커스텀 컴포넌트로 대체할 수 있습니다:
+Vite의 [별칭](https://vite.dev/config/shared-options.html#resolve-alias)을 사용하여 기본 테마 컴포넌트를 커스텀 컴포넌트로 대체할 수 있습니다:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

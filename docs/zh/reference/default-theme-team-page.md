@@ -1,3 +1,7 @@
+---
+description: 使用 VitePress 内置的团队组件创建包含成员资料的团队页面。
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 
@@ -53,12 +57,12 @@ const members = [
 
 Say hello to our awesome team.
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 ```
 
 以上将在卡片外观元素中显示团队成员。它应该显示类似于下面的内容。
 
-<VPTeamMembers size="small" :members="members" />
+<VPTeamMembers size="small" :members />
 
 `<VPTeamMembers>` 组件有 2 种不同的尺寸，`small` 和 `medium`。虽然它取决于你的偏好，但通常尺寸在文档页面中使用时 `small` 应该更适合。此外，你可以为每个成员添加更多属性，例如添加“描述”或“赞助”按钮。在 [`<VPTeamMembers>`](#vpteammembers) 中了解更多信息。
 
@@ -107,17 +111,15 @@ const members = [
       team, some of whom have chosen to be featured below.
     </template>
   </VPTeamPageTitle>
-  <VPTeamMembers
-    :members="members"
-  />
+  <VPTeamMembers :members />
 </VPTeamPage>
 ```
 
 创建完整的团队页面时，请记住用 `<VPTeamPage>` 组件包装所有团队相关组件，以获得正确的布局结构，如间距。
 
-`<VPPageTitle>` 组件添加页面标题部分。标题是 `<h1>` 标题。使用 `#title` 和 `#lead` 插槽来介绍你的团队。
+`<VPTeamPageTitle>` 组件添加页面标题部分。标题是 `<h1>` 标题。使用 `#title` 和 `#lead` 插槽来介绍你的团队。
 
-`<VPMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
+`<VPTeamMembers>` 和在 doc 页面中使用时一样。它将显示成员列表。
 
 ### 添加 section 以划分团队成员 {#add-sections-to-divide-team-members}
 
@@ -241,7 +243,7 @@ interface TeamMember {
 
 ## `<VPTeamPageSection>`
 
-在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的section。
+在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的 section。
 
 ```html
 <VPTeamPage>

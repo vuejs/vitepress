@@ -1,3 +1,7 @@
+---
+description: Use the Badge component to add status labels to headers in VitePress documentation.
+---
+
 # Badge
 
 The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.

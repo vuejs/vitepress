@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: سفارشی‌سازی و گسترش تم پیش‌فرض ویت‌پرس با CSS سفارشی، کامپوننت‌ها، طرح‌بندی‌ها و اسلات‌ها.
 ---
 
 # گسترش تم پیش‌فرض {#extending-the-default-theme}
@@ -70,7 +71,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // منظور شده برای همسان سازی font خود، regex مورد نیاز را تنظیم کنید
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-از آنجا که از Vite استفاده می‌کنیم، می‌توانید از ویژگی [import glob](https://vitejs.dev/guide/features.html#glob-import) در Vite برای خودکار ثبت یک پوشه از مولفه‌ها استفاده کنید.
+از آنجا که از Vite استفاده می‌کنیم، می‌توانید از ویژگی [import glob](https://vite.dev/guide/features.html#glob-import) در Vite برای خودکار ثبت یک پوشه از مولفه‌ها استفاده کنید.
 
 ## slot ‌های طرح {#layout-slots}
 
@@ -191,6 +192,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -254,6 +256,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -308,7 +311,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 ## جایگزینی کامپوننت‌های داخلی {#overriding-internal-components}
 
-شما می‌توانید با استفاده از [alias های Vite](https://vitejs.dev/config/shared-options.html#resolve-alias)، کامپوننت‌های تم پیش‌فرض را با کامپوننت‌های سفارشی خود جایگزین کنید:
+شما می‌توانید با استفاده از [alias های Vite](https://vite.dev/config/shared-options.html#resolve-alias)، کامپوننت‌های تم پیش‌فرض را با کامپوننت‌های سفارشی خود جایگزین کنید:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

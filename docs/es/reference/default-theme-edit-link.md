@@ -1,3 +1,7 @@
+---
+description: Muestra un enlace de edición en las páginas de documentación para permitir a los usuarios sugerir cambios en GitHub o GitLab.
+---
+
 # Editar Link {#edit-link}
 
 ## Configuración a nivel de sitio {#site-level-config}

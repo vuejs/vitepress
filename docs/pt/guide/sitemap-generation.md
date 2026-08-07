@@ -1,3 +1,7 @@
+---
+description: Gere um arquivo sitemap.xml para seu site VitePress e melhore a descoberta por motores de busca.
+---
+
 # Geração de Sitemap {#sitemap-generation}
 
 VitePress vem com suporte embutido para gerar um arquivo `sitemap.xml` para seu site. Para habilitar, adicione o seguinte ao seu `.vitepress/config.js`:

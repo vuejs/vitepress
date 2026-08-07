@@ -56,6 +56,18 @@ This is a dangerous warning.
 This is a details block.
 :::
 
+::: note
+This is a note.
+:::
+
+::: important
+This is an important note.
+:::
+
+::: caution
+This is a caution note.
+:::
+
 ### Custom Title
 
 ::: danger STOP
@@ -212,6 +224,10 @@ export default config
 ## Markdown At File Range Region Snippet without end
 
 <!--@include: ./region-include.md#range-region{5,}-->
+
+## Markdown File Inclusion with Header
+
+<!--@include: ./header-include.md#header-1-1-->
 
 ## Image Lazy Loading
 

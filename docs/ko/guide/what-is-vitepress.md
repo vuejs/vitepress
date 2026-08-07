@@ -1,18 +1,20 @@
+---
+description: VitePress는 Vite와 Vue로 구동되는 빠르고 콘텐츠 중심의 웹사이트를 구축하기 위해 설계된 정적 사이트 생성기입니다.
+---
+
 # VitePress란 무엇인가? {#what-is-vitepress}
 
 VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 설계된 [정적 사이트 생성기](https://en.wikipedia.org/wiki/Static_site_generator) (SSG)입니다. 다시말해 VitePress는 [마크다운](https://en.wikipedia.org/wiki/Markdown)으로 작성된 소스 컨텐츠를 가져와서 테마를 적용하고, 어디에나 쉽게 배포할 수 있는 정적 HTML 페이지를 생성합니다.
 
-<div class="tip custom-block" style="padding-top: 8px">
-
+::: tip {no-title}
 그냥 한번 사용해보고 싶으신가요? [빠른 시작](./getting-started)으로 건너뛰세요.
-
-</div>
+:::
 
 ## 사용 사례 {#use-cases}
 
 - **문서화**
 
-  VitePress는 기술 문서를 위해 설계된 기본 테마가 함께 제공됩니다. 지금 읽고 있는 이 페이지와 [Vite](https://vitejs.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) 및 [다양한 프로젝트](https://www.vuetelescope.com/explore?framework.slug=vitepress) 문서는  모두 이 테마를 기반으로 합니다.
+  VitePress는 기술 문서를 위해 설계된 기본 테마가 함께 제공됩니다. 지금 읽고 있는 이 페이지와 [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) 및 [다양한 프로젝트](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code) 문서는  모두 이 테마를 기반으로 합니다.
 
   [Vue.js 공식 문서](https://vuejs.org/)도 VitePress 기반으로 되어 있으며, 여러 번역본에 걸쳐 공유되는 커스텀 테마를 사용합니다.
 
@@ -26,7 +28,7 @@ VitePress는 빠르고 컨텐츠 중심의 웹사이트를 구축하기 위해 �
 
 VitePress는 마크다운 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)을 제공하고자 합니다.
 
-- **[Vite로 작동](https://vitejs.dev/)**: 즉각적인 서버 시작 가능, 페이지 새로고침 없이 즉시(<100ms) 수정 사항 반영.
+- **[Vite로 작동](https://vite.dev/)**: 즉각적인 서버 시작 가능, 페이지 새로고침 없이 즉시(<100ms) 수정 사항 반영.
 
 - **[내장된 마크다운 확장 기능](./markdown)**: 서문, 표, 구문 강조 등 무엇이든 가능. 특히 VitePress는 코드 블록 작업을 위한 고급 기능을 많이 제공하여 기술적 문서에 이상적.
 

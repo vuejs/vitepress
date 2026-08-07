@@ -33,7 +33,7 @@ onBeforeUnmount(() => {
     class="group"
     :class="{ 'no-transition': disableTransition }"
   >
-    <VPSidebarItem :item="item" :depth="0" />
+    <VPSidebarItem :item :depth="0" />
   </div>
 </template>
 

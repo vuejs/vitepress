@@ -1,4 +1,5 @@
 ---
+description: Personaliza y extiende el tema predeterminado de VitePress con CSS personalizado, componentes, layouts y slots.
 outline: deep
 ---
 
@@ -70,7 +71,7 @@ Si su fuente es un archivo local referenciado via `@font-face`, ella será proce
 export default {
   transformHead({ assets }) {
     // ajuste el regex para corresponder a su fuente
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://vitejs.dev/guide/features.html#glob-import) de Vite para registrar automaticamente un directorio de componetes.
+Como estamos usando Vite, puede también aprovechar la [funcionalidad de importación glob](https://vite.dev/guide/features.html#glob-import) de Vite para registrar automaticamente un directorio de componetes.
 
 ## _Slots_ en el Layout {#layout-slots}
 
@@ -189,6 +190,8 @@ Lista completa de _slots_ disponibles en el layout del tema por defecto:
   - `home-hero-before`
   - `home-hero-info-before`
   - `home-hero-info`
+  - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -251,6 +254,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -305,7 +309,7 @@ En breve.
 
 ## Substituyendo Componentes Internos {#overriding-internal-components}
 
-Puede usar los [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
+Puede usar los [aliases](https://vite.dev/config/shared-options.html#resolve-alias) Vite para substituir los componentes del tema por defecto por los suyos personalizados:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

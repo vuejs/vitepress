@@ -1,27 +1,36 @@
 <script lang="ts" setup>
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { useData } from '../composables/data'
+import { computed } from 'vue'
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
-defineProps<{
+const props = defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-const { page } = useData()
+const route = useRoute()
+
+const href = computed(() =>
+  typeof props.item.link === 'function'
+    ? props.item.link(route.data)
+    : props.item.link
+)
+
+const isActiveLink = computed(() => {
+  return isActive(
+    route.data.relativePath,
+    route.hash,
+    props.item.activeMatch || href.value,
+    !!props.item.activeMatch
+  )
+})
 </script>
 
 <template>
   <VPLink
-    :class="{
-      VPNavBarMenuLink: true,
-      active: isActive(
-        page.relativePath,
-        item.activeMatch || item.link,
-        !!item.activeMatch
-      )
-    }"
-    :href="item.link"
+    :class="{ VPNavBarMenuLink: true, active: isActiveLink }"
+    :href
     :target="item.target"
     :rel="item.rel"
     :no-icon="item.noIcon"

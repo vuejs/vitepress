@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: 通过自定义 CSS、组件、布局和插槽来定制和扩展 VitePress 默认主题。
 ---
 
 # 扩展默认主题 {#extending-the-default-theme}
@@ -14,7 +15,7 @@ VitePress 默认的主题已经针对文档进行了优化，并且可以进行�
 
 这些高级自定义配置将需要使用自定义主题来“拓展”默认主题。
 
-:::tip
+::: tip
 在继续之前，请确保首先阅读[自定义主题](./custom-theme)以了解其工作原理。
 :::
 
@@ -55,8 +56,8 @@ export default DefaultTheme
 ```css
 /* .vitepress/theme/my-fonts.css */
 :root {
-  --vp-font-family-base: /* normal text font */
-  --vp-font-family-mono: /* code font */
+  --vp-font-family-base: /* 普通文本字体 */
+  --vp-font-family-mono: /* 代码字体 */
 }
 ```
 
@@ -70,7 +71,7 @@ export default DefaultTheme
 export default {
   transformHead({ assets }) {
     // 相应地调整正则表达式以匹配字体
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-因为我们使用 Vite，还可以利用 Vite 的 [glob 导入功能](https://cn.vitejs.dev/guide/features.html#glob-import)来自动注册一个组件目录。
+因为我们使用 Vite，还可以利用 Vite 的 [glob 导入功能](https://cn.vite.dev/guide/features.html#glob-import)来自动注册一个组件目录。
 
 ## 布局插槽 {#layout-slots}
 
@@ -189,6 +190,7 @@ export default {
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -251,6 +253,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -288,7 +291,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 </style>
 ```
 
-Result (**warning!**: flashing colors, sudden movements, bright lights):
+结果（**注意！**：画面闪烁、快速闪现、强光刺激）:
 
 <details>
 <summary>Demo</summary>
@@ -305,7 +308,7 @@ Result (**warning!**: flashing colors, sudden movements, bright lights):
 
 ## 重写内部组件 {#overriding-internal-components}
 
-可以使用 Vite 的 [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) 来用自定义组件替换默认主题的组件：
+可以使用 Vite 的 [aliases](https://vite.dev/config/shared-options.html#resolve-alias) 来用自定义组件替换默认主题的组件：
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'

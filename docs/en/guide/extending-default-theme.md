@@ -1,5 +1,6 @@
 ---
 outline: deep
+description: Customize and extend the VitePress default theme with custom CSS, components, layouts, and slots.
 ---
 
 # Extending the Default Theme
@@ -70,7 +71,7 @@ If your font is a local file referenced via `@font-face`, it will be processed a
 export default {
   transformHead({ assets }) {
     // adjust the regex accordingly to match your font
-    const myFontFile = assets.find(file => /font-name\.\w+\.woff2/)
+    const myFontFile = assets.find(file => /font-name\.[\w-]+\.woff2/.test(file))
     if (myFontFile) {
       return [
         [
@@ -118,7 +119,7 @@ export default {
 } satisfies Theme
 ```
 
-Since we are using Vite, you can also leverage Vite's [glob import feature](https://vitejs.dev/guide/features.html#glob-import) to auto register a directory of components.
+Since we are using Vite, you can also leverage Vite's [glob import feature](https://vite.dev/guide/features.html#glob-import) to auto register a directory of components.
 
 ## Layout Slots
 
@@ -190,6 +191,7 @@ Full list of slots available in the default theme layout:
   - `home-hero-info-before`
   - `home-hero-info`
   - `home-hero-info-after`
+  - `home-hero-actions-before-actions`
   - `home-hero-actions-after`
   - `home-hero-image`
   - `home-hero-after`
@@ -252,6 +254,7 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
+      fill: 'forwards',
       pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
     }
   )
@@ -306,7 +309,7 @@ Coming soon.
 
 ## Overriding Internal Components
 
-You can use Vite's [aliases](https://vitejs.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
+You can use Vite's [aliases](https://vite.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
@@ -319,7 +322,7 @@ export default defineConfig({
         {
           find: /^.*\/VPNavBar\.vue$/,
           replacement: fileURLToPath(
-            new URL('./components/CustomNavBar.vue', import.meta.url)
+            new URL('./theme/components/CustomNavBar.vue', import.meta.url)
           )
         }
       ]

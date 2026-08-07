@@ -1,3 +1,7 @@
+---
+description: Configura la navegación de la barra lateral en el tema predeterminado de VitePress con grupos, secciones colapsables y múltiples barras laterales.
+---
+
 # Barra Lateral {#sidebar}
 
 La barra lateral es el bloque de navegación principal de su documentación. Puede configurar el menú de la barra lateral en [`themeConfig.sidebar`](./default-theme-config#sidebar).
@@ -180,38 +184,4 @@ export default {
     ]
   }
 }
-```
-
-## `useSidebar` <Badge type="info" text="composable" />
-
-Devuelve datos relacionados con la barra lateral. El objeto devuelto tiene el siguiente tipo:
-
-```ts
-export interface DocSidebar {
-  isOpen: Ref<boolean>
-  sidebar: ComputedRef<DefaultTheme.SidebarItem[]>
-  sidebarGroups: ComputedRef<DefaultTheme.SidebarItem[]>
-  hasSidebar: ComputedRef<boolean>
-  hasAside: ComputedRef<boolean>
-  leftAside: ComputedRef<boolean>
-  isSidebarEnabled: ComputedRef<boolean>
-  open: () => void
-  close: () => void
-  toggle: () => void
-}
-```
-
-**Exemplo:**
-
-```vue
-<script setup>
-import { useSidebar } from 'vitepress/theme'
-
-const { hasSidebar } = useSidebar()
-</script>
-
-<template>
-  <div v-if="hasSidebar">Sólo visible cuando existe la barra lateral
-    </div>
-</template>
 ```

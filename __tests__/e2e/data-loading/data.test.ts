@@ -1,4 +1,4 @@
-import fs from 'node:fs/promises'
+import { writeFile, unlink } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
 describe('static data file support in vite 3', () => {
@@ -43,53 +43,46 @@ describe('static data file support in vite 3', () => {
     `)
   })
 
-  // TODO: make it `.runIf(!process.env.VITE_TEST_BUILD)` -- it currently works, but is skipped to avoid vite's ecosystem-ci from failing (https://github.com/vitejs/vite/pull/16471#issuecomment-2308437187)
-  test.skip('hmr works', async () => {
+  test.runIf(!process.env.VITE_TEST_BUILD)('hmr works', async () => {
     const a = fileURLToPath(new URL('./data/a.json', import.meta.url))
     const b = fileURLToPath(new URL('./data/b.json', import.meta.url))
 
     try {
-      await fs.writeFile(a, JSON.stringify({ a: false }, null, 2) + '\n')
+      await writeFile(a, JSON.stringify({ a: false }, null, 2) + '\n')
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: false }, { b: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: false }, { b: true }], null, 2)
       )
     } finally {
-      await fs.writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
+      await writeFile(a, JSON.stringify({ a: true }, null, 2) + '\n')
     }
 
     let err = true
 
     try {
-      await fs.unlink(b)
+      await unlink(b)
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }], null, 2)
       )
       err = false
     } finally {
       if (err) {
-        await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
+        await writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
       }
     }
 
     try {
-      await fs.writeFile(b, JSON.stringify({ b: false }, null, 2) + '\n')
+      await writeFile(b, JSON.stringify({ b: false }, null, 2) + '\n')
       await page.waitForFunction(
         () =>
           document.querySelector('pre#basic')?.textContent ===
-          JSON.stringify([{ a: true }, { b: false }], null, 2),
-        undefined,
-        { timeout: 3000 }
+          JSON.stringify([{ a: true }, { b: false }], null, 2)
       )
     } finally {
-      await fs.writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
+      await writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
     }
   })
 

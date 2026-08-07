@@ -1,3 +1,7 @@
+---
+description: Configure the navigation bar in the VitePress default theme including site title, logo, and menu links.
+---
+
 # Nav
 
 The Nav is the navigation bar displayed on top of the page. It contains the site title, global menu links, etc.
@@ -54,6 +58,8 @@ export default {
 ```
 
 The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+
+The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
 
 Nav links can also be dropdown menus. To do this, set `items` key on link option.
 

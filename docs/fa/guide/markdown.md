@@ -1,3 +1,8 @@
+---
+description: افزونه‌های داخلی Markdown در ویت‌پرس شامل کانتینرهای سفارشی، بلوک‌های کد با هایلایت، گروه‌های کد و موارد دیگر.
+outline: deep
+---
+
 # افزونه‌های Markdown {#markdown-extensions}
 
 ویت‌پرس با افزونه‌های markdown داخلی ارائه شده است.
@@ -108,7 +113,7 @@ lang: fa-IR
 
 :tada: :100:
 
-یک [لیست از همه اموجی ها](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) در دسترس است.
+یک [لیست از همه اموجی ها](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) در دسترس است.
 
 ## فهرست مطالب {#table-of-contents}
 
@@ -233,7 +238,7 @@ export default defineConfig({
 
 ```md
 ::: raw
-بسته‌بندی در یک <div class="vp-raw">
+بسته‌بندی در یک `<div class="vp-raw">`
 :::
 ```
 
@@ -255,11 +260,11 @@ export default defineConfig({
   }
   ```
 
-  این از [`postcss-prefix-selector`](https://github.com/postcss/postcss-load-config) استفاده می‌کند. می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
+  می‌توانید گزینه‌های آن را به این صورت پاس بدهید:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // به طور پیش‌فرض /base\.css/
+    includeFiles: [/custom\.css/] // به طور پیش‌فرض [/vp-doc\.css/, /base\.css/]
   })
   ```
 
@@ -724,7 +729,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -760,7 +765,7 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -796,8 +801,8 @@ export default config
 
 ## مبانی
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **قسمت فایل** (`parts/basics.md`)
@@ -833,7 +838,7 @@ export default config
 در حال حاضر این گزینه اختیاری است. برای فعال‌سازی آن، باید `markdown-it-mathjax3` را نصب کرده و `markdown.math` را در فایل پیکربندی خود به `true` تنظیم کنید:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]
@@ -876,14 +881,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## بارگذاری lazy تصویر {#image-lazy-loading}
 
-می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoading` به `true` در فایل پیکربندی فعال کنید:
+می‌توانید بارگذاری تنبلی را برای هر تصویر اضافه شده از طریق Markdown با تنظیم `lazyLoad` به `true` در فایل پیکربندی فعال کنید:
 
 ```js
 export default {
   markdown: {
     image: {
       // بارگذاری تنبلی تصویر به طور پیش‌فرض غیرفعال است
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -895,15 +900,15 @@ export default {
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // گزینه‌های markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // گزینه‌های @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // گزینه‌های @mdit-vue/plugin-toc

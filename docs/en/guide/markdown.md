@@ -1,3 +1,8 @@
+---
+description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+outline: deep
+---
+
 # Markdown Extensions
 
 VitePress comes with built in Markdown Extensions.
@@ -96,6 +101,36 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | col 2 is      |   centered    |   \$12 |
 | zebra stripes |   are neat    |    \$1 |
 
+## Task Lists
+
+**Input**
+
+```md
+- [ ] Write the press release
+- [x] Update the website
+```
+
+**Output**
+
+- [ ] Write the press release
+- [x] Update the website
+
+## Footnotes
+
+**Input**
+
+```md
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+```
+
+**Output**
+
+Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+
+[^1]: Definitions can contain **markdown** and are rendered at the end of the page.
+
 ## Emoji :tada:
 
 **Input**
@@ -108,7 +143,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.mjs) is available.
+A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) is available.
 
 ## Table of Contents
 
@@ -225,9 +260,82 @@ export default defineConfig({
 })
 ```
 
+On multilingual sites, these labels can also be overridden per locale - see [Per-locale Markdown Strings](./i18n#per-locale-markdown-strings).
+
+### Registering New Containers
+
+Beyond the built-in types, you can register additional containers by mapping their names to their default titles:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      customContainers: {
+        success: 'SUCCESS'
+      }
+    }
+  }
+  // ...
+})
+```
+
+Registered names work like the built-in ones - including custom titles, attributes, and the [GitHub-style alert syntax](#github-flavored-alerts):
+
+```md
+::: success
+You have completed the walkthrough!
+:::
+
+> [!SUCCESS] Custom title
+> This renders the same way.
+```
+
+New containers ship without any styling, so add some in your theme using the container name as the class. For this example, the default theme's palette already provides fitting colors:
+
+```css
+/* .vitepress/theme/custom.css */
+.custom-block.success {
+  border-color: transparent;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-success-soft);
+}
+```
+
+### Nesting
+
+The `:::` markers follow the same rules as fenced code blocks (` ``` `): a fence is only closed by a matching fence that is **at least as long** as the one that opened it. To nest containers (or to mix them with [code groups](#code-groups)) make the outer fence longer than the ones inside it.
+
+**Input**
+
+`````md
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+`````
+
+**Output**
+
+:::: info Outer container
+This box contains another container.
+
+::: details Inner container
+```js
+console.log('Hello, VitePress!')
+```
+:::
+::::
+
 ### Additional Attributes
 
-You can add additional attributes to the custom containers. We use [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
+You can add additional attributes to the custom containers. We use [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) for this feature, and it is supported on almost all markdown elements. For example, you can set the `open` attribute to make the details block open by default:
 
 **Input**
 
@@ -247,15 +355,31 @@ console.log('Hello, VitePress!')
 ```
 :::
 
+The special `no-title` attribute renders a container without a title element (it has no effect on `details`, which always needs its summary):
+
+**Input**
+
+```md
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+:::
+```
+
+**Output**
+
+::: tip {no-title}
+Just want to try it out? Skip to the [Quickstart](./getting-started).
+:::
+
 ### `raw`
 
-This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries. You might also wanna check out [whyframe](https://whyframe.dev/docs/integrations/vitepress) for better isolation.
+This is a special container that can be used to prevent style and router conflicts with VitePress. This is especially useful when you're documenting component libraries.
 
 **Syntax**
 
 ```md
 ::: raw
-Wraps in a <div class="vp-raw">
+Wraps in a `<div class="vp-raw">`
 :::
 ```
 
@@ -277,17 +401,17 @@ Wraps in a <div class="vp-raw">
   }
   ```
 
-  It uses [`postcss-prefix-selector`](https://github.com/RadValentin/postcss-prefix-selector) under the hood. You can pass its options like this:
+  You can pass its options like this:
 
   ```js
   postcssIsolateStyles({
-    includeFiles: [/vp-doc\.css/] // defaults to /base\.css/
+    includeFiles: [/custom\.css/] // defaults to [/vp-doc\.css/, /base\.css/]
   })
   ```
 
 ## GitHub-flavored Alerts
 
-VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers).
+VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) to render as callouts. They will be rendered the same as the [custom containers](#custom-containers). Unlike on GitHub, text placed right after the marker becomes the title of the alert (`> [!NOTE] Custom Title`), and [containers you registered yourself](#registering-new-containers) work here too.
 
 ```md
 > [!NOTE]
@@ -365,7 +489,7 @@ export default {
 
 A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
 
-You may also customize syntax highlight theme in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
+You may also customize syntax highlight theme, configure language aliases, and set custom language labels in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 
@@ -672,6 +796,16 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
+If a file contains multiple regions with the same name, all of them are imported and concatenated — including regions written in different comment styles, such as a `<!-- #region -->` in the template and a `// #region` in the script of the same Vue SFC. The marker comments delimiting them are removed from the output; set `markdown.snippet.stripRegionMarkers` to `'all'` to also remove markers of other comment styles nested inside the region, or to `false` to keep all of them.
+
+::: tip
+Region names may contain letters, digits, `_`, `-` and `.`. Since the name is taken from the end of the path, a file whose name itself contains a `#` needs an explicit region — write `<<< ./my#file.js#region` rather than `<<< ./my#file.js`.
+:::
+
+::: warning
+Importing a file or region that does not exist throws a build error. Set `markdown.snippet.silent: true` to log a warning and render nothing instead.
+:::
+
 You can also specify the language inside the braces (`{}`) like this:
 
 ```md
@@ -686,7 +820,9 @@ You can also specify the language inside the braces (`{}`) like this:
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-This is helpful if source language cannot be inferred from your file extension.
+This is helpful if source language cannot be inferred from your file extension. Only alphanumeric extensions are inferred, so files like `main.c++` or `scss.code-snippets` need the language spelled out this way.
+
+Anything after the language inside the braces is passed along to the code block as extra attributes — for example, `<<< @/snippets/snippet.ts{ts twoslash}` enables twoslash processing when [`@shikijs/vitepress-twoslash`](https://shiki.style/packages/vitepress#twoslash) is configured. Note that attributes may not contain square brackets.
 
 ## Code Groups
 
@@ -781,7 +917,7 @@ You can also [import snippets](#import-code-snippets) in code groups:
 You can include a markdown file in another markdown file, even nested.
 
 ::: tip
-You can also prefix the markdown path with `@`, it will act as the source root. By default, it's the VitePress project root, unless `srcDir` is configured.
+You can also prefix the markdown path with `@`, and it will act as the source root. By default, the source root is the VitePress project root, unless `srcDir` is configured.
 :::
 
 For example, you can include a relative markdown file using this:
@@ -793,7 +929,7 @@ For example, you can include a relative markdown file using this:
 
 ## Basics
 
-<!--@include: ./parts/basics.md-->
+<!--@@include: ./parts/basics.md-->
 ```
 
 **Part file** (`parts/basics.md`)
@@ -824,17 +960,17 @@ It also supports selecting a line range:
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
 
-<!--@include: ./parts/basics.md{3,}-->
+<!--@@include: ./parts/basics.md{3,}-->
 ```
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 Some getting started stuff.
 
 ### Configuration
@@ -844,7 +980,7 @@ Can be created using `.foorc.json`.
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -860,18 +996,18 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Input**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
 
-<!--@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./parts/basics.md#basic-usage{,2}-->
+<!--@@include: ./parts/basics.md#basic-usage{5,}-->
 ```
 
 **Part file** (`parts/basics.md`)
 
-```md
+```md:line-numbers
 <!-- #region basic-usage -->
 ## Usage Line 1
 
@@ -883,7 +1019,7 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 **Equivalent code**
 
-```md
+```md:line-numbers
 # Docs
 
 ## Basics
@@ -894,15 +1030,84 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 ```
 
 ::: warning
-Note that this does not throw errors if your file is not present. Hence, when using this feature make sure that the contents are being rendered as expected.
+Including a missing file, region, heading anchor, or an out-of-range line selection throws a build error. Set `markdown.include.silent: true` to log a warning and skip the inclusion instead.
 :::
+
+Instead of VS Code regions, you can also use header anchors to include a specific section of the file. For example, if you have a header in your markdown file like this:
+
+```md
+## My Base Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+
+## Another Section
+
+Content outside `My Base Section`.
+```
+
+You can include the `My Base Section` section like this:
+
+```md
+## My Extended Section
+<!--@@include: ./parts/basics.md#my-base-section-->
+```
+
+**Equivalent code**
+
+```md
+## My Extended Section
+
+Some content here.
+
+### My Sub Section
+
+Some more content here.
+```
+
+Here, `my-base-section` is the generated id of the heading element. In case it's not easily guessable, you can open the part file in your browser and click on the heading anchor (`#` symbol left to the heading when hovered) to see the id in the URL bar. Or use browser dev tools to inspect the element. Alternatively, you can also specify the id to the part file like this:
+
+```md
+## My Base Section {#custom-id}
+```
+
+and include it like this:
+
+```md
+<!--@@include: ./parts/basics.md#custom-id-->
+```
+
+Relative links and images inside included files resolve from the _included_ file's location, so a partial can link to its neighbors no matter which page includes it. Set `markdown.include.rebaseRelativeUrls: false` to leave them resolving relative to the including page instead.
+
+### Including Code Files {#including-code-files}
+
+Since inclusion happens before code blocks are parsed, the directive also works inside fences. Combined with a line range, this lets you show only part of a code file — an alternative to [importing snippets](#import-code-snippets) when regions are not an option:
+
+**Input**
+
+````md
+```js
+<!--@@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+````
+
+**Output**
+
+```js
+<!--@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+
+Note that the included lines are inserted verbatim (indentation is preserved), and content containing backticks needs a longer outer fence.
 
 ## Math Equations
 
 This is currently opt-in. To enable it, you need to install `markdown-it-mathjax3` and set `markdown.math` to `true` in your config file:
 
 ```sh
-npm add -D markdown-it-mathjax3
+npm add -D markdown-it-mathjax3@^4
 ```
 
 ```ts [.vitepress/config.ts]
@@ -943,14 +1148,14 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 
 ## Image Lazy Loading
 
-You can enable lazy loading for each image added via markdown by setting `lazyLoading` to `true` in your config file:
+You can enable lazy loading for each image added via markdown by setting `lazyLoad` to `true` in your config file:
 
 ```js
 export default {
   markdown: {
     image: {
       // image lazy loading is disabled by default
-      lazyLoading: true
+      lazyLoad: true
     }
   }
 }
@@ -962,15 +1167,15 @@ VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the 
 
 ```js
 import { defineConfig } from 'vitepress'
-import markdownItAnchor from 'markdown-it-anchor'
+import { headerLink } from '@mdit/plugin-anchor'
 import markdownItFoo from 'markdown-it-foo'
 
 export default defineConfig({
   markdown: {
-    // options for markdown-it-anchor
-    // https://github.com/valeriangalliat/markdown-it-anchor#usage
+    // options for @mdit/plugin-anchor
+    // https://mdit-plugins.github.io/anchor.html
     anchor: {
-      permalink: markdownItAnchor.permalink.headerLink()
+      permalink: headerLink()
     },
 
     // options for @mdit-vue/plugin-toc

@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import '@docsearch/css'
 import { onKeyStroke } from '@vueuse/core'
-import {
-  defineAsyncComponent,
-  onMounted,
-  onUnmounted,
-  ref
-} from 'vue'
-import type { DefaultTheme } from '../../shared'
+import type { DefaultTheme } from 'vitepress/theme'
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { useData } from '../composables/data'
+import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
+import { smartComputed } from '../support/reactivity'
+import VPNavBarAskAiButton from './VPNavBarAskAiButton.vue'
 import VPNavBarSearchButton from './VPNavBarSearchButton.vue'
 
 const VPLocalSearchBox = __VP_LOCAL_SEARCH__
@@ -19,7 +16,37 @@ const VPAlgoliaSearchBox = __ALGOLIA__
   ? defineAsyncComponent(() => import('./VPAlgoliaSearchBox.vue'))
   : () => null
 
-const { theme } = useData()
+const { theme, localeIndex, lang } = useData()
+const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
+
+// #region Algolia Search
+
+const algoliaOptions = smartComputed<DefaultTheme.AlgoliaSearchOptions>(() => {
+  return resolveOptionsForLanguage(
+    theme.value.search?.options || {},
+    localeIndex.value,
+    lang.value
+  )
+})
+
+const resolvedMode = computed(() => resolveMode(algoliaOptions.value))
+
+const askAiSidePanelConfig = computed(() => {
+  if (!resolvedMode.value.useSidePanel) return null
+  const askAi = algoliaOptions.value.askAi
+  if (!askAi || typeof askAi === 'string') return null
+  if (!askAi.sidePanel) return null
+  return askAi.sidePanel === true ? {} : askAi.sidePanel
+})
+
+const askAiShortcutEnabled = computed(() => {
+  return askAiSidePanelConfig.value?.keyboardShortcuts?.['Ctrl/Cmd+I'] !== false
+})
+
+type OpenTarget = 'search' | 'askAi' | 'toggleAskAi'
+type OpenRequest = { target: OpenTarget; nonce: number }
+const openRequest = ref<OpenRequest | null>(null)
+let openNonce = 0
 
 // to avoid loading the docsearch js upfront (which is more than 1/3 of the
 // payload), we delay initializing it until the user has actually clicked or
@@ -27,86 +54,74 @@ const { theme } = useData()
 const loaded = ref(false)
 const actuallyLoaded = ref(false)
 
-const preconnect = () => {
+onMounted(() => {
+  if (!__ALGOLIA__) return
+
   const id = 'VPAlgoliaPreconnect'
+  if (document.getElementById(id)) return
+
+  const appId =
+    algoliaOptions.value.appId ||
+    (typeof algoliaOptions.value.askAi === 'object'
+      ? algoliaOptions.value.askAi?.appId
+      : undefined)
+
+  if (!appId) return
 
   const rIC = window.requestIdleCallback || setTimeout
   rIC(() => {
     const preconnect = document.createElement('link')
     preconnect.id = id
     preconnect.rel = 'preconnect'
-    preconnect.href = `https://${
-      ((theme.value.search?.options as DefaultTheme.AlgoliaSearchOptions) ??
-        theme.value.algolia)!.appId
-    }-dsn.algolia.net`
+    preconnect.href = `https://${appId}-dsn.algolia.net`
     preconnect.crossOrigin = ''
     document.head.appendChild(preconnect)
   })
-}
-
-onMounted(() => {
-  if (!__ALGOLIA__) {
-    return
-  }
-
-  preconnect()
-
-  const handleSearchHotKey = (event: KeyboardEvent) => {
-    if (
-      (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) ||
-      (!isEditingContent(event) && event.key === '/')
-    ) {
-      event.preventDefault()
-      load()
-      remove()
-    }
-  }
-
-  const remove = () => {
-    window.removeEventListener('keydown', handleSearchHotKey)
-  }
-
-  window.addEventListener('keydown', handleSearchHotKey)
-
-  onUnmounted(remove)
 })
 
-function load() {
+if (__ALGOLIA__) {
+  onKeyStroke('k', (event) => {
+    if (
+      resolvedMode.value.showKeywordSearch &&
+      (event.ctrlKey || event.metaKey)
+    ) {
+      event.preventDefault()
+      loadAndOpen('search')
+    }
+  })
+
+  onKeyStroke('i', (event) => {
+    if (
+      askAiSidePanelConfig.value &&
+      askAiShortcutEnabled.value &&
+      (event.ctrlKey || event.metaKey)
+    ) {
+      event.preventDefault()
+      loadAndOpen('askAi')
+    }
+  })
+
+  onKeyStroke('/', (event) => {
+    if (resolvedMode.value.showKeywordSearch && !isEditingContent(event)) {
+      event.preventDefault()
+      loadAndOpen('search')
+    }
+  })
+}
+
+function loadAndOpen(target: OpenTarget) {
   if (!loaded.value) {
     loaded.value = true
-    setTimeout(poll, 16)
   }
+
+  // This will either be handled immediately if DocSearch is ready,
+  // or queued by the AlgoliaSearchBox until its instances become ready.
+  openRequest.value = { target, nonce: ++openNonce }
 }
 
-function poll() {
-  // programmatically open the search box after initialize
-  const e = new Event('keydown') as any
+// #endregion
 
-  e.key = 'k'
-  e.metaKey = true
-
-  window.dispatchEvent(e)
-
-  setTimeout(() => {
-    if (!document.querySelector('.DocSearch-Modal')) {
-      poll()
-    }
-  }, 16)
-}
-
-function isEditingContent(event: KeyboardEvent): boolean {
-  const element = event.target as HTMLElement
-  const tagName = element.tagName
-
-  return (
-    element.isContentEditable ||
-    tagName === 'INPUT' ||
-    tagName === 'SELECT' ||
-    tagName === 'TEXTAREA'
-  )
-}
-
-// Local search
+// #region Local Search
 
 const showSearch = ref(false)
 
@@ -126,37 +141,60 @@ if (__VP_LOCAL_SEARCH__) {
   })
 }
 
-const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
+// #endregion
+
+function isEditingContent(event: KeyboardEvent): boolean {
+  const element = event.target as HTMLElement
+  const tagName = element.tagName
+
+  return (
+    element.isContentEditable ||
+    tagName === 'INPUT' ||
+    tagName === 'SELECT' ||
+    tagName === 'TEXTAREA'
+  )
+}
 </script>
 
 <template>
   <div class="VPNavBarSearch">
-    <template v-if="provider === 'local'">
+    <template v-if="provider === 'algolia'">
+      <VPNavBarSearchButton
+        v-if="resolvedMode.showKeywordSearch"
+        :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :aria-label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        :aria-keyshortcuts="'/ control+k meta+k'"
+        @click="loadAndOpen('search')"
+      />
+      <VPNavBarAskAiButton
+        v-if="askAiSidePanelConfig"
+        :aria-label="askAiSidePanelConfig.button?.translations?.buttonAriaLabel || 'Ask AI'"
+        :aria-keyshortcuts="askAiShortcutEnabled ? 'control+i meta+i' : undefined"
+        @click="actuallyLoaded ? loadAndOpen('toggleAskAi') : loadAndOpen('askAi')"
+      />
+      <VPAlgoliaSearchBox
+        v-if="loaded"
+        :algolia-options
+        :open-request
+        @vue:beforeMount="actuallyLoaded = true"
+      />
+    </template>
+    <template v-else-if="provider === 'local'">
+      <VPNavBarSearchButton
+        :text="algoliaOptions.translations?.button?.buttonText || 'Search'"
+        :aria-label="algoliaOptions.translations?.button?.buttonAriaLabel || 'Search'"
+        :aria-keyshortcuts="'/ control+k meta+k'"
+        @click="showSearch = true"
+      />
       <VPLocalSearchBox
         v-if="showSearch"
         @close="showSearch = false"
       />
-
-      <div id="local-search">
-        <VPNavBarSearchButton @click="showSearch = true" />
-      </div>
-    </template>
-
-    <template v-else-if="provider === 'algolia'">
-      <VPAlgoliaSearchBox
-        v-if="loaded"
-        :algolia="theme.search?.options ?? theme.algolia"
-        @vue:beforeMount="actuallyLoaded = true"
-      />
-
-      <div v-if="!actuallyLoaded" id="docsearch">
-        <VPNavBarSearchButton @click="load" />
-      </div>
     </template>
   </div>
 </template>
 
-<style>
+<style scoped>
 .VPNavBarSearch {
   display: flex;
   align-items: center;
@@ -164,6 +202,7 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
 
 @media (min-width: 768px) {
   .VPNavBarSearch {
+    gap: 8px;
     flex-grow: 1;
     padding-left: 24px;
   }
@@ -173,22 +212,5 @@ const provider = __ALGOLIA__ ? 'algolia' : __VP_LOCAL_SEARCH__ ? 'local' : ''
   .VPNavBarSearch {
     padding-left: 32px;
   }
-}
-
-.dark .DocSearch-Footer {
-  border-top: 1px solid var(--vp-c-divider);
-}
-
-.DocSearch-Form {
-  border: 1px solid var(--vp-c-brand-1);
-  background-color: var(--vp-c-white);
-}
-
-.dark .DocSearch-Form {
-  background-color: var(--vp-c-default-soft);
-}
-
-.DocSearch-Screen-Icon > svg {
-  margin: auto;
 }
 </style>

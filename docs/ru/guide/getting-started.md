@@ -1,3 +1,7 @@
+---
+description: Начните работу с VitePress. Узнайте, как установить, создать и начать разработку вашего сайта с документацией.
+---
+
 # Первые шаги {#getting-started}
 
 ## Попробуйте онлайн {#try-it-online}
@@ -8,7 +12,7 @@
 
 ### Требования {#prerequisites}
 
-- [Node.js](https://nodejs.org/) версии 18 или выше.
+- [Node.js](https://nodejs.org/) версии 22 или выше.
 - Терминал для доступа к VitePress через интерфейс командной строки (CLI).
 - Текстовый редактор с поддержкой синтаксиса [Markdown](https://ru.wikipedia.org/wiki/Markdown).
   - Рекомендуется использовать [VSCode](https://code.visualstudio.com/), а также [официальное расширение Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,46 +22,30 @@ VitePress можно использовать самостоятельно ил�
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
-```
-
-```sh [yarn (pnp)]
-$ yarn add -D vitepress vue
+$ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
+$ bun add -D vitepress@next
 ```
 
-:::
-
-::: details Получаете предупреждения об отсутствующих зависимостях?
-Если вы используете PNPM, вы заметите предупреждение об отсутствующем пакете `@docsearch/js`. Это не мешает работе VitePress. Если вы хотите подавить это предупреждение, добавьте следующее в ваш `package.json`:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+```sh [deno]
+$ deno add -D vitepress@next
 ```
 
 :::
 
 ::: tip ПРИМЕЧАНИЕ
 
-VitePress — это пакет, предназначенный только для ESM. Не используйте `require()` для импорта, и убедитесь, что ближайший `package.json` содержит `"type": "module"`, или измените расширение соответствующих файлов, например, `.vitepress/config.js` на `.mjs`/`.mts`. Более подробную информацию см. в [Руководстве по устранению неполадок Vite](https://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only). Кроме того, внутри асинхронных контекстов CJS можно использовать `await import('vitepress')` вместо этого.
+VitePress — это пакет, предназначенный только для ESM. Не используйте `require()` для импорта, и убедитесь, что ближайший `package.json` содержит `"type": "module"`, или измените расширение соответствующих файлов, например, `.vitepress/config.js` на `.mjs`/`.mts`. Более подробную информацию см. в [Руководстве по устранению неполадок Vite](https://vite-docs.ru/guide/troubleshooting.html#this-package-is-esm-only). Кроме того, внутри асинхронных контекстов CJS можно использовать `await import('vitepress')` вместо этого.
 
 :::
 

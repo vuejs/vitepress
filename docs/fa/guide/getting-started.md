@@ -1,3 +1,7 @@
+---
+description: نصب و راه‌اندازی ویت‌پرس. یاد بگیرید چگونه سایت مستندات خود را نصب، ایجاد و توسعه دهید.
+---
+
 # شروع کار {#getting-started}
 
 ## تست آنلاین {#try-it-online}
@@ -8,7 +12,7 @@
 
 ### پیش‌نیازها {#prerequisites}
 
-- [Node.js](https://nodejs.org/) نسخه 18 یا بالاتر.
+- [Node.js](https://nodejs.org/) نسخه 22 یا بالاتر.
 - ترمینال برای دسترسی به ویت‌پرس از طریق رابط خط فرمان (CLI).
 - ویرایشگر متنی با پشتیبانی از [Markdown](https://en.wikipedia.org/wiki/Markdown).
   - [VSCode](https://code.visualstudio.com/) به همراه [افزونه رسمی Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
@@ -18,47 +22,26 @@
 ::: code-group
 
 ```sh [npm]
-$ npm add -D vitepress
+$ npm add -D vitepress@next
 ```
 
 ```sh [pnpm]
-$ pnpm add -D vitepress
+$ pnpm add -D vitepress@next
 ```
 
 ```sh [yarn]
-$ yarn add -D vitepress
-```
-
-```sh [yarn (pnp)]
-$ yarn add -D vitepress vue
+$ yarn add -D vitepress@next vue
 ```
 
 ```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-::: details درباره peer dependency های ناموجود هشدار دریافت می‌کنید؟
-
-اگر از PNPM استفاده می‌کنید، متوجه هشدار peer dependency برای `@docsearch/js` خواهید شد. این مسئله جلوی عملکرد ویت‌پرس را نمی‌گیرد. اگر می‌خواهید این هشدار را نادیده بگیرید، موارد زیر را به `package.json` خود اضافه کنید:
-
-```json
-"pnpm": {
-  "peerDependencyRules": {
-    "ignoreMissing": [
-      "@algolia/client-search",
-      "search-insights"
-    ]
-  }
-}
+$ bun add -D vitepress@next
 ```
 
 :::
 
 ::: tip نکته
 
-ویت‌پرس یک بسته فقط ESM است. از `require()` برای وارد کردن آن استفاده نکنید و اطمینان حاصل کنید که نزدیک‌ترین `package.json` شما شامل `"type": "module"` است، یا پسوند فایل‌های مربوطه خود مانند `.vitepress/config.js` را به `.mjs`/`.mts` تغییر دهید. برای جزئیات بیشتر به [راهنمای عیب‌یابی Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) مراجعه کنید. همچنین، در زمینه‌های async CJS می‌توانید از `await import('vitepress')` استفاده کنید.
+ویت‌پرس یک بسته فقط ESM است. از `require()` برای وارد کردن آن استفاده نکنید و اطمینان حاصل کنید که نزدیک‌ترین `package.json` شما شامل `"type": "module"` است، یا پسوند فایل‌های مربوطه خود مانند `.vitepress/config.js` را به `.mjs`/`.mts` تغییر دهید. برای جزئیات بیشتر به [راهنمای عیب‌یابی Vite](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) مراجعه کنید. همچنین، در زمینه‌های async CJS می‌توانید از `await import('vitepress')` استفاده کنید.
 
 :::
 
