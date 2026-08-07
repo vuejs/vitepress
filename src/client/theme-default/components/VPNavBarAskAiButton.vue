@@ -9,18 +9,18 @@
   display: flex;
   align-items: center;
   height: var(--vp-nav-height);
-  padding: 8px 14px;
-  font-size: 20px;
+  padding: 0.5rem 0.875rem;
+  font-size: 1.25rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarAskAiButton {
     height: auto;
-    padding: 11.5px;
+    padding: 0.7188rem;
     transition: color 0.3s ease;
     background-color: var(--vp-c-bg-alt);
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
     color: var(--vp-c-text-2);
   }
 

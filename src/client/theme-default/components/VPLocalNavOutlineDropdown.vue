@@ -95,9 +95,9 @@ function scrollToTop() {
 <style scoped>
 .VPLocalNavOutlineDropdown button {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 1.5rem;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
   position: relative;
@@ -115,19 +115,19 @@ function scrollToTop() {
 .icon {
   display: inline-block;
   vertical-align: middle;
-  margin-left: 2px;
-  font-size: 14px;
+  margin-left: 0.125rem;
+  font-size: 0.875rem;
   transform: rotate(0) /*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPLocalNavOutlineDropdown button {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .icon {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -138,24 +138,24 @@ function scrollToTop() {
 
 .items {
   position: absolute;
-  top: 40px;
-  right: 16px;
-  left: 16px;
+  top: 2.5rem;
+  right: 1rem;
+  left: 1rem;
   display: grid;
   gap: 1px;
   border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background-color: var(--vp-c-gutter);
-  max-height: calc(var(--vp-vh, 100vh) - 86px);
+  max-height: calc(var(--vp-vh, 100vh) - 5.375rem);
   overflow: hidden auto;
   box-shadow: var(--vp-shadow-3);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .items {
     right: auto;
-    left: calc(var(--vp-sidebar-width) + 32px);
-    width: 320px;
+    left: calc(var(--vp-sidebar-width) + 2rem);
+    width: 20rem;
   }
 }
 
@@ -165,15 +165,15 @@ function scrollToTop() {
 
 .top-link {
   display: block;
-  padding: 0 16px;
-  line-height: 48px;
-  font-size: 14px;
+  padding: 0 1rem;
+  line-height: 3rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
 }
 
 .outline {
-  padding: 8px 0;
+  padding: 0.5rem 0;
   background-color: var(--vp-c-bg-soft);
 }
 
@@ -188,6 +188,6 @@ function scrollToTop() {
 .flyout-enter-from,
 .flyout-leave-to {
   opacity: 0;
-  transform: translateY(-16px);
+  transform: translateY(-1rem);
 }
 </style>

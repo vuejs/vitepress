@@ -17,32 +17,32 @@
 
 <style scoped>
 .VPTeamPageSection {
-  padding: 0 32px;
+  padding: 0 2rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPTeamPageSection {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPTeamPageSection {
-    padding: 0 64px;
+    padding: 0 4rem;
   }
 }
 
 .title {
   position: relative;
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
   text-align: center;
   color: var(--vp-c-text-2);
 }
 
 .title-line {
   position: absolute;
-  top: 16px;
+  top: 1rem;
   left: 0;
   width: 100%;
   height: 1px;
@@ -52,26 +52,26 @@
 .title-text {
   position: relative;
   display: inline-block;
-  padding: 0 24px;
+  padding: 0 1.5rem;
   letter-spacing: 0;
-  line-height: 32px;
-  font-size: 20px;
+  line-height: 2rem;
+  font-size: 1.25rem;
   font-weight: 500;
   background-color: var(--vp-c-bg);
 }
 
 .lead {
   margin: 0 auto;
-  max-width: 480px;
-  padding-top: 12px;
+  max-width: 30rem;
+  padding-top: 0.75rem;
   text-align: center;
-  line-height: 24px;
-  font-size: 16px;
+  line-height: 1.5rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
 .members {
-  padding-top: 40px;
+  padding-top: 2.5rem;
 }
 </style>

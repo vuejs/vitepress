@@ -40,7 +40,7 @@ const { localeLinks, currentLang } = useLangs({
   display: none;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPNavBarTranslations {
     display: flex;
     align-items: center;
@@ -48,9 +48,9 @@ const { localeLinks, currentLang } = useLangs({
 }
 
 .title {
-  padding: 0 24px 0 12px;
-  line-height: 32px;
-  font-size: 14px;
+  padding: 0 1.5rem 0 0.75rem;
+  line-height: 2rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--vp-c-text-1);
 }

@@ -11,53 +11,53 @@
 
 <style scoped>
 .VPTeamPageTitle {
-  padding: 48px 32px;
+  padding: 3rem 2rem;
   text-align: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPTeamPageTitle {
-    padding: 64px 48px 48px;
+    padding: 4rem 3rem 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPTeamPageTitle {
-    padding: 80px 64px 48px;
+    padding: 5rem 4rem 3rem;
   }
 }
 
 .title {
   letter-spacing: 0;
-  line-height: 44px;
-  font-size: 36px;
+  line-height: 2.75rem;
+  font-size: 2.25rem;
   font-weight: 500;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .title {
-    letter-spacing: -0.5px;
-    line-height: 56px;
-    font-size: 48px;
+    letter-spacing: -0.0313rem;
+    line-height: 3.5rem;
+    font-size: 3rem;
   }
 }
 
 .lead {
   margin: 0 auto;
-  max-width: 512px;
-  padding-top: 12px;
-  line-height: 24px;
-  font-size: 16px;
+  max-width: 32rem;
+  padding-top: 0.75rem;
+  line-height: 1.5rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .lead {
-    max-width: 592px;
-    letter-spacing: 0.15px;
-    line-height: 28px;
-    font-size: 20px;
+    max-width: 37rem;
+    letter-spacing: 0.0094rem;
+    line-height: 1.75rem;
+    font-size: 1.25rem;
   }
 }
 </style>

@@ -78,7 +78,7 @@ const classes = computed(() => {
   position: fixed;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPLocalNav {
     top: var(--vp-nav-height);
   }
@@ -92,7 +92,7 @@ const classes = computed(() => {
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPLocalNav {
     display: none;
   }
@@ -107,8 +107,8 @@ const classes = computed(() => {
 .menu {
   display: flex;
   align-items: center;
-  line-height: 24px;
-  font-size: 12px;
+  line-height: 1.5rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -119,26 +119,26 @@ const classes = computed(() => {
   transition: color 0.25s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .menu {
     display: none;
   }
 }
 
 .menu-icon {
-  margin-right: 8px;
-  font-size: 14px;
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
 }
 
 .menu,
 :deep(.VPLocalNavOutlineDropdown > button) {
-  padding: 12px 24px 11px;
+  padding: 0.75rem 1.5rem 0.6875rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .menu,
   :deep(.VPLocalNavOutlineDropdown > button) {
-    padding: 12px 32px 11px;
+    padding: 0.75rem 2rem 0.6875rem;
   }
 }
 </style>

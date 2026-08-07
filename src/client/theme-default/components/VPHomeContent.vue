@@ -21,20 +21,20 @@ const { width: vw } = useWindowSize({
 .container {
   margin: auto;
   width: 100%;
-  max-width: 1280px;
-  padding: 0 24px;
+  max-width: 80rem;
+  padding: 0 1.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   .container {
-    padding: 0 48px;
+    padding: 0 3rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .container {
     width: 100%;
-    padding: 0 64px;
+    padding: 0 4rem;
   }
 }
 

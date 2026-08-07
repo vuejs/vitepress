@@ -150,11 +150,11 @@
   }
 
   :where(select:is([multiple], [size])) optgroup option {
-    padding-inline-start: 20px;
+    padding-inline-start: 1.25rem;
   }
 
   ::file-selector-button {
-    margin-inline-end: 4px;
+    margin-inline-end: 0.25rem;
   }
 
   ::placeholder {
@@ -246,7 +246,7 @@
   :root {
     /* FIXME: pins rem-sized bits while the theme is px-based - remove when
        moving to relative units (#570) */
-    font-size: 16px;
+    font-size: 1rem;
 
     &:is(.dark) {
       color-scheme: dark;
@@ -259,7 +259,7 @@
   body {
     /* FIXME: unlike html's unitless 1.5, this is inherited as-is by elements
        with other font sizes - make unitless with #570 */
-    line-height: 24px;
+    line-height: 1.5rem;
     color: var(--vp-c-text-1);
     background-color: var(--vp-c-bg);
     text-rendering: optimizeLegibility;
@@ -290,7 +290,7 @@
 
   button:focus-visible {
     outline: 1px dotted;
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: 0.25rem auto -webkit-focus-ring-color;
   }
 
   input::placeholder,

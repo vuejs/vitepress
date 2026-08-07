@@ -42,31 +42,31 @@
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link {
-  padding: 8px 12px 8px 10px;
+  padding: 0.5rem 0.75rem 0.5rem 0.625rem;
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Title {
   padding-bottom: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .DocSearch-Clear {
-  padding-right: 6px;
+  padding-right: 0.375rem;
 }
 
 .DocSearch-Commands-Key {
-  padding: 4px;
+  padding: 0.25rem;
   border: 1px solid var(--docsearch-subtle-color);
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .DocSearch-Hit a:focus-visible {
-  outline: 2px solid var(--docsearch-focus-color);
+  outline: 0.125rem solid var(--docsearch-focus-color);
 }
 
 .DocSearch-Logo [class^='cls-'] {
@@ -78,15 +78,15 @@
 }
 
 .DocSearch-Menu-content {
-  margin-top: -4px;
-  padding: 6px;
+  margin-top: -0.25rem;
+  padding: 0.375rem;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border-radius: 0.375rem;
   box-shadow: var(--vp-shadow-2);
 }
 
 .DocSearch-Menu-item {
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .DocSearch-SearchBar + .DocSearch-Footer {

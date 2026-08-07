@@ -27,14 +27,14 @@ defineProps<{
 }
 
 .nested {
-  padding-right: 16px;
-  padding-left: 16px;
+  padding-right: 1rem;
+  padding-left: 1rem;
 }
 
 .outline-link {
   display: block;
-  line-height: 32px;
-  font-size: 14px;
+  line-height: 2rem;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--vp-c-text-2);
   white-space: nowrap;
@@ -50,6 +50,6 @@ defineProps<{
 }
 
 .outline-link.nested {
-  padding-left: 13px;
+  padding-left: 0.8125rem;
 }
 </style>

@@ -44,13 +44,13 @@ onBeforeUnmount(() => {
 
 .group + .group {
   border-top: 1px solid var(--vp-c-divider);
-  padding-top: 10px;
+  padding-top: 0.625rem;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .group {
-    padding-top: 10px;
-    width: calc(var(--vp-sidebar-width) - 64px);
+    padding-top: 0.625rem;
+    width: calc(var(--vp-sidebar-width) - 4rem);
   }
 }
 </style>
