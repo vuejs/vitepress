@@ -64,17 +64,32 @@ interface PageData {
 
 `page.headers` is populated only when [`markdown.headers`](./site-config#markdown) is enabled. Without that option, it remains an empty array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
 
+### Reading the returned refs
+
+Every field on `VitePressData` is a Vue [`Ref`](https://vuejs.org/api/reactivity-core.html#ref):
+
+- In `<template>`, refs unwrap automatically — use `theme.footer` / `page.title` directly.
+- In `<script setup>`, access the inner value with `.value` (for example `theme.value.footer`).
+- Nested objects on `theme` / `site` / `frontmatter` are typically reactive proxies. Treat them as plain data for reading; avoid replacing nested objects in place unless you intend to mutate local UI state.
+- Prefer destructuring from `useData()` once at the top of the component (`const { theme, page, isDark } = useData()`), then read through those refs. Do not call `useData()` outside `setup` / `<script setup>`.
+
 **Example:**
 
 ```vue
 <script setup>
 import { useData } from 'vitepress'
 
-const { theme } = useData()
+const { theme, page, isDark } = useData()
+
+// script: unwrap with .value
+console.log(page.value.relativePath)
+console.log(theme.value.footer?.copyright)
 </script>
 
 <template>
+  <!-- template: refs auto-unwrap -->
   <h1>{{ theme.footer.copyright }}</h1>
+  <p v-if="isDark">Dark mode</p>
 </template>
 ```
 
