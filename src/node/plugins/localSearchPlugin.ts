@@ -1,19 +1,25 @@
+import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
-import fs from 'node:fs'
-import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { createDebug } from 'obug'
+import c from 'picocolors'
 import type { Plugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
-import { createMarkdownRenderer } from '../markdown/markdown'
+import {
+  createMarkdownRenderer,
+  mergeMarkdownLocales
+} from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
-import { processIncludes } from '../utils/processIncludes'
+import { readTextFile } from '../utils/fs'
 
 const debug = createDebug('vitepress:local-search')
 
 const LOCAL_SEARCH_INDEX_ID = '@localSearchIndex'
 const LOCAL_SEARCH_INDEX_REQUEST_PATH = '/' + LOCAL_SEARCH_INDEX_ID
+
+const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
+const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
 interface IndexObject {
   id: string
@@ -28,39 +34,46 @@ export async function localSearchPlugin(
   if (siteConfig.site.themeConfig?.search?.provider !== 'local') {
     return {
       name: 'vitepress:local-search',
-      resolveId(id) {
-        if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
+      resolveId: {
+        filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_ID) },
+        handler() {
           return LOCAL_SEARCH_INDEX_REQUEST_PATH
         }
       },
-      load(id) {
-        if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
+      load: {
+        filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_REQUEST_PATH) },
+        handler() {
           return `export default '{}'`
         }
       }
     }
   }
 
-  const md = await createMarkdownRenderer(
-    siteConfig.srcDir,
-    siteConfig.markdown,
-    siteConfig.site.base,
-    siteConfig.logger
-  )
+  // created in configResolved to use the resolved publicDir
+  let md: Awaited<ReturnType<typeof createMarkdownRenderer>>
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
-  async function render(file: string) {
-    if (!fs.existsSync(file)) return ''
+  async function render(file: string, localeIndex: string) {
     const { srcDir, cleanUrls = false } = siteConfig
     const relativePath = slash(path.relative(srcDir, file))
-    const env: MarkdownEnv = { path: file, relativePath, cleanUrls }
-    const md_raw = await readFile(file, 'utf-8')
-    const md_src = processIncludes(md, srcDir, md_raw, file, [], cleanUrls)
+    const env: MarkdownEnv = {
+      path: file,
+      relativePath,
+      cleanUrls,
+      localeIndex
+    }
+    const raw = await readTextFile(file).catch((e) => {
+      if (e.code === 'ENOENT') {
+        debug(`File not found: ${file}`)
+        return ''
+      }
+      throw e
+    })
     if (options._render) {
-      return await options._render(md_src, env, md)
+      return options._render(raw, env, md)
     } else {
-      const html = await md.renderAsync(md_src, env)
+      const html = await md.renderAsync(raw, env)
       return env.frontmatter?.search === false ? '' : html
     }
   }
@@ -83,8 +96,13 @@ export async function localSearchPlugin(
   let server: ViteDevServer | undefined
   let pending: Promise<void>
 
+  let indexVersion = 0
+
   function onIndexUpdated() {
     if (!server) return
+    // bust the per-locale import urls emitted below — the browser module
+    // cache and the transform cache would otherwise serve the old index
+    indexVersion++
     server.moduleGraph.onFileChange(LOCAL_SEARCH_INDEX_REQUEST_PATH)
     // HMR
     const mod = server.moduleGraph.getModuleById(
@@ -123,7 +141,19 @@ export async function localSearchPlugin(
     )
     const index = getIndexByLocale(locale)
     // retrieve file and split into "sections"
-    const html = await render(file)
+    let html: string
+    try {
+      html = await render(file, locale)
+    } catch (e) {
+      // in dev this runs unawaited, so a page that fails to render must not
+      // reject and take the server down with it — the page reports the error
+      // itself through the markdown transform
+      siteConfig.logger.warn(
+        c.yellow(`Failed to index ${page} for search: ${(e as Error).message}`)
+      )
+      return
+    }
+    if (!html) return
     const sections =
       // user provided generator
       (await options.miniSearch?._splitIntoSections?.(file, html)) ??
@@ -155,51 +185,74 @@ export async function localSearchPlugin(
   return {
     name: 'vitepress:local-search',
 
-    config: () => ({
-      optimizeDeps: {
-        include: [
-          'vitepress > @vueuse/integrations/useFocusTrap',
-          'vitepress > mark.js/src/vanilla.js',
-          'vitepress > minisearch'
-        ]
+    async configResolved(config) {
+      // fold in `locales.*.markdown` like markdownToVue does — the renderer
+      // is a singleton, so whichever configResolved hook creates it first
+      // must pass the complete options (#5350)
+      md = await createMarkdownRenderer(
+        siteConfig.srcDir,
+        mergeMarkdownLocales(siteConfig.markdown, siteConfig.site.locales),
+        siteConfig.site.base,
+        siteConfig.logger,
+        config.publicDir
+      )
+    },
+
+    config() {
+      return {
+        optimizeDeps: {
+          include: [
+            'vitepress > @vueuse/integrations/useFocusTrap',
+            'vitepress > mark.js/src/vanilla.js',
+            'vitepress > minisearch'
+          ]
+        }
       }
-    }),
+    },
 
     configureServer(_server) {
       server = _server
       pending = scanForBuild().then(onIndexUpdated)
     },
 
-    resolveId(id) {
-      if (id.startsWith(LOCAL_SEARCH_INDEX_ID)) {
+    resolveId: {
+      filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_ID) },
+      handler(id) {
         return `/${id}`
       }
     },
 
-    async load(id) {
-      if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
-        await pending
-        if (process.env.NODE_ENV === 'production') {
-          await scanForBuild()
+    load: {
+      filter: { id: prefixRegex(LOCAL_SEARCH_INDEX_REQUEST_PATH) },
+      async handler(id) {
+        if (id === LOCAL_SEARCH_INDEX_REQUEST_PATH) {
+          await pending
+          if (process.env.NODE_ENV === 'production') {
+            await scanForBuild()
+          }
+          let records: string[] = []
+          for (const [locale] of indexByLocales) {
+            records.push(
+              `${JSON.stringify(
+                locale
+              )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}${
+                server ? `?v=${indexVersion}` : ''
+              }')`
+            )
+          }
+          return `export default {${records.join(',')}}`
+        } else {
+          await pending
+          return `export default ${JSON.stringify(
+            JSON.stringify(
+              indexByLocales.get(
+                id
+                  .replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
+                  .replace(/\?.*$/, '')
+              ) ?? {}
+            )
+          )}`
         }
-        let records: string[] = []
-        for (const [locale] of indexByLocales) {
-          records.push(
-            `${JSON.stringify(
-              locale
-            )}: () => import('${LOCAL_SEARCH_INDEX_ID}${locale}')`
-          )
-        }
-        return `export default {${records.join(',')}}`
-      } else if (id.startsWith(LOCAL_SEARCH_INDEX_REQUEST_PATH)) {
-        await pending
-        return `export default ${JSON.stringify(
-          JSON.stringify(
-            indexByLocales.get(
-              id.replace(LOCAL_SEARCH_INDEX_REQUEST_PATH, '')
-            ) ?? {}
-          )
-        )}`
       }
     },
 
@@ -207,16 +260,17 @@ export async function localSearchPlugin(
       if (this.environment.name !== 'client') return
 
       if (file.endsWith('.md')) {
-        await indexFile(file)
-        debug('🔍️ Updated', file)
-        onIndexUpdated()
+        const page = slash(path.relative(siteConfig.srcDir, file))
+        // only index actual pages, not includes or route templates
+        if (siteConfig.pages.includes(page)) {
+          await indexFile(page)
+          debug('🔍️ Updated', file)
+          onIndexUpdated()
+        }
       }
     }
   }
 }
-
-const headingRegex = /<h(\d*).*?>(.*?<a.*? href="#.*?".*?>.*?<\/a>)<\/h\1>/gi
-const headingContentRegex = /(.*)<a.*? href="#(.*?)".*?>.*?<\/a>/i
 
 /**
  * Splits HTML into sections based on headings

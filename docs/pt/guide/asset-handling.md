@@ -6,7 +6,7 @@ description: Aprenda a referenciar e manipular ativos estáticos como imagens, m
 
 ## Referenciando Ativos Estáticos {#referencing-static-assets}
 
-Todos os arquivos Markdown são compilados em componentes Vue e processados por [Vite](https://vitejs.dev/guide/assets.html). Você pode **e deve** referenciar quaisquer ativos usando URLs relativas:
+Todos os arquivos Markdown são compilados em componentes Vue e processados por [Vite](https://vite.dev/guide/assets.html). Você pode **e deve** referenciar quaisquer ativos usando URLs relativas:
 
 ```md
 ![Uma imagem](./imagem.png)

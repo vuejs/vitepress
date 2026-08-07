@@ -1,11 +1,11 @@
 import { spawn } from 'cross-spawn'
 import type { SpawnOptions } from 'node:child_process'
+import { once } from 'node:events'
 import fs from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import c from 'picocolors'
-import prompts from 'prompts'
+import * as prompts from '@clack/prompts'
 import semver from 'semver'
 
 const { version: currentVersion } = createRequire(import.meta.url)(
@@ -19,25 +19,21 @@ const tags = ['latest', 'next'] as const
 
 const dir = fileURLToPath(new URL('.', import.meta.url))
 const inc = (i: semver.ReleaseType) => _inc(currentVersion, i)
-const run = (bin: string, args: string[], opts: SpawnOptions = {}) =>
-  new Promise<void>((resolve, reject) => {
-    const child = spawn(bin, args, {
-      stdio: 'inherit',
-      ...opts
-    })
-
-    child.on('error', reject)
-    child.on('close', (code, signal) => {
-      if (code === 0) {
-        resolve()
-      } else if (signal) {
-        reject(new Error(`${bin} exited with signal ${signal}`))
-      } else {
-        reject(new Error(`${bin} exited with code ${code}`))
-      }
-    })
-  })
-const step = (msg: string) => console.log(c.cyan(msg))
+const run = async (bin: string, args: string[], opts: SpawnOptions = {}) => {
+  const child = spawn(bin, args, { stdio: 'inherit', ...opts })
+  const [code, signal] = (await once(child, 'close')) as [
+    number | null,
+    NodeJS.Signals | null
+  ]
+  if (code !== 0) {
+    throw new Error(
+      signal
+        ? `${bin} exited with signal ${signal}`
+        : `${bin} exited with code ${code}`
+    )
+  }
+}
+const cancel = () => prompts.cancel('Operation cancelled')
 
 async function main() {
   let targetVersion: string
@@ -46,22 +42,19 @@ async function main() {
     .map((i) => `${i} (${inc(i)})`)
     .concat(['custom'])
 
-  const { release } = await prompts({
-    type: 'select',
-    name: 'release',
+  const release = await prompts.select({
     message: 'Select release type',
-    choices: versions.map((title, value) => ({ title, value }))
+    options: versions.map((label, value) => ({ label, value }))
   })
+  if (prompts.isCancel(release)) return cancel()
 
   if (release === 3) {
-    targetVersion = (
-      await prompts({
-        type: 'text',
-        name: 'version',
-        message: 'Input custom version',
-        initial: currentVersion
-      })
-    ).version
+    const customVersion = await prompts.text({
+      message: 'Input custom version',
+      initialValue: currentVersion
+    })
+    if (prompts.isCancel(customVersion)) return cancel()
+    targetVersion = customVersion
   } else {
     targetVersion = versions[release].match(/\((.*)\)/)![1]
   }
@@ -70,39 +63,35 @@ async function main() {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 
-  const { tag } = await prompts({
-    type: 'select',
-    name: 'tag',
+  const tag = await prompts.select({
     message: 'Select tag type',
-    choices: tags.map((title, value) => ({ title, value }))
+    options: tags.map((label, value) => ({ label, value }))
   })
+  if (prompts.isCancel(tag)) return cancel()
 
-  const { yes: tagOk } = await prompts({
-    type: 'confirm',
-    name: 'yes',
+  const tagOk = await prompts.confirm({
     message: `Releasing v${targetVersion} on ${tags[tag]}. Confirm?`
   })
+  if (prompts.isCancel(tagOk)) return cancel()
 
   if (!tagOk) {
     return
   }
 
   // Update the package version.
-  step('\nUpdating the package version...')
+  prompts.log.step('Updating the package version...')
   updatePackage(targetVersion)
 
   // Build the package.
-  step('\nBuilding the package...')
+  prompts.log.step('Building the package...')
   await run('pnpm', ['build'])
 
   // Generate the changelog.
-  step('\nGenerating the changelog...')
+  prompts.log.step('Generating the changelog...')
   await run('pnpm', ['changelog'])
   await run('pnpm', ['prettier', '--write', 'CHANGELOG.md'])
 
-  const { yes: changelogOk } = await prompts({
-    type: 'confirm',
-    name: 'yes',
+  const changelogOk = await prompts.confirm({
     message: `Changelog generated. Does it look good?`
   })
 
@@ -111,13 +100,13 @@ async function main() {
   }
 
   // Commit changes to the Git and create a tag.
-  step('\nCommitting changes...')
+  prompts.log.step('Committing changes...')
   await run('git', ['add', 'CHANGELOG.md', 'package.json'])
   await run('git', ['commit', '-m', `release: v${targetVersion}`])
   await run('git', ['tag', `v${targetVersion}`])
 
   // Publish the package.
-  step('\nPublishing the package...')
+  prompts.log.step('Publishing the package...')
   await run('pnpm', [
     'publish',
     '--tag',
@@ -127,7 +116,7 @@ async function main() {
   ])
 
   // Push to GitHub.
-  step('\nPushing to GitHub...')
+  prompts.log.step('Pushing to GitHub...')
   await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`])
   await run('git', ['push'])
 }

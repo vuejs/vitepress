@@ -17,10 +17,10 @@ const { localeLinks, currentLang } = useLangs({
     icon="vpi-languages"
     :label="theme.langMenuLabel || 'Change language'"
   >
-    <div class="items">
-      <p class="title">{{ currentLang.label }}</p>
+    <ul class="items">
+      <li class="title">{{ currentLang.label }}</li>
 
-      <template v-for="locale in localeLinks" :key="locale.link">
+      <li v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink
           :item="locale"
           :external="false"
@@ -30,8 +30,8 @@ const { localeLinks, currentLang } = useLangs({
           :dir="locale.dir"
           data-allow-mismatch="attribute"
         />
-      </template>
-    </div>
+      </li>
+    </ul>
   </VPFlyout>
 </template>
 

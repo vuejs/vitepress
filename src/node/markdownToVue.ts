@@ -1,11 +1,13 @@
 import { resolveTitleFromToken } from '@mdit-vue/shared'
 import { LRUCache } from 'lru-cache'
+import { hash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createDebug } from 'obug'
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
+  mergeMarkdownLocales,
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
@@ -20,10 +22,26 @@ import {
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
-import { processIncludes } from './utils/processIncludes'
 
 const debug = createDebug('vitepress:md')
-const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
+const cache = new LRUCache<string, MarkdownCompileResult>({
+  maxSize: 64 * 1024 * 1024,
+  sizeCalculation(value, key) {
+    return Math.max(1, 2 * (key.length + value.vueSrc.length))
+  }
+})
+
+const scriptRE = /<\/script>/
+const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
+const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
+const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
+const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
+const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
+
+let __pages: string[] = []
+let __dynamicRoutes = new Map<string, [string, string]>()
+let __rewrites = new Map<string, string>()
+let __ts: number
 
 export interface MarkdownCompileResult {
   vueSrc: string
@@ -38,14 +56,8 @@ export function clearCache(relativePath?: string) {
     return
   }
 
-  relativePath = JSON.stringify({ relativePath }).slice(1)
-  cache.find((_, key) => key.endsWith(relativePath!) && cache.delete(key))
+  cache.find((_, key) => key.endsWith(`:${relativePath}`) && cache.delete(key))
 }
-
-let __pages: string[] = []
-let __dynamicRoutes = new Map<string, [string, string]>()
-let __rewrites = new Map<string, string>()
-let __ts: number
 
 function normalizeDriveLetter(file: string) {
   return file.replace(/^[a-z]:/i, (drive) => drive.toLowerCase())
@@ -86,24 +98,21 @@ function getResolutionCache(siteConfig: SiteConfig) {
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
-  options: MarkdownOptions = {},
-  base = '/',
-  includeLastUpdatedData = false,
-  cleanUrls = false,
+  options: MarkdownOptions,
+  base: string,
+  includeLastUpdatedData: boolean,
+  cleanUrls: boolean,
   siteConfig: SiteConfig
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
-    options,
+    mergeMarkdownLocales(options, siteConfig?.site.locales),
     base,
-    siteConfig?.logger
+    siteConfig?.logger,
+    siteConfig?.publicDir
   )
 
-  return async (
-    src: string,
-    file: string,
-    publicDir: string
-  ): Promise<MarkdownCompileResult> => {
+  return async (src: string, file: string): Promise<MarkdownCompileResult> => {
     const { pages, dynamicRoutes, rewrites, ts } =
       getResolutionCache(siteConfig)
 
@@ -117,7 +126,8 @@ export async function createMarkdownToVueRenderFn(
     file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
 
-    const cacheKey = JSON.stringify({ src, ts, relativePath })
+    const srcHash = hash('sha256', src, 'base64url')
+    const cacheKey = `${srcHash}:${ts}:${relativePath}`
     if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -138,31 +148,38 @@ export async function createMarkdownToVueRenderFn(
       }
     )
 
-    // resolve includes
-    let includes: string[] = []
-    src = processIncludes(md, srcDir, src, fileOrig, includes, cleanUrls)
-
     const localeIndex = getLocaleForPath(siteConfig?.site, relativePath)
 
-    // reset env before render
+    // reset env before render; the include plugin fills `includes` and
+    // exposes the include-expanded source as `env.src`
     const env: MarkdownEnv = {
       path: file,
       relativePath,
       cleanUrls,
-      includes,
+      includes: [],
       realPath: fileOrig,
       localeIndex
     }
-    const html = await md.renderAsync(src, env)
+    let html: string
+    try {
+      html = await md.renderAsync(src, env)
+    } catch (e) {
+      // surface the dependencies collected so far, so that the caller can
+      // watch them and a missing snippet or include recovers once created
+      ;(e as { includes?: string[] }).includes = env.includes
+      throw e
+    }
     const {
       content,
       frontmatter = {},
       headers = [],
+      includes = [],
       links = [],
       linkMetadatas = [],
       sfcBlocks,
       title = ''
     } = env
+    src = env.src ?? src
     const contentLineOffset = countLineBreaks(
       content && src.endsWith(content) ? src.slice(0, -content.length) : ''
     )
@@ -207,17 +224,29 @@ export async function createMarkdownToVueRenderFn(
         url = url.replace(/[?#].*$/, '').replace(/\.(html|md)$/, '')
         if (url.endsWith('/')) url += `index`
 
-        let resolved = slash(
-          url.startsWith('/')
-            ? url.slice(1)
-            : path.relative(srcDir, path.resolve(dir, url))
+        let resolved = decodeURIComponent(
+          slash(
+            url.startsWith('/')
+              ? url.slice(1)
+              : path.relative(srcDir, path.resolve(dir, url))
+          )
         )
-        resolved =
-          siteConfig?.rewrites.inv[resolved + '.md']?.slice(0, -3) || resolved
+        const rewriteSource = siteConfig?.rewrites.inv[resolved + '.md']
+        if (rewriteSource) resolved = rewriteSource.slice(0, -3)
+
+        // a link to the pre-rewrite path of a rewritten page 404s in the
+        // built site even though the page itself exists
+        const rewritten = rewriteSource
+          ? undefined
+          : siteConfig?.rewrites.map[resolved + '.md']
 
         if (
-          !pages.includes(resolved) &&
-          !fs.existsSync(path.resolve(dir, publicDir, `${resolved}.html`)) &&
+          (!pages.includes(resolved) ||
+            (rewritten != null && rewritten !== resolved + '.md')) &&
+          !(
+            siteConfig?.publicDir &&
+            fs.existsSync(path.join(siteConfig.publicDir, `${resolved}.html`))
+          ) &&
           !shouldIgnoreDeadLink(url)
         ) {
           recordDeadLink(metadata.rawLink, line)
@@ -268,13 +297,6 @@ export async function createMarkdownToVueRenderFn(
     return result
   }
 }
-
-const scriptRE = /<\/script>/
-const scriptLangTsRE = /<\s*script[^>]*\blang=['"]ts['"][^>]*/
-const scriptSetupRE = /<\s*script[^>]*\bsetup\b[^>]*/
-const scriptClientRE = /<\s*script[^>]*\bclient\b[^>]*/
-const defaultExportRE = /((?:^|\n|;)\s*)export(\s*)default/
-const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 
 function injectPageDataCode(tags: string[], data: PageData) {
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(

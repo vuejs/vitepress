@@ -41,7 +41,7 @@ $ bun add -D vitepress@next
 
 ::: tip NOTA
 
-VitePress é um pacote apenas para ESM. Não use `require()` para importá-lo, e certifique de que o `package.json` mais próximo contém `"type": "module"`, ou mude a extensão do arquivo de seus arquivos releavantes como `.vitepress/config.js` para `.mjs`/`.mts`. Refira-se ao [Guia de resolução de problemas Vite](http://vitejs.dev/guide/troubleshooting.html#this-package-is-esm-only) para mais detalhes. Além disso, dentro de contextos de JavaScript comum assíncronos, você pode usar `await import('vitepress')`.
+VitePress é um pacote apenas para ESM. Não use `require()` para importá-lo, e certifique de que o `package.json` mais próximo contém `"type": "module"`, ou mude a extensão do arquivo de seus arquivos releavantes como `.vitepress/config.js` para `.mjs`/`.mts`. Refira-se ao [Guia de resolução de problemas Vite](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) para mais detalhes. Além disso, dentro de contextos de JavaScript comum assíncronos, você pode usar `await import('vitepress')`.
 
 :::
 

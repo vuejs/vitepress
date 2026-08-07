@@ -1,0 +1,206 @@
+import { anchor as anchorPlugin } from '@mdit/plugin-anchor'
+import { attrs as attrsPlugin } from '@mdit/plugin-attrs'
+import { MarkdownItAsync } from 'markdown-it-async'
+import {
+  createMarkdownRenderer,
+  disposeMdItInstance,
+  type MarkdownOptions
+} from 'node/markdown/markdown'
+
+async function render(src: string, options: MarkdownOptions = {}) {
+  disposeMdItInstance()
+  const md = await createMarkdownRenderer('.', {
+    highlight: (code) => code,
+    ...options
+  })
+  return md.renderAsync(src)
+}
+
+describe('node/markdown/markdown', () => {
+  describe('disabling built-in plugins', () => {
+    test('anchor', async () => {
+      const enabled = await render('# Hello World')
+      expect(enabled).toContain('id="hello-world"')
+      expect(enabled).toContain('header-anchor')
+
+      const disabled = await render('# Hello World', { anchor: false })
+      expect(disabled).not.toContain('id=')
+      expect(disabled).not.toContain('header-anchor')
+    })
+
+    test('attrs', async () => {
+      const enabled = await render('## Title {#custom-id}')
+      expect(enabled).toContain('id="custom-id"')
+
+      const disabled = await render('## Title {#custom-id}', { attrs: false })
+      expect(disabled).not.toContain('id="custom-id"')
+      expect(disabled).toContain('{#custom-id}')
+    })
+
+    test('emoji', async () => {
+      expect(await render(':tada:')).toContain('🎉')
+      expect(await render(':tada:', { emoji: false })).toContain(':tada:')
+    })
+
+    test('tasklist', async () => {
+      const src = '- [ ] todo'
+      expect(await render(src)).toContain('<input type="checkbox"')
+
+      const disabled = await render(src, { tasklist: false })
+      expect(disabled).not.toContain('<input')
+      expect(disabled).toContain('[ ] todo')
+    })
+
+    test('toc', async () => {
+      const src = '# Title\n\n[[toc]]'
+      expect(await render(src)).toContain('table-of-contents')
+
+      const disabled = await render(src, { toc: false })
+      expect(disabled).not.toContain('table-of-contents')
+      expect(disabled).toContain('[[toc]]')
+    })
+
+    test('preWrapper', async () => {
+      const src = '```js\nconst a = 1\n```'
+      const enabled = await render(src)
+      expect(enabled).toContain('<div class="language-js">')
+      expect(enabled).toContain('class="copy"')
+
+      const disabled = await render(src, { preWrapper: false })
+      expect(disabled).not.toContain('<div class="language-js">')
+      expect(disabled).not.toContain('class="copy"')
+    })
+
+    test('preWrapper disables line numbers with it', async () => {
+      const src = '```js\nconst a = 1\n```'
+      const enabled = await render(src, { lineNumbers: true })
+      expect(enabled).toContain('line-numbers-wrapper')
+
+      const disabled = await render(src, {
+        preWrapper: false,
+        lineNumbers: true
+      })
+      expect(disabled).not.toContain('line-numbers-wrapper')
+    })
+
+    test('snippet', async () => {
+      const disabled = await render('<<< ./foo.js', { snippet: false })
+      expect(disabled).toContain('&lt;&lt;&lt; ./foo.js')
+    })
+
+    test('image', async () => {
+      const src = '![img](/foo.png)'
+      const enabled = await render(src, { image: { lazyLoad: true } })
+      expect(enabled).toContain('loading="lazy"')
+
+      const disabled = await render(src, { image: false })
+      expect(disabled).not.toContain('loading="lazy"')
+    })
+
+    test('component', async () => {
+      const src = 'text\n<MyComponent/>\nmore'
+      const enabled = await render(src)
+      expect(enabled).toContain('</p>\n<MyComponent/><p>')
+
+      const disabled = await render(src, { component: false })
+      expect(disabled).toContain('<p>text\n<MyComponent/>\nmore</p>')
+    })
+
+    test('tableTabIndex', async () => {
+      const src = '| a |\n| --- |\n| b |'
+      expect(await render(src)).toContain('tabindex="0"')
+      expect(await render(src, { tableTabIndex: false })).not.toContain(
+        'tabindex'
+      )
+    })
+
+    test('cjkFriendlyEmphasis', async () => {
+      const src = 'これは**「テスト」**です'
+      expect(await render(src)).toContain('<strong>「テスト」</strong>')
+      expect(await render(src, { cjkFriendlyEmphasis: false })).not.toContain(
+        '<strong>'
+      )
+    })
+
+    test('`true` enables a plugin with its default options', async () => {
+      const html = await render(
+        '## Title {#custom-id}\n\n[[toc]]\n\n:tada:\n\n- [ ] todo',
+        {
+          anchor: true,
+          attrs: true,
+          emoji: true,
+          tasklist: true,
+          toc: true,
+          image: true,
+          component: true
+        }
+      )
+      expect(html).toContain('id="custom-id"')
+      expect(html).toContain('header-anchor')
+      expect(html).toContain('table-of-contents')
+      expect(html).toContain('🎉')
+      expect(html).toContain('<input type="checkbox"')
+    })
+  })
+
+  describe('attrs', () => {
+    test('does not consume fence info', async () => {
+      // line-highlight / meta syntax must reach the highlighter untouched
+      const meta = await render('```js{4}\nconst a = 1\n```')
+      expect(meta).toContain('language-js')
+      expect(meta).not.toContain('4=""')
+
+      // curly attributes have no effect on fenced code blocks
+      const backtick = await render('```js {.foo}\nconst a = 1\n```')
+      expect(backtick).not.toContain('class="foo"')
+      const tilde = await render('~~~js {.foo}\nconst a = 1\n~~~')
+      expect(tilde).not.toContain('class="foo"')
+    })
+
+    test('applies to inline elements and blocks', async () => {
+      expect(await render('*hi*{.cls}')).toContain('<em class="cls">')
+      expect(await render('`code`{.cls}')).toContain('class="cls"')
+      expect(await render('text {.cls}')).toContain('<p class="cls">')
+      expect(await render('- item\n{.cls}')).toContain('<ul class="cls">')
+      expect(await render('| a |\n| --- |\n| b |\n\n{.cls}')).toContain(
+        '<table class="cls"'
+      )
+    })
+  })
+
+  describe('tasklist', () => {
+    test('renders checkboxes with their checked state', async () => {
+      const html = await render('- [ ] todo\n- [x] done')
+      expect(html).toContain('<ul class="task-list-container">')
+      expect(html).toContain('<li class="task-list-item">')
+
+      const inputs = html.match(/<input[^>]*>/g)!
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).not.toContain('checked')
+      expect(inputs[1]).toContain('checked')
+      for (const input of inputs) expect(input).toContain('disabled')
+    })
+
+    test('forwards options to the plugin', async () => {
+      const html = await render('- [ ] todo', { tasklist: { label: false } })
+      expect(html).toContain('<input type="checkbox"')
+      expect(html).not.toContain('<label')
+    })
+  })
+
+  // attrs applies at a fixed position in the core chain (before linkify),
+  // while anchor pushes to its end, so anchor always sees user-defined ids
+  // no matter which plugin is registered first
+  test('anchor respects ids from attrs regardless of plugin order', async () => {
+    for (const plugins of [
+      [attrsPlugin, anchorPlugin],
+      [anchorPlugin, attrsPlugin]
+    ] as const) {
+      const md = new MarkdownItAsync()
+      for (const plugin of plugins) md.use(plugin)
+      expect(await md.renderAsync('## Title {#custom-id}')).toContain(
+        'id="custom-id"'
+      )
+    }
+  })
+})

@@ -40,7 +40,7 @@ defineOptions({ inheritAttrs: false })
 html:not(.dark) .VPImage.dark {
   display: none;
 }
-.dark .VPImage.light {
+html.dark .VPImage.light {
   display: none;
 }
 </style>

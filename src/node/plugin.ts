@@ -1,3 +1,4 @@
+import { exactRegex } from '@rolldown/pluginutils'
 import path from 'node:path'
 import c from 'picocolors'
 import {
@@ -64,11 +65,17 @@ const isPageChunk = <T extends Rolldown.OutputChunk | Rolldown.RenderedChunk>(
 
 const cleanUrl = (url: string): string => url.replace(/[?#].*$/s, '')
 
+// per-page metadata collected during transform, keyed by relativePath
+export interface PageMeta {
+  lastUpdated?: number
+}
+
 export async function createVitePressPlugin(
   siteConfig: SiteConfig,
   ssr = false,
   pageToHashMap?: Record<string, string>,
   clientJSMap?: Record<string, string>,
+  pageMetaMap?: Record<string, PageMeta>,
   restartServer?: () => Promise<void>
 ) {
   const {
@@ -112,14 +119,17 @@ export async function createVitePressPlugin(
 
     async configResolved(resolvedConfig) {
       config = resolvedConfig
+      // sync with the actual resolved publicDir (can be customized via
+      // vite config, or altered by other vite plugins)
+      siteConfig.publicDir = config.publicDir
       // pre-resolve git timestamps
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
-        markdown,
+        markdown ?? {},
         config.base,
-        lastUpdated,
-        cleanUrls,
+        lastUpdated ?? false,
+        cleanUrls ?? false,
         siteConfig
       )
     },
@@ -163,11 +173,12 @@ export async function createVitePressPlugin(
         : baseConfig
     },
 
-    resolveId(id, importer, resolveOptions) {
-      if (id === SITE_DATA_ID) {
-        return SITE_DATA_REQUEST_PATH
-      }
-      if (startsWithThemeRE.test(id)) {
+    resolveId: {
+      filter: { id: [exactRegex(SITE_DATA_ID), startsWithThemeRE] },
+      handler(id, importer, resolveOptions) {
+        if (id === SITE_DATA_ID) {
+          return SITE_DATA_REQUEST_PATH
+        }
         return this.resolve(
           siteConfig.themeDir + id.slice(6),
           importer,
@@ -176,8 +187,9 @@ export async function createVitePressPlugin(
       }
     },
 
-    load(id) {
-      if (id === SITE_DATA_REQUEST_PATH) {
+    load: {
+      filter: { id: exactRegex(SITE_DATA_REQUEST_PATH) },
+      handler() {
         let data = siteData
         // head info is not needed by the client in production build
         if (config.command === 'build') {
@@ -193,49 +205,61 @@ export async function createVitePressPlugin(
       }
     },
 
-    // TODO: use plugin hook filters
-    async transform(code, id) {
-      if (docsearchRE.test(normalizePath(id))) {
-        return code
-          .replaceAll('[data-theme=dark]', '.dark')
-          .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
-          .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
-      }
-      if (id.endsWith('.vue')) {
-        return processClientJS(code, id)
-      }
-      if (id.endsWith('.md')) {
-        const relativePath = path.posix.relative(srcDir, id)
-        // transform .md files into vueSrc so plugin-vue can handle it
-        const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
-          code,
-          id,
-          config.publicDir
-        )
-        allDeadLinks.push(...deadLinks)
-        if (includes.length) {
-          includes.forEach((i) => {
-            ;(importerMap[slash(i)] ??= new Set()).add(relativePath)
-            this.addWatchFile(i)
-          })
+    transform: {
+      filter: { id: [docsearchRE, /\.vue$/, /\.md$/] },
+      async handler(code, id) {
+        if (id.endsWith('.vue')) {
+          return processClientJS(code, id)
         }
-        if (
-          this.environment.mode === 'dev' &&
-          this.environment.name === 'client'
-        ) {
-          logDeadLinks(deadLinks, siteConfig.logger, true)
-          const payload: PageDataPayload = {
-            path: `/${siteConfig.rewrites.map[relativePath] || relativePath}`,
-            pageData
+        if (id.endsWith('.md')) {
+          const watchIncludes = (files: string[] = []) => {
+            files.forEach((i) => {
+              ;(importerMap[slash(i)] ??= new Set()).add(slash(id))
+              this.addWatchFile(i)
+            })
           }
-          // notify the client to update page data
-          this.environment.hot.send({
-            type: 'custom',
-            event: 'vitepress:pageData',
-            data: payload
+
+          // transform .md files into vueSrc so plugin-vue can handle it
+          const { vueSrc, deadLinks, includes, pageData } = await markdownToVue(
+            code,
+            id
+          ).catch((e: { includes?: string[] }) => {
+            // watch the files the failed render did reach, so that creating a
+            // missing snippet or include recovers the page
+            watchIncludes(e.includes)
+            throw e
           })
+          if (pageMetaMap) {
+            pageMetaMap[pageData.relativePath] = {
+              lastUpdated: pageData.lastUpdated
+            }
+          }
+          allDeadLinks.push(...deadLinks)
+          watchIncludes(includes)
+          if (
+            this.environment.mode === 'dev' &&
+            this.environment.name === 'client'
+          ) {
+            logDeadLinks(deadLinks, siteConfig.logger, true)
+            const payload: PageDataPayload = {
+              path: `/${pageData.relativePath}`,
+              pageData
+            }
+            // notify the client to update page data
+            this.environment.hot.send({
+              type: 'custom',
+              event: 'vitepress:pageData',
+              data: payload
+            })
+          }
+          return processClientJS(vueSrc, id)
         }
-        return processClientJS(vueSrc, id)
+        if (docsearchRE.test(normalizePath(id))) {
+          return code
+            .replaceAll('[data-theme=dark]', '.dark')
+            .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
+            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
+        }
       }
     },
 
@@ -350,10 +374,6 @@ export async function createVitePressPlugin(
         await resolvePages(siteConfig)
       }
 
-      if (type === 'delete') {
-        delete importerMap[relativePath]
-      }
-
       if (
         file === configPath ||
         configDeps.includes(file) ||
@@ -385,22 +405,32 @@ export async function createVitePressPlugin(
 
   const hmrFix: Plugin = {
     name: 'vitepress:hmr-fix',
-    async hotUpdate({ file, modules: existingMods }) {
+    async hotUpdate({ file, type, modules: existingMods }) {
       if (this.environment.name !== 'client') return
       const modules: EnvironmentModuleNode[] = []
+      const fileId = slash(file)
 
       if (file.endsWith('.md')) {
         const mod = this.environment.moduleGraph.getModuleById(file)
         mod && modules.push(mod)
       }
 
-      importerMap[slash(file)]?.forEach((relativePath) => {
-        clearCache(relativePath)
-        const mod = this.environment.moduleGraph.getModuleById(
-          path.posix.join(srcDir, relativePath)
-        )
+      importerMap[fileId]?.forEach((importerId) => {
+        const relativePath = slash(path.relative(srcDir, importerId))
+        // the compile cache is keyed by the rewritten path
+        clearCache(siteConfig.rewrites.map[relativePath] || relativePath)
+        const mod = this.environment.moduleGraph.getModuleById(importerId)
         mod && modules.push(mod)
       })
+
+      if (type === 'delete') {
+        // a deleted include: its importers were just invalidated above
+        delete importerMap[fileId]
+        // a deleted page: prune it from every importer set
+        for (const importers of Object.values(importerMap)) {
+          importers?.delete(fileId)
+        }
+      }
 
       return modules.length ? [...existingMods, ...modules] : undefined
     }

@@ -1,6 +1,6 @@
-import matter from 'gray-matter'
 import fs from 'node:fs'
 import path from 'node:path'
+import { pipeline } from 'node:stream/promises'
 import {
   SitemapStream,
   type EnumChangefreq,
@@ -9,79 +9,64 @@ import {
   type NewsItem
 } from 'sitemap'
 import type { SiteConfig } from '../config'
-import { slash } from '../shared'
-import { getGitTimestamp } from '../utils/getGitTimestamp'
-import { task } from '../utils/task'
+import type { PageMeta } from '../plugin'
 
-export async function generateSitemap(siteConfig: SiteConfig) {
-  if (!siteConfig.sitemap?.hostname) return
+export async function generateSitemap(
+  siteConfig: SiteConfig,
+  pageMetaMap: Record<string, PageMeta>
+) {
+  const locales = siteConfig.userConfig.locales || {}
+  const defaultLang =
+    locales.root?.lang || siteConfig.userConfig.lang || 'en-US'
 
-  const getLastmod = async (url: string) => {
-    if (!siteConfig.lastUpdated) return undefined
+  // locale directories whose pages are translations of each other
+  const localeDirs = Object.keys(locales).filter(
+    (locale) => locale !== 'root' && locales[locale].lang
+  )
 
-    let file = url.replace(/(^|\/)$/, '$1index')
-    file = file.replace(/(\.html)?$/, '.md')
-    file = siteConfig.rewrites.inv[file] || file
-    file = path.join(siteConfig.srcDir, file)
+  // group each page with its translations under a locale-independent key
+  const pageGroups: Record<
+    string,
+    { lang: string; url: string; lastmod?: number }[]
+  > = {}
 
-    if (!fs.existsSync(file)) return undefined
+  for (const sourcePage of siteConfig.pages) {
+    const page = siteConfig.rewrites.map[sourcePage] || sourcePage
+    const localeDir = page.split('/')[0]
 
-    const { data } = matter.read(file)
-    if (data.lastUpdated === false) return undefined
-    if (data.lastUpdated instanceof Date) return +data.lastUpdated
+    const url = page
+      .replace(/(^|\/)index\.md$/, '$1')
+      .replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
 
-    return (await getGitTimestamp(slash(file))) || undefined
+    const key = localeDirs.includes(localeDir)
+      ? page.slice(localeDir.length + 1)
+      : page
+
+    ;(pageGroups[key] ??= []).push({
+      lang: locales[localeDir]?.lang || defaultLang,
+      url,
+      lastmod: pageMetaMap[page]?.lastUpdated || undefined
+    })
   }
 
-  await task('generating sitemap', async () => {
-    const locales = siteConfig.userConfig.locales || {}
-    const filteredLocales = Object.keys(locales).filter(
-      (locale) => locales[locale].lang && locale !== 'root'
-    )
-    const defaultLang =
-      locales?.root?.lang || siteConfig.userConfig.lang || 'en-US'
+  // translated pages link to all their variants (including themselves)
+  let items: SitemapItem[] = Object.values(pageGroups).flatMap((variants) =>
+    variants.length < 2
+      ? { url: variants[0].url, lastmod: variants[0].lastmod }
+      : variants.map(({ url, lastmod }) => ({
+          url,
+          lastmod,
+          links: variants
+        }))
+  )
+  items = (await siteConfig.sitemap?.transformItems?.(items)) || items
 
-    const pages = siteConfig.pages.map(
-      (page) => siteConfig.rewrites.map[page] || page
-    )
+  const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
+  const sitemapStream = new SitemapStream(siteConfig.sitemap)
 
-    const groupedPages: Record<string, { lang: string; url: string }[]> = {}
-    pages.forEach((page) => {
-      const locale = page.split('/')[0]
-      const lang = locales[locale]?.lang || defaultLang
-
-      let url = page.replace(/(^|\/)index\.md$/, '$1')
-      url = url.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
-      if (filteredLocales.includes(locale)) page = page.slice(locale.length + 1)
-
-      if (!groupedPages[page]) groupedPages[page] = []
-      groupedPages[page].push({ url, lang })
-    })
-
-    const _items = await Promise.all(
-      Object.values(groupedPages).map(async (pages) => {
-        if (pages.length < 2)
-          return { url: pages[0].url, lastmod: await getLastmod(pages[0].url) }
-
-        return await Promise.all(
-          pages.map(async ({ url }) => {
-            return { url, lastmod: await getLastmod(url), links: pages }
-          })
-        )
-      })
-    )
-
-    let items: SitemapItem[] = _items.flat()
-    items = (await siteConfig.sitemap?.transformItems?.(items)) || items
-
-    const sitemapStream = new SitemapStream(siteConfig.sitemap)
-    const sitemapPath = path.join(siteConfig.outDir, 'sitemap.xml')
-    const writeStream = fs.createWriteStream(sitemapPath)
-
-    sitemapStream.pipe(writeStream)
-    items.forEach((item) => sitemapStream.write(item))
-    sitemapStream.end()
-  })
+  items.forEach((item) => sitemapStream.write(item))
+  sitemapStream.end()
+  await pipeline(sitemapStream, fs.createWriteStream(sitemapPath))
 }
 
 // ============================== Patched Types ===============================

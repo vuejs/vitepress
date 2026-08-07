@@ -1,8 +1,29 @@
 import { createRequire } from 'node:module'
-import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
+import {
+  defineAdditionalConfig,
+  type DefaultTheme,
+  type MarkdownLocaleOptions
+} from 'vitepress'
 
 const require = createRequire(import.meta.url)
 const pkg = require('vitepress/package.json')
+
+export const markdown: MarkdownLocaleOptions = {
+  container: {
+    tipLabel: '提示',
+    infoLabel: '信息',
+    warningLabel: '警告',
+    dangerLabel: '危险',
+    detailsLabel: '详细信息',
+    noteLabel: '注意',
+    importantLabel: '重要',
+    cautionLabel: '小心'
+  },
+  codeCopyButton: {
+    tooltipText: '复制代码',
+    copiedText: '已复制'
+  }
+}
 
 export default defineAdditionalConfig({
   description: '由 Vite 和 Vue 驱动的静态站点生成器',
@@ -250,7 +271,6 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           afterToolCallText: '已搜索',
           stoppedStreamingText: '你已停止此回复',
           errorTitleText: '聊天错误',
-          threadDepthExceededMessage: '为保持回答准确，此对话已关闭。',
           startNewConversationButtonText: '开始新的对话'
         }
       }

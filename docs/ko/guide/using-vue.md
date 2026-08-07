@@ -204,7 +204,7 @@ Vue 보간 문법을 회피하려면, `<span>` 또는 다른 엘리먼트에 `v-
 
 ## CSS 전처리기 사용하기 {#using-css-pre-processors}
 
-VitePress는 CSS 전처리기인 `.scss`, `.sass`, `.less`, `.styl`, `.stylus` 파일에 대해 [기본 지원](https://vitejs.dev/guide/features.html#css-pre-processors)을 제공합니다. 이를 위해 Vite 전용 플러그인을 설치할 필요는 없지만, 해당 전처리기 자체는 설치해야 합니다:
+VitePress는 CSS 전처리기인 `.scss`, `.sass`, `.less`, `.styl`, `.stylus` 파일에 대해 [기본 지원](https://vite.dev/guide/features.html#css-pre-processors)을 제공합니다. 이를 위해 Vite 전용 플러그인을 설치할 필요는 없지만, 해당 전처리기 자체는 설치해야 합니다:
 
 ```
 # .scss 및 .sass

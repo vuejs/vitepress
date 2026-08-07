@@ -62,10 +62,13 @@ import Layout from './Layout.vue'
 export default {
   Layout,
   enhanceApp({ app, router, siteData }) {
-    // ...
+    // app.component(...)
+    // app.use(...)
   }
 }
 ```
+
+Хук `enhanceApp` предоставляет доступ к [экземпляру приложения Vue](https://ru.vuejs.org/api/application.html) и другим данным времени выполнения. Это позволяет, например, [регистрировать глобальные компоненты](./extending-default-theme.md#registering-global-components), интегрироваться с библиотеками Vue и выполнять другие подобные задачи.
 
 Значение `router` представляет собой тот же экземпляр маршрутизатора VitePress, который возвращает [`useRouter()`](../reference/runtime-api#userouter). Чтобы отслеживать изменения маршрутов, назначьте обработчики для маршрутизатора:
 
@@ -226,10 +229,10 @@ export default {
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
-import { defineConfigWithTheme } from 'vitepress'
+import { defineConfig } from 'vitepress'
 import type { ThemeConfig } from 'awesome-vitepress-theme'
 
-export default defineConfigWithTheme<ThemeConfig>({
+export default defineConfig<ThemeConfig>({
   extends: baseConfig,
   themeConfig: {
     // Тип `ThemeConfig`

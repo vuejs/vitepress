@@ -432,7 +432,7 @@ export default {
 - نوع: `string`
 - پیش‌فرض: `./.vitepress/cache`
 
-دایرکتوری برای فایل‌های کش، نسبت به [ریشه پروژه](../guide/routing#root-and-source-directory). همچنین ببینید: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+دایرکتوری برای فایل‌های کش، نسبت به [ریشه پروژه](../guide/routing#root-and-source-directory). همچنین ببینید: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -474,13 +474,6 @@ export default {
 }
 ```
 
-### metaChunk <Badge type="warning" text="experimental" /> {#metachunk}
-
-- نوع: `boolean`
-- پیش‌فرض: `false`
-
-زمانی که به `true` تنظیم شود، فراداده‌های صفحات را به یک قسمت جداگانه جاوااسکریپت استخراج می‌کند به جای درون‌گذاری آن در HTML اولیه. این کار باعث کاهش بار HTML هر صفحه می‌شود و فراداده‌های صفحات قابل کش شدن می‌شود، که منجر به کاهش پهنای باند سرور می‌شود وقتی که صفحات زیادی در سایت دارید.
-
 ### mpa <Badge type="warning" text="experimental" /> {#mpa}
 
 - نوع: `boolean`
@@ -514,7 +507,7 @@ export default {
 
 آیا زمان آخرین به‌روزرسانی برای هر صفحه با استفاده از Git دریافت شود. این زمان در داده‌های هر صفحه گنجانده خواهد شد و از طریق [`useData`](./runtime-api#usedata) قابل دسترسی خواهد بود.
 
-وقتی از تم پیش‌فرض استفاده می‌کنید، فعال کردن این گزینه زمان آخرین به‌روزرسانی هر صفحه را نمایش می‌دهد. می‌توانید متن را از طریق گزینه [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) سفارشی کنید.
+وقتی از تم پیش‌فرض استفاده می‌کنید، فعال کردن این گزینه زمان آخرین به‌روزرسانی هر صفحه را نمایش می‌دهد. می‌توانید متن را از طریق گزینه [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) سفارشی کنید.
 
 ## سفارشی‌سازی {#customization}
 
@@ -536,7 +529,7 @@ export default {
 
 - نوع: `import('vite').UserConfig`
 
-پیکربندی خام [Vite Config](https://vitejs.dev/config/) را به سرور توسعه داخلی / بسته‌بند Vite ارسال کنید.
+پیکربندی خام [Vite Config](https://vite.dev/config/) را به سرور توسعه داخلی / بسته‌بند Vite ارسال کنید.
 
 ```js
 export default {
