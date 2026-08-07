@@ -591,7 +591,9 @@ export interface MarkdownEnv {
    */
   links?: string[]
   /**
-   * The line numbers at which each of `links` appears in the source.
+   * The metadata of the links collected from the page.
+   * - `rawLink`: The url as written
+   * - `line`: The line number at which the link appears in the source.
    */
   linkMetadatas?: { rawLink: string; line?: number }[]
   /**
