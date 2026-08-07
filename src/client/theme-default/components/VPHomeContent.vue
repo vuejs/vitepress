@@ -27,8 +27,8 @@
 
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .vp-doc :deep(.VPHomeSponsors h2) {
