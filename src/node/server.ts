@@ -17,7 +17,14 @@ export async function createServer(
     root: config.srcDir,
     base: config.site.base,
     cacheDir: config.cacheDir,
-    plugins: await createVitePressPlugin(config, false, {}, {}, restartServer),
+    plugins: await createVitePressPlugin(
+      config,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      restartServer
+    ),
     server,
     customLogger: config.logger,
     configFile: config.vite?.configFile

@@ -58,3 +58,11 @@ export function normalizeLink(url: string): string {
 
   return withBase(normalizedPath)
 }
+
+export function uniqBy<T>(array: T[], keyFn: (item: T) => any): T[] {
+  const seen = new Set()
+  return array.filter((item) => {
+    const k = keyFn(item)
+    return seen.has(k) ? false : seen.add(k)
+  })
+}

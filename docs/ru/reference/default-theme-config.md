@@ -25,23 +25,23 @@ export default {
 
 ## i18nRouting
 
-- Тип: `boolean | ((data: VitePressData<DefaultTheme.Config>, hash: string, targetLocale: string) => string)`
+- Тип: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
 При смене локали на `ru` URL изменится с `/foo` (или `/en/foo/`) на `/ru/foo`. Вы можете отключить это поведение, установив для параметра `themeConfig.i18nRouting` значение `false`.
 
-Установите для `themeConfig.i18nRouting` функцию, чтобы настроить ссылки для переключения локали. Эта функция получает текущие данные VitePress, текущий хеш и ключ целевой локали, а затем возвращает ссылку для перехода на неё.
+Установите для `themeConfig.i18nRouting` функцию, чтобы настроить ссылку локали. Эта функция получает текущие данные VitePress, текущий маршрут и ключ целевой локали, а затем возвращает целевую ссылку.
 
 ```ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    i18nRouting(data, hash, targetLocale) {
+    i18nRouting(data, route, targetLocale) {
       const target = data.site.value.locales[targetLocale]
       const targetLink =
         target.link || (targetLocale === 'root' ? '/' : `/${targetLocale}/`)
 
-      return `${targetLink}${data.page.value.relativePath.replace(/\.md$/, '')}${hash}`
+      return `${targetLink}${route.data.relativePath.replace(/\.md$/, '')}${route.hash}`
     }
   }
 })

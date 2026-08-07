@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useLangs } from '../composables/langs'
 import VPLink from './VPLink.vue'
 
-const { localeLinks, currentLang } = useLangs({ correspondingLink: true })
+const { localeLinks, currentLang } = useLangs({
+  linkToCorrespondingPage: true
+})
 const isOpen = ref(false)
 
 function toggle() {
@@ -33,6 +35,7 @@ function toggle() {
           :hreflang="locale.lang"
           rel="alternate"
           :dir="locale.dir"
+          data-allow-mismatch="attribute"
         >
           {{ locale.text }}
         </VPLink>

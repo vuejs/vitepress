@@ -203,7 +203,7 @@ Observe que isso pode impedir que certos tokens sejam realçados corretamente.
 
 ## Usando Pré-processadores CSS {#using-css-pre-processors}
 
-O VitePress possui [suporte embutido](https://vitejs.dev/guide/features.html#css-pre-processors) para pré-processadores CSS: arquivos `.scss`, `.sass`, `.less`, `.styl` e `.stylus`. Não é necessário instalar plugins específicos do Vite para eles, mas o próprio pré-processador correspondente deve ser instalado:
+O VitePress possui [suporte embutido](https://vite.dev/guide/features.html#css-pre-processors) para pré-processadores CSS: arquivos `.scss`, `.sass`, `.less`, `.styl` e `.stylus`. Não é necessário instalar plugins específicos do Vite para eles, mas o próprio pré-processador correspondente deve ser instalado:
 
 ```
 # .scss e .sass

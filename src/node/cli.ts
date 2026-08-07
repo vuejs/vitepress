@@ -1,6 +1,6 @@
 import minimist from 'minimist'
 import c from 'picocolors'
-import { createLogger, type Logger } from 'vite'
+import { createLogger } from 'vite'
 import {
   build,
   createServer,
@@ -8,14 +8,10 @@ import {
   resolveConfig,
   serve
 } from '.'
-import { version } from '../../package.json'
 import { init } from './init/init'
 import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
-
-if (process.env.DEBUG) {
-  Error.stackTraceLimit = Infinity
-}
+import { logVersion } from './utils/logVersion'
 
 const argv: any = minimist(process.argv.slice(2))
 
@@ -26,12 +22,6 @@ Object.keys(argv).forEach((key) => {
     argv[key] = false
   }
 })
-
-const logVersion = (logger: Logger) => {
-  logger.info(`\n  ${c.green(`${c.bold('vitepress')} v${version}`)}\n`, {
-    clear: !logger.hasWarned
-  })
-}
 
 const command = argv._[0]
 const root = argv._[command ? 1 : 0]
@@ -84,12 +74,7 @@ if (!command || command === 'dev') {
   init(argv.root)
 } else {
   if (command === 'build') {
-    build(root, {
-      ...argv,
-      onAfterConfigResolve(siteConfig) {
-        logVersion(siteConfig.logger)
-      }
-    }).catch(logErrorAndExit.bind(null, `build error:`))
+    build(root, argv).catch(logErrorAndExit.bind(null, `build error:`))
   } else if (command === 'serve' || command === 'preview') {
     serve(argv).catch(
       logErrorAndExit.bind(null, `failed to start server. error:`)

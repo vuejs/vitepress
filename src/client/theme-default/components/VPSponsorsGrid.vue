@@ -22,8 +22,8 @@ useSponsorsGrid({ el, size: props.size })
 </script>
 
 <template>
-  <div class="VPSponsorsGrid vp-sponsor-grid" :class="[size]" ref="el">
-    <div
+  <ul class="VPSponsorsGrid vp-sponsor-grid" :class="[size]" ref="el">
+    <li
       v-for="sponsor in data"
       :key="sponsor.name"
       class="vp-sponsor-grid-item"
@@ -42,6 +42,6 @@ useSponsorsGrid({ el, size: props.size })
           />
         </article>
       </a>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>

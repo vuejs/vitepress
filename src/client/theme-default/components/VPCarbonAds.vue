@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, ref, watch } from 'vue'
 import { useAside } from '../composables/aside'
-import { useData } from '../composables/data'
 
-const { page } = useData()
+const route = useRoute()
 const props = defineProps<{
   carbonAds: DefaultTheme.CarbonAdsOptions
 }>()
@@ -32,7 +32,7 @@ function init() {
   }
 }
 
-watch(() => page.value.relativePath, () => {
+watch(() => route.data.relativePath, () => {
   if (isInitialized && isAsideEnabled.value) {
     ;(window as any)._carbonads?.refresh()
   }

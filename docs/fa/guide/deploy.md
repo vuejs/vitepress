@@ -189,7 +189,7 @@ Cache-Control: max-age=31536000,immutable
            uses: actions/deploy-pages@v4
    ```
 
-::: warning هشدار
+   ::: warning هشدار
    مطمئن شوید که گزینه `base` در ویت‌پرس به‌درستی پیکربندی شده است. برای اطلاعات بیشتر به [تنظیم مسیر پایه عمومی](#setting-a-public-base-path) مراجعه کنید.
    :::
 

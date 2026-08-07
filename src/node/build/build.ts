@@ -1,15 +1,18 @@
 import { getIconsCSS } from '@iconify/utils'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
+import { mkdir, rm, symlink, unlink, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import pMap from 'p-map'
-import { packageDirectorySync } from 'package-directory'
+import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
+import type { PageMeta } from '../plugin'
 import { slash, type Awaitable, type HeadConfig } from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
+import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
 import { task } from '../utils/task'
 import { bundle } from './bundle'
@@ -26,15 +29,19 @@ export async function build(
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
 ) {
-  const start = Date.now()
+  const start = performance.now()
 
   process.env.NODE_ENV = 'production'
   const siteConfig = await resolveConfig(root, 'build', 'production')
 
-  await buildOptions.onAfterConfigResolve?.(siteConfig)
+  if (buildOptions.onAfterConfigResolve) {
+    await buildOptions.onAfterConfigResolve(siteConfig)
+  } else {
+    logVersion(siteConfig.logger)
+  }
   delete buildOptions.onAfterConfigResolve
 
-  const unlinkVue = linkVue()
+  const unlinkVue = await linkVue()
 
   if (buildOptions.base) {
     siteConfig.site.base = buildOptions.base
@@ -51,120 +58,23 @@ export async function build(
     delete buildOptions.outDir
   }
 
+  const pageMetaMap = Object.create(null) as Record<string, PageMeta>
+
   try {
-    const { clientResult, serverResult, pageToHashMap } = await bundle(
-      siteConfig,
-      buildOptions
+    const out = await task(
+      'building client + server bundles',
+      bundle.bind(null, siteConfig, buildOptions, pageMetaMap)
     )
 
     if (process.env.BUNDLE_ONLY) {
       return
     }
 
-    const entryPath = path.join(siteConfig.tempDir, 'app.js')
-    const { render } = await nativeImport(entryPath)
-
-    await task('rendering pages', async () => {
-      const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-        clientResult?.output || []
-
-      const appChunk = clientOutput.find(
-        (chunk): chunk is Rolldown.OutputChunk =>
-          chunk.type === 'chunk' &&
-          chunk.isEntry &&
-          !!chunk.facadeModuleId?.endsWith('.js')
-      )
-
-      const isDefaultTheme = clientOutput.some(
-        (chunk): chunk is Rolldown.OutputChunk =>
-          chunk.type === 'chunk' &&
-          chunk.name === 'theme' &&
-          chunk.moduleIds.some((id) => id.includes('client/theme-default'))
-      )
-
-      // ----
-
-      const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-        (siteConfig.mpa ? serverResult : clientResult)?.output || []
-
-      const cssChunk = resultOutput.find(
-        (chunk): chunk is Rolldown.OutputAsset =>
-          chunk.type === 'asset' && chunk.fileName.endsWith('.css')
-      )
-
-      // prettier-ignore
-      const assets = resultOutput.filter(
-        (chunk): chunk is Rolldown.OutputAsset =>
-          chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-      ).map((asset) => siteConfig.site.base + asset.fileName)
-
-      // ----
-
-      const additionalHeadTags: HeadConfig[] = []
-      const metadataScript = generateMetadataScript(pageToHashMap, siteConfig)
-
-      if (isDefaultTheme) {
-        const fontURL = assets.find((file) =>
-          /inter-roman-latin\.[\w-]+\.woff2/.test(file)
-        )
-        if (fontURL) {
-          additionalHeadTags.push([
-            'link',
-            {
-              rel: 'preload',
-              href: fontURL,
-              as: 'font',
-              type: 'font/woff2',
-              crossorigin: ''
-            }
-          ])
-        }
-      }
-
-      const usedIcons = new Set<string>()
-
-      await pMap(
-        ['404.md', ...siteConfig.pages],
-        async (page) => {
-          await renderPage(
-            render,
-            siteConfig,
-            siteConfig.rewrites.map[page] || page,
-            clientResult,
-            appChunk,
-            cssChunk,
-            assets,
-            pageToHashMap,
-            metadataScript,
-            additionalHeadTags,
-            usedIcons
-          )
-        },
-        { concurrency: siteConfig.buildConcurrency }
-      )
-
-      const icons = require('@iconify-json/simple-icons/icons.json')
-      const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
-        iconSelector: '.vpi-social-{name}',
-        commonSelector: '.vpi-social',
-        varName: 'icon',
-        format: process.env.DEBUG ? 'expanded' : 'compressed',
-        mode: 'mask'
-      }).replace(/[^]*?}\n*/, '')
-
-      fs.writeFileSync(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
-    })
-
-    // emit page hash map for the case where a user session is open
-    // when the site got redeployed (which invalidates current hash map)
-    fs.writeFileSync(
-      path.join(siteConfig.outDir, 'hashmap.json'),
-      JSON.stringify(pageToHashMap)
-    )
+    await task('rendering pages', render.bind(null, siteConfig, out))
   } finally {
-    unlinkVue()
+    await unlinkVue()
     if (!process.env.DEBUG) {
-      fs.rmSync(siteConfig.tempDir, {
+      await rm(siteConfig.tempDir, {
         recursive: true,
         force: true,
         maxRetries: 10
@@ -172,36 +82,148 @@ export async function build(
     }
   }
 
-  await generateSitemap(siteConfig)
+  if (siteConfig.sitemap?.hostname) {
+    await task(
+      'generating sitemap',
+      generateSitemap.bind(null, siteConfig, pageMetaMap)
+    )
+  }
+
   await siteConfig.buildEnd?.(siteConfig)
   clearCache()
 
   siteConfig.logger.info(
-    `build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`
+    `build complete in ${((performance.now() - start) / 1000).toFixed(2)}s.`
   )
 }
 
-function linkVue() {
-  const root = packageDirectorySync()
+async function linkVue() {
+  const root = await packageDirectory()
   if (root) {
     const dest = path.resolve(root, 'node_modules/vue')
     // if user did not install vue by themselves, link VitePress' version
     if (!fs.existsSync(dest)) {
       const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
-      fs.mkdirSync(path.dirname(dest), { recursive: true })
-      fs.symlinkSync(src, dest, 'junction')
-      return () => {
-        fs.unlinkSync(dest)
-      }
+      await mkdir(path.dirname(dest), { recursive: true })
+      await symlink(src, dest, 'junction')
+      return () => unlink(dest)
     }
   }
-  return () => {}
+  return async () => {}
 }
 
-function generateMetadataScript(
+async function render(
+  siteConfig: SiteConfig,
+  {
+    clientResult,
+    serverResult,
+    pageToHashMap
+  }: Awaited<ReturnType<typeof bundle>>
+): Promise<void> {
+  const entryPath = path.join(siteConfig.tempDir, 'app.js')
+  const { render } = await nativeImport(entryPath)
+
+  const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    clientResult?.output || []
+
+  const appChunk = clientOutput.find(
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' &&
+      chunk.isEntry &&
+      !!chunk.facadeModuleId?.endsWith('.js')
+  )
+
+  const isDefaultTheme = clientOutput.some(
+    (chunk): chunk is Rolldown.OutputChunk =>
+      chunk.type === 'chunk' &&
+      chunk.name === 'theme' &&
+      chunk.moduleIds.some((id) => id.includes('client/theme-default'))
+  )
+
+  // ----
+
+  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
+  const cssChunk = resultOutput.find(
+    (chunk): chunk is Rolldown.OutputAsset =>
+      chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+  )
+
+  // prettier-ignore
+  const assets = resultOutput.filter(
+    (chunk): chunk is Rolldown.OutputAsset =>
+      chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
+  ).map((asset) => siteConfig.site.base + asset.fileName)
+
+  // ----
+
+  const additionalHeadTags: HeadConfig[] = []
+  const metadataScript = await generateMetadataScript(pageToHashMap, siteConfig)
+
+  if (isDefaultTheme) {
+    const fontURL = assets.find((file) =>
+      /inter-roman-latin\.[\w-]+\.woff2/.test(file)
+    )
+    if (fontURL) {
+      additionalHeadTags.push([
+        'link',
+        {
+          rel: 'preload',
+          href: fontURL,
+          as: 'font',
+          type: 'font/woff2',
+          crossorigin: ''
+        }
+      ])
+    }
+  }
+
+  const usedIcons = new Set<string>()
+
+  await pMap(
+    ['404.md', ...siteConfig.pages],
+    async (page) => {
+      await renderPage(
+        render,
+        siteConfig,
+        siteConfig.rewrites.map[page] || page,
+        clientResult,
+        appChunk,
+        cssChunk,
+        assets,
+        pageToHashMap,
+        metadataScript,
+        additionalHeadTags,
+        usedIcons
+      )
+    },
+    { concurrency: siteConfig.buildConcurrency }
+  )
+
+  const icons = require('@iconify-json/simple-icons/icons.json')
+  const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
+    iconSelector: '.vpi-social-{name}',
+    commonSelector: '.vpi-social',
+    varName: 'icon',
+    format: process.env.DEBUG ? 'expanded' : 'compressed',
+    mode: 'mask'
+  }).replace(/[^]*?}\n*/, '')
+
+  await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
+
+  // emit page hash map for the case where a user session is open
+  // when the site got redeployed (which invalidates current hash map)
+  await writeFile(
+    path.join(siteConfig.outDir, 'hashmap.json'),
+    JSON.stringify(pageToHashMap)
+  )
+}
+
+async function generateMetadataScript(
   pageToHashMap: Record<string, string>,
   config: SiteConfig
-) {
+): Promise<{ html: string; inHead: boolean }> {
   if (config.mpa) {
     return { html: '', inHead: false }
   }
@@ -221,10 +243,6 @@ function generateMetadataScript(
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 
-  if (!config.metaChunk) {
-    return { html: `<script>${metadataContent}</script>`, inHead: false }
-  }
-
   const metadataFile = path.join(
     config.assetsDir,
     'chunks',
@@ -237,8 +255,8 @@ function generateMetadataScript(
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
   const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
 
-  fs.mkdirSync(path.dirname(resolvedMetadataFile), { recursive: true })
-  fs.writeFileSync(resolvedMetadataFile, metadataContent)
+  await mkdir(path.dirname(resolvedMetadataFile), { recursive: true })
+  await writeFile(resolvedMetadataFile, metadataContent)
 
   return {
     html: `<script type="module" src="${metadataFileURL}"></script>`,

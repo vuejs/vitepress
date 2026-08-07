@@ -10,14 +10,18 @@ export type {
   AdditionalConfigDict,
   AdditionalConfigLoader,
   Awaitable,
+  CodeCopyButtonOptions,
+  ContainerOptions,
   DefaultTheme,
   HeadConfig,
   Header,
   LocaleConfig,
   LocaleSpecificConfig,
   MarkdownEnv,
+  MarkdownLocaleOptions,
   PageData,
   PageDataPayload,
+  Route,
   SiteData,
   SSGContext,
   VitePressData
@@ -32,6 +36,14 @@ const UnpackStackView = Symbol('stack-view:unpack')
 const HASH_WITHOUT_FRAGMENT_RE = /#.*?(?=:~:|$)/
 const HASH_OR_QUERY_RE = /[?#].*$/
 const INDEX_OR_EXT_RE = /(?:(^|\/)index)?(?:\.(?:md|html))?$/
+
+// https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
+const INVALID_CHAR_REGEX = /[\u0000-\u001F"#$&*+,:;<=>?[\]^`{|}\u007F]/g
+const DRIVE_LETTER_REGEX = /^[a-z]:/i
+
+const KNOWN_EXTENSIONS = new Set()
+
+const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
 
 export const inBrowser = typeof document !== 'undefined'
 
@@ -48,13 +60,11 @@ export const notFoundPageData: PageData = {
 
 export function isActive(
   currentPath: string,
-  matchPath?: string,
-  asRegex: boolean = false
+  currentHash: string,
+  matchPath: string,
+  asRegex: boolean = false,
+  skipHashCheck: boolean = false
 ): boolean {
-  if (matchPath === undefined) {
-    return false
-  }
-
   currentPath = normalize(`/${currentPath}`)
 
   if (asRegex) {
@@ -65,10 +75,14 @@ export function isActive(
     return false
   }
 
+  if (skipHashCheck) {
+    return true
+  }
+
   const hashMatch = matchPath.match(HASH_WITHOUT_FRAGMENT_RE)
 
   if (hashMatch) {
-    return (inBrowser ? location.hash : '') === hashMatch[0]
+    return currentHash === hashMatch[0]
   }
 
   return true
@@ -93,7 +107,7 @@ export function getLocaleForPath(
       (key) =>
         key !== 'root' &&
         !isExternal(key) &&
-        isActive(relativePath, `^/${key}/`, true)
+        isActive(relativePath, '', `^/${key}/`, true)
     ) || 'root'
   )
 }
@@ -103,13 +117,20 @@ export function getLocaleForPath(
  */
 export function resolveSiteDataByRoute(
   siteData: SiteData,
-  relativePath: string
+  relativePath: string,
+  filePath?: string
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
-  const { label, link, ...localeConfig } = siteData.locales[localeIndex] ?? {}
+  const { label, link, markdown, ...localeConfig } =
+    siteData.locales[localeIndex] ?? {}
   Object.assign(localeConfig, { localeIndex })
 
-  const additionalConfigs = resolveAdditionalConfig(siteData, relativePath)
+  // additional configs are colocated with sources, so resolve them by the
+  // source path (filePath) rather than the rewritten one
+  const additionalConfigs = resolveAdditionalConfig(
+    siteData,
+    filePath || relativePath
+  )
 
   if (inBrowser && (import.meta as any).env?.DEV) {
     ;(localeConfig as any)[VP_SOURCE_KEY] = `locale config (${localeIndex})`
@@ -204,11 +225,6 @@ export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
   return merged
 }
 
-// https://github.com/rollup/rollup/blob/fec513270c6ac350072425cc045db367656c623b/src/utils/sanitizeFileName.ts
-
-const INVALID_CHAR_REGEX = /[\u0000-\u001F"#$&*+,:;<=>?[\]^`{|}\u007F]/g
-const DRIVE_LETTER_REGEX = /^[a-z]:/i
-
 export function sanitizeFileName(name: string): string {
   const match = DRIVE_LETTER_REGEX.exec(name)
   const driveLetter = match ? match[0] : ''
@@ -225,8 +241,6 @@ export function sanitizeFileName(name: string): string {
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
-
-const KNOWN_EXTENSIONS = new Set()
 
 export function treatAsHtml(filename: string): boolean {
   if (KNOWN_EXTENSIONS.size === 0) {
@@ -355,7 +369,6 @@ export function isObject(value: unknown): value is ObjectType {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
 
-const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
 export function isShell(lang: string): boolean {
   return shellLangs.includes(lang)
 }

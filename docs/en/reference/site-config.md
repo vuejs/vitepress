@@ -461,7 +461,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vitejs.dev/config/shared-options.html#cachedir).
+The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -503,13 +503,6 @@ export default {
 }
 ```
 
-### metaChunk <Badge type="warning" text="experimental" />
-
-- Type: `boolean`
-- Default: `false`
-
-When set to `true`, extract pages metadata to a separate JavaScript chunk instead of inlining it in the initial HTML. This makes each page's HTML payload smaller and makes the pages metadata cacheable, thus reducing server bandwidth when you have many pages in the site.
-
 ### mpa <Badge type="warning" text="experimental" />
 
 - Type: `boolean`
@@ -543,7 +536,7 @@ This option injects an inline script that restores users settings from local sto
 
 Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
 
-When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdatedText`](./default-theme-config#lastupdatedtext) option.
+When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) option.
 
 ## Customization
 
@@ -567,7 +560,7 @@ Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://gi
 
 - Type: `import('vite').UserConfig`
 
-Pass raw [Vite Config](https://vitejs.dev/config/) to internal Vite dev server / bundler.
+Pass raw [Vite Config](https://vite.dev/config/) to internal Vite dev server / bundler.
 
 ```js
 export default {

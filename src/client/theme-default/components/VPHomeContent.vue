@@ -11,6 +11,7 @@ const { width: vw } = useWindowSize({
   <div
     class="vp-doc container"
     :style="vw ? { '--vp-offset': `calc(50% - ${vw / 2}px)` } : {}"
+    data-allow-mismatch="style"
   >
     <slot />
   </div>

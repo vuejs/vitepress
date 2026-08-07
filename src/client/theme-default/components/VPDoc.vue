@@ -7,7 +7,6 @@ import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
 const { theme } = useData()
-
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useLayout()
 

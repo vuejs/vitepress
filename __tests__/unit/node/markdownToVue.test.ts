@@ -31,7 +31,7 @@ describe('node/markdownToVue', () => {
       siteConfig
     )
 
-    const result = await render(src, file, 'public')
+    const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
       url: './missing',
@@ -58,7 +58,7 @@ describe('node/markdownToVue', () => {
       siteConfig
     )
 
-    const result = await render(src, file, 'public')
+    const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
       url: './missing',
@@ -113,7 +113,7 @@ describe('node/markdownToVue', () => {
       siteConfig
     )
 
-    const result = await render(src, file, 'public')
+    const result = await render(src, file)
 
     expect(result.vueSrc).toContain('<p>target text</p>')
     expect(result.vueSrc).toContain('<h3 id="child"')
@@ -148,11 +148,7 @@ describe('node/markdownToVue', () => {
       siteConfig
     )
 
-    const result = await render(
-      '# Home\n',
-      'C:/site/docs/en/index.md',
-      'public'
-    )
+    const result = await render('# Home\n', 'C:/site/docs/en/index.md')
 
     expect(result.pageData.relativePath).toBe('index.md')
   })

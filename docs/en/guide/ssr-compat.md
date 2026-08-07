@@ -39,7 +39,7 @@ onMounted(() => {
 
 ### Conditional Import
 
-You can also conditionally import a dependency using the `import.meta.env.SSR` flag (part of [Vite env variables](https://vitejs.dev/guide/env-and-mode.html#env-variables)):
+You can also conditionally import a dependency using the `import.meta.env.SSR` flag (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {

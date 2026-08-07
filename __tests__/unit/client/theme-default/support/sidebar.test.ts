@@ -188,8 +188,8 @@ describe('client/theme-default/support/sidebar', () => {
         ]
       }
 
-      expect(hasActiveLink('active-1', item)).toBe(true)
-      expect(hasActiveLink('inactive', item)).toBe(false)
+      expect(hasActiveLink('active-1', '', item)).toBe(true)
+      expect(hasActiveLink('inactive', '', item)).toBe(false)
     })
 
     test('checks `SidebarItem[]`', () => {
@@ -210,9 +210,9 @@ describe('client/theme-default/support/sidebar', () => {
         }
       ]
 
-      expect(hasActiveLink('active-1', item)).toBe(true)
-      expect(hasActiveLink('active-3', item)).toBe(true)
-      expect(hasActiveLink('inactive', item)).toBe(false)
+      expect(hasActiveLink('active-1', '', item)).toBe(true)
+      expect(hasActiveLink('active-3', '', item)).toBe(true)
+      expect(hasActiveLink('inactive', '', item)).toBe(false)
     })
   })
 })

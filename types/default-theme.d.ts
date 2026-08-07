@@ -1,7 +1,7 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
-import type { Header, PageData, VitePressData } from './shared.js'
+import type { Header, PageData, Route, VitePressData } from './shared.js'
 
 export namespace DefaultTheme {
   export interface Config {
@@ -31,13 +31,6 @@ export namespace DefaultTheme {
     outline?: Outline | Outline['level'] | false
 
     /**
-     * @deprecated Use `outline.label` instead.
-     *
-     * @default 'On this page'
-     */
-    outlineTitle?: string
-
-    /**
      * The nav items.
      */
     nav?: NavItem[]
@@ -61,15 +54,6 @@ export namespace DefaultTheme {
      * be disabled.
      */
     editLink?: EditLink
-
-    /**
-     * @deprecated Use `lastUpdated.text` instead.
-     *
-     * Set custom last updated text.
-     *
-     * @default 'Last updated'
-     */
-    lastUpdatedText?: string
 
     lastUpdated?: LastUpdatedOptions
 
@@ -159,7 +143,7 @@ export namespace DefaultTheme {
 
   export type I18nRouting = (
     data: VitePressData<Config>,
-    hash: string,
+    route: Route,
     targetLocale: string
   ) => string
 
@@ -359,12 +343,6 @@ export namespace DefaultTheme {
   // local search --------------------------------------------------------------
 
   export interface LocalSearchOptions {
-    /**
-     * @default false
-     * @deprecated Use `detailedView: false` instead.
-     */
-    disableDetailedView?: boolean
-
     /**
      * If `true`, the detailed view will be enabled by default.
      * If `false`, the detailed view will be disabled.
