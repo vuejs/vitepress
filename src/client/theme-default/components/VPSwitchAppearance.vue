@@ -5,6 +5,24 @@ import VPSwitch from './VPSwitch.vue'
 
 const { isDark, theme } = useData()
 
+const handleClick = async () => {
+  try {
+    const result = await beforeThemeSwitch()
+    if (result !== false) {
+      toggleAppearance()
+    }
+  } catch (e) {
+    console.error('[VitePress] Error in before-appearance-switch hook:', e)
+  }
+}
+
+type BeforeSwitchHook = () => boolean | Promise<boolean> | void
+
+const beforeThemeSwitch = inject<BeforeSwitchHook>(
+  'before-appearance-switch',
+  () => true
+)
+
 const toggleAppearance = inject('toggle-appearance', () => {
   isDark.value = !isDark.value
 })
@@ -19,12 +37,7 @@ watchPostEffect(() => {
 </script>
 
 <template>
-  <VPSwitch
-    :title="switchTitle"
-    class="VPSwitchAppearance"
-    :aria-checked="isDark"
-    @click="toggleAppearance"
-  >
+  <VPSwitch :title="switchTitle" class="VPSwitchAppearance" :aria-checked="isDark" @click="handleClick">
     <span class="vpi-sun sun" />
     <span class="vpi-moon moon" />
   </VPSwitch>
