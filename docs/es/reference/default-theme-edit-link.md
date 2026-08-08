@@ -40,14 +40,14 @@ export default {
 
 Esto no debería generar efectos secundarios ni acceder a nada fuera de su alcance, ya que será serializado y ejecutado en el navegador.
 
-De forma predeterminada, esto agregará el enlace con el texto 'Editar esta página' al final de la página de documentación. Puedes personalizar este texto configurando la opción `text`.
+De forma predeterminada, esto agregará el enlace con el texto "Edit this page" al final de la página de documentación. Puedes personalizar este texto configurando la opción `text`.
 
 ```js
 export default {
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edite la página en GitHub'
+      text: 'Editar esta página en GitHub'
     }
   }
 }
