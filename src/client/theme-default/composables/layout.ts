@@ -1,4 +1,5 @@
-import { inBrowser, onContentUpdated, useRoute } from 'vitepress'
+import { useMediaQuery } from '@vueuse/core'
+import { onContentUpdated, useRoute } from 'vitepress'
 import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
 import {
   computed,
@@ -16,7 +17,7 @@ import { useCloseSidebarOnEscape } from './sidebar'
 const headers = shallowRef<DefaultTheme.OutlineItem[]>([])
 const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 
-const is960 = shallowRef(false)
+const isDesktop = useMediaQuery('(min-width: 60rem)')
 
 export function useLayout(): ReturnType<typeof expected> {
   const { frontmatter, theme } = useData()
@@ -33,7 +34,7 @@ export function useLayout(): ReturnType<typeof expected> {
     )
   })
 
-  const isSidebarEnabled = computed(() => hasSidebar.value && is960.value)
+  const isSidebarEnabled = computed(() => hasSidebar.value && isDesktop.value)
 
   const sidebarGroups = computed(() => {
     return hasSidebar.value ? getSidebarGroups(sidebar.value) : []
@@ -93,21 +94,10 @@ export function registerWatchers({ closeSidebar }: RegisterWatchersOptions) {
     headers.value = getHeaders(frontmatter.value.outline ?? theme.value.outline)
   })
 
-  if (inBrowser) {
-    is960.value = window.innerWidth >= 960
-    window.addEventListener(
-      'resize',
-      () => {
-        is960.value = window.innerWidth >= 960
-      },
-      { passive: true }
-    )
-  }
-
   const route = useRoute()
   watch(() => route.path, closeSidebar)
 
-  watch(is960, closeSidebar)
+  watch(isDesktop, closeSidebar)
   useCloseSidebarOnEscape(closeSidebar)
 }
 
