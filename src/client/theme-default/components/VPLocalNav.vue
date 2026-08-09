@@ -20,11 +20,14 @@ const { y } = useWindowScroll()
 const navHeight = ref(0)
 
 onMounted(() => {
-  navHeight.value = parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue(
-      '--vp-nav-height'
-    )
-  )
+  // getComputedStyle returns custom properties as their raw token ("4rem"),
+  // so resolve the height by measuring instead of parsing
+  const probe = document.createElement('div')
+  probe.style.cssText =
+    'position: absolute; visibility: hidden; height: var(--vp-nav-height)'
+  document.body.appendChild(probe)
+  navHeight.value = probe.offsetHeight
+  probe.remove()
 })
 
 const classes = computed(() => {
