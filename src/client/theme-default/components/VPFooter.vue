@@ -30,7 +30,7 @@ const { hasSidebar } = useLayout()
 
 .VPFooter :deep(a) {
   text-decoration-line: underline;
-  text-underline-offset: 0.125rem;
+  text-underline-offset: 0.1428571em;
   transition: color 0.25s;
 }
 
@@ -52,7 +52,7 @@ const { hasSidebar } = useLayout()
 
 .message,
 .copyright {
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);

@@ -21,7 +21,7 @@ withDefaults(defineProps<Props>(), {
   border: 1px solid transparent;
   border-radius: 0.75rem;
   padding: 0 0.625rem;
-  line-height: 1.375rem;
+  line-height: 1.8333333;
   font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
@@ -30,7 +30,7 @@ withDefaults(defineProps<Props>(), {
 
 .VPBadge.small {
   padding: 0 0.375rem;
-  line-height: 1.125rem;
+  line-height: 1.8;
   font-size: 0.625rem;
   transform: translateY(-0.5rem);
 }
@@ -57,7 +57,7 @@ withDefaults(defineProps<Props>(), {
 .vp-doc h5 > .VPBadge,
 .vp-doc h6 > .VPBadge {
   vertical-align: middle;
-  line-height: 1.125rem;
+  line-height: 1.5;
 }
 
 .VPBadge.info {

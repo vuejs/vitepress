@@ -56,7 +56,7 @@ defineOptions({ inheritAttrs: false })
   display: block;
   border-radius: 0.375rem;
   padding: 0 0.75rem;
-  line-height: 2rem;
+  line-height: 2.2857143;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);

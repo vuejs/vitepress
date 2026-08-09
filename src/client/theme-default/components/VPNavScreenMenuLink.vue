@@ -48,7 +48,7 @@ const { closeScreen } = inject(navInjectionKey)!
   display: block;
   border-bottom: 1px solid var(--vp-c-divider);
   padding: 0.75rem 0 0.6875rem;
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);

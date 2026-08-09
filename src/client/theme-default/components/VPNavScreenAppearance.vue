@@ -32,7 +32,7 @@ const { site, theme } = useData()
 }
 
 .text {
-  line-height: 1.5rem;
+  line-height: 2;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);

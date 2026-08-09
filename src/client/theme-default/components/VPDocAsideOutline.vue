@@ -62,8 +62,8 @@ useActiveAnchor(container, marker)
   left: -1px;
   z-index: 0;
   opacity: 0;
-  width: 0.125rem;
-  border-radius: 0.125rem;
+  width: 2px;
+  border-radius: 2px;
   height: 1.125rem;
   background-color: var(--vp-c-brand-1);
   transition:
@@ -73,7 +73,7 @@ useActiveAnchor(container, marker)
 }
 
 .outline-title {
-  line-height: 2rem;
+  line-height: 2.2857143;
   font-size: 0.875rem;
   font-weight: 600;
 }

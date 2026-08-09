@@ -29,15 +29,15 @@
 
 .title {
   letter-spacing: 0;
-  line-height: 2.75rem;
+  line-height: 1.2222222;
   font-size: 2.25rem;
   font-weight: 500;
 }
 
 @media (min-width: 48rem) {
   .title {
-    letter-spacing: -0.0313rem;
-    line-height: 3.5rem;
+    letter-spacing: -0.0104167em;
+    line-height: 1.1666667;
     font-size: 3rem;
   }
 }
@@ -46,7 +46,7 @@
   margin: 0 auto;
   max-width: 32rem;
   padding-top: 0.75rem;
-  line-height: 1.5rem;
+  line-height: 1.5;
   font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
@@ -55,8 +55,8 @@
 @media (min-width: 48rem) {
   .lead {
     max-width: 37rem;
-    letter-spacing: 0.0094rem;
-    line-height: 1.75rem;
+    letter-spacing: 0.0075em;
+    line-height: 1.4;
     font-size: 1.25rem;
   }
 }

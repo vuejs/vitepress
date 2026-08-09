@@ -2,7 +2,7 @@
   border: 1px solid transparent;
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
 }
@@ -194,7 +194,7 @@
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  text-underline-offset: 0.125rem;
+  text-underline-offset: 0.1428571em;
   transition: opacity 0.25s;
 }
 

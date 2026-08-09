@@ -33,7 +33,7 @@
   display: inline-block;
   border-bottom: 1px solid transparent;
   padding: 0 0.75rem;
-  line-height: 3rem;
+  line-height: 3.4285714;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-code-tab-text-color);
@@ -48,8 +48,8 @@
   bottom: -1px;
   left: 0.5rem;
   z-index: 1;
-  height: 0.125rem;
-  border-radius: 0.125rem;
+  height: 2px;
+  border-radius: 2px;
   content: '';
   background-color: transparent;
   transition: background-color 0.25s;

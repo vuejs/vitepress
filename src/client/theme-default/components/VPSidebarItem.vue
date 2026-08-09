@@ -131,8 +131,8 @@ function onCaretClick() {
   top: 0.375rem;
   bottom: 0.375rem;
   left: calc(-1rem - 1px);
-  width: 0.125rem;
-  border-radius: 0.125rem;
+  width: 2px;
+  border-radius: 2px;
   transition: background-color 0.25s;
 }
 
@@ -152,7 +152,7 @@ function onCaretClick() {
 .text {
   flex-grow: 1;
   padding: 0.25rem 0;
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: 0.875rem;
   transition: color 0.25s;
 }

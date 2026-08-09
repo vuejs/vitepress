@@ -77,19 +77,19 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.small .name {
-  line-height: 1.5rem;
+  line-height: 1.5;
   font-size: 1rem;
 }
 
 .VPTeamMembersItem.small .affiliation {
   padding-top: 0.25rem;
-  line-height: 1.25rem;
+  line-height: 1.4285714;
   font-size: 0.875rem;
 }
 
 .VPTeamMembersItem.small .desc {
   padding-top: 0.75rem;
-  line-height: 1.25rem;
+  line-height: 1.4285714;
   font-size: 0.875rem;
 }
 
@@ -113,8 +113,8 @@ withDefaults(defineProps<Props>(), {
 }
 
 .VPTeamMembersItem.medium .name {
-  letter-spacing: 0.0094rem;
-  line-height: 1.75rem;
+  letter-spacing: 0.0075em;
+  line-height: 1.4;
   font-size: 1.25rem;
 }
 

@@ -54,7 +54,7 @@
   display: inline-block;
   padding: 0 1.5rem;
   letter-spacing: 0;
-  line-height: 2rem;
+  line-height: 1.6;
   font-size: 1.25rem;
   font-weight: 500;
   background-color: var(--vp-c-bg);
@@ -65,7 +65,7 @@
   max-width: 30rem;
   padding-top: 0.75rem;
   text-align: center;
-  line-height: 1.5rem;
+  line-height: 1.5;
   font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);

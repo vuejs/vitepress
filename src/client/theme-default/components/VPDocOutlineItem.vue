@@ -33,7 +33,7 @@ defineProps<{
 
 .outline-link {
   display: block;
-  line-height: 2rem;
+  line-height: 2.2857143;
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--vp-c-text-2);

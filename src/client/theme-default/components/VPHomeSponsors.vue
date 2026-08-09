@@ -99,7 +99,7 @@ withDefaults(defineProps<Props>(), {
   padding-top: 0.625rem;
   max-width: 20rem;
   text-align: center;
-  line-height: 1.5rem;
+  line-height: 1.5;
   font-size: 1rem;
   font-weight: 500;
   color: var(--vp-c-text-2);

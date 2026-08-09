@@ -67,7 +67,7 @@ if (carbonOptions) {
   border-radius: 0.75rem;
   min-height: 16rem;
   text-align: center;
-  line-height: 1.125rem;
+  line-height: 1.5;
   font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--vp-carbon-ads-bg-color);

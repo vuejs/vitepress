@@ -44,15 +44,15 @@ const { currentLang } = useLangs()
 }
 
 .code {
-  line-height: 4rem;
+  line-height: 1;
   font-size: 4rem;
   font-weight: 600;
 }
 
 .title {
   padding-top: 0.75rem;
-  letter-spacing: 0.125rem;
-  line-height: 1.25rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
   font-size: 1.25rem;
   font-weight: 700;
 }

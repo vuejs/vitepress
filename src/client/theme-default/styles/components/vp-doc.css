@@ -40,7 +40,7 @@
 
 .vp-doc h1 {
   letter-spacing: -0.02em;
-  line-height: 2.5rem;
+  line-height: 1.4285714;
   font-size: 1.75rem;
 }
 
@@ -49,7 +49,7 @@
   border-top: 1px solid var(--vp-c-divider);
   padding-top: 1.5rem;
   letter-spacing: -0.02em;
-  line-height: 2rem;
+  line-height: 1.3333333;
   font-size: 1.5rem;
   /* since it already has a top padding of 1.5rem, we don't need extra scroll margin */
   --vp-extra-scroll-margin: 0px;
@@ -58,14 +58,14 @@
 .vp-doc h3 {
   margin: 2rem 0 0;
   letter-spacing: -0.01em;
-  line-height: 1.75rem;
+  line-height: 1.4;
   font-size: 1.25rem;
 }
 
 .vp-doc h4 {
   margin: 1.5rem 0 0;
   letter-spacing: -0.01em;
-  line-height: 1.5rem;
+  line-height: 1.3333333;
   font-size: 1.125rem;
 }
 
@@ -105,7 +105,7 @@
 @media (min-width: 48rem) {
   .vp-doc h1 {
     letter-spacing: -0.02em;
-    line-height: 2.5rem;
+    line-height: 1.25;
     font-size: 2rem;
   }
 }
@@ -125,7 +125,7 @@
 }
 
 .vp-doc p {
-  line-height: 1.75rem;
+  line-height: 1.75;
 }
 
 .vp-doc blockquote {
@@ -146,7 +146,7 @@
   font-weight: 500;
   color: var(--vp-c-brand-1);
   text-decoration: underline;
-  text-underline-offset: 0.125rem;
+  text-underline-offset: 0.125em;
   transition:
     color 0.25s,
     opacity 0.25s;
@@ -277,7 +277,7 @@
 
 .vp-doc .custom-block p {
   margin: 0.5rem 0;
-  line-height: 1.5rem;
+  line-height: 1.7142857;
 }
 
 .vp-doc .custom-block p:first-child {
@@ -360,7 +360,7 @@
   }
 }
 
-@media (max-width: 39.9375rem) {
+@media not all and (min-width: 40rem) {
   .vp-doc li div[class*='language-'] {
     border-radius: 0.5rem 0 0 0.5rem;
   }
@@ -616,8 +616,8 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline;
-  margin-left: 0.25rem;
-  padding-left: 0.6875rem;
+  margin-left: 0.4em;
+  padding-left: 1.1em;
   background: currentColor;
   color: var(--vp-c-text-3);
   flex-shrink: 0;
@@ -628,11 +628,11 @@
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 0.6875rem 0.6875rem;
-  mask-size: 0.6875rem 0.6875rem;
+  -webkit-mask-size: 1.1em 1.1em;
+  mask-size: 1.1em 1.1em;
   /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: bottom;
-  font-size: 0.625rem;
+  font-size: 0.625em;
 }
 
 .vp-external-link-icon::after {

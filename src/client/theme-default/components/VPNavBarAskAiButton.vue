@@ -16,7 +16,7 @@
 @media (min-width: 48rem) {
   .VPNavBarAskAiButton {
     height: auto;
-    padding: 0.7188rem;
+    padding: 0.71875rem;
     transition: color 0.3s ease;
     background-color: var(--vp-c-bg-alt);
     border-radius: 0.5rem;

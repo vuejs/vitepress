@@ -93,7 +93,7 @@ defineProps<{
 }
 
 .title {
-  line-height: 1.5rem;
+  line-height: 1.5;
   font-size: 1rem;
   font-weight: 600;
 }
@@ -101,7 +101,7 @@ defineProps<{
 .details {
   flex-grow: 1;
   padding-top: 0.5rem;
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);

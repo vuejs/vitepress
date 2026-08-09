@@ -46,7 +46,7 @@ onMounted(() => {
 
 <style scoped>
 .VPLastUpdated {
-  line-height: 1.5rem;
+  line-height: 1.7142857;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
@@ -54,7 +54,7 @@ onMounted(() => {
 
 @media (min-width: 40rem) {
   .VPLastUpdated {
-    line-height: 2rem;
+    line-height: 2.2857143;
     font-size: 0.875rem;
     font-weight: 500;
   }

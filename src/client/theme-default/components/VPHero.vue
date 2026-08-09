@@ -139,8 +139,8 @@ const { heroImageSlotExists } = inject(
 .text {
   width: fit-content;
   max-width: 24.5rem;
-  letter-spacing: -0.025rem;
-  line-height: 2.5rem;
+  letter-spacing: -0.0125em;
+  line-height: 1.25;
   font-size: 2rem;
   font-weight: 700;
   white-space: pre-wrap;
@@ -171,7 +171,7 @@ const { heroImageSlotExists } = inject(
   .name,
   .text {
     max-width: 36rem;
-    line-height: 3.5rem;
+    line-height: 1.1666667;
     font-size: 3rem;
   }
 }
@@ -179,7 +179,7 @@ const { heroImageSlotExists } = inject(
 @media (min-width: 60rem) {
   .name,
   .text {
-    line-height: 4rem;
+    line-height: 1.1428571;
     font-size: 3.5rem;
   }
 
@@ -192,7 +192,7 @@ const { heroImageSlotExists } = inject(
 .tagline {
   padding-top: 0.5rem;
   max-width: 24.5rem;
-  line-height: 1.75rem;
+  line-height: 1.5555556;
   font-size: 1.125rem;
   font-weight: 500;
   white-space: pre-wrap;
@@ -207,14 +207,14 @@ const { heroImageSlotExists } = inject(
   .tagline {
     padding-top: 0.75rem;
     max-width: 36rem;
-    line-height: 2rem;
+    line-height: 1.6;
     font-size: 1.25rem;
   }
 }
 
 @media (min-width: 60rem) {
   .tagline {
-    line-height: 2.25rem;
+    line-height: 1.5;
     font-size: 1.5rem;
   }
 

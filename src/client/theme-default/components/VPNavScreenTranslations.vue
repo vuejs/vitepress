@@ -79,7 +79,7 @@ function toggle() {
 }
 
 .link {
-  line-height: 2rem;
+  line-height: 2.4615385;
   font-size: 0.8125rem;
   color: var(--vp-c-text-1);
 }

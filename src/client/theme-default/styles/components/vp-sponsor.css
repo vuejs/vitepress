@@ -18,8 +18,8 @@
 .vp-sponsor-tier {
   margin: 0 0 0.25rem !important;
   text-align: center;
-  letter-spacing: 1px !important;
-  line-height: 1.5rem;
+  letter-spacing: 0.0625em !important;
+  line-height: 1.5;
   width: 100%;
   font-weight: 600;
   color: var(--vp-c-text-2);

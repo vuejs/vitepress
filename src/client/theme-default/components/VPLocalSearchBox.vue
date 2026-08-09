@@ -653,7 +653,7 @@ function onMouseMove(e: MouseEvent) {
   border-radius: 0.375rem;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -672,7 +672,7 @@ function onMouseMove(e: MouseEvent) {
   cursor: text;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .search-bar {
     padding: 0 0.5rem;
   }
@@ -696,7 +696,7 @@ function onMouseMove(e: MouseEvent) {
   margin: 0.5rem;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .search-icon {
     display: none;
   }
@@ -712,7 +712,7 @@ function onMouseMove(e: MouseEvent) {
   display: none;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .search-input {
     padding: 0.375rem 0.25rem;
   }
@@ -782,7 +782,7 @@ function onMouseMove(e: MouseEvent) {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  line-height: 0.875rem;
+  line-height: 1.09375;
 }
 
 .search-keyboard-shortcuts span {
@@ -791,7 +791,7 @@ function onMouseMove(e: MouseEvent) {
   gap: 0.25rem;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -824,7 +824,7 @@ function onMouseMove(e: MouseEvent) {
   gap: 0.5rem;
   border-radius: 0.25rem;
   transition: none;
-  line-height: 1rem;
+  line-height: 1;
   border: solid 2px var(--vp-local-search-result-border);
   outline: none;
 }
@@ -835,7 +835,7 @@ function onMouseMove(e: MouseEvent) {
   overflow: hidden;
 }
 
-@media (max-width: 47.9375rem) {
+@media not all and (min-width: 48rem) {
   .result > div {
     margin: 0.5rem;
   }
@@ -894,7 +894,7 @@ function onMouseMove(e: MouseEvent) {
 
 .excerpt :deep(*) {
   font-size: 0.8rem !important;
-  line-height: 130% !important;
+  line-height: 1.3 !important;
 }
 
 .titles :deep(mark),
