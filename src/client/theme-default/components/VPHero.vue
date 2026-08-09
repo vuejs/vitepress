@@ -139,7 +139,7 @@ const { heroImageSlotExists } = inject(
 .text {
   width: fit-content;
   max-width: 24.5rem;
-  letter-spacing: -0.0125em;
+  letter-spacing: -0.025rem;
   line-height: 1.25;
   font-size: 2rem;
   font-weight: 700;

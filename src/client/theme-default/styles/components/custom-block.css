@@ -194,7 +194,7 @@
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  text-underline-offset: 0.1428571em;
+  text-underline-offset: 0.125rem;
   transition: opacity 0.25s;
 }
 

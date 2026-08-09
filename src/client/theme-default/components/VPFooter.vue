@@ -30,7 +30,7 @@ const { hasSidebar } = useLayout()
 
 .VPFooter :deep(a) {
   text-decoration-line: underline;
-  text-underline-offset: 0.1428571em;
+  text-underline-offset: 0.125rem;
   transition: color 0.25s;
 }
 

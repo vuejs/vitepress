@@ -146,7 +146,7 @@
   font-weight: 500;
   color: var(--vp-c-brand-1);
   text-decoration: underline;
-  text-underline-offset: 0.125em;
+  text-underline-offset: 0.125rem;
   transition:
     color 0.25s,
     opacity 0.25s;
@@ -616,8 +616,8 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline;
-  margin-left: 0.4em;
-  padding-left: 1.1em;
+  margin-left: 0.25rem;
+  padding-left: 0.6875rem;
   background: currentColor;
   color: var(--vp-c-text-3);
   flex-shrink: 0;
@@ -628,11 +628,11 @@
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 1.1em 1.1em;
-  mask-size: 1.1em 1.1em;
+  -webkit-mask-size: 0.6875rem 0.6875rem;
+  mask-size: 0.6875rem 0.6875rem;
   /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: bottom;
-  font-size: 0.625em;
+  font-size: 0.625rem;
 }
 
 .vp-external-link-icon::after {
