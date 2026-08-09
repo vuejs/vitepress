@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, ref, watch } from 'vue'
-import { useAside } from '../composables/aside'
 
 const route = useRoute()
 const props = defineProps<{
@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const carbonOptions = props.carbonAds
 
-const { isAsideEnabled } = useAside()
+const isAsideVisible = useMediaQuery('(min-width: 80rem)')
 const container = ref()
 
 let isInitialized = false
@@ -33,7 +33,7 @@ function init() {
 }
 
 watch(() => route.data.relativePath, () => {
-  if (isInitialized && isAsideEnabled.value) {
+  if (isInitialized && isAsideVisible.value) {
     ;(window as any)._carbonads?.refresh()
   }
 })
@@ -45,10 +45,10 @@ if (carbonOptions) {
     // if the page is loaded when aside is active, load carbon directly.
     // otherwise, only load it if the page resizes to wide enough. this avoids
     // loading carbon at all on mobile where it's never shown
-    if (isAsideEnabled.value) {
+    if (isAsideVisible.value) {
       init()
     } else {
-      watch(isAsideEnabled, (wide) => wide && init())
+      watch(isAsideVisible, (visible) => visible && init())
     }
   })
 }

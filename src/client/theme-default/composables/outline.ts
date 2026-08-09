@@ -1,7 +1,7 @@
+import { useMediaQuery } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
 import { throttleAndDebounce } from '../support/utils'
-import { useAside } from './aside'
 
 const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
 
@@ -79,7 +79,7 @@ export function useActiveAnchor(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
 ): void {
-  const { isAsideEnabled } = useAside()
+  const isAsideVisible = useMediaQuery('(min-width: 80rem)')
 
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
@@ -102,7 +102,7 @@ export function useActiveAnchor(
   })
 
   function onClick(e: MouseEvent) {
-    if (!isAsideEnabled.value) {
+    if (!isAsideVisible.value) {
       return
     }
 
@@ -116,7 +116,7 @@ export function useActiveAnchor(
   }
 
   function setActiveLink() {
-    if (!isAsideEnabled.value) {
+    if (!isAsideVisible.value) {
       return
     }
 
