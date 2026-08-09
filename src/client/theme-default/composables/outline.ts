@@ -187,11 +187,16 @@ export function useActiveAnchor(
 
     if (activeLink) {
       activeLink.classList.add('active')
-      // TODO: calculate 39px to account for rem
-      marker.value.style.top = activeLink.offsetTop + 39 + 'px'
+      // the links' offsetParent (.root) sits below the outline title while the
+      // marker is offset from .content, so re-align their origins
+      marker.value.style.top =
+        activeLink.offsetTop +
+        ((activeLink.offsetParent as HTMLElement)?.offsetTop ?? 0) +
+        (activeLink.offsetHeight - marker.value.offsetHeight) / 2 +
+        'px'
       marker.value.style.opacity = '1'
     } else {
-      marker.value.style.top = '33px'
+      marker.value.style.top = ''
       marker.value.style.opacity = '0'
     }
   }
