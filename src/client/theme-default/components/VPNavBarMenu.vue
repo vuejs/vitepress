@@ -38,7 +38,7 @@ const { theme } = useData()
   display: flex;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarMenu {
     display: block;
   }

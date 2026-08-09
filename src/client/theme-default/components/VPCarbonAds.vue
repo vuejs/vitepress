@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, ref, watch } from 'vue'
-import { useAside } from '../composables/aside'
 
 const route = useRoute()
 const props = defineProps<{
@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const carbonOptions = props.carbonAds
 
-const { isAsideEnabled } = useAside()
+const isAsideVisible = useMediaQuery('(min-width: 80rem)')
 const container = ref()
 
 let isInitialized = false
@@ -33,7 +33,7 @@ function init() {
 }
 
 watch(() => route.data.relativePath, () => {
-  if (isInitialized && isAsideEnabled.value) {
+  if (isInitialized && isAsideVisible.value) {
     ;(window as any)._carbonads?.refresh()
   }
 })
@@ -45,10 +45,10 @@ if (carbonOptions) {
     // if the page is loaded when aside is active, load carbon directly.
     // otherwise, only load it if the page resizes to wide enough. this avoids
     // loading carbon at all on mobile where it's never shown
-    if (isAsideEnabled.value) {
+    if (isAsideVisible.value) {
       init()
     } else {
-      watch(isAsideEnabled, (wide) => wide && init())
+      watch(isAsideVisible, (visible) => visible && init())
     }
   })
 }
@@ -63,25 +63,25 @@ if (carbonOptions) {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  border-radius: 12px;
-  min-height: 256px;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  min-height: 16rem;
   text-align: center;
-  line-height: 18px;
-  font-size: 12px;
+  line-height: 1.5;
+  font-size: 0.75rem;
   font-weight: 500;
   background-color: var(--vp-carbon-ads-bg-color);
 }
 
 .VPCarbonAds :deep(img) {
   margin: 0 auto;
-  border-radius: 6px;
+  border-radius: 0.375rem;
 }
 
 .VPCarbonAds :deep(.carbon-text) {
   display: block;
   margin: 0 auto;
-  padding-top: 12px;
+  padding-top: 0.75rem;
   color: var(--vp-carbon-ads-text-color);
   transition: color 0.25s;
 }
@@ -92,8 +92,8 @@ if (carbonOptions) {
 
 .VPCarbonAds :deep(.carbon-poweredby) {
   display: block;
-  padding-top: 6px;
-  font-size: 11px;
+  padding-top: 0.375rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--vp-carbon-ads-poweredby-color);
   text-transform: uppercase;

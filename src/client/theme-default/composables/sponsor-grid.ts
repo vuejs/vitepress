@@ -15,10 +15,10 @@ export interface UseSponsorsGridOptions {
 /**
  * Defines grid configuration for each sponsor size in tuple.
  *
- * [Screen width, Column size]
+ * [Screen width (rem), Column size]
  *
- * It sets grid size on matching screen size. For example, `[768, 5]` will
- * set 5 columns when screen size is bigger or equal to 768px.
+ * It sets grid size on matching screen size. For example, `[48, 5]` will
+ * set 5 columns when the screen is at least 48rem wide.
  *
  * Column will set only when item size is bigger than the column size. For
  * example, even we define 5 columns, if we only have 1 sponsor yet, we would
@@ -28,21 +28,21 @@ const GridSettings: GridSetting = {
   xmini: [[0, 2]],
   mini: [],
   small: [
-    [920, 6],
-    [768, 5],
-    [640, 4],
-    [480, 3],
+    [57.5, 6],
+    [48, 5],
+    [40, 4],
+    [30, 3],
     [0, 2]
   ],
   medium: [
-    [960, 5],
-    [832, 4],
-    [640, 3],
-    [480, 2]
+    [60, 5],
+    [52, 4],
+    [40, 3],
+    [30, 2]
   ],
   big: [
-    [832, 3],
-    [640, 2]
+    [52, 3],
+    [40, 2]
   ]
 }
 
@@ -77,12 +77,11 @@ function adjustSlots(el: HTMLElement, size: GridSize) {
 
 function setGrid(el: HTMLElement, size: GridSize, items: number) {
   const settings = GridSettings[size]
-  const screen = window.innerWidth
 
   let grid = 1
 
   settings.some(([breakpoint, value]) => {
-    if (screen >= breakpoint) {
+    if (window.matchMedia(`(min-width: ${breakpoint}rem)`).matches) {
       grid = items < value ? items : value
       return true
     }

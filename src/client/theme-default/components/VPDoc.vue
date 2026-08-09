@@ -63,33 +63,33 @@ const pageName = computed(() =>
 
 <style scoped>
 .VPDoc {
-  padding: 32px 24px 96px;
+  padding: 2rem 1.5rem 6rem;
   width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPDoc {
-    padding: 48px 32px 128px;
+    padding: 3rem 2rem 8rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPDoc {
-    padding: 48px 32px 0;
+    padding: 3rem 2rem 0;
   }
 
   .VPDoc:not(.has-sidebar) .container {
     display: flex;
     justify-content: center;
-    max-width: 992px;
+    max-width: 62rem;
   }
 
   .VPDoc:not(.has-sidebar) .content {
-    max-width: 752px;
+    max-width: 47rem;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPDoc .container {
     display: flex;
     justify-content: center;
@@ -100,13 +100,13 @@ const pageName = computed(() =>
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPDoc:not(.has-sidebar) .content {
-    max-width: 784px;
+    max-width: 49rem;
   }
 
   .VPDoc:not(.has-sidebar) .container {
-    max-width: 1104px;
+    max-width: 69rem;
   }
 }
 
@@ -120,22 +120,22 @@ const pageName = computed(() =>
   display: none;
   order: 2;
   flex-grow: 1;
-  padding-left: 32px;
+  padding-left: 2rem;
   width: 100%;
-  max-width: 256px;
+  max-width: 16rem;
 }
 
 .left-aside {
   order: 1;
   padding-left: unset;
-  padding-right: 32px;
+  padding-right: 2rem;
 }
 
 .aside-container {
   position: fixed;
   top: 0;
-  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 48px);
-  width: 224px;
+  padding-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 3rem);
+  width: 14rem;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -150,8 +150,8 @@ const pageName = computed(() =>
   position: fixed;
   bottom: 0;
   z-index: 10;
-  width: 224px;
-  height: 32px;
+  width: 14rem;
+  height: 2rem;
   background: linear-gradient(transparent, var(--vp-c-bg) 70%);
   pointer-events: none;
 }
@@ -159,8 +159,8 @@ const pageName = computed(() =>
 .aside-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 48px));
-  padding-bottom: 32px;
+  min-height: calc(100vh - (var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 3rem));
+  padding-bottom: 2rem;
 }
 
 .content {
@@ -169,17 +169,17 @@ const pageName = computed(() =>
   width: 100%;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .content {
-    padding: 0 32px 128px;
+    padding: 0 2rem 8rem;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .content {
     order: 1;
     margin: 0;
-    min-width: 640px;
+    min-width: 40rem;
   }
 }
 
@@ -188,6 +188,6 @@ const pageName = computed(() =>
 }
 
 .VPDoc.has-aside .content-container {
-  max-width: 688px;
+  max-width: 43rem;
 }
 </style>
