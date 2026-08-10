@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  vitepress-plugin-group-icons: c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f
+
 importers:
 
   .:
@@ -311,7 +314,7 @@ importers:
         version: link:..
       vitepress-plugin-group-icons:
         specifier: ^1.7.6
-        version: 1.7.6(vite@8.2.0(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
+        version: 1.7.6(patch_hash=c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0))
       vitepress-plugin-llms:
         specifier: ^1.13.4
         version: 1.13.4
@@ -1292,6 +1295,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -5152,7 +5156,7 @@ snapshots:
       jiti: 1.21.7
       yaml: 2.9.0
 
-  vitepress-plugin-group-icons@1.7.6(vite@8.2.0(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)):
+  vitepress-plugin-group-icons@1.7.6(patch_hash=c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.27.7)(jiti@1.21.7)(yaml@2.9.0)):
     dependencies:
       '@iconify-json/logos': 1.2.11
       '@iconify-json/vscode-icons': 1.2.67
