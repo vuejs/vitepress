@@ -587,29 +587,6 @@
 }
 
 /**
- * Component: Team
- * -------------------------------------------------------------------------- */
-
-.vp-doc .VPTeamMembers {
-  margin-top: 1.5rem;
-}
-
-.vp-doc .VPTeamMembers.small.count-1 .container {
-  margin: 0 !important;
-  max-width: calc((100% - 1.5rem) / 2) !important;
-}
-
-.vp-doc .VPTeamMembers.small.count-2 .container,
-.vp-doc .VPTeamMembers.small.count-3 .container {
-  max-width: 100% !important;
-}
-
-.vp-doc .VPTeamMembers.medium.count-1 .container {
-  margin: 0 !important;
-  max-width: calc((100% - 1.5rem) / 2) !important;
-}
-
-/**
  * External links
  * -------------------------------------------------------------------------- */
 

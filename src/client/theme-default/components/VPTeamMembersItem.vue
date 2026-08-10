@@ -156,16 +156,20 @@ withDefaults(defineProps<Props>(), {
   inset: 0;
   margin: 0;
   border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
 .name {
   margin: 0;
+  letter-spacing: normal;
   font-weight: 600;
 }
 
 .affiliation {
   margin: 0;
+  line-height: 1.5;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }
@@ -181,6 +185,7 @@ withDefaults(defineProps<Props>(), {
 
 .desc {
   margin: 0 auto;
+  line-height: 1.5;
 }
 
 .desc :deep(a) {

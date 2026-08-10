@@ -1,7 +1,3 @@
-/**
- * VPSponsors styles are defined as global because a new class gets
- * allied in onMounted` hook and we can't use scoped style.
- */
 .vp-sponsor {
   border-radius: 1rem;
   overflow: hidden;
@@ -15,10 +11,10 @@
   margin-top: 0.25rem;
 }
 
-.vp-sponsor-tier {
-  margin: 0 0 0.25rem !important;
+.vp-sponsor .vp-sponsor-tier {
+  margin: 0 0 0.25rem;
   text-align: center;
-  letter-spacing: 0.0625rem !important;
+  letter-spacing: 0.0625rem;
   line-height: 1.5;
   width: 100%;
   font-weight: 600;
@@ -154,10 +150,17 @@
   filter: grayscale(1) invert(1);
 }
 
-/* Reset styles from vp-doc if used in markdown */
 .vp-doc .vp-sponsor-grid,
 .vp-doc .vp-sponsor-grid-item {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.vp-doc .vp-sponsor-grid-image {
+  margin: 0;
+}
+
+.vp-doc .vp-sponsor-grid-link {
+  text-decoration: none;
 }

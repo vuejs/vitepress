@@ -74,4 +74,22 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
   margin: 0;
   padding: 0;
 }
+.vp-doc .VPTeamMembers :deep(.org),
+.vp-doc .VPTeamMembers :deep(.sp-link) {
+  text-decoration: none;
+}
+
+/* Sizing for doc pages, where the content area is narrow (excludes home content) */
+.vp-doc:not(.VPHomeContent) .VPTeamMembers {
+  margin-top: 1.5rem;
+}
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-1 .container,
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.medium.count-1 .container {
+  margin: 0;
+  max-width: calc((100% - 1.5rem) / 2);
+}
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-2 .container,
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-3 .container {
+  max-width: 100%;
+}
 </style>

@@ -1,18 +1,5 @@
-<script setup lang="ts">
-import { useWindowSize } from '@vueuse/core'
-
-const { width: vw } = useWindowSize({
-  initialWidth: 0,
-  includeScrollbar: false
-})
-</script>
-
 <template>
-  <div
-    class="vp-doc container"
-    :style="vw ? { '--vp-offset': `calc(50% - ${vw / 2}px)` } : {}"
-    data-allow-mismatch="style"
-  >
+  <div class="VPHomeContent vp-doc container">
     <slot />
   </div>
 </template>
@@ -38,18 +25,13 @@ const { width: vw } = useWindowSize({
   }
 }
 
+/* stretch to full viewport width, overflow is clipped by .VPHome */
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: var(--vp-offset, calc(50% - 50vw));
-  margin-right: var(--vp-offset, calc(50% - 50vw));
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
-.vp-doc :deep(.VPHomeSponsors h2) {
-  border-top: none;
-  letter-spacing: normal;
-}
-
-.vp-doc :deep(.VPHomeSponsors a),
 .vp-doc :deep(.VPTeamPage a) {
   text-decoration: none;
 }
