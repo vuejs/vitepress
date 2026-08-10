@@ -52,6 +52,8 @@
 .title-text {
   position: relative;
   display: inline-block;
+  margin: 0;
+  border-top: none;
   padding: 0 1.5rem;
   letter-spacing: 0;
   line-height: 1.6;

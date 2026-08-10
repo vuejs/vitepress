@@ -37,6 +37,7 @@ const { frontmatter, theme } = useData()
 
 <style scoped>
 .VPHome {
+  overflow-x: clip;
   margin-bottom: 6rem;
 }
 

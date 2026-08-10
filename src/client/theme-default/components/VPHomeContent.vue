@@ -1,5 +1,5 @@
 <template>
-  <div class="vp-doc container">
+  <div class="VPHomeContent vp-doc container">
     <slot />
   </div>
 </template>
@@ -25,19 +25,13 @@
   }
 }
 
+/* stretch to full viewport width, overflow is clipped by .VPHome */
 .vp-doc :deep(.VPHomeSponsors),
-.vp-doc :deep(.VPTeamPageTitle),
-.vp-doc :deep(.VPTeamPageSection) {
-  padding-left: 0;
-  padding-right: 0;
+.vp-doc :deep(.VPTeamPage) {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
-.vp-doc :deep(.VPHomeSponsors h2) {
-  border-top: none;
-  letter-spacing: normal;
-}
-
-.vp-doc :deep(.VPHomeSponsors a),
 .vp-doc :deep(.VPTeamPage a) {
   text-decoration: none;
 }

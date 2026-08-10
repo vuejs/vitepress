@@ -96,9 +96,11 @@ withDefaults(defineProps<Props>(), {
 
 .message {
   margin: 0 auto;
+  border-top: none;
   padding-top: 0.625rem;
   max-width: 20rem;
   text-align: center;
+  letter-spacing: normal;
   line-height: 1.5;
   font-size: 1rem;
   font-weight: 500;
