@@ -631,8 +631,8 @@
   -webkit-mask-size: 0.6875rem 0.6875rem;
   mask-size: 0.6875rem 0.6875rem;
   /*rtl:raw:transform: scaleX(-1);*/
-  vertical-align: bottom;
-  font-size: 0.625rem;
+  vertical-align: middle;
+  font-size: 0.5625rem;
 }
 
 .vp-external-link-icon::after {
