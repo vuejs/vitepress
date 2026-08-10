@@ -27,41 +27,41 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 
 <style scoped>
 .VPTeamMembers.small .container {
-  grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 }
 
 .VPTeamMembers.small.count-1 .container {
-  max-width: 276px;
+  max-width: 17.25rem;
 }
 .VPTeamMembers.small.count-2 .container {
-  max-width: calc(276px * 2 + 24px);
+  max-width: calc(17.25rem * 2 + 1.5rem);
 }
 .VPTeamMembers.small.count-3 .container {
-  max-width: calc(276px * 3 + 24px * 2);
+  max-width: calc(17.25rem * 3 + 1.5rem * 2);
 }
 
 .VPTeamMembers.medium .container {
-  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
-@media (min-width: 375px) {
+@media (min-width: 23.4375rem) {
   .VPTeamMembers.medium .container {
-    grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   }
 }
 
 .VPTeamMembers.medium.count-1 .container {
-  max-width: 368px;
+  max-width: 23rem;
 }
 .VPTeamMembers.medium.count-2 .container {
-  max-width: calc(368px * 2 + 24px);
+  max-width: calc(23rem * 2 + 1.5rem);
 }
 
 .container {
   display: grid;
-  gap: 24px;
+  gap: 1.5rem;
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
 }
 
 /* Reset styles from vp-doc if used in markdown */

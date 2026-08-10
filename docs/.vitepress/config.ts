@@ -9,13 +9,13 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
-import { markdown as esMarkdown } from '../es/config'
-import { markdown as faMarkdown } from '../fa/config'
-import { markdown as jaMarkdown } from '../ja/config'
-import { markdown as koMarkdown } from '../ko/config'
-import { markdown as ptMarkdown } from '../pt/config'
-import { markdown as ruMarkdown } from '../ru/config'
-import { markdown as zhMarkdown } from '../zh/config'
+import { markdown as esMarkdown } from '../es/config.ts'
+import { markdown as faMarkdown } from '../fa/config.ts'
+import { markdown as jaMarkdown } from '../ja/config.ts'
+import { markdown as koMarkdown } from '../ko/config.ts'
+import { markdown as ptMarkdown } from '../pt/config.ts'
+import { markdown as ruMarkdown } from '../ru/config.ts'
+import { markdown as zhMarkdown } from '../zh/config.ts'
 
 const prod = !!process.env.NETLIFY
 const siteUrl = 'https://vitepress.dev'

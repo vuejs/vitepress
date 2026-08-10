@@ -11,30 +11,47 @@
   --docsearch-actions-height: auto;
   --docsearch-actions-width: auto;
   --docsearch-background-color: var(--vp-c-bg-soft);
+  --docsearch-border-radius: 0.25rem;
   --docsearch-container-background: var(--vp-backdrop-bg-color);
   --docsearch-dropdown-menu-background: var(--vp-c-bg-elv);
   --docsearch-dropdown-menu-item-hover-background: var(--vp-c-default-soft);
   --docsearch-focus-color: var(--vp-c-brand-1);
   --docsearch-footer-background: var(--vp-c-bg-alt);
+  --docsearch-footer-height: 3.25rem;
   --docsearch-highlight-color: var(--vp-c-brand-1);
   --docsearch-hit-background: var(--vp-c-bg);
   --docsearch-hit-color: var(--vp-c-text-1);
+  --docsearch-hit-height: 3.5rem;
   --docsearch-hit-highlight-color: var(--vp-c-brand-soft);
   --docsearch-icon-color: var(--vp-c-text-2);
   --docsearch-key-background: var(--vp-code-bg);
   --docsearch-modal-background: var(--vp-c-bg-soft);
+  --docsearch-modal-height: 37.5rem;
+  --docsearch-modal-width: 50rem;
   --docsearch-muted-color: var(--vp-c-text-2);
   --docsearch-primary-color: var(--vp-c-brand-1);
   --docsearch-searchbox-background: var(--vp-c-bg-alt);
   --docsearch-searchbox-focus-background: transparent;
+  --docsearch-searchbox-height: 3.5rem;
+  --docsearch-searchbox-initial-height: 3.5rem;
   --docsearch-secondary-text-color: var(--vp-c-text-2);
   --docsearch-sidepanel-accent-muted: var(--vp-c-text-3);
   --docsearch-sidepanel-text-base: var(--vp-c-text-1);
   --docsearch-soft-muted-color: var(--vp-c-default-soft);
   --docsearch-soft-primary-color: var(--vp-c-brand-soft);
+  --docsearch-spacing: 0.75rem;
   --docsearch-subtle-color: var(--vp-c-divider);
   --docsearch-success-color: var(--vp-c-brand-soft);
   --docsearch-text-color: var(--vp-c-text-1);
+}
+
+/* mirror the tightened mobile values from @docsearch/css, which the
+   higher-specificity overrides above would otherwise mask */
+@media not all and (min-width: 48rem) {
+  :root:root {
+    --docsearch-footer-height: 3rem;
+    --docsearch-spacing: 0.625rem;
+  }
 }
 
 :root.dark {
@@ -42,27 +59,27 @@
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link {
-  padding: 8px 12px 8px 10px;
+  padding: 0.5rem 0.75rem 0.5rem 0.625rem;
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Title {
   padding-bottom: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .DocSearch-Clear {
-  padding-right: 6px;
+  padding-right: 0.375rem;
 }
 
 .DocSearch-Commands-Key {
-  padding: 4px;
+  padding: 0.25rem;
   border: 1px solid var(--docsearch-subtle-color);
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .DocSearch-Hit a:focus-visible {
@@ -78,15 +95,15 @@
 }
 
 .DocSearch-Menu-content {
-  margin-top: -4px;
-  padding: 6px;
+  margin-top: -0.25rem;
+  padding: 0.375rem;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 6px;
+  border-radius: 0.375rem;
   box-shadow: var(--vp-shadow-2);
 }
 
 .DocSearch-Menu-item {
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .DocSearch-SearchBar + .DocSearch-Footer {

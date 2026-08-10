@@ -46,7 +46,7 @@ describe('node/plugins/localSearchPlugin', () => {
       '# Chinese home\n\nlocaleonlytoken\n'
     )
     await writeFile(
-      path.join(configDir, 'config.ts'),
+      path.join(configDir, 'config.mjs'),
       [
         'export default {',
         '  rewrites: {',
@@ -120,7 +120,7 @@ describe('node/plugins/localSearchPlugin', () => {
       `# Chinese home\n\n${content}`
     )
     await writeFile(
-      path.join(configDir, 'config.ts'),
+      path.join(configDir, 'config.mjs'),
       [
         'export default {',
         '  locales: {',
@@ -195,7 +195,7 @@ describe('node/plugins/localSearchPlugin', () => {
       '# Broken\n\n<!-- @include: ./missing.md -->\n'
     )
     await writeFile(
-      path.join(configDir, 'config.ts'),
+      path.join(configDir, 'config.mjs'),
       "export default { themeConfig: { search: { provider: 'local' } } }"
     )
 

@@ -40,23 +40,23 @@ const showModal = ref(false)
 }
 
 .modal-container {
-  width: 300px;
+  width: 18.75rem;
   margin: auto;
-  padding: 20px 30px;
+  padding: 1.25rem 1.875rem;
   background-color: var(--vp-c-bg);
-  border-radius: 2px;
+  border-radius: 0.125rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
 }
 
 .model-footer {
-  margin-top: 8px;
+  margin-top: 0.5rem;
   text-align: right;
 }
 
 .modal-button {
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   border-color: var(--vp-button-alt-border);
   color: var(--vp-button-alt-text);
   background-color: var(--vp-button-alt-bg);
