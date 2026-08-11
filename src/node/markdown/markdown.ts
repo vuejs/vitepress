@@ -25,16 +25,18 @@ import {
   tasklist as tasklistPlugin,
   type MarkdownItTaskListOptions
 } from '@mdit/plugin-tasklist'
-import type {
-  CodeToHastOptions,
-  LanguageInput,
-  ShikiTransformer,
-  ThemeRegistrationAny
-} from '@shikijs/types'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
 import path from 'node:path'
-import type { BuiltinLanguage, BuiltinTheme, Highlighter } from 'shiki'
+import type {
+  BuiltinLanguage,
+  BuiltinTheme,
+  CodeToHastOptions,
+  Highlighter,
+  LanguageInput,
+  ShikiTransformer,
+  ThemeRegistrationAny
+} from 'shiki'
 import type { Logger } from 'vite'
 import type {
   Awaitable,
@@ -49,14 +51,14 @@ import {
 } from './plugins/containers'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
-import { lineNumberPlugin } from './plugins/lineNumbers'
-import { linkPlugin } from './plugins/link'
-import { preWrapperPlugin } from './plugins/preWrapper'
-import { restoreEntities } from './plugins/restoreEntities'
 import {
   includePlugin,
   type Options as IncludePluginOptions
 } from './plugins/include'
+import { lineNumberPlugin } from './plugins/lineNumbers'
+import { linkPlugin } from './plugins/link'
+import { preWrapperPlugin } from './plugins/preWrapper'
+import { restoreEntities } from './plugins/restoreEntities'
 import {
   snippetPlugin,
   type Options as SnippetPluginOptions
