@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <div class="VPMenu">
     <ul v-if="items" class="items">
-      <li v-for="item in items" :key="JSON.stringify(item)">
+      <template v-for="item in items" :key="JSON.stringify(item)">
         <VPMenuLink v-if="'link' in item" :item />
         <component
           v-else-if="'component' in item"
@@ -19,7 +19,7 @@ defineProps<{
           v-bind="item.props"
         />
         <VPMenuGroup v-else :text="item.text" :items="item.items" />
-      </li>
+      </template>
     </ul>
 
     <slot />

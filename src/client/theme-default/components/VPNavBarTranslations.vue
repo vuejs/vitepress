@@ -20,7 +20,7 @@ const { localeLinks, currentLang } = useLangs({
     <ul class="items">
       <li class="title">{{ currentLang.label }}</li>
 
-      <li v-for="locale in localeLinks" :key="locale.link">
+      <template v-for="locale in localeLinks" :key="locale.link">
         <VPMenuLink
           :item="locale"
           :external="false"
@@ -30,7 +30,7 @@ const { localeLinks, currentLang } = useLangs({
           :dir="locale.dir"
           data-allow-mismatch="attribute"
         />
-      </li>
+      </template>
     </ul>
   </VPFlyout>
 </template>
