@@ -4,7 +4,7 @@ description: Configura la barra de navegación en el tema predeterminado de Vite
 
 # Navegación {#nav}
 
-Refiriéndose a la barra de navegación que se muestra en la parte superior de la página. Contiene el título del sitio, enlaces del menú global, etc.
+La barra de navegación (Nav) se muestra en la parte superior de la página. Contiene el título del sitio, enlaces del menú global, etc.
 
 ## Título y logotipo del sitio {#site-title-and-logo}
 
@@ -33,7 +33,7 @@ Cuando agrega un logotipo, se muestra junto con el título del sitio. Si su logo
 ```js
 export default {
   themeConfig: {
-    logo: '/my-logo.svg',
+    logo: '/mi-logo.svg',
     siteTitle: false
   }
 }
@@ -41,7 +41,7 @@ export default {
 
 También puedes pasar un objeto como logotipo si quieres agregar un atributo. `alt` o personalizarlo según el modo claro/oscuro. Consultar [`themeConfig.logo`](./default-theme-config#logo) para obtener más detalles.
 
-## Links de Navegación {#navigation-links}
+## Enlace de Navegación {#navigation-links}
 
 Puedes configurar la opción `themeConfig.nav` para añadir enlaces a tu navegación.
 
@@ -49,7 +49,7 @@ Puedes configurar la opción `themeConfig.nav` para añadir enlaces a tu navegac
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       { text: 'Configuración', link: '/config' },
       { text: 'Registro de Cambios', link: 'https://github.com/...' }
     ]
@@ -57,17 +57,17 @@ export default {
 }
 ```
 
-`text` es el texto que se muestra en la navegación, y el `link` es el link al que será navegando cuando se hace click en el texto. Para el enlace, establezca la ruta al archivo sin el prefijo `.md` y siempre comenzar por `/`.
+`text` es el texto que se muestra en la navegación, y el `link` es el enlace al que será navegando cuando se hace click en el texto. Para el enlace, establezca la ruta al archivo sin el prefijo `.md` y siempre comenzar por `/`.
 
 El `link` también puede ser una función que acepte [`PageData`](./runtime-api#usedata) como argumento y devuelva la ruta.
 
-Links de navegación también pueden ser menus _dropdown_. Para hacer eso, establezca la clave de `items` en la opción del link.
+Los Enlaces de navegación también pueden ser menus _dropdown_. Para hacer eso, establezca la clave de `items` en la opción del enlace.
 
 ```js
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guide' },
+      { text: 'Guía', link: '/guide' },
       {
         text: 'Menú Dropdown',
         items: [
@@ -89,12 +89,12 @@ También puedes agregar "secciones" a los elementos del menú _dropdown_ pasando
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guia', link: '/guia' },
+      { text: 'Guía', link: '/guia' },
       {
-        text: 'Menú Dropdown',
+        text: 'Dropdown Menu',
         items: [
           {
-            // Título da seção.
+            // Título de la sección.
             text: 'Título de la sección A',
             items: [
               { text: 'Item A de la sección A', link: '...' },
@@ -109,8 +109,8 @@ export default {
           {
             // También puedes omitir el título
             items: [
-              { text: 'Item A da Seção A', link: '...' },
-              { text: 'Item B da Seção B', link: '...' }
+              { text: 'Item A de la sección A', link: '...' },
+              { text: 'Item B de la sección B', link: '...' }
             ]
           }
         ]
@@ -120,19 +120,19 @@ export default {
 }
 ```
 
-### Personaliza el estado "activo" del link {#customize-link-s-active-state}
+### Personaliza el estado "activo" del enlace {#customize-link-s-active-state}
 
-Los elementos del menú de navegación se resaltarán cuando la página actual esté en la ruta correspondiente. Si desea personalizar la ruta que debe coincidir, establezca la propiedad `activeMatch` el regex como um valor en string.
+Los elementos del menú de navegación se resaltarán cuando la página actual esté en la ruta correspondiente. Si desea personalizar la ruta que debe coincidir, establezca la propiedad `activeMatch` el regex como un valor en string.
 
 ```js
 export default {
   themeConfig: {
     nav: [
-      // Este link esta en estado activo cuando
-      // el usuario esta en el camino `/config/`.
+      // Este enlace se activa cuando el usuario está
+      // en la ruta `/config/`.
       {
-        text: 'Guia',
-        link: '/guide',
+        text: 'Guía',
+        link: '/guia',
         activeMatch: '/config/'
       }
     ]
@@ -141,10 +141,10 @@ export default {
 ```
 
 ::: warning
-`activeMatch` Debería ser un string regex, pero deberías definirla como un string. No podemos usar un objeto RegExp real aquí porque no es serializable durante el tiempo de construcción.
+`activeMatch` Debería ser un string regex, pero deberías definirla como un string. No podemos usar un objeto RegExp real aquí porque no es serializable durante el tiempo de compilación.
 :::
 
-### Personalizar los atributos "target" y "rel" de links {#customize-link-s-target-and-rel-attributes}
+### Personaliza los atributos "target" y "rel" del enlace. {#customize-link-s-target-and-rel-attributes}
 
 Por defecto, VitePress determina automáticamente lod atributos `target` y `rel` en función de si existe un enlace externo o no. Pero si quieres, también puedes personalizarlos.
 
@@ -163,6 +163,58 @@ export default {
 }
 ```
 
-## Links Scociales {#social-links}
+## Enlaces Sociales {#social-links}
 
 Consulte [`socialLinks`](./default-theme-config#sociallinks).
+
+## Componentes Personalizados {#custom-components}
+
+Puedes incluir componentes personalizados en la barra de navegación usando la opción `component`. La clave `component` debe ser el nombre del componente Vue y debe registrarse globalmente usando [Theme.enhanceApp](../guide/custom-theme#theme-interface).
+
+```js [.vitepress/config.js]
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Mi Menu',
+        items: [
+          {
+            component: 'MiComponentePersonalizado',
+            // Optional props to pass to the component
+            props: {
+              title: 'Mi Componente Personalizado'
+            }
+          }
+        ]
+      },
+      {
+        component: 'OtroComponentePersonalizado'
+      }
+    ]
+  }
+}
+```
+
+Luego, debes registrar el componente globalmente:
+
+```js [.vitepress/theme/index.js]
+import DefaultTheme from 'vitepress/theme'
+
+import MiComponentePersonalizado from './components/MiComponentePersonalizado.vue'
+import OtroComponentePersonalizado from './components/OtroComponentePersonalizado.vue'
+
+/** @type {import('vitepress').Theme} */
+export default {
+  extends: DefaultTheme,
+  enhanceApp({ app }) {
+    app.component('MiComponentePersonalizado', MyCustomComponent)
+    app.component('OtroComponentePersonalizado', AnotherCustomComponent)
+  }
+}
+```
+
+Tu componente se mostrará en la barra de navegación. VitePress le proporcionará las siguientes propiedades adicionales:
+
+- `screenMenu`: un valor booleano opcional que indica si el componente se encuentra dentro del menú de navegación móvil.
+
+Puedes consultar un ejemplo en las pruebas e2e [aquí](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).
