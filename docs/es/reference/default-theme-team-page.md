@@ -9,7 +9,7 @@ const members = [
   {
     avatar: 'https://github.com/yyx990803.png',
     name: 'Evan You',
-    title: 'Criador',
+    title: 'Creador',
     links: [
       { icon: 'github', link: 'https://github.com/yyx990803' },
       { icon: 'twitter', link: 'https://twitter.com/youyuxi' }
@@ -18,7 +18,7 @@ const members = [
   {
     avatar: 'https://github.com/kiaking.png',
     name: 'Kia King Ishii',
-    title: 'Desenvolvedor',
+    title: 'Desarrollador',
     links: [
       { icon: 'github', link: 'https://github.com/kiaking' },
       { icon: 'twitter', link: 'https://twitter.com/KiaKing85' }
@@ -29,11 +29,11 @@ const members = [
 
 # Página de Equipo {#team-page}
 
-Si deseas presentar a tu equipo, puedes utilizar componentes del equipo para crear la página del equipo. Hay dos formas de utilizar estos componentes. Una es incrustarlo en la página del documento y otra es crear una página de equipo completa.
+Si desea presentar a su equipo, puede utilizar los componentes de equipo para crear la página de equipo. Hay dos formas de utilizar estos componentes. Una es incrustarlo en una página de documento, y otra es crear una página de equipo completa.
 
 ## Mostrar miembros del equipo en una página {#show-team-members-in-a-page}
 
-Puedes usar el componente `<VPTeamMembers>` expuesto en `vitepress/theme` para mostrar una lista de los miembros del equipo en cualquier página.
+Puede usar el componente `<VPTeamMembers>` expuesto desde `vitepress/theme` para mostrar una lista de los miembros del equipo en cualquier página.
 
 ```html
 <script setup>
@@ -55,26 +55,26 @@ const members = [
 
 # Nuestro equipo
 
-Saluda a nuestro increible equipo.
+Salude a nuestro increíble equipo.
 
 <VPTeamMembers size="small" :members />
 ```
 
-El código anterior mostrará a un miembro del equipo en un elemento similar a una tarjeta. Debería mostrar algo similar a lo siguiente.
+El código anterior mostrará a un miembro del equipo en un elemento con apariencia de tarjeta. Debería mostrar algo similar a lo siguiente.
 
 <VPTeamMembers size="small" :members />
 
-El componente `<VPTeamMembers>` viene en dos tamaños diferentes, pequeño `small` y médio `medium`. Si bien es una cuestión de preferencia, generalmente el tamaño `small` debería encajar mejor cuando se use en la página del documento. Además, puede agregar más propiedades a cada miembro, como agregar el botón "descripción" o "patrocinador". Obtenga más información sobre en [`<VPTeamMembers>`](#vpteammembers).
+El componente `<VPTeamMembers>` viene en dos tamaños diferentes, `small` y `medium`. Si bien depende de su preferencia, generalmente el tamaño `small` debería encajar mejor cuando se usa en una página de documento. Además, puede agregar más propiedades a cada miembro, como agregar un botón de "descripción" o "patrocinador". Obtenga más información al respecto en [`<VPTeamMembers>`](#vpteammembers).
 
-Incrustar miembros del equipo en la página del documento es bueno para equipos pequeños donde tener una página de equipo dedicada completa puede ser demasiado, o introducir miembros parciales como referencia al contexto de la documentación.
+Incrustar miembros del equipo en la página de documento es bueno para equipos pequeños donde tener una página de equipo dedicada completa puede ser demasiado, o para presentar miembros parciales como referencia al contexto de la documentación.
 
-Si tienes una gran cantidad de miembros o simplemente deseas más espacio para exhibir a los miembros del equipo, considere [crear una página de equipo completa.](#create-a-full-team-page)
+Si tiene una gran cantidad de miembros, o simplemente desea tener más espacio para mostrar a los miembros del equipo, considere [crear una página de equipo completa](#create-a-full-team-page).
 
-## Creando una página de equipo completa {#create-a-full-team-page}
+## Crear una página de equipo completa {#create-a-full-team-page}
 
-En lugar de agregar miembros del equipo a la página del documento, también puede crear una página de equipo completa, del mismo modo que puede crear una [Página Inicial](./default-theme-home-page) personalizada.
+En lugar de agregar miembros del equipo a la página de documento, también puede crear una página de equipo completa, de manera similar a cómo puede crear una [Página de Inicio](./default-theme-home-page) personalizada.
 
-Para crear una página de equipo, primero cree un nuevo md. El nombre del archivo no importa, pero aquí lo llamaremos `team.md`. En este archivo, configure la opción `layout: page` desde frontmatter,  y luego puedes componer la estructura de tu página usando componentes `TeamPage`.
+Para crear una página de equipo, primero, cree un nuevo archivo md. El nombre del archivo no importa, pero aquí lo llamaremos `team.md`. En este archivo, configure la opción del `frontmatter` `layout: page`, y luego podrá componer la estructura de su página usando los componentes `TeamPage`.
 
 ```html
 ---
@@ -108,24 +108,24 @@ const members = [
     </template>
     <template #lead>
       El desarrollo de VitePress está guiado por un equipo internacional,
-      Algunos de los miembros han elegido aparecer a continuación.
+      algunos de los cuales han elegido aparecer a continuación.
     </template>
   </VPTeamPageTitle>
   <VPTeamMembers :members />
 </VPTeamPage>
 ```
 
-Al crear una página de equipo completa, recuerde agrupar todos los componentes con el componente `<VPTeamPage>`. Este componente garantizará que todos los componentes anidados relacionados con el equipo obtengan la estructura de diseño adecuada, como los espacios.
+Al crear una página de equipo completa, recuerde agrupar todos los componentes con el componente `<VPTeamPage>`. Este componente garantizará que todos los componentes anidados relacionados con el equipo obtengan la estructura de `layout` adecuada, como los espaciados.
 
-El componente `<VPPageTitle>` adiciona la sección de título de la página. El título es `<h1>`. Use los _slots_ `#title` y `#lead` para poder documentar sobre su equipo.
+El componente `<VPPageTitle>` agrega la sección del título de la página. El título es un encabezado `<h1>`. Use los `slots` `#title` y `#lead` para documentar sobre su equipo.
 
-`<VPMembers>` funciona igual que cuando se usa en una página de documento. Mostrará la lista de miembros.
+`<VPMembers>` funciona igual que cuando se usa en una página de documento. Mostrará una lista de miembros.
 
 ### Agregar secciones para dividir a los miembros del equipo {#add-sections-to-divide-team-members}
 
-Puede agregar "secciones" a la página de su equipo. Por ejemplo, puede tener diferentes tipos de miembros del equipo, como miembros del equipo central y socios de la comunidad. Puede dividir a estos miembros en secciones para explicar mejor las funciones de cada grupo.
+Puede agregar "secciones" a la página de equipo. Por ejemplo, puede tener diferentes tipos de miembros en el equipo, como miembros del equipo central y socios de la comunidad. Puede dividir a estos miembros en secciones para explicar mejor los roles de cada grupo.
 
-Para poder hacerlo, agregue al componente `<VPTeamPageSection>` al archivo `team.md` que creamos anteriormente.
+Para hacerlo, agregue el componente `<VPTeamPageSection>` al archivo `team.md` que creamos anteriormente.
 
 ```html
 ---
@@ -150,7 +150,7 @@ const partners = [...]
   </VPTeamPageTitle>
   <VPTeamMembers size="medium" :members="coreMembers" />
   <VPTeamPageSection>
-    <template #title>Amigos</template>
+    <template #title>Socios</template>
     <template #lead>...</template>
     <template #members>
       <VPTeamMembers size="small" :members="partners" />
@@ -159,13 +159,13 @@ const partners = [...]
 </VPTeamPage>
 ```
 
-El componente `<VPTeamPageSection>` Puede tener los _slots_ `#title` y `#lead` similares al componente `VPTeamPageTitle`, y también al _slot_ `#members` para mostrar a los miembros del equipo.
+El componente `<VPTeamPageSection>` puede tener los `slots` `#title` y `#lead` similares al componente `VPTeamPageTitle`, y también un `slot` `#members` para mostrar a los miembros del equipo.
 
-Recuerde colocar el componente `<VPTeamMembers>` dentro del _slot_ `#members`.
+Recuerde colocar el componente `<VPTeamMembers>` dentro del `slot` `#members`.
 
 ## `<VPTeamMembers>`
 
-El componente `<VPTeamMembers>` muestra una determinada lista de miembros.
+El componente `<VPTeamMembers>` muestra una lista determinada de miembros.
 
 ```html
 <VPTeamMembers
@@ -183,22 +183,22 @@ interface Props {
   // Tamaño de cada miembro. El valor predeterminado es `medium`.
   size?: 'small' | 'medium'
 
-  //  Lista de miembros que se mostrará.
+  // Lista de miembros a mostrar.
   members: TeamMember[]
 }
 
 interface TeamMember {
-  // Imagen de avatar de miembro.
+  // Imagen de avatar del miembro.
   avatar: string
 
   // Nombre del miembro.
   name: string
 
-  // Título a ser mostrado a bajo del nombre del miembro.
-  // Ej.: Desarrollador, Ingeniero de Software, etc.
+  // Título a mostrar debajo del nombre del miembro.
+  // Ej. Desarrollador, Ingeniero de Software, etc.
   title?: string
 
-  // Organización a la que pertenece al miembro.
+  // Organización a la que pertenece el miembro.
   org?: string
 
   // URL de la organización.
@@ -207,26 +207,26 @@ interface TeamMember {
   // Descripción del miembro.
   desc?: string
 
-  // Links sociales, por ejemplo, GitHub, Twitter, etc.
-  // Puedes pasar un objeto de Links Sociales aquí.
+  // Enlaces sociales. Ej. GitHub, Twitter, etc. Puede pasar
+  // el objeto de Enlaces Sociales (Social Links) aquí.
   // Vea: https://vitepress.dev/reference/default-theme-config.html#sociallinks
   links?: SocialLink[]
 
-  // URL de la página del patrocinador del miembro.
+  // URL de la página de patrocinador del miembro.
   sponsor?: string
 
-  // Texto para enlace del patrocinador. El valor predeterminado es 'Sponsor'.
+  // Texto para el enlace del patrocinador. El valor predeterminado es 'Sponsor'.
   actionText?: string
 }
 ```
 
 ## `<VPTeamPage>`
 
-El componente raíz al crear una página de equipo completa. Sólo acepta una _slot_. Aplicará estilo a todos los componentes anteriores relacionados con el equipo.
+El componente raíz al crear una página de equipo completa. Solo acepta un único _slot_. Aplicará estilo a todos los componentes relacionados con el equipo que se le pasen.
 
 ## `<VPTeamPageTitle>`
 
-Agrega la sección "título" a la página. Es mejor usarlo desde el principio debajo `<VPTeamPage>`. Acepta los _slots_ `#title` y `#lead`.
+Agrega la sección del "título" de la página. Es mejor usarlo al principio debajo de `<VPTeamPage>`. Acepta los `slots` `#title` y `#lead`.
 
 ```html
 <VPTeamPage>
@@ -236,7 +236,7 @@ Agrega la sección "título" a la página. Es mejor usarlo desde el principio de
     </template>
     <template #lead>
       El desarrollo de VitePress está guiado por un equipo internacional,
-      Algunos de los miembros han elegido aparecer a continuación.
+      algunos de los cuales han elegido aparecer a continuación.
     </template>
   </VPTeamPageTitle>
 </VPTeamPage>
@@ -244,13 +244,13 @@ Agrega la sección "título" a la página. Es mejor usarlo desde el principio de
 
 ## `<VPTeamPageSection>`
 
-Crea una 'sección' en la página del equipo. Aceptar los _slots_ `#title`, `#lead` y `#members`. Puedes agregar tantas secciones como quieras dentro `<VPTeamPage>`.
+Crea una "sección" dentro de la página de equipo. Acepta los `slots` `#title`, `#lead` y `#members`. Puede agregar tantas secciones como desee dentro de `<VPTeamPage>`.
 
 ```html
 <VPTeamPage>
   ...
   <VPTeamPageSection>
-    <template #title>Amigos</template>
+    <template #title>Socios</template>
     <template #lead>Lorem ipsum...</template>
     <template #members>
       <VPTeamMembers :members="data" />
