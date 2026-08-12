@@ -203,7 +203,9 @@ export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
   for (const current of headArrays) {
     for (const tag of current) {
       const [type, attrs] = tag
-      const keyAttr = Object.entries(attrs)[0]
+      const keyAttr =
+        Object.entries(attrs).find(([name]) => name !== 'content') ??
+        Object.entries(attrs)[0]
 
       if (type !== 'meta' || !keyAttr) {
         merged.push(tag)
