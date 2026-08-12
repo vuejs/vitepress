@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onKeyStroke } from '@vueuse/core'
-import { onContentUpdated } from 'vitepress'
+import { onKeyStroke, useScrollLock } from '@vueuse/core'
+import { inBrowser, onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
@@ -18,6 +18,9 @@ const vh = ref(0)
 const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
+// lock body scroll while the dropdown is open to prevent scroll chaining
+const isLocked = useScrollLock(inBrowser ? document.body : null)
+
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
     open.value = false
@@ -25,6 +28,7 @@ function closeOnClickOutside(e: Event) {
 }
 
 watch(open, (value) => {
+  isLocked.value = value
   if (value) {
     document.addEventListener('click', closeOnClickOutside)
     return
@@ -148,6 +152,7 @@ function scrollToTop() {
   background-color: var(--vp-c-gutter);
   max-height: calc(var(--vp-vh, 100vh) - 5.375rem);
   overflow: hidden auto;
+  overscroll-behavior: contain;
   box-shadow: var(--vp-shadow-3);
 }
 
