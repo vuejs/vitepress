@@ -9,13 +9,15 @@ defineProps<{
 </script>
 
 <template>
-  <div class="VPMenuGroup">
+  <li class="VPMenuGroup">
     <p v-if="text" class="title">{{ text }}</p>
 
-    <template v-for="item in items" :key="JSON.stringify(item)">
-      <VPMenuLink v-if="'link' in item" :item />
-    </template>
-  </div>
+    <ul>
+      <template v-for="item in items" :key="JSON.stringify(item)">
+        <VPMenuLink v-if="'link' in item" :item />
+      </template>
+    </ul>
+  </li>
 </template>
 
 <style scoped>

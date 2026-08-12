@@ -31,7 +31,7 @@ defineOptions({ inheritAttrs: false })
 </script>
 
 <template>
-  <div class="VPMenuLink">
+  <li class="VPMenuLink">
     <VPLink
       v-bind="$attrs"
       :class="{ active: isActiveLink }"
@@ -42,7 +42,7 @@ defineOptions({ inheritAttrs: false })
     >
       <span v-html="item.text"></span>
     </VPLink>
-  </div>
+  </li>
 </template>
 
 <style scoped>
