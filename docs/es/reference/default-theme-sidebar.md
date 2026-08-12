@@ -1,5 +1,5 @@
 ---
-description: Configura la navegación de la barra lateral en el tema predeterminado de VitePress con grupos, secciones colapsables y múltiples barras laterales.
+description: Configura la navegación de la barra lateral en el tema predeterminado de VitePress con grupos, secciones plegables y múltiples barras laterales.
 ---
 
 # Barra Lateral {#sidebar}
@@ -11,10 +11,10 @@ export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
-          { text: 'Introducción', link: '/introduction' },
-          { text: 'Iniciando', link: '/getting-started' },
+          { text: 'Introducción', link: '/introduccion' },
+          { text: 'Comenzar', link: '/comenzar' },
           ...
         ]
       }
@@ -25,7 +25,7 @@ export default {
 
 ## Conceptos básicos {#the-basics}
 
-La forma más sencilla del menú de la barra lateral es pasar una único _array_ de links. El elemento de primer nivel define la "sección" de la barra latera. debe contener `text`, cuál es el título de la sección, y `items` que son los propios enlaces de navegación.
+La forma más sencilla del menú de la barra lateral es pasar un único _array_ de enlaces. El elemento de primer nivel define la "sección" para la barra lateral. Debe contener `text`, que es el título de la sección, e `items`, que son los enlaces de navegación reales.
 
 ```js
 export default {
@@ -52,18 +52,17 @@ export default {
 }
 ```
 
-Cada `link` debe especificar la ruta al archivo en sí comenzando con `/`.
-Si agrega una barra al final del enlace, mostrará el `index.md` del directorio correspondiente.
+Cada `link` debe especificar la ruta al archivo real comenzando con `/`. Si agrega una barra al final del enlace, se mostrará el `index.md` del directorio correspondiente.
 
 ```js
 export default {
   themeConfig: {
     sidebar: [
       {
-        text: 'Guia',
+        text: 'Guía',
         items: [
-          // Esto muestra la página `/guide/index.md`.
-          { text: 'Introducción', link: '/guide/' }
+          // Esto muestra la página `/guia/index.md`.
+          { text: 'Introducción', link: '/guia/' }
         ]
       }
     ]
@@ -71,7 +70,7 @@ export default {
 }
 ```
 
-Puede anidar aún más elementos de la barra lateral hasta 6 niveles de profundidad contando desde el nivel raíz. Tenga en cuenta que los niveles superiores a 6 se ignorarán y no se mostrarán en la barra lateral.
+Puede anidar aún más los _items_ (elementos) de la barra lateral hasta 6 niveles de profundidad contando desde el nivel raíz. Tenga en cuenta que los niveles de elementos anidados superiores a 6 se ignorarán y no se mostrarán en la barra lateral.
 
 ```js
 export default {
@@ -98,52 +97,52 @@ export default {
 }
 ```
 
-## Varias Barras Laterales {#multiple-sidebars}
+## Múltiples barras laterales {#multiple-sidebars}
 
-Puedes mostrar una barra lateral diferente según la ruta de la página. Por ejemplo, como se muestra en este sitio, es posible que desee crear secciones separadas de contenido en su documentación, como la página "Guía" y la página "Configuración".
+Puede mostrar una barra lateral diferente dependiendo de la ruta de la página. Por ejemplo, como se muestra en este sitio, es posible que desee crear secciones de contenido separadas en su documentación, como la página "Guía" y la página "Configuración".
 
-Para hacer esto, primero organice sus páginas en directorios para cada sección deseada:
+Para hacerlo, primero organice sus páginas en directorios para cada sección deseada:
 
 ```
 .
-├─ guide/
+├─ guia/
 │  ├─ index.md
-│  ├─ one.md
-│  └─ two.md
-└─ config/
+│  ├─ uno.md
+│  └─ dos.md
+└─ configuracion/
    ├─ index.md
-   ├─ three.md
-   └─ four.md
+   ├─ tres.md
+   └─ cuatro.md
 ```
 
-Luego actualice su configuración para definir su barra lateral para cada sección. Esta vez debes pasar un objeto en lugar de un array.
+Luego, actualice su configuración para definir su barra lateral para cada sección. Esta vez, debe pasar un objeto en lugar de un `array`.
 
 ```js
 export default {
   themeConfig: {
     sidebar: {
       // Esta barra lateral se muestra cuando un usuario
-      // está en el directorio `guide`.
-      '/guide/': [
+      // está en el directorio `guia`.
+      '/guia/': [
         {
-          text: 'Guia',
+          text: 'Guía',
           items: [
-            { text: 'Índice', link: '/guide/' },
-            { text: 'Um', link: '/guide/one' },
-            { text: 'Dois', link: '/guide/two' }
+            { text: 'Índice', link: '/guia/' },
+            { text: 'Uno', link: '/guia/uno' },
+            { text: 'Dos', link: '/guia/dos' }
           ]
         }
       ],
 
       // Esta barra lateral se muestra cuando un usuario
-      // está en el directorio `config`.
-      '/config/': [
+      // está en el directorio `configuracion`.
+      '/configuracion/': [
         {
           text: 'Configuración',
           items: [
-            { text: 'Índice', link: '/config/' },
-            { text: 'Tres', link: '/config/three' },
-            { text: 'Cuatro', link: '/config/four' }
+            { text: 'Índice', link: '/configuracion/' },
+            { text: 'Tres', link: '/configuracion/tres' },
+            { text: 'Cuatro', link: '/configuracion/cuatro' }
           ]
         }
       ]
@@ -152,9 +151,9 @@ export default {
 }
 ```
 
-## Grupos Retráctiles en la Barra Lateral {#collapsible-sidebar-groups}
+## Grupos de barra lateral plegables {#collapsible-sidebar-groups}
 
-Adicionando una opción `collapsed` al grupo de la barra lateral, muestra un botón para ocultar/mostrar cada sección
+Al agregar la opción `collapsed` al grupo de la barra lateral, se muestra un botón de alternancia para ocultar/mostrar cada sección.
 
 ```js
 export default {
@@ -170,7 +169,7 @@ export default {
 }
 ```
 
-Todas las secciones están 'abiertas' de forma predeterminada. Si desea que estén 'cerrados' al cargar la página inicial, configure la opción `collapsed` como `true`.
+Todas las secciones están "abiertas" de forma predeterminada. Si desea que estén "cerradas" en la carga inicial de la página, configure la opción `collapsed` en `true`.
 
 ```js
 export default {
@@ -180,6 +179,66 @@ export default {
         text: 'Título de la sección A',
         collapsed: true,
         items: [...]
+      }
+    ]
+  }
+}
+```
+
+## Prefijo de Ruta {#path-prefix}
+
+Cuando la estructura de su documentación tiene directorios profundos o grupos ubicados bajo el mismo subdirectorio, puede usar la opción `base` para anteponer automáticamente un prefijo de ruta a todos los `items` anidados dentro de ese grupo. Esto evita repetir el mismo prefijo de ruta para cada `link`.
+
+La opción `base` es compatible tanto en configuraciones de múltiples barras laterales como en grupos de barras laterales anidados.
+
+### En Múltiples Barras Laterales {#in-multiple-sidebars}
+
+Puede definir `base` en la raíz de la configuración de una sección de la barra lateral:
+
+```js {5}
+export default {
+  themeConfig: {
+    sidebar: {
+      '/guia/': {
+        base: '/guia/',
+        items: [
+          // Este enlace se resuelve como `/guia/introduccion`
+          { text: 'Introducción', link: 'introduccion' },
+          // Este enlace se resuelve como `/guia/comenzar`
+          { text: 'Comenzar', link: 'comenzar' }
+        ]
+      }
+    }
+  }
+}
+```
+
+### En Grupos Anidados {#in-nested-groups}
+
+También puede usar `base` dentro de grupos de barras laterales anidados. Se aplicará a los hijos inmediatos de ese grupo:
+
+```js{6,13}
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Referencia',
+        base: '/referencia/',
+        items: [
+          // Este enlace se resuelve como `/referencia/configuracion-del-sitio`
+          { text: 'Configuración del sitio', link: 'configuracion-del-sitio' },
+          {
+            text: 'Tema predeterminado',
+            // La base anidada sobrescribe el prefijo de ruta principal
+            base: '/referencia/tema-predeterminado-',
+            items: [
+              // Este enlace se resuelve como `/referencia/tema-predeterminado-nav`
+              { text: 'Nav', link: 'nav' },
+              // Este enlace se resuelve como `/referencia/tema-predeterminado-sidebar`
+              { text: 'Barra lateral', link: 'sidebar' }
+            ]
+          }
+        ]
       }
     ]
   }
