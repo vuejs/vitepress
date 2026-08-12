@@ -1,13 +1,13 @@
 ---
-description: Configura la búsqueda local o con Algolia para tu sitio VitePress.
 outline: deep
+description: Configura la búsqueda local o impulsada por Algolia para tu sitio VitePress.
 ---
 
-# Buscar {#search}
+# Búsqueda {#search}
 
-## Busqueda local {#local-search}
+## Búsqueda Local {#local-search}
 
-VitePress admite la búsqueda de texto completo utilizando un índice en el navegador gracias a [minisearch](https://github.com/lucaong/minisearch/). Para habilitar esta función, simplemente configure la opción `themeConfig.search.provider` como `'local'` en el archivo `.vitepress/config.ts`:
+VitePress admite la búsqueda de texto completo difusa utilizando un índice en el navegador gracias a [minisearch](https://github.com/lucaong/minisearch/). Para habilitar esta característica, simplemente configure la opción `themeConfig.search.provider` como `'local'` en su archivo `.vitepress/config.ts`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -23,13 +23,18 @@ export default defineConfig({
 
 Resultado de ejemplo:
 
-![captura de pantalla del modo de búsqueda](/search.png)
+![captura de pantalla del modal de búsqueda](/search.png)
 
-Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) o algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search> o <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+Alternativamente, puede usar [Algolia DocSearch](#algolia-search) o algunos complementos de la comunidad como:
+
+- <https://www.npmjs.com/package/vitepress-plugin-search>
+- <https://www.npmjs.com/package/vitepress-plugin-pagefind>
+- <https://www.npmjs.com/package/@orama/plugin-vitepress>
+- <https://www.npmjs.com/package/vitepress-plugin-typesense>
 
 ### i18n {#local-search-i18n}
 
-Puede utilizar una configuración como esta para utilizar la búsqueda multilingüe:
+Puede usar una configuración como esta para utilizar la búsqueda multilingüe:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -70,9 +75,9 @@ export default defineConfig({
 })
 ```
 
-### Opciones MiniSearch {#minisearch-options}
+### Opciones de MiniSearch {#minisearch-options}
 
-Puedes configurar MiniSearch de esta manera:
+Puede configurar MiniSearch de esta manera:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -104,11 +109,11 @@ export default defineConfig({
 })
 ```
 
-Obtenga más información en [documentación de MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+Obtenga más información en la [documentación de MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
-### Presentador de contenido personalizado {#custom-content-renderer}
+### Renderizador de contenido personalizado
 
-Puedes personalizar la función utilizada para presentar el contenido de rebajas antes de indexarlo:
+Puede personalizar la función utilizada para renderizar el contenido Markdown antes de indexarlo:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -132,11 +137,11 @@ export default defineConfig({
 })
 ```
 
-Esta función se eliminará de los datos del sitio web en el lado del cliente, por lo que podrá utilizar las API de Node.js en ella.
+Esta función se eliminará de los datos del sitio en el lado del cliente, por lo que puede utilizar las API de Node.js en ella.
 
-#### Ejemplo: Excluir páginas de la busqueda {#example-excluding-pages-from-search}
+#### Ejemplo: Excluir páginas de la búsqueda {#example-excluding-pages-from-search}
 
-Puedes excluir páginas de la busqueda adicionando `search: false` al principio de la página. Alternativamente:
+Puede excluir páginas de la búsqueda añadiendo `search: false` en el `frontmatter` de la página. Alternativamente:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -149,7 +154,7 @@ export default defineConfig({
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''
-          if (env.relativePath.startsWith('some/path')) return ''
+          if (env.relativePath.startsWith('alguna/ruta')) return ''
           return html
         }
       }
@@ -159,7 +164,7 @@ export default defineConfig({
 ```
 
 ::: warning Nota
-En este caso, una función `_render` se proporciona, es necesario manipular el `search: false` desde el frente por su cuenta. Además, el objeto `env` no estará completamente poblado antes que `md.renderAsync` se llama, luego verifica las propiedades opcionales `env`, como `frontmatter`, debe hacerse después de eso.
+En caso de que se proporcione una función `_render` personalizada, deberá gestionar el `frontmatter` `search: false` por su cuenta. Además, el objeto `env` no estará completamente poblado antes de que se llame a `md.renderAsync`, por lo que cualquier comprobación de las propiedades opcionales de `env`, como `frontmatter`, debe realizarse después de eso.
 :::
 
 #### Ejemplo: Transformar contenido - agregar anclajes {#example-transforming-content-adding-anchors}
@@ -184,9 +189,9 @@ export default defineConfig({
 })
 ```
 
-## Busqueda de Algolia {#algolia-search}
+## Búsqueda de Algolia {#algolia-search}
 
-VitePress admite la búsqueda en su sitio de documentación utilizando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte su guía de introducción. en tu archivo `.vitepress/config.ts`, Deberá proporcionar al menos lo siguiente para que funcione:
+VitePress admite la búsqueda en su sitio de documentación utilizando [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Consulte su guía para comenzar. En su archivo `.vitepress/config.ts`, deberá proporcionar al menos lo siguiente para que funcione:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -207,20 +212,20 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-Puedes utilizar una configuración como esta para utilizar la búsqueda multilingüe:
+Puede usar una configuración como esta para utilizar la búsqueda multilingüe:
 
 <details>
-<summary>Haz clic para expandir</summary>
+<summary>Ver ejemplo completo</summary>
 
 <<< @/snippets/algolia-i18n.ts
 
 </details>
 
-Consulta la [documentación oficial de Algolia](https://docsearch.algolia.com/docs/api#translations) para conocer más detalles. Para empezar rápidamente, también puedes copiar las traducciones usadas por este sitio desde [nuestro repositorio de GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
+Consulte la [documentación oficial de Algolia](https://docsearch.algolia.com/docs/api#translations) para obtener más información al respecto. Para comenzar rápidamente, también puede copiar las traducciones utilizadas por este sitio desde [nuestro repositorio de GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
 
-### Algolia Ask AI Support {#ask-ai}
+### Soporte de Ask AI de Algolia {#ask-ai}
 
-Si deseas incluir **Ask AI**, pasa la opción `askAi` (o alguno de sus campos parciales) dentro de `options`:
+Si desea incluir **Ask AI**, pase la opción `askAi` (o cualquiera de los campos parciales) dentro de `options`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -233,12 +238,12 @@ export default defineConfig({
         appId: '...',
         apiKey: '...',
         indexName: '...',
-        // askAi: "TU-ID-DE-ASISTENTE"
+        // askAi: "ID-DE-SU-ASISTENTE"
         // O
         askAi: {
-          // como mínimo debes proporcionar el assistantId que recibiste de Algolia
+          // como mínimo debe proporcionar el assistantId que recibió de Algolia
           assistantId: 'XXXYYY',
-          // anulaciones opcionales — si se omiten, se reutilizan los valores appId/apiKey/indexName de nivel superior
+          // anulaciones opcionales - si se omiten, se reutilizan los valores appId/apiKey/indexName de nivel superior
           // apiKey: '...',
           // appId: '...',
           // indexName: '...'
@@ -250,12 +255,12 @@ export default defineConfig({
 ```
 
 ::: warning Nota
-Si prefieres solo la búsqueda por palabra clave y no la Ask AI, simplemente omite `askAi`.
+Si desea utilizar la búsqueda por palabras clave de forma predeterminada y no desea utilizar Ask AI, omita la propiedad `askAi`.
 :::
 
 ### Panel lateral de Ask AI {#ask-ai-side-panel}
 
-DocSearch v4.5+ admite un **panel lateral de Ask AI** opcional. Cuando está habilitado, se puede abrir con **Ctrl/Cmd+I** por defecto. La [Referencia de API del Panel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contiene la lista completa de opciones.
+DocSearch v4.5+ admite un **panel lateral de Ask AI** opcional. Cuando está habilitado, se puede abrir con **Ctrl/Cmd+I** de forma predeterminada. La [Referencia de la API del Panel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contiene la lista completa de opciones.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -271,7 +276,6 @@ export default defineConfig({
         askAi: {
           assistantId: 'XXXYYY',
           sidePanel: {
-            // Refleja la API de @docsearch/sidepanel-js SidepanelProps
             panel: {
               variant: 'floating', // o 'inline'
               side: 'right',
@@ -287,7 +291,9 @@ export default defineConfig({
 })
 ```
 
-Si necesitas deshabilitar el atajo de teclado, usa la opción `keyboardShortcuts` del panel lateral:
+Utilice `askAi.sidePanel.panel.suggestedQuestions` para las preguntas sugeridas del panel lateral. Los ejemplos independientes de Ask AI de Algolia también mencionan `askAi.suggestedQuestions`, pero esa opción de nivel superior no es suficiente para el modo de panel lateral de VitePress y no hace que el modal integrado de búsqueda por palabras clave muestre las preguntas sugeridas al abrirse por primera vez.
+
+Si necesita deshabilitar el atajo de teclado, use la opción `keyboardShortcuts` en el nivel raíz del panel lateral:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -316,16 +322,16 @@ export default defineConfig({
 
 #### Modo (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
-Puedes controlar opcionalmente cómo VitePress integra la búsqueda por palabra clave y Ask AI:
+Opcionalmente puede controlar cómo VitePress integra la búsqueda por palabras clave y Ask AI:
 
-- `mode: 'auto'` (por defecto): infiere `hybrid` cuando la búsqueda por palabra clave está configurada, de lo contrario `sidePanel` cuando el panel lateral de Ask AI está configurado.
-- `mode: 'sidePanel'`: fuerza solo el panel lateral (oculta el botón de búsqueda por palabra clave).
-- `mode: 'hybrid'`: habilita el modal de búsqueda por palabra clave + panel lateral de Ask AI (requiere configuración de búsqueda por palabra clave).
-- `mode: 'modal'`: mantiene Ask AI dentro del modal de DocSearch (incluso si configuraste el panel lateral).
+- `mode: 'auto'` (predeterminado): infiere `hybrid` cuando la búsqueda por palabras clave está configurada, de lo contrario `sidePanel` cuando el panel lateral de Ask AI está configurado.
+- `mode: 'sidePanel'`: fuerza solo el panel lateral (oculta el botón de búsqueda por palabras clave).
+- `mode: 'hybrid'`: habilita el modal de búsqueda por palabras clave + panel lateral de Ask AI (requiere configuración de búsqueda por palabras clave).
+- `mode: 'modal'`: mantiene Ask AI dentro del modal de DocSearch (incluso si configuró el panel lateral).
 
-#### Solo Ask AI (sin búsqueda por palabra clave) {#ask-ai-only}
+#### Solo Ask AI (sin búsqueda por palabras clave) {#ask-ai-only}
 
-Si quieres usar **solo el panel lateral de Ask AI**, puedes omitir la configuración de búsqueda por palabra clave de nivel superior y proporcionar las credenciales bajo `askAi`:
+Si desea usar **solo el panel lateral de Ask AI**, puede omitir la configuración de búsqueda por palabras clave de nivel superior y proporcionar las credenciales bajo `askAi`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -349,8 +355,8 @@ export default defineConfig({
 })
 ```
 
-### Configuración _Crawler_ {#crawler-config}
+### Configuración de _Crawler_ {#crawler-config}
 
-A continuación se muestra un ejemplo de la configuración que utiliza este sitio:
+A continuación se muestra un ejemplo de configuración basado en lo que usa este sitio:
 
 <<< @/snippets/algolia-crawler.js
