@@ -164,6 +164,7 @@ const { isHome, hasSidebar } = useLayout()
 
 .content {
   flex-grow: 1;
+  min-width: 0;
 }
 
 @media (min-width: 60rem) {
