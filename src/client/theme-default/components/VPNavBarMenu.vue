@@ -16,7 +16,7 @@ const { theme } = useData()
       Main Navigation
     </span>
     <ul class="list">
-      <li v-for="item in theme.nav.toReversed()" :key="JSON.stringify(item)">
+      <li v-for="item in theme.nav" :key="JSON.stringify(item)">
         <VPNavBarMenuLink v-if="'link' in item" :item />
         <component
           v-else-if="'component' in item"
@@ -33,6 +33,7 @@ const { theme } = useData()
 .VPNavBarMenu {
   display: none;
   flex-grow: 1;
+  justify-content: flex-end;
   min-width: 0;
   margin-left: 1rem;
   overflow-x: clip;
@@ -40,12 +41,11 @@ const { theme } = useData()
 
 .list {
   display: flex;
-  flex-direction: row-reverse;
 }
 
 @media (min-width: 48rem) {
   .VPNavBarMenu {
-    display: block;
+    display: flex;
   }
 }
 </style>
