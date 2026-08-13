@@ -79,7 +79,6 @@ const { isHome, hasSidebar } = useLayout()
 .VPNavBar.screen-open {
   transition: none;
   background-color: var(--vp-nav-bg-color);
-  border-bottom: 1px solid var(--vp-c-divider);
 }
 
 .VPNavBar:not(.home) {
@@ -252,19 +251,23 @@ const { isHome, hasSidebar } = useLayout()
 .divider-line {
   width: 100%;
   height: 1px;
-  transition: background-color 0.5s;
+  transition: background-color 0.25s;
 }
 
 .VPNavBar:not(.home) .divider-line {
   background-color: var(--vp-c-gutter);
 }
 
+.VPNavBar.screen-open .divider-line {
+  background-color: var(--vp-c-divider);
+}
+
 @media (min-width: 60rem) {
-  .VPNavBar:not(.home.top) .divider-line {
-    background-color: var(--vp-c-gutter);
+  .divider-line {
+    transition: background-color 0.5s;
   }
 
-  .VPNavBar:not(.has-sidebar):not(.home.top) .divider {
+  .VPNavBar:not(.home.top) .divider-line {
     background-color: var(--vp-c-gutter);
   }
 }

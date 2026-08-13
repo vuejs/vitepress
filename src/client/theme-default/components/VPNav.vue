@@ -23,7 +23,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <header v-if="hasNavbar" class="VPNav">
+  <header v-if="hasNavbar" class="VPNav" :class="{ 'screen-open': isScreenOpen }">
     <VPNavBar :is-screen-open="isScreenOpen" @toggle-screen="toggleScreen">
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
       <template #nav-bar-title-after><slot name="nav-bar-title-after" /></template>
@@ -47,6 +47,11 @@ watchEffect(() => {
   width: 100%;
   pointer-events: none;
   transition: background-color 0.5s;
+}
+
+.screen-open {
+  position: sticky;
+  top: 0;
 }
 
 @media (min-width: 60rem) {

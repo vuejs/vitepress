@@ -35,7 +35,8 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 <style scoped>
 .VPNavScreen {
   position: fixed;
-  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px));
+  /* reserve 1px for the VPNavBar divider */
+  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px);
   /*rtl:ignore*/
   right: 0;
   bottom: 0;
