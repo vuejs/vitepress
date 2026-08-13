@@ -31,8 +31,6 @@ const textTag = computed(() => {
       : `h${props.depth + 2}`
 })
 
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
-
 const classes = computed(() => [
   [`level-${props.depth}`],
   { collapsible: collapsible.value },
@@ -59,13 +57,11 @@ function onCaretClick() {
     <div
       v-if="item.text"
       class="item"
-      :role="itemRole"
       v-on="
         item.items
           ? { click: onItemInteraction, keydown: onItemInteraction }
           : {}
       "
-      :tabindex="item.items && 0"
     >
       <div class="indicator" />
 
