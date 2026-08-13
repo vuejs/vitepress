@@ -445,6 +445,8 @@ VitePress also supports [GitHub-flavored alerts](https://docs.github.com/en/get-
 > [!CAUTION]
 > Negative potential consequences of an action.
 
+By default, alert colors match GitHub's, with caution and danger both rendering in red. Enable [`themeConfig.gradedContainers`](../reference/default-theme-config#gradedcontainers) to use a graded severity scale: danger (red), warning (orange), and caution (yellow). Note that `[!DANGER]` is a VitePress extension and will render as a regular blockquote on GitHub.
+
 ## Syntax Highlighting in Code Blocks
 
 VitePress uses [Shiki](https://github.com/shikijs/shiki) to highlight language syntax in Markdown code blocks, using coloured text. Shiki supports a wide variety of programming languages. All you need to do is append a valid language alias to the beginning backticks for the code block:

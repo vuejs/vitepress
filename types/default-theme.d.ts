@@ -136,6 +136,16 @@ export namespace DefaultTheme {
     externalLinkIcon?: boolean
 
     /**
+     * Color custom containers, GitHub-flavored alerts, and badges on a
+     * graded severity scale (danger red > warning orange > caution yellow)
+     * instead of matching GitHub's alert colors, where caution is red and
+     * warning is yellow.
+     *
+     * @default false
+     */
+    gradedContainers?: boolean
+
+    /**
      * Customize text of 404 page.
      */
     notFound?: NotFoundOptions
