@@ -484,6 +484,13 @@ Can be used to customize the label of the skip to content link. This link is sho
 
 Whether to show an external link icon next to external links in markdown.
 
+## gradedContainers
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to color [custom containers](../guide/markdown#custom-containers), [GitHub-flavored alerts](../guide/markdown#github-flavored-alerts), and badges on a graded severity scale — danger red, warning orange, caution yellow. By default, colors match GitHub's alerts, where caution shares danger's red and warning is yellow.
+
 ## `useLayout` <Badge type="info" text="composable" />
 
 Returns layout-related data. The returned object has the following type:

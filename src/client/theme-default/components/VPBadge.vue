@@ -1,9 +1,8 @@
 <script setup lang="ts">
-interface Props {
+withDefaults(defineProps<{
   text?: string
-  type?: 'info' | 'tip' | 'warning' | 'danger'
-}
-withDefaults(defineProps<Props>(), {
+  type?: 'info' | 'note' | 'tip' | 'important' | 'caution' | 'warning' | 'danger'
+}>(), {
   type: 'tip'
 })
 </script>
@@ -66,10 +65,28 @@ withDefaults(defineProps<Props>(), {
   background-color: var(--vp-badge-info-bg);
 }
 
+.VPBadge.note {
+  border-color: var(--vp-badge-note-border);
+  color: var(--vp-badge-note-text);
+  background-color: var(--vp-badge-note-bg);
+}
+
 .VPBadge.tip {
   border-color: var(--vp-badge-tip-border);
   color: var(--vp-badge-tip-text);
   background-color: var(--vp-badge-tip-bg);
+}
+
+.VPBadge.important {
+  border-color: var(--vp-badge-important-border);
+  color: var(--vp-badge-important-text);
+  background-color: var(--vp-badge-important-bg);
+}
+
+.VPBadge.caution {
+  border-color: var(--vp-badge-caution-border);
+  color: var(--vp-badge-caution-text);
+  background-color: var(--vp-badge-caution-bg);
 }
 
 .VPBadge.warning {

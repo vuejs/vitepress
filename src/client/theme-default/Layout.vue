@@ -19,7 +19,7 @@ const {
 
 registerWatchers({ closeSidebar })
 
-const { frontmatter } = useData()
+const { frontmatter, theme } = useData()
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
@@ -31,7 +31,10 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
   <div
     v-if="frontmatter.layout !== false"
     class="Layout"
-    :class="frontmatter.pageClass"
+    :class="[
+      frontmatter.pageClass,
+      theme.gradedContainers && 'vp-graded-containers'
+    ]"
   >
     <slot name="layout-top" />
     <VPSkipLink />
