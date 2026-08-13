@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useScrollLock } from '@vueuse/core'
+import { useScrollLock, useWindowScroll } from '@vueuse/core'
 import { inBrowser } from 'vitepress'
 import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
 import VPNavScreenMenu from './VPNavScreenMenu.vue'
@@ -11,6 +11,7 @@ defineProps<{
 }>()
 
 const isLocked = useScrollLock(inBrowser ? document.body : null)
+const { y } = useWindowScroll()
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
     @enter="isLocked = true"
     @after-leave="isLocked = false"
   >
-    <div v-if="open" class="VPNavScreen" id="VPNavScreen">
+    <div v-if="open" class="VPNavScreen" id="VPNavScreen" :style="{ '--vp-y': y + 'px' }">
       <div class="container">
         <slot name="nav-screen-content-before" />
         <VPNavScreenMenu class="menu" />
@@ -36,13 +37,14 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
 .VPNavScreen {
   position: fixed;
   /* reserve 1px for the VPNavBar divider */
-  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px);
+  top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px - var(--vp-y));
   /*rtl:ignore*/
   right: 0;
   bottom: 0;
   /*rtl:ignore*/
   left: 0;
   padding: 0 2rem;
+  padding-top: var(--vp-y);
   width: 100%;
   background-color: var(--vp-nav-screen-bg-color);
   overflow-y: auto;
