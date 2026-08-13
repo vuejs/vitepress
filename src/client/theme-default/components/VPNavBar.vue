@@ -28,7 +28,7 @@ const { isHome, hasSidebar } = useLayout()
     :class="{
       'has-sidebar': hasSidebar,
       'home': isHome,
-      'top': y === 0,
+      'top': y <= 0,
       'screen-open': isScreenOpen
     }"
   >
