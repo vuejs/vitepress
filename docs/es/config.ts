@@ -26,7 +26,7 @@ export const markdown: MarkdownLocaleOptions = {
 }
 
 export default defineAdditionalConfig({
-  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),

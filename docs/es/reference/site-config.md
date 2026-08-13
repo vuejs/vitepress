@@ -20,7 +20,7 @@ export default {
   // opciones de configuración a nivel de aplicación
   lang: 'es-ES',
   title: 'VitePress',
-  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
   ...
 }
 ```
@@ -39,7 +39,7 @@ export default async () => {
     // opciones de configuración a nivel de aplicación
     lang: 'es-ES',
     title: 'VitePress',
-    description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
+    description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
     // opciones de configuración a nivel de tema
     themeConfig: {
@@ -65,7 +65,7 @@ export default defineConfig({
   // opciones de configuración a nivel de aplicación
   lang: 'es-ES',
   title: 'VitePress',
-  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
   // opciones de configuración a nivel de tema
   themeConfig: {
@@ -156,7 +156,7 @@ Por ejemplo, para un sitio con varios idiomas, es posible que queramos una `desc
 import { defineAdditionalConfig } from 'vitepress'
 
 export default defineAdditionalConfig({
-  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.'
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.'
 })
 ```
 

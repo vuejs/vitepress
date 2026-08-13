@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: VitePress
-  text: Generador de Sitios Estáticos Vite y Vue
+  text: Generador de Sitios Estáticos desarrollado con Vite y Vue.
   tagline: Markdown en documentación atractiva en minutos
   actions:
     - theme: brand

@@ -73,7 +73,7 @@ Enlaces externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 ```yaml
 ---
 title: Blogueando como un hacker
-lang: es-CO
+lang: es-ES
 ---
 ```
 
