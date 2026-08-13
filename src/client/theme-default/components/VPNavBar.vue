@@ -70,6 +70,7 @@ const { isHome, hasSidebar } = useLayout()
 <style scoped>
 .VPNavBar {
   position: relative;
+  z-index: 1;
   height: var(--vp-nav-height);
   pointer-events: none;
   white-space: nowrap;
