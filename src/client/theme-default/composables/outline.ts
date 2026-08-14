@@ -171,19 +171,17 @@ export function useActiveAnchor(
   }
 
   function activateLink(hash: string | null) {
-    if (prevActiveLink) {
-      prevActiveLink.classList.remove('active')
-    }
+    const activeLink =
+      hash != null
+        ? container.value.querySelector<HTMLAnchorElement>(
+            `a[href$="${decodeURIComponent(hash)}"]`
+          )
+        : null
 
-    if (hash == null) {
-      prevActiveLink = null
-    } else {
-      prevActiveLink = container.value.querySelector(
-        `a[href$="${decodeURIComponent(hash)}"]`
-      )
-    }
+    if (activeLink === prevActiveLink) return
 
-    const activeLink = prevActiveLink
+    prevActiveLink?.classList.remove('active')
+    prevActiveLink = activeLink
 
     if (activeLink) {
       activeLink.classList.add('active')
@@ -195,6 +193,7 @@ export function useActiveAnchor(
         (activeLink.offsetHeight - marker.value.offsetHeight) / 2 +
         'px'
       marker.value.style.opacity = '1'
+      activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
     } else {
       marker.value.style.top = ''
       marker.value.style.opacity = '0'
