@@ -128,7 +128,7 @@ export function useActiveAnchor(
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
-    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
+    const isBottom = offsetHeight - innerHeight - scrollY <= 0
 
     // resolvedHeaders may be repositioned, hidden or fix positioned
     const headers = resolvedHeaders
