@@ -59,6 +59,13 @@ const target = computed(() =>
   transition: opacity 0.25s;
 }
 
+.title span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (min-width: 60rem) {
   .title {
     flex-shrink: 0;
