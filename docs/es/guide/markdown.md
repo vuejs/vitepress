@@ -5,7 +5,7 @@ outline: deep
 
 # Extensiones Markdown {#markdown-extensions}
 
-VitePress viene con Extensiones Markdown integradas.
+VitePress viene con extensiones Markdown integradas.
 
 ## Anclajes de encabezado {#header-anchors}
 
@@ -66,7 +66,7 @@ Enlaces externos reciben automáticamente `target="_blank" rel="noreferrer"`:
 - [vuejs.org](https://vuejs.org)
 - [VitePress en GitHub](https://github.com/vuejs/vitepress)
 
-## Frontmatter {#frontmatter}
+## Frontmatter
 
 [YAML frontmatter](https://jekyllrb.com/docs/front-matter/) es soportado por defecto:
 
@@ -100,6 +100,36 @@ Para más detalles, vea [Frontmatter](../reference/frontmatter-config).
 | columna 3 está | alineada a la derecha  | \$1600    |
 | columna 2 está | centrada               |  \$12     |
 | rayas de cebra | son elegantes          |   \$1     |
+
+## Listas de tareas {#task-lists}
+
+**Entrada**
+
+```md
+- [ ] Escribir el comunicado de prensa
+- [x] Actualizar el sitio web
+```
+
+**Salida**
+
+- [ ] Escribir el comunicado de prensa
+- [x] Actualizar el sitio web
+
+## Notas al pie {#footnotes}
+
+**Entrada**
+
+```md
+Las notas al pie son compatibles[^1], incluidas las notas en línea^[Esta es una nota al pie en línea.].
+
+[^1]: Las definiciones pueden contener **markdown** y se renderizan al final de la página.
+```
+
+**Salida**
+
+Las notas al pie son compatibles[^1], incluidas las notas en línea^[Esta es una nota al pie en línea.].
+
+[^1]: Las definiciones pueden contener **markdown** y se renderizan al final de la página.
 
 ## Emoji :tada:
 
@@ -147,7 +177,7 @@ Este es un aviso.
 :::
 
 ::: warning
-Esto es una advertencia.
+Esta es una advertencia.
 :::
 
 ::: danger
@@ -188,26 +218,26 @@ Puede definir un título personalizado adicionando el texto inmediatamente despu
 **Entrada**
 
 ````md
-::: danger STOP
+::: danger ALTO
 Zona de peligro, no siga
 :::
 
 ::: details Click para ver el código
 ```js
-console.log('Hola, VitePress!')
+console.log('¡Hola, VitePress!')
 ```
 :::
 ````
 
 **Salida**
 
-::: danger STOP
+::: danger ALTO
 Zona de peligro, no siga
 :::
 
 ::: details Click para ver el código
 ```js
-console.log('Hola, VitePress!')
+console.log('¡Hola, VitePress!')
 ```
 :::
 
@@ -230,16 +260,89 @@ export default defineConfig({
 })
 ```
 
+En sitios multilingües, estas etiquetas también se pueden sobrescribir por configuración regional - consulte [Cadenas de Markdown por configuración regional](./i18n#per-locale-markdown-strings).
+
+### Registrar nuevos contenedores {#registering-new-containers}
+
+Más allá de los tipos integrados, puede registrar contenedores adicionales asignando sus nombres a sus títulos predeterminados:
+
+```ts
+// config.ts
+export default defineConfig({
+  // ...
+  markdown: {
+    container: {
+      customContainers: {
+        success: 'ÉXITO'
+      }
+    }
+  }
+  // ...
+})
+```
+
+Los nombres registrados funcionan como los integrados, incluyendo títulos personalizados, atributos y la [sintaxis de alertas al estilo de GitHub](#github-flavored-alerts):
+
+```md
+::: success
+¡Has completado el tutorial!
+:::
+
+> [!SUCCESS] Título personalizado
+> Esto se renderiza de la misma manera.
+```
+
+Los nuevos contenedores se envían sin ningún estilo, así que agregue algunos en su tema usando el nombre del contenedor como clase. Para este ejemplo, la paleta del tema predeterminado ya proporciona colores adecuados:
+
+```css
+/* .vitepress/theme/custom.css */
+.custom-block.success {
+  border-color: transparent;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-success-soft);
+}
+```
+
+### Anidamiento {#nesting}
+
+Los marcadores `:::` siguen las mismas reglas que los bloques de código delimitados (` ``` `): una delimitación solo se cierra con una delimitación coincidente que sea **al menos tan larga** como la que lo abrió. Para anidar contenedores (o mezclarlos con [grupos de código](#code-groups)) haga que la delimitación externa sea más larga que las que están dentro de ella.
+
+**Entrada**
+
+`````md
+:::: info Contenedor externo
+Este cuadro contiene otro contenedor.
+
+::: details Contenedor interno
+```js
+console.log('¡Hola, VitePress!')
+```
+:::
+::::
+`````
+
+**Salida**
+
+:::: info Contenedor externo
+Este cuadro contiene otro contenedor.
+
+::: details Contenedor interno
+```js
+console.log('¡Hola, VitePress!')
+```
+:::
+::::
+
 ### Atributos adicionales {#additional-attributes}
 
-Puedes añadir atributos adicionales a los contenedores personalizados. Para esta función, utilizamos [markdown-it-attrs](https://github.com/arve0/markdown-it-attrs), compatible con casi todos los elementos Markdown. Por ejemplo, puedes establecer el atributo `open` para que el bloque de detalles se abra por defecto:
+Puedes añadir atributos adicionales a los contenedores personalizados. Usamos [@mdit/plugin-attrs](https://mdit-plugins.github.io/attrs.html) para esta característica, y es compatible con casi todos los elementos Markdown. Por ejemplo, puede establecer el atributo `open` para que el bloque de detalles se abra por defecto:
 
 **Entrada**
 
 ````md
 ::: details Haz clic aquí para mostrar u ocultar el código  {open}
 ```js
-console.log('Hola, VitePress!')
+console.log('¡Hola, VitePress!')
 ```
 :::
 ````
@@ -248,13 +351,29 @@ console.log('Hola, VitePress!')
 
 ::: details Haz clic aquí para mostrar u ocultar el código {open}
 ```js
-console.log('Hola, VitePress!')
+console.log('¡Hola, VitePress!')
 ```
+:::
+
+El atributo especial `no-title` renderiza un contenedor sin un elemento de título (no tiene ningún efecto en `details`, que siempre necesita su sumario):
+
+**Entrada**
+
+```md
+::: tip {no-title}
+¿Solo quieres probarlo? Ve a [Comenzar](./getting-started).
+:::
+```
+
+**Salida**
+
+::: tip {no-title}
+¿Solo quieres probarlo? Ve a [Comenzar](./getting-started).
 :::
 
 ### `raw`
 
-Este es un contenedor especial que se puede usar para evitar conflictos de estilo y enrutamiento con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
+Este es un contenedor especial que se puede utilizar para evitar conflictos de estilo y del enrutador con VitePress. Esto es especialmente útil al documentar bibliotecas de componentes.
 
 **Sintaxis**
 
@@ -264,7 +383,7 @@ Envuelve en un `<div class="vp-raw">`
 :::
 ```
 
-`vp-raw` también puede ser usada directamente en elementos. El aislamiento de estilo es actualmente opcional:
+La clase `vp-raw` también se puede utilizar directamente en elementos. El aislamiento de estilo es actualmente opcional:
 
 - Instale `postcss` con su gestor de paquetes preferido:
 
@@ -272,7 +391,7 @@ Envuelve en un `<div class="vp-raw">`
   $ npm add -D postcss
   ```
 
-- Cree un archivo llamado `docs/postcss.config.mjs` y adicione lo siguiente:
+- Cree un archivo llamado `docs/postcss.config.mjs` y agregue lo siguiente:
 
   ```js
   import { postcssIsolateStyles } from 'vitepress'
@@ -290,9 +409,9 @@ Envuelve en un `<div class="vp-raw">`
   })
   ```
 
-## Alertas en estilo GitHub {#github-flavored-alerts}
+## Alertas al estilo de GitHub {#github-flavored-alerts}
 
-VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para presentar como un bloque de llamada. Ellos serán presentados de la misma forma que [contenedores personalizados](#custom-containers).
+VitePress también soporta [alertas al estilo de GitHub](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts) para que se rendericen como recuadros de aviso. Se renderizarán de la misma manera que los [contenedores personalizados](#custom-containers). A diferencia de GitHub, el texto colocado justo después del marcador se convierte en el título de la alerta (`> [!NOTE] Título personalizado`), y los [contenedores que registró usted mismo](#registering-new-containers) también funcionan aquí.
 
 ```md
 > [!NOTE]
@@ -326,16 +445,18 @@ VitePress también soporta [alertas en estilo GitHub](https://docs.github.com/en
 > [!CAUTION]
 > Potenciales consecuencias negativas de una acción.
 
-## Destaque de Sintaxis en Bloques de Código {#syntax-highlighting-in-code-blocks}
+De forma predeterminada, los colores de las alertas coinciden con los de GitHub, y tanto caution como danger se renderizan en rojo. Habilite [`themeConfig.gradedContainers`](../reference/default-theme-config#gradedcontainers) para utilizar una escala de gravedad gradual: danger (rojo), warning (naranja) y caution (amarillo). Tenga en cuenta que `[!DANGER]` es una extensión de VitePress y se renderizará como una cita de bloque normal en GitHub.
 
-VitePress utiliza [Shiki](https://github.com/shikijs/shiki) para destacar la sintaxis del lenguaje en bloques de código Markdown, usando texto coloreado. Shiki soporta una amplia variedad de lenguajes de programación. Todo lo que necesita es adicionar un _alias_ de lenguaje válido después de los backticks iniciales del bloque de código:
+## Resaltado de Sintaxis en Bloques de Código {#syntax-highlighting-in-code-blocks}
+
+VitePress utiliza [Shiki](https://github.com/shikijs/shiki) para el resaltado de la sintaxis del lenguaje en bloques de código Markdown, usando texto coloreado. Shiki es compatible con una amplia variedad de lenguajes de programación. Todo lo que necesita hacer es agregar un alias de lenguaje válido a las comillas invertidas de apertura para el bloque de código:
 
 **Entrada**
 
 ````
 ```js
 export default {
-  name: 'MyComponent',
+  name: 'MiComponente',
   // ...
 }
 ```
@@ -355,7 +476,7 @@ export default {
 
 ```js
 export default {
-  name: 'MyComponent'
+  name: 'MiComponente'
   // ...
 }
 ```
@@ -372,7 +493,7 @@ Una [lista de lenguajes válidas](https://shiki.style/languages) está disponibl
 
 También puede personalizar el tema del resaltado de sintaxis, configurar alias de idioma y establecer etiquetas de idioma personalizadas en la configuración de la aplicación. Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
-## Destaque de Línea en Bloques de Código {#line-highlighting-in-code-blocks}
+## Resaltado de Líneas en Bloques de código {#line-highlighting-in-code-blocks}
 
 **Entrada**
 
@@ -381,7 +502,7 @@ También puede personalizar el tema del resaltado de sintaxis, configurar alias 
 export default {
   data () {
     return {
-      msg: '¡Destacado!'
+      msg: '¡Resaltado!'
     }
   }
 }
@@ -394,28 +515,28 @@ export default {
 export default {
   data () {
     return {
-      msg: '¡Destacado!'
+      msg: '¡Resaltado!'
     }
   }
 }
 ```
 
-Además de una única línea, puede también especificar múltiples líneas únicas, intervalos, o ambos:
+Además de una única línea, puede también especificar múltiples líneas individuales, intervalos o ambos:
 
-- Intervalos de línea: por ejemplo, `{5-8}`, `{3-10}`, `{10-17}`
-- Múltiples líneas únicas: por ejemplo, `{4,7,9}`
-- Intervalos de línea y líneas únicas: por ejemplo, `{4,7-13,16,23-27,40}`
+- Intervalos de líneas: por ejemplo `{5-8}`, `{3-10}`, `{10-17}`
+- Múltiples líneas individuales: por ejemplo `{4,7,9}`
+- Intervalos de líneas y líneas individuales: por ejemplo `{4,7-13,16,23-27,40}`
 
 **Entrada**
 
 ````
 ```js{1,4,6-8}
-export default { // Destacado
+export default { // Resaltado
   data () {
     return {
-      msg: `¡Destacado!
-      Esta línea no está destacada,
-      pero esta y las próximas están.`,
+      msg: `¡Resaltado!
+      Esta línea no está resaltada,
+      pero esta y las próximas 2 lo están.`,
       motd: 'VitePress es increíble',
       lorem: 'ipsum'
     }
@@ -427,20 +548,20 @@ export default { // Destacado
 **Salida**
 
 ```js{1,4,6-8}
-export default { // Destacado
+export default { // Resaltado
   data () {
     return {
-      msg: `¡Destacado!
-      Esta línea no está destacada,
-      pero esta y las próximas están.`,
+      msg: `¡Resaltado!
+      Esta línea no está resaltada,
+      pero esta y las próximas 2 lo están.`,
       motd: 'VitePress es increíble',
-      lorem: 'ipsum'
+      lorem: 'ipsum',
     }
   }
 }
 ```
 
-Alternativamente, es posible destacar directamente en la línea usando el comentario `// [!code highlight]`.
+Alternativamente, es posible resaltar directamente en la línea utilizando el comentario `// [!code highlight]`.
 
 **Entrada**
 
@@ -449,7 +570,7 @@ Alternativamente, es posible destacar directamente en la línea usando el coment
 export default {
   data () {
     return {
-      msg: '¡Destacado!' // [!!code highlight]
+      msg: '¡Resaltado!' // [!code highlight]
     }
   }
 }
@@ -460,9 +581,9 @@ export default {
 
 ```js
 export default {
-  data () {
+  data() {
     return {
-      msg: '¡Destacado!' // [!code highlight]
+      msg: '¡Resaltado!' // [!code highlight]
     }
   }
 }
@@ -470,9 +591,9 @@ export default {
 
 ## Enfoque en Bloques de Código {#focus-in-code-blocks}
 
-Adicionando el comentario `// [!code focus]` en una línea, esta será destacada y desenfocará las otras partes del código.
+Agregar el comentario `// [!code focus]` en una línea la enfocará y desenfocará las otras partes del código.
 
-Además, puede definir el número de líneas para enfocar usando `// [!code focus:<lineas>]`.
+Además, puede definir el número de líneas para enfocar utilizando `// [!code focus:<líneas>]`.
 
 **Entrada**
 
@@ -492,7 +613,7 @@ export default {
 
 ```js
 export default {
-  data () {
+  data() {
     return {
       msg: '¡Enfocado!' // [!code focus]
     }
@@ -502,7 +623,7 @@ export default {
 
 ## Diferencias Coloreadas en Bloques de Código {#colored-diffs-in-code-blocks}
 
-Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una línea creará una diferencia en esa línea, manteniendo los colores del bloque de código.
+Agregar los comentarios `// [!code --]` o `// [!code ++]` en una línea creará una diferencia (diff) de esa línea, manteniendo los colores del bloque de código.
 
 **Entrada**
 
@@ -511,8 +632,8 @@ Adicionar los comentarios `// [!code --]` o `// [!code ++]` en una línea crear�
 export default {
   data () {
     return {
-      msg: 'Borrado' // [!!code --]
-      msg: 'Adicionado' // [!!code ++]
+      msg: 'Eliminado' // [!code --]
+      msg: 'Agregado' // [!code ++]
     }
   }
 }
@@ -525,16 +646,16 @@ export default {
 export default {
   data () {
     return {
-      msg: 'Borrado' // [!code --]
-      msg: 'Adicionado' // [!code ++]
+      msg: 'Eliminado' // [!code --]
+      msg: 'Agregado' // [!code ++]
     }
   }
 }
 ```
 
-## Errores y Avisos en Bloques de Código {#errors-and-warnings-in-code-blocks}
+## Errores y Advertencias en Bloques de Código {#errors-and-warnings-in-code-blocks}
 
-Adicionar los comentarios `// [!code warning]` o `// [!code error]` en una línea coloreará los bloques conforme necesario.
+Agregar los comentarios `// [!code warning]` o `// [!code error]` en una línea la coloreará en consecuencia.
 
 **Entrada**
 
@@ -578,9 +699,9 @@ export default {
 
 Consulte las [opciones `markdown`](../reference/site-config#markdown) para más detalles.
 
-Puedes agregar la marca `:line-numbers` / `:no-line-numbers` en tus bloques de código delimitados para substituir el valor definido en la configuración.
+Puede agregar la marca `:line-numbers` / `:no-line-numbers` en sus bloques de código delimitados para substituir el valor definido en la configuración.
 
-También puede personalizar el número inicial de línea adicionando `=` después `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de las líneas en los bloques de código comenzarán a partir de `2`.
+También puede personalizar el número de línea de inicio agregando `=` después de `:line-numbers`. Por ejemplo, `:line-numbers=2` significa que los números de línea en los bloques de código comenzarán a partir de `2`.
 
 **Entrada**
 
@@ -626,16 +747,16 @@ const line4 = 'Esta es la línea 4'
 
 ## Importar _Snippets_ de Código {#import-code-snippets}
 
-Puede importar pedazos de código de archivos existentes usando la siguiente sintaxis:
+Puede importar fragmentos (_Snippets_) de código desde archivos existentes usando la siguiente sintaxis:
 
 ```md
-<<< @/filepath
+<<< @/ruta/al/archivo
 ```
 
-También soporta [resaltado de línea](#line-highlighting-in-code-blocks):
+También soporta [resaltado de líneas](#line-highlighting-in-code-blocks):
 
 ```md
-<<< @/filepath{highlightLines}
+<<< @/ruta/al/archivo{lineasResaltadas}
 ```
 
 **Entrada**
@@ -653,7 +774,7 @@ También soporta [resaltado de línea](#line-highlighting-in-code-blocks):
 <<< @/snippets/snippet.js{2}
 
 ::: tip
-El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la raíz del proyecto VitePress, a menos que `srcDir` sea configurado. Alternativamente, puede también importar de rutas relativos:
+El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la raíz del proyecto VitePress, a menos que se configure `srcDir`. Alternativamente, también puede importar desde rutas relativas:
 
 ```md
 <<< ../snippets/snippet.js
@@ -661,7 +782,7 @@ El valor de `@` corresponde a la raíz del código fuente. Por defecto, es la ra
 
 :::
 
-También puede usar una [región VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir apenas la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de `#` siguiendo la ruta del archivo:
+También puede usar una [región de VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir solo la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de un `#` que sigue a la ruta del archivo:
 
 **Entrada**
 
@@ -677,7 +798,17 @@ También puede usar una [región VS Code](https://code.visualstudio.com/docs/edi
 
 <<< @/snippets/snippet-with-region.js#snippet{1}
 
-También puede especificar el idioma dentro de llaves (`{}`), así:
+Si un archivo contiene varias regiones con el mismo nombre, todas ellas se importan y concatenan — incluidas las regiones escritas en diferentes estilos de comentarios, como un `<!-- #region -->` en la plantilla y un `// #region` en el script del mismo SFC de Vue. Los comentarios de los marcadores que las delimitan se eliminan de la salida; establezca `markdown.snippet.stripRegionMarkers` en `'all'` para eliminar también los marcadores de otros estilos de comentarios anidados dentro de la región, o en `false` para conservarlos todos.
+
+::: tip
+Los nombres de regiones pueden contener letras, dígitos, `_`, `-` y `.`. Dado que el nombre se toma del final de la ruta, un archivo cuyo nombre en sí contenga un `#` necesita una región explícita: escriba `<<< ./mi#archivo.js#region` en lugar de `<<< ./mi#archivo.js`.
+:::
+
+::: warning
+Importar un archivo o región que no existe arroja un error de compilación. Establezca `markdown.snippet.silent: true` para registrar una advertencia y no mostrar nada en su lugar.
+:::
+
+También puede especificar el lenguaje dentro de las llaves (`{}`) de esta manera:
 
 ```md
 <<< @/snippets/snippet.cs{c#}
@@ -691,7 +822,9 @@ También puede especificar el idioma dentro de llaves (`{}`), así:
 <<< @/snippets/snippet.cs{1,2,4-6 c#:line-numbers}
 ```
 
-Esto es útil si el lenguaje original no puede ser inferida por la extensión de archivo.
+Esto es útil si el lenguaje fuente no se puede inferir a partir de la extensión del archivo. Solo se infieren las extensiones alfanuméricas, por lo que los archivos como `main.c++` o `scss.code-snippets` necesitan que el lenguaje se especifique de esta manera.
+
+Cualquier cosa después del lenguaje dentro de las llaves se pasa al bloque de código como atributos adicionales — por ejemplo, `<<< @/snippets/snippet.ts{ts twoslash}` habilita el procesamiento de twoslash cuando [`@shikijs/vitepress-twoslash`](https://shiki.style/packages/vitepress#twoslash) está configurado. Tenga en cuenta que los atributos no pueden contener corchetes.
 
 ## Grupos de Código {#code-groups}
 
@@ -764,7 +897,7 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 
 <<< @/snippets/snippet.js
 
-<!-- puede proporcionar uno personalizado también -->
+<!-- también puede proporcionar uno personalizado -->
 
 <<< @/snippets/snippet-with-region.js#snippet{1,2 ts:line-numbers} [snippet with region]
 
@@ -783,7 +916,7 @@ También puede [importar _snippets_ de código](#import-code-snippets) en grupos
 
 ## Inclusión de Archivo Markdown {#markdown-file-inclusion}
 
-Puede incluir un archivo markdown en otro archivo markdown, incluso anidado.
+Puede incluir un archivo markdown en otro archivo markdown, incluso si están anidados.
 
 ::: tip
 También puedes prefijar `@` a la ruta de Markdown, y actuará como raíz de origen. Por defecto, la raíz de origen es la raíz del proyecto VitePress, a menos que se configure `srcDir`.
@@ -798,13 +931,13 @@ Por ejemplo, puede incluir un archivo markdown relativo usando esto:
 
 ## Conceptos Básicos
 
-<!--@@include: ./parts/basics.md-->
+<!--@@include: ./partes/conceptos-basicos.md-->
 ```
 
-**Archivo Parcial** (`parts/basics.md`)
+**Archivo Parcial** (`partes/conceptos-basicos.md`)
 
 ```md
-Algunas cosas básicas.
+Algunas cosas para empezar.
 
 ### Configuración
 
@@ -816,9 +949,9 @@ Puede ser creada usando `.foorc.json`.
 ```md
 # Documentación
 
-## Conceptos básicos
+## Conceptos Básicos
 
-Algunas cosas básicas
+Algunas cosas para empezar.
 
 ### Configuración
 
@@ -834,10 +967,10 @@ También soporta la selección de un intervalo de líneas:
 
 ## Conceptos Básicos
 
-<!--@@include: ./parts/basics.md{3,}-->
+<!--@@include: ./partes/conceptos-basicos.md{3,}-->
 ```
 
-**Archivo Parcial** (`parts/basics.md`)
+**Archivo Parcial** (`partes/conceptos-basicos.md`)
 
 ```md:line-numbers
 Algunas cosas para empezar.
@@ -870,20 +1003,20 @@ También puedes usar una [región de VS Code](https://code.visualstudio.com/docs
 
 ## Conceptos Básicos
 
-<!--@@include: ./parts/basics.md#basic-usage{,2}-->
-<!--@@include: ./parts/basics.md#basic-usage{5,}-->
+<!--@@include: ./partes/conceptos-basicos.md#uso-basico{,2}-->
+<!--@@include: ./partes/conceptos-basicos.md#uso-basico{5,}-->
 ```
 
-**Archivo Parcial** (`parts/basics.md`)
+**Archivo Parcial** (`partes/conceptos-basicos.md`)
 
 ```md:line-numbers
-<!-- #region basic-usage -->
+<!-- #region uso-basico -->
 ## Línea de uso 1
 
 ## Línea de uso 2
 
 ## Línea de uso 3
-<!-- #endregion basic-usage -->
+<!-- #endregion uso-basico -->
 ```
 
 **Código Equivalente**
@@ -891,21 +1024,21 @@ También puedes usar una [región de VS Code](https://code.visualstudio.com/docs
 ```md:line-numbers
 # Documentación
 
-## Línea de uso 1
+## Conceptos Básicos
 
-## Línea de uso 2
+## Línea de uso 1
 
 ## Línea de uso 3
 ```
 
 ::: warning
-Observe que esto no genera errores si el archivo no está presente. Por lo tanto, al usar este recurso, asegúrese de que el contenido está siendo mostrado como se espera.
+Incluir un archivo que falta, una región, un anclaje de encabezado o una selección de línea fuera de rango arroja un error de compilación. Establezca `markdown.include.silent: true` para registrar una advertencia y omitir la inclusión en su lugar.
 :::
 
-En lugar de regiones de VS Code, también puedes usar anclas de encabezado para incluir una sección específica del archivo. Por ejemplo, si tienes un encabezado en tu archivo Markdown como este:
+En lugar de regiones de VS Code, también puede usar anclas de encabezado para incluir una sección específica del archivo. Por ejemplo, si tiene un encabezado en su archivo Markdown como este:
 
 ```md
-## Mi sección principal
+## Mi sección base
 
 Aquí hay contenido.
 
@@ -918,17 +1051,17 @@ Aquí hay más contenido.
 Contenido fuera de `Mi sección base`.
 ```
 
-Puedes incluir la sección `Mi sección base` de esta manera:
+Puede incluir la sección `Mi sección base` de esta manera:
 
 ```md
 ## Mi sección extendida
-<!--@@include: ./parts/basics.md#mi-seccion-base-->
+<!--@@include: ./partes/conceptos-basicos.md#mi-seccion-base-->
 ```
 
 **Código Equivalente**
 
 ```md
-## Mi sección principal
+## Mi sección extendida
 
 Aquí hay contenido.
 
@@ -937,17 +1070,39 @@ Aquí hay contenido.
 Aquí hay más contenido.
 ```
 
-Aquí, `mi-seccion-base` es el ID generado del elemento de encabezado. Si no es fácil de adivinar, puede abrir el archivo de la parte en su navegador y hacer clic en el ancla del encabezado (el símbolo `#` a la izquierda del encabezado al pasar el cursor sobre él) para ver el ID en la barra de direcciones. O bien, utilice las herramientas para desarrolladores del navegador para inspeccionar el elemento. Como alternativa, también puede especificar el ID en el archivo de la parte de esta manera:
+Aquí, `mi-seccion-base` es el ID generado del elemento de encabezado. Si no es fácil de adivinar, puede abrir el archivo parcial en su navegador y hacer clic en el ancla del encabezado (el símbolo `#` a la izquierda del encabezado al pasar el cursor sobre él) para ver el ID en la barra de URL. O bien, use las herramientas de desarrollo del navegador para inspeccionar el elemento. Alternativamente, también puede especificar el ID en el archivo parcial de esta manera:
 
 ```md
 ## Mi Sección Base {#id-personalizada}
 ```
 
-y inclúyelo así:
+e incluirlo así:
 
 ```md
-<!--@@include: ./parts/basics.md#id-personalizada-->
+<!--@@include: ./partes/conceptos-basicos.md#id-personalizado-->
 ```
+
+Los enlaces relativos y las imágenes dentro de los archivos incluidos se resuelven desde la ubicación del archivo *incluido*, por lo que un archivo parcial puede enlazar con sus vecinos sin importar qué página lo incluya. Establezca `markdown.include.rebaseRelativeUrls: false` para que se resuelvan en relación con la página que los incluye en su lugar.
+
+### Incluir archivos de código {#including-code-files}
+
+Dado que la inclusión ocurre antes de que se analicen los bloques de código, la directiva también funciona dentro de los bloques delimitados. Combinado con un rango de líneas, esto le permite mostrar solo una parte de un archivo de código — una alternativa a [importar fragmentos](#import-code-snippets) cuando las regiones no son una opción:
+
+**Entrada**
+
+````md
+```js
+<!--@@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+````
+
+**Salida**
+
+```js
+<!--@include: @/snippets/snippet-with-region.js{2,4}-->
+```
+
+Tenga en cuenta que las líneas incluidas se insertan textualmente (se conserva la sangría) y el contenido que contiene comillas invertidas necesita una delimitación externa más larga.
 
 ## Ecuaciones Matemáticas {#math-equations}
 
@@ -980,7 +1135,7 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _que?_                                                                                           |
 ```
 
-**Salída**
+**Salida**
 
 Cuando $a \ne 0$, existen dos soluciones para $(ax^2 + bx + c = 0)$ y ellas son
 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
@@ -1030,7 +1185,7 @@ export default defineConfig({
     toc: { level: [1, 2] },
 
     config: (md) => {
-      // use más plugins markdown-it!
+      // ¡use más complementos de markdown-it!
       md.use(markdownItFoo)
     }
   }
