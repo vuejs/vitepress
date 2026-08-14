@@ -14,7 +14,7 @@ Puedes usar el componente `Badge` que está disponible globalmente.
 ### Título <Badge type="info" text="predeterminado" />
 ### Título <Badge type="tip" text="^1.9.0" />
 ### Título <Badge type="warning" text="beta" />
-### Título <Badge type="danger" text="precaución" />
+### Título <Badge type="danger" text="obsoleto" />
 ```
 
 el código anterior se muestra como:
@@ -22,7 +22,7 @@ el código anterior se muestra como:
 ### Título <Badge type="info" text="predeterminado" />
 ### Título <Badge type="tip" text="^1.9.0" />
 ### Título <Badge type="warning" text="beta" />
-### Título <Badge type="danger" text="precaución" />
+### Título <Badge type="danger" text="obsoleto" />
 
 ## Personalizar Hijos {#custom-children}
 
@@ -44,9 +44,21 @@ Puedes personalizar el estilo de las insignias sobrescribiendo las variables CSS
   --vp-badge-info-text: var(--vp-c-text-2);
   --vp-badge-info-bg: var(--vp-c-default-soft);
 
+  --vp-badge-note-border: transparent;
+  --vp-badge-note-text: var(--vp-c-note-1);
+  --vp-badge-note-bg: var(--vp-c-note-soft);
+
   --vp-badge-tip-border: transparent;
-  --vp-badge-tip-text: var(--vp-c-brand-1);
-  --vp-badge-tip-bg: var(--vp-c-brand-soft);
+  --vp-badge-tip-text: var(--vp-c-tip-1);
+  --vp-badge-tip-bg: var(--vp-c-tip-soft);
+
+  --vp-badge-important-border: transparent;
+  --vp-badge-important-text: var(--vp-c-important-1);
+  --vp-badge-important-bg: var(--vp-c-important-soft);
+
+  --vp-badge-caution-border: transparent;
+  --vp-badge-caution-text: var(--vp-c-caution-1);
+  --vp-badge-caution-bg: var(--vp-c-caution-soft);
 
   --vp-badge-warning-border: transparent;
   --vp-badge-warning-text: var(--vp-c-warning-1);
@@ -67,7 +79,7 @@ interface Props {
   // Cuando se pasa `<slot>` ese valor es ignorado.
   text?: string
 
-  // El valor predeterminado es `tip`.
-  type?: 'info' | 'tip' | 'warning' | 'danger'
+  // El valor predeterminado es `tip`. Coincide con los colores de los contenedores/alertas de Markdown.
+  type?: 'info' | 'note' | 'tip' | 'important' | 'caution' | 'warning' | 'danger'
 }
 ```

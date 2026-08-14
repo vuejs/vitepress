@@ -484,6 +484,13 @@ Se puede usar para personalizar la etiqueta del enlace "Saltar al contenido". Es
 
 Indica si se debe mostrar un icono de enlace externo junto a los enlaces externos en Markdown.
 
+## Contenedores graduados
+
+- Tipo: `booleano`
+- Predeterminado: `false`
+
+Indica si se deben colorear los [contenedores personalizados](../guide/markdown#custom-containers), las [alertas al estilo de GitHub] (../guide/markdown#github-flavored-alerts) y las insignias según una escala de gravedad graduada: peligro rojo, advertencia naranja, precaución amarillo. Por defecto, los colores coinciden con las alertas de GitHub, donde la precaución comparte el rojo con peligro y la advertencia es amarilla.
+
 ## `useLayout` <Badge type="info" text="componible" />
 
 Devuelve datos relacionados con el diseño. El objeto devuelto tiene el siguiente tipo:

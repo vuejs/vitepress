@@ -293,10 +293,6 @@ Puedes desplegar tu proyecto VitePress con [CloudRay](https://cloudray.io/) sigu
 
 Puedes desplegar tu proyecto VitePress con [Hostinger](https://www.hostinger.com/web-apps-hosting) siguiendo estas [instrucciones](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). Al configurar los ajustes de compilación, elige VitePress como framework y ajusta el directorio raíz a `./docs`.
 
-### Kinsta
-
-Puede implantar su sitio VitePress en [Kinsta](https://kinsta.com/static-site-hosting/) siguiendo estas [instrucciones](https://kinsta.com/docs/vitepress-static-site-example/).
-
 ### Stormkit
 
 Puedes desplegar tu proyecto VitePress en [Stormkit](https://www.stormkit.io) siguiendo estas [instrucciones](https://stormkit.io/blog/how-to-deploy-vitepress).
@@ -309,46 +305,57 @@ Puedes desplegar tu proyecto VitePress en [Stormkit](https://www.stormkit.io) si
    npx surge docs/.vitepress/dist
    ```
 
-### Nginx
+### nginx
 
-Aquí hay un ejemplo de configuración de bloque de servidor Nginx. Esta configuración incluye compresión gzip para recursos comunes basados en texto, reglas para servir los archivos estáticos de su sitio VitePress con encabezados de caché adecuados, así como el manejo de `cleanUrls: true`.
+Aquí hay un ejemplo de configuración de bloque de servidor nginx. Esta configuración incluye compresión gzip para recursos comunes basados en texto, reglas para servir los archivos estáticos de su sitio VitePress con encabezados de caché adecuados, así como el manejo de `cleanUrls: true`.
 
 ```nginx
-server {
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+map $uri $cache_control {
+    ~^/assets/  "public, max-age=31536000, immutable";
+    default     "no-cache";
+}
 
-    listen 80;
+server {
+    listen 8080;
+    listen [::]:8080;
     server_name _;
+
+    root /usr/share/nginx/html;
     index index.html;
+    charset utf-8;
+    server_tokens off;
+
+    absolute_redirect off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_types
+        application/javascript
+        application/json
+        application/manifest+json
+        image/svg+xml
+        text/css
+        text/javascript
+        text/plain;
+
+    add_header Cache-Control $cache_control always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
     location / {
-        # content location
-        root /app;
-
-        # exact matches -> reverse clean urls -> folders -> not found
-        try_files $uri $uri.html $uri/ =404;
-
-        # non existent pages
-        error_page 404 /404.html;
-
-        # a folder without index.html raises 403 in this setup
-        error_page 403 /404.html;
-
-        # adjust caching headers
-        # files in the assets folder have hashes filenames
-        location ~* ^/assets/ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
+        try_files $uri $uri.html $uri/index.html =404;
     }
+
+    location ~ ^(?<page>.+)/$ {
+        if (-f $document_root$page.html) {
+            return 301 $page$is_args$args;
+        }
+        try_files $page/index.html =404;
+    }
+
+    error_page 404 /404.html;
 }
 ```
-
-Esta configuración asume que su sitio VitePress compilado está ubicado en el directorio `/app` de su servidor. Ajuste la directiva `root` según corresponda si los archivos de su sitio se encuentran en otro lugar.
-
-::: warning No predeterminar index.html
-La resolución de try_files no debe predeterminar index.html como en otras aplicaciones Vue. Esto resultará en un estado de página inválido.
-:::
-
-Se puede encontrar más información en la [documentación oficial de nginx](https://nginx.org/en/docs/), en estos issues [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) así como en este [post del blog](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) de Mehdi Merah.
