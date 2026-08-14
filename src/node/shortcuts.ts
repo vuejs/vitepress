@@ -80,6 +80,8 @@ export function bindShortcuts(
 
     if (actionRunning) return
 
+    input = input.trim().toLowerCase()
+
     if (input === 'h') {
       server.config.logger.info(
         [
