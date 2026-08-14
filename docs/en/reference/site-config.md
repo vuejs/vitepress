@@ -248,6 +248,24 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+VitePress uses the first attribute of each `meta` element as its key when merging `head` entries. To keep entries with identical first attributes, or to make the key independent of attribute order, give each entry a unique `id`. When present, `id` is used as the key regardless of its position in the attributes object.
+
+```ts
+export default {
+  head: [
+    ['meta', { content: '/preview.png', property: 'og:image', id: 'og-image' }],
+    [
+      'meta',
+      {
+        content: '/preview.png',
+        property: 'og:image:url',
+        id: 'og-image-url'
+      }
+    ]
+  ]
+}
+```
+
 #### Example: Adding a favicon
 
 ```ts
