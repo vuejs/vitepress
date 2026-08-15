@@ -4,14 +4,12 @@ import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import { rm } from 'node:fs/promises'
-import { builtinModules, createRequire } from 'node:module'
+import { builtinModules } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
-
-const require = createRequire(import.meta.url)
-const pkg = require('./package.json')
+import pkg from './package.json' with { type: 'json' }
 
 const DEV = !!process.env.DEV
 const PROD = !DEV

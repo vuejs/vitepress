@@ -62,7 +62,7 @@
     "build": "pnpm build:prepare && pnpm build:client && pnpm build:node && node scripts/genWebTypes.ts",
     "build:prepare": "pnpm clean && node scripts/copyShared.ts",
     "build:client": "vue-tsc --noEmit -p src/client && tsc -p src/client && node scripts/copyClient.ts",
-    "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
+    "build:node": "tsc -p src/node --noEmit && rollup --config rollup.config.ts",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(types|unit|e2e|init)$/'",
     "test:types": "tsc -p __tests__/unit && tsc -p __tests__/e2e && tsc -p __tests__/init && vue-tsc -p docs",
     "test:unit": "vitest run -r __tests__/unit",
