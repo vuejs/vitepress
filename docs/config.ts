@@ -1,8 +1,5 @@
-import { createRequire } from 'node:module'
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
-
-const require = createRequire(import.meta.url)
-const pkg = require('vitepress/package.json')
+import { version } from 'vitepress/package.json' with { type: 'json' }
 
 export default defineAdditionalConfig({
   description: 'Vite & Vue powered static site generator.',
@@ -40,7 +37,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/reference/'
     },
     {
-      text: pkg.version,
+      text: version,
       items: [
         {
           text: '1.6.4',
