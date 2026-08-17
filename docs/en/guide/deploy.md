@@ -304,6 +304,16 @@ You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by 
    npx surge docs/.vitepress/dist
    ```
 
+### harvis
+
+1. After running `npm run docs:build`, run this command to deploy:
+
+   ```sh
+   npx harvis docs/.vitepress/dist
+   ```
+
+   [harvis](https://harvis.dev) prints a live URL for the uploaded files — no account or configuration required. Run it again to update the same site.
+
 ### nginx
 
 Here is a example of an nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
