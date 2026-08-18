@@ -37,6 +37,8 @@ defineProps<{
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--vp-c-text-2);
+  scroll-margin-top: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + var(--vp-doc-top-height, 0px) + 2rem);
+  scroll-margin-bottom: 3rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
