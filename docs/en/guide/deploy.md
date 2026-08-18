@@ -298,11 +298,19 @@ You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by 
 
 ### Surge
 
-1. After running `npm run docs:build`, run this command to deploy:
+After running `npm run docs:build`, run this command to deploy to [Surge](https://surge.sh):
 
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
+```sh
+npx surge docs/.vitepress/dist
+```
+
+### harvis
+
+After running `npm run docs:build`, run this command to deploy to [harvis](https://harvis.dev):
+
+```sh
+npx harvis docs/.vitepress/dist
+```
 
 ### nginx
 
