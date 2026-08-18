@@ -60,8 +60,6 @@ const target = computed(() =>
 }
 
 .title span {
-  min-width: 0;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
