@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useScrollLock } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
 import VPNavScreenMenu from './VPNavScreenMenu.vue'
 import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
@@ -10,7 +9,7 @@ defineProps<{
   open: boolean
 }>()
 
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const isLocked = useBodyScrollLock()
 </script>
 
 <template>
@@ -45,6 +44,7 @@ const isLocked = useScrollLock(inBrowser ? document.body : null)
   width: 100%;
   background-color: var(--vp-nav-screen-bg-color);
   overflow-y: auto;
+  overscroll-behavior: contain;
   transition: background-color 0.25s;
   pointer-events: auto;
 }

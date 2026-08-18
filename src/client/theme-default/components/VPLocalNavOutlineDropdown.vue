@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onKeyStroke, useScrollLock } from '@vueuse/core'
-import { inBrowser, onContentUpdated } from 'vitepress'
+import { onKeyStroke } from '@vueuse/core'
+import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
@@ -19,7 +20,7 @@ const main = ref<HTMLDivElement>()
 const items = ref<HTMLDivElement>()
 
 // lock body scroll while the dropdown is open to prevent scroll chaining
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const isLocked = useBodyScrollLock()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {

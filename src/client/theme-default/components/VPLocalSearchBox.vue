@@ -6,13 +6,12 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
-  useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { dataSymbol, inBrowser, useRouter } from 'vitepress'
+import { dataSymbol, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -30,6 +29,7 @@ import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
 
@@ -409,7 +409,7 @@ useEventListener('popstate', (event) => {
 
 /** Lock body */
 
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const isLocked = useBodyScrollLock()
 
 onMounted(() => {
   nextTick(() => {
