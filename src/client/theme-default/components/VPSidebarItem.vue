@@ -31,7 +31,13 @@ const textTag = computed(() => {
       : `h${props.depth + 2}`
 })
 
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
+const isItemButton = computed(() => {
+  return !isLink.value && collapsible.value && hasChildren.value
+})
+
+const itemRole = computed(() => (isItemButton.value ? 'button' : undefined))
+
+const itemTabIndex = computed(() => (isItemButton.value ? 0 : undefined))
 
 const classes = computed(() => [
   [`level-${props.depth}`],
@@ -42,15 +48,34 @@ const classes = computed(() => [
   { 'has-active': hasActiveLink.value }
 ])
 
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter') {
-    return
+function onItemInteraction(e: MouseEvent | KeyboardEvent) {
+  if ('key' in e) {
+    if (e.key !== 'Enter' && e.key !== ' ') {
+      return
+    }
+
+    e.preventDefault()
   }
-  !props.item.link && toggle()
+
+  toggle()
 }
 
-function onCaretClick() {
-  props.item.link && toggle()
+function onCaretClick(e: MouseEvent | Event) {
+  if (props.item.link) {
+    e.stopPropagation()
+    toggle()
+  }
+}
+
+function onCaretKeyDown(e: KeyboardEvent) {
+  if (!props.item.link) {
+    return
+  }
+
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault()
+    onCaretClick(e)
+  }
 }
 </script>
 
@@ -60,12 +85,13 @@ function onCaretClick() {
       v-if="item.text"
       class="item"
       :role="itemRole"
+      :aria-expanded="isItemButton ? !collapsed : undefined"
       v-on="
-        item.items
+        isItemButton
           ? { click: onItemInteraction, keydown: onItemInteraction }
           : {}
       "
-      :tabindex="item.items && 0"
+      :tabindex="itemTabIndex"
     >
       <div class="indicator" />
 
@@ -84,11 +110,13 @@ function onCaretClick() {
       <div
         v-if="item.collapsed != null && item.items && item.items.length"
         class="caret"
-        role="button"
-        aria-label="toggle section"
+        :role="item.link ? 'button' : undefined"
+        :aria-label="item.link ? 'toggle section' : undefined"
+        :aria-expanded="item.link ? !collapsed : undefined"
+        :aria-hidden="item.link ? undefined : true"
         @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
+        @keydown="onCaretKeyDown"
+        :tabindex="item.link ? 0 : undefined"
       >
         <span class="vpi-chevron-right caret-icon" />
       </div>
