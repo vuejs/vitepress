@@ -57,7 +57,19 @@ export default {
 }
 ```
 
-`text` é o próprio texto mostrado na navegação, e o `link` é o link para o qual será navegado quando o texto for clicado. Para o link, defina o caminho para o próprio arquivo sem o prefixo `.md` e sempre comece com `/`.
+`text` é o texto real exibido na navegação e oferece suporte a Markdown inline e HTML. `link` é o destino acessado quando o texto é clicado. Para o link, defina o caminho do arquivo real sem o prefixo `.md` e sempre comece com `/`.
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
+
+::: warning
+Rótulos HTML brutos continuam sendo preservados. Um rótulo como `Vue <script setup>` é interpretado como HTML, não como texto. Use código inline, como mostrado acima, ou entidades HTML como `Vue &lt;script setup&gt;` quando quiser exibir sinais de menor e maior literais.
+:::
 
 O `link` também pode ser uma função que aceita [`PageData`](./runtime-api#usedata) como argumento e retorna o caminho.
 

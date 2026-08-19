@@ -27,6 +27,25 @@ export default {
 
 A forma mais simples do menu da barra lateral é passar um único _array_ de links. O item do primeiro nível define a "seção" da barra lateral. Ele deve conter `text`, que é o título da seção, e `items` que são os próprios links de navegação.
 
+Os campos `text` dos itens da barra lateral oferecem suporte a Markdown inline e HTML:
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+Rótulos HTML brutos continuam sendo preservados. Um rótulo como `Vue <script setup>` é interpretado como HTML, não como texto. Use código inline, como mostrado acima, ou entidades HTML como `Vue &lt;script setup&gt;` quando quiser exibir sinais de menor e maior literais.
+:::
+
 ```js
 export default {
   themeConfig: {

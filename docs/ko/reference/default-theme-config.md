@@ -70,6 +70,10 @@ export default {
 
 네비게이션 바 메뉴 아이템의 구성입니다. 자세한 내용은 [기본 테마: 네비게이션 바](./default-theme-nav#navigation-links)를 참고하세요.
 
+`text` 필드는 인라인 Markdown과 HTML을 지원합니다.
+
+원시 HTML 레이블은 계속 보존됩니다. 리터럴 꺾쇠괄호를 표시하려면 인라인 코드나 HTML 엔티티를 사용하세요.
+
 ```ts
 export default {
   themeConfig: {
@@ -117,6 +121,10 @@ interface NavItemWithChildren {
 - 타입: `Sidebar`
 
 사이드바 메뉴 항목에 대한 구성입니다. 자세한 내용은 [기본 테마: 사이드바](./default-theme-sidebar)에서 확인하세요.
+
+`text` 및 `docFooterText` 필드는 인라인 Markdown과 HTML을 지원합니다.
+
+원시 HTML 레이블은 계속 보존됩니다. 리터럴 꺾쇠괄호를 표시하려면 인라인 코드나 HTML 엔티티를 사용하세요.
 
 ```ts
 export default {
@@ -390,6 +398,10 @@ export interface CarbonAdsOptions {
 - 타입: `DocFooter`
 
 이 옵션은 이전 및 다음 링크에 표시되는 텍스트를 커스텀하는 데 사용합니다. 영어로 문서를 작성하지 않는 경우 유용합니다. 또한 이전/다음 링크를 전역적으로 비활성화할 수도 있습니다. 선택적으로 이전/다음 링크를 활성화/비활성화하려면 [전문](./default-theme-prev-next-links)을 사용합니다.
+
+`prev`와 `next` 문자열 값은 인라인 Markdown과 HTML을 지원합니다.
+
+원시 HTML 레이블은 계속 보존됩니다. 리터럴 꺾쇠괄호를 표시하려면 인라인 코드나 HTML 엔티티를 사용하세요.
 
 ```ts
 export default {

@@ -27,6 +27,25 @@ export default {
 
 La forma más sencilla del menú de la barra lateral es pasar una único _array_ de links. El elemento de primer nivel define la "sección" de la barra latera. debe contener `text`, cuál es el título de la sección, y `items` que son los propios enlaces de navegación.
 
+Los campos `text` de los elementos de la barra lateral admiten Markdown en línea y HTML:
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+Las etiquetas HTML sin procesar se siguen conservando. Una etiqueta como `Vue <script setup>` se interpreta como HTML, no como texto. Usa código en línea, como se muestra arriba, o entidades HTML como `Vue &lt;script setup&gt;` cuando quieras mostrar corchetes angulares literales.
+:::
+
 ```js
 export default {
   themeConfig: {

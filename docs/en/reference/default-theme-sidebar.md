@@ -27,6 +27,25 @@ export default {
 
 The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
 
+The `text` fields in sidebar items support inline Markdown and HTML:
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+Raw HTML labels are still preserved. A label like `Vue <script setup>` is parsed as HTML, not text. Use inline code, as shown above, or HTML entities like `Vue &lt;script setup&gt;` when you want to display literal angle brackets.
+:::
+
 ```js
 export default {
   themeConfig: {

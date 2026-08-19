@@ -27,6 +27,25 @@ export default {
 
 最もシンプルな構成は、リンクの配列を 1 つ渡す方法です。第 1 階層のアイテムがサイドバーの「セクション」を表します。各セクションは `text`（セクションのタイトル）と、実際のナビゲーションリンクである `items` を持ちます。
 
+サイドバーアイテムの `text` フィールドは、インライン Markdown と HTML をサポートします:
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+Raw HTML のラベルは引き続きそのまま保持されます。`Vue <script setup>` のようなラベルはテキストではなく HTML として解析されます。リテラルの山括弧を表示したい場合は、上の例のようにインラインコードにするか、`Vue &lt;script setup&gt;` のような HTML エンティティを使ってください。
+:::
+
 ```js
 export default {
   themeConfig: {

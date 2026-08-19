@@ -57,7 +57,19 @@ export default {
 }
 ```
 
-`text` 是 nav 中显示的实际文本，而 `link` 是单击文本时将导航到的链接。对于链接，将路径设置为不带 `.md` 后缀的实际文件，并且始终以 `/` 开头。
+`text` 是导航栏中显示的实际文本，支持行内 Markdown 和 HTML。`link` 是点击文本后会跳转到的链接。对于链接，请设置不带 `.md` 后缀的实际文件路径，并始终以 `/` 开头。
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
+
+::: warning
+原始 HTML 标签仍会保留。像 `Vue <script setup>` 这样的标签会被当作 HTML 解析，而不是普通文本。需要显示字面量尖括号时，请像上面的示例一样使用行内代码，或使用 `Vue &lt;script setup&gt;` 这样的 HTML entity。
+:::
 
 `link` 也可以是一个函数，它接受 [`PageData`](./runtime-api#usedata) 作为参数并返回路径。
 

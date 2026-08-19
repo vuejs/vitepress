@@ -70,6 +70,10 @@ export default {
 
 A configuração para o item do menu de navegação. Mais detalhes em [Tema Padrão: Navegação](./default-theme-nav#navigation-links).
 
+Os campos `text` oferecem suporte a Markdown inline e HTML.
+
+Rótulos HTML brutos continuam sendo preservados. Use código inline ou entidades HTML quando quiser exibir sinais de menor e maior literais.
+
 ```ts
 export default {
   themeConfig: {
@@ -117,6 +121,10 @@ interface NavItemWithChildren {
 - Tipo: `Sidebar`
 
 A configuração para o item do menu da barra lateral. Mais detalhes em [Tema Padrão: Barra Lateral](./default-theme-sidebar).
+
+Os campos `text` e `docFooterText` oferecem suporte a Markdown inline e HTML.
+
+Rótulos HTML brutos continuam sendo preservados. Use código inline ou entidades HTML quando quiser exibir sinais de menor e maior literais.
 
 ```ts
 export default {
@@ -377,6 +385,10 @@ Saiba mais em [Tema Padrão: Carbon Ads](./default-theme-carbon-ads).
 - Tipo: `DocFooter`
 
 Pode ser usado para personalizar o texto que aparece acima dos links anterior e próximo. Útil se não estiver escrevendo documentação em inglês. Também pode ser usado para desabilitar globalmente os links anterior/próximo. Se você quiser ativar/desativar seletivamente os links anterior/próximo, pode usar [frontmatter](./default-theme-prev-next-links).
+
+Os valores de string `prev` e `next` oferecem suporte a Markdown inline e HTML.
+
+Rótulos HTML brutos continuam sendo preservados. Use código inline ou entidades HTML quando quiser exibir sinais de menor e maior literais.
 
 ```ts
 export default {

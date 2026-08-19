@@ -70,6 +70,10 @@ export default {
 
 导航菜单项的配置。可以在[默认主题: 导航栏](./default-theme-nav#navigation-links) 了解更多详情。
 
+`text` 字段支持行内 Markdown 和 HTML。
+
+原始 HTML 标签仍会保留。需要显示字面量尖括号时，请使用行内代码或 HTML entity。
+
 ```ts
 export default {
   themeConfig: {
@@ -117,6 +121,10 @@ interface NavItemWithChildren {
 - 类型：`Sidebar`
 
 侧边栏菜单项的配置。可以在[默认主题: 侧边栏](./default-theme-sidebar)了解更多详情。
+
+`text` 和 `docFooterText` 字段支持行内 Markdown 和 HTML。
+
+原始 HTML 标签仍会保留。需要显示字面量尖括号时，请使用行内代码或 HTML entity。
 
 ```ts
 export default {
@@ -377,6 +385,10 @@ export interface CarbonAdsOptions {
 - 类型：`DocFooter`
 
 可用于自定义出现在上一页和下一页链接上方的文本。如果不是用英语编写文档，这很有帮助。也可用于全局禁用上一页/下一页链接。如果想有选择地启用/禁用上一个/下一个链接，可以使用 [frontmatter](./default-theme-prev-next-links)。
+
+`prev` 和 `next` 字符串值支持行内 Markdown 和 HTML。
+
+原始 HTML 标签仍会保留。需要显示字面量尖括号时，请使用行内代码或 HTML entity。
 
 ```ts
 export default {

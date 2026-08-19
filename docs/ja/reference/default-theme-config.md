@@ -70,6 +70,10 @@ export default {
 
 ナビゲーションメニューの設定。[デフォルトテーマ: ナビ](./default-theme-nav#navigation-links) を参照してください。
 
+`text` フィールドは、インライン Markdown と HTML をサポートします。
+
+Raw HTML のラベルは引き続きそのまま保持されます。リテラルの山括弧を表示したい場合は、インラインコードまたは HTML エンティティを使ってください。
+
 ```ts
 export default {
   themeConfig: {
@@ -117,6 +121,10 @@ interface NavItemWithChildren {
 - 型: `Sidebar`
 
 サイドバーメニューの設定。[デフォルトテーマ: サイドバー](./default-theme-sidebar) を参照してください。
+
+`text` と `docFooterText` フィールドは、インライン Markdown と HTML をサポートします。
+
+Raw HTML のラベルは引き続きそのまま保持されます。リテラルの山括弧を表示したい場合は、インラインコードまたは HTML エンティティを使ってください。
 
 ```ts
 export default {
@@ -391,6 +399,10 @@ export interface CarbonAdsOptions {
 - 型: `DocFooter`
 
 前／次リンクの上に表示される文言をカスタマイズします。英語以外のドキュメントで便利。前／次リンク自体をグローバルに無効化することも可能。ページごとに切り替えたい場合は [frontmatter](./default-theme-prev-next-links) を使用します。
+
+`prev` と `next` の文字列値は、インライン Markdown と HTML をサポートします。
+
+Raw HTML のラベルは引き続きそのまま保持されます。リテラルの山括弧を表示したい場合は、インラインコードまたは HTML エンティティを使ってください。
 
 ```ts
 export default {

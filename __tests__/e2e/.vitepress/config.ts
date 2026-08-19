@@ -86,6 +86,10 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
         {
           text: '& &#60;Test Page &> <code>code</code>',
           link: '/text-literals/'
+        },
+        {
+          text: 'Markdown `<Label &>`',
+          link: '/theme-labels/'
         }
       ]
     },

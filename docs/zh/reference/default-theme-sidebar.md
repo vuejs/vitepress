@@ -27,6 +27,25 @@ export default {
 
 侧边栏菜单的最简单形式是传入一个链接数组。第一级项目定义侧边栏的“部分”。它应该包含作为小标题的 `text` 和作为实际导航链接的 `items`。
 
+侧边栏项目中的 `text` 字段支持行内 Markdown 和 HTML：
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+原始 HTML 标签仍会保留。像 `Vue <script setup>` 这样的标签会被当作 HTML 解析，而不是普通文本。需要显示字面量尖括号时，请像上面的示例一样使用行内代码，或使用 `Vue &lt;script setup&gt;` 这样的 HTML entity。
+:::
+
 ```js
 export default {
   themeConfig: {

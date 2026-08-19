@@ -57,7 +57,19 @@ export default {
 }
 ```
 
-`text` es el texto que se muestra en la navegación, y el `link` es el link al que será navegando cuando se hace click en el texto. Para el enlace, establezca la ruta al archivo sin el prefijo `.md` y siempre comenzar por `/`.
+`text` es el texto real mostrado en la navegación y admite Markdown en línea y HTML. `link` es el enlace al que se navegará al hacer clic en el texto. Para el enlace, define la ruta al archivo real sin el prefijo `.md`, y empieza siempre con `/`.
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
+
+::: warning
+Las etiquetas HTML sin procesar se siguen conservando. Una etiqueta como `Vue <script setup>` se interpreta como HTML, no como texto. Usa código en línea, como se muestra arriba, o entidades HTML como `Vue &lt;script setup&gt;` cuando quieras mostrar corchetes angulares literales.
+:::
 
 El `link` también puede ser una función que acepte [`PageData`](./runtime-api#usedata) como argumento y devuelva la ruta.
 

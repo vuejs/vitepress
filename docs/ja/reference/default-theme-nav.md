@@ -57,7 +57,19 @@ export default {
 }
 ```
 
-`text` はナビに表示される文字列、`link` はクリック時に遷移するリンクです。内部リンクは `.md` 拡張子を付けず、必ず `/` で始めるようにしてください。
+`text` はナビに表示される実際のテキストで、インライン Markdown と HTML をサポートします。`link` はテキストをクリックしたときの遷移先です。内部リンクは `.md` 拡張子を付けず、必ず `/` で始めてください。
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
+
+::: warning
+Raw HTML のラベルは引き続きそのまま保持されます。`Vue <script setup>` のようなラベルはテキストではなく HTML として解析されます。リテラルの山括弧を表示したい場合は、上の例のようにインラインコードにするか、`Vue &lt;script setup&gt;` のような HTML エンティティを使ってください。
+:::
 
 `link` には、[`PageData`](./runtime-api#usedata) を受け取ってパスを返す関数を指定することもできます。
 

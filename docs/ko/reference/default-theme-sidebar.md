@@ -27,6 +27,25 @@ export default {
 
 사이드바 메뉴의 가장 간단한 형태는 링크 배열을 전달하는 것입니다. 첫 번째 계층 아이템은 사이드바의 "섹션"을 정의합니다. 이 섹션에는 제목인 `text`와 실제 탐색 링크인 `items`가 포함되어야 합니다.
 
+사이드바 아이템의 `text` 필드는 인라인 Markdown과 HTML을 지원합니다:
+
+```js
+export default {
+  themeConfig: {
+    sidebar: [
+      {
+        text: 'Vue `<script setup>`',
+        items: [{ text: 'API `<T>`', link: '/api' }]
+      }
+    ]
+  }
+}
+```
+
+::: warning
+원시 HTML 레이블은 계속 보존됩니다. `Vue <script setup>` 같은 레이블은 텍스트가 아니라 HTML로 파싱됩니다. 리터럴 꺾쇠괄호를 표시하려면 위 예시처럼 인라인 코드를 사용하거나 `Vue &lt;script setup&gt;` 같은 HTML 엔티티를 사용하세요.
+:::
+
 ```js
 export default {
   themeConfig: {

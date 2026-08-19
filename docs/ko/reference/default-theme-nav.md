@@ -57,7 +57,19 @@ export default {
 }
 ```
 
-`text`는 네비게이션 바에 표시되는 실제 텍스트이며, `link`는 텍스트를 클릭했을 때 이동할 링크입니다. 링크의 경로는 `.md` 접미사 없이 실제 파일 경로로 설정하며, 항상 `/`로 시작해야 합니다.
+`text`는 네비게이션 바에 표시되는 실제 텍스트이며 인라인 Markdown과 HTML을 지원합니다. `link`는 텍스트를 클릭했을 때 이동할 링크입니다. 링크에는 `.md` 접두사 없이 실제 파일 경로를 지정하고, 항상 `/`로 시작해야 합니다.
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
+
+::: warning
+원시 HTML 레이블은 계속 보존됩니다. `Vue <script setup>` 같은 레이블은 텍스트가 아니라 HTML로 파싱됩니다. 리터럴 꺾쇠괄호를 표시하려면 위 예시처럼 인라인 코드를 사용하거나 `Vue &lt;script setup&gt;` 같은 HTML 엔티티를 사용하세요.
+:::
 
 `link`는 또한 [`PageData`](./runtime-api#usedata)를 인자로 받아 경로를 반환하는 함수가 될 수도 있습니다.
 

@@ -70,6 +70,10 @@ export default {
 
 La configuración del elemento del menú de navegación. Más detalles en [Tema Predeterminado: Navegación](./default-theme-nav#navigation-links).
 
+Los campos `text` admiten Markdown en línea y HTML.
+
+Las etiquetas HTML sin procesar se siguen conservando. Usa código en línea o entidades HTML cuando quieras mostrar corchetes angulares literales.
+
 ```ts
 export default {
   themeConfig: {
@@ -117,6 +121,10 @@ interface NavItemWithChildren {
 - Tipo: `Sidebar`
 
 La configuración del elemento del menú de la barra lateral. Más detalles en [Tema Predeterminado: Barra Lateral](./default-theme-sidebar).
+
+Los campos `text` y `docFooterText` admiten Markdown en línea y HTML.
+
+Las etiquetas HTML sin procesar se siguen conservando. Usa código en línea o entidades HTML cuando quieras mostrar corchetes angulares literales.
 
 ```ts
 export default {
@@ -377,6 +385,10 @@ Obtenga más información en [Tema Predeterminado: Carbon Ads](./default-theme-c
 - Tipo: `DocFooter`
 
 Se puede utilizar para personalizar el texto que aparece encima de los enlaces anterior y siguiente. Útil si no estás escribiendo documentación en inglés. También se puede utilizar para desactivar globalmente los enlaces anteriores/siguientes. Si desea habilitar/deshabilitar selectivamente enlaces anteriores/siguientes, puede usar [frontmatter](./default-theme-prev-next-links).
+
+Los valores de cadena `prev` y `next` admiten Markdown en línea y HTML.
+
+Las etiquetas HTML sin procesar se siguen conservando. Usa código en línea o entidades HTML cuando quieras mostrar corchetes angulares literales.
 
 ```ts
 export default {
