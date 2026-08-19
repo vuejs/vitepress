@@ -18,6 +18,20 @@ describe('test multi sidebar sort root', () => {
       'Markdown Extensions',
       'Team & Sponsors'
     ])
+
+    expect(await sidebarLocator.nth(1).innerHTML()).toBe(
+      '&amp; &lt;Text Literals &amp;&gt; <code>code</code>'
+    )
+  })
+
+  test('renders inline markdown in sidebar labels', async () => {
+    const markdownLabel = page.locator(
+      '.VPSidebarItem.level-1 a[href$="/theme-labels/"] .text'
+    )
+
+    expect(await markdownLabel.innerHTML()).toBe(
+      'Markdown <code>&lt;Label &amp;&gt;</code>'
+    )
   })
 })
 
