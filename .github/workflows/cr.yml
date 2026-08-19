@@ -46,4 +46,4 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - run: npx pkg-pr-new publish --compact --no-template --pnpm
+      - run: npx pkg-pr-new publish --compact --no-template --pnpm --packageManager=pnpm,npm,yarn
