@@ -815,7 +815,7 @@ Can be created using `.foorc.json`.
 <!--@@include: ./parts/basics.md{3,}-->
 ```
 
-**Part file** (`parts/basics.md`)
+**部分文件** (`parts/basics.md`)
 
 ```md
 Some getting started stuff.
