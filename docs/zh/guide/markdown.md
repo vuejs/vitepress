@@ -779,7 +779,7 @@ export default config
 <!--@@include: ./parts/basics.md-->
 ```
 
-**Part file** (`parts/basics.md`)
+**部分文件** (`parts/basics.md`)
 
 ```md
 Some getting started stuff.
