@@ -1,6 +1,6 @@
 import c from 'picocolors'
 import { version as viteVersion, type Logger } from 'vite'
-import { version } from '../../../package.json'
+import { version } from '../../../package.json' with { type: 'json' }
 
 export function logVersion(logger: Logger) {
   logger.info(
