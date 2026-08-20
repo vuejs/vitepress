@@ -83,12 +83,14 @@ export function useSidebarItemControl(
   const isActiveLink = ref(false)
   const hasActiveLink = ref(false)
 
-  function updateActiveLink(): void {
+  function updateActiveLink(skipHashCheck = false): void {
     if (item.value.link) {
       isActiveLink.value = isActive(
         route.data.relativePath,
         route.hash,
-        item.value.link
+        item.value.link,
+        false,
+        skipHashCheck
       )
     } else {
       isActiveLink.value = false
@@ -105,15 +107,21 @@ export function useSidebarItemControl(
     hasActiveLink.value = containsActiveLink(
       route.data.relativePath,
       route.hash,
-      item.value.items
+      item.value.items,
+      skipHashCheck
     )
     if (hasActiveLink.value) {
       nextTick(() => (collapsed.value = false))
     }
   }
 
-  watch([item, route], updateActiveLink)
-  onMounted(updateActiveLink)
+  // runs during setup so active classes render in SSR output too; the hash
+  // isn't known on the server (and may differ at hydration), so it's skipped
+  // until mounted
+  updateActiveLink(true)
+
+  watch([item, route], () => updateActiveLink())
+  onMounted(() => updateActiveLink())
 
   const hasChildren = computed(() => {
     return !!(item.value.items && item.value.items.length)

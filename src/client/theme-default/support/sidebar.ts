@@ -100,16 +100,17 @@ export function getFlatSideBarLinks(sidebar: SidebarItem[]): SidebarLink[] {
 export function hasActiveLink(
   path: string,
   hash: string,
-  items: SidebarItem | SidebarItem[]
+  items: SidebarItem | SidebarItem[],
+  skipHashCheck = false
 ): boolean {
   if (Array.isArray(items)) {
-    return items.some((item) => hasActiveLink(path, hash, item))
+    return items.some((item) => hasActiveLink(path, hash, item, skipHashCheck))
   }
-  if (items.link && isActive(path, hash, items.link)) {
+  if (items.link && isActive(path, hash, items.link, false, skipHashCheck)) {
     return true
   }
   if (items.items) {
-    return hasActiveLink(path, hash, items.items)
+    return hasActiveLink(path, hash, items.items, skipHashCheck)
   }
   return false
 }
