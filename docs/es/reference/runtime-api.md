@@ -1,14 +1,14 @@
 ---
-description: Referencia de las APIs en tiempo de ejecución de VitePress, incluyendo composables, funciones auxiliares y componentes integrados.
+description: Referencia de las API en tiempo de ejecución de VitePress, incluyendo composables, funciones auxiliares y componentes integrados.
 ---
 
 # API en Tiempo de Ejecución {#runtime-api}
 
 VitePress ofrece varias API integradas para permitir el acceso a los datos de la aplicación. VitePress también viene con algunos componentes integrados que se pueden utilizar globalmente.
 
-Los métodos auxiliares son importaciones globales de `vitepress` y se utilizan a menudo en componentes Vue de temas personalizados. Sin embargo, también se pueden utilizar dentro de páginas `.md` porque los archivos de rebajas se compilan en [Componentes de Archivo Único Vue (SFC)](https://vuejs.org/guide/scaling-up/sfc.html).
+Los métodos auxiliares se pueden importar globalmente desde `vitepress` y normalmente se utilizan en componentes de Vue de temas personalizados. Sin embargo, también se pueden utilizar dentro de páginas `.md` porque los archivos Markdown se compilan en [Componentes de un solo archivo de Vue (SFC)](https://vuejs.org/guide/scaling-up/sfc.html).
 
-Métodos que comienzan con `use*` indican que es una función de [API de Composición Vue 3](https://vuejs.org/guide/introduction.html#composition-api) ("Composable") que solo puede ser utilizada dentro de `setup()` o `<script setup>`.
+Los métodos que comienzan con `use*` indican que se trata de una función de la [API de Composición de Vue 3](https://vuejs.org/guide/introduction.html#composition-api) ("Composable") que solo se puede utilizar dentro de `setup()` o `<script setup>`.
 
 ## `useData` <Badge type="info" text="composable" />
 
@@ -17,15 +17,15 @@ Retorna datos específicos de la página. El objeto devuelto tiene el siguiente 
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Metadátos a nivel del sitio
+   * Metadatos a nivel del sitio
    */
   site: Ref<SiteData<T>>
   /**
-   * themeConfig de .vitepress/config.js
+   * themeConfig desde .vitepress/config.js
    */
   theme: Ref<T>
   /**
-   * Metadátos a nível de la página
+   * Metadatos a nivel de la página
    */
   page: Ref<PageData>
   /**
@@ -42,6 +42,10 @@ interface VitePressData<T = any> {
   isDark: Ref<boolean>
   dir: Ref<string>
   localeIndex: Ref<string>
+  /**
+   * Hash de la ubicación actual
+   */
+  hash: Ref<string>
 }
 
 interface PageData {
@@ -57,6 +61,8 @@ interface PageData {
   lastUpdated?: number
 }
 ```
+
+`page.headers` se rellena solo cuando [`markdown.headers`](./site-config#markdown) está habilitado. Sin esa opción, permanece como un `array` vacío. El esquema del tema predeterminado lee los encabezados renderizados del contenido de la página, por lo que aún puede aparecer cuando `page.headers` está vacío.
 
 **Ejemplo:**
 
@@ -86,58 +92,74 @@ interface Route {
 
 ## `useRouter` <Badge type="info" text="composable" />
 
-Devuelve la instancia del enrutador VitePress para que pueda navegar mediante programación a otra página.
+Devuelve la instancia del enrutador de VitePress para que pueda navegar a otra página de forma programática.
 
 ```ts
 interface Router {
   /**
-   * Ruta atual.
+   * Ruta actual.
    */
   route: Route
   /**
-   * Navegar para una nueva URL.
+   * Navegar a una nueva URL.
    */
   go: (to?: string) => Promise<void>
   /**
-   * Llamado antes del cambio de ruta. Devuelve 'falso' para cancelar la navegación.
+   * Se llama antes de que cambie la ruta. Devuelve `false` para cancelar la navegación.
    */
   onBeforeRouteChange?: (to: string) => Awaitable<void | boolean>
   /**
    * Se llama antes de que se cargue el componente de la página (después de que se haya actualizado el estado del historial).
-   * atualizado). Retorne `false` para cancelar la navegación.
+   * Devuelve `false` para cancelar la navegación.
    */
   onBeforePageLoad?: (to: string) => Awaitable<void | boolean>
   /**
-   * Llamado después del cambio de ruta.
+   * Se llama después de que se cargue el componente de la página (antes de que se actualice el componente de la página).
+   */
+  onAfterPageLoad?: (to: string) => Awaitable<void>
+  /**
+   * Se llama después de que cambie la ruta.
    */
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 ```
 
+Asigne manejadores de cambio de ruta en la instancia del enrutador:
+
+```ts
+const router = useRouter()
+
+router.onBeforeRouteChange = (to) => {
+  console.log('navegando a', to)
+}
+```
+
+Para los temas personalizados, el mismo enrutador está disponible desde [`enhanceApp`](../guide/custom-theme#theme-interface).
+
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Tipo**: `(path: string) => string`
 
-agrega la [`base`](./site-config#base) configurada a una ruta URL determinada. Consulte también [Base URL](../guide/asset-handling#base-url).
+Antepone la [`base`](./site-config#base) configurada a una ruta de URL dada. Consulte también [URL base](../guide/asset-handling#base-url).
 
 ## `<Content />` <Badge type="info" text="component" />
 
-El componente `<Content />` muestra el contenido de markdown renderizado. Útil [al crear tu propio tema](../guide/custom-theme).
+El componente `<Content />` muestra los contenidos Markdown renderizados. Es útil [al crear su propio tema](../guide/custom-theme).
 
 ```vue
 <template>
-  <h1>Layout Personalizado!</h1>
+  <h1>¡Layout personalizado!</h1>
   <Content />
 </template>
 ```
 
 ## `<ClientOnly />` <Badge type="info" text="component" />
 
-El componente `<ClientOnly />` muestra tu _slot_ solo del lado del cliente.
+El componente `<ClientOnly />` renderiza su `slot` solo en el lado del cliente.
 
-Debido a que las aplicaciones VitePress se interpretan en el lado del servidor en Node.js cuando generan compilaciones estáticas, cualquier uso de Vue debe seguir los requisitos del código universal. En resumen, asegúrese de acceder solo a las API del navegador/DOM en ganchos `beforeMount` o `mounted`.
+Debido a que las aplicaciones de VitePress se renderizan en el lado del servidor en Node.js al generar compilaciones estáticas, cualquier uso de Vue debe cumplir con los requisitos del código universal. En resumen, asegúrese de acceder a las API del navegador/DOM solo en los *hooks* `beforeMount` o `mounted`.
 
-Si está utilizando o demostrando componentes que no son compatibles con SSR (por ejemplo, contienen directivas personalizadas), puede incluirlos dentro del componente. `ClientOnly`.
+Si está utilizando o demostrando componentes que no son compatibles con SSR (por ejemplo, que contienen directivas personalizadas), puede envolverlos dentro del componente `ClientOnly`.
 
 ```vue-html
 <ClientOnly>
@@ -145,15 +167,15 @@ Si está utilizando o demostrando componentes que no son compatibles con SSR (po
 </ClientOnly>
 ```
 
-- Relacionado: [Compatibilidad SSR](../guide/ssr-compat)
+- Relacionado: [Compatibilidad con SSR](../guide/ssr-compat)
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 
-Accede directamente a los datos [frontmatter](../guide/frontmatter) de la página actual en expresiones Vue.
+Acceda directamente a los datos del [`frontmatter`](../guide/frontmatter) de la página actual en expresiones de Vue.
 
 ```md
 ---
-title: Olá
+title: Hola
 ---
 
 # {{ $frontmatter.title }}
@@ -161,7 +183,7 @@ title: Olá
 
 ## `$params` <Badge type="info" text="template global" />
 
-Accede directamente a los [parámetros de ruta dinámica](../guide/routing#dynamic-routes) de la página actual en expresiones Vue.
+Acceda directamente a los [parámetros de ruta dinámica](../guide/routing#dynamic-routes) de la página actual en expresiones de Vue.
 
 ```md
 - nombre del paquete: {{ $params.pkg }}

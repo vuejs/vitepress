@@ -23,7 +23,7 @@ export const markdown: MarkdownLocaleOptions = {
 }
 
 export default defineAdditionalConfig({
-  description: 'Generador de Sitios Estáticos desarrollado con Vite y Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
   themeConfig: {
     nav: nav(),
@@ -115,7 +115,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       collapsed: false,
       items: [
         { text: '¿Qué es VitePress？', link: 'what-is-vitepress' },
-        { text: 'Iniciando', link: 'getting-started' },
+        { text: 'Comenzar', link: 'getting-started' },
         { text: 'Enrutamiento', link: 'routing' },
         { text: 'Despliegue', link: 'deploy' }
       ]
@@ -132,7 +132,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       ]
     },
     {
-      text: 'Pesonalización',
+      text: 'Personalización',
       collapsed: false,
       items: [
         { text: 'Usando un tema personalizado', link: 'custom-theme' },
@@ -187,7 +187,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Página del equipo', link: 'team-page' },
             { text: 'Links Anterior / Siguiente', link: 'prev-next-links' },
             { text: 'Editar Link', link: 'edit-link' },
-            { text: 'Sello temporal de actualización', link: 'last-updated' },
+            { text: 'Última Actualización', link: 'last-updated' },
             { text: 'Búsqueda', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]

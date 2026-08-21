@@ -2,9 +2,9 @@
 description: Personaliza los enlaces de página anterior y siguiente que se muestran en la parte inferior de las páginas de documentación en VitePress.
 ---
 
-# Links Anterior y Próximo {#prev-next-links}
+# Enlaces Anterior y Siguiente {#prev-next-links}
 
-Puede personalizar el texto y el enlace de los botones Anterior y Siguiente que se muestran en la parte inferior de la página. Esto es útil cuando desea mostrar un texto diferente al que tiene en la barra lateral. Además, puede resultarle útil desactivar el pie de página o el enlace a la página para que no se incluya en la barra lateral.
+Puede personalizar el texto y el enlace para las páginas anterior y siguiente (mostrados en el pie de página de la documentación). Esto es útil si desea tener allí un texto diferente al que tiene en su barra lateral. Además, puede resultarle útil desactivar el pie de página o el enlace a una página que no esté incluida en su barra lateral.
 
 ## prev
 
@@ -12,29 +12,29 @@ Puede personalizar el texto y el enlace de los botones Anterior y Siguiente que 
 
 - Detalles:
 
-  Especifica el text/enlace que se mostrará en el enlace a la página anterior. Si no ve esto al principio, el text/enlace se deducirá de la configuración de la barra lateral.
+  Especifica el texto/enlace a mostrar en el enlace a la página anterior. Si no configura esto en el `frontmatter`, el texto/enlace se inferirá de la configuración de la barra lateral.
 
 - Ejemplos:
 
-  - Para personalizar solo texto:
+  - Para personalizar solo el texto:
 
     ```yaml
     ---
-    prev: 'Iniciar | Markdown'
+    prev: 'Comenzar | Markdown'
     ---
     ```
 
-  - Para personalizar ambos texto y link:
+  - Para personalizar ambos texto y enlace:
 
     ```yaml
     ---
     prev:
       text: 'Markdown'
-      link: '/guide/markdown'
+      link: '/guia/markdown'
     ---
     ```
 
-  - Para esconder la página anterior:
+  - Para ocultar la página anterior:
 
     ```yaml
     ---
@@ -44,4 +44,4 @@ Puede personalizar el texto y el enlace de los botones Anterior y Siguiente que 
 
 ## next
 
-Igual que el `prev` pero para la página siguiente.
+Igual que `prev`, pero para la página siguiente.

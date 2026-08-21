@@ -1,33 +1,33 @@
 ---
-description: Referencia completa de las opciones de configuración del sitio VitePress, incluyendo ajustes a nivel de aplicación, temas y opciones de compilación.
 outline: deep
+description: Referencia completa de las opciones de configuración del sitio VitePress, incluyendo los ajustes a nivel de aplicación, tematización y opciones de compilación.
 ---
 
-# Configuración de site {#site-config}
+# Configuración del sitio {#site-config}
 
-La configuración del site es donde puede configurar los ajustes globales del site. Las opciones de configuración de la aplicación definen las configuraciones que se aplican a todos los sites de VitePress, independientemente del tema que estén utilizando. Por ejemplo, el directorio base o el título del site.
+La configuración del sitio es donde puede definir los ajustes globales del sitio. Las opciones de configuración a nivel de aplicación definen los ajustes que se aplican a todos los sitios de VitePress, independientemente del tema que estén utilizando. Por ejemplo, el directorio base o el título del sitio.
 
-## Vista general {#overview}
+## Descripción general {#overview}
 
-### Resolución de configuración {#config-resolution}
+### Resolución de la configuración {#config-resolution}
 
-El archivo de configuración siempre se resuelve desde `<root>/.vitepress/config.[ext]`, donde `<root>` es la [raiz del proyecto](../guide/routing#root-and-source-directory) VitePress y `[ext]` es una de las extensiones de archivo compatibles. TypeScript es compatible desde el primer momento. Las extensiones compatibles incluyen `.js`, `.ts`, `.mjs` y `.mts`.
+El archivo de configuración siempre se resuelve desde `<root>/.vitepress/config.[ext]`, donde `<root>` es la [raíz de su proyecto](../guide/routing#root-and-source-directory) de VitePress, y `[ext]` es una de las extensiones de archivo compatibles. TypeScript es compatible de forma predeterminada. Las extensiones compatibles incluyen `.js`, `.ts`, `.mjs` y `.mts`.
 
-Recuerde usar la sintaxis de módulos ES en los archivos de configuración. El archivo de configuración debe exportar por defecto un objeto:
+Se recomienda usar la sintaxis de módulos ES en los archivos de configuración. El archivo de configuración debe exportar por defecto un objeto:
 
 ```ts
 export default {
   // opciones de configuración a nivel de aplicación
-  lang: 'pt-BR',
+  lang: 'es-ES',
   title: 'VitePress',
-  description: 'Generador de site estático Vite & Vue.',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
   ...
 }
 ```
 
-::: details Configuración dinámica (Assíncrona)
+::: details Configuración dinámica (asíncrona)
 
-Si necesitas generar dinamicamente la configuración, también puedes exportar por defecto una función. Por ejemplo:
+Si necesita generar dinámicamente la configuración, también puede exportar por defecto una función. Por ejemplo:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -36,10 +36,10 @@ export default async () => {
   const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
   return defineConfig({
-  // opciones de configuración a nivel de aplicación
-    lang: 'pt-BR',
+    // opciones de configuración a nivel de aplicación
+    lang: 'es-ES',
     title: 'VitePress',
-    description: 'Generador de site estático Vite & Vue.',
+    description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
     // opciones de configuración a nivel de tema
     themeConfig: {
@@ -54,7 +54,7 @@ export default async () => {
 }
 ```
 
-También puedes utilizar `await` en el nivel superior. Como:
+También puede utilizar `await` en el nivel superior. Por ejemplo:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -63,9 +63,9 @@ const posts = await (await fetch('https://my-cms.com/blog-posts')).json()
 
 export default defineConfig({
   // opciones de configuración a nivel de aplicación
-    lang: 'pt-BR',
-    title: 'VitePress',
-    description: 'Generador de site estático Vite & Vue.',
+  lang: 'es-ES',
+  title: 'VitePress',
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.',
 
   // opciones de configuración a nivel de tema
   themeConfig: {
@@ -83,7 +83,7 @@ export default defineConfig({
 
 ### Configuración Intellisense {#config-intellisense}
 
-Usar el auxiliar `defineConfig` proporcionará Intellisense con tecnología TypeScript para las opciones de configuración. Suponiendo que su IDE lo admita, esto debería funcionar tanto en JavaScript como en TypeScript.
+El uso del asistente `defineConfig` proporcionará Intellisense impulsado por TypeScript para las opciones de configuración. Suponiendo que su IDE lo admita, esto debería funcionar tanto en JavaScript como en TypeScript.
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -93,9 +93,9 @@ export default defineConfig({
 })
 ```
 
-### Configuración de Tema Escrito {#typed-theme-config}
+### Configuración de Tema Tipada {#typed-theme-config}
 
-Por defecto, el auxiliar `defineConfig` espera el tipo de configuración del tema por defecto:
+De forma predeterminada, el asistente `defineConfig` espera el tipo de configuración de tema desde el tema predeterminado:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -107,7 +107,7 @@ export default defineConfig({
 })
 ```
 
-Si usa un tema personalizado y desea realizar comprobaciones de tipo para la configuración del tema, deberá usar `defineConfigWithTheme` en su lugar, y pase el tipo de configuración para su tema personalizado a través de un argumento genérico:
+Si usa un tema personalizado y desea realizar comprobaciones de tipo para la configuración del tema, deberá usar `defineConfigWithTheme` en su lugar, y pasar el tipo de configuración de su tema personalizado a través de un argumento genérico:
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -120,35 +120,65 @@ export default defineConfigWithTheme<ThemeConfig>({
 })
 ```
 
-### Configuración Vite, Vue & Markdown
+### Configuración de Vite, Vue y Markdown {#vite-vue-markdown-config}
 
 - **Vite**
 
-  Puede configurar la instancia de Vite subyacente usando la opción [vite](#vite) en su configuración de VitePress. No es necesario crear un archivo de configuración de Vite por separado.
+  Puede configurar la instancia de Vite subyacente utilizando la opción [vite](#vite) en su configuración de VitePress. No es necesario crear un archivo de configuración de Vite por separado.
 
 - **Vue**
 
-  VitePress ya incluye el plugin oficial de Vue para Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Puede configurar sus opciones usando la opción [vue](#vue) en su configuración VitePress.
+  VitePress ya incluye el complemento oficial de Vue para Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Puede configurar sus opciones utilizando la opción [vue](#vue) en su configuración de VitePress.
 
 - **Markdown**
 
-  Puede configurar la instancia subyacente de [Markdown-It](https://github.com/markdown-it/markdown-it) usando la opción [markdown](#markdown) en su configuración VitePress.
+  Puede configurar la instancia subyacente de [Markdown-It](https://github.com/markdown-it/markdown-it) utilizando la opción [markdown](#markdown) en su configuración de VitePress.
 
-## Metadatos de Site {#site-metadata}
+### Sobrescrituras a nivel de página {#page-level-overrides}
+
+Algunos ajustes se pueden sobrescribir para páginas específicas utilizando el `frontmatter`.
+
+Consulte la [Configuración de frontmatter](./frontmatter-config) para obtener más detalles.
+
+### Sobrescrituras a nivel de directorio {#directory-level-overrides}
+
+Algunos ajustes de configuración se pueden sobrescribir a nivel de directorio, lo que permite que todas las páginas en ese directorio compartan la configuración sin necesidad de repetirla en el `frontmatter` de cada página.
+
+Esto se logra agregando un archivo llamado `config.ts` (o `.js`, `.mjs`, o `.mts`) en el directorio correspondiente. Este archivo debe exportar un objeto de configuración utilizando `export default`, de manera similar al archivo de configuración principal.
+
+Los directorios anidados heredan la configuración de su directorio principal, y las sobrescrituras de configuración se fusionan en consecuencia.
+
+El asistente `defineAdditionalConfig` se puede utilizar para obtener Intellisense impulsado por TypeScript para las opciones disponibles, aunque al igual que con `defineConfig`, su uso es opcional.
+
+Por ejemplo, para un sitio con varios idiomas, es posible que queramos una `description` diferente para cada idioma. Podríamos agregar `es/config.ts` con el siguiente contenido:
+
+```ts
+import { defineAdditionalConfig } from 'vitepress'
+
+export default defineAdditionalConfig({
+  description: 'Generador de sitios estáticos desarrollado con Vite y Vue.'
+})
+```
+
+Esta `description` se usaría entonces para todas las páginas en el directorio `es`.
+
+Como alternativa, al usar las características integradas de i18n, los ajustes para un directorio de configuración regional (locale) se pueden sobrescribir a través de la opción `locales` en el archivo de configuración principal. Consulte la [Internacionalización](../guide/i18n) para obtener más detalles.
+
+## Metadatos del sitio {#site-metadata}
 
 ### title
 
 - Tipo: `string`
 - Predeterminado: `VitePress`
-- Puede ser reemplazado por página a través de [frontmatter](./frontmatter-config#title)
+- Puede sobrescribirse por página a través del [`frontmatter`](./frontmatter-config#title) o a [nivel de directorio](#directory-level-overrides)
 
-Título de site. Al usar el tema por defecto, este será mostrado en la barra de navegación.
+Título para el sitio. Cuando se utiliza el tema predeterminado, este se mostrará en la barra de navegación.
 
-También se utilizará como sufijo predeterminado para todos los títulos de páginas individuales a menos que [`titleTemplate`](#titletemplate) definirse. El título final de una página individual será el contenido textual de su primer encabezado. `<h1>`, combinado con el título global como sufijo. Por ejemplo, con la siguiente configuración y contenido de página:
+También se utilizará como el sufijo predeterminado para todos los títulos de páginas individuales, a menos que se defina [`titleTemplate`](#titletemplate). El título final de una página individual será el contenido de texto de su primer encabezado `<h1>`, combinado con el `title` global como sufijo. Por ejemplo, con la siguiente configuración y contenido de página:
 
 ```ts
 export default {
-  title: 'Mi increible sitio web'
+  title: 'Mi sitio increíble'
 }
 ```
 
@@ -156,19 +186,19 @@ export default {
 # Hola
 ```
 
-El título de la página será `Hola | Mi increible sitio web`.
+El título de la página será `Hola | Mi sitio increíble`.
 
 ### titleTemplate
 
 - Tipo: `string | boolean`
-- Puede ser reemplazado por página a través de [frontmatter](./frontmatter-config#titletemplate)
+- Puede sobrescribirse por página a través del [`frontmatter`](./frontmatter-config#titletemplate) o a [nivel de directorio](#directory-level-overrides)
 
-Le permite personalizar el sufijo del título de cada página o el título completo. Por ejemplo:
+Permite personalizar el sufijo del título de cada página o el título completo. Por ejemplo:
 
 ```ts
 export default {
-  title: 'Mi increible sitio web',
-  titleTemplate: 'Sufijo Personalizado'
+  title: 'Mi sitio increíble',
+  titleTemplate: 'Sufijo personalizado'
 }
 ```
 
@@ -176,31 +206,31 @@ export default {
 # Hola
 ```
 
-El título de la página será `Hola | Sufijo Personalizado`.
+El título de la página será `Hola | Sufijo personalizado`.
 
-Para personalizar completamente cómo se debe representar el título, puedes usar el símbolo `:title` en `titleTemplate`:
+Para personalizar completamente cómo se debe renderizar el título, puede usar el símbolo `:title` en `titleTemplate`:
 
 ```ts
 export default {
-  titleTemplate: ':title - Sufijo Personalizado'
+  titleTemplate: ':title - Sufijo personalizado'
 }
 ```
 
-Aqui, `:title` será reemplazado por el texto que se deduce del primer título `<h1>` de la página. El título del ejemplo de la página anterior será `Hola - Sufijo Personalizado`.
+Aquí `:title` será reemplazado con el texto inferido del primer encabezado `<h1>` de la página. El título de la página del ejemplo anterior sería `Hola - Sufijo personalizado`.
 
-Una opción puede ser definida como `false` para desactivar sufijos del título.
+La opción se puede establecer en `false` para desactivar los sufijos de los títulos.
 
 ### description
 
 - Tipo: `string`
-- Predeterminado: `Um site VitePress`
-- Puede ser sustituído por página a través de [frontmatter](./frontmatter-config#descrição)
+- Predeterminado: `A VitePress site`
+- Puede sobrescribirse por página a través del [`frontmatter`](./frontmatter-config#description) o a [nivel de directorio](#directory-level-overrides)
 
-Descripción del sitio web. Esto se presentará como una etiqueta. `<meta>` en la página HTML.
+Descripción para el sitio. Esto se renderizará como una etiqueta `<meta>` en el HTML de la página.
 
 ```ts
 export default {
-  descripción: 'Un site VitePress'
+  description: 'Un sitio de VitePress'
 }
 ```
 
@@ -208,9 +238,9 @@ export default {
 
 - Tipo: `HeadConfig[]`
 - Predeterminado: `[]`
-- Se puede agregar por página a través de [frontmatter](./frontmatter-config#head)
+- Se puede agregar por página a través del [`frontmatter`](./frontmatter-config#head) o a [nivel de directorio](#directory-level-overrides)
 
-Elementos adicionales para agregar a la etiqueta `<head>` de la página HTML. Las etiquetas agregadas por los usuarios son mostradas antes de la etiqueta `head` de cierre, despues de las etiquetas VitePress.
+Elementos adicionales para renderizar en la etiqueta `<head>` en el HTML de la página. Las etiquetas añadidas por el usuario se renderizan antes de la etiqueta `head` de cierre, después de las etiquetas de VitePress.
 
 ```ts
 type HeadConfig =
@@ -218,19 +248,19 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
-#### Ejemplo: Agregando un favicon {#example-adding-a-favicon}
+#### Ejemplo: Agregar un favicon {#example-adding-a-favicon}
 
 ```ts
 export default {
-  cabecera: [['link', { rel: 'icon', href: '/favicon.ico' }]]
-} // coloque favicon.ico en el directorio público, si la base está definida, use /base/favicon.ico
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]]
+} // coloque favicon.ico en el directorio public, si se establece la base, use /base/favicon.ico
 
-/* Mostraría:
+/* Renderizaría:
   <link rel="icon" href="/favicon.ico">
 */
 ```
 
-#### Ejemplo: Agregando Fuentes de Google {#example-adding-google-fonts}
+#### Ejemplo: Agregar Google Fonts {#example-adding-google-fonts}
 
 ```ts
 export default {
@@ -250,14 +280,14 @@ export default {
   ]
 }
 
-/* Mostraría:
+/* Renderizaría:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 */
 ```
 
-#### Ejemplo: Registrando un _service worker_ {#example-registering-a-service-worker}
+#### Ejemplo: Registrar _service worker_ {#example-registering-a-service-worker}
 
 ```ts
 export default {
@@ -274,7 +304,7 @@ export default {
   ]
 }
 
-/* Mostraría:
+/* Renderizaría:
   <script id="register-sw">
     ;(() => {
       if ('serviceWorker' in navigator) {
@@ -285,7 +315,7 @@ export default {
 */
 ```
 
-#### Ejemplo: Usando Google Analytics {#example-using-google-analytics}
+#### Ejemplo: Usar Google Analytics {#example-using-google-analytics}
 
 ```ts
 export default {
@@ -305,7 +335,7 @@ export default {
   ]
 }
 
-/* Mostraría:
+/* Renderizaría:
   <script async src="https://www.googletagmanager.com/gtag/js?id=TAG_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -320,8 +350,9 @@ export default {
 
 - Tipo: `string`
 - Predeterminado: `en-US`
+- Puede sobrescribirse a [nivel de directorio](#directory-level-overrides)
 
-El atributo de idioma del sitio. Esto se mostrará como una etiqueta. `<html lang="en-US">` en la página HTML.
+El atributo `lang` para el sitio. Esto se renderizará como una etiqueta `<html lang="en-US">` en el HTML de la página.
 
 ```ts
 export default {
@@ -334,9 +365,9 @@ export default {
 - Tipo: `string`
 - Predeterminado: `/`
 
-La URL base donde se implementará el sitio. Deberá configurar esto si planea implementar su sitio en un subdirectorio, por ejemplo, en páginas de GitHub. Si planea implementar su sitio web en `https://foo.github.io/bar/` entonces deberías definir la base como `'/bar/'`. Siempre debe comenzar y terminar con una barra.
+La URL base en la que se desplegará el sitio. Tendrá que configurar esto si planea desplegar su sitio en una subruta, por ejemplo, en GitHub Pages. Si planea desplegar su sitio en `https://foo.github.io/bar/`, entonces debe establecer la `base` en `'/bar/'`. Siempre debe comenzar y terminar con una barra. No se admiten bases relativas.
 
-La base se agrega automáticamente a todas las URL que comienzan con / en otras opciones, por lo que solo necesitas especificarla una vez.
+La base se antepone automáticamente a todas las URL que comienzan con `/` en otras opciones, por lo que solo necesita especificarla una vez.
 
 ```ts
 export default {
@@ -344,24 +375,24 @@ export default {
 }
 ```
 
-## Roteamento {#routing}
+## Enrutamiento {#routing}
 
 ### cleanUrls
 
 - Tipo: `boolean`
 - Predeterminado: `false`
 
-Cuando se establece en `true`, VitePress eliminará el `.html` al final de las URLs. Consulte también [Generación de URLs Limpias](../guide/routing#generating-clean-urls).
+Cuando se establece en `true`, VitePress eliminará el `.html` final de las URLs. Consulte también [Generar URLs limpias](../guide/routing#generating-clean-urls).
 
-::: warning Soporte de Servidor Requerido
-Habilitar esto puede requerir configurar adicional en su plataforma de alojamiento. Para funcionar, su servidor debe poder servir `/foo.html` cuando visite `/foo` **sin redirección**.
+::: warning Se requiere soporte del servidor
+Habilitar esto puede requerir configuración adicional en su plataforma de alojamiento. Para que funcione, su servidor debe poder servir `/foo.html` al visitar `/foo` **sin una redirección**.
 :::
 
 ### rewrites
 
 - Tipo: `Record<string, string>`
 
-Define asignaciones de directorios personalizados &lt;-&gt; URL. Visite [Rutas: Reescribir Rutas](../guide/routing#route-rewrites) para obtener más detalles.
+Define mapeos personalizados de directorio &lt;-&gt; URL. Consulte [Enrutamiento: Reescribir rutas](../guide/routing#route-rewrites) para obtener más detalles.
 
 ```ts
 export default {
@@ -371,14 +402,14 @@ export default {
 }
 ```
 
-## Construcción {#build}
+## Compilación {#build}
 
 ### srcDir
 
 - Tipo: `string`
 - Predeterminado: `.`
 
-El directorio donde se almacenan tus páginas de rebajas, en relación con la raíz del proyecto. vea también [Directorio Raiz y de origen](../guide/routing#root-and-source-directory).
+El directorio donde se almacenan sus páginas Markdown, relativo a la raíz del proyecto. Consulte también [Raíz y directorio fuente](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -388,10 +419,10 @@ export default {
 
 ### srcExclude
 
-- Tipo: `string`
+- Tipo: `string[]`
 - Predeterminado: `undefined`
 
-Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos de rebajas que deben exluirse como contenido de origen.
+Un [patrón glob](https://github.com/mrmlnc/fast-glob#pattern-syntax) para hacer coincidir los archivos Markdown que deben excluirse del contenido fuente.
 
 ```ts
 export default {
@@ -404,7 +435,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/dist`
 
-La ubicación de la salida de compilación para el sitio, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory).
+La ubicación de salida de la compilación para el sitio, relativa a la [raíz del proyecto](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -417,7 +448,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `assets`
 
-Especifica el directorio para anidar los activos generados. El camino debe estar dentro [`outDir`](#outdir) y se resuelve en relación con el mismo.
+Especifica el directorio para anidar los recursos generados. La ruta debe estar dentro de [`outDir`](#outdir) y se resuelve de forma relativa a este.
 
 ```ts
 export default {
@@ -430,7 +461,7 @@ export default {
 - Tipo: `string`
 - Predeterminado: `./.vitepress/cache`
 
-El directorio para los archivos de caché, en relación con el [raiz del proyecto](../guide/routing#root-and-source-directory). Vea también: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
+El directorio para los archivos de caché, relativo a la [raíz del proyecto](../guide/routing#root-and-source-directory). Consulte también: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -443,9 +474,9 @@ export default {
 - Tipo: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
 - Predeterminado: `false`
 
-Cuando se establece en `true`, VitePress no dejará de compilarse debido a links rotos.
+Cuando se establece en `true`, VitePress no fallará las compilaciones debido a enlaces rotos.
 
-Cuando se establece en `'localhostLinks'`, la compilación fallará en links rotos, per no verificará los links `localhost`.
+Cuando se establece en `'localhostLinks'`, la compilación fallará en los enlaces rotos, pero no comprobará los enlaces a `localhost`.
 
 ```ts
 export default {
@@ -453,18 +484,18 @@ export default {
 }
 ```
 
-También puede ser un _array_ de una exacta URL en string, patrones regex, o funciones de filtro personalizadas.
+También puede ser un _array_ de cadenas de URL exactas, patrones de expresiones regulares (regex) o funciones de filtro personalizadas.
 
 ```ts
 export default {
   ignoreDeadLinks: [
-    // ignora URL exacta "/playground"
+    // ignora la URL exacta "/playground"
     '/playground',
-    // ignora todos los links localhost
+    // ignora todos los enlaces a localhost
     /^https?:\/\/localhost/,
-    // ignora todos los links incluyendo "/repl/""
+    // ignora todos los enlaces que incluyan "/repl/"
     /\/repl\//,
-    // función personalizada, ignora todos los links incluyendo "ignore"
+    // función personalizada, ignora todos los enlaces que incluyan "ignore"
     (url) => {
       return url.toLowerCase().includes('ignore')
     }
@@ -477,33 +508,35 @@ export default {
 - Tipo: `boolean`
 - Predeterminado: `false`
 
-Cuando se define como `true`, la aplicación de producción se compilará en [Modo MPA](../guide/mpa-mode). El modo MPA envía 0 kb de JavaScript de forma predeterminada, a expensas de deshabilitar la navegación del lado del cliente y requerir permiso explícito para la interactividad.
+Cuando se establece en `true`, la aplicación de producción se compilará en [Modo MPA](../guide/mpa-mode). El modo MPA envía 0 kb de JavaScript de forma predeterminada, a expensas de deshabilitar la navegación en el lado del cliente y requiere habilitación explícita (opt-in) para la interactividad.
 
 ## Tematización {#theming}
 
 ### appearance
 
-- Tipo: `boolean | 'dark' | 'force-dark' | import('@vueuse/core').UseDarkOptions`
+- Tipo: `boolean | 'dark' | 'force-dark' | 'force-auto' | import('@vueuse/core').UseDarkOptions`
 - Predeterminado: `true`
 
-Se habilitará el modo oscuro (agregando una classe `.dark` al elemento `<html>`).
+Indica si se debe habilitar el modo oscuro (añadiendo la clase `.dark` al elemento `<html>`).
 
-- Si la opción está configurada en `true` El tema predeterminado está determinado por la combinación de colores preferida del usuario.
-- Si la opción está configurada en `dark` El tema es oscuro de forma predeterminada a menos que el usuario lo cambie manualmente.
-- Si la opción está configurada en `false` los usuarios no podrán cambiar el tema.
+- Si la opción está establecida en `true`, el tema predeterminado se determinará por la preferencia de color del usuario.
+- Si la opción está establecida en `dark`, el tema será oscuro de forma predeterminada, a menos que el usuario lo cambie manualmente.
+- Si la opción está establecida en `false`, los usuarios no podrán cambiar el tema.
+- Si la opción está establecida en `'force-dark'`, el tema siempre será oscuro y los usuarios no podrán cambiarlo.
+- Si la opción está establecida en `'force-auto'`, el tema siempre se determinará por la preferencia de color del usuario y los usuarios no podrán cambiarlo.
 
-Esta opción inyecta un script en línea que restaura la configuración de los usuarios desde el almacenamiento local. (_local storage_) usando una llave `vitepress-theme-appearance`. Eso asegurará que la clase `.dark` se aplicará antes de que se muestre la página para evitar el parpadeo.
+Esta opción inyecta un script en línea que restaura la configuración del usuario desde el almacenamiento local utilizando la clave `vitepress-theme-appearance`. Esto asegura que la clase `.dark` se aplique antes de que la página se renderice para evitar parpadeos.
 
-`appearance.initialValue` puede ser `'dark' | undefined`. Refs o getters no son soportados.
+`appearance.initialValue` solo puede ser `'dark' | undefined`. No se admiten referencias (`refs`) o `getters`.
 
 ### lastUpdated
 
 - Tipo: `boolean`
 - Predeterminado: `false`
 
-Para obtener la marca de tiempo de la última actualización para cada página usando Git. El sello de fecha se incluirá en los datos de cada página, accesible a través de [`useData`](./runtime-api#usedata).
+Indica si se debe obtener la marca de tiempo de la última actualización para cada página utilizando Git. La marca de tiempo se incluirá en los datos de página de cada página, accesible a través de [`useData`](./runtime-api#usedata).
 
-Cuando se utiliza el tema predeterminado, al habilitar esta opción se mostrará la última hora de actualización de cada página. Puedes personalizar el texto mediante la opción [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated).
+Al usar el tema predeterminado, habilitar esta opción mostrará la hora de última actualización de cada página. Puede personalizar el texto a través de la opción [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated).
 
 ## Personalización {#customization}
 
@@ -511,7 +544,7 @@ Cuando se utiliza el tema predeterminado, al habilitar esta opción se mostrará
 
 - Tipo: `MarkdownOption`
 
-Configure las opciones de procesador Markdown. VitePress usa [Markdown-it](https://github.com/markdown-it/markdown-it) como procesador y [Shiki](https://github.com/shikijs/shiki) para resaltar la sintaxis del idioma. Dentro de esta opción, puede pasar varias opciones de Markdown relacionadas para satisfacer sus necesidades.
+Configura las opciones del analizador Markdown. VitePress usa [Markdown-it](https://github.com/markdown-it/markdown-it) como analizador y [Shiki](https://github.com/shikijs/shiki) para el resaltado de la sintaxis del lenguaje. Dentro de esta opción, puede pasar varias opciones relacionadas con Markdown para adaptarse a sus necesidades.
 
 ```js
 export default {
@@ -521,16 +554,18 @@ export default {
 
 Consulte la [declaración de tipo y jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) para conocer todas las opciones disponibles.
 
+Establezca `markdown.headers` en `true` o pase las opciones de [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) para recopilar los encabezados en [`useData().page.headers`](./runtime-api#usedata). Esta opción está deshabilitada de forma predeterminada.
+
 ### vite
 
 - Tipo: `import('vite').UserConfig`
 
-Pase la [Configuración Vite](https://vite.dev/config/) sin procesar al servidor interno / empaquetador Vite.
+Pase la [configuración de Vite](https://vite.dev/config/) sin procesar al servidor de desarrollo / empaquetador de Vite interno.
 
 ```js
 export default {
   vite: {
-    // Opciones de configuración Vite
+    // Opciones de configuración de Vite
   }
 }
 ```
@@ -539,28 +574,30 @@ export default {
 
 - Tipo: `import('@vitejs/plugin-vue').Options`
 
-Pase las opciones [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options) sin formato a la instancia del complemento interno.
+Pase las opciones de [`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#options) sin procesar a la instancia del complemento interno.
 
 ```js
 export default {
   vue: {
-    // Opciones @vitejs/plugin-vue
+    // Opciones de @vitejs/plugin-vue
   }
 }
 ```
 
-## Construir Ganchos {#build-hooks}
+## Hooks de compilación {#build-hooks}
 
-Los enlaces de compilación VitePress permiten agregar nuevas funciones al su sitio web:
+Los hooks de compilación de VitePress le permiten agregar nueva funcionalidad y comportamientos a su sitio web:
 
-- Sitemap
-- Indexación de busqueda
+- Sitemap (mapa del sitio)
+- Indexación de búsqueda
 - PWA
 - _Teleports_
 
-## buildEnd
+### buildEnd
+
 - Tipo: `(siteConfig: SiteConfig) => Awaitable<void>`
-`buildEnd` es un enlace de compilación CLI (Interfaz de línea de comando), se ejecutará después de que se complete la compilación (SSG) pero antes de que finalice el proceso CLI de VitePress.
+
+`buildEnd` es un hook de la CLI de compilación, se ejecutará después de que finalice la compilación (SSG) pero antes de que termine el proceso de la CLI de VitePress.
 
 ```ts
 export default {
@@ -570,33 +607,36 @@ export default {
 }
 ```
 
-## postRender
+### postRender
+
 - Tipo: `(context: SSGContext) => Awaitable<SSGContext | void>`
-- `postRender` es un gancho de compilación, llamado cuando se completa la interpretación de SSG. Le permitirá manipular el contenido de los _teleports_ durante la generación de sitios estáticos.
 
-  ```ts
-  export default {
-    async postRender(context) {
-      // ...
-    }
+`postRender` es un hook de compilación, llamado cuando se completa el renderizado de SSG. Le permitirá manejar el contenido de los `teleports` durante la generación estática (SSG).
+
+```ts
+export default {
+  async postRender(context) {
+    // ...
   }
-  ```
+}
+```
 
-  ```ts
-  interface SSGContext {
-    content: string
-    teleports?: Record<string, string>
-    [key: string]: any
-  }
-  ```
+```ts
+interface SSGContext {
+  content: string
+  teleports?: Record<string, string>
+  [key: string]: any
+}
+```
 
-## transformHead
+### transformHead
+
 - Tipo: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` es un enlace de compilación para transformar el encabezado antes de generar cada página. Esto le permite agregar entradas de encabezado que no se pueden agregar estáticamente a la configuración de VitePress. Sólo necesita devolver entradas adicionales, que se fusionarán automáticamente con las existentes.
+`transformHead` es un hook de compilación para agregar etiquetas adicionales al `<head>` de cada página. Le permite añadir entradas de encabezado que no se pueden agregar estáticamente a su configuración de VitePress. Solo necesita devolver entradas adicionales, que se fusionarán automáticamente con las existentes.
 
 ::: warning
-No mutes ningún elemento dentro `context`.
+No mute nada dentro del `context`.
 :::
 
 ```ts
@@ -609,8 +649,8 @@ export default {
 
 ```ts
 interface TransformContext {
-  page: string // e.g. index.md (relativo a srcDir)
-  assets: string[] // todos los activos no-js/css con URL pública completamente resuelta
+  page: string // ej. index.md (relativo a srcDir)
+  assets: string[] // todos los recursos no js/css como una URL pública completamente resuelta
   siteConfig: SiteConfig
   siteData: SiteData
   pageData: PageData
@@ -621,50 +661,46 @@ interface TransformContext {
 }
 ```
 
-Tenga en cuenta que este enlace solo se llama cuando se genera el sitio de forma estática. No se llama durante el desarrollo. Si necesita agregar entradas de encabezado dinámicas durante el desarrollo, puede usar el enlace [`transformPageData`](#transformpagedata) en su lugar.
+Este hook solo se llama al realizar una compilación, no se llama durante el desarrollo.
 
-  ```ts
-  export default {
-    transformPageData(pageData) {
-      pageData.frontmatter.head ??= []
-      pageData.frontmatter.head.push([
-        'meta',
-        {
-          name: 'og:title',
-          content:
-            pageData.frontmatter.layout === 'home'
-              ? `VitePress`
-              : `${pageData.title} | VitePress`
-        }
-      ])
-    }
-  }
-  ```
+Las etiquetas adicionales se añadirán a los archivos HTML estáticos generados por la compilación. No se actualizarán durante la navegación en el lado del cliente.
 
-#### Ejemplo: Agregando una URL canónica `<link>` {#example-adding-a-canonical-url-link}
+En muchos casos, el uso del hook [`transformPageData`](#transformpagedata) es una solución más limpia. Ese hook también se aplicará tanto a la navegación en el lado del cliente como durante el desarrollo. Pero si la generación de las etiquetas de encabezado es computacionalmente costosa, entonces `transformHead` evitará esa sobrecarga durante el desarrollo.
+
+#### Ejemplo: Agregar meta `og:image` {#example-adding-og-image-meta}
 
 ```ts
 export default {
-  transformPageData(pageData) {
-    const canonicalUrl = `https://example.com/${pageData.relativePath}`
-      .replace(/index\.md$/, '')
-      .replace(/\.md$/, '.html')
+  async transformHead(context) {
+    if (context.page === '404.md') {
+      return
+    }
 
-    pageData.frontmatter.head ??= []
-    pageData.frontmatter.head.push([
-      'link',
-      { rel: 'canonical', href: canonicalUrl }
-    ])
+    // Los detalles de implementación de generatePageImage dependerán
+    // de sus requerimientos. Aquí asumimos que genera una imagen adecuada
+    // para cada página y devuelve la URL de la imagen.
+    const imageUrl = await generatePageImage(context)
+    
+    return [[
+      'meta',
+      { name: 'og:image', content: imageUrl }
+    ]]
   }
 }
 ```
 
+Aquí asumimos que la URL de la imagen es dinámica y su generación lleva mucho tiempo. El uso de `transformHead` evita esa sobrecarga durante el desarrollo.
+
+Para casos más simples, es posible que pueda usar la configuración [`head`](./frontmatter-config#head) en el `frontmatter`, o [`transformPageData`](#transformpagedata).
+
 ### transformHtml
+
 - Tipo: `(code: string, id: string, context: TransformContext) => Awaitable<string | void>`
-`transformHtml` es un gancho de compilación para transformar el contenido de cada página antes de guardarla en el disco.
+
+`transformHtml` es un hook de compilación para transformar el contenido de cada página antes de guardarlo en el disco.
 
 ::: warning
-No mute ningún elemento dentro del `context`. Además, modificar el contenido HTML puede provocar problemas de hidratación en tiempo de ejecución.
+No mute nada dentro del `context`. Además, modificar el contenido HTML puede causar problemas de hidratación en el tiempo de ejecución.
 :::
 
 ```ts
@@ -676,12 +712,13 @@ export default {
 ```
 
 ### transformPageData
+
 - Tipo: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` es un gancho para transformar los datos de cada página. Puedes hacer mutaciones directamente en `pageData` o devolver valores modificados que se fusionarán con los datos de la página.
+`transformPageData` es un hook para transformar el `pageData` de cada página. Puede mutar directamente `pageData` o devolver valores modificados que se fusionarán en los datos de la página.
 
 ::: warning
-No mute ningún elemento dentro del `context` y tenga cuidado ya que esto puede afectar el rendimiento del servidor de desarrollo, especialmente si tiene algunas solicitudes de red o cálculos pesados (como generar imágenes) en el gancho. Puede consultar  `process.env.NODE_ENV === 'production'` para ver la lógica condicional.
+No mute nada dentro del `context` y tenga cuidado de que esto podría afectar el rendimiento del servidor de desarrollo, especialmente si tiene algunas solicitudes de red o cálculos pesados (como generar imágenes) en el hook. Puede comprobar si `process.env.NODE_ENV === 'production'` para utilizar lógica condicional.
 :::
 
 ```ts
@@ -690,7 +727,7 @@ export default {
     pageData.contributors = await getPageContributors(pageData.relativePath)
   }
 
-  // o devolver datos para fusionar
+  // o devolver datos para fusionarlos
   async transformPageData(pageData, { siteConfig }) {
     return {
       contributors: await getPageContributors(pageData.relativePath)
@@ -702,5 +739,41 @@ export default {
 ```ts
 interface TransformPageContext {
   siteConfig: SiteConfig
+}
+```
+
+#### Ejemplo: Agregar un `<meta name="og:title">` {#example-adding-a-meta-name-og-title}
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const title = pageData.frontmatter.layout === 'home'
+      ? 'VitePress'
+      : `${pageData.title} | VitePress`
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'meta',
+      { name: 'og:title', content: title }
+    ])
+  }
+}
+```
+
+#### Ejemplo: Agregar una URL canónica `<link>` {#example-adding-a-canonical-url-link}
+
+```ts
+export default {
+  transformPageData(pageData) {
+    const canonicalUrl = `https://ejemplo.com/${pageData.relativePath}`
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push([
+      'link',
+      { rel: 'canonical', href: canonicalUrl }
+    ])
+  }
 }
 ```
