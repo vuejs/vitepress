@@ -25,7 +25,7 @@ Resultado de ejemplo:
 
 ![captura de pantalla del modo de búsqueda](/search.png)
 
-Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) o algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search> o <https://www.npmjs.com/package/vitepress-plugin-pagefind>.
+Alternativamente, puedes usar [Algolia DocSearch](#algolia-search) o algunos complementos comunitarios como <https://www.npmjs.com/package/vitepress-plugin-search>, <https://www.npmjs.com/package/vitepress-plugin-pagefind> o <https://www.npmjs.com/package/vitepress-plugin-cloudflare-ai-search>.
 
 ### i18n {#local-search-i18n}
 

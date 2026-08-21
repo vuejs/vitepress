@@ -25,7 +25,7 @@ export default defineConfig({
 
 ![검색 모달의 스크린샷](/search.png)
 
-대안으로 [Algolia DocSearch](#algolia-search), <https://www.npmjs.com/package/vitepress-plugin-search>, <https://www.npmjs.com/package/vitepress-plugin-pagefind>와 같은 커뮤니티 플러그인을 사용할 수도 있습니다.
+대안으로 [Algolia DocSearch](#algolia-search), <https://www.npmjs.com/package/vitepress-plugin-search>, <https://www.npmjs.com/package/vitepress-plugin-pagefind>, <https://www.npmjs.com/package/vitepress-plugin-cloudflare-ai-search>와 같은 커뮤니티 플러그인을 사용할 수도 있습니다.
 
 ### i18n {#local-search-i18n}
 
