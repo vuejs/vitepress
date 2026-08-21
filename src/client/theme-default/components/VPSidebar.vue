@@ -15,7 +15,7 @@ const navEl = ref<HTMLElement | null>(null)
 const isLocked = useBodyScrollLock()
 
 watch(
-  [props, navEl],
+  [() => props.open, navEl],
   () => {
     if (props.open) {
       isLocked.value = true
