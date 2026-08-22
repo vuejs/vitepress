@@ -32,6 +32,11 @@ const { theme } = useData()
 <style scoped>
 .VPNavBarMenu {
   display: none;
+  flex-grow: 1;
+  justify-content: flex-end;
+  min-width: 0;
+  margin-left: 1rem;
+  overflow-x: clip;
 }
 
 .list {
@@ -40,7 +45,7 @@ const { theme } = useData()
 
 @media (min-width: 48rem) {
   .VPNavBarMenu {
-    display: block;
+    display: flex;
   }
 }
 </style>

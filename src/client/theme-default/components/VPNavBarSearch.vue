@@ -203,7 +203,6 @@ function isEditingContent(event: KeyboardEvent): boolean {
 @media (min-width: 48rem) {
   .VPNavBarSearch {
     gap: 0.5rem;
-    flex-grow: 1;
     padding-left: 1.5rem;
   }
 }
