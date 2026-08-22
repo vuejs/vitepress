@@ -3,7 +3,8 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 const nav: DefaultTheme.Config['nav'] = [
   {
     text: 'Home',
-    link: '/'
+    link: '/',
+    activeMatch: '^/home'
   },
   {
     text: 'API Reference',

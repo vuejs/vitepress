@@ -27,6 +27,10 @@ const isActiveLink = computed(() => {
   )
 })
 
+const isCurrentLink = computed(() => {
+  return isActive(route.data.relativePath, route.hash, href.value)
+})
+
 defineOptions({ inheritAttrs: false })
 </script>
 
@@ -35,6 +39,7 @@ defineOptions({ inheritAttrs: false })
     <VPLink
       v-bind="$attrs"
       :class="{ active: isActiveLink }"
+      :aria-current="isCurrentLink ? 'page' : undefined"
       :href
       :target="item.target"
       :rel="props.rel ?? item.rel"
