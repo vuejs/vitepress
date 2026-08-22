@@ -173,7 +173,8 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 }
 
 export default defineConfig({
-  title: 'Example',
+  title:
+    'Example with an exceedingly long site title that surely overflows the sidebar width',
   description: 'An example app using VitePress.',
   srcExclude: ['**/parts/**'],
   markdown: {
