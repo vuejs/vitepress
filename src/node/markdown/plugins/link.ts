@@ -47,6 +47,7 @@ export const linkPlugin = (
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
+      const rawUrl = decodeURI(hrefAttr[1])
       let [url, frag] = hrefAttr[1].split(':~:', 2)
       hrefAttr[1] = url
       if (isExternal(url)) {
@@ -55,7 +56,7 @@ export const linkPlugin = (
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
-          pushLink(url, env, token.meta?.vpLine)
+          pushLink(url, rawUrl, env, token.meta?.vpLine)
         }
         hrefAttr[1] = url
       } else {
@@ -95,6 +96,7 @@ export const linkPlugin = (
     line?: number
   ) {
     let url = hrefAttr[1]
+    const rawUrl = decodeURI(url)
 
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
@@ -124,7 +126,7 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    pushLink(url.replace(/\.html$/, ''), env, line)
+    pushLink(url, rawUrl, env, line)
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
@@ -134,12 +136,15 @@ export const linkPlugin = (
     return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
   }
 
-  function pushLink(link: string, env: MarkdownEnv, line?: number) {
-    const links = env.links || (env.links = [])
-    links.push(link)
-    if (line != null) {
-      const linkLines = env.linkLines || (env.linkLines = [])
-      linkLines[links.length - 1] = line
-    }
+  function pushLink(
+    link: string,
+    rawLink: string,
+    env: MarkdownEnv,
+    line?: number
+  ) {
+    env.links ??= []
+    env.links.push(link)
+    env.linkMetadatas ??= []
+    env.linkMetadatas.push({ rawLink, line })
   }
 }
