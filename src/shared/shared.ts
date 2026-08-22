@@ -198,31 +198,39 @@ function createTitleTemplate(
 
 export function mergeHead(...headArrays: HeadConfig[][]): HeadConfig[] {
   const merged: HeadConfig[] = []
-  const metaKeyMap = new Map<string, number>()
+  const keyMap = new Map<string, number>()
 
   for (const current of headArrays) {
     for (const tag of current) {
-      const [type, attrs] = tag
-      const keyAttr = Object.entries(attrs)[0]
+      const key = getHeadKey(tag)
 
-      if (type !== 'meta' || !keyAttr) {
+      if (key == null) {
         merged.push(tag)
         continue
       }
 
-      const key = `${keyAttr[0]}=${keyAttr[1]}`
-      const existingIndex = metaKeyMap.get(key)
+      const existingIndex = keyMap.get(key)
 
       if (existingIndex != null) {
         merged[existingIndex] = tag // replace existing tag
       } else {
-        metaKeyMap.set(key, merged.length)
+        keyMap.set(key, merged.length)
         merged.push(tag)
       }
     }
   }
 
   return merged
+}
+
+// any element is keyed by its `id`; a meta tag without one is keyed by its
+// first attribute other than `content` (e.g. `name`, `property`, `http-equiv`)
+function getHeadKey([type, attrs]: HeadConfig): string | undefined {
+  if (attrs.id) return `id=${attrs.id}`
+  if (type !== 'meta') return
+  for (const name in attrs) {
+    if (name !== 'content') return `${name}=${attrs[name]}`
+  }
 }
 
 export function sanitizeFileName(name: string): string {
