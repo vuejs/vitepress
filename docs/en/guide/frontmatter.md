@@ -36,6 +36,8 @@ editLink: true
 Guide content
 ```
 
+Property accesses like `{{ $frontmatter.title }}` are resolved while the Markdown is rendered, so the value also ends up in the local search index, in [content loader](./data-loading#createcontentloader) output and in heading anchors - the heading above gets `id="docs-with-vitepress"`. Other expressions are evaluated by Vue at runtime as usual, and wrapping an expression in [`v-pre`](./using-vue#escaping) shows it literally.
+
 You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
 
 ## Alternative Frontmatter Formats

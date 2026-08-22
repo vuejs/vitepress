@@ -49,6 +49,7 @@ import {
   gitHubAlertsPlugin,
   type ContainerOptions
 } from './plugins/containers'
+import { frontmatterExpressionsPlugin } from './plugins/frontmatterExpressions'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import {
@@ -535,6 +536,7 @@ export async function createMarkdownRenderer(
   // https://github.com/jonschlinkert/gray-matter/blob/310f9349381775d10a221cef903989eb5acc8843/index.js#L44-L47
   ;(options.frontmatter ??= {}).grayMatterOptions ??= {}
   frontmatterPlugin(md, options.frontmatter)
+  frontmatterExpressionsPlugin(md)
   if (options.headers) {
     headersPlugin(md, {
       level: [2, 3, 4, 5, 6],
