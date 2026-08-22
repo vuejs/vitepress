@@ -73,3 +73,34 @@ interface RenderMdOptions extends Partial<MarkdownEnv> {
 ```
 
 The other options are the `MarkdownEnv` fields the renderer reads, mainly `path` - the absolute path of the file the Markdown belongs to, used to resolve relative [includes](../guide/markdown#markdown-file-inclusion) and [snippets](../guide/markdown#import-code-snippets) - and `cleanUrls`, which defaults to the [site config](./site-config#cleanurls). The result is plain HTML for `v-html`: Vue components and expressions in it are not processed.
+
+## Isolating Runs
+
+VitePress keeps state at the module level while it runs - the resolved config, the Markdown renderer, page caches - and Node.js caches the modules of the built app that are imported to render pages. A second `build()` in the same process therefore reuses modules from the first one and can produce stale output. That is fine for a CLI run, which exits afterwards, but not for tests or scripts that build more than once per process. Give each build its own worker thread (or child process) instead:
+
+```ts
+// build-worker.js
+import { workerData } from 'node:worker_threads'
+import { build } from 'vitepress'
+
+await build(workerData.root, workerData.options)
+```
+
+```ts
+import { Worker } from 'node:worker_threads'
+
+function buildSite(root, options) {
+  return new Promise((resolve, reject) => {
+    new Worker(new URL('./build-worker.js', import.meta.url), {
+      workerData: { root, options }
+    })
+      .on('error', reject)
+      .on('exit', (code) =>
+        code ? reject(new Error(`build failed (${code})`)) : resolve()
+      )
+  })
+}
+
+await buildSite('docs')
+await buildSite('docs') // a fresh process state, so a fresh build
+```
