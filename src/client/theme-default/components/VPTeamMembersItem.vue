@@ -14,15 +14,15 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <article class="VPTeamMembersItem" :class="[size]">
+  <div class="VPTeamMembersItem" :class="[size]">
     <div class="profile">
       <figure class="avatar">
         <img class="avatar-img" :src="member.avatar" :alt="member.name" />
       </figure>
       <div class="data">
-        <h1 class="name">
+        <p class="name">
           {{ member.name }}
-        </h1>
+        </p>
         <p v-if="member.title || member.org" class="affiliation">
           <span v-if="member.title" class="title">
             {{ member.title }}
@@ -49,7 +49,7 @@ withDefaults(defineProps<Props>(), {
         <span class="vpi-heart sp-icon" /> {{ member.actionText || 'Sponsor' }}
       </VPLink>
     </div>
-  </article>
+  </div>
 </template>
 
 <style scoped>
