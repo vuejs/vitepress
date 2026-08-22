@@ -25,11 +25,16 @@ const isActiveLink = computed(() => {
     !!props.item.activeMatch
   )
 })
+
+const isCurrentLink = computed(() => {
+  return isActive(route.data.relativePath, route.hash, href.value)
+})
 </script>
 
 <template>
   <VPLink
     :class="{ VPNavBarMenuLink: true, active: isActiveLink }"
+    :aria-current="isCurrentLink ? 'page' : undefined"
     :href
     :target="item.target"
     :rel="item.rel"

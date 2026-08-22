@@ -27,12 +27,17 @@ const isActiveLink = computed(() => {
   )
 })
 
+const isCurrentLink = computed(() => {
+  return isActive(route.data.relativePath, route.hash, href.value)
+})
+
 const { closeScreen } = inject(navInjectionKey)!
 </script>
 
 <template>
   <VPLink
     :class="{ VPNavScreenMenuLink: true, active: isActiveLink }"
+    :aria-current="isCurrentLink ? 'page' : undefined"
     :href
     :target="item.target"
     :rel="item.rel"
