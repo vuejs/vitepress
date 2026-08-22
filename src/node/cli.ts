@@ -1,14 +1,9 @@
 import minimist from 'minimist'
 import c from 'picocolors'
 import { createLogger } from 'vite'
-import {
-  build,
-  createServer,
-  disposeMdItInstance,
-  resolveConfig,
-  serve
-} from '.'
+import { build, createServer, resolveConfig, serve } from '.'
 import { init } from './init/init'
+import { disposeMdItInstance } from './markdown/markdown'
 import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
 import { logVersion } from './utils/logVersion'

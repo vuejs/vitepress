@@ -784,3 +784,27 @@ export default {
   }
 }
 ```
+
+#### Example: Rendering Markdown in frontmatter
+
+Frontmatter values are plain strings. To write Markdown in them, render the value with [`renderMd`](./node-api#rendermd) and display the result with `v-html`:
+
+```ts
+import { renderMd } from 'vitepress'
+
+export default {
+  async transformPageData(pageData) {
+    const { intro } = pageData.frontmatter
+    if (intro) pageData.frontmatter.introHtml = await renderMd(intro)
+  }
+}
+```
+
+```md
+---
+intro: |
+  Welcome to **our** docs.
+---
+
+<div v-html="$frontmatter.introHtml" />
+```

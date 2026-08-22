@@ -42,6 +42,7 @@ import type {
   Awaitable,
   CodeCopyButtonOptions,
   LocaleConfig,
+  MarkdownEnv,
   MarkdownLocaleOptions
 } from '../shared'
 import {
@@ -109,8 +110,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /**
    * Per-locale overrides for build-time markdown strings (container titles
    * and the code copy button title), keyed by locale index. Populated
-   * automatically from `locales.<index>.markdown` in the site config - pass
-   * directly only when using `createMarkdownRenderer` standalone.
+   * automatically from `locales.<index>.markdown` in the site config.
    */
   locales?: Record<string, MarkdownLocaleOptions>
 
@@ -358,9 +358,33 @@ export function disposeMdItInstance() {
   }
 }
 
+export interface RenderMdOptions extends Partial<MarkdownEnv> {
+  /**
+   * Render without the wrapping paragraph, like markdown-it's `renderInline`.
+   */
+  inline?: boolean
+}
+
 /**
- * @experimental
+ * Renders markdown with the site's markdown-it instance. Available once
+ * VitePress is running - in build hooks, `transformPageData`, data loaders
+ * and content loaders - and rejects otherwise.
  */
+export async function renderMd(
+  src: string,
+  { inline, ...env }: RenderMdOptions = {}
+): Promise<string> {
+  if (!md) {
+    throw new Error(
+      'renderMd() is only available while VitePress is running, e.g. inside build hooks or data loaders.'
+    )
+  }
+  env.cleanUrls ??= (global as any).VITEPRESS_CONFIG?.cleanUrls ?? false
+  return inline ? md.renderInline(src, env) : md.renderAsync(src, env)
+}
+
+// shared by everything that renders markdown in a run (pages, the search
+// index, content loaders and `renderMd()`), so the first caller's options win
 export async function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},

@@ -4,7 +4,13 @@ export * from './config'
 export * from './contentLoader'
 export type { DefaultTheme } from './defaultTheme'
 export * from './init/init'
-export * from './markdown/markdown'
+export {
+  renderMd,
+  type MarkdownOptions,
+  type MarkdownRenderer,
+  type RenderMdOptions,
+  type ThemeOptions
+} from './markdown/markdown'
 export {
   defineRoutes,
   type ResolvedRouteConfig,
@@ -20,6 +26,7 @@ export * from './utils/getGitTimestamp'
 export type {
   HeadConfig,
   Header,
+  MarkdownEnv,
   MarkdownLocaleOptions,
   SiteData
 } from '../../types/shared'

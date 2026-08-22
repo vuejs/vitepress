@@ -4,6 +4,7 @@ import { MarkdownItAsync } from 'markdown-it-async'
 import {
   createMarkdownRenderer,
   disposeMdItInstance,
+  renderMd,
   type MarkdownOptions
 } from 'node/markdown/markdown'
 
@@ -202,5 +203,25 @@ describe('node/markdown/markdown', () => {
         'id="custom-id"'
       )
     }
+  })
+
+  describe('renderMd', () => {
+    test('rejects until the renderer exists', async () => {
+      disposeMdItInstance()
+      await expect(renderMd('hi')).rejects.toThrow(
+        'only available while VitePress is running'
+      )
+    })
+
+    test('renders with the shared instance', async () => {
+      disposeMdItInstance()
+      await createMarkdownRenderer('.', { highlight: (code) => code })
+      expect(await renderMd('Hello **world**')).toBe(
+        '<p>Hello <strong>world</strong></p>\n'
+      )
+      expect(await renderMd('Hello **world**', { inline: true })).toBe(
+        'Hello <strong>world</strong>'
+      )
+    })
   })
 })
