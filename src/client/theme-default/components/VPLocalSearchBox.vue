@@ -21,6 +21,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  useTemplateRef,
   watch,
   watchEffect,
   type Ref
@@ -38,8 +39,8 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = shallowRef<HTMLElement>()
-const resultsEl = shallowRef<HTMLElement>()
+const el = useTemplateRef('el')
+const resultsEl = useTemplateRef('resultsEl')
 
 /* Search */
 
@@ -75,25 +76,25 @@ const showSearchSpinner = computed(() => {
 })
 
 const searchIndex = computedAsync(
-  async () =>
-    markRaw(
-      MiniSearch.loadJSON<Result>(
-        (await searchIndexData.value[localeIndex.value]?.())?.default,
-        {
-          fields: ['title', 'titles', 'text'],
-          storeFields: ['title', 'titles'],
-          searchOptions: {
-            fuzzy: 0.2,
-            prefix: true,
-            boost: { title: 4, text: 2, titles: 1 },
-            ...(theme.value.search?.provider === 'local' &&
-              theme.value.search.options?.miniSearch?.searchOptions)
-          },
+  async () => {
+    const json = (await searchIndexData.value[localeIndex.value]?.())?.default
+    if (!json) return null
+    return markRaw(
+      MiniSearch.loadJSON<Result>(json, {
+        fields: ['title', 'titles', 'text'],
+        storeFields: ['title', 'titles'],
+        searchOptions: {
+          fuzzy: 0.2,
+          prefix: true,
+          boost: { title: 4, text: 2, titles: 1 },
           ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.options)
-        }
-      )
-    ),
+            theme.value.search.options?.miniSearch?.searchOptions)
+        },
+        ...(theme.value.search?.provider === 'local' &&
+          theme.value.search.options?.miniSearch?.options)
+      })
+    )
+  },
   undefined,
   isSearchIndexLoading
 )
@@ -265,7 +266,7 @@ async function fetchExcerpt(id: string) {
 
 /* Search input focus */
 
-const searchInput = ref<HTMLInputElement>()
+const searchInput = useTemplateRef('searchInput')
 const disableReset = computed(() => {
   return filterText.value?.length <= 0
 })

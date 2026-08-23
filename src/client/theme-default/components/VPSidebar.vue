@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 
 import { useLayout } from '../composables/layout'
 import { useBodyScrollLock } from '../composables/scroll-lock'
@@ -12,7 +12,7 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-const navEl = ref<HTMLElement | null>(null)
+const navEl = useTemplateRef('navEl')
 const isLocked = useBodyScrollLock()
 
 watch(

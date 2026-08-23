@@ -61,7 +61,7 @@ export const rewritesPlugin = (config: SiteConfig): Plugin => {
           if (config.rewrites.inv[page]) {
             req.url = req.url.replace(
               encodeURI(page),
-              encodeURI(config.rewrites.inv[page]!)
+              encodeURI(config.rewrites.inv[page])
             )
           }
         }

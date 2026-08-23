@@ -217,8 +217,9 @@ export const dynamicRoutesPlugin = async (
 }
 
 export function getPageDataTransformer(
-  loaderPath: string
+  loaderPath?: string
 ): UserConfig['transformPageData'] | undefined {
+  if (loaderPath == null) return undefined
   return routeModuleCache.get(loaderPath)?.transformPageData
 }
 

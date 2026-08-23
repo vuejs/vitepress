@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["./client.d.ts"],
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "vitepress": ["./src/client/index.ts"],
+      // default-theme.d.ts instead of theme.d.ts so type checks and the .vue
+      // declaration emit don't depend on a built dist.
+      "vitepress/theme": ["./types/default-theme.d.ts"],
+      // dev-server virtual modules, resolved onto their ambient shims
+      "@siteData": ["./src/client/shims.d.ts"],
+      "@theme/index": ["./src/client/shims.d.ts"],
+      "@localSearchIndex": ["./src/client/shims.d.ts"]
+    }
+  },
+  "include": ["src/client"]
+}

@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@vueuse/core'
 import { onContentUpdated, useRoute } from 'vitepress'
-import type { DefaultTheme, useLayout as expected } from 'vitepress/theme'
+import type { DefaultTheme } from 'vitepress/theme'
 import {
   computed,
   shallowReadonly,
@@ -20,7 +20,7 @@ const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 
 const isDesktop = useMediaQuery('(min-width: 60rem)')
 
-export function useLayout(): ReturnType<typeof expected> {
+export function useLayout(): DefaultTheme.Layout {
   const { frontmatter, theme } = useData()
 
   const isHome = computed(() => {

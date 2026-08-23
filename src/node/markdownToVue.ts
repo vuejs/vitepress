@@ -122,7 +122,7 @@ export async function createMarkdownToVueRenderFn(
     const fileOrig = dynamicRoute?.[0] || file
     const transformPageData = [
       siteConfig?.transformPageData,
-      getPageDataTransformer(dynamicRoute?.[1]!)
+      getPageDataTransformer(dynamicRoute?.[1])
     ].filter((fn) => fn != null)
 
     file = rewrites.get(normalizeDriveLetter(file)) || file
