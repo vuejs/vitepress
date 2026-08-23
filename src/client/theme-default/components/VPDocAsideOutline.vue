@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useTemplateRef } from 'vue'
 
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -8,8 +8,8 @@ import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const { theme } = useData()
 
-const container = ref()
-const marker = ref()
+const container = useTemplateRef('container')
+const marker = useTemplateRef('marker')
 
 const { headers, hasLocalNav } = useLayout()
 

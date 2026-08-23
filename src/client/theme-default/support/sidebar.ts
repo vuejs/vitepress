@@ -37,7 +37,7 @@ export function getSidebar(
       return path.startsWith(ensureStartingSlash(dir))
     })
 
-  const sidebar = dir ? _sidebar[dir] : []
+  const sidebar = dir ? (_sidebar[dir] ?? []) : []
   return Array.isArray(sidebar)
     ? addBase(sidebar)
     : addBase(sidebar.items, sidebar.base)
@@ -51,19 +51,20 @@ export function getSidebarGroups(sidebar: SidebarItem[]): SidebarItem[] {
 
   let lastGroupIndex: number = 0
 
-  for (const index in sidebar) {
-    const item = sidebar[index]
-
+  for (const item of sidebar) {
     if (item.items) {
       lastGroupIndex = groups.push(item)
       continue
     }
 
-    if (!groups[lastGroupIndex]) {
-      groups.push({ items: [] })
+    let group = groups[lastGroupIndex]
+
+    if (!group) {
+      group = { items: [] }
+      groups.push(group)
     }
 
-    groups[lastGroupIndex]!.items!.push(item)
+    group.items?.push(item)
   }
 
   return groups

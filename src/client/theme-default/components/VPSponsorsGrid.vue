@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useTemplateRef } from 'vue'
 
 import type { GridSize } from '../composables/sponsor-grid'
 import { useSponsorsGrid } from '../composables/sponsor-grid'
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'medium'
 })
 
-const el = ref(null)
+const el = useTemplateRef('el')
 
 useSponsorsGrid({ el, size: props.size })
 </script>

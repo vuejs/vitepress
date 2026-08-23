@@ -1,8 +1,8 @@
 import { inBrowser } from 'vitepress'
-import { onUnmounted, readonly, type Ref, ref, watch } from 'vue'
+import { onUnmounted, readonly, type TemplateRef, ref, watch } from 'vue'
 
 interface UseFlyoutOptions {
-  el: Ref<HTMLElement | undefined>
+  el: TemplateRef<HTMLElement>
   onFocus?(): void
   onBlur?(): void
 }

@@ -2,7 +2,7 @@
 import { useMediaQuery } from '@vueuse/core'
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, useTemplateRef, watch } from 'vue'
 
 const route = useRoute()
 const props = defineProps<{
@@ -12,7 +12,7 @@ const props = defineProps<{
 const carbonOptions = props.carbonAds
 
 const isAsideVisible = useMediaQuery('(min-width: 80rem)')
-const container = ref()
+const container = useTemplateRef('container')
 
 let isInitialized = false
 
@@ -28,7 +28,7 @@ function init() {
     s.id = '_carbonads_js'
     s.src = `//cdn.carbonads.com/carbon.js?${params.toString()}`
     s.async = true
-    container.value.appendChild(s)
+    container.value?.appendChild(s)
   }
 }
 

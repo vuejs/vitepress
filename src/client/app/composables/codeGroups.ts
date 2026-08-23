@@ -7,7 +7,8 @@ export function useCodeGroups() {
         Array.from(el.children).forEach((child) => {
           child.classList.remove('active')
         })
-        activate(el.children[0])
+        const first = el.children[0]
+        if (first) activate(first)
       })
     })
   }
