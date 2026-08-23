@@ -114,25 +114,31 @@ function clientAssets(): Rolldown.Plugin {
           source: readFileSync(file)
         })
       }
-    },
+    }
+  }
+}
+
+// Declarations must resolve under node16, so relative specifiers need the .js
+// extension: vue-tsc keeps the SFC's extensionless ones in .d.vue.ts files,
+// and rolldown-plugin-dts drops the extension from chunk imports on Windows.
+// Dangling side-effect css imports are removed along the way.
+function fixDeclarationSpecifiers(): Rolldown.Plugin {
+  const stripCssImports = (code: string) =>
+    code.replace(/^\s*import\s+["'][^"']+\.css["'];?\s*\r?\n/gm, '')
+  const addJsExtensions = (code: string) =>
+    code.replace(
+      /(\bfrom\s*|\bimport\s*\(\s*|\bimport\s+)(['"])(\.\.?\/[^'"]*?)\2/g,
+      (match, keyword, quote, spec) =>
+        /\.[^/.]+$/.test(spec) ? match : `${keyword}${quote}${spec}.js${quote}`
+    )
+  const fix = (code: string) => addJsExtensions(stripCssImports(code))
+  return {
+    name: 'vitepress:fix-declaration-specifiers',
     generateBundle(_options, bundle) {
-      const stripCssImports = (code: string) =>
-        code.replace(/^\s*import\s+["'][^"']+\.css["'];?\s*\r?\n/gm, '')
-      // vue-tsc keeps the SFC's extensionless relative specifiers; spell them
-      // with .js so the declarations resolve under node16
-      const addJsExtensions = (code: string) =>
-        code.replace(/(['"])(\.\.?\/[^'"]*?)\1/g, (match, quote, spec) =>
-          /\.[^/.]+$/.test(spec) ? match : `${quote}${spec}.js${quote}`
-        )
       for (const file of Object.values(bundle)) {
-        if (file.fileName.endsWith('.d.vue.ts')) {
-          if (file.type === 'asset' && typeof file.source === 'string')
-            file.source = addJsExtensions(stripCssImports(file.source))
-        } else if (file.fileName.endsWith('.d.ts')) {
-          if (file.type === 'chunk') file.code = stripCssImports(file.code)
-          else if (typeof file.source === 'string')
-            file.source = stripCssImports(file.source)
-        }
+        if (!/\.d\.(?:vue\.)?ts$/.test(file.fileName)) continue
+        if (file.type === 'chunk') file.code = fix(file.code)
+        else if (typeof file.source === 'string') file.source = fix(file.source)
       }
     }
   }
@@ -168,7 +174,11 @@ function withStableOutputs(config: UserConfig): UserConfig {
   return {
     ...config,
     clean: false,
-    plugins: [...(config.plugins as Rolldown.Plugin[]), skipUnchanged()]
+    plugins: [
+      ...(config.plugins as Rolldown.Plugin[]),
+      fixDeclarationSpecifiers(),
+      skipUnchanged()
+    ]
   }
 }
 

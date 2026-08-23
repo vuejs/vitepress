@@ -54,7 +54,7 @@
   "scripts": {
     "dev": "tsdown --watch --sourcemap",
     "build": "tsdown && pnpm typecheck && node scripts/genWebTypes.ts && pnpm build:check",
-    "build:check": "publint && attw --pack . --profile esm-only -f json",
+    "build:check": "publint && attw --pack . --profile esm-only",
     "typecheck": "tsc -p tsconfig.shared.json && vue-tsc -p tsconfig.client.json && tsc -p tsconfig.node.json",
     "test": "pnpm --aggregate-output --reporter=append-only '/^test:(types|unit|e2e|init)$/'",
     "test:types": "tsc -p __tests__/unit && tsc -p __tests__/e2e && tsc -p __tests__/init && vue-tsc -p docs",
