@@ -1,4 +1,5 @@
 import { defineRoutes } from 'vitepress'
+
 import paths from './paths'
 
 export default defineRoutes({

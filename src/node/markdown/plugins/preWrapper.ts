@@ -1,4 +1,5 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
+
 import type { MarkdownEnv, MarkdownLocaleOptions } from '../../shared'
 
 export interface Options {

@@ -1,14 +1,16 @@
+import { rm } from 'node:fs/promises'
+import { builtinModules } from 'node:module'
+import { fileURLToPath } from 'node:url'
+
 import alias from '@rollup/plugin-alias'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
-import { rm } from 'node:fs/promises'
-import { builtinModules } from 'node:module'
-import { fileURLToPath } from 'node:url'
 import { type RollupOptions, defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
+
 import pkg from './package.json' with { type: 'json' }
 
 const DEV = !!process.env.DEV

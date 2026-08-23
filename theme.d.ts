@@ -2,6 +2,7 @@
 
 import type { EnhanceAppContext } from 'vitepress'
 import type { ComputedRef, DefineComponent, ShallowRef } from 'vue'
+
 import type { DefaultTheme } from './types/default-theme.js'
 
 export type { DefaultTheme } from './types/default-theme.js'

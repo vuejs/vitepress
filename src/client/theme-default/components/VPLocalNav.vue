@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'

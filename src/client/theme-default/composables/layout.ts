@@ -9,6 +9,7 @@ import {
   type ComputedRef,
   type InjectionKey
 } from 'vue'
+
 import { getSidebar, getSidebarGroups } from '../support/sidebar'
 import { useData } from './data'
 import { getHeaders } from './outline'

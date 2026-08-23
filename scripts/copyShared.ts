@@ -1,4 +1,5 @@
 import { cp } from 'node:fs/promises'
+
 import { globSync } from 'tinyglobby'
 
 globSync(['src/shared/**/*.ts']).forEach(async (file) => {

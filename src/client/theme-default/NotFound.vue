@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
+
 import { useData } from './composables/data'
 import { useLangs } from './composables/langs'
 
@@ -84,9 +85,7 @@ const { currentLang } = useLangs()
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
-  transition:
-    border-color 0.25s,
-    color 0.25s;
+  transition: border-color 0.25s, color 0.25s;
 }
 
 .link:hover {

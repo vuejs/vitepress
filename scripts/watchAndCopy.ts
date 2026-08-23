@@ -1,5 +1,6 @@
-import { watch } from 'chokidar'
 import { cp, rm } from 'node:fs/promises'
+
+import { watch } from 'chokidar'
 import { normalizePath } from 'vite'
 
 function toClientAndNode(method: 'copy' | 'remove', file: string) {

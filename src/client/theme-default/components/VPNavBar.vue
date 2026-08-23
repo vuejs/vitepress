@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
+
 import { useLayout } from '../composables/layout'
 import VPNavBarAppearance from './VPNavBarAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'

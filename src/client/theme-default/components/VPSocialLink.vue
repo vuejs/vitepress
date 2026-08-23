@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, nextTick, onMounted, ref, useSSRContext } from 'vue'
+
 import { isExternal, type SSGContext } from '../../shared'
 
 const props = defineProps<{

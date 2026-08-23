@@ -1,5 +1,6 @@
 // entry for SSR
 import { renderToString } from 'vue/server-renderer'
+
 import type { SSGContext } from '../shared'
 import { createApp } from './index'
 

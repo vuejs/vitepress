@@ -1,12 +1,14 @@
-import { getIconsCSS } from '@iconify/utils'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import { mkdir, rm, symlink, unlink, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
+
+import { getIconsCSS } from '@iconify/utils'
 import pMap from 'p-map'
 import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
+
 import { resolveConfig, type SiteConfig } from '../config'
 import { clearCache } from '../markdownToVue'
 import type { PageMeta } from '../plugin'

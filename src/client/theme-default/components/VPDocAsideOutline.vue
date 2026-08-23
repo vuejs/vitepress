@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import { resolveTitle, useActiveAnchor } from '../composables/outline'
@@ -66,10 +67,7 @@ useActiveAnchor(container, marker)
   border-radius: 2px;
   height: 1.125rem;
   background-color: var(--vp-c-brand-1);
-  transition:
-    top 0.25s cubic-bezier(0, 1, 0.5, 1),
-    background-color 0.5s,
-    opacity 0.25s;
+  transition: top 0.25s cubic-bezier(0, 1, 0.5, 1), background-color 0.5s, opacity 0.25s;
 }
 
 .outline-title {

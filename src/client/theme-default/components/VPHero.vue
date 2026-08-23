@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
+
 import { layoutInfoInjectionKey } from '../composables/layout'
 import VPButton from './VPButton.vue'
 import VPImage from './VPImage.vue'

@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { useNavigatorLanguage } from '@vueuse/core'
-import { computed, onMounted, shallowRef, useTemplateRef, watchEffect } from 'vue'
+import {
+  computed,
+  onMounted,
+  shallowRef,
+  useTemplateRef,
+  watchEffect
+} from 'vue'
+
 import { useData } from '../composables/data'
 
 const { theme, page, lang: pageLang } = useData()

@@ -1,9 +1,11 @@
+import path from 'node:path'
+
 import { prefixRegex } from '@rolldown/pluginutils'
 import MiniSearch from 'minisearch'
-import path from 'node:path'
 import { createDebug } from 'obug'
 import c from 'picocolors'
 import type { Plugin, ViteDevServer } from 'vite'
+
 import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import {

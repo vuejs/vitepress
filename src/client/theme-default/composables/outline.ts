@@ -1,6 +1,7 @@
 import { useMediaQuery } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+
 import { throttleAndDebounce } from '../support/utils'
 
 const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/

@@ -1,5 +1,6 @@
-import { exactRegex } from '@rolldown/pluginutils'
 import path from 'node:path'
+
+import { exactRegex } from '@rolldown/pluginutils'
 import c from 'picocolors'
 import {
   mergeConfig,
@@ -11,6 +12,7 @@ import {
   type Rolldown,
   type UserConfig
 } from 'vite'
+
 import {
   APP_PATH,
   DEFAULT_THEME_PATH,

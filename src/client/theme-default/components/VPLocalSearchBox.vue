@@ -25,6 +25,7 @@ import {
   watchEffect,
   type Ref
 } from 'vue'
+
 import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
@@ -486,7 +487,7 @@ function onMouseMove(e: MouseEvent) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :aria-activedescendant="selectedIndex > -1 ? ('localsearch-item-' + selectedIndex) : undefined"
+            :aria-activedescendant="selectedIndex > -1 ? 'localsearch-item-' + selectedIndex : undefined"
             aria-autocomplete="both"
             :aria-controls="results?.length ? 'localsearch-list' : undefined"
             aria-labelledby="localsearch-label"
@@ -593,8 +594,7 @@ function onMouseMove(e: MouseEvent) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
-            >"
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong>"
           </li>
         </ul>
 

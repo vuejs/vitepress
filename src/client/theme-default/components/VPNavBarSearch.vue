@@ -2,6 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
 import { smartComputed } from '../support/reactivity'

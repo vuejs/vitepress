@@ -1,4 +1,5 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
+
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { Header, PageData, Route, VitePressData } from './shared.js'

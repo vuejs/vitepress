@@ -1,4 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
+
 import { isActive, isExternal } from '../../shared'
 import { ensureStartingSlash } from './utils'
 

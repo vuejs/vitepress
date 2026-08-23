@@ -1,5 +1,15 @@
-<script lang="ts" setup generic="T extends (DefaultTheme.NavItemComponent | DefaultTheme.NavItemChildren | DefaultTheme.NavItemWithLink)">
+<script
+  lang="ts"
+  setup
+  generic="
+    T extends
+      | DefaultTheme.NavItemComponent
+      | DefaultTheme.NavItemChildren
+      | DefaultTheme.NavItemWithLink
+  "
+>
 import type { DefaultTheme } from 'vitepress/theme'
+
 import VPMenuLink from './VPMenuLink.vue'
 
 defineProps<{

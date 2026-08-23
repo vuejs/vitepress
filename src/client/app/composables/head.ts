@@ -1,4 +1,5 @@
 import { watchEffect, type Ref } from 'vue'
+
 import {
   createTitle,
   mergeHead,

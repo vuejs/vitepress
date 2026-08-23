@@ -2,8 +2,10 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import type { MarkdownItAsync } from 'markdown-it-async'
 import { URL } from 'node:url'
+
+import type { MarkdownItAsync } from 'markdown-it-async'
+
 import {
   EXTERNAL_URL_RE,
   isExternal,

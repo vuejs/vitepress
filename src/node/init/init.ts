@@ -1,3 +1,8 @@
+import fs from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import {
   cancel,
   confirm,
@@ -8,11 +13,8 @@ import {
   text
 } from '@clack/prompts'
 import template from 'lodash.template'
-import fs from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import c from 'picocolors'
+
 import { slash } from '../shared'
 import { readFile } from '../utils/fs'
 

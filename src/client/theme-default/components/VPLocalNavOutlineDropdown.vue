@@ -3,6 +3,7 @@ import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, ref, watch } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
 import { useBodyScrollLock } from '../composables/scroll-lock'

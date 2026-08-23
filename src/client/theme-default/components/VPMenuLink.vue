@@ -2,6 +2,7 @@
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
+
 import { isActive } from '../../shared'
 import VPLink from './VPLink.vue'
 
@@ -62,9 +63,7 @@ defineOptions({ inheritAttrs: false })
   color: var(--vp-c-text-1);
   text-align: left;
   white-space: nowrap;
-  transition:
-    background-color 0.25s,
-    color 0.25s;
+  transition: background-color 0.25s, color 0.25s;
 }
 
 .link:hover {

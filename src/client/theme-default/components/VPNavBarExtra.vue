@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import VPFlyout from './VPFlyout.vue'

@@ -1,6 +1,7 @@
 import path from 'node:path'
-import { MarkdownItAsync } from 'markdown-it-async'
+
 import { attrs as attrsPlugin } from '@mdit/plugin-attrs'
+import { MarkdownItAsync } from 'markdown-it-async'
 import { imagePlugin, type Options } from 'node/markdown/plugins/image'
 
 const srcDir = path.resolve(import.meta.dirname, '../../../../e2e')
