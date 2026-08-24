@@ -31,20 +31,18 @@ onMounted(() => {
   probe.remove()
 })
 
-const classes = computed(() => {
-  return {
-    VPLocalNav: true,
-    'has-sidebar': hasSidebar.value,
-    empty: !hasLocalNav.value,
-    fixed: !hasLocalNav.value && !hasSidebar.value
-  }
-})
+const isScrolled = computed(() => y.value >= navHeight.value)
 </script>
 
 <template>
   <div
-    v-if="!isHome && (hasLocalNav || hasSidebar || y >= navHeight)"
-    :class="classes"
+    v-if="!isHome && (hasLocalNav || hasSidebar || isScrolled)"
+    class="VPLocalNav"
+    :class="{
+      'has-sidebar': hasSidebar,
+      'empty': !hasLocalNav,
+      'fixed': !hasLocalNav && !hasSidebar
+    }"
   >
     <div class="container">
       <button

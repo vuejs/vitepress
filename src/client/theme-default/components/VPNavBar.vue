@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
+import { computed } from 'vue'
 
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
@@ -21,9 +22,11 @@ defineEmits<{
   (e: 'toggle-screen'): void
 }>()
 
-const { y } = useWindowScroll()
 const { theme } = useData()
 const { isHome, hasSidebar } = useLayout()
+
+const { y } = useWindowScroll()
+const isTop = computed(() => y.value <= 0)
 
 const overflow = provideNavOverflow({
   itemsKey: () => JSON.stringify(theme.value.nav ?? null)
@@ -36,7 +39,7 @@ const overflow = provideNavOverflow({
     :class="{
       'has-sidebar': hasSidebar,
       'home': isHome,
-      'top': y <= 0,
+      'top': isTop,
       'screen-open': isScreenOpen
     }"
   >
