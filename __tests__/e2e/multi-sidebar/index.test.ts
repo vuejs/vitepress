@@ -16,7 +16,8 @@ describe('test multi sidebar sort root', () => {
       'Multi Sidebar Test',
       'Dynamic Routes',
       'Markdown Extensions',
-      'Team & Sponsors'
+      'Team & Sponsors',
+      'Sidebar Hash'
     ])
   })
 })

@@ -1,32 +1,15 @@
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, inject } from 'vue'
+import { inject } from 'vue'
 
-import { isActive } from '../../shared'
-import { navInjectionKey } from '../composables/nav'
+import { navInjectionKey, useNavItemLink } from '../composables/nav'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-const route = useRoute()
-
-const href = computed(() =>
-  typeof props.item.link === 'function'
-    ? props.item.link(route.data)
-    : props.item.link
-)
-
-const isActiveLink = computed(() => {
-  return isActive(
-    route.data.relativePath,
-    route.hash,
-    props.item.activeMatch || href.value,
-    !!props.item.activeMatch
-  )
-})
+const { href, isActiveLink, isCurrentLink } = useNavItemLink(() => props.item)
 
 const { closeScreen } = inject(navInjectionKey)!
 </script>
@@ -34,6 +17,7 @@ const { closeScreen } = inject(navInjectionKey)!
 <template>
   <VPLink
     :class="{ VPNavScreenMenuGroupLink: true, active: isActiveLink }"
+    :aria-current="isCurrentLink ? 'page' : undefined"
     :href
     :target="item.target"
     :rel="item.rel"
