@@ -53,6 +53,12 @@ defineOptions({ inheritAttrs: false })
   padding: 0.75rem 0.75rem 0;
 }
 
+.VPMenuGroup .VPMenuGroup + .VPMenuLink {
+  margin: 0;
+  border-top: 0;
+  padding: 0.5rem 0 0;
+}
+
 .link {
   display: block;
   border-radius: 0.375rem;
@@ -75,7 +81,6 @@ defineOptions({ inheritAttrs: false })
   color: var(--vp-c-brand-1);
 }
 
-/* inside the nav screen the menu links render as a plain indented list */
 .VPNavScreen .VPMenuLink {
   margin: 0;
   border: none;

@@ -9,17 +9,21 @@
   "
 >
 import type { DefaultTheme } from 'vitepress/theme'
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 
 import { navScreenInjectionKey } from '../composables/nav'
 import VPMenuLink from './VPMenuLink.vue'
 
-defineProps<{
+const props = defineProps<{
   text?: string
   items: T[]
 }>()
 
 const screen = inject(navScreenInjectionKey, false)
+
+const hasSubGroups = computed(() =>
+  props.items.some((item) => !('link' in item) && !('component' in item))
+)
 </script>
 
 <template>
@@ -29,7 +33,7 @@ const screen = inject(navScreenInjectionKey, false)
   >
     <p v-if="text" class="title">{{ text }}</p>
 
-    <ul>
+    <ul :class="{ 'sub-groups': hasSubGroups }">
       <template v-for="item in items" :key="JSON.stringify(item)">
         <VPMenuLink v-if="'link' in item" :item />
         <component
@@ -72,7 +76,6 @@ const screen = inject(navScreenInjectionKey, false)
   transition: color 0.25s;
 }
 
-/* inside the nav screen the group renders as a flat titled section */
 .VPNavScreen .VPMenuGroup {
   margin: 0;
   border: none;
@@ -85,5 +88,22 @@ const screen = inject(navScreenInjectionKey, false)
   font-size: 0.8125rem;
   font-weight: 700;
   white-space: normal;
+}
+
+.VPMenuGroup > .sub-groups {
+  margin: 0.25rem 0 0.25rem 0.75rem;
+  border-left: 1px solid var(--vp-c-divider);
+  padding-left: 0.25rem;
+}
+
+.VPMenuGroup .VPMenuGroup,
+.VPMenuGroup .VPMenuGroup + .VPMenuGroup {
+  margin: 0;
+  border-top: 0;
+  padding: 0.5rem 0 0;
+}
+
+.VPMenuGroup .VPMenuGroup:first-child {
+  padding-top: 0;
 }
 </style>
