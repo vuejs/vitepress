@@ -172,7 +172,16 @@ const overflow = provideNavOverflow({
 }
 
 .title {
-  flex-shrink: 0;
+  /* below the overflow engine's range the title is the only shrinkable
+     piece, truncating instead of running over search and the hamburger */
+  min-width: 0;
+}
+
+@media (min-width: 48rem) {
+  .title {
+    /* the overflow engine measures fixed occupancy around a rigid title */
+    flex-shrink: 0;
+  }
 }
 
 @media (min-width: 60rem) {
@@ -190,7 +199,16 @@ const overflow = provideNavOverflow({
 
 .content {
   flex-grow: 1;
-  min-width: 0;
+  /* below the engine's range the controls stay rigid and the title absorbs
+     all the shrink */
+  flex-shrink: 0;
+}
+
+@media (min-width: 48rem) {
+  .content {
+    flex-shrink: 1;
+    min-width: 0;
+  }
 }
 
 .content-body {
