@@ -1,6 +1,7 @@
 import { useMediaQuery } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { onMounted, onUnmounted, onUpdated, type TemplateRef } from 'vue'
+
 import { throttleAndDebounce } from '../support/utils'
 
 const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
@@ -76,8 +77,8 @@ export function resolveHeaders(
 }
 
 export function useActiveAnchor(
-  container: Ref<HTMLElement>,
-  marker: Ref<HTMLElement>
+  container: TemplateRef<HTMLElement>,
+  marker: TemplateRef<HTMLElement>
 ): void {
   const isAsideVisible = useMediaQuery('(min-width: 80rem)')
 
@@ -89,7 +90,7 @@ export function useActiveAnchor(
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
-    container.value.addEventListener('click', onClick)
+    container.value?.addEventListener('click', onClick)
   })
 
   onUpdated(() => {
@@ -155,7 +156,7 @@ export function useActiveAnchor(
 
     // page bottom - highlight last link
     if (isBottom) {
-      activateLink(headers[headers.length - 1].link)
+      activateLink(headers.at(-1)?.link ?? null)
       return
     }
 
@@ -173,9 +174,9 @@ export function useActiveAnchor(
   function activateLink(hash: string | null) {
     const activeLink =
       hash != null
-        ? container.value.querySelector<HTMLAnchorElement>(
+        ? (container.value?.querySelector<HTMLAnchorElement>(
             `a[href$="${decodeURIComponent(hash)}"]`
-          )
+          ) ?? null)
         : null
 
     if (activeLink === prevActiveLink) return
@@ -185,16 +186,18 @@ export function useActiveAnchor(
 
     if (activeLink) {
       activeLink.classList.add('active')
-      // the links' offsetParent (.root) sits below the outline title while the
-      // marker is offset from .content, so re-align their origins
-      marker.value.style.top =
-        activeLink.offsetTop +
-        ((activeLink.offsetParent as HTMLElement)?.offsetTop ?? 0) +
-        (activeLink.offsetHeight - marker.value.offsetHeight) / 2 +
-        'px'
-      marker.value.style.opacity = '1'
+      if (marker.value) {
+        // the links' offsetParent (.root) sits below the outline title while
+        // the marker is offset from .content, so re-align their origins
+        marker.value.style.top =
+          activeLink.offsetTop +
+          ((activeLink.offsetParent as HTMLElement)?.offsetTop ?? 0) +
+          (activeLink.offsetHeight - marker.value.offsetHeight) / 2 +
+          'px'
+        marker.value.style.opacity = '1'
+      }
       activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
-    } else {
+    } else if (marker.value) {
       marker.value.style.top = ''
       marker.value.style.opacity = '0'
     }

@@ -1,14 +1,15 @@
-import { type Ref, onMounted, onUnmounted } from 'vue'
+import { type TemplateRef, onMounted, onUnmounted } from 'vue'
+
 import { throttleAndDebounce } from '../support/utils'
 
-export interface GridSetting {
-  [size: string]: [number, number][]
+export type GridSetting = {
+  [size in GridSize]: [number, number][]
 }
 
 export type GridSize = 'xmini' | 'mini' | 'small' | 'medium' | 'big'
 
 export interface UseSponsorsGridOptions {
-  el: Ref<HTMLElement | null>
+  el: TemplateRef<HTMLElement>
   size?: GridSize
 }
 
@@ -62,7 +63,7 @@ export function useSponsorsGrid({
   })
 
   function manage() {
-    adjustSlots(el.value!, size)
+    if (el.value) adjustSlots(el.value, size)
   }
 }
 

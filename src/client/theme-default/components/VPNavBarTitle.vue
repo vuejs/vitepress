@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
 import { useLayout } from '../composables/layout'

@@ -3,7 +3,6 @@ packages:
   - __tests__/*
 
 allowBuilds:
-  esbuild: true
   playwright-chromium: true
   simple-git-hooks: true
 
@@ -12,6 +11,12 @@ autoInstallPeers: false
 ignoreWorkspaceRootCheck: true
 
 minimumReleaseAge: 1440
+
+overrides:
+  esbuild: '-'
+
+patchedDependencies:
+  vue-sfc-transformer: patches/vue-sfc-transformer.patch
 
 shellEmulator: true
 

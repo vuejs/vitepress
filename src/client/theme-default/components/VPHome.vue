@@ -8,11 +8,10 @@ const { frontmatter, theme } = useData()
 </script>
 
 <template>
-  <div 
-    class="VPHome" 
-    :class="{
-      'external-link-icon-enabled': theme.externalLinkIcon
-    }">
+  <div
+    class="VPHome"
+    :class="{ 'external-link-icon-enabled': theme.externalLinkIcon }"
+  >
     <slot name="home-hero-before" />
     <VPHomeHero>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>

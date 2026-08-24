@@ -2,6 +2,7 @@
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
+
 import { isActive } from '../../shared'
 import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'

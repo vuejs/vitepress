@@ -1,7 +1,9 @@
+import path from 'node:path'
+
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RuleBlock } from 'markdown-it/lib/parser_block.mjs'
-import path from 'node:path'
 import type { Logger } from 'vite'
+
 import type { MarkdownEnv } from '../../shared'
 import { readTextFileSync } from '../../utils/fs'
 import {

@@ -1,7 +1,8 @@
 <script lang="ts" setup generic="T extends DefaultTheme.NavItem">
 import type { DefaultTheme } from 'vitepress/theme'
-import VPMenuLink from './VPMenuLink.vue'
+
 import VPMenuGroup from './VPMenuGroup.vue'
+import VPMenuLink from './VPMenuLink.vue'
 
 defineProps<{
   items?: T[]

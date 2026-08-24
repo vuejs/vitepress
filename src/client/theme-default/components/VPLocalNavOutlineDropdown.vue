@@ -2,7 +2,8 @@
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, ref, useTemplateRef, watch } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
 import { useBodyScrollLock } from '../composables/scroll-lock'
@@ -16,8 +17,8 @@ const props = defineProps<{
 const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
-const main = ref<HTMLDivElement>()
-const items = ref<HTMLDivElement>()
+const main = useTemplateRef('main')
+const items = useTemplateRef('items')
 
 // lock body scroll while the dropdown is open to prevent scroll chaining
 const isLocked = useBodyScrollLock()

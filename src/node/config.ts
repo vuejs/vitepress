@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { createDebug } from 'obug'
 import c from 'picocolors'
 import {
@@ -10,6 +11,7 @@ import {
   type ConfigEnv,
   type UserConfig as ViteUserConfig
 } from 'vite'
+
 import { DEFAULT_THEME_PATH } from './alias'
 import type { DefaultTheme } from './defaultTheme'
 import type { MarkdownOptions } from './markdown/markdown'

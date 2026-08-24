@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
+
 import { useSidebarItemControl } from '../composables/sidebar'
 import VPLink from './VPLink.vue'
 
@@ -213,7 +214,7 @@ function onItemClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  transform: rotate(0) /*rtl:rotate(180deg)*/;
 }
 
 .VPSidebarItem.level-1 .items,

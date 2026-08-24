@@ -60,7 +60,7 @@ defineEmits<{
 .VPNavBarHamburger.active:hover .middle,
 .VPNavBarHamburger.active:hover .bottom {
   background-color: var(--vp-c-text-2);
-  transition: top .25s, background-color .25s, transform .25s;
+  transition: top 0.25s, background-color 0.25s, transform 0.25s;
 }
 
 .top,
@@ -70,7 +70,7 @@ defineEmits<{
   width: 1rem;
   height: 0.125rem;
   background-color: var(--vp-c-text-1);
-  transition: top .25s, background-color .5s, transform .25s;
+  transition: top 0.25s, background-color 0.5s, transform 0.25s;
 }
 
 .top    { top: 0; left: 0; transform: translateX(0); }

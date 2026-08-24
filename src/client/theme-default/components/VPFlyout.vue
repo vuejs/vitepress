@@ -1,6 +1,7 @@
 <script lang="ts" setup generic="T extends DefaultTheme.NavItem">
 import type { DefaultTheme } from 'vitepress/theme'
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
+
 import { useFlyout } from '../composables/flyout'
 import VPMenu from './VPMenu.vue'
 
@@ -12,7 +13,7 @@ defineProps<{
 }>()
 
 const open = ref(false)
-const el = ref<HTMLElement>()
+const el = useTemplateRef('el')
 
 useFlyout({ el, onBlur })
 

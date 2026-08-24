@@ -1,7 +1,9 @@
+import path from 'node:path'
+
 import matter from 'gray-matter'
 import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
-import path from 'node:path'
 import type { Logger } from 'vite'
+
 import { slash, type MarkdownEnv } from '../../shared'
 import { readTextFile } from '../../utils/fs'
 import { findRegions } from '../regions'

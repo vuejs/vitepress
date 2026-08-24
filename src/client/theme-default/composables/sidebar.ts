@@ -10,6 +10,7 @@ import {
   watchEffect,
   type ComputedRef
 } from 'vue'
+
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 

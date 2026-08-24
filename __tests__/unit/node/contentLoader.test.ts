@@ -1,8 +1,9 @@
-import { resolveConfig } from 'node/config'
-import { createContentLoader } from 'node/contentLoader'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+
+import { resolveConfig } from 'node/config'
+import { createContentLoader } from 'node/contentLoader'
 
 describe('node/contentLoader', () => {
   let root: string | undefined

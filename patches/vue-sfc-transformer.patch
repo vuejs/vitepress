@@ -1,0 +1,18 @@
+diff --git a/dist/rolldown.mjs b/dist/rolldown.mjs
+index 7e04d96c703656b81220193b1f01426778b6a42f..26e96378fc0ad985237302e673ed0ab07674bf41 100644
+--- a/dist/rolldown.mjs
++++ b/dist/rolldown.mjs
+@@ -196,10 +196,11 @@ function resolveCache(options) {
+ async function transpileScript(code, filename = "__sfc.ts") {
+ 	const result = await transform(filename, code, {
+ 		lang: "ts",
+-		sourcemap: false
++		sourcemap: false,
++		typescript: { onlyRemoveTypeImports: true }
+ 	});
+ 	if (result.errors.length) throw new AggregateError(result.errors, `[vue-sfc-transformer] failed to transpile script in ${filename}`);
+-	return result.code ?? code;
++	return (result.code ?? code).replace(/\n?export \{\};?[\s\n]*$/, "");
+ }
+ function vueSfcPlugin(pluginOptions) {
+ 	const cwd = pluginOptions.cwd ?? process.cwd();

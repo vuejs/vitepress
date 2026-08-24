@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import { useRoute } from 'vitepress'
-import { ref, watch } from 'vue'
+import { useTemplateRef, watch } from 'vue'
+
 import { useData } from '../composables/data'
 
 const { theme } = useData()
 const route = useRoute()
-const backToTop = ref()
+const backToTop = useTemplateRef('backToTop')
 
-watch(() => route.path, () => backToTop.value.focus())
+watch(() => route.path, () => backToTop.value?.focus())
 </script>
 
 <template>

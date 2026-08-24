@@ -2,6 +2,7 @@
 import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, inject } from 'vue'
+
 import { isActive } from '../../shared'
 import { navInjectionKey } from '../composables/nav'
 import VPLink from './VPLink.vue'
@@ -57,9 +58,7 @@ const { closeScreen } = inject(navInjectionKey)!
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
-  transition:
-    border-color 0.25s,
-    color 0.25s;
+  transition: border-color 0.25s, color 0.25s;
 }
 
 .VPNavScreenMenuLink:hover {

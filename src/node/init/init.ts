@@ -1,3 +1,8 @@
+import fs from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import {
   cancel,
   confirm,
@@ -8,19 +13,19 @@ import {
   text
 } from '@clack/prompts'
 import template from 'lodash.template'
-import fs from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import c from 'picocolors'
+
 import { slash } from '../shared'
 import { readFile } from '../utils/fs'
 
-export enum ScaffoldThemeType {
-  Default = 'default theme',
-  DefaultCustom = 'default theme + customization',
-  Custom = 'custom theme'
-}
+export const ScaffoldThemeType = {
+  Default: 'default theme',
+  DefaultCustom: 'default theme + customization',
+  Custom: 'custom theme'
+} as const
+
+export type ScaffoldThemeType =
+  (typeof ScaffoldThemeType)[keyof typeof ScaffoldThemeType]
 
 export interface ScaffoldOptions {
   root?: string

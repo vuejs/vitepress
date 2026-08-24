@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
+
 import VPTeamMembersItem from './VPTeamMembersItem.vue'
 
 interface Props {

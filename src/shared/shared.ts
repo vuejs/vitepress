@@ -122,7 +122,7 @@ export function resolveSiteDataByRoute(
 ): SiteData {
   const localeIndex = getLocaleForPath(siteData, relativePath)
   const { label, link, markdown, ...localeConfig } =
-    siteData.locales[localeIndex] ?? {}
+    siteData.locales[localeIndex] ?? ({} as (typeof siteData.locales)[string])
   Object.assign(localeConfig, { localeIndex })
 
   // additional configs are colocated with sources, so resolve them by the
@@ -253,7 +253,7 @@ export function slash(p: string): string {
 export function treatAsHtml(filename: string): boolean {
   if (KNOWN_EXTENSIONS.size === 0) {
     const extraExts =
-      (typeof process === 'object' && process.env?.VITE_EXTRA_EXTENSIONS) ||
+      (globalThis as any).process?.env?.VITE_EXTRA_EXTENSIONS ||
       (import.meta as any).env?.VITE_EXTRA_EXTENSIONS ||
       ''
 
@@ -300,7 +300,7 @@ function resolveAdditionalConfig(
   if (typeof additionalConfig === 'function')
     return additionalConfig(path) ?? []
 
-  const configs: AdditionalConfig[] = []
+  const configs: (AdditionalConfig | undefined)[] = []
   const segments = path.split('/').slice(0, -1) // remove file name
 
   while (segments.length) {

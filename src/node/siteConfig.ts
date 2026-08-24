@@ -2,6 +2,7 @@ import type { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 import type { UseDarkOptions } from '@vueuse/core'
 import type { SitemapStreamOptions } from 'sitemap'
 import type { Logger, UserConfig as ViteConfig } from 'vite'
+
 import type {
   AdditionalConfigDict,
   AdditionalConfigLoader

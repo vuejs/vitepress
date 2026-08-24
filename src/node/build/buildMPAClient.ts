@@ -1,4 +1,5 @@
 import { build, type Rolldown } from 'vite'
+
 import type { SiteConfig } from '..'
 
 const virtualEntry = 'client.js'

@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   componentPlugin,
   type ComponentPluginOptions
@@ -27,7 +29,6 @@ import {
 } from '@mdit/plugin-tasklist'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
-import path from 'node:path'
 import type {
   BuiltinLanguage,
   BuiltinTheme,
@@ -38,6 +39,7 @@ import type {
   ThemeRegistrationAny
 } from 'shiki'
 import type { Logger } from 'vite'
+
 import type {
   Awaitable,
   CodeCopyButtonOptions,

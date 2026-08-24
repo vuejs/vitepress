@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, nextTick, onMounted, ref, useSSRContext } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  useSSRContext,
+  useTemplateRef
+} from 'vue'
+
 import { isExternal, type SSGContext } from '../../shared'
 
 const props = defineProps<{
@@ -11,7 +18,7 @@ const props = defineProps<{
   me: boolean
 }>()
 
-const el = ref<HTMLAnchorElement>()
+const el = useTemplateRef('el')
 
 onMounted(async () => {
   await nextTick()

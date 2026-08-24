@@ -1,8 +1,9 @@
-import getPort from 'get-port'
-import { nanoid } from 'nanoid'
 import { rm } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
+
+import getPort from 'get-port'
+import { nanoid } from 'nanoid'
 import { chromium } from 'playwright-chromium'
 import { createServer, scaffold, ScaffoldThemeType } from 'vitepress'
 
