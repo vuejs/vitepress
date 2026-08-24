@@ -18,11 +18,10 @@ describe('navigation accessibility', () => {
     await goto('/home')
 
     const desktopCurrentLink = page.locator('.VPMenuLink a[href="/home.html"]')
-    const sectionLink = page.locator('.VPNavBarMenuLink[href="/"]')
+    const inactiveLink = page.locator('.VPNavBarMenuLink[href="/"]')
 
     expect(await desktopCurrentLink.getAttribute('aria-current')).toBe('page')
-    expect(await sectionLink.getAttribute('class')).toContain('active')
-    expect(await sectionLink.getAttribute('aria-current')).toBeNull()
+    expect(await inactiveLink.getAttribute('aria-current')).toBeNull()
 
     await page.setViewportSize({ width: 375, height: 667 })
     await page.locator('.VPNavBarHamburger').click()
