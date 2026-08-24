@@ -60,12 +60,14 @@ const hasContent = computed(
     <ul v-if="overflowItems.length" class="group overflow-items">
       <template v-for="item in overflowItems" :key="JSON.stringify(item)">
         <VPMenuLink v-if="'link' in item" :item />
-        <li v-else-if="'component' in item">
-          <!-- the `⋯` menu is a vertical list context, so components get the
-               same hint as in the nav screen (a floating flyout would end up
-               nested inside this menu) -->
-          <component :is="item.component" v-bind="item.props" screen-menu />
-        </li>
+        <!-- a menu panel is a vertical list context — components must
+             render a flat list here, not a nested floating flyout -->
+        <component
+          v-else-if="'component' in item"
+          :is="item.component"
+          v-bind="item.props"
+          menu
+        />
         <VPMenuGroup v-else :text="item.text" :items="item.items" />
       </template>
     </ul>

@@ -10,7 +10,10 @@ import VPMenuLink from './VPMenuLink.vue'
 
 const props = defineProps<{
   item: DefaultTheme.NavItemWithChildren
+  /** accordion inside the nav screen */
   screen?: boolean
+  /** flat titled group inside a menu panel (e.g. the `⋯` menu) */
+  menu?: boolean
 }>()
 
 const route = useRoute()
@@ -57,8 +60,15 @@ function toggle() {
 </script>
 
 <template>
+  <VPMenuGroup
+    v-if="menu"
+    class="VPNavMenuGroup"
+    :text="item.text"
+    :items="item.items"
+  />
+
   <VPFlyout
-    v-if="!screen"
+    v-else-if="!screen"
     :class="{ VPNavMenuGroup: true, VPNavBarMenuGroup: true, active: isActiveGroup }"
     :button="item.text"
     :items="item.items"

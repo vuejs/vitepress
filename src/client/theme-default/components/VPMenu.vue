@@ -18,6 +18,7 @@ defineProps<{
           v-else-if="'component' in item"
           :is="item.component"
           v-bind="item.props"
+          menu
         />
         <VPMenuGroup v-else :text="item.text" :items="item.items" />
       </template>

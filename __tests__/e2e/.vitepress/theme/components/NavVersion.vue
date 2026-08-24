@@ -6,6 +6,7 @@ import { computed } from 'vue'
 const props = defineProps<{
   versions: { text: string; link: string }[]
   screenMenu?: boolean
+  menu?: boolean
 }>()
 
 const route = useRoute()
@@ -28,6 +29,7 @@ const currentVersion = computed(() => {
   <VPNavMenuGroup
     :item="{ text: currentVersion, items: versions }"
     :screen="screenMenu"
+    :menu="menu"
     class="VPNavVersion"
   />
 </template>

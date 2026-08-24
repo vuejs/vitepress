@@ -41,6 +41,7 @@ const hasSubGroups = computed(() =>
           :is="item.component"
           v-bind="item.props"
           :screen-menu="screen || undefined"
+          :menu="!screen || undefined"
         />
         <VPMenuGroup v-else :text="item.text" :items="item.items" />
       </template>

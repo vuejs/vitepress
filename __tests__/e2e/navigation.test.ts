@@ -149,6 +149,15 @@ describe('navigation accessibility', () => {
     )
     await page.waitForSelector('.VPNavBarExtra .social-links')
 
+    // component items render menu-native: a titled group whose links are
+    // visible in place, not the screen accordion or a nested flyout
+    await page.waitForSelector(
+      '.VPNavBarExtra .overflow-items > .VPNavVersion .title'
+    )
+    expect(
+      await page.locator('.VPNavBarExtra .VPNavScreenMenuGroup').count()
+    ).toBe(0)
+
     // widening back restores the inline items and removes the ⋯ menu
     await style.evaluate((el) => (el as HTMLStyleElement).remove())
     await page.waitForSelector('.VPNavBarExtra', { state: 'detached' })
