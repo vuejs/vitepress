@@ -72,6 +72,8 @@ For example, a frosted-glass navbar:
 }
 ```
 
+The same treatment carries over to the local nav: `--vp-local-nav-bg-color` follows the navbar surface color by default, and where the two bars meet they share a single blurred surface, so the glass stays continuous across them.
+
 ::: warning
 `backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When using a translucent bar, also check text contrast over your page content.
 :::

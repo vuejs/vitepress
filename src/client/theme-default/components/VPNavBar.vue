@@ -23,7 +23,7 @@ defineEmits<{
 }>()
 
 const { theme } = useData()
-const { isHome, hasSidebar } = useLayout()
+const { isHome, hasSidebar, hasLocalNav } = useLayout()
 
 const { y } = useWindowScroll()
 const isTop = computed(() => y.value <= 0)
@@ -38,6 +38,7 @@ const overflow = provideNavOverflow({
     class="VPNavBar"
     :class="{
       'has-sidebar': hasSidebar,
+      'has-local-nav': !isHome && hasLocalNav,
       'home': isHome,
       'top': isTop,
       'screen-open': isScreenOpen
@@ -141,6 +142,16 @@ const overflow = provideNavOverflow({
 .VPNavBar.screen-open::before {
   transition: none;
   background-color: var(--vp-nav-bg-color);
+}
+
+/* between 60rem and 80rem the local nav is pinned right under the bar and
+   its surface extends up behind it, carrying the paint for both bars */
+@media (60rem <= width < 80rem) {
+  .VPNavBar.has-local-nav::before {
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 .wrapper {

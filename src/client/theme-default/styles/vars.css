@@ -530,7 +530,12 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-local-nav-bg-color: var(--vp-c-bg);
+  /**
+   * Follows the navbar surface by default, so a translucent
+   * --vp-nav-bg-color with --vp-nav-backdrop-filter extends the
+   * frosted-glass treatment to the local nav as well.
+   */
+  --vp-local-nav-bg-color: var(--vp-nav-bg-color);
 }
 
 /**
