@@ -150,7 +150,7 @@ describe('navigation accessibility', () => {
     await page.waitForSelector('.VPNavBarExtra .social-links')
 
     // widening back restores the inline items and removes the ⋯ menu
-    await page.evaluate((el) => el.remove(), style)
+    await style.evaluate((el) => (el as HTMLStyleElement).remove())
     await page.waitForSelector('.VPNavBarExtra', { state: 'detached' })
     await page.waitForSelector('.VPNavBarMenuLink[href="/"]')
   })
