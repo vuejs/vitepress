@@ -82,7 +82,7 @@ const localeProps = (locale: (typeof localeLinks.value)[number]) => ({
 
   <!-- titled group inside the `⋯` menu -->
   <div v-else-if="menu && show" class="VPNavTranslations group translations">
-    <p class="trans-title">{{ currentLang.label }}</p>
+    <p class="title">{{ currentLang.label }}</p>
 
     <ul>
       <template v-for="locale in localeLinks" :key="locale.link">
@@ -131,13 +131,14 @@ const localeProps = (locale: (typeof localeLinks.value)[number]) => ({
   color: var(--vp-c-text-1);
 }
 
-/* menu-group variant (inside the `⋯` menu) */
-.trans-title {
-  padding: 0 1.5rem 0 0.75rem;
+/* menu-group variant (inside the `⋯` menu) — matches the menu group
+   titles */
+.group > .title {
+  padding: 0 0.75rem;
   line-height: 2.2857143;
   font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
+  font-weight: 600;
+  color: var(--vp-c-text-2);
 }
 
 /* accordion variant (inside the nav screen) */

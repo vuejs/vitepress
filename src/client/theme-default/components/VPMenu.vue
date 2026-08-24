@@ -65,16 +65,4 @@ defineProps<{
   white-space: nowrap;
 }
 
-.VPMenu :deep(.label) {
-  flex-grow: 1;
-  line-height: 2.3333333;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-  transition: color 0.5s;
-}
-
-.VPMenu :deep(.action) {
-  padding-left: 1.5rem;
-}
 </style>

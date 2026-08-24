@@ -83,7 +83,10 @@ const labelId = useId()
   padding: 0 0.75rem;
 }
 
+/* matches the menu group titles */
 .menu-appearance .text {
-  line-height: 2.3333333;
+  line-height: 2.2857143;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 </style>
