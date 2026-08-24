@@ -6,6 +6,8 @@ Snapshot 2026-08-24 · baselined on [#5397](https://github.com/vuejs/vitepress/p
 
 ## Files
 
+- [follow-ups.md](./follow-ups.md) — **the plan of record**, moved from the [#5397](https://github.com/vuejs/vitepress/pull/5397) description
+
 The per-area pages carry the full write-ups (what each record asks, why it was declined, what verdict it gets and why):
 
 - [navbar.md](./navbar.md) — the bar, mobile screen, dropdowns, overflow
