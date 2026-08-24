@@ -2,7 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { nextTick, ref, useTemplateRef, watch } from 'vue'
+import { nextTick, ref, useId, useTemplateRef, watch } from 'vue'
 
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
@@ -19,6 +19,7 @@ const open = ref(false)
 const vh = ref(0)
 const main = useTemplateRef('main')
 const items = useTemplateRef('items')
+const itemsId = useId()
 
 // lock body scroll while the dropdown is open to prevent scroll chaining
 const isLocked = useBodyScrollLock()
@@ -76,15 +77,22 @@ function scrollToTop() {
     :style="{ '--vp-vh': vh + 'px' }"
     data-allow-mismatch="style"
   >
-    <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
+    <button
+      v-if="headers.length > 0"
+      type="button"
+      :aria-expanded="open"
+      :aria-controls="itemsId"
+      :class="{ open }"
+      @click="toggle"
+    >
       <span class="menu-text">{{ resolveTitle(theme) }}</span>
-      <span class="vpi-chevron-right icon" />
+      <span class="vpi-chevron-right icon" aria-hidden="true" />
     </button>
-    <button @click="scrollToTop" v-else>
+    <button v-else type="button" @click="scrollToTop">
       {{ theme.returnToTopLabel || 'Return to top' }}
     </button>
     <Transition name="flyout">
-      <div v-if="open" ref="items" class="items" @click="onItemClick">
+      <div v-if="open" ref="items" :id="itemsId" class="items" @click="onItemClick">
         <div class="header">
           <a class="top-link" href="#" @click="scrollToTop">
             {{ theme.returnToTopLabel || 'Return to top' }}

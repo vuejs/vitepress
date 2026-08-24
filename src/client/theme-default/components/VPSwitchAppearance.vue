@@ -20,14 +20,16 @@ watchPostEffect(() => {
 </script>
 
 <template>
+  <!-- stable name + aria-checked state; the title stays the action hint -->
   <VPSwitch
     :title="switchTitle"
     class="VPSwitchAppearance"
+    :aria-label="theme.darkModeSwitchLabel || 'Appearance'"
     :aria-checked="isDark"
     @click="toggleAppearance"
   >
-    <span class="vpi-sun sun" />
-    <span class="vpi-moon moon" />
+    <span class="vpi-sun sun" aria-hidden="true" />
+    <span class="vpi-moon moon" aria-hidden="true" />
   </VPSwitch>
 </template>
 

@@ -3,70 +3,82 @@ import { computed } from 'vue'
 
 import { useData } from '../composables/data'
 import { useLangs } from '../composables/langs'
+import { useAppearanceSwitch } from '../composables/nav'
+import { useNavOverflow } from '../composables/nav-overflow'
 import VPFlyout from './VPFlyout.vue'
+import VPMenuGroup from './VPMenuGroup.vue'
 import VPMenuLink from './VPMenuLink.vue'
+import VPNavAppearance from './VPNavAppearance.vue'
+import VPNavTranslations from './VPNavTranslations.vue'
 import VPSocialLinks from './VPSocialLinks.vue'
-import VPSwitchAppearance from './VPSwitchAppearance.vue'
 
-const { site, theme } = useData()
+const { theme } = useData()
 const { localeLinks, currentLang } = useLangs({
   linkToCorrespondingPage: true
 })
+const hasAppearanceSwitch = useAppearanceSwitch()
 
-const hasExtraContent = computed(
+const overflow = useNavOverflow()
+
+// nav items the priority+ engine pushed out of the bar (contiguous suffix)
+const overflowItems = computed(() => {
+  const count = overflow?.state.visibleItemCount ?? Infinity
+  if (count === Infinity || !theme.value.nav) return []
+  return theme.value.nav.slice(count)
+})
+
+const showTranslations = computed(
   () =>
-    (localeLinks.value.length && currentLang.value.label) ||
-    site.value.appearance ||
-    theme.value.socialLinks
+    !!(localeLinks.value.length && currentLang.value.label) &&
+    !(overflow?.state.translations ?? true)
+)
+
+const showAppearance = computed(
+  () => hasAppearanceSwitch.value && !(overflow?.state.appearance ?? true)
+)
+
+const showSocialLinks = computed(
+  () => !!theme.value.socialLinks && !(overflow?.state.socialLinks ?? true)
+)
+
+const hasContent = computed(
+  () =>
+    overflowItems.value.length > 0 ||
+    showTranslations.value ||
+    showAppearance.value ||
+    showSocialLinks.value
 )
 </script>
 
 <template>
   <VPFlyout
-    v-if="hasExtraContent"
+    v-if="hasContent"
     class="VPNavBarExtra"
-    label="extra navigation"
+    :label="theme.extraMenuLabel || 'More options'"
+    :ref="(inst: any) => overflow?.setExtraEl(inst?.$el ?? null)"
   >
-    <ul
-      v-if="localeLinks.length && currentLang.label"
-      class="group translations"
-    >
-      <li class="trans-title">{{ currentLang.label }}</li>
-
-      <template v-for="locale in localeLinks" :key="locale.link">
-        <VPMenuLink
-          :item="locale"
-          :external="false"
-          :lang="locale.lang"
-          :hreflang="locale.lang"
-          rel="alternate"
-          :dir="locale.dir"
-          data-allow-mismatch="attribute"
-        />
+    <ul v-if="overflowItems.length" class="group overflow-items">
+      <template v-for="item in overflowItems" :key="JSON.stringify(item)">
+        <VPMenuLink v-if="'link' in item" :item />
+        <li v-else-if="'component' in item">
+          <!-- the `⋯` menu is a vertical list context, so components get the
+               same hint as in the nav screen (a floating flyout would end up
+               nested inside this menu) -->
+          <component :is="item.component" v-bind="item.props" screen-menu />
+        </li>
+        <VPMenuGroup v-else :text="item.text" :items="item.items" />
       </template>
     </ul>
 
-    <div
-      v-if="
-        site.appearance &&
-        site.appearance !== 'force-dark' &&
-        site.appearance !== 'force-auto'
-      "
-      class="group"
-    >
-      <div class="item appearance">
-        <p class="label">
-          {{ theme.darkModeSwitchLabel || 'Appearance' }}
-        </p>
-        <div class="appearance-action">
-          <VPSwitchAppearance />
-        </div>
-      </div>
+    <VPNavTranslations v-if="showTranslations" menu />
+
+    <div v-if="showAppearance" class="group">
+      <VPNavAppearance row />
     </div>
 
-    <div v-if="theme.socialLinks" class="group">
+    <div v-if="showSocialLinks" class="group">
       <div class="item social-links">
-        <VPSocialLinks class="social-links-list" :links="theme.socialLinks" />
+        <VPSocialLinks class="social-links-list" :links="theme.socialLinks!" />
       </div>
     </div>
   </VPFlyout>
@@ -84,33 +96,10 @@ const hasExtraContent = computed(
   }
 }
 
-@media (min-width: 80rem) {
-  .VPNavBarExtra {
-    display: none;
-  }
-}
-
-.trans-title {
-  padding: 0 1.5rem 0 0.75rem;
-  line-height: 2.2857143;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--vp-c-text-1);
-}
-
-.item.appearance,
 .item.social-links {
   display: flex;
   align-items: center;
   padding: 0 0.75rem;
-}
-
-.item.appearance {
-  min-width: 11rem;
-}
-
-.appearance-action {
-  margin-right: -0.125rem;
 }
 
 .social-links-list {

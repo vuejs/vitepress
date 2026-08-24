@@ -40,6 +40,44 @@ export default DefaultTheme
 
 See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
 
+### Navbar
+
+The navbar draws a single background surface controlled by CSS variables, so its look can be changed without touching component internals:
+
+```css
+:root {
+  /* bar height and background */
+  --vp-nav-height: 4rem;
+  --vp-nav-bg-color: var(--vp-c-bg);
+
+  /* background while on top of the home page (unscrolled);
+     set to var(--vp-nav-bg-color) to opt out of the transparent treatment */
+  --vp-nav-home-bg-color: transparent;
+
+  /* filter applied to the content behind the bar */
+  --vp-nav-backdrop-filter: none;
+
+  /* the bar's bottom rule and the mobile menu background */
+  --vp-nav-divider-color: var(--vp-c-gutter);
+  --vp-nav-screen-bg-color: var(--vp-c-bg);
+}
+```
+
+For example, a frosted-glass navbar:
+
+```css
+:root {
+  --vp-nav-bg-color: color-mix(in srgb, var(--vp-c-bg) 65%, transparent);
+  --vp-nav-backdrop-filter: saturate(180%) blur(8px);
+}
+```
+
+::: warning
+`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When using a translucent bar, also check text contrast over your page content.
+:::
+
+When the nav items don't fit the available width, they move into the `⋯` menu at the end of the navbar instead of being clipped, starting with the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized with [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).
+
 ## Using Different Fonts
 
 VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.

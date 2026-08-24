@@ -134,6 +134,29 @@ export namespace DefaultTheme {
     langMenuLabel?: string
 
     /**
+     * Accessible label of the main navigation landmarks (navbar menu and
+     * the mobile menu).
+     *
+     * @default 'Main Navigation'
+     */
+    navMenuLabel?: string
+
+    /**
+     * Set custom `aria-label` for the mobile menu (hamburger) button.
+     *
+     * @default 'Menu'
+     */
+    mobileMenuLabel?: string
+
+    /**
+     * Set custom `aria-label` for the `⋯` overflow menu button in the
+     * navbar, which collects nav items and controls that don't fit.
+     *
+     * @default 'More options'
+     */
+    extraMenuLabel?: string
+
+    /**
      * @default 'Skip to content'
      */
     skipToContentLabel?: string

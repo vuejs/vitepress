@@ -1,17 +1,19 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 
+import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
-import VPNavBarAppearance from './VPNavBarAppearance.vue'
+import { provideNavOverflow } from '../composables/nav-overflow'
+import VPNavAppearance from './VPNavAppearance.vue'
 import VPNavBarExtra from './VPNavBarExtra.vue'
 import VPNavBarHamburger from './VPNavBarHamburger.vue'
-import VPNavBarMenu from './VPNavBarMenu.vue'
 import VPNavBarSearch from './VPNavBarSearch.vue'
-import VPNavBarSocialLinks from './VPNavBarSocialLinks.vue'
 import VPNavBarTitle from './VPNavBarTitle.vue'
-import VPNavBarTranslations from './VPNavBarTranslations.vue'
+import VPNavMenu from './VPNavMenu.vue'
+import VPNavSocialLinks from './VPNavSocialLinks.vue'
+import VPNavTranslations from './VPNavTranslations.vue'
 
-const props = defineProps<{
+defineProps<{
   isScreenOpen: boolean
 }>()
 
@@ -20,7 +22,12 @@ defineEmits<{
 }>()
 
 const { y } = useWindowScroll()
+const { theme } = useData()
 const { isHome, hasSidebar } = useLayout()
+
+const overflow = provideNavOverflow({
+  itemsKey: () => JSON.stringify(theme.value.nav ?? null)
+})
 </script>
 
 <template>
@@ -43,13 +50,16 @@ const { isHome, hasSidebar } = useLayout()
         </div>
 
         <div class="content">
-          <div class="content-body">
+          <div
+            class="content-body"
+            :ref="(el) => overflow.setContainerEl(el as HTMLElement | null)"
+          >
             <slot name="nav-bar-content-before" />
             <VPNavBarSearch class="search" />
-            <VPNavBarMenu class="menu" />
-            <VPNavBarTranslations class="translations" />
-            <VPNavBarAppearance class="appearance" />
-            <VPNavBarSocialLinks class="social-links" />
+            <VPNavMenu class="menu" />
+            <VPNavTranslations class="translations" />
+            <VPNavAppearance class="appearance" />
+            <VPNavSocialLinks class="social-links" />
             <VPNavBarExtra class="extra" />
             <slot name="nav-bar-content-after" />
             <VPNavBarHamburger
@@ -75,26 +85,59 @@ const { isHome, hasSidebar } = useLayout()
   height: var(--vp-nav-height);
   pointer-events: none;
   white-space: nowrap;
+  /* left edge of the background surface and divider — on doc pages the
+     sidebar column paints its own surface up to this offset */
+  --vp-nav-col-offset: 0px;
+}
+
+/* the single background surface — every state change below is color-only,
+   so nothing ever moves */
+.VPNavBar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: var(--vp-nav-col-offset);
+  z-index: -1;
+  background-color: var(--vp-nav-bg-color);
+  backdrop-filter: var(--vp-nav-backdrop-filter);
+  -webkit-backdrop-filter: var(--vp-nav-backdrop-filter);
   transition: background-color 0.25s;
 }
 
-.VPNavBar.screen-open {
-  transition: none;
-  background-color: var(--vp-nav-bg-color);
-}
-
-.VPNavBar:not(.home) {
-  background-color: var(--vp-nav-bg-color);
+/* below 60rem the bar scrolls with the page, so home stays transparent */
+.VPNavBar.home::before {
+  background-color: transparent;
 }
 
 @media (min-width: 60rem) {
-  .VPNavBar:not(.home) {
-    background-color: transparent;
-  }
-
-  .VPNavBar:not(.has-sidebar):not(.home.top) {
+  .VPNavBar.home::before {
     background-color: var(--vp-nav-bg-color);
   }
+
+  .VPNavBar.home.top::before {
+    background-color: var(--vp-nav-home-bg-color);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .VPNavBar.has-sidebar {
+    --vp-nav-col-offset: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 90rem) {
+  .VPNavBar.has-sidebar {
+    --vp-nav-col-offset: calc(
+      (100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width)
+    );
+  }
+}
+
+.VPNavBar.screen-open::before {
+  transition: none;
+  background-color: var(--vp-nav-bg-color);
 }
 
 .wrapper {
@@ -104,12 +147,6 @@ const { isHome, hasSidebar } = useLayout()
 @media (min-width: 48rem) {
   .wrapper {
     padding: 0 2rem;
-  }
-}
-
-@media (min-width: 60rem) {
-  .VPNavBar.has-sidebar .wrapper {
-    padding: 0;
   }
 }
 
@@ -131,87 +168,49 @@ const { isHome, hasSidebar } = useLayout()
   pointer-events: auto;
 }
 
-@media (min-width: 60rem) {
-  .VPNavBar.has-sidebar .container {
-    max-width: 100%;
-  }
-}
-
 .title {
   flex-shrink: 0;
-  height: calc(var(--vp-nav-height) - 1px);
-  transition: background-color 0.5s;
 }
 
 @media (min-width: 60rem) {
-  .VPNavBar.has-sidebar .title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    padding: 0 2rem;
-    width: var(--vp-sidebar-width);
-    height: var(--vp-nav-height);
-    background-color: transparent;
+  /* outside home the title column matches the sidebar column, so search and
+     menu sit at the same spot on every doc page; on home the title keeps its
+     natural width and search sits right next to it */
+  .VPNavBar:not(.home) .title {
+    min-width: calc(var(--vp-sidebar-width) - 2rem);
   }
-}
 
-@media (min-width: 90rem) {
   .VPNavBar.has-sidebar .title {
-    padding-left: max(2rem, calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2 + var(--vp-sidebar-width) - 2rem);
+    max-width: calc(var(--vp-sidebar-width) - 2rem);
   }
 }
 
 .content {
   flex-grow: 1;
-}
-
-@media (min-width: 60rem) {
-  .VPNavBar.has-sidebar .content {
-    position: relative;
-    z-index: 1;
-    padding-left: var(--vp-sidebar-width);
-    padding-right: 2rem;
-  }
-}
-
-@media (min-width: 90rem) {
-  .VPNavBar.has-sidebar .content {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-    padding-right: calc((100% - var(--vp-layout-max-width)) / 2 + 2rem);
-  }
+  min-width: 0;
 }
 
 .content-body {
+  position: relative;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   height: var(--vp-nav-height);
-  transition: background-color 0.5s;
 }
 
-@media (min-width: 60rem) {
-  .VPNavBar:not(.home.top) .content-body {
-    position: relative;
-    background-color: var(--vp-nav-bg-color);
-  }
-
-  .VPNavBar:not(.has-sidebar):not(.home.top) .content-body {
-    background-color: transparent;
-  }
-
-  .content-body {
-    margin-right: -100vw;
-    padding-right: 100vw;
-  }
+/* collapsed into the `⋯` menu — kept mounted (hidden, out of the a11y tree
+   and tab order) so its natural width stays measurable */
+.content-body > .collapsed {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-.menu + .translations::before,
-.menu + .appearance::before,
-.menu + .social-links::before,
-.translations + .appearance::before,
-.appearance + .social-links::before {
+/* separators between whichever cluster units are currently in the bar */
+.content-body > :where(.menu, .translations, .appearance, .social-links) + :where(.translations, .appearance, .social-links)::before {
   margin-right: 0.5rem;
   margin-left: 0.5rem;
   width: 1px;
@@ -220,12 +219,11 @@ const { isHome, hasSidebar } = useLayout()
   content: "";
 }
 
-.menu + .appearance::before,
-.translations + .appearance::before {
+.content-body > :where(.menu, .translations) + .appearance::before {
   margin-right: 1rem;
 }
 
-.appearance + .social-links::before {
+.content-body > .appearance + .social-links::before {
   margin-left: 1rem;
 }
 
@@ -234,20 +232,25 @@ const { isHome, hasSidebar } = useLayout()
 }
 
 .divider {
+  position: relative;
+  /* above the background surface, below the bar's content — an open flyout
+     panel overlaps the bar's bottom edge and must cover the rule */
+  z-index: -1;
   width: 100%;
   height: 1px;
+  padding-left: var(--vp-nav-col-offset);
 }
 
-@media (min-width: 60rem) {
-  .VPNavBar.has-sidebar .divider {
-    padding-left: var(--vp-sidebar-width);
-  }
-}
-
-@media (min-width: 90rem) {
-  .VPNavBar.has-sidebar .divider {
-    padding-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
-  }
+/* the sidebar-column segment of the bottom rule — inset from the column
+   edges so it lines up with the sidebar's own group dividers */
+.VPNavBar.has-sidebar .divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(var(--vp-nav-col-offset) - var(--vp-sidebar-width) + 2rem);
+  width: calc(var(--vp-sidebar-width) - 4rem);
+  height: 1px;
+  background-color: var(--vp-c-divider);
 }
 
 .divider-line {
@@ -257,20 +260,16 @@ const { isHome, hasSidebar } = useLayout()
 }
 
 .VPNavBar:not(.home) .divider-line {
-  background-color: var(--vp-c-gutter);
+  background-color: var(--vp-nav-divider-color);
+}
+
+@media (min-width: 60rem) {
+  .VPNavBar:not(.home.top) .divider-line {
+    background-color: var(--vp-nav-divider-color);
+  }
 }
 
 .VPNavBar.screen-open .divider-line {
   background-color: var(--vp-c-divider);
-}
-
-@media (min-width: 60rem) {
-  .divider-line {
-    transition: background-color 0.5s;
-  }
-
-  .VPNavBar:not(.home.top) .divider-line {
-    background-color: var(--vp-c-gutter);
-  }
 }
 </style>

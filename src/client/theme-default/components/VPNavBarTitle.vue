@@ -51,7 +51,6 @@ const target = computed(() =>
 .title {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid transparent;
   width: 100%;
   height: var(--vp-nav-height);
   font-size: 1rem;
@@ -65,8 +64,10 @@ const target = computed(() =>
     flex-shrink: 0;
   }
 
-  .VPNavBarTitle.has-sidebar .title {
-    border-bottom-color: var(--vp-c-divider);
+  /* the sidebar column has a fixed width — truncate instead of spilling */
+  .VPNavBarTitle.has-sidebar .title > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

@@ -49,12 +49,13 @@ const classes = computed(() => {
     <div class="container">
       <button
         v-if="hasSidebar"
+        type="button"
         class="menu"
         :aria-expanded="open"
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vpi-align-left menu-icon"></span>
+        <span class="vpi-align-left menu-icon" aria-hidden="true"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>

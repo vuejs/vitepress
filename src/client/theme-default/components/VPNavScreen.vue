@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { useBodyScrollLock } from '../composables/scroll-lock'
-import VPNavScreenAppearance from './VPNavScreenAppearance.vue'
-import VPNavScreenMenu from './VPNavScreenMenu.vue'
-import VPNavScreenSocialLinks from './VPNavScreenSocialLinks.vue'
-import VPNavScreenTranslations from './VPNavScreenTranslations.vue'
+import { onKeyStroke } from '@vueuse/core'
+import { provide } from 'vue'
 
-defineProps<{
+import { navScreenInjectionKey, useNav } from '../composables/nav'
+import { useBodyScrollLock } from '../composables/scroll-lock'
+import VPNavAppearance from './VPNavAppearance.vue'
+import VPNavMenu from './VPNavMenu.vue'
+import VPNavSocialLinks from './VPNavSocialLinks.vue'
+import VPNavTranslations from './VPNavTranslations.vue'
+
+const props = defineProps<{
   open: boolean
 }>()
 
 const isLocked = useBodyScrollLock()
+
+provide(navScreenInjectionKey, true)
+
+const { closeScreen, screenTriggerEl } = useNav()
+
+onKeyStroke('Escape', () => {
+  if (!props.open) return
+  closeScreen()
+  screenTriggerEl.value?.focus()
+})
 </script>
 
 <template>
@@ -21,10 +35,10 @@ const isLocked = useBodyScrollLock()
     <div v-if="open" class="VPNavScreen" id="VPNavScreen">
       <div class="container">
         <slot name="nav-screen-content-before" />
-        <VPNavScreenMenu class="menu" />
-        <VPNavScreenTranslations class="translations" />
-        <VPNavScreenAppearance class="appearance" />
-        <VPNavScreenSocialLinks class="social-links" />
+        <VPNavMenu screen class="menu" />
+        <VPNavTranslations screen class="translations" />
+        <VPNavAppearance row screen class="appearance" />
+        <VPNavSocialLinks screen class="social-links" />
         <slot name="nav-screen-content-after" />
       </div>
     </div>
