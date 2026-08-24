@@ -1,35 +1,14 @@
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
 
-import { isActive } from '../../shared'
+import { useNavItemLink } from '../composables/nav'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
   item: DefaultTheme.NavItemWithLink
 }>()
 
-const route = useRoute()
-
-const href = computed(() =>
-  typeof props.item.link === 'function'
-    ? props.item.link(route.data)
-    : props.item.link
-)
-
-const isActiveLink = computed(() => {
-  return isActive(
-    route.data.relativePath,
-    route.hash,
-    props.item.activeMatch || href.value,
-    !!props.item.activeMatch
-  )
-})
-
-const isCurrentLink = computed(() => {
-  return isActive(route.data.relativePath, route.hash, href.value)
-})
+const { href, isActiveLink, isCurrentLink } = useNavItemLink(() => props.item)
 </script>
 
 <template>
