@@ -124,6 +124,15 @@ export function useSidebarItemControl(
   watch([item, route], () => updateActiveLink())
   onMounted(() => updateActiveLink())
 
+  // exact match only, unlike isActiveLink which skips the hash check before
+  // mount — links that differ only in hash must not claim aria-current in
+  // SSR output
+  const isCurrentLink = computed(() => {
+    return item.value.link
+      ? isActive(route.data.relativePath, route.hash, item.value.link)
+      : false
+  })
+
   const hasChildren = computed(() => {
     return !!(item.value.items && item.value.items.length)
   })
@@ -143,6 +152,7 @@ export function useSidebarItemControl(
     collapsible,
     isLink,
     isActiveLink: isActiveLink as ComputedRef<boolean>,
+    isCurrentLink,
     hasActiveLink: hasActiveLink as ComputedRef<boolean>,
     hasChildren,
     toggle

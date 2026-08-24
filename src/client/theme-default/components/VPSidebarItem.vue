@@ -15,6 +15,7 @@ const {
   collapsible,
   isLink,
   isActiveLink,
+  isCurrentLink,
   hasActiveLink,
   hasChildren,
   toggle
@@ -54,7 +55,7 @@ function onItemClick() {
         v-if="item.link"
         :tag="linkTag"
         class="link"
-        :aria-current="isActiveLink ? 'page' : undefined"
+        :aria-current="isCurrentLink ? 'page' : undefined"
         :href="item.link"
         :rel="item.rel"
         :target="item.target"
