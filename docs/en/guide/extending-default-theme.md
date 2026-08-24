@@ -75,7 +75,7 @@ For example, a frosted-glass navbar:
 The same treatment carries over to the local nav: `--vp-local-nav-bg-color` follows the navbar surface color by default, and where the two bars meet they share a single blurred surface, so the glass stays continuous across them.
 
 ::: warning
-`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When using a translucent bar, also check text contrast over your page content.
+`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When using a translucent bar, also check text contrast over your page content. Safari 17 and earlier don't apply variable-driven backdrop filters, so they show the translucent color without the blur.
 :::
 
 When the nav items don't fit the available width, they move into the `⋯` menu at the end of the navbar instead of being clipped, starting with the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized with [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).

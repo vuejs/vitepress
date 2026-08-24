@@ -87,7 +87,6 @@ const isScrolled = computed(() => y.value >= navHeight.value)
   z-index: -1;
   background-color: var(--vp-local-nav-bg-color);
   backdrop-filter: var(--vp-nav-backdrop-filter);
-  -webkit-backdrop-filter: var(--vp-nav-backdrop-filter);
   transition: background-color 0.25s;
 }
 
