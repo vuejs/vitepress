@@ -52,6 +52,7 @@ function activateFocusTracking() {
 
 function deactivateFocusTracking() {
   document.removeEventListener('focusin', handleFocusIn)
+  active = false
 }
 
 function handleFocusIn() {

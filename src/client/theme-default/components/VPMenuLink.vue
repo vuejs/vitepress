@@ -1,7 +1,12 @@
 <script lang="ts" setup generic="T extends DefaultTheme.NavItemWithLink">
 import type { DefaultTheme } from 'vitepress/theme'
+import { inject } from 'vue'
 
-import { useNavItemLink } from '../composables/nav'
+import {
+  navInjectionKey,
+  navScreenInjectionKey,
+  useNavItemLink
+} from '../composables/nav'
 import VPLink from './VPLink.vue'
 
 const props = defineProps<{
@@ -11,6 +16,13 @@ const props = defineProps<{
 
 const { href, isActiveLink, isCurrentLink } = useNavItemLink(() => props.item)
 
+const screen = inject(navScreenInjectionKey, false)
+const nav = inject(navInjectionKey, null)
+
+function onClick() {
+  if (screen) nav?.closeScreen()
+}
+
 defineOptions({ inheritAttrs: false })
 </script>
 
@@ -18,12 +30,16 @@ defineOptions({ inheritAttrs: false })
   <li class="VPMenuLink">
     <VPLink
       v-bind="$attrs"
-      :class="{ active: isActiveLink }"
+      :class="{
+        active: isActiveLink,
+        VPNavScreenMenuGroupLink: screen
+      }"
       :aria-current="isCurrentLink ? 'page' : undefined"
       :href
       :target="item.target"
       :rel="props.rel ?? item.rel"
       :no-icon="item.noIcon"
+      @click="onClick"
     >
       <span v-html="item.text"></span>
     </VPLink>
@@ -35,6 +51,12 @@ defineOptions({ inheritAttrs: false })
   margin: 0.75rem -0.75rem 0;
   border-top: 1px solid var(--vp-c-divider);
   padding: 0.75rem 0.75rem 0;
+}
+
+.VPMenuGroup .VPMenuGroup + .VPMenuLink {
+  margin: 0;
+  border-top: 0;
+  padding: 0.5rem 0 0;
 }
 
 .link {
@@ -57,5 +79,24 @@ defineOptions({ inheritAttrs: false })
 
 .link.active {
   color: var(--vp-c-brand-1);
+}
+
+.VPNavScreen .VPMenuLink {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.VPNavScreen .link {
+  display: block;
+  margin-left: 0.75rem;
+  border-radius: 0;
+  padding: 0;
+  font-weight: 400;
+  white-space: normal;
+}
+
+.VPNavScreen .link:hover {
+  background-color: transparent;
 }
 </style>

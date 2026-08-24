@@ -32,22 +32,26 @@ const sectionTag = computed(() =>
   props.item.text && textTag.value !== 'p' ? 'section' : 'div'
 )
 
-const classes = computed(() => [
-  [`level-${props.depth}`],
-  { collapsible: collapsible.value },
-  { collapsed: collapsed.value },
-  { 'is-link': isLink.value },
-  { 'is-active': isActiveLink.value },
-  { 'has-active': hasActiveLink.value }
-])
-
 function onItemClick() {
   !props.item.link && toggle()
 }
 </script>
 
 <template>
-  <component :is="sectionTag" class="VPSidebarItem" :class="classes">
+  <component
+    :is="sectionTag"
+    class="VPSidebarItem"
+    :class="[
+      `level-${depth}`,
+      {
+        collapsible,
+        collapsed,
+        'is-link': isLink,
+        'is-active': isActiveLink,
+        'has-active': hasActiveLink
+      }
+    ]"
+  >
     <div v-if="item.text" class="item" @click="onItemClick">
       <div class="indicator" />
 

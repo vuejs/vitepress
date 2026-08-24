@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { useTemplateRef, watchEffect } from 'vue'
+
+import { useData } from '../composables/data'
+import { useNav } from '../composables/nav'
+
 defineProps<{
   active: boolean
 }>()
@@ -6,19 +11,29 @@ defineProps<{
 defineEmits<{
   (e: 'click'): void
 }>()
+
+const { theme } = useData()
+
+// register as the screen's trigger so Escape can return focus here
+const el = useTemplateRef('el')
+const { screenTriggerEl } = useNav()
+
+watchEffect(() => {
+  screenTriggerEl.value = el.value
+})
 </script>
 
 <template>
   <button
+    ref="el"
     type="button"
     class="VPNavBarHamburger"
     :class="{ active }"
-    aria-label="mobile navigation"
+    :aria-label="theme.mobileMenuLabel || 'Menu'"
     :aria-expanded="active"
-    aria-controls="VPNavScreen"
     @click="$emit('click')"
   >
-    <span class="container">
+    <span class="container" aria-hidden="true">
       <span class="top" />
       <span class="middle" />
       <span class="bottom" />

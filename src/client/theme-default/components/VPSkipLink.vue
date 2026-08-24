@@ -4,6 +4,11 @@ import { useTemplateRef, watch } from 'vue'
 
 import { useData } from '../composables/data'
 
+defineProps<{
+  // the component has two root nodes, so `inert` can't fall through
+  inert?: boolean
+}>()
+
 const { theme } = useData()
 const route = useRoute()
 const backToTop = useTemplateRef('backToTop')
@@ -13,7 +18,7 @@ watch(() => route.path, () => backToTop.value?.focus())
 
 <template>
   <span ref="backToTop" tabindex="-1" />
-  <a href="#VPContent" class="VPSkipLink visually-hidden">
+  <a href="#VPContent" class="VPSkipLink visually-hidden" :inert>
     {{ theme.skipToContentLabel || 'Skip to content' }}
   </a>
 </template>

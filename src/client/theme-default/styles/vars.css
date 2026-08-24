@@ -499,6 +499,20 @@
 :root {
   --vp-nav-height: 4rem;
   --vp-nav-bg-color: var(--vp-c-bg);
+
+  /**
+   * Background while on top of the home page (unscrolled). Set it to
+   * var(--vp-nav-bg-color) to opt out of the transparent treatment.
+   */
+  --vp-nav-home-bg-color: transparent;
+
+  /**
+   * Applied to the navbar surface, e.g. `saturate(180%) blur(8px)` combined
+   * with a translucent --vp-nav-bg-color for a frosted-glass bar.
+   */
+  --vp-nav-backdrop-filter: none;
+
+  --vp-nav-divider-color: var(--vp-c-gutter);
   --vp-nav-screen-bg-color: var(--vp-c-bg);
   --vp-nav-logo-height: 1.5rem;
 }
@@ -516,7 +530,12 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-local-nav-bg-color: var(--vp-c-bg);
+  /**
+   * Follows the navbar surface by default, so a translucent
+   * --vp-nav-bg-color with --vp-nav-backdrop-filter extends the
+   * frosted-glass treatment to the local nav as well.
+   */
+  --vp-local-nav-bg-color: var(--vp-nav-bg-color);
 }
 
 /**
