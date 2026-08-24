@@ -71,7 +71,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
-  border-bottom: 1px solid var(--vp-c-gutter);
+  border-bottom: 1px solid var(--vp-local-nav-divider-color);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
 }

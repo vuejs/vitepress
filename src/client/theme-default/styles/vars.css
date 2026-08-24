@@ -536,6 +536,12 @@
    * frosted-glass treatment to the local nav as well.
    */
   --vp-local-nav-bg-color: var(--vp-nav-bg-color);
+
+  /**
+   * The local nav's bottom rule. Follows the navbar's divider color by
+   * default.
+   */
+  --vp-local-nav-divider-color: var(--vp-nav-divider-color);
 }
 
 /**
