@@ -10,7 +10,6 @@ import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
   mergeMarkdownLocales,
-  type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
 import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
@@ -100,21 +99,27 @@ function getResolutionCache(siteConfig: SiteConfig) {
 
 export async function createMarkdownToVueRenderFn(
   srcDir: string,
-  options: MarkdownOptions,
   base: string,
   includeLastUpdatedData: boolean,
   cleanUrls: boolean,
   siteConfig: SiteConfig
 ) {
-  const md = await createMarkdownRenderer(
-    srcDir,
-    mergeMarkdownLocales(options, siteConfig?.site.locales),
-    base,
-    siteConfig?.logger,
-    siteConfig?.publicDir
-  )
+  // the markdown options are read when the renderer is actually created, i.e.
+  // on the first render, not here - that way a vite plugin can still extend
+  // `config.vitepress.markdown` from its own `configResolved` hook
+  let mdPromise: Promise<MarkdownRenderer> | undefined
+  const getMarkdownRenderer = () =>
+    (mdPromise ??= createMarkdownRenderer(
+      srcDir,
+      mergeMarkdownLocales(siteConfig?.markdown, siteConfig?.site.locales),
+      base,
+      siteConfig?.logger,
+      siteConfig?.publicDir
+    ))
 
   return async (src: string, file: string): Promise<MarkdownCompileResult> => {
+    const md = await getMarkdownRenderer()
+    const useCache = siteConfig?.markdown?.cache !== false
     const { pages, dynamicRoutes, rewrites, ts } =
       getResolutionCache(siteConfig)
 
@@ -130,7 +135,7 @@ export async function createMarkdownToVueRenderFn(
 
     const srcHash = hash('sha256', src, 'base64url')
     const cacheKey = `${srcHash}:${ts}:${relativePath}`
-    if (options.cache !== false) {
+    if (useCache) {
       const cached = cache.get(cacheKey)
       if (cached) {
         debug(`[cache hit] ${relativePath}`)
@@ -296,7 +301,7 @@ export async function createMarkdownToVueRenderFn(
     debug(`[render] ${file} in ${Date.now() - start}ms.`)
 
     const result = { vueSrc, pageData, deadLinks, includes }
-    if (options.cache !== false) cache.set(cacheKey, result)
+    if (useCache) cache.set(cacheKey, result)
     return result
   }
 }

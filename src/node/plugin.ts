@@ -84,7 +84,6 @@ export async function createVitePressPlugin(
     srcDir,
     configPath,
     configDeps,
-    markdown,
     site,
     vue: userVuePluginOptions,
     vite: userViteConfig,
@@ -128,7 +127,6 @@ export async function createVitePressPlugin(
       if (lastUpdated) await cacheAllGitTimestamps(srcDir)
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
-        markdown ?? {},
         config.base,
         lastUpdated ?? false,
         cleanUrls ?? false,

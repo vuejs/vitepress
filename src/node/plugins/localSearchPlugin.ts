@@ -10,7 +10,8 @@ import type { SiteConfig } from '../config'
 import type { DefaultTheme } from '../defaultTheme'
 import {
   createMarkdownRenderer,
-  mergeMarkdownLocales
+  mergeMarkdownLocales,
+  type MarkdownRenderer
 } from '../markdown/markdown'
 import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
 import { readTextFile } from '../utils/fs'
@@ -51,8 +52,20 @@ export async function localSearchPlugin(
     }
   }
 
-  // created in configResolved to use the resolved publicDir
-  let md: Awaited<ReturnType<typeof createMarkdownRenderer>>
+  // the resolved publicDir, picked up in configResolved
+  let publicDir: string | undefined
+  // the renderer is created on first use rather than in configResolved, so
+  // that markdown options a vite plugin adds from its own configResolved hook
+  // reach it too - it is a singleton shared with the page renderer (#5350)
+  let mdPromise: Promise<MarkdownRenderer> | undefined
+  const getMarkdownRenderer = () =>
+    (mdPromise ??= createMarkdownRenderer(
+      siteConfig.srcDir,
+      mergeMarkdownLocales(siteConfig.markdown, siteConfig.site.locales),
+      siteConfig.site.base,
+      siteConfig.logger,
+      publicDir
+    ))
 
   const options = siteConfig.site.themeConfig.search.options || {}
 
@@ -72,6 +85,7 @@ export async function localSearchPlugin(
       }
       throw e
     })
+    const md = await getMarkdownRenderer()
     if (options._render) {
       return options._render(raw, env, md)
     } else {
@@ -187,17 +201,8 @@ export async function localSearchPlugin(
   return {
     name: 'vitepress:local-search',
 
-    async configResolved(config) {
-      // fold in `locales.*.markdown` like markdownToVue does — the renderer
-      // is a singleton, so whichever configResolved hook creates it first
-      // must pass the complete options (#5350)
-      md = await createMarkdownRenderer(
-        siteConfig.srcDir,
-        mergeMarkdownLocales(siteConfig.markdown, siteConfig.site.locales),
-        siteConfig.site.base,
-        siteConfig.logger,
-        config.publicDir
-      )
+    configResolved(config) {
+      publicDir = config.publicDir
     },
 
     config() {

@@ -350,27 +350,64 @@ export function mergeMarkdownLocales(
 }
 
 let md: MarkdownRenderer | undefined
+let mdPromise: Promise<MarkdownRenderer> | undefined
+let mdGeneration = 0
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
-  if (md) {
+  if (md || mdPromise) {
     md = undefined
+    mdPromise = undefined
+    // a creation that is still in flight must not install itself afterwards
+    mdGeneration++
     _disposeHighlighter?.()
+    _disposeHighlighter = undefined
   }
 }
 
 /**
  * @experimental
  */
-export async function createMarkdownRenderer(
+export function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console,
   publicDir?: string
 ): Promise<MarkdownRenderer> {
-  if (md) return md
+  if (md) return Promise.resolve(md)
+  // the renderer is a process-wide singleton and creating it is async, so
+  // concurrent first calls share one instance instead of each building their
+  // own - the options of whichever call comes first are the ones that apply
+  const generation = mdGeneration
+  return (mdPromise ??= createMarkdownRendererInstance(
+    srcDir,
+    options,
+    base,
+    logger,
+    publicDir
+  ).then(
+    ({ md: instance, dispose }) => {
+      // disposed while we were building it: hand the instance to this caller,
+      // but leave the slot empty so the next one rebuilds from fresh options
+      if (generation !== mdGeneration) return instance
+      _disposeHighlighter = dispose
+      return (md = instance)
+    },
+    (err) => {
+      if (generation === mdGeneration) mdPromise = undefined
+      throw err
+    }
+  ))
+}
 
+async function createMarkdownRendererInstance(
+  srcDir: string,
+  options: MarkdownOptions,
+  base: string,
+  logger: Pick<Logger, 'warn'>,
+  publicDir: string | undefined
+): Promise<{ md: MarkdownRenderer; dispose: () => void }> {
   publicDir ??= path.resolve(srcDir, 'public')
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
@@ -383,9 +420,15 @@ export async function createMarkdownRenderer(
     ? [options.highlight, () => {}]
     : await createHighlighter(theme, options, logger)
 
-  _disposeHighlighter = dispose
-
-  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
+  // deliberately shadows the module-level instance - it is only installed
+  // there once fully configured, so that a concurrent consumer can never get
+  // hold of a half-built renderer
+  const md: MarkdownRenderer = new MarkdownItAsync({
+    html: true,
+    linkify: true,
+    highlight,
+    ...options
+  })
 
   md.linkify.set({ fuzzyLink: false })
   restoreEntities(md)
@@ -563,7 +606,7 @@ export async function createMarkdownRenderer(
     await options.config(md)
   }
 
-  return md
+  return { md, dispose }
 }
 
 // `true` and `undefined` enable a plugin with its default options - only an
