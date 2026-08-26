@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@docsearch/js':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@docsearch/sidepanel-js':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@iconify-json/simple-icons':
         specifier: ^1.2.93
         version: 1.2.93
@@ -370,14 +370,14 @@ packages:
     resolution: {integrity: sha512-TzlTVpKPjaqW6qOYjQcYUDuGsLCNsvFHVBXkYGTAnf5V37jCWrE5haKNXzz0WZUtVHjrpV76L1buANjwXMfT8w==}
     engines: {node: '>=22'}
 
-  '@docsearch/css@4.7.0':
-    resolution: {integrity: sha512-Sk5xkdRFeE7PeWjG9l4AfTwdvMfr9wHiwNNCpHXT4v4SNyNMKdHGvEILc31BgaVFGDDNbv5u/a73tofRiwbEZw==}
+  '@docsearch/css@5.0.4':
+    resolution: {integrity: sha512-Bg2VmrPbhBmqKBrt6FL8bvd66f9IaU448Ip9K+elLlX2rivtV5FvBJq7iGsMvvj42etsdJe6VqisoTKZMv0Qdg==}
 
-  '@docsearch/js@4.7.0':
-    resolution: {integrity: sha512-x5lCqu1tetgsJFkjQ6VSocbHldsRkGEgwg5N98Vx21sq/V5wcmj4u226PY9k+TEpIgQ772zlYbPLTPicWyGnpA==}
+  '@docsearch/js@5.0.4':
+    resolution: {integrity: sha512-eKoVwAWKWXYPDZiDXBX4g1RVQnvHHCX91+Z+1ZEJuHPkZjTANk+L4/9t6xM5wxiiNcwD6YjfDMhcE/99sWT4SA==}
 
-  '@docsearch/sidepanel-js@4.7.0':
-    resolution: {integrity: sha512-A8r34jCU8kcIk2viECEn2msA28ojUF1BLi/3v5OWWc5G2N3jOuuumBXoeYjfr8dA0UxgFSy5R2bt12dnFJQSyA==}
+  '@docsearch/sidepanel-js@5.0.4':
+    resolution: {integrity: sha512-RZ6YO4SvLqfjlz49fNlYtlHARSuD0YxAQ8HTl5DDbiW5iHNu8Ichu0teughu1uLBVg06t4OELP3RRU6O7f0fHQ==}
 
   '@esbuild/aix-ppc64@0.27.7':
     resolution: {integrity: sha512-EKX3Qwmhz1eMdEJokhALr0YiD0lhQNwDqkPYyPhiSwKrh7/4KRjQc04sZ8db+5DVVnZ1LmbNDI1uAMPEUBnQPg==}
@@ -1275,6 +1275,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -2884,11 +2885,11 @@ snapshots:
 
   '@conventional-changelog/template@1.2.1': {}
 
-  '@docsearch/css@4.7.0': {}
+  '@docsearch/css@5.0.4': {}
 
-  '@docsearch/js@4.7.0': {}
+  '@docsearch/js@5.0.4': {}
 
-  '@docsearch/sidepanel-js@4.7.0': {}
+  '@docsearch/sidepanel-js@5.0.4': {}
 
   '@esbuild/aix-ppc64@0.27.7':
     optional: true
