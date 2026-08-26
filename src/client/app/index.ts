@@ -8,6 +8,7 @@ import {
   watchEffect,
   type App
 } from 'vue'
+
 import { ClientOnly } from './components/ClientOnly'
 import { Content } from './components/Content'
 import { useCodeGroups } from './composables/codeGroups'

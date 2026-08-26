@@ -1,9 +1,11 @@
-import { resolveTitleFromToken } from '@mdit-vue/shared'
-import { LRUCache } from 'lru-cache'
 import { hash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
+
+import { resolveTitleFromToken } from '@mdit-vue/shared'
+import { LRUCache } from 'lru-cache'
 import { createDebug } from 'obug'
+
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,
@@ -120,7 +122,7 @@ export async function createMarkdownToVueRenderFn(
     const fileOrig = dynamicRoute?.[0] || file
     const transformPageData = [
       siteConfig?.transformPageData,
-      getPageDataTransformer(dynamicRoute?.[1]!)
+      getPageDataTransformer(dynamicRoute?.[1])
     ].filter((fn) => fn != null)
 
     file = rewrites.get(normalizeDriveLetter(file)) || file

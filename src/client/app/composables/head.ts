@@ -1,4 +1,5 @@
 import { watchEffect, type Ref } from 'vue'
+
 import {
   createTitle,
   mergeHead,
@@ -81,8 +82,8 @@ export function useUpdateHead(route: Route, siteDataByRouteRef: Ref<SiteData>) {
 
 function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
   const el = document.createElement(tag)
-  for (const key in attrs) {
-    el.setAttribute(key, attrs[key])
+  for (const [key, value] of Object.entries(attrs)) {
+    el.setAttribute(key, value)
   }
   if (innerHTML) {
     el.innerHTML = innerHTML

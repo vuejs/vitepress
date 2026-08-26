@@ -6,13 +6,12 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
-  useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { dataSymbol, inBrowser, useRouter } from 'vitepress'
+import { dataSymbol, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -22,14 +21,17 @@ import {
   onMounted,
   ref,
   shallowRef,
+  useTemplateRef,
   watch,
   watchEffect,
   type Ref
 } from 'vue'
+
 import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
 
@@ -37,8 +39,8 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = shallowRef<HTMLElement>()
-const resultsEl = shallowRef<HTMLElement>()
+const el = useTemplateRef('el')
+const resultsEl = useTemplateRef('resultsEl')
 
 /* Search */
 
@@ -74,25 +76,25 @@ const showSearchSpinner = computed(() => {
 })
 
 const searchIndex = computedAsync(
-  async () =>
-    markRaw(
-      MiniSearch.loadJSON<Result>(
-        (await searchIndexData.value[localeIndex.value]?.())?.default,
-        {
-          fields: ['title', 'titles', 'text'],
-          storeFields: ['title', 'titles'],
-          searchOptions: {
-            fuzzy: 0.2,
-            prefix: true,
-            boost: { title: 4, text: 2, titles: 1 },
-            ...(theme.value.search?.provider === 'local' &&
-              theme.value.search.options?.miniSearch?.searchOptions)
-          },
+  async () => {
+    const json = (await searchIndexData.value[localeIndex.value]?.())?.default
+    if (!json) return null
+    return markRaw(
+      MiniSearch.loadJSON<Result>(json, {
+        fields: ['title', 'titles', 'text'],
+        storeFields: ['title', 'titles'],
+        searchOptions: {
+          fuzzy: 0.2,
+          prefix: true,
+          boost: { title: 4, text: 2, titles: 1 },
           ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.options)
-        }
-      )
-    ),
+            theme.value.search.options?.miniSearch?.searchOptions)
+        },
+        ...(theme.value.search?.provider === 'local' &&
+          theme.value.search.options?.miniSearch?.options)
+      })
+    )
+  },
   undefined,
   isSearchIndexLoading
 )
@@ -264,7 +266,7 @@ async function fetchExcerpt(id: string) {
 
 /* Search input focus */
 
-const searchInput = ref<HTMLInputElement>()
+const searchInput = useTemplateRef('searchInput')
 const disableReset = computed(() => {
   return filterText.value?.length <= 0
 })
@@ -409,7 +411,7 @@ useEventListener('popstate', (event) => {
 
 /** Lock body */
 
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const isLocked = useBodyScrollLock()
 
 onMounted(() => {
   nextTick(() => {
@@ -486,7 +488,7 @@ function onMouseMove(e: MouseEvent) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :aria-activedescendant="selectedIndex > -1 ? ('localsearch-item-' + selectedIndex) : undefined"
+            :aria-activedescendant="selectedIndex > -1 ? 'localsearch-item-' + selectedIndex : undefined"
             aria-autocomplete="both"
             :aria-controls="results?.length ? 'localsearch-list' : undefined"
             aria-labelledby="localsearch-label"
@@ -593,8 +595,7 @@ function onMouseMove(e: MouseEvent) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
-            >"
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong>"
           </li>
         </ul>
 

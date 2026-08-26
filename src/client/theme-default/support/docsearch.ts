@@ -1,5 +1,6 @@
 import type { SidepanelProps } from '@docsearch/sidepanel-js'
 import type { DefaultTheme } from 'vitepress/theme'
+
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { isObject } from '../../shared'
 

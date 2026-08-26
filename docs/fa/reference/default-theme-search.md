@@ -25,7 +25,7 @@ export default defineConfig({
 
 ![تصویر نمایشی از مودال جستجو](/search.png)
 
-همچنین، می‌توانید از [Algolia DocSearch](#algolia-search) یا برخی افزونه‌های جامعه‌ای مانند <https://www.npmjs.com/package/vitepress-plugin-search> یا <https://www.npmjs.com/package/vitepress-plugin-pagefind> استفاده کنید.
+همچنین، می‌توانید از [Algolia DocSearch](#algolia-search) یا برخی افزونه‌های جامعه‌ای مانند <https://www.npmjs.com/package/vitepress-plugin-search>، <https://www.npmjs.com/package/vitepress-plugin-pagefind> یا <https://www.npmjs.com/package/vitepress-plugin-cloudflare-ai-search> استفاده کنید.
 
 ### بین‌المللی‌سازی {#local-search-i18n}
 

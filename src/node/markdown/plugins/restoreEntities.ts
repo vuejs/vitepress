@@ -1,6 +1,7 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type StateCore from 'markdown-it/lib/rules_core/state_core.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
+
 import { escapeHtml } from '../../shared'
 
 export function restoreEntities(md: MarkdownItAsync): void {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
+
 import { useSidebarItemControl } from '../composables/sidebar'
 import VPLink from './VPLink.vue'
 
@@ -14,65 +15,51 @@ const {
   collapsible,
   isLink,
   isActiveLink,
+  isCurrentLink,
   hasActiveLink,
   hasChildren,
   toggle
 } = useSidebarItemControl(computed(() => props.item))
 
-const sectionTag = computed(() => (hasChildren.value ? 'section' : `div`))
-
 const linkTag = computed(() => (isLink.value ? 'a' : 'div'))
 
-const textTag = computed(() => {
-  return !hasChildren.value
-    ? 'p'
-    : props.depth + 2 === 7
-      ? 'p'
-      : `h${props.depth + 2}`
-})
+const textTag = computed(() =>
+  hasChildren.value && props.depth < 5 ? `h${props.depth + 2}` : 'p'
+)
 
-const itemRole = computed(() => (isLink.value ? undefined : 'button'))
+// a section needs a heading
+const sectionTag = computed(() =>
+  props.item.text && textTag.value !== 'p' ? 'section' : 'div'
+)
 
-const classes = computed(() => [
-  [`level-${props.depth}`],
-  { collapsible: collapsible.value },
-  { collapsed: collapsed.value },
-  { 'is-link': isLink.value },
-  { 'is-active': isActiveLink.value },
-  { 'has-active': hasActiveLink.value }
-])
-
-function onItemInteraction(e: MouseEvent | Event) {
-  if ('key' in e && e.key !== 'Enter') {
-    return
-  }
+function onItemClick() {
   !props.item.link && toggle()
-}
-
-function onCaretClick() {
-  props.item.link && toggle()
 }
 </script>
 
 <template>
-  <component :is="sectionTag" class="VPSidebarItem" :class="classes">
-    <div
-      v-if="item.text"
-      class="item"
-      :role="itemRole"
-      v-on="
-        item.items
-          ? { click: onItemInteraction, keydown: onItemInteraction }
-          : {}
-      "
-      :tabindex="item.items && 0"
-    >
+  <component
+    :is="sectionTag"
+    class="VPSidebarItem"
+    :class="[
+      `level-${depth}`,
+      {
+        collapsible,
+        collapsed,
+        'is-link': isLink,
+        'is-active': isActiveLink,
+        'has-active': hasActiveLink
+      }
+    ]"
+  >
+    <div v-if="item.text" class="item" @click="onItemClick">
       <div class="indicator" />
 
       <VPLink
         v-if="item.link"
         :tag="linkTag"
         class="link"
+        :aria-current="isCurrentLink ? 'page' : undefined"
         :href="item.link"
         :rel="item.rel"
         :target="item.target"
@@ -81,17 +68,16 @@ function onCaretClick() {
       </VPLink>
       <component v-else :is="textTag" class="text" v-html="item.text" />
 
-      <div
+      <button
         v-if="item.collapsed != null && item.items && item.items.length"
+        type="button"
         class="caret"
-        role="button"
         aria-label="toggle section"
-        @click="onCaretClick"
-        @keydown.enter="onCaretClick"
-        tabindex="0"
+        :aria-expanded="!collapsed"
+        @click.stop="toggle"
       >
         <span class="vpi-chevron-right caret-icon" />
-      </div>
+      </button>
     </div>
 
     <ul v-if="item.items && item.items.length" class="items">
@@ -233,7 +219,7 @@ function onCaretClick() {
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0)/*rtl:rotate(180deg)*/;
+  transform: rotate(0) /*rtl:rotate(180deg)*/;
 }
 
 .VPSidebarItem.level-1 .items,

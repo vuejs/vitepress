@@ -1,16 +1,15 @@
-import { spawn } from 'cross-spawn'
 import type { SpawnOptions } from 'node:child_process'
 import { once } from 'node:events'
 import fs from 'node:fs'
-import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import * as prompts from '@clack/prompts'
+import { spawn } from 'cross-spawn'
 import semver from 'semver'
 
-const { version: currentVersion } = createRequire(import.meta.url)(
-  '../package.json'
-)
+import { version as currentVersion } from '../package.json' with { type: 'json' }
+
 const { inc: _inc, valid } = semver
 
 const versionIncrements = ['patch', 'minor', 'major'] as const

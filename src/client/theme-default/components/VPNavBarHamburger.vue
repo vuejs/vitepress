@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { useTemplateRef, watchEffect } from 'vue'
+
+import { useData } from '../composables/data'
+import { useNav } from '../composables/nav'
+
 defineProps<{
   active: boolean
 }>()
@@ -6,19 +11,29 @@ defineProps<{
 defineEmits<{
   (e: 'click'): void
 }>()
+
+const { theme } = useData()
+
+// register as the screen's trigger so Escape can return focus here
+const el = useTemplateRef('el')
+const { screenTriggerEl } = useNav()
+
+watchEffect(() => {
+  screenTriggerEl.value = el.value
+})
 </script>
 
 <template>
   <button
+    ref="el"
     type="button"
     class="VPNavBarHamburger"
     :class="{ active }"
-    aria-label="mobile navigation"
+    :aria-label="theme.mobileMenuLabel || 'Menu'"
     :aria-expanded="active"
-    aria-controls="VPNavScreen"
     @click="$emit('click')"
   >
-    <span class="container">
+    <span class="container" aria-hidden="true">
       <span class="top" />
       <span class="middle" />
       <span class="bottom" />
@@ -60,7 +75,7 @@ defineEmits<{
 .VPNavBarHamburger.active:hover .middle,
 .VPNavBarHamburger.active:hover .bottom {
   background-color: var(--vp-c-text-2);
-  transition: top .25s, background-color .25s, transform .25s;
+  transition: top 0.25s, background-color 0.25s, transform 0.25s;
 }
 
 .top,
@@ -70,7 +85,7 @@ defineEmits<{
   width: 1rem;
   height: 0.125rem;
   background-color: var(--vp-c-text-1);
-  transition: top .25s, background-color .5s, transform .25s;
+  transition: top 0.25s, background-color 0.5s, transform 0.25s;
 }
 
 .top    { top: 0; left: 0; transform: translateX(0); }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
 import { EXTERNAL_URL_RE } from '../../shared'
 import { normalizeLink } from '../support/utils'
 
@@ -9,8 +10,8 @@ interface Props {
   theme?: 'brand' | 'alt' | 'sponsor'
   text?: string
   href?: string
-  target?: string;
-  rel?: string;
+  target?: string
+  rel?: string
 }
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium',

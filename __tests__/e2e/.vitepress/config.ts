@@ -65,6 +65,11 @@ const nav: DefaultTheme.Config['nav'] = [
         ]
       }
     ]
+  },
+  {
+    text: 'Active Match',
+    link: '/markdown-extensions/',
+    activeMatch: '^/home'
   }
 ]
 
@@ -151,6 +156,23 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
         {
           text: 'Home Layout (raw markdown)',
           link: '/team-and-sponsors/home-no-markdown-styles'
+        }
+      ]
+    },
+    {
+      text: 'Sidebar Hash',
+      items: [
+        {
+          text: 'Overview',
+          link: '/sidebar-hash/'
+        },
+        {
+          text: 'Section One',
+          link: '/sidebar-hash/#section-one'
+        },
+        {
+          text: 'Section Two',
+          link: '/sidebar-hash/#section-two'
         }
       ]
     }

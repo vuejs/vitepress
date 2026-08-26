@@ -1,8 +1,10 @@
-import { isBooleanAttr } from '@vue/shared'
 import { mkdir, realpath, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+
+import { isBooleanAttr } from '@vue/shared'
 import { minify, normalizePath, type Rolldown } from 'vite'
-import { version } from '../../../package.json'
+
+import { version } from '../../../package.json' with { type: 'json' }
 import type { SiteConfig } from '../config'
 import {
   EXTERNAL_URL_RE,

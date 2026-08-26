@@ -9,6 +9,7 @@ import './styles/components/vp-doc.css'
 import './styles/components/vp-sponsor.css'
 
 import type { Theme } from 'vitepress'
+
 import VPBadge from './components/VPBadge.vue'
 import Layout from './Layout.vue'
 

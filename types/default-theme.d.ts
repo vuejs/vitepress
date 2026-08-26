@@ -1,9 +1,37 @@
 import type { Options as _MiniSearchOptions } from 'minisearch'
+import type { ComputedRef, ShallowRef } from 'vue'
+
 import type { DocSearchProps } from './docsearch.js'
 import type { LocalSearchTranslations } from './local-search.js'
 import type { Header, PageData, Route, VitePressData } from './shared.js'
 
 export namespace DefaultTheme {
+  /**
+   * The layout state returned by `useLayout` from `vitepress/theme`.
+   */
+  export interface Layout {
+    isHome: ComputedRef<boolean>
+
+    sidebar: Readonly<ShallowRef<SidebarItem[]>>
+    sidebarGroups: ComputedRef<SidebarItem[]>
+    hasSidebar: ComputedRef<boolean>
+    isSidebarEnabled: ComputedRef<boolean>
+
+    hasAside: ComputedRef<boolean>
+    leftAside: ComputedRef<boolean>
+
+    /**
+     * The outline headers of the current page.
+     */
+    headers: Readonly<ShallowRef<OutlineItem[]>>
+    /**
+     * Whether the current page has a local nav. Local nav is shown when the
+     * "outline" is present in the page. However, note that the actual
+     * local nav visibility depends on the screen width as well.
+     */
+    hasLocalNav: ComputedRef<boolean>
+  }
+
   export interface Config {
     /**
      * The logo file of the site.
@@ -104,6 +132,29 @@ export namespace DefaultTheme {
      * @default 'Change language'
      */
     langMenuLabel?: string
+
+    /**
+     * Accessible label of the main navigation landmarks (navbar menu and
+     * the mobile menu).
+     *
+     * @default 'Main Navigation'
+     */
+    navMenuLabel?: string
+
+    /**
+     * Set custom `aria-label` for the mobile menu (hamburger) button.
+     *
+     * @default 'Menu'
+     */
+    mobileMenuLabel?: string
+
+    /**
+     * Set custom `aria-label` for the `⋯` overflow menu button in the
+     * navbar, which collects nav items and controls that don't fit.
+     *
+     * @default 'More options'
+     */
+    extraMenuLabel?: string
 
     /**
      * @default 'Skip to content'

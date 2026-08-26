@@ -4,6 +4,7 @@
 // but these can import types from dev deps
 
 import type { MarkdownItAsync } from 'markdown-it-async'
+
 import type { DefaultTheme } from '../../types/default-theme'
 import type { PageSplitSection } from '../../types/local-search'
 import type { Awaitable, MarkdownEnv } from './shared'

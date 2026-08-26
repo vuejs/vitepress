@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
+
 import HomeHeroCopy from './HomeHeroCopy.vue'
 
 const INSTALL_COMMAND = 'npx vitepress init'

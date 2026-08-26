@@ -1,4 +1,5 @@
 import type { App, Component, Ref } from 'vue'
+
 import type { Awaitable, SiteData } from '../shared'
 import type { Router } from './router'
 

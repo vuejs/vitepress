@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+
 import c from 'picocolors'
 import pm from 'picomatch'
 import {
@@ -10,6 +11,7 @@ import {
   type Logger,
   type Plugin
 } from 'vite'
+
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { readTextFile } from '../utils/fs'
@@ -215,8 +217,9 @@ export const dynamicRoutesPlugin = async (
 }
 
 export function getPageDataTransformer(
-  loaderPath: string
+  loaderPath?: string
 ): UserConfig['transformPageData'] | undefined {
+  if (loaderPath == null) return undefined
   return routeModuleCache.get(loaderPath)?.transformPageData
 }
 

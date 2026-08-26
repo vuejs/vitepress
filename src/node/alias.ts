@@ -1,6 +1,7 @@
 import { createRequire } from 'node:module'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import type { Alias, AliasOptions } from 'vite'
 
 const require = createRequire(import.meta.url)

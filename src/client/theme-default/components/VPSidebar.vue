@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useScrollLock } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
+
 import { useLayout } from '../composables/layout'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebarGroups, hasSidebar } = useLayout()
@@ -12,11 +12,11 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-const navEl = ref<HTMLElement | null>(null)
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const navEl = useTemplateRef('navEl')
+const isLocked = useBodyScrollLock()
 
 watch(
-  [props, navEl],
+  [() => props.open, navEl],
   () => {
     if (props.open) {
       isLocked.value = true
@@ -88,8 +88,7 @@ watch(
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: opacity 0.25s, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {

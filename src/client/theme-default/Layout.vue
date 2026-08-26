@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, provide, useSlots } from 'vue'
+
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
@@ -9,6 +10,7 @@ import VPSidebar from './components/VPSidebar.vue'
 import VPSkipLink from './components/VPSkipLink.vue'
 import { useData } from './composables/data'
 import { layoutInfoInjectionKey, registerWatchers } from './composables/layout'
+import { useNav } from './composables/nav'
 import { useSidebarControl } from './composables/sidebar'
 
 const {
@@ -16,6 +18,10 @@ const {
   open: openSidebar,
   close: closeSidebar
 } = useSidebarControl()
+
+// everything behind the open nav screen is inert so keyboard and screen
+// reader users can't reach the covered page content
+const { isScreenOpen } = useNav()
 
 registerWatchers({ closeSidebar })
 
@@ -37,7 +43,7 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
     ]"
   >
     <slot name="layout-top" />
-    <VPSkipLink />
+    <VPSkipLink :inert="isScreenOpen" />
     <VPBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
     <VPNav>
       <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
@@ -47,14 +53,14 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
       <template #nav-screen-content-before><slot name="nav-screen-content-before" /></template>
       <template #nav-screen-content-after><slot name="nav-screen-content-after" /></template>
     </VPNav>
-    <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
+    <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" :inert="isScreenOpen" />
 
-    <VPSidebar :open="isSidebarOpen">
+    <VPSidebar :open="isSidebarOpen" :inert="isScreenOpen">
       <template #sidebar-nav-before><slot name="sidebar-nav-before" /></template>
       <template #sidebar-nav-after><slot name="sidebar-nav-after" /></template>
     </VPSidebar>
 
-    <VPContent>
+    <VPContent :inert="isScreenOpen">
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
 
@@ -84,7 +90,7 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
       <template #aside-ads-after><slot name="aside-ads-after" /></template>
     </VPContent>
 
-    <VPFooter />
+    <VPFooter :inert="isScreenOpen" />
     <slot name="layout-bottom" />
   </div>
   <Content v-else />

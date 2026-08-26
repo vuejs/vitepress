@@ -63,7 +63,7 @@ description: VitePress
 
 - Type: `HeadConfig[]`
 
-Specify extra head tags to be injected for the current page. Will be appended after head tags injected by site-level config.
+Specify extra head tags to be injected for the current page. They are [merged](./site-config#head) with the head tags injected by site-level config.
 
 ```yaml
 ---

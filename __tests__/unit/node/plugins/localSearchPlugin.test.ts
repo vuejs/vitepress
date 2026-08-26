@@ -1,11 +1,12 @@
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+
 import MiniSearch from 'minisearch'
 import { resolveConfig } from 'node/config'
 import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 import { localSearchPlugin } from 'node/plugins/localSearchPlugin'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
-import { tmpdir } from 'node:os'
-import path from 'node:path'
 
 describe('node/plugins/localSearchPlugin', () => {
   let root: string | undefined

@@ -2,6 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
 import { smartComputed } from '../support/reactivity'
@@ -203,7 +204,6 @@ function isEditingContent(event: KeyboardEvent): boolean {
 @media (min-width: 48rem) {
   .VPNavBarSearch {
     gap: 0.5rem;
-    flex-grow: 1;
     padding-left: 1.5rem;
   }
 }

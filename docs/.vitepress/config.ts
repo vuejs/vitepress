@@ -9,6 +9,7 @@ import {
   localIconLoader
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
+
 import { markdown as esMarkdown } from '../es/config.ts'
 import { markdown as faMarkdown } from '../fa/config.ts'
 import { markdown as jaMarkdown } from '../ja/config.ts'

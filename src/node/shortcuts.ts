@@ -1,5 +1,6 @@
 import c from 'picocolors'
 import type { ViteDevServer } from 'vite'
+
 import type { Awaitable } from './shared'
 
 export type CLIShortcut = {

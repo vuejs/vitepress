@@ -1,8 +1,10 @@
-import compression from '@polka/compression'
 import { once } from 'node:events'
 import path from 'node:path'
+
+import compression from '@polka/compression'
 import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
+
 import { resolveConfig } from '../config'
 import { readFile } from '../utils/fs'
 

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
@@ -30,30 +31,29 @@ onMounted(() => {
   probe.remove()
 })
 
-const classes = computed(() => {
-  return {
-    VPLocalNav: true,
-    'has-sidebar': hasSidebar.value,
-    empty: !hasLocalNav.value,
-    fixed: !hasLocalNav.value && !hasSidebar.value
-  }
-})
+const isScrolled = computed(() => y.value >= navHeight.value)
 </script>
 
 <template>
   <div
-    v-if="!isHome && (hasLocalNav || hasSidebar || y >= navHeight)"
-    :class="classes"
+    v-if="!isHome && (hasLocalNav || hasSidebar || isScrolled)"
+    class="VPLocalNav"
+    :class="{
+      'has-sidebar': hasSidebar,
+      'empty': !hasLocalNav,
+      'fixed': !hasLocalNav && !hasSidebar
+    }"
   >
     <div class="container">
       <button
         v-if="hasSidebar"
+        type="button"
         class="menu"
         :aria-expanded="open"
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vpi-align-left menu-icon"></span>
+        <span class="vpi-align-left menu-icon" aria-hidden="true"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
@@ -71,10 +71,23 @@ const classes = computed(() => {
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
-  border-bottom: 1px solid var(--vp-c-gutter);
+  border-bottom: 1px solid var(--vp-local-nav-divider-color);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
+}
+
+/* the background surface — below 60rem it covers just this bar; from 60rem
+   the bar is pinned under the fixed navbar, so the surface extends up
+   behind it and one element carries the backdrop filter for both bars
+   (two stacked filters would show a seam at their shared edge) */
+.VPLocalNav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-color: var(--vp-local-nav-bg-color);
+  backdrop-filter: var(--vp-nav-backdrop-filter);
+  transition: background-color 0.25s;
 }
 
 .VPLocalNav.fixed {
@@ -84,6 +97,10 @@ const classes = computed(() => {
 @media (min-width: 60rem) {
   .VPLocalNav {
     top: var(--vp-nav-height);
+  }
+
+  .VPLocalNav::before {
+    top: calc(-1 * var(--vp-nav-height));
   }
 
   .VPLocalNav.has-sidebar {

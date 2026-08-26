@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { resolveDynamicComponent } from 'vue'
-import NotFound from '../NotFound.vue'
+
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
+import NotFound from '../NotFound.vue'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
