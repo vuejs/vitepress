@@ -68,7 +68,7 @@ $ yarn vitepress init
 ```
 
 ```sh [bun]
-$ bun vitepress init
+$ bunx vitepress init
 ```
 
 :::
