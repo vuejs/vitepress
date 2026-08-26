@@ -142,17 +142,18 @@ describe('node/plugins/localSearchPlugin', () => {
     const siteConfig = await resolveConfig(root, 'build', 'production')
     const plugin = await localSearchPlugin(siteConfig)
 
-    // configResolved hooks run concurrently, so the search plugin may be the
-    // one that creates the shared markdown renderer — page renders must still
-    // pick up per-locale options from it
     await (plugin.configResolved as any)?.call(
       {},
       { publicDir: siteConfig.publicDir }
     )
 
+    // the markdown renderer is a singleton created on first use, and indexing
+    // here gets there before the page renderer does — page renders must still
+    // pick up per-locale options from the instance the search plugin built
+    await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
+
     const render = await createMarkdownToVueRenderFn(
       siteConfig.srcDir,
-      siteConfig.markdown ?? {},
       siteConfig.site.base,
       false,
       false,
@@ -167,7 +168,6 @@ describe('node/plugins/localSearchPlugin', () => {
     expect(zhPage.vueSrc).toContain('zhtiplabel')
 
     // the indexed text must use the localized labels too
-    await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
     const rootIndex = loadIndex(
       (await (plugin.load as any)?.handler.call(
         {},

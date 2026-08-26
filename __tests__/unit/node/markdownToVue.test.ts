@@ -3,10 +3,17 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 import { resolveConfig } from 'node/config'
+import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 
 describe('node/markdownToVue', () => {
   let root: string | undefined
+
+  beforeEach(() => {
+    // the markdown renderer is a module-level singleton — reset it so each
+    // test's options actually reach it
+    disposeMdItInstance()
+  })
 
   afterEach(async () => {
     if (root) {
@@ -23,9 +30,9 @@ describe('node/markdownToVue', () => {
     await writeFile(file, src)
 
     const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.markdown = { cache: false }
     const render = await createMarkdownToVueRenderFn(
       siteConfig.srcDir,
-      { cache: false },
       '/',
       false,
       false,
@@ -50,9 +57,9 @@ describe('node/markdownToVue', () => {
     await writeFile(file, src)
 
     const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.markdown = { cache: false }
     const render = await createMarkdownToVueRenderFn(
       siteConfig.srcDir,
-      { cache: false },
       '/',
       false,
       false,
@@ -105,9 +112,9 @@ describe('node/markdownToVue', () => {
     await writeFile(file, src)
 
     const siteConfig = await resolveConfig(root, 'build', 'production')
+    siteConfig.markdown = { cache: false }
     const render = await createMarkdownToVueRenderFn(
       siteConfig.srcDir,
-      { cache: false },
       '/',
       false,
       false,
@@ -125,6 +132,37 @@ describe('node/markdownToVue', () => {
     expect(result.vueSrc).not.toContain('shared after target')
   })
 
+  test('reads markdown options when the renderer is created', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-md-options-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '# Home\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    // a vite plugin extending the markdown options from its own configResolved
+    // hook, i.e. after the render fn has been created but before it is used
+    siteConfig.markdown = {
+      cache: false,
+      config: (md) => {
+        md.renderer.rules.text = (tokens, idx) =>
+          `${tokens[idx].content}__MARKER__`
+      }
+    }
+
+    const result = await render(src, file)
+
+    expect(result.vueSrc).toContain('Home__MARKER__')
+  })
+
   test('applies rewrites with mismatched Windows drive letter case', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-rewrite-'))
 
@@ -140,9 +178,9 @@ describe('node/markdownToVue', () => {
     }
     ;(siteConfig as any).__dirty = true
 
+    siteConfig.markdown = { cache: false }
     const render = await createMarkdownToVueRenderFn(
       siteConfig.srcDir,
-      { cache: false },
       '/',
       false,
       false,
