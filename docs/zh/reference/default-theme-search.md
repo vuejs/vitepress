@@ -198,7 +198,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...'
+        indices: ['...']
       }
     }
   }
@@ -216,9 +216,13 @@ export default defineConfig({
 
 </details>
 
-更多信息请参考[官方 Algolia 文档](https://docsearch.algolia.com/docs/api#translations)。想要快速开始，你也可以从[我们的 GitHub 仓库](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code)复制此站点使用的翻译。
+更多信息请参考[官方 Algolia 文档](https://docsearch.algolia.com/docs/packages/react/api-reference#translations)。想要快速开始，你也可以从[我们的 GitHub 仓库](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code)复制此站点使用的翻译。
 
 ### Algolia Ask AI 支持 {#ask-ai}
+
+::: note 注意
+从 `v5.0.0` 起，Ask AI 已改用 Algolia 的 [Agent Studio](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/how-to/quickstart) 作为后端。可参考 Ask AI -> Agent Studio [迁移指南](https://docsearch.algolia.com/docs/agent-studio/migrate-to-agent-studio)，以帮助完成迁移。
+:::
 
 如果需要启用 **Ask AI**，只需在 `options` 中添加 `askAi`：
 
@@ -232,16 +236,15 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
-        // askAi: "你的助手ID"
+        indices: ['...'],
+        // askAi: "你的智能体ID"
         // 或
         askAi: {
-          // 至少需要提供从 Algolia 获取的 assistantId
-          assistantId: 'XXXYYY',
-          // 可选覆盖 — 若省略，将复用顶层 appId/apiKey/indexName 的值
+          // 至少需要提供从 Algolia 获取的 agentId
+          agentId: 'XXXYYY',
+          // 可选覆盖 — 若省略，将复用顶层 appId/apiKey 的值
           // apiKey: '...',
-          // appId: '...',
-          // indexName: '...'
+          // appId: '...'
         }
       }
     }
@@ -255,7 +258,7 @@ export default defineConfig({
 
 ### Ask AI 侧边栏 {#ask-ai-side-panel}
 
-DocSearch v4.5+ 支持可选的 **Ask AI 侧边栏**。启用后，默认可通过 **Ctrl/Cmd+I** 打开。完整的选项列表请参阅[侧边栏 API 参考](https://docsearch.algolia.com/docs/sidepanel/api-reference)。
+DocSearch v4.5+ 支持可选的 **Ask AI 侧边栏**。启用后，默认可通过 **Ctrl/Cmd+I** 打开。完整的选项列表请参阅[侧边栏 API 参考](https://docsearch.algolia.com/docs/packages/sidepanel/api)。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -267,9 +270,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             // 镜像 @docsearch/sidepanel-js SidepanelProps API
             panel: {
@@ -299,9 +302,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             keyboardShortcuts: {
               'Ctrl/Cmd+I': false
@@ -337,10 +340,9 @@ export default defineConfig({
       options: {
         mode: 'sidePanel',
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           appId: '...',
           apiKey: '...',
-          indexName: '...',
           sidePanel: true
         }
       }
