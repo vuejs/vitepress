@@ -15,7 +15,8 @@ export interface Theme {
   extends?: Theme
 
   /**
-   * @deprecated can be replaced by wrapping layout component
+   * Runs inside the root component's `setup()` (during SSR too). With
+   * `extends`, setups run base-first, like `enhanceApp`.
    */
   setup?: () => void
 
