@@ -274,6 +274,9 @@ const overflow = provideNavOverflow({
   /* above the background surface, below the bar's content — an open flyout
      panel overlaps the bar's bottom edge and must cover the rule */
   z-index: -1;
+  /* own layer — Safari otherwise sorts the rule behind the sticky local
+     nav's surface in their overlapping row (#5399) */
+  transform: translateZ(0);
   width: 100%;
   height: 1px;
   padding-left: var(--vp-nav-col-offset);
