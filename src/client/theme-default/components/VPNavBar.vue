@@ -227,6 +227,15 @@ const overflow = provideNavOverflow({
   height: var(--vp-nav-height);
 }
 
+@media (min-width: 48rem) {
+  /* keeps search on the title's side when there is no nav menu to grow
+     into the middle; with a menu present its flex-grow wins and this
+     margin resolves to zero */
+  .content-body > .search {
+    margin-right: auto;
+  }
+}
+
 /* collapsed into the `⋯` menu — kept mounted (hidden, out of the a11y tree
    and tab order) so its natural width stays measurable */
 .content-body > .collapsed {
