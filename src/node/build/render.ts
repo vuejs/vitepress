@@ -39,9 +39,23 @@ export async function renderPage(
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
 
+  const relativeBase = isRelativeBase(config.site.base)
+  const pageBase = relativeBase ? relativePathToRoot(page) : config.site.base
+  // user hooks must never see the build sentinel
+  const desentinel = (value: string) =>
+    relativeBase ? value.replaceAll(RELATIVE_BASE_SENTINEL, pageBase) : value
+
   // render page
   const context = await render(routePath)
-  let { content, teleports, vpSocialIcons } =
+  if (relativeBase) {
+    context.content = desentinel(context.content)
+    if (context.teleports) {
+      for (const key in context.teleports) {
+        context.teleports[key] = desentinel(context.teleports[key])
+      }
+    }
+  }
+  const { content, teleports, vpSocialIcons } =
     (await config.postRender?.(context)) ?? context
 
   // add used social icons to the set
@@ -75,23 +89,12 @@ export async function renderPage(
 
   const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
-  const relativeBase = isRelativeBase(siteData.base)
-  const pageBase = relativeBase ? relativePathToRoot(page) : siteData.base
-
   const assetUrl = (file: string) => (config.assetsBase ?? pageBase) + file
   const assetsCrossOrigin =
     config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
       ? ' crossorigin'
       : ''
-
-  // user hooks must never see the build sentinel
-  const desentinel = (value: string) =>
-    relativeBase ? value.replaceAll(RELATIVE_BASE_SENTINEL, pageBase) : value
   const pageAssets = relativeBase ? assets.map(desentinel) : assets
-  if (relativeBase) {
-    content = desentinel(content)
-    if (teleports?.body) teleports.body = desentinel(teleports.body)
-  }
 
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description

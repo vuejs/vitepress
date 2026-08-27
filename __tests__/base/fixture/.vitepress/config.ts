@@ -18,6 +18,14 @@ export default defineConfig({
     build: { assetsInlineLimit: 0 }
   },
   // user hooks must only ever see final urls, never the build sentinel
+  postRender(context) {
+    if (JSON.stringify(context.teleports ?? {}).includes('__VP_BASE__')) {
+      throw new Error('sentinel leaked to postRender teleports')
+    }
+    if (context.content.includes('__VP_BASE__')) {
+      throw new Error('sentinel leaked to postRender')
+    }
+  },
   transformHead({ assets, head, content }) {
     if ((JSON.stringify([assets, head]) + content).includes('__VP_BASE__')) {
       throw new Error('sentinel leaked to transformHead')

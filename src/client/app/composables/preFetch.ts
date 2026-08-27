@@ -20,7 +20,8 @@ const viaDOM = (url: string) => {
 
 const viaXHR = (url: string) => {
   const req = new XMLHttpRequest()
-  req.open('GET', url, (req.withCredentials = true))
+  req.open('GET', url, true)
+  req.withCredentials = !EXTERNAL_URL_RE.test(url)
   req.send()
 }
 
