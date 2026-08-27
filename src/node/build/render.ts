@@ -8,10 +8,13 @@ import { version } from '../../../package.json' with { type: 'json' }
 import type { SiteConfig } from '../config'
 import {
   EXTERNAL_URL_RE,
+  RELATIVE_BASE_SENTINEL,
   createTitle,
   escapeHtml,
+  isRelativeBase,
   mergeHead,
   notFoundPageData,
+  relativePathToRoot,
   resolveSiteDataByRoute,
   sanitizeFileName,
   slash,
@@ -36,8 +39,22 @@ export async function renderPage(
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
 
+  const relativeBase = isRelativeBase(config.site.base)
+  const pageBase = relativeBase ? relativePathToRoot(page) : config.site.base
+  // user hooks must never see the build sentinel
+  const desentinel = (value: string) =>
+    relativeBase ? value.replaceAll(RELATIVE_BASE_SENTINEL, pageBase) : value
+
   // render page
   const context = await render(routePath)
+  if (relativeBase) {
+    context.content = desentinel(context.content)
+    if (context.teleports) {
+      for (const key in context.teleports) {
+        context.teleports[key] = desentinel(context.teleports[key])
+      }
+    }
+  }
   const { content, teleports, vpSocialIcons } =
     (await config.postRender?.(context)) ?? context
 
@@ -72,10 +89,17 @@ export async function renderPage(
 
   const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
+  const assetUrl = (file: string) => (config.assetsBase ?? pageBase) + file
+  const assetsCrossOrigin =
+    config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
+      ? ' crossorigin'
+      : ''
+  const pageAssets = relativeBase ? assets.map(desentinel) : assets
+
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
   const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    ? `<link rel="preload stylesheet" href="${assetUrl(cssChunk.fileName)}" as="style">`
     : ''
 
   let preloadLinks =
@@ -107,15 +131,24 @@ export async function renderPage(
       {
         rel,
         // don't add base to external urls
-        href: (EXTERNAL_URL_RE.test(file) ? '' : siteData.base) + file
+        href: EXTERNAL_URL_RE.test(file) ? file : assetUrl(file),
+        // must match the cors mode of the later module fetch, or the
+        // cached response is not reused
+        ...(assetsCrossOrigin && !EXTERNAL_URL_RE.test(file)
+          ? { crossorigin: '' }
+          : {})
       }
     ])
 
   const preloadHeadTags = toHeadTags(preloadLinks, 'modulepreload')
   const prefetchHeadTags = toHeadTags(prefetchLinks, 'prefetch')
 
+  const pageHeadTags: HeadConfig[] = relativeBase
+    ? JSON.parse(desentinel(JSON.stringify(additionalHeadTags)))
+    : additionalHeadTags
+
   const headBeforeTransform = [
-    ...additionalHeadTags,
+    ...pageHeadTags,
     ...preloadHeadTags,
     ...prefetchHeadTags,
     ...mergeHead(
@@ -135,7 +168,7 @@ export async function renderPage(
       description,
       head: headBeforeTransform,
       content,
-      assets
+      assets: pageAssets
     })) || []
   )
 
@@ -153,7 +186,7 @@ export async function renderPage(
           force: true
         })
       } else {
-        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+        inlinedScript = `<script type="module" src="${assetUrl(matchingChunk.fileName)}"${assetsCrossOrigin}></script>`
       }
     }
   }
@@ -176,12 +209,19 @@ export async function renderPage(
         : `<meta name="description" content="${escapeHtml(description)}">`
     }
     <meta name="generator" content="VitePress v${version}">
+    ${
+      // recovers the absolute site root at runtime; a classic inline script
+      // so it runs before any module resolves URLs
+      relativeBase && !config.mpa
+        ? `<script>window.__VP_SITE_ROOT__=new URL("${pageBase}",location).href</script>`
+        : ''
+    }
     ${stylesheetLink}
-    <link rel="preload stylesheet" href="${siteData.base}vp-icons.css" as="style">
+    <link rel="preload stylesheet" href="${pageBase}vp-icons.css" as="style">
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
-        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        ? `<script type="module" src="${assetUrl(appChunk.fileName)}"${assetsCrossOrigin}></script>`
         : ''
     }
     ${await renderHead(head)}
@@ -195,18 +235,23 @@ export async function renderPage(
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await mkdir(path.dirname(htmlFileName), { recursive: true })
-  const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
-    page,
-    siteConfig: config,
-    siteData,
-    pageData,
-    title,
-    description,
-    head,
-    content,
-    assets
-  })
-  await writeFile(htmlFileName, transformedHtml || html)
+  const finalHtml = desentinel(html)
+  const transformedHtml = await config.transformHtml?.(
+    finalHtml,
+    htmlFileName,
+    {
+      page,
+      siteConfig: config,
+      siteData,
+      pageData,
+      title,
+      description,
+      head,
+      content,
+      assets: pageAssets
+    }
+  )
+  await writeFile(htmlFileName, transformedHtml || finalHtml)
 }
 
 async function resolvePageImports(

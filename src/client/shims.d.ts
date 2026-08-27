@@ -9,6 +9,7 @@ declare const __ALGOLIA__: boolean
 declare const __CARBON__: boolean
 declare const __VUE_PROD_DEVTOOLS__: boolean
 declare const __ASSETS_DIR__: string
+declare const __ASSETS_BASE__: string
 
 declare module '@siteData' {
   import type { SiteData } from 'vitepress'

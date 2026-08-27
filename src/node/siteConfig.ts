@@ -92,7 +92,9 @@ export interface UserConfig<
    */
   extends?: RawConfigExports<ThemeConfig>
   /**
-   * The base URL the site is deployed at. Must start and end with a slash.
+   * The base URL the site is deployed at. Usually starts and ends with a
+   * slash. Use `'./'` to make page references relative to their own depth,
+   * so the output works at any subpath.
    * @default '/'
    */
   base?: string
@@ -118,6 +120,17 @@ export interface UserConfig<
    * @default 'assets'
    */
   assetsDir?: string
+  /**
+   * URL prefix the built assets (everything under `assetsDir`) are served
+   * from, e.g. a CDN. Must be an absolute URL, a protocol-relative URL, or
+   * a root-absolute path, and must mirror the layout of `outDir`: each URL
+   * is this prefix plus the file's output-relative path. Pages, `withBase`
+   * links, `public/` files, `hashmap.json` and `vp-icons.css` stay on
+   * `base`. A cross-origin prefix must send CORS headers, as the generated
+   * tags are marked `crossorigin`. Applies to builds and preview, not dev.
+   * @example 'https://cdn.example.com/'
+   */
+  assetsBase?: string
   /**
    * Directory for cache files, relative to the project root.
    * @default './.vitepress/cache'
@@ -349,6 +362,10 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
    * Directory for assets within the build output.
    */
   assetsDir: string
+  /**
+   * URL prefix for built assets, normalized to end with a slash.
+   */
+  assetsBase?: string
   /**
    * Absolute path of the cache directory.
    */

@@ -27,6 +27,7 @@ import {
   createMarkdownToVueRenderFn,
   type MarkdownCompileResult
 } from './markdownToVue'
+import { assetsBasePlugin } from './plugins/assetsBasePlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
@@ -129,7 +130,9 @@ export async function createVitePressPlugin(
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown ?? {},
-        config.base,
+        // the site base, not the vite base: the ssr build runs under the
+        // sentinel, and one md singleton serves both builds
+        site.base,
         lastUpdated ?? false,
         cleanUrls ?? false,
         siteConfig
@@ -148,6 +151,7 @@ export async function createVitePressPlugin(
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
+          __ASSETS_BASE__: JSON.stringify(siteConfig.assetsBase ?? ''),
           __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG
         },
         optimizeDeps: {
@@ -452,6 +456,8 @@ export async function createVitePressPlugin(
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
+    // must stay after the user plugins; see assetsBasePlugin
+    ...(siteConfig.assetsBase ? [assetsBasePlugin(siteConfig)] : []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)

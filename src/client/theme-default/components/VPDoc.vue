@@ -2,18 +2,25 @@
 import { useRoute } from 'vitepress'
 import { computed } from 'vue'
 
+import { runtimeBase } from '../../app/utils'
+import { isRelativeBase } from '../../shared'
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import VPDocAside from './VPDocAside.vue'
 import VPDocFooter from './VPDocFooter.vue'
 
-const { theme } = useData()
+const { theme, site } = useData()
 const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useLayout()
 
-const pageName = computed(() =>
-  route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
-)
+const pageName = computed(() => {
+  // the mount point is unknown at build time, so the class must come from
+  // the site-relative path or ssr and hydration disagree
+  const path = isRelativeBase(site.value.base)
+    ? '/' + route.path.slice(runtimeBase().length)
+    : route.path
+  return path.replace(/[./]+/g, '_').replace(/_html$/, '')
+})
 </script>
 
 <template>

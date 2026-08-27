@@ -1,0 +1,3 @@
+# Moved page
+
+Rewritten target.

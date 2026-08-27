@@ -168,7 +168,8 @@ export interface Header {
  */
 export interface SiteData<ThemeConfig = any> {
   /**
-   * The base URL the site is deployed at.
+   * The base URL the site is deployed at, or `'./'` when each page
+   * references the site relative to its own depth.
    * @default '/'
    */
   base: string
@@ -586,6 +587,13 @@ export interface MarkdownEnv {
    * Whether clean URLs are enabled.
    */
   cleanUrls: boolean
+  /**
+   * Whether the rendered HTML is emitted at `relativePath`, so site-absolute
+   * links may be rewritten relative to it. Content loaders must not set it:
+   * their HTML is embedded in other pages.
+   * @internal
+   */
+  relativizeUrls?: boolean
   /**
    * The URLs of the links collected from the page for the dead link check.
    */
