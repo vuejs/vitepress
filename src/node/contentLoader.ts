@@ -1,8 +1,10 @@
-import matter from 'gray-matter'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
+
+import matter from 'gray-matter'
 import pMap from 'p-map'
 import { normalizePath } from 'vite'
+
 import type { SiteConfig } from './config'
 import {
   createMarkdownRenderer,

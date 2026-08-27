@@ -38,7 +38,12 @@ interface Theme {
    */
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   /**
-   * Extend another theme, calling its `enhanceApp` before ours
+   * Runs inside the root component's `setup()`
+   * @optional
+   */
+  setup?: () => void
+  /**
+   * Extend another theme, calling its `enhanceApp` and `setup` before ours
    * @optional
    */
   extends?: Theme
@@ -87,6 +92,26 @@ export default {
 ```
 
 Return `false` from `onBeforeRouteChange` or `onBeforePageLoad` to cancel navigation.
+
+The `setup` hook runs inside the root component's `setup()`, so Composition API calls (`onMounted`, `watch`, composables, ...) work there without wrapping the layout component:
+
+```ts [.vitepress/theme/index.ts]
+import { watch } from 'vue'
+import { useData } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+  extends: DefaultTheme,
+  setup() {
+    const { page } = useData()
+    watch(() => page.value.relativePath, (path) => {
+      console.log('now viewing', path)
+    })
+  }
+}
+```
+
+With `extends`, each theme's `setup` runs base-first, like `enhanceApp`. It also runs during SSR/SSG rendering, so keep browser-only work inside `onMounted`.
 
 The default export is the only contract for a custom theme, and only the `Layout` property is required. So technically, a VitePress theme can be as simple as a single Vue component.
 

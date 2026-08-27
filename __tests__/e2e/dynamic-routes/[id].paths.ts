@@ -1,9 +1,10 @@
 import { defineRoutes } from 'vitepress'
+
 import paths from './paths'
 
 export default defineRoutes({
-  async paths(watchedFiles: string[]) {
-    // console.log('watchedFiles', watchedFiles)
+  async paths(_watchedFiles: string[]) {
+    // console.log('watchedFiles', _watchedFiles)
     return paths
   },
   watch: ['../data-loading/**/*.json'],

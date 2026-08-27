@@ -1,15 +1,15 @@
 .custom-block {
   border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 8px 16px;
-  line-height: 24px;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  line-height: 1.7142857;
   font-size: var(--vp-custom-block-font-size);
   color: var(--vp-c-text-2);
 }
 
 /* containers rendered with `{no-title}` keep the reduced padding */
 .custom-block:has(> .custom-block-title, > summary) {
-  padding-top: 16px;
+  padding-top: 1rem;
 }
 
 .custom-block.info {
@@ -176,25 +176,25 @@
 }
 
 .custom-block p + p {
-  margin: 8px 0;
+  margin: 0.5rem 0;
 }
 
 .custom-block.details summary {
-  margin: 0 0 8px;
+  margin: 0 0 0.5rem;
   font-weight: 700;
   cursor: pointer;
   user-select: none;
 }
 
 .custom-block.details summary + p {
-  margin: 8px 0;
+  margin: 0.5rem 0;
 }
 
 .custom-block a {
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 0.125rem;
   transition: opacity 0.25s;
 }
 

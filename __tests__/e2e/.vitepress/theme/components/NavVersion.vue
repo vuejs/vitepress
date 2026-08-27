@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute } from 'vitepress'
-import VPNavBarMenuGroup from 'vitepress/dist/client/theme-default/components/VPNavBarMenuGroup.vue'
-import VPNavScreenMenuGroup from 'vitepress/dist/client/theme-default/components/VPNavScreenMenuGroup.vue'
+import VPNavMenuGroup from 'vitepress/dist/client/theme-default/components/VPNavMenuGroup.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   versions: { text: string; link: string }[]
   screenMenu?: boolean
+  menu?: boolean
 }>()
 
 const route = useRoute()
@@ -26,15 +26,10 @@ const currentVersion = computed(() => {
 </script>
 
 <template>
-  <VPNavBarMenuGroup
-    v-if="!screenMenu"
+  <VPNavMenuGroup
     :item="{ text: currentVersion, items: versions }"
-    class="VPNavVersion"
-  />
-  <VPNavScreenMenuGroup
-    v-else
-    :text="currentVersion"
-    :items="versions"
+    :screen="screenMenu"
+    :menu="menu"
     class="VPNavVersion"
   />
 </template>

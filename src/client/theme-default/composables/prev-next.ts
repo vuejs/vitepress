@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+
 import { isActive, normalize } from '../../shared'
 import { getFlatSideBarLinks, getSidebar } from '../support/sidebar'
 import { uniqBy } from '../support/utils'

@@ -2,6 +2,7 @@ import { container } from '@mdit/plugin-container'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
+
 import type {
   ContainerOptions,
   MarkdownEnv,

@@ -5,12 +5,13 @@ const props = defineProps<{
   options: string[]
   defaultOption: string
   screenMenu?: boolean
+  menu?: boolean
 }>()
 
 // reactivity isn't needed for props here
 
 const key = removeSpaces(`api-preference-${props.options.join('-')}`)
-const name = key + (props.screenMenu ? '-screen-menu' : '')
+const name = key + (props.screenMenu ? '-screen-menu' : props.menu ? '-menu' : '')
 
 const selected = useLocalStorage(key, () => props.defaultOption)
 
@@ -25,8 +26,11 @@ function removeSpaces(str: string) {
 </script>
 
 <template>
-  <div class="VPApiPreference" :class="{ 'screen-menu': screenMenu }">
-    <template v-for="option in optionsWithKeys" :key="option">
+  <div
+    class="VPApiPreference"
+    :class="{ 'screen-menu': screenMenu, 'in-menu': menu }"
+  >
+    <template v-for="option in optionsWithKeys" :key="option.key">
       <input
         type="radio"
         :id="option.key"
@@ -42,10 +46,10 @@ function removeSpaces(str: string) {
 <style scoped>
 .VPApiPreference {
   display: flex;
-  margin: 12px 0;
+  margin: 0.75rem 0;
   border: 1px solid var(--vp-c-border);
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
   color: var(--vp-c-text-1);
 }
 
@@ -57,8 +61,13 @@ function removeSpaces(str: string) {
   margin-bottom: 0;
 }
 
+.VPApiPreference.in-menu {
+  margin: 0.5rem 0.75rem;
+}
+
 .VPApiPreference.screen-menu {
-  margin: 12px 0 0 12px;
+  margin: 0.75rem 0 0 0.75rem;
+  font-size: 1rem;
 }
 
 .VPApiPreference input[type='radio'] {
@@ -69,10 +78,10 @@ function removeSpaces(str: string) {
 
 .VPApiPreference label {
   flex: 1;
-  margin: 2px;
-  padding: 4px 12px;
+  margin: 0.125rem;
+  padding: 0.25rem 0.75rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   text-align: center;
 }
 

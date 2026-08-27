@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 import { isLinkExternal, normalizeLink } from '../support/utils'
 
 const props = withDefaults(defineProps<{
@@ -10,7 +11,7 @@ const props = withDefaults(defineProps<{
   target?: string
   rel?: string
 }>(), {
-  external: undefined,
+  external: undefined
 })
 
 const tag = computed(() => props.tag ?? (props.href ? 'a' : 'span'))

@@ -2,6 +2,7 @@
 // https://github.com/GoogleChromeLabs/quicklink
 
 import { onMounted, onUnmounted, watch } from 'vue'
+
 import { useRoute } from '../router'
 import { inBrowser, pathToFile } from '../utils'
 

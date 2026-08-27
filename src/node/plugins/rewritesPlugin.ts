@@ -1,5 +1,6 @@
 import { compile, match } from 'path-to-regexp'
 import type { Plugin } from 'vite'
+
 import type { SiteConfig, UserConfig } from '../siteConfig'
 
 export function resolveRewrites(
@@ -60,7 +61,7 @@ export const rewritesPlugin = (config: SiteConfig): Plugin => {
           if (config.rewrites.inv[page]) {
             req.url = req.url.replace(
               encodeURI(page),
-              encodeURI(config.rewrites.inv[page]!)
+              encodeURI(config.rewrites.inv[page])
             )
           }
         }

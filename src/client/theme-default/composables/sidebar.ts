@@ -10,6 +10,7 @@ import {
   watchEffect,
   type ComputedRef
 } from 'vue'
+
 import { isActive } from '../../shared'
 import { hasActiveLink as containsActiveLink } from '../support/sidebar'
 
@@ -83,12 +84,14 @@ export function useSidebarItemControl(
   const isActiveLink = ref(false)
   const hasActiveLink = ref(false)
 
-  function updateActiveLink(): void {
+  function updateActiveLink(skipHashCheck = false): void {
     if (item.value.link) {
       isActiveLink.value = isActive(
         route.data.relativePath,
         route.hash,
-        item.value.link
+        item.value.link,
+        false,
+        skipHashCheck
       )
     } else {
       isActiveLink.value = false
@@ -105,15 +108,30 @@ export function useSidebarItemControl(
     hasActiveLink.value = containsActiveLink(
       route.data.relativePath,
       route.hash,
-      item.value.items
+      item.value.items,
+      skipHashCheck
     )
     if (hasActiveLink.value) {
       nextTick(() => (collapsed.value = false))
     }
   }
 
-  watch([item, route], updateActiveLink)
-  onMounted(updateActiveLink)
+  // runs during setup so active classes render in SSR output too; the hash
+  // isn't known on the server (and may differ at hydration), so it's skipped
+  // until mounted
+  updateActiveLink(true)
+
+  watch([item, route], () => updateActiveLink())
+  onMounted(() => updateActiveLink())
+
+  // exact match only, unlike isActiveLink which skips the hash check before
+  // mount — links that differ only in hash must not claim aria-current in
+  // SSR output
+  const isCurrentLink = computed(() => {
+    return item.value.link
+      ? isActive(route.data.relativePath, route.hash, item.value.link)
+      : false
+  })
 
   const hasChildren = computed(() => {
     return !!(item.value.items && item.value.items.length)
@@ -134,6 +152,7 @@ export function useSidebarItemControl(
     collapsible,
     isLink,
     isActiveLink: isActiveLink as ComputedRef<boolean>,
+    isCurrentLink,
     hasActiveLink: hasActiveLink as ComputedRef<boolean>,
     hasChildren,
     toggle

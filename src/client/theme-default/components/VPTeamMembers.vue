@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed } from 'vue'
+
 import VPTeamMembersItem from './VPTeamMembersItem.vue'
 
 interface Props {
@@ -11,12 +11,10 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   size: 'medium'
 })
-
-const classes = computed(() => [props.size, `count-${props.members.length}`])
 </script>
 
 <template>
-  <div class="VPTeamMembers" :class="classes">
+  <div class="VPTeamMembers" :class="[size, `count-${members.length}`]">
     <ul class="container">
       <li v-for="member in members" :key="member.name" class="item">
         <VPTeamMembersItem :size :member />
@@ -27,41 +25,41 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 
 <style scoped>
 .VPTeamMembers.small .container {
-  grid-template-columns: repeat(auto-fit, minmax(224px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 }
 
 .VPTeamMembers.small.count-1 .container {
-  max-width: 276px;
+  max-width: 17.25rem;
 }
 .VPTeamMembers.small.count-2 .container {
-  max-width: calc(276px * 2 + 24px);
+  max-width: calc(17.25rem * 2 + 1.5rem);
 }
 .VPTeamMembers.small.count-3 .container {
-  max-width: calc(276px * 3 + 24px * 2);
+  max-width: calc(17.25rem * 3 + 1.5rem * 2);
 }
 
 .VPTeamMembers.medium .container {
-  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 }
 
-@media (min-width: 375px) {
+@media (min-width: 23.4375rem) {
   .VPTeamMembers.medium .container {
-    grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   }
 }
 
 .VPTeamMembers.medium.count-1 .container {
-  max-width: 368px;
+  max-width: 23rem;
 }
 .VPTeamMembers.medium.count-2 .container {
-  max-width: calc(368px * 2 + 24px);
+  max-width: calc(23rem * 2 + 1.5rem);
 }
 
 .container {
   display: grid;
-  gap: 24px;
+  gap: 1.5rem;
   margin: 0 auto;
-  max-width: 1152px;
+  max-width: 72rem;
 }
 
 /* Reset styles from vp-doc if used in markdown */
@@ -73,5 +71,23 @@ const classes = computed(() => [props.size, `count-${props.members.length}`])
 .vp-doc .VPTeamMembers .item {
   margin: 0;
   padding: 0;
+}
+.vp-doc .VPTeamMembers :deep(.org),
+.vp-doc .VPTeamMembers :deep(.sp-link) {
+  text-decoration: none;
+}
+
+/* Sizing for doc pages, where the content area is narrow (excludes home content) */
+.vp-doc:not(.VPHomeContent) .VPTeamMembers {
+  margin-top: 1.5rem;
+}
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-1 .container,
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.medium.count-1 .container {
+  margin: 0;
+  max-width: calc((100% - 1.5rem) / 2);
+}
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-2 .container,
+.vp-doc:not(.VPHomeContent) .VPTeamMembers.small.count-3 .container {
+  max-width: 100%;
 }
 </style>

@@ -1,4 +1,5 @@
 import type { DefaultTheme } from 'vitepress/theme'
+
 import { isActive, isExternal } from '../../shared'
 import { ensureStartingSlash } from './utils'
 
@@ -36,7 +37,7 @@ export function getSidebar(
       return path.startsWith(ensureStartingSlash(dir))
     })
 
-  const sidebar = dir ? _sidebar[dir] : []
+  const sidebar = dir ? (_sidebar[dir] ?? []) : []
   return Array.isArray(sidebar)
     ? addBase(sidebar)
     : addBase(sidebar.items, sidebar.base)
@@ -50,19 +51,20 @@ export function getSidebarGroups(sidebar: SidebarItem[]): SidebarItem[] {
 
   let lastGroupIndex: number = 0
 
-  for (const index in sidebar) {
-    const item = sidebar[index]
-
+  for (const item of sidebar) {
     if (item.items) {
       lastGroupIndex = groups.push(item)
       continue
     }
 
-    if (!groups[lastGroupIndex]) {
-      groups.push({ items: [] })
+    let group = groups[lastGroupIndex]
+
+    if (!group) {
+      group = { items: [] }
+      groups.push(group)
     }
 
-    groups[lastGroupIndex]!.items!.push(item)
+    group.items?.push(item)
   }
 
   return groups
@@ -100,16 +102,17 @@ export function getFlatSideBarLinks(sidebar: SidebarItem[]): SidebarLink[] {
 export function hasActiveLink(
   path: string,
   hash: string,
-  items: SidebarItem | SidebarItem[]
+  items: SidebarItem | SidebarItem[],
+  skipHashCheck = false
 ): boolean {
   if (Array.isArray(items)) {
-    return items.some((item) => hasActiveLink(path, hash, item))
+    return items.some((item) => hasActiveLink(path, hash, item, skipHashCheck))
   }
-  if (items.link && isActive(path, hash, items.link)) {
+  if (items.link && isActive(path, hash, items.link, false, skipHashCheck)) {
     return true
   }
   if (items.items) {
-    return hasActiveLink(path, hash, items.items)
+    return hasActiveLink(path, hash, items.items, skipHashCheck)
   }
   return false
 }

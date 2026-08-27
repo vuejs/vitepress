@@ -124,13 +124,15 @@ describe('Table of Contents', () => {
 })
 
 describe('Custom Containers', () => {
-  enum CustomBlocks {
-    Info = 'INFO',
-    Tip = 'TIP',
-    Warning = 'WARNING',
-    Danger = 'DANGER',
-    Details = 'Details'
-  }
+  const CustomBlocks = {
+    Info: 'INFO',
+    Tip: 'TIP',
+    Warning: 'WARNING',
+    Danger: 'DANGER',
+    Details: 'Details'
+  } as const
+
+  type CustomBlocks = (typeof CustomBlocks)[keyof typeof CustomBlocks]
 
   const classnameMap = {
     [CustomBlocks.Info]: 'info',

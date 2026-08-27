@@ -69,6 +69,11 @@
   --vp-c-yellow-3: #9f6a00;
   --vp-c-yellow-soft: rgba(234, 179, 8, 0.14);
 
+  --vp-c-orange-1: #9a4224;
+  --vp-c-orange-2: #b95a00;
+  --vp-c-orange-3: #c16200;
+  --vp-c-orange-soft: rgba(249, 115, 22, 0.14);
+
   --vp-c-red-1: #b8272c;
   --vp-c-red-2: #d5393e;
   --vp-c-red-3: #e0575b;
@@ -102,6 +107,11 @@
   --vp-c-yellow-2: #da8b17;
   --vp-c-yellow-3: #a46a0a;
   --vp-c-yellow-soft: rgba(234, 179, 8, 0.16);
+
+  --vp-c-orange-1: #fb8c00;
+  --vp-c-orange-2: #e46a02;
+  --vp-c-orange-3: #b45309;
+  --vp-c-orange-soft: rgba(249, 115, 22, 0.16);
 
   --vp-c-red-1: #f66f81;
   --vp-c-red-2: #f14158;
@@ -256,6 +266,18 @@
   --vp-c-caution-soft: var(--vp-c-red-soft);
 }
 
+:root:where(:has(.vp-graded-containers)) {
+  --vp-c-warning-1: var(--vp-c-orange-1);
+  --vp-c-warning-2: var(--vp-c-orange-2);
+  --vp-c-warning-3: var(--vp-c-orange-3);
+  --vp-c-warning-soft: var(--vp-c-orange-soft);
+
+  --vp-c-caution-1: var(--vp-c-yellow-1);
+  --vp-c-caution-2: var(--vp-c-yellow-2);
+  --vp-c-caution-3: var(--vp-c-yellow-3);
+  --vp-c-caution-soft: var(--vp-c-yellow-soft);
+}
+
 /**
  * Typography
  * -------------------------------------------------------------------------- */
@@ -308,7 +330,7 @@
   --vp-z-index-sidebar: 60;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :root {
     --vp-z-index-sidebar: 25;
   }
@@ -319,7 +341,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-layout-max-width: 1440px;
+  --vp-layout-max-width: 90rem;
 }
 
 /**
@@ -417,8 +439,8 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-custom-block-font-size: 14px;
-  --vp-custom-block-code-font-size: 13px;
+  --vp-custom-block-font-size: 0.875rem;
+  --vp-custom-block-code-font-size: 0.8125rem;
 
   --vp-custom-block-info-border: transparent;
   --vp-custom-block-info-text: var(--vp-c-text-1);
@@ -440,6 +462,11 @@
   --vp-custom-block-important-bg: var(--vp-c-important-soft);
   --vp-custom-block-important-code-bg: var(--vp-c-important-soft);
 
+  --vp-custom-block-caution-border: transparent;
+  --vp-custom-block-caution-text: var(--vp-c-text-1);
+  --vp-custom-block-caution-bg: var(--vp-c-caution-soft);
+  --vp-custom-block-caution-code-bg: var(--vp-c-caution-soft);
+
   --vp-custom-block-warning-border: transparent;
   --vp-custom-block-warning-text: var(--vp-c-text-1);
   --vp-custom-block-warning-bg: var(--vp-c-warning-soft);
@@ -449,11 +476,6 @@
   --vp-custom-block-danger-text: var(--vp-c-text-1);
   --vp-custom-block-danger-bg: var(--vp-c-danger-soft);
   --vp-custom-block-danger-code-bg: var(--vp-c-danger-soft);
-
-  --vp-custom-block-caution-border: transparent;
-  --vp-custom-block-caution-text: var(--vp-c-text-1);
-  --vp-custom-block-caution-bg: var(--vp-c-caution-soft);
-  --vp-custom-block-caution-code-bg: var(--vp-c-caution-soft);
 
   --vp-custom-block-details-border: var(--vp-custom-block-info-border);
   --vp-custom-block-details-text: var(--vp-custom-block-info-text);
@@ -477,10 +499,24 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-nav-height: 64px;
+  --vp-nav-height: 4rem;
   --vp-nav-bg-color: var(--vp-c-bg);
+
+  /**
+   * Background while on top of the home page (unscrolled). Set it to
+   * var(--vp-nav-bg-color) to opt out of the transparent treatment.
+   */
+  --vp-nav-home-bg-color: transparent;
+
+  /**
+   * Applied to the navbar surface, e.g. `saturate(180%) blur(8px)` combined
+   * with a translucent --vp-nav-bg-color for a frosted-glass bar.
+   */
+  --vp-nav-backdrop-filter: none;
+
+  --vp-nav-divider-color: var(--vp-c-gutter);
   --vp-nav-screen-bg-color: var(--vp-c-bg);
-  --vp-nav-logo-height: 24px;
+  --vp-nav-logo-height: 1.5rem;
 }
 
 .hide-nav {
@@ -488,7 +524,7 @@
 }
 
 .hide-nav .VPSidebar {
-  --vp-nav-height: 22px;
+  --vp-nav-height: 1.375rem;
 }
 
 /**
@@ -496,7 +532,18 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-local-nav-bg-color: var(--vp-c-bg);
+  /**
+   * Follows the navbar surface by default, so a translucent
+   * --vp-nav-bg-color with --vp-nav-backdrop-filter extends the
+   * frosted-glass treatment to the local nav as well.
+   */
+  --vp-local-nav-bg-color: var(--vp-nav-bg-color);
+
+  /**
+   * The local nav's bottom rule. Follows the navbar's divider color by
+   * default.
+   */
+  --vp-local-nav-divider-color: var(--vp-nav-divider-color);
 }
 
 /**
@@ -504,7 +551,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-sidebar-width: 272px;
+  --vp-sidebar-width: 17rem;
   --vp-sidebar-bg-color: var(--vp-c-bg-alt);
 }
 
@@ -537,9 +584,21 @@
   --vp-badge-info-text: var(--vp-c-text-2);
   --vp-badge-info-bg: var(--vp-c-default-soft);
 
+  --vp-badge-note-border: transparent;
+  --vp-badge-note-text: var(--vp-c-note-1);
+  --vp-badge-note-bg: var(--vp-c-note-soft);
+
   --vp-badge-tip-border: transparent;
   --vp-badge-tip-text: var(--vp-c-tip-1);
   --vp-badge-tip-bg: var(--vp-c-tip-soft);
+
+  --vp-badge-important-border: transparent;
+  --vp-badge-important-text: var(--vp-c-important-1);
+  --vp-badge-important-bg: var(--vp-c-important-soft);
+
+  --vp-badge-caution-border: transparent;
+  --vp-badge-caution-text: var(--vp-c-caution-1);
+  --vp-badge-caution-bg: var(--vp-c-caution-soft);
 
   --vp-badge-warning-border: transparent;
   --vp-badge-warning-text: var(--vp-c-warning-1);

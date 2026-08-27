@@ -6,13 +6,12 @@ import {
   onKeyStroke,
   useEventListener,
   useLocalStorage,
-  useScrollLock,
   useSessionStorage
 } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { dataSymbol, inBrowser, useRouter } from 'vitepress'
+import { dataSymbol, useRouter } from 'vitepress'
 import {
   computed,
   createApp,
@@ -22,14 +21,17 @@ import {
   onMounted,
   ref,
   shallowRef,
+  useTemplateRef,
   watch,
   watchEffect,
   type Ref
 } from 'vue'
+
 import type { LocalSearchTranslations } from '../../../../types/local-search'
 import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
 
@@ -37,8 +39,8 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const el = shallowRef<HTMLElement>()
-const resultsEl = shallowRef<HTMLElement>()
+const el = useTemplateRef('el')
+const resultsEl = useTemplateRef('resultsEl')
 
 /* Search */
 
@@ -74,25 +76,25 @@ const showSearchSpinner = computed(() => {
 })
 
 const searchIndex = computedAsync(
-  async () =>
-    markRaw(
-      MiniSearch.loadJSON<Result>(
-        (await searchIndexData.value[localeIndex.value]?.())?.default,
-        {
-          fields: ['title', 'titles', 'text'],
-          storeFields: ['title', 'titles'],
-          searchOptions: {
-            fuzzy: 0.2,
-            prefix: true,
-            boost: { title: 4, text: 2, titles: 1 },
-            ...(theme.value.search?.provider === 'local' &&
-              theme.value.search.options?.miniSearch?.searchOptions)
-          },
+  async () => {
+    const json = (await searchIndexData.value[localeIndex.value]?.())?.default
+    if (!json) return null
+    return markRaw(
+      MiniSearch.loadJSON<Result>(json, {
+        fields: ['title', 'titles', 'text'],
+        storeFields: ['title', 'titles'],
+        searchOptions: {
+          fuzzy: 0.2,
+          prefix: true,
+          boost: { title: 4, text: 2, titles: 1 },
           ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.options)
-        }
-      )
-    ),
+            theme.value.search.options?.miniSearch?.searchOptions)
+        },
+        ...(theme.value.search?.provider === 'local' &&
+          theme.value.search.options?.miniSearch?.options)
+      })
+    )
+  },
   undefined,
   isSearchIndexLoading
 )
@@ -264,7 +266,7 @@ async function fetchExcerpt(id: string) {
 
 /* Search input focus */
 
-const searchInput = ref<HTMLInputElement>()
+const searchInput = useTemplateRef('searchInput')
 const disableReset = computed(() => {
   return filterText.value?.length <= 0
 })
@@ -409,7 +411,7 @@ useEventListener('popstate', (event) => {
 
 /** Lock body */
 
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const isLocked = useBodyScrollLock()
 
 onMounted(() => {
   nextTick(() => {
@@ -486,7 +488,7 @@ function onMouseMove(e: MouseEvent) {
           <input
             ref="searchInput"
             v-model="filterText"
-            :aria-activedescendant="selectedIndex > -1 ? ('localsearch-item-' + selectedIndex) : undefined"
+            :aria-activedescendant="selectedIndex > -1 ? 'localsearch-item-' + selectedIndex : undefined"
             aria-autocomplete="both"
             :aria-controls="results?.length ? 'localsearch-list' : undefined"
             aria-labelledby="localsearch-label"
@@ -593,8 +595,7 @@ function onMouseMove(e: MouseEvent) {
             v-if="filterText && !results.length && enableNoResults"
             class="no-results"
           >
-            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong
-            >"
+            {{ translate('modal.noResultsText') }} "<strong>{{ filterText }}</strong>"
           </li>
         </ul>
 
@@ -641,19 +642,19 @@ function onMouseMove(e: MouseEvent) {
 
 .shell {
   position: relative;
-  padding: 12px;
-  margin: 64px auto;
+  padding: 0.75rem;
+  margin: 4rem auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
   background: var(--vp-local-search-bg);
-  width: min(100vw - 60px, 900px);
+  width: min(100vw - 3.75rem, 56.25rem);
   height: min-content;
-  max-height: min(100vh - 128px, 900px);
-  border-radius: 6px;
+  max-height: min(100vh - 8rem, 56.25rem);
+  border-radius: 0.375rem;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .shell {
     margin: 0;
     width: 100vw;
@@ -665,16 +666,16 @@ function onMouseMove(e: MouseEvent) {
 
 .search-bar {
   border: 1px solid var(--vp-c-divider);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 0.75rem;
   cursor: text;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .search-bar {
-    padding: 0 8px;
+    padding: 0 0.5rem;
   }
 }
 
@@ -684,26 +685,26 @@ function onMouseMove(e: MouseEvent) {
 
 .local-search-icon {
   display: block;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .navigate-icon {
   display: block;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .search-icon {
-  margin: 8px;
+  margin: 0.5rem;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .search-icon {
     display: none;
   }
 }
 
 .search-input {
-  padding: 6px 12px;
+  padding: 0.375rem 0.75rem;
   font-size: inherit;
   width: 100%;
 }
@@ -712,31 +713,31 @@ function onMouseMove(e: MouseEvent) {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .search-input {
-    padding: 6px 4px;
+    padding: 0.375rem 0.25rem;
   }
 }
 
 .search-actions {
   display: flex;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 @media (any-pointer: coarse) {
   .search-actions {
-    gap: 8px;
+    gap: 0.5rem;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .search-actions.before {
     display: none;
   }
 }
 
 .search-actions button {
-  padding: 8px;
+  padding: 0.5rem;
 }
 
 .search-actions button:not([disabled]):hover,
@@ -750,9 +751,9 @@ function onMouseMove(e: MouseEvent) {
 
 .search-loading {
   visibility: hidden;
-  margin: 8px;
-  width: 18px;
-  height: 18px;
+  margin: 0.5rem;
+  width: 1.125rem;
+  height: 1.125rem;
   flex: none;
   border: 2px solid var(--vp-c-divider);
   border-top-color: var(--vp-c-brand-1);
@@ -781,17 +782,17 @@ function onMouseMove(e: MouseEvent) {
   opacity: 75%;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  line-height: 14px;
+  gap: 1rem;
+  line-height: 1.09375;
 }
 
 .search-keyboard-shortcuts span {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .search-keyboard-shortcuts {
     display: none;
   }
@@ -799,9 +800,9 @@ function onMouseMove(e: MouseEvent) {
 
 .search-keyboard-shortcuts kbd {
   background: rgba(128, 128, 128, 0.1);
-  border-radius: 4px;
-  padding: 3px 6px;
-  min-width: 24px;
+  border-radius: 0.25rem;
+  padding: 0.1875rem 0.375rem;
+  min-width: 1.5rem;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -812,7 +813,7 @@ function onMouseMove(e: MouseEvent) {
 .results {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.375rem;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -821,39 +822,39 @@ function onMouseMove(e: MouseEvent) {
 .result {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border-radius: 4px;
+  gap: 0.5rem;
+  border-radius: 0.25rem;
   transition: none;
-  line-height: 1rem;
+  line-height: 1;
   border: solid 2px var(--vp-local-search-result-border);
   outline: none;
 }
 
 .result > div {
-  margin: 12px;
+  margin: 0.75rem;
   width: 100%;
   overflow: hidden;
 }
 
-@media (max-width: 767px) {
+@media not all and (min-width: 48rem) {
   .result > div {
-    margin: 8px;
+    margin: 0.5rem;
   }
 }
 
 .titles {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 0.25rem;
   position: relative;
   z-index: 1001;
-  padding: 2px 0;
+  padding: 0.125rem 0;
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .title.main {
@@ -882,10 +883,10 @@ function onMouseMove(e: MouseEvent) {
 .excerpt {
   opacity: 50%;
   pointer-events: none;
-  max-height: 140px;
+  max-height: 8.75rem;
   overflow: hidden;
   position: relative;
-  margin-top: 4px;
+  margin-top: 0.25rem;
 }
 
 .result.selected .excerpt {
@@ -894,15 +895,15 @@ function onMouseMove(e: MouseEvent) {
 
 .excerpt :deep(*) {
   font-size: 0.8rem !important;
-  line-height: 130% !important;
+  line-height: 1.3 !important;
 }
 
 .titles :deep(mark),
 .excerpt :deep(mark) {
   background-color: var(--vp-local-search-highlight-bg);
   color: var(--vp-local-search-highlight-text);
-  border-radius: 2px;
-  padding: 0 2px;
+  border-radius: 0.125rem;
+  padding: 0 0.125rem;
 }
 
 .excerpt :deep(.vp-code-group) .tabs {
@@ -910,7 +911,7 @@ function onMouseMove(e: MouseEvent) {
 }
 
 .excerpt :deep(.vp-code-group) div[class*='language-'] {
-  border-radius: 8px !important;
+  border-radius: 0.5rem !important;
 }
 
 .excerpt-gradient-bottom {
@@ -918,7 +919,7 @@ function onMouseMove(e: MouseEvent) {
   bottom: -1px;
   left: 0;
   width: 100%;
-  height: 8px;
+  height: 0.5rem;
   background: linear-gradient(transparent, var(--vp-local-search-result-bg));
   z-index: 1000;
 }
@@ -928,7 +929,7 @@ function onMouseMove(e: MouseEvent) {
   top: -1px;
   left: 0;
   width: 100%;
-  height: 8px;
+  height: 0.5rem;
   background: linear-gradient(var(--vp-local-search-result-bg), transparent);
   z-index: 1000;
 }
@@ -941,7 +942,7 @@ function onMouseMove(e: MouseEvent) {
 .no-results {
   font-size: 0.9rem;
   text-align: center;
-  padding: 12px;
+  padding: 0.75rem;
 }
 
 svg {

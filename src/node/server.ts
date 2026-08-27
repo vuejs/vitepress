@@ -1,4 +1,5 @@
 import { createServer as createViteServer, type ServerOptions } from 'vite'
+
 import { resolveConfig, type SiteConfig } from './config'
 import { createVitePressPlugin } from './plugin'
 

@@ -1,5 +1,6 @@
-import { exactRegex } from '@rolldown/pluginutils'
 import path from 'node:path'
+
+import { exactRegex } from '@rolldown/pluginutils'
 import c from 'picocolors'
 import {
   mergeConfig,
@@ -11,6 +12,7 @@ import {
   type Rolldown,
   type UserConfig
 } from 'vite'
+
 import {
   APP_PATH,
   DEFAULT_THEME_PATH,
@@ -257,8 +259,15 @@ export async function createVitePressPlugin(
         if (docsearchRE.test(normalizePath(id))) {
           return code
             .replaceAll('[data-theme=dark]', '.dark')
-            .replaceAll(/\(max-width:\s*768px\)/g, '(max-width: 767px)')
-            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 768px)')
+            .replaceAll(
+              /@media (?:screen and )?\(max-width:\s*768px\)/g,
+              '@media not all and (min-width: 48rem)'
+            )
+            .replaceAll(
+              /\(max-width:\s*768px\)/g,
+              'not all and (min-width: 48rem)'
+            )
+            .replaceAll(/\(min-width:\s*769px\)/g, '(min-width: 48rem)')
         }
       }
     },

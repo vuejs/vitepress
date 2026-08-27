@@ -2,6 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveMode, resolveOptionsForLanguage } from '../support/docsearch'
 import { smartComputed } from '../support/reactivity'
@@ -200,17 +201,16 @@ function isEditingContent(event: KeyboardEvent): boolean {
   align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPNavBarSearch {
-    gap: 8px;
-    flex-grow: 1;
-    padding-left: 24px;
+    gap: 0.5rem;
+    padding-left: 1.5rem;
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPNavBarSearch {
-    padding-left: 32px;
+    padding-left: 2rem;
   }
 }
 </style>

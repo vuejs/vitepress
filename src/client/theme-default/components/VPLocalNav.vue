@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useWindowScroll } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
+
 import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
 import VPLocalNavOutlineDropdown from './VPLocalNavOutlineDropdown.vue'
@@ -20,37 +21,39 @@ const { y } = useWindowScroll()
 const navHeight = ref(0)
 
 onMounted(() => {
-  navHeight.value = parseInt(
-    getComputedStyle(document.documentElement).getPropertyValue(
-      '--vp-nav-height'
-    )
-  )
+  // getComputedStyle returns custom properties as their raw token ("4rem"),
+  // so resolve the height by measuring instead of parsing
+  const probe = document.createElement('div')
+  probe.style.cssText =
+    'position: absolute; visibility: hidden; height: var(--vp-nav-height)'
+  document.body.appendChild(probe)
+  navHeight.value = probe.offsetHeight
+  probe.remove()
 })
 
-const classes = computed(() => {
-  return {
-    VPLocalNav: true,
-    'has-sidebar': hasSidebar.value,
-    empty: !hasLocalNav.value,
-    fixed: !hasLocalNav.value && !hasSidebar.value
-  }
-})
+const isScrolled = computed(() => y.value >= navHeight.value)
 </script>
 
 <template>
   <div
-    v-if="!isHome && (hasLocalNav || hasSidebar || y >= navHeight)"
-    :class="classes"
+    v-if="!isHome && (hasLocalNav || hasSidebar || isScrolled)"
+    class="VPLocalNav"
+    :class="{
+      'has-sidebar': hasSidebar,
+      'empty': !hasLocalNav,
+      'fixed': !hasLocalNav && !hasSidebar
+    }"
   >
     <div class="container">
       <button
         v-if="hasSidebar"
+        type="button"
         class="menu"
         :aria-expanded="open"
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vpi-align-left menu-icon"></span>
+        <span class="vpi-align-left menu-icon" aria-hidden="true"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
@@ -68,19 +71,36 @@ const classes = computed(() => {
   /*rtl:ignore*/
   left: 0;
   z-index: var(--vp-z-index-local-nav);
-  border-bottom: 1px solid var(--vp-c-gutter);
+  border-bottom: 1px solid var(--vp-local-nav-divider-color);
   padding-top: var(--vp-layout-top-height, 0px);
   width: 100%;
+}
+
+/* the background surface — below 60rem it covers just this bar; from 60rem
+   the bar is pinned under the fixed navbar, so the surface extends up
+   behind it and one element carries the backdrop filter for both bars
+   (two stacked filters would show a seam at their shared edge) */
+.VPLocalNav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-color: var(--vp-local-nav-bg-color);
+  backdrop-filter: var(--vp-nav-backdrop-filter);
+  transition: background-color 0.25s;
 }
 
 .VPLocalNav.fixed {
   position: fixed;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPLocalNav {
     top: var(--vp-nav-height);
+  }
+
+  .VPLocalNav::before {
+    top: calc(-1 * var(--vp-nav-height));
   }
 
   .VPLocalNav.has-sidebar {
@@ -92,7 +112,7 @@ const classes = computed(() => {
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPLocalNav {
     display: none;
   }
@@ -107,8 +127,8 @@ const classes = computed(() => {
 .menu {
   display: flex;
   align-items: center;
-  line-height: 24px;
-  font-size: 12px;
+  line-height: 2;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
@@ -119,26 +139,26 @@ const classes = computed(() => {
   transition: color 0.25s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .menu {
     display: none;
   }
 }
 
 .menu-icon {
-  margin-right: 8px;
-  font-size: 14px;
+  margin-right: 0.5rem;
+  font-size: 0.875rem;
 }
 
 .menu,
 :deep(.VPLocalNavOutlineDropdown > button) {
-  padding: 12px 24px 11px;
+  padding: 0.75rem 1.5rem 0.6875rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .menu,
   :deep(.VPLocalNavOutlineDropdown > button) {
-    padding: 12px 32px 11px;
+    padding: 0.75rem 2rem 0.6875rem;
   }
 }
 </style>

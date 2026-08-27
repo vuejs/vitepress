@@ -8,11 +8,10 @@ const { frontmatter, theme } = useData()
 </script>
 
 <template>
-  <div 
-    class="VPHome" 
-    :class="{
-      'external-link-icon-enabled': theme.externalLinkIcon
-    }">
+  <div
+    class="VPHome"
+    :class="{ 'external-link-icon-enabled': theme.externalLinkIcon }"
+  >
     <slot name="home-hero-before" />
     <VPHomeHero>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
@@ -37,12 +36,13 @@ const { frontmatter, theme } = useData()
 
 <style scoped>
 .VPHome {
-  margin-bottom: 96px;
+  overflow-x: clip;
+  margin-bottom: 6rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPHome {
-    margin-bottom: 128px;
+    margin-bottom: 8rem;
   }
 }
 </style>

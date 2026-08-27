@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useScrollLock } from '@vueuse/core'
-import { inBrowser } from 'vitepress'
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
+
 import { useLayout } from '../composables/layout'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPSidebarGroup from './VPSidebarGroup.vue'
 
 const { sidebarGroups, hasSidebar } = useLayout()
@@ -12,11 +12,11 @@ const props = defineProps<{
 }>()
 
 // a11y: focus Nav element when menu has opened
-const navEl = ref<HTMLElement | null>(null)
-const isLocked = useScrollLock(inBrowser ? document.body : null)
+const navEl = useTemplateRef('navEl')
+const isLocked = useBodyScrollLock()
 
 watch(
-  [props, navEl],
+  [() => props.open, navEl],
   () => {
     if (props.open) {
       isLocked.value = true
@@ -71,9 +71,9 @@ watch(
   bottom: 0;
   left: 0;
   z-index: var(--vp-z-index-sidebar);
-  padding: 32px 32px 96px;
-  width: calc(100vw - 64px);
-  max-width: 320px;
+  padding: 2rem 2rem 6rem;
+  width: calc(100vw - 4rem);
+  max-width: 20rem;
   background-color: var(--vp-sidebar-bg-color);
   opacity: 0;
   box-shadow: var(--vp-c-shadow-3);
@@ -88,15 +88,14 @@ watch(
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
-  transition: opacity 0.25s,
-    transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: opacity 0.25s, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .dark .VPSidebar {
   box-shadow: var(--vp-shadow-1);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPSidebar {
     padding-top: var(--vp-nav-height);
     width: var(--vp-sidebar-width);
@@ -109,22 +108,22 @@ watch(
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 90rem) {
   .VPSidebar {
-    padding-left: max(32px, calc((100% - (var(--vp-layout-max-width) - 64px)) / 2));
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 32px);
+    padding-left: max(2rem, calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2));
+    width: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2 + var(--vp-sidebar-width) - 2rem);
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .curtain {
     position: sticky;
     top: calc(var(--vp-nav-height) * -1);
     left: 0;
     z-index: 1;
     margin-top: calc(var(--vp-nav-height) * -1);
-    margin-right: -32px;
-    margin-left: -32px;
+    margin-right: -2rem;
+    margin-left: -2rem;
     height: var(--vp-nav-height);
     background-color: var(--vp-sidebar-bg-color);
   }

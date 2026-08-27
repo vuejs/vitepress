@@ -1,23 +1,23 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+import { ref } from 'vue'
 
-  const props = defineProps<{
-    command: string
-  }>()
+const props = defineProps<{
+  command: string
+}>()
 
-  const copied = ref(false)
+const copied = ref(false)
 
-  async function copy () {
-    try {
-      await navigator.clipboard.writeText(props.command)
-      copied.value = true
-      setTimeout(() => {
-        copied.value = false
-      }, 2000)
-    } catch (error) {
-      console.error('Failed to copy', error)
-    }
+async function copy() {
+  try {
+    await navigator.clipboard.writeText(props.command)
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  } catch (error) {
+    console.error('Failed to copy', error)
   }
+}
 </script>
 
 <template>
@@ -49,14 +49,7 @@
           width="18"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <rect
-            height="14"
-            rx="2"
-            ry="2"
-            width="14"
-            x="8"
-            y="8"
-          />
+          <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
           <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
         </svg>
         <svg
@@ -170,7 +163,7 @@
   font-size: 12px;
   font-weight: 600;
   pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 

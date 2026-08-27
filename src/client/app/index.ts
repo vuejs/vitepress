@@ -8,6 +8,7 @@ import {
   watchEffect,
   type App
 } from 'vue'
+
 import { ClientOnly } from './components/ClientOnly'
 import { Content } from './components/Content'
 import { useCodeGroups } from './composables/codeGroups'
@@ -25,8 +26,12 @@ function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
       ...base,
       ...theme,
       async enhanceApp(ctx) {
-        if (base.enhanceApp) await base.enhanceApp(ctx)
-        if (theme.enhanceApp) await theme.enhanceApp(ctx)
+        await base.enhanceApp?.(ctx)
+        await theme.enhanceApp?.(ctx)
+      },
+      setup() {
+        base.setup?.()
+        theme.setup?.()
       }
     }
   }

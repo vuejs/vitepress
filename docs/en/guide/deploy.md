@@ -292,62 +292,77 @@ You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by f
 
 You can deploy your VitePress project with [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). While configuring build settings, choose VitePress as the framework and adjust the root directory to `./docs`.
 
-### Kinsta
-
-You can deploy your VitePress website on [Kinsta](https://kinsta.com/static-site-hosting/) by following these [instructions](https://kinsta.com/docs/vitepress-static-site-example/).
-
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Surge
 
-1. After running `npm run docs:build`, run this command to deploy:
+After running `npm run docs:build`, run this command to deploy to [Surge](https://surge.sh):
 
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
-### Nginx
-
-Here is a example of an Nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
-
-```nginx
-server {
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
-    listen 80;
-    server_name _;
-    index index.html;
-
-    location / {
-        # content location
-        root /app;
-
-        # exact matches -> reverse clean urls -> folders -> not found
-        try_files $uri $uri.html $uri/ =404;
-
-        # non existent pages
-        error_page 404 /404.html;
-
-        # a folder without index.html raises 403 in this setup
-        error_page 403 /404.html;
-
-        # adjust caching headers
-        # files in the assets folder have hashes filenames
-        location ~* ^/assets/ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
-    }
-}
+```sh
+npx surge docs/.vitepress/dist
 ```
 
-This configuration assumes that your built VitePress site is located in the `/app` directory on your server. Adjust the `root` directive accordingly if your site's files are located elsewhere.
+### harvis
 
-::: warning Do not default to index.html
-The try_files resolution must not default to index.html like in other Vue applications. This would result in an invalid page state.
-:::
+After running `npm run docs:build`, run this command to deploy to [harvis](https://harvis.dev):
 
-Further information can be found in the [official nginx documentation](https://nginx.org/en/docs/), in these issues [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) as well as in this [blog post](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings) by Mehdi Merah.
+```sh
+npx harvis docs/.vitepress/dist
+```
+
+### nginx
+
+Here is a example of an nginx server block configuration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files with proper caching headers as well as handling `cleanUrls: true`.
+
+```nginx
+map $uri $cache_control {
+    ~^/assets/  "public, max-age=31536000, immutable";
+    default     "no-cache";
+}
+
+server {
+    listen 8080;
+    listen [::]:8080;
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+    charset utf-8;
+    server_tokens off;
+
+    absolute_redirect off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_types
+        application/javascript
+        application/json
+        application/manifest+json
+        image/svg+xml
+        text/css
+        text/javascript
+        text/plain;
+
+    add_header Cache-Control $cache_control always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    location / {
+        try_files $uri $uri.html $uri/index.html =404;
+    }
+
+    location ~ ^(?<page>.+)/$ {
+        if (-f $document_root$page.html) {
+            return 301 $page$is_args$args;
+        }
+        try_files $page/index.html =404;
+    }
+
+    error_page 404 /404.html;
+}
+```

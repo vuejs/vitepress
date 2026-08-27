@@ -65,6 +65,11 @@ const nav: DefaultTheme.Config['nav'] = [
         ]
       }
     ]
+  },
+  {
+    text: 'Active Match',
+    link: '/markdown-extensions/',
+    activeMatch: '^/home'
   }
 ]
 
@@ -132,6 +137,44 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
           link: '/markdown-extensions/foo'
         }
       ]
+    },
+    {
+      text: 'Team & Sponsors',
+      items: [
+        {
+          text: 'Doc Layout',
+          link: '/team-and-sponsors/doc'
+        },
+        {
+          text: 'Page Layout',
+          link: '/team-and-sponsors/page'
+        },
+        {
+          text: 'Home Layout',
+          link: '/team-and-sponsors/home'
+        },
+        {
+          text: 'Home Layout (raw markdown)',
+          link: '/team-and-sponsors/home-no-markdown-styles'
+        }
+      ]
+    },
+    {
+      text: 'Sidebar Hash',
+      items: [
+        {
+          text: 'Overview',
+          link: '/sidebar-hash/'
+        },
+        {
+          text: 'Section One',
+          link: '/sidebar-hash/#section-one'
+        },
+        {
+          text: 'Section Two',
+          link: '/sidebar-hash/#section-two'
+        }
+      ]
     }
   ],
   '/multi-sidebar/': [
@@ -154,6 +197,7 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
+  srcExclude: ['**/parts/**'],
   markdown: {
     image: { lazyLoad: true }
   },

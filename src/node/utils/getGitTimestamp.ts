@@ -1,9 +1,11 @@
-import { spawn, sync } from 'cross-spawn'
 import { once } from 'node:events'
 import fs from 'node:fs'
 import path from 'node:path'
 import { Transform, type TransformCallback } from 'node:stream'
+
+import { spawn, sync } from 'cross-spawn'
 import { createDebug } from 'obug'
+
 import { slash } from '../shared'
 
 const debug = createDebug('vitepress:git')

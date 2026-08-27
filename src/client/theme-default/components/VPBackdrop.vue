@@ -30,10 +30,10 @@ defineProps<{
 }
 
 .VPBackdrop.fade-leave-active {
-  transition-duration: .25s;
+  transition-duration: 0.25s;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 80rem) {
   .VPBackdrop {
     display: none;
   }

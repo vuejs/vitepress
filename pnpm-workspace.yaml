@@ -3,7 +3,6 @@ packages:
   - __tests__/*
 
 allowBuilds:
-  esbuild: true
   playwright-chromium: true
   simple-git-hooks: true
 
@@ -12,11 +11,12 @@ autoInstallPeers: false
 ignoreWorkspaceRootCheck: true
 
 minimumReleaseAge: 1440
-minimumReleaseAgeExclude:
-  - '@mdit/*'
-  - '@vueuse/*'
+
+overrides:
+  esbuild: '-'
 
 patchedDependencies:
+  vue-sfc-transformer: patches/vue-sfc-transformer.patch
   vitepress-plugin-group-icons: patches/vitepress-plugin-group-icons.patch
 
 shellEmulator: true

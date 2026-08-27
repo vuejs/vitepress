@@ -2,9 +2,11 @@
 import { onKeyStroke } from '@vueuse/core'
 import { onContentUpdated } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, ref, useId, useTemplateRef, watch } from 'vue'
+
 import { useData } from '../composables/data'
 import { resolveTitle } from '../composables/outline'
+import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
@@ -15,8 +17,12 @@ const props = defineProps<{
 const { theme } = useData()
 const open = ref(false)
 const vh = ref(0)
-const main = ref<HTMLDivElement>()
-const items = ref<HTMLDivElement>()
+const main = useTemplateRef('main')
+const items = useTemplateRef('items')
+const itemsId = useId()
+
+// lock body scroll while the dropdown is open to prevent scroll chaining
+const isLocked = useBodyScrollLock()
 
 function closeOnClickOutside(e: Event) {
   if (!main.value?.contains(e.target as Node)) {
@@ -25,6 +31,7 @@ function closeOnClickOutside(e: Event) {
 }
 
 watch(open, (value) => {
+  isLocked.value = value
   if (value) {
     document.addEventListener('click', closeOnClickOutside)
     return
@@ -70,15 +77,22 @@ function scrollToTop() {
     :style="{ '--vp-vh': vh + 'px' }"
     data-allow-mismatch="style"
   >
-    <button @click="toggle" :class="{ open }" v-if="headers.length > 0">
+    <button
+      v-if="headers.length > 0"
+      type="button"
+      :aria-expanded="open"
+      :aria-controls="itemsId"
+      :class="{ open }"
+      @click="toggle"
+    >
       <span class="menu-text">{{ resolveTitle(theme) }}</span>
-      <span class="vpi-chevron-right icon" />
+      <span class="vpi-chevron-right icon" aria-hidden="true" />
     </button>
-    <button @click="scrollToTop" v-else>
+    <button v-else type="button" @click="scrollToTop">
       {{ theme.returnToTopLabel || 'Return to top' }}
     </button>
     <Transition name="flyout">
-      <div v-if="open" ref="items" class="items" @click="onItemClick">
+      <div v-if="open" ref="items" :id="itemsId" class="items" @click="onItemClick">
         <div class="header">
           <a class="top-link" href="#" @click="scrollToTop">
             {{ theme.returnToTopLabel || 'Return to top' }}
@@ -95,9 +109,9 @@ function scrollToTop() {
 <style scoped>
 .VPLocalNavOutlineDropdown button {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 2;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
   position: relative;
@@ -115,19 +129,19 @@ function scrollToTop() {
 .icon {
   display: inline-block;
   vertical-align: middle;
-  margin-left: 2px;
-  font-size: 14px;
+  margin-left: 0.125rem;
+  font-size: 0.875rem;
   transform: rotate(0) /*rtl:rotate(180deg)*/;
   transition: transform 0.25s;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .VPLocalNavOutlineDropdown button {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   .icon {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -138,24 +152,25 @@ function scrollToTop() {
 
 .items {
   position: absolute;
-  top: 40px;
-  right: 16px;
-  left: 16px;
+  top: 2.5rem;
+  right: 1rem;
+  left: 1rem;
   display: grid;
   gap: 1px;
   border: 1px solid var(--vp-c-border);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background-color: var(--vp-c-gutter);
-  max-height: calc(var(--vp-vh, 100vh) - 86px);
+  max-height: calc(var(--vp-vh, 100vh) - 5.375rem);
   overflow: hidden auto;
+  overscroll-behavior: contain;
   box-shadow: var(--vp-shadow-3);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   .items {
     right: auto;
-    left: calc(var(--vp-sidebar-width) + 32px);
-    width: 320px;
+    left: calc(var(--vp-sidebar-width) + 2rem);
+    width: 20rem;
   }
 }
 
@@ -165,15 +180,15 @@ function scrollToTop() {
 
 .top-link {
   display: block;
-  padding: 0 16px;
-  line-height: 48px;
-  font-size: 14px;
+  padding: 0 1rem;
+  line-height: 3.4285714;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-brand-1);
 }
 
 .outline {
-  padding: 8px 0;
+  padding: 0.5rem 0;
   background-color: var(--vp-c-bg-soft);
 }
 
@@ -188,6 +203,6 @@ function scrollToTop() {
 .flyout-enter-from,
 .flyout-leave-to {
   opacity: 0;
-  transform: translateY(-16px);
+  transform: translateY(-1rem);
 }
 </style>

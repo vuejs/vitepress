@@ -7,10 +7,22 @@ const { hasSidebar } = useLayout()
 </script>
 
 <template>
-  <footer v-if="theme.footer && frontmatter.footer !== false" class="VPFooter" :class="{ 'has-sidebar': hasSidebar }">
+  <footer
+    v-if="theme.footer && frontmatter.footer !== false"
+    class="VPFooter"
+    :class="{ 'has-sidebar': hasSidebar }"
+  >
     <div class="container">
-      <p v-if="theme.footer.message" class="message" v-html="theme.footer.message"></p>
-      <p v-if="theme.footer.copyright" class="copyright" v-html="theme.footer.copyright"></p>
+      <p
+        v-if="theme.footer.message"
+        class="message"
+        v-html="theme.footer.message"
+      ></p>
+      <p
+        v-if="theme.footer.copyright"
+        class="copyright"
+        v-html="theme.footer.copyright"
+      ></p>
     </div>
   </footer>
 </template>
@@ -20,7 +32,7 @@ const { hasSidebar } = useLayout()
   position: relative;
   z-index: var(--vp-z-index-footer);
   border-top: 1px solid var(--vp-c-gutter);
-  padding: 32px 24px;
+  padding: 2rem 1.5rem;
   background-color: var(--vp-c-bg);
 }
 
@@ -30,7 +42,7 @@ const { hasSidebar } = useLayout()
 
 .VPFooter :deep(a) {
   text-decoration-line: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 0.125rem;
   transition: color 0.25s;
 }
 
@@ -38,9 +50,9 @@ const { hasSidebar } = useLayout()
   color: var(--vp-c-text-1);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .VPFooter {
-    padding: 32px;
+    padding: 2rem;
   }
 }
 
@@ -52,8 +64,8 @@ const { hasSidebar } = useLayout()
 
 .message,
 .copyright {
-  line-height: 24px;
-  font-size: 14px;
+  line-height: 1.7142857;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-2);
 }

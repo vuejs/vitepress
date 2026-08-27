@@ -15,7 +15,9 @@ describe('test multi sidebar sort root', () => {
       'Data Loading',
       'Multi Sidebar Test',
       'Dynamic Routes',
-      'Markdown Extensions'
+      'Markdown Extensions',
+      'Team & Sponsors',
+      'Sidebar Hash'
     ])
   })
 })

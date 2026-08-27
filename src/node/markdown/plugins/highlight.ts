@@ -10,6 +10,7 @@ import c from 'picocolors'
 import type { BundledLanguage, ShikiTransformer } from 'shiki'
 import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
+
 import { isShell } from '../../shared'
 import type { MarkdownOptions, ThemeOptions } from '../markdown'
 

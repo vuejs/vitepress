@@ -1,11 +1,13 @@
 // markdown-it plugin for normalizing image source and auto adding
 // width and height to images to avoid layout shift.
 
-import type { MarkdownItAsync } from 'markdown-it-async'
-import type Token from 'markdown-it/lib/token.mjs'
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { imageSize } from 'image-size'
+import type { MarkdownItAsync } from 'markdown-it-async'
+import type Token from 'markdown-it/lib/token.mjs'
+
 import { EXTERNAL_URL_RE, type MarkdownEnv } from '../../shared'
 
 export interface Options {

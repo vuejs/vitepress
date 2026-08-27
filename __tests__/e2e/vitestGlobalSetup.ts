@@ -1,5 +1,6 @@
-import getPort from 'get-port'
 import type { Server } from 'node:net'
+
+import getPort from 'get-port'
 import { chromium, type BrowserServer } from 'playwright-chromium'
 import type { ViteDevServer } from 'vite'
 import { build, createServer, serve } from 'vitepress'

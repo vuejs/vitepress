@@ -1,5 +1,6 @@
 import { tryOnUnmounted } from '@vueuse/core'
 import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
+
 import {
   EXTERNAL_URL_RE,
   inBrowser,

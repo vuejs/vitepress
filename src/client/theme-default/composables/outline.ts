@@ -1,7 +1,8 @@
+import { useMediaQuery } from '@vueuse/core'
 import type { DefaultTheme } from 'vitepress/theme'
-import { onMounted, onUnmounted, onUpdated, type Ref } from 'vue'
+import { onMounted, onUnmounted, onUpdated, type TemplateRef } from 'vue'
+
 import { throttleAndDebounce } from '../support/utils'
-import { useAside } from './aside'
 
 const ignoreRE = /\b(?:VPBadge|header-anchor|footnote-ref|ignore-header)\b/
 
@@ -76,10 +77,10 @@ export function resolveHeaders(
 }
 
 export function useActiveAnchor(
-  container: Ref<HTMLElement>,
-  marker: Ref<HTMLElement>
+  container: TemplateRef<HTMLElement>,
+  marker: TemplateRef<HTMLElement>
 ): void {
-  const { isAsideEnabled } = useAside()
+  const isAsideVisible = useMediaQuery('(min-width: 80rem)')
 
   const onScroll = throttleAndDebounce(setActiveLink, 100)
 
@@ -89,7 +90,7 @@ export function useActiveAnchor(
   onMounted(() => {
     requestAnimationFrame(setActiveLink)
     window.addEventListener('scroll', onScroll)
-    container.value.addEventListener('click', onClick)
+    container.value?.addEventListener('click', onClick)
   })
 
   onUpdated(() => {
@@ -102,7 +103,7 @@ export function useActiveAnchor(
   })
 
   function onClick(e: MouseEvent) {
-    if (!isAsideEnabled.value) {
+    if (!isAsideVisible.value) {
       return
     }
 
@@ -116,7 +117,7 @@ export function useActiveAnchor(
   }
 
   function setActiveLink() {
-    if (!isAsideEnabled.value) {
+    if (!isAsideVisible.value) {
       return
     }
 
@@ -128,7 +129,7 @@ export function useActiveAnchor(
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
-    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
+    const isBottom = scrollY + innerHeight - offsetHeight >= 0
 
     // resolvedHeaders may be repositioned, hidden or fix positioned
     const headers = resolvedHeaders
@@ -155,7 +156,7 @@ export function useActiveAnchor(
 
     // page bottom - highlight last link
     if (isBottom) {
-      activateLink(headers[headers.length - 1].link)
+      activateLink(headers.at(-1)?.link ?? null)
       return
     }
 
@@ -171,26 +172,33 @@ export function useActiveAnchor(
   }
 
   function activateLink(hash: string | null) {
-    if (prevActiveLink) {
-      prevActiveLink.classList.remove('active')
-    }
+    const activeLink =
+      hash != null
+        ? (container.value?.querySelector<HTMLAnchorElement>(
+            `a[href$="${decodeURIComponent(hash)}"]`
+          ) ?? null)
+        : null
 
-    if (hash == null) {
-      prevActiveLink = null
-    } else {
-      prevActiveLink = container.value.querySelector(
-        `a[href$="${decodeURIComponent(hash)}"]`
-      )
-    }
+    if (activeLink === prevActiveLink) return
 
-    const activeLink = prevActiveLink
+    prevActiveLink?.classList.remove('active')
+    prevActiveLink = activeLink
 
     if (activeLink) {
       activeLink.classList.add('active')
-      marker.value.style.top = activeLink.offsetTop + 39 + 'px'
-      marker.value.style.opacity = '1'
-    } else {
-      marker.value.style.top = '33px'
+      if (marker.value) {
+        // the links' offsetParent (.root) sits below the outline title while
+        // the marker is offset from .content, so re-align their origins
+        marker.value.style.top =
+          activeLink.offsetTop +
+          ((activeLink.offsetParent as HTMLElement)?.offsetTop ?? 0) +
+          (activeLink.offsetHeight - marker.value.offsetHeight) / 2 +
+          'px'
+        marker.value.style.opacity = '1'
+      }
+      activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    } else if (marker.value) {
+      marker.value.style.top = ''
       marker.value.style.opacity = '0'
     }
   }

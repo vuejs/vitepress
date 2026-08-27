@@ -40,13 +40,13 @@
   --vp-home-hero-image-filter: blur(44px);
 }
 
-@media (min-width: 640px) {
+@media (min-width: 40rem) {
   :root {
     --vp-home-hero-image-filter: blur(56px);
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 60rem) {
   :root {
     --vp-home-hero-image-filter: blur(68px);
   }
@@ -54,7 +54,7 @@
 
 .VPHero .VPImage {
   filter: drop-shadow(-2px 4px 6px rgba(0, 0, 0, 0.2));
-  padding: 18px;
+  padding: 1.125rem;
 }
 
 .VPFeature .icon span {

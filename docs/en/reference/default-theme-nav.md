@@ -216,5 +216,6 @@ export default {
 Your component will be rendered in the navigation bar. VitePress will provide the following additional props to the component:
 
 - `screenMenu`: an optional boolean indicating whether the component is inside mobile navigation menu
+- `menu`: an optional boolean indicating whether the component is inside a dropdown panel — for example, the `⋯` menu that nav items collapse into when they don't fit the bar. In both these contexts, render a flat list instead of a floating flyout, which would end up nested inside the panel
 
 You can check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).

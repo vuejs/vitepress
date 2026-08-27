@@ -470,6 +470,27 @@ Can be used to customize the label of the return to top button. This label is on
 
 Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
 
+## navMenuLabel
+
+- Type: `string`
+- Default: `Main Navigation`
+
+Can be used to customize the accessible label of the main navigation landmarks (the navbar menu and the mobile menu).
+
+## mobileMenuLabel
+
+- Type: `string`
+- Default: `Menu`
+
+Can be used to customize the aria-label of the mobile menu (hamburger) button.
+
+## extraMenuLabel
+
+- Type: `string`
+- Default: `More options`
+
+Can be used to customize the aria-label of the `⋯` menu button in the navbar. That menu collects the nav items and controls that don't fit in the bar at the current viewport size.
+
 ## skipToContentLabel
 
 - Type: `string`
@@ -483,6 +504,13 @@ Can be used to customize the label of the skip to content link. This link is sho
 - Default: `false`
 
 Whether to show an external link icon next to external links in markdown.
+
+## gradedContainers
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to color [custom containers](../guide/markdown#custom-containers), [GitHub-flavored alerts](../guide/markdown#github-flavored-alerts), and badges on a graded severity scale — danger red, warning orange, caution yellow. By default, colors match GitHub's alerts, where caution shares danger's red and warning is yellow.
 
 ## `useLayout` <Badge type="info" text="composable" />
 

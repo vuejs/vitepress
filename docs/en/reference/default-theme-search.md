@@ -27,10 +27,11 @@ Example result:
 
 Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like:
 
-- <https://www.npmjs.com/package/vitepress-plugin-search>
-- <https://www.npmjs.com/package/vitepress-plugin-pagefind>
-- <https://www.npmjs.com/package/@orama/plugin-vitepress>
-- <https://www.npmjs.com/package/vitepress-plugin-typesense>
+- <https://npmx.dev/package/vitepress-plugin-pagefind>
+- <https://npmx.dev/package/vitepress-plugin-typesense>
+- <https://npmx.dev/package/vitepress-plugin-cloudflare-ai-search>
+
+<!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- replace with zbsearch one when published -->
 
 ### i18n {#local-search-i18n}
 

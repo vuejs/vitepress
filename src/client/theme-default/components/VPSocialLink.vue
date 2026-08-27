@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import { computed, nextTick, onMounted, ref, useSSRContext } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  useSSRContext,
+  useTemplateRef
+} from 'vue'
+
 import { isExternal, type SSGContext } from '../../shared'
 
 const props = defineProps<{
@@ -11,7 +18,7 @@ const props = defineProps<{
   me: boolean
 }>()
 
-const el = ref<HTMLAnchorElement>()
+const el = useTemplateRef('el')
 
 onMounted(async () => {
   await nextTick()
@@ -57,8 +64,8 @@ if (import.meta.env.SSR) {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   color: var(--vp-c-text-2);
   transition: color 0.5s;
 }
@@ -70,8 +77,8 @@ if (import.meta.env.SSR) {
 
 .VPSocialLink > :deep(svg),
 .VPSocialLink > :deep([class^="vpi-social-"]) {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   fill: currentColor;
 }
 </style>

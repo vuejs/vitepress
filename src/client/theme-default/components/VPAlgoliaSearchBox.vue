@@ -4,6 +4,7 @@ import type { SidepanelInstance } from '@docsearch/sidepanel-js'
 import { inBrowser, useRouter } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { nextTick, onUnmounted, watch } from 'vue'
+
 import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
 import {

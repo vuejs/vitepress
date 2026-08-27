@@ -248,6 +248,13 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+Head entries from the site config, [locale config](../guide/i18n), [directory-level config](#directory-level-overrides), [frontmatter](./frontmatter-config#head) and [`transformHead`](#transformhead) are merged in that order. A later entry replaces an earlier one with the same key instead of being appended:
+
+- Any element with an `id` attribute is keyed by its `id`.
+- A `meta` element without an `id` is keyed by its first attribute other than `content` (e.g. `name`, `property`, `http-equiv`) and that attribute's value.
+
+Other elements are never deduplicated. To render multiple `meta` tags that would share a key, like several `<meta name="author">`, give each of them a unique `id`.
+
 #### Example: Adding a favicon
 
 ```ts
