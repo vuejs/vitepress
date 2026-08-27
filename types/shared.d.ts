@@ -168,7 +168,8 @@ export interface Header {
  */
 export interface SiteData<ThemeConfig = any> {
   /**
-   * The base URL the site is deployed at.
+   * The base URL the site is deployed at, or './' for a relocatable build
+   * whose pages reference everything relative to their own depth.
    * @default '/'
    */
   base: string

@@ -1,6 +1,6 @@
 import { withBase } from 'vitepress'
 
-import { isExternal, treatAsHtml } from '../../shared'
+import { isExternal, isRelativeBase, treatAsHtml } from '../../shared'
 import { useData } from '../composables/data'
 
 export function throttleAndDebounce(fn: () => void, delay: number): () => void {
@@ -46,7 +46,7 @@ export function normalizeLink(url: string): string {
 
   const { site } = useData()
 
-  const normalizedPath =
+  let normalizedPath =
     pathname.endsWith('/') || pathname.endsWith('.html')
       ? url
       : url.replace(
@@ -56,6 +56,16 @@ export function normalizeLink(url: string): string {
             site.value.cleanUrls ? '' : '.html'
           )}${search}${hash}`
         )
+
+  if (
+    isRelativeBase(site.value.base) &&
+    !site.value.cleanUrls &&
+    pathname.endsWith('/')
+  ) {
+    // file:// has no directory index; the router strips index.html back
+    // out of the address bar on navigation
+    normalizedPath = normalizedPath.replace(pathname, pathname + 'index.html')
+  }
 
   return withBase(normalizedPath)
 }

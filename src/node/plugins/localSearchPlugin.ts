@@ -127,7 +127,9 @@ export async function localSearchPlugin(
   function getDocId(file: string) {
     let relFile = slash(path.relative(siteConfig.srcDir, file))
     relFile = siteConfig.rewrites.map[relFile] || relFile
-    let id = slash(path.join(siteConfig.site.base, relFile))
+    // site-relative — the search box applies the runtime base on use, so
+    // the same index works for absolute and relative bases
+    let id = '/' + relFile
     id = id.replace(/(^|\/)index\.md$/, '$1')
     id = id.replace(/\.md$/, siteConfig.cleanUrls ? '' : '.html')
     return id

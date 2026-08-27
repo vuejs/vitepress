@@ -3,19 +3,39 @@ import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
 
 import {
   EXTERNAL_URL_RE,
+  RELATIVE_BASE_SENTINEL,
   inBrowser,
+  isRelativeBase,
+  joinPath,
   sanitizeFileName,
   type Awaitable
 } from '../shared'
 import { siteDataRef } from './data'
 
 export { escapeHtml as _escapeHtml, inBrowser } from '../shared'
+export { joinPath } from '../shared'
+
+let resolvedBase: string | undefined
 
 /**
- * Join two paths by resolving the slash collision.
+ * The base the site is actually served under. Equals the configured base,
+ * except for a relative base ('./'), which cannot be known at build time:
+ * there it is recovered from the per-page `__VP_SITE_ROOT__` inline script
+ * in the browser, is '/' in dev (dev always serves at the root), and is the
+ * build sentinel during SSR so rendered URLs can be relativized per page.
  */
-export function joinPath(base: string, path: string) {
-  return `${base}${path}`.replace(/\/+/g, '/')
+export function runtimeBase(): string {
+  if (resolvedBase === undefined) {
+    const base = siteDataRef.value.base
+    if (!isRelativeBase(base)) return (resolvedBase = base)
+    if (!inBrowser) return (resolvedBase = RELATIVE_BASE_SENTINEL)
+    if (import.meta.env.DEV) return (resolvedBase = '/')
+    const root = (window as any).__VP_SITE_ROOT__
+    resolvedBase = root
+      ? decodeURIComponent(new URL(root, location.href).pathname)
+      : '/'
+  }
+  return resolvedBase
 }
 
 /**
@@ -24,7 +44,7 @@ export function joinPath(base: string, path: string) {
 export function withBase(path: string) {
   return EXTERNAL_URL_RE.test(path) || !path.startsWith('/')
     ? path
-    : joinPath(siteDataRef.value.base, path)
+    : joinPath(runtimeBase(), path)
 }
 
 /**
@@ -42,7 +62,9 @@ export function pathToFile(path: string) {
     // the path conversion scheme.
     // /foo/bar.html -> ./foo_bar.md
     if (inBrowser) {
-      const base = import.meta.env.BASE_URL
+      const base = runtimeBase()
+      if (pagePath + '/' === base) pagePath = base
+      if (!pagePath.startsWith(base)) return null
       pagePath =
         sanitizeFileName(
           pagePath.slice(base.length).replace(/\//g, '_') || 'index'
@@ -57,7 +79,7 @@ export function pathToFile(path: string) {
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
       if (!pageHash) return null
-      pagePath = `${base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
+      pagePath = `${__ASSETS_BASE__ || base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(

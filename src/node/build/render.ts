@@ -8,10 +8,13 @@ import { version } from '../../../package.json' with { type: 'json' }
 import type { SiteConfig } from '../config'
 import {
   EXTERNAL_URL_RE,
+  RELATIVE_BASE_SENTINEL,
   createTitle,
   escapeHtml,
+  isRelativeBase,
   mergeHead,
   notFoundPageData,
+  relativePathToRoot,
   resolveSiteDataByRoute,
   sanitizeFileName,
   slash,
@@ -72,10 +75,32 @@ export async function renderPage(
 
   const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
+  const relativeBase = isRelativeBase(siteData.base)
+  // under a relative base every page addresses the site root through its
+  // own ../-prefix; otherwise this is just the configured base
+  const pageBase = relativeBase ? relativePathToRoot(page) : siteData.base
+
+  const userBuiltUrl = config.vite?.experimental?.renderBuiltUrl
+  const htmlPath = page.replace(/\.md$/, '.html')
+  const assetUrl = (file: string) => {
+    const userResult = userBuiltUrl?.(file, {
+      type: 'asset',
+      hostType: 'html',
+      hostId: htmlPath,
+      ssr: false
+    })
+    if (typeof userResult === 'string') return userResult
+    return (config.assetsBase ?? pageBase) + file
+  }
+  const assetsCrossOrigin =
+    config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
+      ? ' crossorigin'
+      : ''
+
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
   const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    ? `<link rel="preload stylesheet" href="${assetUrl(cssChunk.fileName)}" as="style">`
     : ''
 
   let preloadLinks =
@@ -107,7 +132,12 @@ export async function renderPage(
       {
         rel,
         // don't add base to external urls
-        href: (EXTERNAL_URL_RE.test(file) ? '' : siteData.base) + file
+        href: EXTERNAL_URL_RE.test(file) ? file : assetUrl(file),
+        // keep the prefetch/preload request mode aligned with the later
+        // cross-origin module fetch, or the cache entry is not reused
+        ...(assetsCrossOrigin && !EXTERNAL_URL_RE.test(file)
+          ? { crossorigin: '' }
+          : {})
       }
     ])
 
@@ -153,7 +183,7 @@ export async function renderPage(
           force: true
         })
       } else {
-        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+        inlinedScript = `<script type="module" src="${assetUrl(matchingChunk.fileName)}"${assetsCrossOrigin}></script>`
       }
     }
   }
@@ -176,12 +206,19 @@ export async function renderPage(
         : `<meta name="description" content="${escapeHtml(description)}">`
     }
     <meta name="generator" content="VitePress v${version}">
+    ${
+      // recovers the absolute site root at runtime; a classic inline script
+      // so it runs before any module resolves URLs
+      relativeBase && !config.mpa
+        ? `<script>window.__VP_SITE_ROOT__=new URL("${pageBase}",location).href</script>`
+        : ''
+    }
     ${stylesheetLink}
-    <link rel="preload stylesheet" href="${siteData.base}vp-icons.css" as="style">
+    <link rel="preload stylesheet" href="${pageBase}vp-icons.css" as="style">
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
-        ? `<script type="module" src="${siteData.base}${appChunk.fileName}"></script>`
+        ? `<script type="module" src="${assetUrl(appChunk.fileName)}"${assetsCrossOrigin}></script>`
         : ''
     }
     ${await renderHead(head)}
@@ -206,7 +243,13 @@ export async function renderPage(
     content,
     assets
   })
-  await writeFile(htmlFileName, transformedHtml || html)
+  let finalHtml = transformedHtml || html
+  if (relativeBase) {
+    // last step, after transformHtml, so sentinel urls a transform injects
+    // (e.g. from the `assets` array) are relativized too
+    finalHtml = finalHtml.replaceAll(RELATIVE_BASE_SENTINEL, pageBase)
+  }
+  await writeFile(htmlFileName, finalHtml)
 }
 
 async function resolvePageImports(

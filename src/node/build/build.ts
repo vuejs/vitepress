@@ -9,10 +9,22 @@ import pMap from 'p-map'
 import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
 
-import { resolveConfig, type SiteConfig } from '../config'
+import {
+  normalizeAssetsBase,
+  normalizeSiteBase,
+  resolveConfig,
+  type SiteConfig
+} from '../config'
 import { clearCache } from '../markdownToVue'
 import type { PageMeta } from '../plugin'
-import { slash, type Awaitable, type HeadConfig } from '../shared'
+import {
+  EXTERNAL_URL_RE,
+  RELATIVE_BASE_SENTINEL,
+  isRelativeBase,
+  slash,
+  type Awaitable,
+  type HeadConfig
+} from '../shared'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
@@ -27,6 +39,7 @@ export async function build(
   root?: string,
   buildOptions: BuildOptions & {
     base?: string
+    assetsBase?: string
     mpa?: string
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
@@ -46,8 +59,13 @@ export async function build(
   const unlinkVue = await linkVue()
 
   if (buildOptions.base) {
-    siteConfig.site.base = buildOptions.base
+    siteConfig.site.base = normalizeSiteBase(buildOptions.base)
     delete buildOptions.base
+  }
+
+  if (buildOptions.assetsBase) {
+    siteConfig.assetsBase = normalizeAssetsBase(buildOptions.assetsBase)
+    delete buildOptions.assetsBase
   }
 
   if (buildOptions.mpa) {
@@ -152,11 +170,17 @@ async function render(
       chunk.type === 'asset' && chunk.fileName.endsWith('.css')
   )
 
+  const assetsUrlBase =
+    siteConfig.assetsBase ??
+    (isRelativeBase(siteConfig.site.base)
+      ? RELATIVE_BASE_SENTINEL
+      : siteConfig.site.base)
+
   // prettier-ignore
   const assets = resultOutput.filter(
     (chunk): chunk is Rolldown.OutputAsset =>
       chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-  ).map((asset) => siteConfig.site.base + asset.fileName)
+  ).map((asset) => assetsUrlBase + asset.fileName)
 
   // ----
 
@@ -255,13 +279,22 @@ async function generateMetadataScript(
   )
 
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
-  const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
+  const urlBase =
+    config.assetsBase ??
+    (isRelativeBase(config.site.base)
+      ? RELATIVE_BASE_SENTINEL
+      : config.site.base)
+  const metadataFileURL = urlBase + slash(metadataFile)
+  const crossorigin =
+    config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
+      ? ' crossorigin'
+      : ''
 
   await mkdir(path.dirname(resolvedMetadataFile), { recursive: true })
   await writeFile(resolvedMetadataFile, metadataContent)
 
   return {
-    html: `<script type="module" src="${metadataFileURL}"></script>`,
+    html: `<script type="module" src="${metadataFileURL}"${crossorigin}></script>`,
     inHead: true
   }
 }

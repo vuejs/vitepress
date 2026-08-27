@@ -4,7 +4,7 @@ import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
 import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
-import { inBrowser, withBase } from './utils'
+import { inBrowser, runtimeBase, withBase } from './utils'
 
 export interface Router {
   /**
@@ -123,7 +123,7 @@ export function createRouter(
         if (inBrowser) {
           nextTick(() => {
             let actualPathname =
-              siteDataRef.value.base +
+              runtimeBase() +
               __pageData.relativePath.replace(/(?:(^|\/)index)?\.md$/, '$1')
 
             if (!siteDataRef.value.cleanUrls && !actualPathname.endsWith('/')) {
@@ -153,7 +153,7 @@ export function createRouter(
       // the updated pageToHash map and fetch again.
       if (!isRetry) {
         try {
-          const res = await fetch(siteDataRef.value.base + 'hashmap.json')
+          const res = await fetch(runtimeBase() + 'hashmap.json')
           ;(window as any).__VP_HASH_MAP__ = await res.json()
           await loadPage(href, { scrollPosition, isRetry: true, initialLoad })
           return
@@ -168,7 +168,7 @@ export function createRouter(
           ? route.path
               .replace(/(^|\/)$/, '$1index')
               .replace(/(\.html)?$/, '.md')
-              .slice(siteDataRef.value.base.length)
+              .slice(runtimeBase().length)
           : '404.md'
         route.data = { ...notFoundPageData, relativePath }
         syncRouteQueryAndHash(targetLoc)
@@ -318,7 +318,7 @@ function shouldHotReload(payload: PageDataPayload): boolean {
   const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
   const locationPath = location.pathname
     .replace(/(?:(^|\/)index)?\.html$/, '')
-    .slice(siteDataRef.value.base.length - 1)
+    .slice(runtimeBase().length - 1)
   return payloadPath === locationPath
 }
 

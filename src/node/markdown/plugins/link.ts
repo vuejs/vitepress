@@ -9,6 +9,9 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import {
   EXTERNAL_URL_RE,
   isExternal,
+  isRelativeBase,
+  joinPath,
+  relativePathToRoot,
   treatAsHtml,
   type MarkdownEnv
 } from '../../shared'
@@ -81,7 +84,18 @@ export const linkPlugin = (
 
         // append base to internal (non-relative) urls
         if (hrefAttr[1].startsWith('/')) {
-          hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
+          if (isRelativeBase(base)) {
+            // resolve site-absolute links relative to this page so the
+            // output is identical in both builds and correct at any mount
+            // point; without a page context (content loaders) the
+            // site-absolute form is the only meaningful one — keep it
+            if (env.relativePath != null) {
+              hrefAttr[1] =
+                relativePathToRoot(env.relativePath) + hrefAttr[1].slice(1)
+            }
+          } else {
+            hrefAttr[1] = joinPath(base, hrefAttr[1])
+          }
         }
       }
       if (frag) {
@@ -98,10 +112,14 @@ export const linkPlugin = (
   ) {
     let url = hrefAttr[1]
 
+    // a relative base has no server guaranteed to resolve directory urls,
+    // so page links must point at the index.html file itself
+    const explicitIndex = isRelativeBase(base) && !env.cleanUrls
+
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
       const [, path, hash] = indexMatch
-      url = path + normalizeHash(hash)
+      url = path + (explicitIndex ? 'index.html' : '') + normalizeHash(hash)
     } else {
       let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
@@ -115,6 +133,9 @@ export const linkPlugin = (
         !cleanUrl.endsWith('/')
       ) {
         cleanUrl += '.html'
+      }
+      if (explicitIndex && cleanUrl.endsWith('/')) {
+        cleanUrl += 'index.html'
       }
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + normalizeHash(parsed.hash)

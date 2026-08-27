@@ -268,6 +268,12 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
 
+  __tests__/base:
+    devDependencies:
+      vitepress:
+        specifier: workspace:*
+        version: link:../..
+
   __tests__/e2e:
     devDependencies:
       vitepress:

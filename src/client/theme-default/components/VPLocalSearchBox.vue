@@ -11,7 +11,7 @@ import {
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
 import MiniSearch, { type SearchResult } from 'minisearch'
-import { dataSymbol, useRouter } from 'vitepress'
+import { dataSymbol, useRouter, withBase } from 'vitepress'
 import {
   computed,
   createApp,
@@ -254,7 +254,7 @@ watchDebounced(
 )
 
 async function fetchExcerpt(id: string) {
-  const file = pathToFile(id.slice(0, id.indexOf('#')))
+  const file = pathToFile(withBase(id.replace(/#.*$/, '')))
   try {
     if (!file) throw new Error(`Cannot find file for id: ${id}`)
     return { id, mod: await import(/*@vite-ignore*/ file) }
@@ -363,7 +363,7 @@ onKeyStroke('Enter', (e) => {
   }
 
   if (selectedPackage) {
-    router.go(selectedPackage.id)
+    router.go(withBase(selectedPackage.id))
     emit('close')
   }
 })
@@ -554,7 +554,7 @@ function onMouseMove(e: MouseEvent) {
             role="option"
           >
             <a
-              :href="p.id"
+              :href="withBase(p.id)"
               class="result"
               :class="{
                 selected: selectedIndex === index
