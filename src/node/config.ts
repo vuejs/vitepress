@@ -45,12 +45,19 @@ const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
 
 export function normalizeSiteBase(base?: string): string {
-  const normalized = base ? base.replace(/([^/])$/, '$1/') : '/'
+  let normalized = base ? base.replace(/([^/])$/, '$1/') : '/'
   if (normalized.startsWith('.') && !isRelativeBase(normalized)) {
     throw new Error(
       `a relative base must be exactly './' (got: ${base}) — pages always ` +
         `reference the site root relative to their own depth`
     )
+  }
+  if (
+    !isRelativeBase(normalized) &&
+    !EXTERNAL_URL_RE.test(normalized) &&
+    !normalized.startsWith('/')
+  ) {
+    normalized = '/' + normalized
   }
   return normalized
 }

@@ -86,6 +86,15 @@ describe('node/config base normalization', () => {
       expect(normalizeSiteBase('/docs/')).toBe('/docs/')
     })
 
+    test('coerces a leading slash onto path bases', () => {
+      expect(normalizeSiteBase('docs')).toBe('/docs/')
+      expect(normalizeSiteBase('docs/')).toBe('/docs/')
+      expect(normalizeSiteBase('https://example.com/x')).toBe(
+        'https://example.com/x/'
+      )
+      expect(normalizeSiteBase('//cdn.example.com/')).toBe('//cdn.example.com/')
+    })
+
     test('normalizes relative forms to ./', () => {
       expect(normalizeSiteBase('.')).toBe('./')
       expect(normalizeSiteBase('./')).toBe('./')
