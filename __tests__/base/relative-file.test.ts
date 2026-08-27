@@ -31,7 +31,9 @@ describe('relative base opened over file://', () => {
     )
     expect(fontFamily).toContain('Inter')
     const logoLoaded = await t.page.evaluate(
-      () => document.querySelector('img[alt="logo again"]')!.naturalWidth
+      () =>
+        document.querySelector<HTMLImageElement>('img[alt="logo again"]')!
+          .naturalWidth
     )
     expect(logoLoaded).toBe(1)
   })
