@@ -14,6 +14,8 @@ import { clearCache } from './markdownToVue'
 import { bindShortcuts } from './shortcuts'
 import { logVersion } from './utils/logVersion'
 
+const CLOSE_TIMEOUT = 10000
+
 const argv: any = minimist(process.argv.slice(2))
 
 // minimist keeps `--flag=true` as the string 'true'
@@ -71,15 +73,50 @@ async function runDev(root: string, argv: any) {
     bindShortcuts(server, restartServer)
   }
 
+  // vite's close waits for in-flight transform requests, which never settle
+  // once the plugin container and dep optimizer are torn down under them. the
+  // port, the watcher and the ws server are released well before that, so stop
+  // waiting and let the restart go on
+  async function closeServer() {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const closed = await Promise.race([
+      server.close().then(
+        () => true,
+        (err: any) => {
+          logError(`failed to close server. error:`, err)
+          return true
+        }
+      ),
+      new Promise<false>((resolve) => {
+        timer = setTimeout(resolve, CLOSE_TIMEOUT, false)
+      })
+    ])
+    clearTimeout(timer)
+    if (!closed) {
+      createLogger().warn(
+        c.yellow(
+          `server didn't close in ${CLOSE_TIMEOUT / 1000}s, restarting anyway`
+        )
+      )
+    }
+  }
+
   // the config watcher and the r shortcut can both ask at once
   function restartServer() {
-    restartPromise ??= restart().finally(() => {
-      restartPromise = undefined
-    })
+    if (!restartPromise) {
+      // between the two servers nothing references the event loop, so a stall
+      // anywhere in a restart would drain node into a silent exit(0)
+      const keepAlive = setInterval(() => {}, 1 << 30)
+      restartPromise = restart().finally(() => {
+        clearInterval(keepAlive)
+        restartPromise = undefined
+      })
+    }
     return restartPromise
   }
 
   async function restart() {
+    const prevConfig = config
     try {
       config = await resolveConfig(root, argv)
     } catch (err: any) {
@@ -89,9 +126,31 @@ async function runDev(root: string, argv: any) {
 
     disposeMdItInstance()
     clearCache()
-    await server.close()
-    await startServer()
+    await closeServer()
+
+    try {
+      await startServer()
+    } catch (err: any) {
+      logError(`failed to restart server. error:`, err)
+      // the old server is already closed, so bailing out here leaves the
+      // session with no server and no watcher — come back up on the last
+      // known good config so a fix can trigger a fresh restart
+      config = prevConfig
+      // the failed attempt may have memoized a half-configured renderer
+      disposeMdItInstance()
+      clearCache()
+      createLogger().warn(c.yellow(`falling back to the previous config`))
+      await startServer().catch(
+        logErrorAndExit.bind(null, `failed to restore server. error:`)
+      )
+    }
   }
+
+  // a stray unhandled rejection (from a user config, a theme, or a plugin)
+  // must not take down a long-lived dev session
+  process.on('unhandledRejection', (err) => {
+    logError(`unhandled rejection:`, err)
+  })
 
   await startServer(false)
 }
