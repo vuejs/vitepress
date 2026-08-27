@@ -1,5 +1,5 @@
 import { join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 import { newPage, type TestPage } from './helpers'
 
@@ -8,6 +8,8 @@ const dist = resolve(
   '..',
   'fixture/.vitepress/dist-relative'
 )
+
+const fileUrl = (...p: string[]) => pathToFileURL(join(dist, ...p)).href
 
 let t: TestPage
 
@@ -24,7 +26,7 @@ afterAll(async () => {
 // every engine — but the pre-rendered site must stay styled and navigable
 describe('relative base opened over file://', () => {
   test('pages render styled with working images', async () => {
-    await t.page.goto('file://' + join(dist, 'sub/page.html'))
+    await t.page.goto(fileUrl('sub/page.html'))
     expect(await t.page.textContent('h1')).toContain('Sub page')
     const fontFamily = await t.page.evaluate(
       () => getComputedStyle(document.body).fontFamily
@@ -41,17 +43,17 @@ describe('relative base opened over file://', () => {
   test('content links navigate between files', async () => {
     await t.page.click('.vp-doc a[href="../sub/deep/page2.html"]')
     expect(await t.page.textContent('h1')).toContain('Deep page')
-    expect(t.page.url()).toBe('file://' + join(dist, 'sub/deep/page2.html'))
+    expect(t.page.url()).toBe(fileUrl('sub/deep/page2.html'))
   })
 
   test('theme links navigate between files', async () => {
     await t.page.click('.VPSidebar a[href="../../moved/target.html"]')
     expect(await t.page.textContent('h1')).toContain('Moved page')
-    expect(t.page.url()).toBe('file://' + join(dist, 'moved/target.html'))
+    expect(t.page.url()).toBe(fileUrl('moved/target.html'))
   })
 
   test('the root page reaches nested pages', async () => {
-    await t.page.goto('file://' + join(dist, 'index.html'))
+    await t.page.goto(fileUrl('index.html'))
     await t.page.click('.vp-doc a[href="./sub/index.html"]')
     expect(await t.page.textContent('h1')).toContain('Sub index')
   })
