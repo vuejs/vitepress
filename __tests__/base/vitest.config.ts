@@ -9,7 +9,6 @@ export default defineConfig({
     hookTimeout: timeout,
     teardownTimeout: timeout,
     globals: true,
-    // suites share fixture builds but not servers/pages; keep them serial
     fileParallelism: false
   }
 })

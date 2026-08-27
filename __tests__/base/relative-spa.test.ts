@@ -14,7 +14,8 @@ afterAll(async () => {
   await t.browser.close()
 })
 
-// mark the window so a passing test proves navigation stayed client-side
+// mark the window with a marker that only survives client-side navigation,
+// proving no full document reload occurred
 const mark = () => t.page.evaluate(() => ((window as any).__spa_marker = 1))
 const marked = () => t.page.evaluate(() => (window as any).__spa_marker === 1)
 

@@ -58,14 +58,12 @@ let browserServer: BrowserServer
 let servers: Server[] = []
 
 export async function setup() {
-  // the cdn server starts before its dist exists (requests just 404 until
-  // the build lands) so the real port can be baked into assetsBase
+  // started before its dist exists so its real port can go into assetsBase
   const cdnServer = await serveStatic([['/', dist('cdn')]], true)
   const cdnPort = portOf(cdnServer)
 
-  // each flavor builds in its own process: the markdown renderer is a
-  // process-wide singleton, so sequential in-process builds would leak the
-  // first build's base into the rest
+  // one process per flavor: the markdown renderer is a module-level
+  // singleton, so in-process builds would leak the first base into the rest
   for (const mode of ['plain', 'relative', 'cdn', 'mpa']) {
     const res = spawnSync(process.execPath, [bin, 'build', 'fixture'], {
       cwd: dir,

@@ -14,9 +14,8 @@ const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useLayout()
 
 const pageName = computed(() => {
-  // under a relative base the mount point is unknowable at build time, so
-  // the page class must be derived from the site-relative path to stay
-  // identical between SSR and any hydration location
+  // the mount point is unknown at build time, so the class must come from
+  // the site-relative path or ssr and hydration disagree
   const path = isRelativeBase(site.value.base)
     ? '/' + route.path.slice(runtimeBase().length)
     : route.path

@@ -13,8 +13,6 @@ const createLink = () => document.createElement('link')
 const viaDOM = (url: string) => {
   const link = createLink()
   link.rel = `prefetch`
-  // chunks on an external assetsBase are later fetched in CORS mode; the
-  // prefetch must match or the cache entry is not reused
   if (EXTERNAL_URL_RE.test(url)) link.crossOrigin = ''
   link.href = url
   document.head.appendChild(link)

@@ -85,10 +85,7 @@ export const linkPlugin = (
         // append base to internal (non-relative) urls
         if (hrefAttr[1].startsWith('/')) {
           if (isRelativeBase(base)) {
-            // resolve site-absolute links relative to this page so the
-            // output is identical in both builds and correct at any mount
-            // point; content-loader output is embedded in other pages, so
-            // there the site-absolute form is the only meaningful one
+            // page-relative, so the same html works at any mount point
             if (env.relativizeUrls && env.relativePath != null) {
               hrefAttr[1] =
                 relativePathToRoot(env.relativePath) + hrefAttr[1].slice(1)
@@ -112,8 +109,7 @@ export const linkPlugin = (
   ) {
     let url = hrefAttr[1]
 
-    // a relative base has no server guaranteed to resolve directory urls,
-    // so page links must point at the index.html file itself
+    // directory urls need a server to resolve them, and file:// has none
     const explicitIndex = isRelativeBase(base) && !env.cleanUrls
 
     const indexMatch = url.match(indexRE)

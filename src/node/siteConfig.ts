@@ -92,10 +92,9 @@ export interface UserConfig<
    */
   extends?: RawConfigExports<ThemeConfig>
   /**
-   * The base URL the site is deployed at. Must start and end with a slash.
-   * Can also be `'./'` to build a relocatable site whose pages reference
-   * everything relatively, so the output works from any subpath (IPFS,
-   * archives) and stays browsable over `file://`.
+   * The base URL the site is deployed at. Usually starts and ends with a
+   * slash. Use `'./'` to make page references relative to their own depth,
+   * so the output works at any subpath.
    * @default '/'
    */
   base?: string
@@ -123,14 +122,13 @@ export interface UserConfig<
   assetsDir?: string
   /**
    * URL prefix the built assets (everything under `assetsDir`) are served
-   * from, e.g. a CDN. The emitted asset URL is this prefix joined with the
-   * output-relative file path, so the target should mirror the layout of
-   * `outDir` (`https://cdn.example.com/` serves `outDir/assets/*` at
-   * `https://cdn.example.com/assets/*`). Must be an absolute URL, a
-   * protocol-relative URL, or a root-absolute path; a trailing slash is
-   * appended if missing. HTML pages, `withBase` links, `public/` files,
-   * `hashmap.json` and `vp-icons.css` stay on `base`. Applied only to
-   * production builds and preview, never to dev.
+   * from, e.g. a CDN. Must be an absolute URL, a protocol-relative URL, or
+   * a root-absolute path, and must mirror the layout of `outDir`: each URL
+   * is this prefix plus the file's output-relative path. Pages, `withBase`
+   * links, `public/` files, `hashmap.json` and `vp-icons.css` stay on
+   * `base`. A cross-origin prefix must send CORS headers, as the generated
+   * tags are marked `crossorigin`. Applies to builds and preview, not dev.
+   * @example 'https://cdn.example.com/'
    */
   assetsBase?: string
   /**
@@ -365,8 +363,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
    */
   assetsDir: string
   /**
-   * Normalized URL prefix for built assets (ends with a slash), when
-   * configured.
+   * URL prefix for built assets, normalized to end with a slash.
    */
   assetsBase?: string
   /**

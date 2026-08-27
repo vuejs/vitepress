@@ -18,11 +18,14 @@ export { joinPath } from '../shared'
 let resolvedBase: string | undefined
 
 /**
- * The base the site is actually served under. Equals the configured base,
- * except for a relative base ('./'), which cannot be known at build time:
- * there it is recovered from the per-page `__VP_SITE_ROOT__` inline script
- * in the browser, is '/' in dev (dev always serves at the root), and is the
- * build sentinel during SSR so rendered URLs can be relativized per page.
+ * Runtime base path used by the app.
+ *
+ * Usually this is the configured site base.
+ *
+ * For a relative base (`'./'`), the mount point is unknown at build time, so:
+ * - SSR: uses `RELATIVE_BASE_SENTINEL` (for per-page URL relativization)
+ * - dev browser: uses `'/'` (dev server always mounts at root)
+ * - prod browser: resolves from the page's `__VP_SITE_ROOT__`
  */
 export function runtimeBase(): string {
   if (resolvedBase === undefined) {
@@ -63,6 +66,8 @@ export function pathToFile(path: string) {
     // /foo/bar.html -> ./foo_bar.md
     if (inBrowser) {
       const base = runtimeBase()
+      // the site root may arrive without its trailing slash; anything
+      // outside the base has no page chunk at all
       if (pagePath + '/' === base) pagePath = base
       if (!pagePath.startsWith(base)) return null
       pagePath =

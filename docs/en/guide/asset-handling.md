@@ -36,23 +36,15 @@ Note that you should reference files placed in `public` using root absolute path
 
 ## Base URL
 
-If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
+If your site is deployed to a non-root URL, set the [`base`](../reference/site-config#base) option. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'`
 
-All your static asset paths are automatically processed to adjust for different `base` config values. For example, if you have an absolute reference to an asset under `public` in your markdown:
+Static asset references are automatically adjusted for the base, so an absolute reference to a file in `public` works with any `base` and never needs updating:
 
 ```md
 ![An image](/image-inside-public.png)
 ```
 
-You do **not** need to update it when you change the `base` config value in this case. This includes a relative base (`'./'`), which makes the whole build [relocatable](./deploy#relocatable-builds-relative-base).
-
-However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
-
-```vue
-<img :src="theme.logoPath" />
-```
-
-In this case it is recommended to wrap the path with the [`withBase` helper](../reference/runtime-api#withbase) provided by VitePress:
+Only dynamically constructed paths need care — for example, an image whose `src` is based on a theme config value. Wrap those with the [`withBase` helper](../reference/runtime-api#withbase) so the base is prepended at runtime:
 
 ```vue
 <script setup>

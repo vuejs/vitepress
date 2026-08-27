@@ -58,8 +58,6 @@ export function normalizeLink(url: string): string {
         )
 
   if (isRelativeBase(site.value.base) && !site.value.cleanUrls) {
-    // file:// has no directory index; the router strips index.html back
-    // out of the address bar on navigation
     const pathPart = normalizedPath.replace(/[?#].*$/, '')
     if (pathPart.endsWith('/')) {
       normalizedPath =

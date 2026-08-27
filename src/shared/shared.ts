@@ -30,9 +30,11 @@ export type {
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
-// stand-in base for the SSR build under a relative base — every URL the SSR
-// bundle base-joins carries it into the rendered HTML, where renderPage
-// replaces it with the page's own ../-prefix as the final build step
+/**
+ * Placeholder base used by SSR when base is relative.
+ * It is prepended to emitted URLs, then replaced with the ../ prefix
+ * from each file back to the site root.
+ */
 export const RELATIVE_BASE_SENTINEL = '/__VP_BASE__/'
 
 export function isRelativeBase(base: string): boolean {
@@ -49,8 +51,8 @@ export function relativePathToRoot(relativePath: string): string {
 }
 
 /**
- * Join two paths by resolving the slash collision, preserving the double
- * slash of an absolute or protocol-relative URL base.
+ * Join two paths, collapsing slash collisions but keeping the `//` that
+ * follows a protocol.
  */
 export function joinPath(base: string, path: string): string {
   const protocol = /^(?:[a-z]+:)?\/\//i.exec(base)?.[0] ?? ''

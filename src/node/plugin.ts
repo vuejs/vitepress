@@ -130,9 +130,8 @@ export async function createVitePressPlugin(
       markdownToVue = await createMarkdownToVueRenderFn(
         srcDir,
         markdown ?? {},
-        // the site base, not config.base: the SSR build runs under the
-        // relative-base sentinel, but markdown must compile identically in
-        // both builds (they share one md singleton and one compile cache)
+        // the site base, not the vite base: the ssr build runs under the
+        // sentinel, and one md singleton serves both builds
         site.base,
         lastUpdated ?? false,
         cleanUrls ?? false,
@@ -457,7 +456,7 @@ export async function createVitePressPlugin(
     hmrFix,
     webFontsPlugin(siteConfig.useWebFonts),
     ...(userViteConfig?.plugins || []),
-    // last so its config hook sees (and chains behind) any user renderBuiltUrl
+    // must stay after the user plugins; see assetsBasePlugin
     ...(siteConfig.assetsBase ? [assetsBasePlugin(siteConfig)] : []),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,

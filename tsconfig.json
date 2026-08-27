@@ -1,8 +1,3 @@
-// the editor's project for the sources. Self-contained: `vitepress` resolves
-// onto src (same trick as tsconfig.client.json), so the built dist — whose
-// bundled types re-declare the `vite` and default-theme augmentations under
-// different type identities — never enters this program. Tests and docs have
-// their own nearest tsconfigs and resolve the package normally.
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {

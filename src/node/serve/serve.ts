@@ -20,7 +20,6 @@ export async function serve(options: ServeOptions = {}) {
   const port = options.port ?? 4173
   const config = await resolveConfig(options.root, 'serve', 'production')
 
-  // a build may have been made with --assetsBase; let preview mirror it
   const assetsBase =
     typeof options.assetsBase === 'string'
       ? normalizeAssetsBase(options.assetsBase)
@@ -31,7 +30,7 @@ export async function serve(options: ServeOptions = {}) {
     config?.site?.base ??
     '/'
   if (isRelativeBase(rawBase)) {
-    // a relocatable build works at any mount point; serve it at the root
+    // a relative base works at any mount point; serve it at the root
     rawBase = '/'
   } else if (EXTERNAL_URL_RE.test(rawBase)) {
     rawBase = new URL(rawBase, 'http://a.com').pathname

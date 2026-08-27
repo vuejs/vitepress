@@ -374,7 +374,7 @@ export default {
 
 The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
 
-Setting base to `'./'` produces a [relocatable build](../guide/deploy#relocatable-builds-relative-base) whose pages reference everything relative to their own location, so the same output works from any sub path (IPFS gateways, archives) without rebuilding and stays browsable when opened directly from the file system.
+The one exception is `'./'`, which produces a [relocatable build](../guide/deploy#relocatable-builds-relative-base): pages reference everything relative to their own location, so the same output works from any sub path (IPFS gateways, archives) without rebuilding and stays browsable when opened directly from the file system.
 
 The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
 
@@ -383,6 +383,8 @@ export default {
   base: '/base/'
 }
 ```
+
+Can also be set per build with `vitepress build --base /base/`.
 
 ## Routing
 

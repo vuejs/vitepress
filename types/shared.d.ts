@@ -168,8 +168,8 @@ export interface Header {
  */
 export interface SiteData<ThemeConfig = any> {
   /**
-   * The base URL the site is deployed at, or './' for a relocatable build
-   * whose pages reference everything relative to their own depth.
+   * The base URL the site is deployed at, or `'./'` when each page
+   * references the site relative to its own depth.
    * @default '/'
    */
   base: string
@@ -588,9 +588,9 @@ export interface MarkdownEnv {
    */
   cleanUrls: boolean
   /**
-   * Whether the rendered HTML is emitted at `relativePath`'s location, so
-   * site-absolute links may be rewritten relative to it (page renders set
-   * this; content-loader output is embedded in other pages, so it must not).
+   * Whether the rendered HTML is emitted at `relativePath`, so site-absolute
+   * links may be rewritten relative to it. Content loaders must not set it:
+   * their HTML is embedded in other pages.
    * @internal
    */
   relativizeUrls?: boolean

@@ -76,8 +76,6 @@ export async function renderPage(
   const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
   const relativeBase = isRelativeBase(siteData.base)
-  // under a relative base every page addresses the site root through its
-  // own ../-prefix; otherwise this is just the configured base
   const pageBase = relativeBase ? relativePathToRoot(page) : siteData.base
 
   const assetUrl = (file: string) => (config.assetsBase ?? pageBase) + file
@@ -131,8 +129,8 @@ export async function renderPage(
         rel,
         // don't add base to external urls
         href: EXTERNAL_URL_RE.test(file) ? file : assetUrl(file),
-        // keep the prefetch/preload request mode aligned with the later
-        // cross-origin module fetch, or the cache entry is not reused
+        // must match the cors mode of the later module fetch, or the
+        // cached response is not reused
         ...(assetsCrossOrigin && !EXTERNAL_URL_RE.test(file)
           ? { crossorigin: '' }
           : {})
@@ -234,8 +232,6 @@ export async function renderPage(
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await mkdir(path.dirname(htmlFileName), { recursive: true })
-  // relativized before the hook: transforms see (and may inject) final
-  // urls, never the build sentinel
   const finalHtml = desentinel(html)
   const transformedHtml = await config.transformHtml?.(
     finalHtml,

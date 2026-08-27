@@ -22,8 +22,8 @@ afterAll(async () => {
   await t.browser.close()
 })
 
-// no hydration over file:// — module scripts are CORS-blocked from disk in
-// every engine — but the pre-rendered site must stay styled and navigable
+// module scripts are cors-blocked from disk, so nothing hydrates here; the
+// pre-rendered site must still be styled and navigable
 describe('relative base opened over file://', () => {
   test('pages render styled with working images', async () => {
     await t.page.goto(fileUrl('sub/page.html'))
