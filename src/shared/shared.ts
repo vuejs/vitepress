@@ -54,9 +54,7 @@ export function relativePathToRoot(relativePath: string): string {
  */
 export function joinPath(base: string, path: string): string {
   const protocol = /^(?:[a-z]+:)?\/\//i.exec(base)?.[0] ?? ''
-  return (
-    protocol + `${base.slice(protocol.length)}${path}`.replace(/\/+/g, '/')
-  )
+  return protocol + `${base.slice(protocol.length)}${path}`.replace(/\/+/g, '/')
 }
 
 export const VP_SOURCE_KEY = '[VP_SOURCE]'

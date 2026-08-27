@@ -67,7 +67,11 @@ describe('node/markdown/plugins/link with a relative base', () => {
   const md = new MarkdownItAsync()
   linkPlugin(md, {}, './', slugify)
   const render = (src: string, env: object = {}) =>
-    md.renderAsync(src, { cleanUrls: false, relativePath: 'guide/page.md', ...env })
+    md.renderAsync(src, {
+      cleanUrls: false,
+      relativePath: 'guide/page.md',
+      ...env
+    })
 
   test('site-absolute links become page-relative', async () => {
     expect(await render('[x](/other/thing)')).toContain(
@@ -110,9 +114,9 @@ describe('node/markdown/plugins/link with a relative base', () => {
   })
 
   test('without a page context absolute links are preserved', async () => {
-    expect(await render('[x](/other/thing)', { relativePath: undefined })).toContain(
-      'href="/other/thing.html"'
-    )
+    expect(
+      await render('[x](/other/thing)', { relativePath: undefined })
+    ).toContain('href="/other/thing.html"')
   })
 })
 

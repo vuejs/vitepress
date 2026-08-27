@@ -31,8 +31,8 @@ describe('assetsBase with a separate cdn origin', () => {
   test('client-side navigation loads page chunks from the cdn', async () => {
     await t.page.evaluate(() => ((window as any).__spa_marker = 1))
     await t.page.click('.vp-doc a[href="/sub/page.html"]')
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Sub page')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Sub page')
     )
     expect(
       await t.page.evaluate(() => (window as any).__spa_marker === 1)

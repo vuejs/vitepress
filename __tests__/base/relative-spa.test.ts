@@ -23,16 +23,16 @@ describe('relative base served from a deep subpath', () => {
     await t.page.goto(`${origin()}${SUB_PREFIX}sub/deep/page2.html`)
     await waitForHydration(t.page)
     expect(await t.page.textContent('h1')).toContain('Deep page')
-    expect(
-      await t.page.evaluate(() => (window as any).__VP_SITE_ROOT__)
-    ).toBe(`${origin()}${SUB_PREFIX}`)
+    expect(await t.page.evaluate(() => (window as any).__VP_SITE_ROOT__)).toBe(
+      `${origin()}${SUB_PREFIX}`
+    )
   })
 
   test('sidebar navigation is client-side and lands on the right url', async () => {
     await mark()
     await t.page.click(`.VPSidebar a[href="${SUB_PREFIX}sub/page.html"]`)
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Sub page')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Sub page')
     )
     expect(await marked()).toBe(true)
     expect(new URL(t.page.url()).pathname).toBe(`${SUB_PREFIX}sub/page.html`)
@@ -40,8 +40,8 @@ describe('relative base served from a deep subpath', () => {
 
   test('content links navigate client-side', async () => {
     await t.page.click('.vp-doc a[href="../index.html"]')
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Home')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Home')
     )
     expect(await marked()).toBe(true)
     // the router strips index.html from the address bar
@@ -59,16 +59,16 @@ describe('relative base served from a deep subpath', () => {
     )
     expect(href).toBe(`${SUB_PREFIX}sub/deep/page2.html#deep-heading`)
     await t.page.click('#localsearch-list li[role=option] a')
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Deep page')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Deep page')
     )
     expect(await marked()).toBe(true)
   })
 
   test('history back keeps working', async () => {
     await t.page.goBack()
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Home')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Home')
     )
     expect(new URL(t.page.url()).pathname).toBe(SUB_PREFIX)
   })
@@ -78,8 +78,8 @@ describe('relative base served from a deep subpath', () => {
     await waitForHydration(t.page)
     await mark()
     await t.page.click('.vp-doc a[href="./sub/page.html"]')
-    await t.page.waitForFunction(
-      () => document.querySelector('h1')?.textContent?.includes('Sub page')
+    await t.page.waitForFunction(() =>
+      document.querySelector('h1')?.textContent?.includes('Sub page')
     )
     expect(await marked()).toBe(true)
     expect(new URL(t.page.url()).pathname).toBe(`${ALT_PREFIX}sub/page.html`)

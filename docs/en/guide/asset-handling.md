@@ -44,7 +44,7 @@ All your static asset paths are automatically processed to adjust for different 
 ![An image](/image-inside-public.png)
 ```
 
-You do **not** need to update it when you change the `base` config value in this case.
+You do **not** need to update it when you change the `base` config value in this case. This includes a relative base (`'./'`), which makes the whole build [relocatable](./deploy#relocatable-builds-relative-base).
 
 However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
 
@@ -65,3 +65,26 @@ const { theme } = useData()
   <img :src="withBase(theme.logoPath)" />
 </template>
 ```
+
+## Serving Assets from a CDN
+
+To serve the generated assets — scripts, styles, fonts, and images imported from Markdown or components — from a different origin than the pages, set [`assetsBase`](../reference/site-config#assetsbase):
+
+```ts
+export default {
+  base: '/',
+  assetsBase: 'https://cdn.example.com/'
+}
+```
+
+Upload the `assets` directory from the build output to the CDN so it is reachable at `https://cdn.example.com/assets/`, and deploy the rest of the output to your site as usual. Files in `public` are referenced from `base` and stay with the pages.
+
+Since the value is often environment-specific, it can also be passed on the command line:
+
+```sh
+vitepress build docs --assetsBase "$CDN_URL"
+```
+
+::: warning CORS Required
+Module scripts are always fetched in CORS mode, so a cross-origin CDN must respond with an appropriate `Access-Control-Allow-Origin` header.
+:::

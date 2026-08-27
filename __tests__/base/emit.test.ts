@@ -107,14 +107,18 @@ describe('assetsBase emit', () => {
     expect(html).toMatch(
       new RegExp(`src="${cdn()}assets/chunks/metadata\\.[\\w-]+\\.js"`)
     )
-    expect(html).toMatch(new RegExp(`href="${cdn()}assets/style\\.[\\w-]+\\.css"`))
+    expect(html).toMatch(
+      new RegExp(`href="${cdn()}assets/style\\.[\\w-]+\\.css"`)
+    )
     expect(html).toMatch(
       new RegExp(
         `<link rel="modulepreload" href="${cdn()}assets/chunks/[^"]+" crossorigin="">`
       )
     )
     expect(html).toMatch(
-      new RegExp(`rel="preload" href="${cdn()}assets/inter-roman-latin\\.[^"]+"`)
+      new RegExp(
+        `rel="preload" href="${cdn()}assets/inter-roman-latin\\.[^"]+"`
+      )
     )
   })
 
@@ -128,12 +132,16 @@ describe('assetsBase emit', () => {
 
   test('hashed content assets move to the cdn', () => {
     const html = read('cdn', 'index.html')
-    expect(html).toMatch(new RegExp(`src="${cdn()}assets/photo\\.[\\w-]+\\.png"`))
+    expect(html).toMatch(
+      new RegExp(`src="${cdn()}assets/photo\\.[\\w-]+\\.png"`)
+    )
   })
 
   test('fonts referenced from css move to the cdn', () => {
     const cssFile = walk(dist('cdn', 'assets')).find((f) => f.endsWith('.css'))!
-    expect(readFileSync(cssFile, 'utf-8')).toContain(`url(${cdn()}assets/inter-`)
+    expect(readFileSync(cssFile, 'utf-8')).toContain(
+      `url(${cdn()}assets/inter-`
+    )
   })
 })
 

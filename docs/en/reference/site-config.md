@@ -372,7 +372,9 @@ export default {
 - Type: `string`
 - Default: `/`
 
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash. Relative bases are not supported.
+The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+
+Setting base to `'./'` produces a [relocatable build](../guide/deploy#relocatable-builds-relative-base) whose pages reference everything relative to their own location, so the same output works from any sub path (IPFS gateways, archives) without rebuilding and stays browsable when opened directly from the file system.
 
 The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
 
@@ -462,6 +464,28 @@ export default {
   assetsDir: 'static'
 }
 ```
+
+### assetsBase
+
+- Type: `string`
+- Default: `undefined`
+
+URL prefix the generated assets (everything under [`assetsDir`](#assetsdir)) are served from — typically a CDN. Must be an absolute URL, a protocol-relative URL, or a root-absolute path; a trailing slash is appended if missing.
+
+```ts
+export default {
+  base: '/',
+  assetsBase: 'https://cdn.example.com/'
+  // scripts, styles, fonts and imported images resolve to
+  // https://cdn.example.com/assets/*
+}
+```
+
+The emitted asset URL is `assetsBase` joined with the output-relative file path, so the CDN should mirror the layout of `outDir` (upload `outDir/assets` so it is reachable at `<assetsBase>/assets/*`). HTML pages, Markdown links, [`public`](../guide/asset-handling#the-public-directory) files, `hashmap.json` and `vp-icons.css` stay on [`base`](#base).
+
+When `assetsBase` points at another origin, VitePress adds `crossorigin` to the emitted script and preload tags — the CDN must send `Access-Control-Allow-Origin` for your site's origin (module scripts are always fetched in CORS mode).
+
+Only production builds are affected. `vitepress preview` serves a root-absolute `assetsBase` (like `/cdn/`) from the local dist; an external one is requested from the real URL. Can also be set per build with `vitepress build --assetsBase https://cdn.example.com/`.
 
 ### cacheDir
 

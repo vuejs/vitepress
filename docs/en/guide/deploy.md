@@ -54,6 +54,28 @@ By default, we assume the site is going to be deployed at the root path of a dom
 
 **Example:** If you're using Github (or GitLab) Pages and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
 
+## Relocatable Builds (Relative Base) {#relocatable-builds-relative-base}
+
+When the final URL of the site isn't known at build time — an IPFS gateway (`https://gateway/ipfs/<cid>/…`), the Wayback Machine, a shared folder, docs bundled into an app — set `base` to `'./'`:
+
+```ts
+export default {
+  base: './'
+}
+```
+
+Every page then references assets and other pages relative to its own location, and the client runtime recovers the real mount point when the page loads. The same build works from **any** sub path without rebuilding — including several at once — with routing, search and prefetching fully functional.
+
+Opening the generated HTML files straight from the file system (`file://`) also works as a styled, fully navigable static site. Browsers block JavaScript modules over `file://`, so there is no hydration there — interactive features like search stay inactive, while all pre-rendered content and links keep working.
+
+A few things to know:
+
+- Keep [`cleanUrls`](../reference/site-config#cleanurls) off (the default): portable output needs links that end in `.html`, since there is no server to rewrite pretty URLs.
+- `404.html` is generated for the root depth. Hosts that serve it as a fallback for arbitrarily deep URLs will render it without styles (there is no correct relative prefix for an unknown depth).
+- [`head`](../reference/site-config#head) entries are emitted verbatim, as always — avoid root-absolute paths like `/favicon.ico` there and prefer absolute URLs or `transformHead`.
+- Raw HTML in Markdown is not rewritten — use Markdown image/link syntax or relative paths inside embedded HTML.
+- The dev server always serves at `/`; the relative behavior applies to the production build.
+
 ## HTTP Cache Headers
 
 If you have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
