@@ -27,6 +27,11 @@ import {
   type SiteData
 } from './shared'
 import type { RawConfigExports, SiteConfig, UserConfig } from './siteConfig'
+import {
+  resolveAdditionalDefaultThemeConfigs,
+  resolveDefaultThemeConfig,
+  resolveLocaleDefaultThemeConfigs
+} from './themeConfig'
 import { glob } from './utils/glob'
 
 export { resolvePages } from './plugins/dynamicRoutesPlugin'
@@ -360,6 +365,12 @@ export async function resolveSiteData(
 ): Promise<SiteData> {
   userConfig = userConfig || (await resolveUserConfig(root, command, mode))[0]
 
+  const themeConfig = resolveDefaultThemeConfig(userConfig.themeConfig || {})
+  const locales = resolveLocaleDefaultThemeConfigs(userConfig.locales) || {}
+  const additionalConfig = resolveAdditionalDefaultThemeConfigs(
+    userConfig.additionalConfig
+  )
+
   return {
     lang: userConfig.lang || 'en-US',
     dir: userConfig.dir || 'ltr',
@@ -372,11 +383,11 @@ export async function resolveSiteData(
       prefetchLinks: userConfig.router?.prefetchLinks ?? true
     },
     appearance: userConfig.appearance ?? true,
-    themeConfig: userConfig.themeConfig || {},
-    locales: userConfig.locales || {},
+    themeConfig,
+    locales,
     cleanUrls: !!userConfig.cleanUrls,
     contentProps: userConfig.contentProps,
-    additionalConfig: userConfig.additionalConfig
+    additionalConfig
   }
 }
 

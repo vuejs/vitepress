@@ -88,6 +88,8 @@ export default {
 
 The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
 
+The `text` fields support inline Markdown and HTML.
+
 ```ts
 export default {
   themeConfig: {
@@ -136,6 +138,8 @@ interface NavItemWithChildren {
 
 The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
 
+The `text` and `docFooterText` fields support inline Markdown and HTML.
+
 ```ts
 export default {
   themeConfig: {
@@ -162,7 +166,7 @@ export interface SidebarMulti {
 
 export type SidebarItem = {
   /**
-   * The text label of the item.
+   * The text label of the item. Supports inline Markdown and HTML.
    */
   text?: string
 
@@ -192,6 +196,7 @@ export type SidebarItem = {
 
   /**
    * Customize text that appears on the footer of previous/next page.
+   * Supports inline Markdown and HTML.
    */
   docFooterText?: string
 
@@ -409,6 +414,8 @@ Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
 - Type: `DocFooter`
 
 Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
+
+The `prev` and `next` string values support inline Markdown and HTML.
 
 ```ts
 export default {

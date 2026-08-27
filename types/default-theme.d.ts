@@ -218,6 +218,9 @@ export namespace DefaultTheme {
   }
 
   export interface NavItemWithLink {
+    /**
+     * The text label of the item. Supports inline Markdown and HTML.
+     */
     text: string
     link: string | ((payload: PageData) => string)
     items?: never
@@ -233,11 +236,17 @@ export namespace DefaultTheme {
   }
 
   export interface NavItemChildren {
+    /**
+     * The text label of the item. Supports inline Markdown and HTML.
+     */
     text?: string
     items: NavItemWithLink[]
   }
 
   export interface NavItemWithChildren {
+    /**
+     * The text label of the item. Supports inline Markdown and HTML.
+     */
     text?: string
     items: (NavItemComponent | NavItemChildren | NavItemWithLink)[]
 
@@ -283,7 +292,7 @@ export namespace DefaultTheme {
 
   export type SidebarItem = {
     /**
-     * The text label of the item.
+     * The text label of the item. Supports inline Markdown and HTML.
      */
     text?: string
 
@@ -313,6 +322,7 @@ export namespace DefaultTheme {
 
     /**
      * Customize text that appears on the footer of previous/next page.
+     * Supports inline Markdown and HTML.
      */
     docFooterText?: string
 
@@ -344,6 +354,7 @@ export namespace DefaultTheme {
   export interface DocFooter {
     /**
      * Custom label for previous page button. Can be set to `false` to disable.
+     * Supports inline Markdown and HTML.
      *
      * @default 'Previous page'
      */
@@ -351,6 +362,7 @@ export namespace DefaultTheme {
 
     /**
      * Custom label for next page button. Can be set to `false` to disable.
+     * Supports inline Markdown and HTML.
      *
      * @default 'Next page'
      */

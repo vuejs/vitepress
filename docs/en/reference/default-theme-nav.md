@@ -57,7 +57,15 @@ export default {
 }
 ```
 
-The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+The `text` is the actual text displayed in nav, and supports inline Markdown and HTML. The `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
+
+```js
+export default {
+  themeConfig: {
+    nav: [{ text: 'Vue `<script setup>`', link: '/guide' }]
+  }
+}
+```
 
 The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
 
