@@ -17,6 +17,17 @@ export default defineConfig({
     // keep the tiny fixture images as real emitted assets
     build: { assetsInlineLimit: 0 }
   },
+  // user hooks must only ever see final urls, never the build sentinel
+  transformHead({ assets, head, content }) {
+    if ((JSON.stringify([assets, head]) + content).includes('__VP_BASE__')) {
+      throw new Error('sentinel leaked to transformHead')
+    }
+  },
+  transformHtml(code, _id, { assets, content }) {
+    if ((code + JSON.stringify(assets) + content).includes('__VP_BASE__')) {
+      throw new Error('sentinel leaked to transformHtml')
+    }
+  },
   themeConfig: {
     nav: [{ text: 'Guide', link: '/sub/page' }],
     sidebar: [

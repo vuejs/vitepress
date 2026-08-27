@@ -59,11 +59,19 @@ export async function build(
   const unlinkVue = await linkVue()
 
   if (buildOptions.base) {
+    if (typeof buildOptions.base !== 'string') {
+      throw new Error('--base requires a value (e.g. --base /docs/)')
+    }
     siteConfig.site.base = normalizeSiteBase(buildOptions.base)
     delete buildOptions.base
   }
 
   if (buildOptions.assetsBase) {
+    if (typeof buildOptions.assetsBase !== 'string') {
+      throw new Error(
+        '--assetsBase requires a value (e.g. --assetsBase https://cdn.example.com/)'
+      )
+    }
     siteConfig.assetsBase = normalizeAssetsBase(buildOptions.assetsBase)
     delete buildOptions.assetsBase
   }

@@ -5,12 +5,13 @@ import compression from '@polka/compression'
 import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
 
-import { resolveConfig } from '../config'
+import { normalizeAssetsBase, resolveConfig } from '../config'
 import { EXTERNAL_URL_RE, isRelativeBase } from '../shared'
 import { readFile } from '../utils/fs'
 
 export interface ServeOptions {
   base?: string
+  assetsBase?: string
   root?: string
   port?: number
 }
@@ -19,7 +20,16 @@ export async function serve(options: ServeOptions = {}) {
   const port = options.port ?? 4173
   const config = await resolveConfig(options.root, 'serve', 'production')
 
-  let rawBase = options?.base ?? config?.site?.base ?? '/'
+  // a build may have been made with --assetsBase; let preview mirror it
+  const assetsBase =
+    typeof options.assetsBase === 'string'
+      ? normalizeAssetsBase(options.assetsBase)
+      : config.assetsBase
+
+  let rawBase =
+    (typeof options.base === 'string' ? options.base : undefined) ??
+    config?.site?.base ??
+    '/'
   if (isRelativeBase(rawBase)) {
     // a relocatable build works at any mount point; serve it at the root
     rawBase = '/'
@@ -59,18 +69,15 @@ export async function serve(options: ServeOptions = {}) {
 
   const app = polka({ onNoMatch })
 
-  if (config.assetsBase) {
-    if (EXTERNAL_URL_RE.test(config.assetsBase)) {
+  if (assetsBase) {
+    if (EXTERNAL_URL_RE.test(assetsBase)) {
       config.logger.info(
-        `assetsBase is external (${config.assetsBase}) — assets will be ` +
+        `assetsBase is external (${assetsBase}) — assets will be ` +
           `requested from that URL, not from this preview server.`
       )
     } else {
       // mirror the asset subtree at the configured prefix
-      const assetsPath = `${config.assetsBase}${config.assetsDir}`.replace(
-        /\/+$/,
-        ''
-      )
+      const assetsPath = `${assetsBase}${config.assetsDir}`.replace(/\/+$/, '')
       app.use(
         assetsPath,
         compress,

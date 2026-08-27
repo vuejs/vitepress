@@ -158,6 +158,7 @@ export async function createMarkdownToVueRenderFn(
       path: file,
       relativePath,
       cleanUrls,
+      relativizeUrls: true,
       includes: [],
       realPath: fileOrig,
       localeIndex

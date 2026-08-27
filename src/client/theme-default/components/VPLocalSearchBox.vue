@@ -177,7 +177,7 @@ watchDebounced(
       : []
     if (canceled) return
     for (const { id, mod } of mods) {
-      const mapId = id.slice(0, id.indexOf('#'))
+      const mapId = id.replace(/#.*$/, '')
       let map = cache.get(mapId)
       if (map) continue
       map = new Map()

@@ -12,7 +12,7 @@ export async function createServer(
   config ??= await resolveConfig(root)
 
   const { base, ...server } = serverOptions
-  if (base != null) config.site.base = normalizeSiteBase(base)
+  if (typeof base === 'string') config.site.base = normalizeSiteBase(base)
 
   return createViteServer({
     root: config.srcDir,

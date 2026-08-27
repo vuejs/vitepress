@@ -73,7 +73,9 @@ A few things to know:
 - Keep [`cleanUrls`](../reference/site-config#cleanurls) off (the default): portable output needs links that end in `.html`, since there is no server to rewrite pretty URLs.
 - `404.html` is generated for the root depth. Hosts that serve it as a fallback for arbitrarily deep URLs will render it without styles (there is no correct relative prefix for an unknown depth).
 - [`head`](../reference/site-config#head) entries are emitted verbatim, as always — avoid root-absolute paths like `/favicon.ico` there and prefer absolute URLs or `transformHead`.
-- Raw HTML in Markdown is not rewritten — use Markdown image/link syntax or relative paths inside embedded HTML.
+- Raw HTML `<a>` tags in Markdown keep their `href` as written — use Markdown link syntax for site-absolute links (embedded `<img>` sources go through the asset pipeline and are handled).
+- Links created by [`createContentLoader`](./data-loading#createcontentloader) content stay site-absolute (their HTML is embedded into other pages, so no single relative prefix is correct) — they resolve only for a root mount.
+- Serve pages at their canonical URLs: the root as `/dir/` (not `/dir`), and no added trailing slashes on page URLs. The relative prefix is resolved against the URL the browser actually shows, and virtually all static hosts canonicalize this way already.
 - The dev server always serves at `/`; the relative behavior applies to the production build.
 
 ## HTTP Cache Headers

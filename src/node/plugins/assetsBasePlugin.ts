@@ -15,6 +15,9 @@ export type RenderBuiltUrl = NonNullable<
 export function assetsBasePlugin(config: SiteConfig): Plugin {
   return {
     name: 'vitepress:assets-base',
+    // post + appended last: the config hook must run after every user
+    // plugin so it chains behind (not under) their renderBuiltUrl
+    enforce: 'post',
     config(userConfig, env) {
       if (env.command !== 'build') return
       const userHook = userConfig.experimental?.renderBuiltUrl

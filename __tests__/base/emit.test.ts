@@ -92,6 +92,16 @@ describe('relative base emit', () => {
       expect(readFileSync(file, 'utf-8'), file).not.toContain('__VP_BASE__')
     }
   })
+
+  test('content-loader html keeps site-absolute links', () => {
+    const html = read('relative', 'blog.html')
+    // the loader source lives at posts/deep/, the consumer at the root —
+    // per-source relativizing would point above the site root
+    expect(html).toContain('href="/sub/page.html"')
+    expect(html).not.toContain('../../sub/page.html')
+    // the consuming page's own chrome is still relative
+    expect(html).toMatch(/href="\.\/assets\/style\.[\w-]+\.css"/)
+  })
 })
 
 describe('assetsBase emit', () => {

@@ -70,6 +70,7 @@ describe('node/markdown/plugins/link with a relative base', () => {
     md.renderAsync(src, {
       cleanUrls: false,
       relativePath: 'guide/page.md',
+      relativizeUrls: true,
       ...env
     })
 
@@ -113,7 +114,12 @@ describe('node/markdown/plugins/link with a relative base', () => {
     )
   })
 
-  test('without a page context absolute links are preserved', async () => {
+  test('content-loader renders keep absolute links site-absolute', async () => {
+    // content loaders set relativePath but not relativizeUrls — their html
+    // is embedded in other pages, so the source's depth must not apply
+    expect(
+      await render('[x](/other/thing)', { relativizeUrls: undefined })
+    ).toContain('href="/other/thing.html"')
     expect(
       await render('[x](/other/thing)', { relativePath: undefined })
     ).toContain('href="/other/thing.html"')

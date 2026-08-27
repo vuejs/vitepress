@@ -87,9 +87,9 @@ export const linkPlugin = (
           if (isRelativeBase(base)) {
             // resolve site-absolute links relative to this page so the
             // output is identical in both builds and correct at any mount
-            // point; without a page context (content loaders) the
-            // site-absolute form is the only meaningful one — keep it
-            if (env.relativePath != null) {
+            // point; content-loader output is embedded in other pages, so
+            // there the site-absolute form is the only meaningful one
+            if (env.relativizeUrls && env.relativePath != null) {
               hrefAttr[1] =
                 relativePathToRoot(env.relativePath) + hrefAttr[1].slice(1)
             }

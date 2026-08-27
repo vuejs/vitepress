@@ -41,7 +41,7 @@ export async function renderPage(
 
   // render page
   const context = await render(routePath)
-  const { content, teleports, vpSocialIcons } =
+  let { content, teleports, vpSocialIcons } =
     (await config.postRender?.(context)) ?? context
 
   // add used social icons to the set
@@ -80,22 +80,20 @@ export async function renderPage(
   // own ../-prefix; otherwise this is just the configured base
   const pageBase = relativeBase ? relativePathToRoot(page) : siteData.base
 
-  const userBuiltUrl = config.vite?.experimental?.renderBuiltUrl
-  const htmlPath = page.replace(/\.md$/, '.html')
-  const assetUrl = (file: string) => {
-    const userResult = userBuiltUrl?.(file, {
-      type: 'asset',
-      hostType: 'html',
-      hostId: htmlPath,
-      ssr: false
-    })
-    if (typeof userResult === 'string') return userResult
-    return (config.assetsBase ?? pageBase) + file
-  }
+  const assetUrl = (file: string) => (config.assetsBase ?? pageBase) + file
   const assetsCrossOrigin =
     config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
       ? ' crossorigin'
       : ''
+
+  // user hooks must never see the build sentinel
+  const desentinel = (value: string) =>
+    relativeBase ? value.replaceAll(RELATIVE_BASE_SENTINEL, pageBase) : value
+  const pageAssets = relativeBase ? assets.map(desentinel) : assets
+  if (relativeBase) {
+    content = desentinel(content)
+    if (teleports?.body) teleports.body = desentinel(teleports.body)
+  }
 
   const title: string = createTitle(siteData, pageData)
   const description: string = pageData.description || siteData.description
@@ -144,8 +142,12 @@ export async function renderPage(
   const preloadHeadTags = toHeadTags(preloadLinks, 'modulepreload')
   const prefetchHeadTags = toHeadTags(prefetchLinks, 'prefetch')
 
+  const pageHeadTags: HeadConfig[] = relativeBase
+    ? JSON.parse(desentinel(JSON.stringify(additionalHeadTags)))
+    : additionalHeadTags
+
   const headBeforeTransform = [
-    ...additionalHeadTags,
+    ...pageHeadTags,
     ...preloadHeadTags,
     ...prefetchHeadTags,
     ...mergeHead(
@@ -165,7 +167,7 @@ export async function renderPage(
       description,
       head: headBeforeTransform,
       content,
-      assets
+      assets: pageAssets
     })) || []
   )
 
@@ -232,24 +234,25 @@ export async function renderPage(
 
   const htmlFileName = path.join(config.outDir, page.replace(/\.md$/, '.html'))
   await mkdir(path.dirname(htmlFileName), { recursive: true })
-  const transformedHtml = await config.transformHtml?.(html, htmlFileName, {
-    page,
-    siteConfig: config,
-    siteData,
-    pageData,
-    title,
-    description,
-    head,
-    content,
-    assets
-  })
-  let finalHtml = transformedHtml || html
-  if (relativeBase) {
-    // last step, after transformHtml, so sentinel urls a transform injects
-    // (e.g. from the `assets` array) are relativized too
-    finalHtml = finalHtml.replaceAll(RELATIVE_BASE_SENTINEL, pageBase)
-  }
-  await writeFile(htmlFileName, finalHtml)
+  // relativized before the hook: transforms see (and may inject) final
+  // urls, never the build sentinel
+  const finalHtml = desentinel(html)
+  const transformedHtml = await config.transformHtml?.(
+    finalHtml,
+    htmlFileName,
+    {
+      page,
+      siteConfig: config,
+      siteData,
+      pageData,
+      title,
+      description,
+      head,
+      content,
+      assets: pageAssets
+    }
+  )
+  await writeFile(htmlFileName, transformedHtml || finalHtml)
 }
 
 async function resolvePageImports(

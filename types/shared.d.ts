@@ -588,6 +588,13 @@ export interface MarkdownEnv {
    */
   cleanUrls: boolean
   /**
+   * Whether the rendered HTML is emitted at `relativePath`'s location, so
+   * site-absolute links may be rewritten relative to it (page renders set
+   * this; content-loader output is embedded in other pages, so it must not).
+   * @internal
+   */
+  relativizeUrls?: boolean
+  /**
    * The URLs of the links collected from the page for the dead link check.
    */
   links?: string[]
