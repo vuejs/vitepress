@@ -29,15 +29,6 @@ import {
 } from '@mdit/plugin-tasklist'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
-import type {
-  BuiltinLanguage,
-  BuiltinTheme,
-  CodeToHastOptions,
-  Highlighter,
-  LanguageInput,
-  ShikiTransformer,
-  ThemeRegistrationAny
-} from 'shiki'
 import type { Logger } from 'vite'
 
 import type {
@@ -51,7 +42,10 @@ import {
   gitHubAlertsPlugin,
   type ContainerOptions
 } from './plugins/containers'
-import { highlight as createHighlighter } from './plugins/highlight'
+import {
+  highlight as createHighlighter,
+  type ShikiOptions
+} from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import {
   includePlugin,
@@ -68,17 +62,10 @@ import {
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
+export type { ShikiOptions, ThemeOptions } from './plugins/highlight'
 
 // not exported from @mdit/plugin-emoji, so derive it from the plugin signature
 type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
-
-export type ThemeOptions =
-  | ThemeRegistrationAny
-  | BuiltinTheme
-  | {
-      light: ThemeRegistrationAny | BuiltinTheme
-      dark: ThemeRegistrationAny | BuiltinTheme
-    }
 
 // highlight is marked as any to avoid type conflicts with plugins expecting
 // regular markdown-it which has sync highlight function. Such plugins will fail
@@ -118,69 +105,11 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
   /* ==================== Syntax Highlighting ==================== */
 
   /**
-   * Custom theme for syntax highlighting.
-   *
-   * You can also pass an object with `light` and `dark` themes to support
-   * dual themes.
-   *
-   * @example { theme: 'github-dark' }
-   * @example { theme: { light: 'github-light', dark: 'github-dark' } }
-   *
-   * You can use an existing theme.
-   * @see https://shiki.style/themes
-   * Or add your own theme.
-   * @see https://shiki.style/guide/load-theme
+   * Options for syntax highlighting with Shiki: theme, languages, aliases,
+   * transformers, color replacements, and the setup hook.
+   * @see https://shiki.style
    */
-  theme?: ThemeOptions
-  /**
-   * Custom languages for syntax highlighting or pre-load built-in languages.
-   * @see https://shiki.style/languages
-   */
-  languages?: (LanguageInput | BuiltinLanguage)[]
-  /**
-   * Custom language aliases for syntax highlighting.
-   * Maps custom language names to existing languages.
-   * Alias lookup is case-insensitive and underscores in language names are
-   * displayed as spaces.
-   *
-   * @example
-   *
-   * Maps `my_lang` to use Python syntax highlighting.
-   * ```js
-   * { 'my_lang': 'python' }
-   * ```
-   *
-   * Usage in markdown:
-   * ````md
-   * ```My_Lang
-   * # This will be highlighted as Python code
-   * # and will show "My Lang" as the language label
-   * print("Hello, World!")
-   * ```
-   * ````
-   *
-   * @see https://shiki.style/guide/load-lang#custom-language-aliases
-   */
-  languageAlias?: Record<string, string>
-  /**
-   * Fallback language used when the specified language is not available.
-   */
-  defaultHighlightLang?: string
-  /**
-   * Transformers applied to code blocks.
-   * @see https://shiki.style/guide/transformers
-   */
-  codeTransformers?: ShikiTransformer[]
-  /**
-   * Color replacements applied during syntax highlighting.
-   * Accepts either a flat color map or per-theme replacements.
-   * @see https://shiki.style/guide/theme-colors#color-replacements
-   */
-  colorReplacements?: CodeToHastOptions['colorReplacements']
-  /**
-   * Configure the Shiki instance.
-   */
-  shikiSetup?: (shiki: Highlighter) => void | Promise<void>
+  shiki?: ShikiOptions | undefined
 
   /* ==================== Code Blocks ==================== */
 
@@ -373,7 +302,6 @@ export async function createMarkdownRenderer(
 
   publicDir ??= path.resolve(srcDir, 'public')
 
-  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
   const codeCopyButton = {
     tooltipText: options.codeCopyButton?.tooltipText || 'Copy code',
     copiedText: options.codeCopyButton?.copiedText || 'Copied'
@@ -381,7 +309,7 @@ export async function createMarkdownRenderer(
 
   const [highlight, dispose] = options.highlight
     ? [options.highlight, () => {}]
-    : await createHighlighter(theme, options, logger)
+    : await createHighlighter(options.shiki, logger)
 
   _disposeHighlighter = dispose
 

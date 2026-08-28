@@ -603,6 +603,19 @@ export default {
 
 Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
 
+Syntax highlighting options are grouped under `markdown.shiki`. The ones that map directly to Shiki (`langs`, `langAlias`, `transformers`, `colorReplacements`) use [Shiki](https://shiki.style)'s own option names and types — check the [`ShikiOptions` jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/plugins/highlight.ts) for the full list:
+
+```js
+export default {
+  markdown: {
+    shiki: {
+      theme: { light: 'github-light', dark: 'github-dark' },
+      langAlias: { cjs: 'javascript' }
+    }
+  }
+}
+```
+
 Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) options to collect headings into [`useData().page.headers`](./runtime-api#usedata). This option is disabled by default.
 
 ### vite
