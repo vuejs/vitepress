@@ -6,6 +6,7 @@ import { minify, normalizePath, type Rolldown } from 'vite'
 
 import { version } from '../../../package.json' with { type: 'json' }
 import type { SiteConfig } from '../config'
+import { VP_ICONS_HASH_PLACEHOLDER, vpIconsFileName } from '../icons'
 import {
   EXTERNAL_URL_RE,
   RELATIVE_BASE_SENTINEL,
@@ -55,11 +56,16 @@ export async function renderPage(
       }
     }
   }
-  const { content, teleports, vpSocialIcons } =
-    (await config.postRender?.(context)) ?? context
+  // SSR filled the original context's icon set — drain it before postRender,
+  // which may return a fresh object without it; a hook can still contribute
+  // additional icons through the object it returns
+  context.vpIcons?.forEach((icon) => usedIcons.add(icon))
 
-  // add used social icons to the set
-  vpSocialIcons.forEach((icon) => usedIcons.add(icon))
+  const rendered = (await config.postRender?.(context)) ?? context
+  const { content, teleports } = rendered
+  if (rendered !== context) {
+    rendered.vpIcons?.forEach((icon: string) => usedIcons.add(icon))
+  }
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
@@ -217,7 +223,7 @@ export async function renderPage(
         : ''
     }
     ${stylesheetLink}
-    <link rel="preload stylesheet" href="${pageBase}vp-icons.css" as="style">
+    <link rel="preload stylesheet" href="${assetUrl(`${config.assetsDir}/${vpIconsFileName(VP_ICONS_HASH_PLACEHOLDER)}`)}" as="style"${assetsCrossOrigin}>
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk

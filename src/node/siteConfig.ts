@@ -125,12 +125,27 @@ export interface UserConfig<
    * from, e.g. a CDN. Must be an absolute URL, a protocol-relative URL, or
    * a root-absolute path, and must mirror the layout of `outDir`: each URL
    * is this prefix plus the file's output-relative path. Pages, `withBase`
-   * links, `public/` files, `hashmap.json` and `vp-icons.css` stay on
-   * `base`. A cross-origin prefix must send CORS headers, as the generated
-   * tags are marked `crossorigin`. Applies to builds and preview, not dev.
+   * links, `public/` files and `hashmap.json` stay on `base`. A
+   * cross-origin prefix must send CORS headers, as the generated tags are
+   * marked `crossorigin`. Applies to builds and preview, not dev.
    * @example 'https://cdn.example.com/'
    */
   assetsBase?: string
+  /**
+   * Options for the generated icon styles (a hashed `vp-icons.*.css` asset
+   * holding every iconify icon rendered during SSR).
+   */
+  icons?: {
+    /**
+     * Icons to include in the generated stylesheet in addition to the ones
+     * collected while rendering pages — needed for icons that only render
+     * client-side (e.g. inside `<ClientOnly>`), which SSR collection cannot
+     * see. Names are `name` (simple-icons) or `collection:name` for any
+     * installed `@iconify-json/*` collection.
+     * @example ['mdi:home', 'discord']
+     */
+    include?: string[]
+  }
   /**
    * Directory for cache files, relative to the project root.
    * @default './.vitepress/cache'
@@ -322,6 +337,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'transformHtml'
   | 'transformPageData'
   | 'sitemap'
+  | 'icons'
 > {
   /**
    * Absolute path of the project root (the directory containing

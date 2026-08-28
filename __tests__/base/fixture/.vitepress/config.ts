@@ -38,6 +38,7 @@ export default defineConfig({
   },
   themeConfig: {
     nav: [{ text: 'Guide', link: '/sub/page' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com' }],
     sidebar: [
       { text: 'Sub', link: '/sub/page' },
       { text: 'Deep', link: '/sub/deep/page2' },

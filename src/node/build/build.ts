@@ -1,11 +1,19 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
-import { mkdir, rm, symlink, unlink, writeFile } from 'node:fs/promises'
+import {
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  symlink,
+  unlink,
+  writeFile
+} from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
-import { getIconsCSS } from '@iconify/utils'
 import pMap from 'p-map'
+import c from 'picocolors'
 import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
 
@@ -25,6 +33,11 @@ import {
   type Awaitable,
   type HeadConfig
 } from '../shared'
+import {
+  VP_ICONS_HASH_PLACEHOLDER,
+  generateIconsCSS,
+  vpIconsFileName
+} from '../icons'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
@@ -32,8 +45,6 @@ import { task } from '../utils/task'
 import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
-
-const require = createRequire(import.meta.url)
 
 export async function build(
   root?: string,
@@ -161,10 +172,12 @@ async function render(
       !!chunk.facadeModuleId?.endsWith('.js')
   )
 
-  const isDefaultTheme = clientOutput.some(
+  // MPA has no client bundle — detect the theme from the bundle that exists
+  const isDefaultTheme = (
+    (siteConfig.mpa ? serverResult : clientResult)?.output || []
+  ).some(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' &&
-      chunk.name === 'theme' &&
       chunk.moduleIds.some((id) => id.includes('client/theme-default'))
   )
 
@@ -213,7 +226,11 @@ async function render(
     }
   }
 
-  const usedIcons = new Set<string>()
+  // pre-seeded with icons SSR collection cannot see (client-only renders);
+  // the Array.isArray guard keeps an untyped config's bare string from
+  // spreading into characters
+  const include = siteConfig.icons?.include
+  const usedIcons = new Set<string>(Array.isArray(include) ? include : [])
 
   await pMap(
     ['404.md', ...siteConfig.pages],
@@ -235,22 +252,75 @@ async function render(
     { concurrency: siteConfig.buildConcurrency }
   )
 
-  const icons = require('@iconify-json/simple-icons/icons.json')
-  const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
-    iconSelector: '.vpi-social-{name}',
-    commonSelector: '.vpi-social',
-    varName: 'icon',
-    format: process.env.DEBUG ? 'expanded' : 'compressed',
-    mode: 'mask'
-  }).replace(/[^]*?}\n*/, '')
-
-  await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
+  await emitIconsCSS(siteConfig, usedIcons)
 
   // emit page hash map for the case where a user session is open
   // when the site got redeployed (which invalidates current hash map)
   await writeFile(
     path.join(siteConfig.outDir, 'hashmap.json'),
     JSON.stringify(pageToHashMap)
+  )
+}
+
+async function emitIconsCSS(
+  config: SiteConfig,
+  usedIcons: Set<string>
+): Promise<void> {
+  const { css, warnings } = await generateIconsCSS(
+    config.root,
+    usedIcons,
+    process.env.DEBUG ? 'expanded' : 'compressed'
+  )
+  for (const warning of warnings) {
+    config.logger.warn(c.yellow(`(icons) ${warning}`))
+  }
+
+  // MPA builds never empty outDir, so files from prior builds linger — both
+  // hashed sheets and the fixed-name file pre-rework versions emitted
+  const assetsDir = path.join(config.outDir, config.assetsDir)
+  const existing = await readdir(assetsDir).catch(() => [] as string[])
+  await Promise.all([
+    unlink(path.join(config.outDir, 'vp-icons.css')).catch(() => {}),
+    ...existing
+      .filter((file) => /^vp-icons\.[0-9a-f]{8}\.css$/.test(file))
+      .map((file) => unlink(path.join(assetsDir, file)))
+  ])
+
+  const placeholder = vpIconsFileName(VP_ICONS_HASH_PLACEHOLDER)
+  let hashedName = ''
+  if (css) {
+    hashedName = vpIconsFileName(
+      createHash('sha256').update(css).digest('hex').slice(0, 8)
+    )
+    await mkdir(assetsDir, { recursive: true })
+    await writeFile(path.join(assetsDir, hashedName), css)
+  }
+
+  // pages linked the placeholder name before the hash could exist — point
+  // them at the emitted file, or drop the whole tag when there is none.
+  // Anchored on the placeholder, not the tag shape, so a transformHtml
+  // hook reformatting attributes doesn't defeat it
+  const linkRE = new RegExp(
+    `[ \\t]*<link\\b[^>]*${VP_ICONS_HASH_PLACEHOLDER}[^>]*>\\n?`
+  )
+  await pMap(
+    ['404.md', ...config.pages],
+    async (page) => {
+      const file = path.join(
+        config.outDir,
+        (config.rewrites.map[page] || page).replace(/\.md$/, '.html')
+      )
+      const html = await readFile(file, 'utf-8').catch(() => null)
+      if (html === null || !html.includes(placeholder)) return
+      // scoped to the tag so prose mentioning the placeholder stays intact
+      await writeFile(
+        file,
+        html.replace(linkRE, (tag) =>
+          hashedName ? tag.replaceAll(placeholder, hashedName) : ''
+        )
+      )
+    },
+    { concurrency: config.buildConcurrency }
   )
 }
 

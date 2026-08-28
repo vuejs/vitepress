@@ -364,11 +364,13 @@ export interface SSGContext extends SSRContext {
    */
   content: string
   /**
-   * The names of the social icons used on the page, collected so that only
-   * the styles of used icons are emitted.
-   * @experimental
+   * The icons used on the page, collected during SSR so that only the
+   * styles of used icons are emitted into the generated stylesheet.
+   * Names are `name` (resolved in simple-icons) or `collection:name` for
+   * any `@iconify-json/*` collection installed in the project. Theme
+   * components register icons here (see the `useIcon` composable).
    */
-  vpSocialIcons: Set<string>
+  vpIcons: Set<string>
 }
 
 /**

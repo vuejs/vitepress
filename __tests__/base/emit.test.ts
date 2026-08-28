@@ -22,7 +22,12 @@ describe('relative base emit', () => {
     expect(html).toMatch(/href="\.\/assets\/style\.[\w-]+\.css"/)
     expect(html).toMatch(/src="\.\/assets\/app\.[\w-]+\.js"/)
     expect(html).toMatch(/src="\.\/assets\/chunks\/metadata\.[\w-]+\.js"/)
-    expect(html).toContain('href="./vp-icons.css"')
+    expect(html).toMatch(/href="\.\/assets\/vp-icons\.[\w-]+\.css"/)
+    expect(
+      walk(dist('relative', 'assets')).some((f) =>
+        /vp-icons\.[\w-]+\.css$/.test(f)
+      )
+    ).toBe(true)
   })
 
   test('markdown links compile page-relative with explicit index.html', () => {
@@ -50,7 +55,7 @@ describe('relative base emit', () => {
       'window.__VP_SITE_ROOT__=new URL("../",location).href'
     )
     expect(html).toMatch(/href="\.\.\/assets\/style\.[\w-]+\.css"/)
-    expect(html).toContain('href="../vp-icons.css"')
+    expect(html).toMatch(/href="\.\.\/assets\/vp-icons\.[\w-]+\.css"/)
     expect(html).toContain('src="../logo.png"')
     expect(html).toContain('href="../index.html"')
     expect(html).toContain('href="../sub/deep/page2.html"')
@@ -130,11 +135,15 @@ describe('assetsBase emit', () => {
         `rel="preload" href="${cdn()}assets/inter-roman-latin\\.[^"]+"`
       )
     )
+    expect(html).toMatch(
+      new RegExp(
+        `href="${cdn()}assets/vp-icons\\.[\\w-]+\\.css" as="style" crossorigin>`
+      )
+    )
   })
 
   test('pages, links and root-level files stay on the site origin', () => {
     const html = read('cdn', 'index.html')
-    expect(html).toContain('href="/vp-icons.css"')
     expect(html).toContain('href="/sub/page.html"')
     expect(html).toContain('src="/logo.png"')
     expect(read('cdn', 'hashmap.json')).toBeTruthy()
@@ -159,7 +168,9 @@ describe('mpa + relative base emit', () => {
   test('no sentinel leaks anywhere', () => {
     for (const file of walk(dist('mpa'))) {
       if (!/\.(html|css|js)$/.test(file)) continue
-      expect(readFileSync(file, 'utf-8'), file).not.toContain('__VP_BASE__')
+      const content = readFileSync(file, 'utf-8')
+      expect(content, file).not.toContain('__VP_BASE__')
+      expect(content, file).not.toContain('__VP_ICONS_HASH__')
     }
   })
 
@@ -172,6 +183,16 @@ describe('mpa + relative base emit', () => {
     expect(read('mpa', 'sub/page.html')).toMatch(
       /href="\.\.\/assets\/style\.[\w-]+\.css"/
     )
+  })
+
+  test('icons sheet is identical across mpa and spa builds', () => {
+    const find = (mode: string) =>
+      walk(dist(mode, 'assets')).find((f) => /vp-icons\.[\w-]+\.css$/.test(f))!
+    const mpa = find('mpa')
+    const plain = find('plain')
+    // same icon set — same content, same hash, mode-independent
+    expect(mpa.split('/').pop()).toBe(plain.split('/').pop())
+    expect(readFileSync(mpa, 'utf-8')).toBe(readFileSync(plain, 'utf-8'))
   })
 })
 

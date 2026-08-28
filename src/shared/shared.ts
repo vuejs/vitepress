@@ -30,6 +30,30 @@ export type {
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
+/** collection bare icon names resolve in — the one vitepress ships itself */
+export const DEFAULT_ICONS_COLLECTION = 'simple-icons'
+
+// iconify's icon/collection name grammar
+const iconNameRE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+/**
+ * Parse `name` (resolved in [[DEFAULT_ICONS_COLLECTION]]) or
+ * `collection:name` for any installed `@iconify-json/*` collection.
+ * The corresponding class is `vpi-<collection>-<name>`. Returns null for
+ * names that don't fit iconify's grammar (also keeping malformed input
+ * out of generated selectors and class attributes).
+ */
+export function parseIconName(
+  name: string
+): { collection: string; icon: string } | null {
+  const colon = name.indexOf(':')
+  const collection =
+    colon === -1 ? DEFAULT_ICONS_COLLECTION : name.slice(0, colon)
+  const icon = colon === -1 ? name : name.slice(colon + 1)
+  if (!iconNameRE.test(collection) || !iconNameRE.test(icon)) return null
+  return { collection, icon }
+}
+
 /**
  * Placeholder base used by SSR when base is relative.
  * It is prepended to emitted URLs, then replaced with the ../ prefix

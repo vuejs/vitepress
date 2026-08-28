@@ -254,6 +254,9 @@ export default {
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       { icon: 'discord', link: '/community', target: '_self' },
+      // You can use any other iconify collection installed in your project
+      // as `collection:name` (e.g. after `npm add -D @iconify-json/lucide`):
+      { icon: 'lucide:rss', link: '/feed.rss' },
       // You can also add custom icons by passing SVG as string:
       {
         icon: {
@@ -276,6 +279,10 @@ interface SocialLink {
   target?: string
 }
 ```
+
+Icon styles are generated at build time from collections installed locally, and dev mode serves them from the dev server — no icon is ever fetched from an external service. Icons rendered only on the client (e.g. inside `<ClientOnly>`) can't be detected during the build; list them in [`icons.include`](site-config#icons) instead.
+
+To render one of these icons in your own Markdown or components, use the `VPIcon` component from `vitepress/theme` (`<VPIcon icon="lucide:rocket" />`), or the lower-level `useIcon` composable from `vitepress` when building a custom theme.
 
 ## footer
 

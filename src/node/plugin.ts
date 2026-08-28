@@ -28,6 +28,7 @@ import {
   type MarkdownCompileResult
 } from './markdownToVue'
 import { assetsBasePlugin } from './plugins/assetsBasePlugin'
+import { iconsPlugin } from './plugins/iconsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
@@ -463,6 +464,7 @@ export async function createVitePressPlugin(
     ...(userViteConfig?.plugins || []),
     // must stay after the user plugins; see assetsBasePlugin
     ...(siteConfig.assetsBase ? [assetsBasePlugin(siteConfig)] : []),
+    iconsPlugin(siteConfig),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
     await dynamicRoutesPlugin(siteConfig)

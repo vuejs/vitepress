@@ -220,6 +220,7 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
+    icons: userConfig.icons,
     buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
