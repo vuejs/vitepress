@@ -46,17 +46,19 @@ export default defineConfig({
 
   markdown: {
     math: true,
-    codeTransformers: [
-      // We use `[!!code` and `@@include` in demo to prevent transformation,
-      // here we revert it back.
-      {
-        postprocess(code) {
-          return code
-            .replaceAll('[!!code', '[!code')
-            .replaceAll('@@include', '@include')
+    shiki: {
+      transformers: [
+        // We use `[!!code` and `@@include` in demo to prevent transformation,
+        // here we revert it back.
+        {
+          postprocess(code) {
+            return code
+              .replaceAll('[!!code', '[!code')
+              .replaceAll('@@include', '@include')
+          }
         }
-      }
-    ],
+      ]
+    },
     config(md) {
       md.use(groupIconMdPlugin)
     }

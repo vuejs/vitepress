@@ -489,9 +489,9 @@ export default {
 </ul>
 ```
 
-A [list of valid languages](https://shiki.style/languages) is available on Shiki's repository.
+A [list of valid languages](https://shiki.style/languages) is available in Shiki's documentation.
 
-You may also customize syntax highlight theme, configure language aliases, and set custom language labels in app config. Please see [`markdown` options](../reference/site-config#markdown) for more details.
+Highlighting is configured through the `markdown.shiki` option in app config: pass a custom [theme](https://shiki.style/themes), preload or register [languages](https://shiki.style/guide/load-lang), define [language aliases](https://shiki.style/guide/load-lang#custom-language-aliases), or apply [transformers](https://shiki.style/guide/transformers). Options that map directly to Shiki (`langs`, `langAlias`, `transformers`, `colorReplacements`) use Shiki's own names and types. Custom language labels shown in code blocks are configured separately with `markdown.languageLabel`. See [`markdown` options](../reference/site-config#markdown) for more details.
 
 ## Line Highlighting in Code Blocks
 

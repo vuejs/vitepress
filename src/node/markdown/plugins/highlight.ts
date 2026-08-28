@@ -7,12 +7,114 @@ import {
 } from '@shikijs/transformers'
 import { customAlphabet } from 'nanoid'
 import c from 'picocolors'
-import type { BundledLanguage, ShikiTransformer } from 'shiki'
+import type {
+  BuiltinLanguage,
+  BuiltinTheme,
+  BundledHighlighterOptions,
+  BundledLanguage,
+  CodeToHastOptions,
+  Highlighter,
+  ShikiTransformer,
+  SpecialLanguage,
+  StringLiteralUnion,
+  ThemeRegistrationAny
+} from 'shiki'
 import { createHighlighter, guessEmbeddedLanguages, isSpecialLang } from 'shiki'
 import type { Logger } from 'vite'
 
-import { isShell } from '../../shared'
-import type { MarkdownOptions, ThemeOptions } from '../markdown'
+import { isShell, type Awaitable } from '../../shared'
+
+export type ThemeOptions =
+  | ThemeRegistrationAny
+  | BuiltinTheme
+  | {
+      light: ThemeRegistrationAny | BuiltinTheme
+      dark: ThemeRegistrationAny | BuiltinTheme
+    }
+
+type BundledShikiOptions = BundledHighlighterOptions<
+  BuiltinLanguage,
+  BuiltinTheme
+>
+
+/**
+ * Shiki options for syntax highlighting in code blocks. Members that map
+ * directly to Shiki (`langs`, `langAlias`, `transformers`,
+ * `colorReplacements`) use Shiki's own option names and types; `theme`,
+ * `defaultLang`, and `setup` are VitePress-specific.
+ * @see https://shiki.style
+ */
+export interface ShikiOptions {
+  /**
+   * Custom theme for syntax highlighting.
+   *
+   * You can also pass an object with `light` and `dark` themes to support
+   * dual themes.
+   *
+   * @example { theme: 'github-dark' }
+   * @example { theme: { light: 'github-light', dark: 'github-dark' } }
+   *
+   * You can use an existing theme.
+   * @see https://shiki.style/themes
+   * Or add your own theme.
+   * @see https://shiki.style/guide/load-theme
+   *
+   * @default { light: 'github-light', dark: 'github-dark' }
+   */
+  theme?: ThemeOptions
+  /**
+   * Custom languages for syntax highlighting or pre-load built-in languages.
+   * @see https://shiki.style/languages
+   * @see https://shiki.style/guide/load-lang
+   */
+  langs?: BundledShikiOptions['langs']
+  /**
+   * Custom language aliases for syntax highlighting.
+   * Maps custom language names to existing languages.
+   * Alias lookup is case-insensitive and underscores in language names are
+   * displayed as spaces.
+   *
+   * @example
+   *
+   * Maps `my_lang` to use Python syntax highlighting.
+   * ```js
+   * { 'my_lang': 'python' }
+   * ```
+   *
+   * Usage in markdown:
+   * ````md
+   * ```My_Lang
+   * # This will be highlighted as Python code
+   * # and will show "My Lang" as the language label
+   * print("Hello, World!")
+   * ```
+   * ````
+   *
+   * @see https://shiki.style/guide/load-lang#custom-language-aliases
+   */
+  langAlias?: BundledShikiOptions['langAlias']
+  /**
+   * Language used for code blocks that don't specify a language, or specify
+   * a language that is not available.
+   * @default 'txt'
+   */
+  defaultLang?: StringLiteralUnion<BuiltinLanguage | SpecialLanguage>
+  /**
+   * Transformers applied to code blocks.
+   * @see https://shiki.style/guide/transformers
+   */
+  transformers?: ShikiTransformer[]
+  /**
+   * Color replacements applied during syntax highlighting.
+   * Accepts either a flat color map or per-theme replacements.
+   * @see https://shiki.style/guide/theme-colors#color-replacements
+   */
+  colorReplacements?: CodeToHastOptions['colorReplacements']
+  /**
+   * Configure the Shiki highlighter instance after it is created.
+   */
+  setup?: (shiki: Highlighter) => Awaitable<void>
+}
 
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10)
 
@@ -51,19 +153,19 @@ function transformerDisableShellSymbolSelect(): ShikiTransformer {
 }
 
 export async function highlight(
-  theme: ThemeOptions,
-  options: MarkdownOptions,
+  options: ShikiOptions = {},
   logger: Pick<Logger, 'warn'> = console
 ): Promise<
   [(str: string, lang: string, attrs: string) => Promise<string>, () => void]
 > {
-  const {
-    defaultHighlightLang: defaultLang = 'txt',
-    codeTransformers: userTransformers = []
-  } = options
+  // `??` instead of destructuring defaults so that plain-JS configs passing
+  // `null` still get the defaults
+  const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
+  const defaultLang = options.defaultLang ?? 'txt'
+  const userTransformers = options.transformers ?? []
 
   const langAlias = Object.fromEntries(
-    Object.entries(options.languageAlias || {}) //
+    Object.entries(options.langAlias || {}) //
       .map(([k, v]) => [k.toLowerCase(), v])
   )
 
@@ -72,11 +174,26 @@ export async function highlight(
       typeof theme === 'object' && 'light' in theme && 'dark' in theme
         ? [theme.light, theme.dark]
         : [theme],
-    langs: [...(options.languages || []), ...Object.values(langAlias)],
+    langs: [...(options.langs || []), ...Object.values(langAlias)],
     langAlias
   })
 
-  await options?.shikiSetup?.(highlighter)
+  await options.setup?.(highlighter)
+
+  // https://github.com/shikijs/shiki/issues/952
+  const loadLanguage = async (lang: string) => {
+    try {
+      if (
+        !isSpecialLang(lang) &&
+        !highlighter.getLoadedLanguages().includes(lang)
+      ) {
+        await highlighter.loadLanguage(lang as any)
+      }
+      return true
+    } catch {
+      return false
+    }
+  }
 
   const transformers: ShikiTransformer[] = [
     transformerMetaHighlight(),
@@ -115,21 +232,21 @@ export async function highlight(
       const vPre = !vueRE.test(lang)
       if (!vPre) lang = lang.slice(0, -4)
 
-      try {
-        // https://github.com/shikijs/shiki/issues/952
-        if (
-          !isSpecialLang(lang) &&
-          !highlighter.getLoadedLanguages().includes(lang)
-        ) {
-          await highlighter.loadLanguage(lang as any)
-        }
-      } catch {
+      if (!(await loadLanguage(lang))) {
         logger.warn(
           c.yellow(
             `\nThe language '${lang}' is not loaded, falling back to '${defaultLang}' for syntax highlighting.`
           )
         )
         lang = defaultLang
+        if (!(await loadLanguage(lang))) {
+          logger.warn(
+            c.yellow(
+              `\nThe default language '${lang}' is not loaded, falling back to 'txt' for syntax highlighting.`
+            )
+          )
+          lang = 'txt'
+        }
       }
 
       const mustaches = new Map<string, string>()
