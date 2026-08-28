@@ -12,15 +12,10 @@ import { parseIconName, type SSGContext } from '../../shared'
 import { withBase } from '../utils'
 
 /**
- * Renders an iconify icon through vitepress's icon pipeline: during SSR the
- * name is registered so the build emits its CSS rule; in dev the icon is
- * resolved from locally installed collections, without network access.
- *
- * Accepts a fully qualified `collection:name` for any `@iconify-json/*`
- * collection in the project's dependencies (e.g. `simple-icons:github`).
- * Returns the class to render (`vpi-<collection>-<name>`); pass the
- * template ref of the element carrying it so dev can apply the on-demand
- * fallback.
+ * Resolves an icon name (`collection:name`, e.g. `simple-icons:github`) to
+ * its `vpi-<collection>-<name>` class. During SSR the name is registered so
+ * the build emits its CSS rule; in dev the SVG is served on demand and
+ * applied to `el` inline.
  */
 export function useIcon(
   icon: MaybeRefOrGetter<string | { svg: string } | undefined>,
@@ -43,9 +38,8 @@ export function useIcon(
     // unparseable names are registered too — the build warns about them
     if (typeof value === 'string') ctx?.vpIcons.add(value)
   } else if (import.meta.env.DEV) {
-    // dev has no generated stylesheet, so a `vpi-<collection>-<name>` class
-    // never has a rule — the icon always comes from the dev server, tracked
-    // per name so a reactive icon prop re-resolves
+    // dev has no generated stylesheet — the icon is always fetched from the
+    // dev server, re-resolved when the name changes
     let applied: string | undefined
     onMounted(() => {
       watchPostEffect(() => {
@@ -66,8 +60,7 @@ export function useIcon(
           '--icon',
           `url('${withBase(`/@vpicons/${name.collection}/${name.icon}.svg`)}')`
         )
-        // a theme without the default theme's icon rules gets the mask
-        // machinery inline, so dev works before any styling exists
+        // inline the mask setup for themes without the default icon rules
         const styles = getComputedStyle(span)
         if ((styles.maskImage || styles.webkitMaskImage) === 'none') {
           Object.assign(span.style, {

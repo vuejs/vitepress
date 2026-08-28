@@ -8,9 +8,7 @@ const iconRequestRE = /\/@vpicons\/([a-z0-9-]+)\/([a-z0-9-]+)\.svg$/
 
 /**
  * Serves `/@vpicons/<collection>/<name>.svg` in dev from locally installed
- * `@iconify-json/*` collections, so icons render without the generated
- * stylesheet and without any network access (the `useIcon` composable
- * requests these on demand).
+ * `@iconify-json/*` collections (requested on demand by `useIcon`).
  */
 export function iconsPlugin(siteConfig: SiteConfig): Plugin {
   const warned = new Set<string>()

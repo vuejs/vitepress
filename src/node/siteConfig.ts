@@ -121,27 +121,38 @@ export interface UserConfig<
    */
   assetsDir?: string
   /**
-   * URL prefix the built assets (everything under `assetsDir`) are served
-   * from, e.g. a CDN. Must be an absolute URL, a protocol-relative URL, or
-   * a root-absolute path, and must mirror the layout of `outDir`: each URL
-   * is this prefix plus the file's output-relative path. Pages, `withBase`
-   * links, `public/` files and `hashmap.json` stay on `base`. A
-   * cross-origin prefix must send CORS headers, as the generated tags are
-   * marked `crossorigin`. Applies to builds and preview, not dev.
+   * URL prefix for built assets (everything under `assetsDir`), e.g. a CDN.
+   *
+   * Must be one of:
+   * - an absolute URL
+   * - a protocol-relative URL
+   * - a root-absolute path
+   *
+   * The prefix must mirror `outDir` layout: each asset URL = this prefix +
+   * file output-relative path.
+   *
+   * These still use `base`:
+   * - pages
+   * - `withBase` links
+   * - `public/` files
+   * - `hashmap.json`
+   *
+   * If the prefix is cross-origin, it must serve CORS headers, because
+   * generated tags are marked `crossorigin`.
+   *
+   * Applies to builds and preview (not dev).
+   *
    * @example 'https://cdn.example.com/'
    */
   assetsBase?: string
   /**
-   * Options for the generated icon styles (a hashed `vp-icons.*.css` asset
-   * holding every iconify icon rendered during SSR).
+   * Options for the generated icon stylesheet (`vp-icons.*.css`).
    */
   icons?: {
     /**
-     * Icons to include in the generated stylesheet in addition to the ones
-     * collected while rendering pages — needed for icons that only render
-     * client-side (e.g. inside `<ClientOnly>`), which SSR collection cannot
-     * see. Names are fully qualified as `collection:name`, for any
-     * `@iconify-json/*` collection in the project's dependencies.
+     * Fully qualified `collection:name` icons to include in addition to
+     * the ones collected during SSR — for icons that only render
+     * client-side (e.g. inside `<ClientOnly>`).
      * @example ['mdi:home', 'simple-icons:discord']
      */
     include?: string[]
@@ -237,10 +248,10 @@ export interface UserConfig<
    */
   cleanUrls?: boolean
   /**
-   * Use web fonts instead of emitting font files to dist. The active
-   * theme must import a file named `fonts.(s)css` for this to work. If
-   * you are a theme author, to support this, place your web font import
-   * between `webfont-marker-begin` and `webfont-marker-end` comments.
+   * Use web fonts instead of emitting font files to dist. Requires the
+   * active theme to import a file named `fonts.(s)css`, with its web font
+   * imports placed between `webfont-marker-begin` and `webfont-marker-end`
+   * comments.
    * @experimental
    * @default true in webcontainers, else false
    */
