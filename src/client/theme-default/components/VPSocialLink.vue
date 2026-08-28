@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useIcon } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
-import { useTemplateRef } from 'vue'
+import { computed } from 'vue'
 
 import { isExternal } from '../../shared'
+import VPIcon from './VPIcon.vue'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -13,16 +13,10 @@ const props = defineProps<{
   me: boolean
 }>()
 
-const el = useTemplateRef('el')
-
-// socialLinks accepts bare simple-icons names; everything downstream
-// speaks fully qualified `collection:name`
-const iconClass = useIcon(
-  () =>
-    typeof props.icon === 'string' && !props.icon.includes(':')
-      ? `simple-icons:${props.icon}`
-      : props.icon,
-  el
+const qualifiedIcon = computed(() =>
+  typeof props.icon === 'string' && !props.icon.includes(':')
+    ? `simple-icons:${props.icon}`
+    : props.icon
 )
 </script>
 
@@ -34,8 +28,7 @@ const iconClass = useIcon(
     :target="target ?? (isExternal(link) ? '_blank' : undefined)"
     :rel="me ? 'me noopener' : 'noopener'"
   >
-    <span v-if="typeof icon === 'object'" v-html="icon.svg"></span>
-    <span v-else ref="el" :class="iconClass"></span>
+    <VPIcon :icon="qualifiedIcon" />
   </a>
 </template>
 
@@ -58,12 +51,11 @@ const iconClass = useIcon(
 .VPSocialLink > :deep(span) {
   /* keeps a nested custom svg centered instead of baseline-aligned */
   display: flex;
-}
-
-.VPSocialLink :deep(svg),
-.VPSocialLink > :deep([class^='vpi-']) {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.VPSocialLink :deep(svg) {
   fill: currentColor;
 }
 </style>
