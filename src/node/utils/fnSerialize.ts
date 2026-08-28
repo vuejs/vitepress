@@ -1,30 +1,37 @@
 /*
-export function deserializeFunctions(value: any): any {
+export function deserializeFunctions(value: any, fns: any[]): any {
   if (Array.isArray(value)) {
-    return value.map(deserializeFunctions)
+    return value.map((v) => deserializeFunctions(v, fns))
   } else if (typeof value === 'object' && value !== null) {
     return Object.keys(value).reduce((acc, key) => {
-      acc[key] = deserializeFunctions(value[key])
+      acc[key] = deserializeFunctions(value[key], fns)
       return acc
     }, {} as any)
   } else if (typeof value === 'string' && value.startsWith('_vp-fn_')) {
-    return new Function(`return ${value.slice(7)}`)()
+    return fns[+value.slice(7)] ?? value
   } else {
     return value
   }
 }
 */
 
+// functions are emitted as plain code next to this and only looked up here by
+// index, so no `new Function` is needed and strict CSP (no `unsafe-eval`)
+// stays intact (#3685)
 export const deserializeFunctions =
-  'function deserializeFunctions(r){return Array.isArray(r)?r.map(deserializeFunctions):typeof r=="object"&&r!==null?Object.keys(r).reduce((t,n)=>(t[n]=deserializeFunctions(r[n]),t),{}):typeof r=="string"&&r.startsWith("_vp-fn_")?new Function(`return ${r.slice(7)}`)():r}'
+  'function deserializeFunctions(r,e){return Array.isArray(r)?r.map(t=>deserializeFunctions(t,e)):typeof r=="object"&&r!==null?Object.keys(r).reduce((t,n)=>(t[n]=deserializeFunctions(r[n],e),t),{}):typeof r=="string"&&r.startsWith("_vp-fn_")?e[+r.slice(7)]??r:r}'
 
-export function serializeFunctions(value: any, key?: string): any {
+export function serializeFunctions(
+  value: any,
+  fns: string[],
+  key?: string
+): any {
   if (Array.isArray(value)) {
-    return value.map((v) => serializeFunctions(v))
+    return value.map((v) => serializeFunctions(v, fns))
   } else if (typeof value === 'object' && value !== null) {
     return Object.keys(value).reduce((acc, key) => {
       if (key[0] === '_') return acc
-      acc[key] = serializeFunctions(value[key], key)
+      acc[key] = serializeFunctions(value[key], fns, key)
       return acc
     }, {} as any)
   } else if (typeof value === 'function') {
@@ -35,7 +42,7 @@ export function serializeFunctions(value: any, key?: string): any {
     ) {
       serialized = serialized.replace(key, 'function')
     }
-    return `_vp-fn_${serialized}`
+    return `_vp-fn_${fns.push(`(${serialized})`) - 1}`
   } else {
     return value
   }

@@ -83,6 +83,33 @@ describe('local search', () => {
     ).toBe(0)
   })
 
+  test('custom tokenize function reaches the client', async () => {
+    await page.locator('.VPNavBarSearchButton').click()
+
+    const input = await page.waitForSelector('input#localsearch-input')
+
+    // '#hash-probe' survives as one token only under the custom tokenizer —
+    // MiniSearch's default one would degrade the query to 'hash'/'probe'
+    // and miss the index built with the custom tokenizer
+    await input.type('#hash-probe')
+
+    await page.waitForFunction(() => {
+      const options = [
+        ...document.querySelectorAll('#localsearch-list li[role=option]')
+      ]
+
+      return (
+        options.length === 1 &&
+        options[0].textContent?.includes('Local search included')
+      )
+    })
+
+    // a fragment of a kept-whole token must not match anything
+    await input.fill('linked-words')
+
+    await page.waitForSelector('.no-results')
+  })
+
   test('uses the same desktop breakpoint as the nav bar', async () => {
     try {
       for (const { width, isDesktop } of [

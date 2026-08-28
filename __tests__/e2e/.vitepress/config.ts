@@ -215,6 +215,12 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
+        miniSearch: {
+          options: {
+            tokenize: (text) =>
+              text.split(/[\n\r\p{Z}\p{Terminal_Punctuation}]+/u)
+          }
+        },
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''

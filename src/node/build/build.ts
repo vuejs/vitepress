@@ -267,13 +267,14 @@ async function generateMetadataScript(
   // It's also embedded as a string and JSON.parsed from the client because
   // it's faster than embedding as JS object literal.
   const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+  const fns: string[] = []
   const siteDataString = JSON.stringify(
-    JSON.stringify(serializeFunctions({ ...config.site, head: [] }))
+    JSON.stringify(serializeFunctions({ ...config.site, head: [] }, fns))
   )
 
   const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
-    siteDataString.includes('_vp-fn_')
-      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
+    fns.length
+      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}),[${fns.join(',')}]);`
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 

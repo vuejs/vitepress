@@ -206,8 +206,13 @@ export async function createVitePressPlugin(
             return `export default window.__VP_SITE_DATA__`
           }
         }
-        data = serializeFunctions(data)
-        return `${deserializeFunctions};export default deserializeFunctions(JSON.parse(${JSON.stringify(JSON.stringify(data))}))`
+        const fns: string[] = []
+        const dataStr = JSON.stringify(
+          JSON.stringify(serializeFunctions(data, fns))
+        )
+        return fns.length
+          ? `${deserializeFunctions};export default deserializeFunctions(JSON.parse(${dataStr}),[${fns.join(',')}])`
+          : `export default JSON.parse(${dataStr})`
       }
     },
 
