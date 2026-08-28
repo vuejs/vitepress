@@ -4,10 +4,10 @@ import type { Plugin } from 'vite'
 import { resolveIconSVG } from '../icons'
 import type { SiteConfig } from '../siteConfig'
 
-const iconRequestRE = /\/@vpicons\/([a-z0-9-]+)\/([a-z0-9-]+)\.svg$/
+const iconRequestRE = /\/_vpi\/([a-z0-9-]+)\/([a-z0-9-]+)\.svg$/
 
 /**
- * Serves `/@vpicons/<collection>/<name>.svg` in dev from locally installed
+ * Serves `/_vpi/<collection>/<name>.svg` in dev from locally installed
  * `@iconify-json/*` collections (requested on demand by `useIcon`).
  */
 export function iconsPlugin(siteConfig: SiteConfig): Plugin {

@@ -20,7 +20,7 @@ describe('icons', () => {
       if (!url.startsWith(`http://localhost:${process.env['PORT']}`)) {
         externalRequests.push(url)
       }
-      if (url.includes('/@vpicons/')) devIconRequests.push(url)
+      if (url.includes('/_vpi/')) devIconRequests.push(url)
     })
   })
 
@@ -93,14 +93,10 @@ describe('icons', () => {
         )
         if (!el) return false
         const styles = getComputedStyle(el)
-        return (styles.maskImage || styles.webkitMaskImage).includes(
-          '/@vpicons/'
-        )
+        return (styles.maskImage || styles.webkitMaskImage).includes('/_vpi/')
       })
       expect(
-        devIconRequests.some((url) =>
-          url.includes('/@vpicons/lucide/heart.svg')
-        )
+        devIconRequests.some((url) => url.includes('/_vpi/lucide/heart.svg'))
       ).toBe(true)
     }
   )

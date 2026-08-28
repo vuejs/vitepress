@@ -58,7 +58,7 @@ export function useIcon(
         applied = key
         span.style.setProperty(
           '--icon',
-          `url('${withBase(`/@vpicons/${name.collection}/${name.icon}.svg`)}')`
+          `url('${withBase(`/_vpi/${name.collection}/${name.icon}.svg`)}')`
         )
         // inline the mask setup for themes without the default icon rules
         const styles = getComputedStyle(span)
