@@ -3,7 +3,6 @@ import fs from 'node:fs'
 import {
   mkdir,
   readFile,
-  readdir,
   rm,
   symlink,
   unlink,
@@ -165,6 +164,9 @@ async function render(
   const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
     clientResult?.output || []
 
+  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
   const appChunk = clientOutput.find(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' &&
@@ -172,19 +174,11 @@ async function render(
       !!chunk.facadeModuleId?.endsWith('.js')
   )
 
-  // MPA has no client bundle — detect the theme from the bundle that exists
-  const isDefaultTheme = (
-    (siteConfig.mpa ? serverResult : clientResult)?.output || []
-  ).some(
+  const isDefaultTheme = resultOutput.some(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' &&
       chunk.moduleIds.some((id) => id.includes('client/theme-default'))
   )
-
-  // ----
-
-  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-    (siteConfig.mpa ? serverResult : clientResult)?.output || []
 
   const cssChunk = resultOutput.find(
     (chunk): chunk is Rolldown.OutputAsset =>
@@ -226,9 +220,7 @@ async function render(
     }
   }
 
-  // pre-seeded with icons SSR collection cannot see (client-only renders);
-  // the Array.isArray guard keeps an untyped config's bare string from
-  // spreading into characters
+  // pre-seeded with icons SSR collection cannot see (client-only renders)
   const include = siteConfig.icons?.include
   const usedIcons = new Set<string>(Array.isArray(include) ? include : [])
 
@@ -275,18 +267,9 @@ async function emitIconsCSS(
     config.logger.warn(c.yellow(`(icons) ${warning}`))
   }
 
-  // MPA builds never empty outDir, so files from prior builds linger — both
-  // hashed sheets and the fixed-name file pre-rework versions emitted
   const assetsDir = path.join(config.outDir, config.assetsDir)
-  const existing = await readdir(assetsDir).catch(() => [] as string[])
-  await Promise.all([
-    unlink(path.join(config.outDir, 'vp-icons.css')).catch(() => {}),
-    ...existing
-      .filter((file) => /^vp-icons\.[0-9a-f]{8}\.css$/.test(file))
-      .map((file) => unlink(path.join(assetsDir, file)))
-  ])
-
   const placeholder = vpIconsFileName(VP_ICONS_HASH_PLACEHOLDER)
+
   let hashedName = ''
   if (css) {
     hashedName = vpIconsFileName(
@@ -296,10 +279,6 @@ async function emitIconsCSS(
     await writeFile(path.join(assetsDir, hashedName), css)
   }
 
-  // pages linked the placeholder name before the hash could exist — point
-  // them at the emitted file, or drop the whole tag when there is none.
-  // Anchored on the placeholder, not the tag shape, so a transformHtml
-  // hook reformatting attributes doesn't defeat it
   const linkRE = new RegExp(
     `[ \\t]*<link\\b[^>]*${VP_ICONS_HASH_PLACEHOLDER}[^>]*>\\n?`
   )
