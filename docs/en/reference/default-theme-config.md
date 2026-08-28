@@ -280,10 +280,6 @@ interface SocialLink {
 }
 ```
 
-Icon styles are generated at build time from collections declared in your project's dependencies, and dev mode serves them from the dev server — no icon is ever fetched from an external service. Bare names are a `socialLinks` convenience and map to simple-icons; everywhere else icons are written as `collection:name`. Icons rendered only on the client (e.g. inside `<ClientOnly>`) can't be detected during the build; list them in [`icons.include`](site-config#icons) instead.
-
-To render one of these icons in your own Markdown or components, use the `VPIcon` component from `vitepress/theme` (`<VPIcon icon="lucide:rocket" />`), or the lower-level `useIcon` composable from `vitepress` when building a custom theme — both take fully qualified names.
-
 ## footer
 
 - Type: `Footer`

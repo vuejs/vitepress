@@ -493,7 +493,7 @@ Only production builds are affected. `vitepress preview` serves a root-absolute 
 
 - Type: `{ include?: string[] }`
 
-Options for the generated icon styles. The build collects every iconify icon rendered during SSR ([social links](default-theme-config#sociallinks), the `VPIcon` theme component, or any element registered through the `useIcon` composable) and emits their styles as a hashed `assets/vp-icons.<hash>.css` asset. Names are fully qualified as `collection:name`, resolved against the `@iconify-json/*` packages declared in your project's dependencies (`socialLinks` is the one place bare names are accepted — they map to [simple-icons](https://simpleicons.org/), which VitePress itself depends on).
+Options for the generated icon styles. The build collects every iconify icon rendered during SSR. Names are fully qualified as `collection:name`, resolved against the `@iconify-json/*` packages declared in your project's dependencies.
 
 Icons rendered only on the client — inside `<ClientOnly>`, or after hydration — are invisible to SSR collection. List them in `include` to force them into the stylesheet:
 
@@ -674,13 +674,10 @@ export default {
 interface SSGContext {
   content: string
   teleports?: Record<string, string>
-  /** icons rendered on the page, emitted into the generated stylesheet */
   vpIcons: Set<string>
   [key: string]: any
 }
 ```
-
-Custom themes can add qualified `collection:name` icon names to `vpIcons` during SSR to have their styles emitted — the `useIcon` composable from `vitepress` does this for you.
 
 ### transformHead
 
@@ -756,7 +753,9 @@ For simpler cases, it may be possible to use the [`head`](./frontmatter-config#h
 Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
 :::
 
+::: note
 The icon stylesheet link still carries its `vp-icons.__VP_ICONS_HASH__.css` placeholder at this point — the content hash only exists once every page has rendered, and it is substituted right after. Hooks that inline or fingerprint head assets should skip that tag.
+:::
 
 ```ts
 export default {
