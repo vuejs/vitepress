@@ -181,6 +181,11 @@ def build_subsets(release: Path, subsets: dict[str, str]) -> None:
             options = subset.Options()
             options.flavor = "woff2"
             options.layout_features = [*options.layout_features, "pnum", "tnum"]
+            # keep the OFL license notice (13) and url (14) name records that
+            # upstream embeds: the subsets are Modified Versions, and OFL §2
+            # requires the license to travel with every copy - including the
+            # ones Vite copies into users' publicly served site builds
+            options.name_IDs = [*options.name_IDs, 13, 14]
             font = subset.load_font(release / file, options)
             subsetter = subset.Subsetter(options)
             subsetter.populate(unicodes=parse_ranges(value))

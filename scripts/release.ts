@@ -100,7 +100,12 @@ async function main() {
 
   // Commit changes to the Git and create a tag.
   prompts.log.step('Committing changes...')
-  await run('git', ['add', 'CHANGELOG.md', 'package.json'])
+  await run('git', [
+    'add',
+    'CHANGELOG.md',
+    'package.json',
+    'THIRD-PARTY-NOTICES.md'
+  ])
   await run('git', ['commit', '-m', `release: v${targetVersion}`])
   await run('git', ['tag', `v${targetVersion}`])
 
