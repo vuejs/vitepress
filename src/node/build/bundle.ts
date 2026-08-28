@@ -155,6 +155,10 @@ export async function bundle(
   )) as Rolldown.RolldownOutput
 
   if (config.mpa) {
+    // FIXME: nothing ever empties outDir in MPA mode (no client build runs
+    // with emptyOutDir, and buildMPAClient sets emptyOutDir: false), so
+    // hashed assets of every kind accumulate across rebuilds into a dirty
+    // output directory
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
     await pMap(

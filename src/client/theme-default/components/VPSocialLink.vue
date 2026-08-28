@@ -1,14 +1,9 @@
 <script lang="ts" setup>
 import type { DefaultTheme } from 'vitepress/theme'
-import {
-  computed,
-  nextTick,
-  onMounted,
-  useSSRContext,
-  useTemplateRef
-} from 'vue'
+import { computed } from 'vue'
 
-import { isExternal, type SSGContext } from '../../shared'
+import { isExternal } from '../../shared'
+import VPIcon from './VPIcon.vue'
 
 const props = defineProps<{
   icon: DefaultTheme.SocialLinkIcon
@@ -18,45 +13,23 @@ const props = defineProps<{
   me: boolean
 }>()
 
-const el = useTemplateRef('el')
-
-onMounted(async () => {
-  await nextTick()
-  const span = el.value?.children[0]
-  if (
-    span instanceof HTMLElement &&
-    span.className.startsWith('vpi-social-') &&
-    (getComputedStyle(span).maskImage ||
-      getComputedStyle(span).webkitMaskImage) === 'none'
-  ) {
-    span.style.setProperty(
-      '--icon',
-      `url('https://api.iconify.design/simple-icons/${props.icon}.svg')`
-    )
-  }
-})
-
-const svg = computed(() => {
-  if (typeof props.icon === 'object') return props.icon.svg
-  return `<span class="vpi-social-${props.icon}"></span>`
-})
-
-if (import.meta.env.SSR) {
-  typeof props.icon === 'string' &&
-    useSSRContext<SSGContext>()?.vpSocialIcons.add(props.icon)
-}
+const qualifiedIcon = computed(() =>
+  typeof props.icon === 'string' && !props.icon.includes(':')
+    ? `simple-icons:${props.icon}`
+    : props.icon
+)
 </script>
 
 <template>
   <a
-    ref="el"
     class="VPSocialLink no-icon"
     :href="link"
     :aria-label="ariaLabel ?? (typeof icon === 'string' ? icon : '')"
     :target="target ?? (isExternal(link) ? '_blank' : undefined)"
     :rel="me ? 'me noopener' : 'noopener'"
-    v-html="svg"
-  ></a>
+  >
+    <VPIcon :icon="qualifiedIcon" />
+  </a>
 </template>
 
 <style scoped>
@@ -75,10 +48,14 @@ if (import.meta.env.SSR) {
   transition: color 0.25s;
 }
 
-.VPSocialLink > :deep(svg),
-.VPSocialLink > :deep([class^="vpi-social-"]) {
+.VPSocialLink > :deep(span) {
+  /* keeps a nested custom svg centered instead of baseline-aligned */
+  display: flex;
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.VPSocialLink :deep(svg) {
   fill: currentColor;
 }
 </style>

@@ -7,7 +7,7 @@ import { createApp } from './index'
 export async function render(path: string) {
   const { app, router } = await createApp()
   await router.go(path)
-  const ctx: SSGContext = { content: '', vpSocialIcons: new Set<string>() }
+  const ctx: SSGContext = { content: '', vpIcons: new Set<string>() }
   ctx.content = await renderToString(app, ctx)
   return ctx
 }

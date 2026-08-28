@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { readFile } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import { createServer, type Server } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { extname, join, resolve } from 'node:path'
@@ -65,6 +65,8 @@ export async function setup() {
   // one process per flavor: the markdown renderer is a module-level
   // singleton, so in-process builds would leak the first base into the rest
   for (const mode of ['plain', 'relative', 'cdn', 'mpa']) {
+    // mpa builds never empty outDir, so stale assets would survive reruns
+    await rm(dist(mode), { recursive: true, force: true })
     const res = spawnSync(process.execPath, [bin, 'build', 'fixture'], {
       cwd: dir,
       env: {

@@ -6,6 +6,7 @@ import { minify, normalizePath, type Rolldown } from 'vite'
 
 import { version } from '../../../package.json' with { type: 'json' }
 import type { SiteConfig } from '../config'
+import { VP_ICONS_HASH_PLACEHOLDER, vpIconsFileName } from '../icons'
 import {
   EXTERNAL_URL_RE,
   RELATIVE_BASE_SENTINEL,
@@ -38,14 +39,13 @@ export async function renderPage(
   usedIcons: Set<string>
 ) {
   const routePath = `/${page.replace(/\.md$/, '')}`
-
   const relativeBase = isRelativeBase(config.site.base)
   const pageBase = relativeBase ? relativePathToRoot(page) : config.site.base
+
   // user hooks must never see the build sentinel
   const desentinel = (value: string) =>
     relativeBase ? value.replaceAll(RELATIVE_BASE_SENTINEL, pageBase) : value
 
-  // render page
   const context = await render(routePath)
   if (relativeBase) {
     context.content = desentinel(context.content)
@@ -55,19 +55,20 @@ export async function renderPage(
       }
     }
   }
-  const { content, teleports, vpSocialIcons } =
-    (await config.postRender?.(context)) ?? context
 
-  // add used social icons to the set
-  vpSocialIcons.forEach((icon) => usedIcons.add(icon))
+  // collect the icons rendered during SSR; postRender may replace the
+  // context and contribute more
+  context.vpIcons?.forEach((icon) => usedIcons.add(icon))
+
+  const rendered = (await config.postRender?.(context)) ?? context
+  const { content, teleports } = rendered
+  if (rendered !== context) {
+    rendered.vpIcons?.forEach((icon: string) => usedIcons.add(icon))
+  }
 
   const pageName = sanitizeFileName(page.replace(/\//g, '_'))
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
-  // for any initial page load, we only need the lean version of the page js
-  // since the static content is already on the page!
-  const pageHash = pageToHashMap[pageName.toLowerCase()]
-  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
 
   let pageData: PageData
   let hasCustom404 = true
@@ -96,26 +97,27 @@ export async function renderPage(
       : ''
   const pageAssets = relativeBase ? assets.map(desentinel) : assets
 
-  const title: string = createTitle(siteData, pageData)
-  const description: string = pageData.description || siteData.description
-  const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${assetUrl(cssChunk.fileName)}" as="style">`
-    : ''
+  const title = createTitle(siteData, pageData)
+  const description = pageData.description || siteData.description
+  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
+  const isDefault404 = page === '404.md' && !hasCustom404
 
-  let preloadLinks =
-    config.mpa || (!hasCustom404 && page === '404.md')
-      ? []
-      : result && appChunk
-        ? [
-            ...new Set([
-              // resolve imports for index.js + page.md.js and inject script tags
-              // for them as well so we fetch everything as early as possible
-              // without having to wait for entry chunks to parse
-              ...(await resolvePageImports(config, page, result, appChunk)),
-              pageClientJsFileName
-            ])
-          ]
-        : []
+  // the initial load only needs the lean page js — the static content is
+  // already in the HTML
+  const pageHash = pageToHashMap[pageName.toLowerCase()]
+  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
+
+  let preloadLinks: string[] = []
+  if (result && appChunk && !config.mpa && !isDefault404) {
+    preloadLinks = [
+      ...new Set([
+        // the imports of index.js + page.md.js as well, so everything
+        // fetches without waiting for the entry chunks to parse
+        ...(await resolvePageImports(config, page, result, appChunk)),
+        pageClientJsFileName
+      ])
+    ]
+  }
 
   let prefetchLinks: string[] = []
 
@@ -157,20 +159,26 @@ export async function renderPage(
     )
   ]
 
+  const transformContext = (head: HeadConfig[]) => ({
+    page,
+    siteConfig: config,
+    siteData,
+    pageData,
+    title,
+    description,
+    head,
+    content,
+    assets: pageAssets
+  })
+
   const head = mergeHead(
     headBeforeTransform,
-    (await config.transformHead?.({
-      page,
-      siteConfig: config,
-      siteData,
-      pageData,
-      title,
-      description,
-      head: headBeforeTransform,
-      content,
-      assets: pageAssets
-    })) || []
+    (await config.transformHead?.(transformContext(headBeforeTransform))) || []
   )
+
+  const stylesheetLink = cssChunk
+    ? `<link rel="preload stylesheet" href="${assetUrl(cssChunk.fileName)}" as="style">`
+    : ''
 
   let inlinedScript = ''
   if (config.mpa && result) {
@@ -191,20 +199,18 @@ export async function renderPage(
     }
   }
 
-  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
-
   const html = `<!DOCTYPE html>
 <html lang="${siteData.lang}" dir="${dir}">
   <head>
     <meta charset="utf-8">
     ${
-      isMetaViewportOverridden(head)
+      hasNamedMeta(head, 'viewport')
         ? ''
         : '<meta name="viewport" content="width=device-width,initial-scale=1">'
     }
     <title>${escapeHtml(title)}</title>
     ${
-      isDescriptionOverridden(head)
+      hasNamedMeta(head, 'description')
         ? ''
         : `<meta name="description" content="${escapeHtml(description)}">`
     }
@@ -217,7 +223,7 @@ export async function renderPage(
         : ''
     }
     ${stylesheetLink}
-    <link rel="preload stylesheet" href="${pageBase}vp-icons.css" as="style">
+    <link rel="preload stylesheet" href="${assetUrl(`${config.assetsDir}/${vpIconsFileName(VP_ICONS_HASH_PLACEHOLDER)}`)}" as="style"${assetsCrossOrigin}>
     ${metadataScript.inHead ? metadataScript.html : ''}
     ${
       appChunk
@@ -239,17 +245,7 @@ export async function renderPage(
   const transformedHtml = await config.transformHtml?.(
     finalHtml,
     htmlFileName,
-    {
-      page,
-      siteConfig: config,
-      siteData,
-      pageData,
-      title,
-      description,
-      head,
-      content,
-      assets: pageAssets
-    }
+    transformContext(head)
   )
   await writeFile(htmlFileName, transformedHtml || finalHtml)
 }
@@ -261,45 +257,35 @@ async function resolvePageImports(
   appChunk: Rolldown.OutputChunk
 ) {
   page = config.rewrites.inv[page] || page
-  // find the page's js chunk and inject script tags for its imports so that
-  // they start fetching as early as possible
   let srcPath = path.resolve(config.srcDir, page)
   try {
     if (!config.vite?.resolve?.preserveSymlinks) {
       srcPath = await realpath(srcPath)
     }
-  } catch (e) {
-    // if the page is a virtual page generated by a dynamic route this would
-    // fail, which is expected
+  } catch {
+    // virtual pages generated by dynamic routes have no file on disk
   }
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
   )
-  return [
-    ...appChunk.imports,
-    // ...appChunk.dynamicImports,
-    ...(pageChunk?.imports || [])
-    // ...pageChunk.dynamicImports
-  ]
+  // dynamic imports are intentionally not preloaded
+  return [...appChunk.imports, ...(pageChunk?.imports || [])]
 }
 
 async function renderHead(head: HeadConfig[]): Promise<string> {
   const tags = await Promise.all(
     head.map(async ([tag, attrs = {}, innerHTML = '']) => {
       const openTag = `<${tag}${renderAttrs(attrs)}>`
-      if (tag !== 'link' && tag !== 'meta') {
-        if (
-          tag === 'script' &&
-          (attrs.type === undefined || attrs.type.includes('javascript'))
-        ) {
-          innerHTML = (await minify('inline-script.js', innerHTML)).code
-        }
-        return `${openTag}${innerHTML}</${tag}>`
-      } else {
-        return openTag
+      if (tag === 'link' || tag === 'meta') return openTag
+      if (
+        tag === 'script' &&
+        (attrs.type === undefined || attrs.type.includes('javascript'))
+      ) {
+        innerHTML = (await minify('inline-script.js', innerHTML)).code
       }
+      return `${openTag}${innerHTML}</${tag}>`
     })
   )
   return tags.join('\n    ')
@@ -307,27 +293,18 @@ async function renderHead(head: HeadConfig[]): Promise<string> {
 
 function renderAttrs(attrs: Record<string, string>): string {
   return Object.keys(attrs)
-    .map((key) => {
-      if (isBooleanAttr(key)) return ` ${key}`
-      return ` ${key}="${escapeHtml(attrs[key] as string)}"`
-    })
+    .map((key) =>
+      isBooleanAttr(key) ? ` ${key}` : ` ${key}="${escapeHtml(attrs[key])}"`
+    )
     .join('')
 }
 
 function filterOutHeadDescription(head: HeadConfig[] = []) {
-  return head.filter(([type, attrs]) => {
-    return !(type === 'meta' && attrs?.name === 'description')
-  })
+  return head.filter(
+    ([type, attrs]) => !(type === 'meta' && attrs?.name === 'description')
+  )
 }
 
-function isDescriptionOverridden(head: HeadConfig[] = []) {
-  return head.some(([type, attrs]) => {
-    return type === 'meta' && attrs?.name === 'description'
-  })
-}
-
-function isMetaViewportOverridden(head: HeadConfig[] = []) {
-  return head.some(([type, attrs]) => {
-    return type === 'meta' && attrs?.name === 'viewport'
-  })
+function hasNamedMeta(head: HeadConfig[], name: string) {
+  return head.some(([type, attrs]) => type === 'meta' && attrs?.name === name)
 }

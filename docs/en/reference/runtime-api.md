@@ -136,6 +136,38 @@ router.onBeforeRouteChange = (to) => {
 
 For custom themes, the same router is available from [`enhanceApp`](../guide/custom-theme#theme-interface).
 
+## `useIcon` <Badge type="info" text="composable" />
+
+- **Type**: `(icon: MaybeRefOrGetter<string | { svg: string } | undefined>, el?: MaybeRefOrGetter<HTMLElement | null>) => ComputedRef<string | undefined>`
+
+Renders an [iconify](https://iconify.design/) icon through VitePress's icon pipeline. Takes a fully qualified `collection:name` (resolved against the `@iconify-json/*` packages in your project's dependencies) and returns the class to put on the element — `vpi-<collection>-<name>`.
+
+During SSR the name is registered on the page's [`SSGContext`](./site-config#postrender), so the build emits the icon's styles into the generated stylesheet; in dev, icons are served on demand by the dev server from the locally installed collections. No icon is ever fetched from an external service.
+
+```vue
+<script setup>
+import { useIcon } from 'vitepress'
+import { useTemplateRef } from 'vue'
+
+const el = useTemplateRef('el')
+const iconClass = useIcon('lucide:rocket', el)
+</script>
+
+<template>
+  <span ref="el" :class="iconClass" />
+</template>
+```
+
+Pass the template ref of the element carrying the class so dev mode can resolve the icon on it. The element needs the mask rules the default theme ships; in a custom theme without them, dev applies an inline equivalent and the generated stylesheet includes zero-specificity base rules for production.
+
+When using the default theme, the `VPIcon` component from `vitepress/theme` wraps this composable (and also accepts a raw `{ svg }` string):
+
+```vue-html
+<VPIcon icon="lucide:rocket" />
+```
+
+Icons rendered only on the client (e.g. inside `<ClientOnly />`) can't be collected during the build — list them in [`icons.include`](./site-config#icons) instead.
+
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
