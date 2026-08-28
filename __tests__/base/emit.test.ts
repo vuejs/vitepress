@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { basename, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const dir = resolve(fileURLToPath(import.meta.url), '..')
@@ -191,7 +191,7 @@ describe('mpa + relative base emit', () => {
     const mpa = find('mpa')
     const plain = find('plain')
     // same icon set — same content, same hash, mode-independent
-    expect(mpa.split('/').pop()).toBe(plain.split('/').pop())
+    expect(basename(mpa)).toBe(basename(plain))
     expect(readFileSync(mpa, 'utf-8')).toBe(readFileSync(plain, 'utf-8'))
   })
 })

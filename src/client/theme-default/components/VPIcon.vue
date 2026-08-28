@@ -4,9 +4,9 @@ import { useTemplateRef } from 'vue'
 
 const props = defineProps<{
   /**
-   * `name` (a simple-icons name) or `collection:name` for any
-   * `@iconify-json/*` collection installed in the project, or a raw
-   * `{ svg }` string.
+   * A fully qualified `collection:name` for any `@iconify-json/*`
+   * collection in the project's dependencies (e.g. `simple-icons:github`,
+   * `lucide:rocket`), or a raw `{ svg }` string.
    */
   icon: string | { svg: string }
 }>()

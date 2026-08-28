@@ -140,9 +140,9 @@ export interface UserConfig<
      * Icons to include in the generated stylesheet in addition to the ones
      * collected while rendering pages — needed for icons that only render
      * client-side (e.g. inside `<ClientOnly>`), which SSR collection cannot
-     * see. Names are `name` (simple-icons) or `collection:name` for any
-     * installed `@iconify-json/*` collection.
-     * @example ['mdi:home', 'discord']
+     * see. Names are fully qualified as `collection:name`, for any
+     * `@iconify-json/*` collection in the project's dependencies.
+     * @example ['mdi:home', 'simple-icons:discord']
      */
     include?: string[]
   }

@@ -14,7 +14,16 @@ const props = defineProps<{
 }>()
 
 const el = useTemplateRef('el')
-const iconClass = useIcon(() => props.icon, el)
+
+// socialLinks accepts bare simple-icons names; everything downstream
+// speaks fully qualified `collection:name`
+const iconClass = useIcon(
+  () =>
+    typeof props.icon === 'string' && !props.icon.includes(':')
+      ? `simple-icons:${props.icon}`
+      : props.icon,
+  el
+)
 </script>
 
 <template>

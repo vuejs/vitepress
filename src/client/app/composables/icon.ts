@@ -16,10 +16,11 @@ import { withBase } from '../utils'
  * name is registered so the build emits its CSS rule; in dev the icon is
  * resolved from locally installed collections, without network access.
  *
- * Accepts `name` (resolved in simple-icons) or `collection:name` for any
- * `@iconify-json/*` collection installed in the project. Returns the class
- * to render (`vpi-<collection>-<name>`); pass the template ref of the
- * element carrying it so dev can apply the on-demand fallback.
+ * Accepts a fully qualified `collection:name` for any `@iconify-json/*`
+ * collection in the project's dependencies (e.g. `simple-icons:github`).
+ * Returns the class to render (`vpi-<collection>-<name>`); pass the
+ * template ref of the element carrying it so dev can apply the on-demand
+ * fallback.
  */
 export function useIcon(
   icon: MaybeRefOrGetter<string | { svg: string } | undefined>,

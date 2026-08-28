@@ -10,22 +10,20 @@ const e2eRoot = resolve(fileURLToPath(import.meta.url), '../../../e2e')
 
 describe('node/icons', () => {
   describe('parseIconName', () => {
-    test('bare names resolve in simple-icons', () => {
-      expect(parseIconName('github')).toEqual({
+    test('parses qualified names', () => {
+      expect(parseIconName('lucide:heart')).toEqual({
+        collection: 'lucide',
+        icon: 'heart'
+      })
+      expect(parseIconName('simple-icons:github')).toEqual({
         collection: 'simple-icons',
         icon: 'github'
       })
     })
 
-    test('prefixed names resolve in their collection', () => {
-      expect(parseIconName('lucide:heart')).toEqual({
-        collection: 'lucide',
-        icon: 'heart'
-      })
-    })
-
-    test('rejects names outside iconify grammar', () => {
+    test('rejects bare names and anything outside iconify grammar', () => {
       for (const name of [
+        'github',
         'GitHub',
         'foo bar',
         'foo:',
@@ -42,40 +40,44 @@ describe('node/icons', () => {
 
   describe('generateIconsCSS', () => {
     test('emits base rules and per-icon rules, no legacy common rule', async () => {
+      // simple-icons is not in the e2e workspace's package.json — this also
+      // covers the fallback to vitepress's own dependency
       const { css, warnings } = await generateIconsCSS(
         e2eRoot,
-        new Set(['github']),
+        new Set(['simple-icons:github']),
         'compressed'
       )
       expect(warnings).toEqual([])
       expect(css).toContain(
         '.vpi-simple-icons-github{--icon:url("data:image/svg+xml'
       )
-      expect(css).toContain('simple-icons (CC0 1.0)')
       expect(css).toContain(":where([class^='vpi-']")
       expect(css).toContain('display:inline-block')
       expect(css).not.toContain('.vpi-social')
     })
 
-    test('credits simple-icons only when it contributed rules', async () => {
-      const { css } = await generateIconsCSS(
+    test('suggests qualification for bare names', async () => {
+      const { css, warnings } = await generateIconsCSS(
         e2eRoot,
-        new Set(['notarealiconname', 'lucide:heart']),
+        new Set(['github']),
         'compressed'
       )
-      expect(css).toContain('.vpi-lucide-heart')
-      expect(css).not.toContain('simple-icons (CC0 1.0)')
+      expect(css).toBe('')
+      expect(warnings).toEqual([
+        expect.stringContaining('"github" has no collection prefix')
+      ])
+      expect(warnings[0]).toContain('simple-icons:github')
     })
 
     test('groups collections and stays deterministic across insertion order', async () => {
       const a = await generateIconsCSS(
         e2eRoot,
-        new Set(['lucide:heart', 'github', 'lucide:egg']),
+        new Set(['lucide:heart', 'simple-icons:github', 'lucide:egg']),
         'compressed'
       )
       const b = await generateIconsCSS(
         e2eRoot,
-        new Set(['github', 'lucide:egg', 'lucide:heart']),
+        new Set(['simple-icons:github', 'lucide:egg', 'lucide:heart']),
         'compressed'
       )
       expect(a.css).toBe(b.css)
@@ -87,7 +89,7 @@ describe('node/icons', () => {
     test('warns on icons missing from an installed collection', async () => {
       const { css, warnings } = await generateIconsCSS(
         e2eRoot,
-        new Set(['github', 'thisiconisnotreal']),
+        new Set(['simple-icons:github', 'simple-icons:thisiconisnotreal']),
         'compressed'
       )
       expect(css).toContain('.vpi-simple-icons-github')

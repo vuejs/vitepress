@@ -5,11 +5,20 @@ import { formatCSS } from '@iconify/utils/lib/css/format'
 import { getIconsCSSData } from '@iconify/utils/lib/css/icons'
 import { loadCollectionFromFS } from '@iconify/utils/lib/loader/fs'
 
-import { DEFAULT_ICONS_COLLECTION, parseIconName } from './shared'
+import { dependencies } from '../../package.json' with { type: 'json' }
+import { parseIconName } from './shared'
 
 type IconifyJSON = Parameters<typeof getIconsCSSData>[0]
 
 const require = createRequire(import.meta.url)
+
+// collections vitepress itself depends on (simple-icons today) — resolvable
+// through vitepress even when the project doesn't install them
+const ownCollections = new Set(
+  Object.keys(dependencies)
+    .filter((dep) => dep.startsWith('@iconify-json/'))
+    .map((dep) => dep.slice('@iconify-json/'.length))
+)
 
 /**
  * Replaced with the content hash (or stripped together with the link tag when
@@ -48,16 +57,20 @@ async function loadCollection(
   name: string,
   root: string
 ): Promise<IconifyJSON | undefined> {
-  if (name === DEFAULT_ICONS_COLLECTION) {
-    // vitepress's own dependency — the user's root may not resolve it
-    return require('@iconify-json/simple-icons/icons.json')
-  }
   const key = `${root}\0${name}`
   let cached = collectionCache.get(key)
   if (!cached) {
-    cached = loadCollectionFromFS(name, false, '@iconify-json', root).catch(
-      () => undefined
-    )
+    // resolvable from anywhere in the project's tree; falls back to
+    // vitepress's own dependencies for the collections it ships
+    cached = loadCollectionFromFS(name, false, '@iconify-json', root)
+      .catch(() => undefined)
+      .then(
+        (data) =>
+          data ??
+          (ownCollections.has(name)
+            ? require(`@iconify-json/${name}/icons.json`)
+            : undefined)
+      )
     collectionCache.set(key, cached)
     // don't memoize a miss — the user may install the collection while the
     // dev server is running
@@ -79,7 +92,13 @@ export async function generateIconsCSS(
   for (const raw of icons) {
     const parsed = parseIconName(raw)
     if (!parsed) {
-      warnings.push(`"${raw}" is not a valid icon name and was skipped.`)
+      warnings.push(
+        !raw.includes(':') && parseIconName(`x:${raw}`)
+          ? `"${raw}" has no collection prefix — write it as ` +
+              `"<collection>:${raw}" (e.g. "simple-icons:${raw}"). Only ` +
+              `\`socialLinks\` qualifies bare names automatically.`
+          : `"${raw}" is not a valid icon name and was skipped.`
+      )
       continue
     }
     let names = byCollection.get(parsed.collection)
@@ -88,7 +107,6 @@ export async function generateIconsCSS(
   }
 
   const chunks: string[] = []
-  let hasSimpleIcons = false
 
   for (const collection of Array.from(byCollection.keys()).sort()) {
     const data = await loadCollection(collection, root)
@@ -115,19 +133,11 @@ export async function generateIconsCSS(
       mode: 'mask'
     })
     chunks.push(formatCSS(cssData.css, format))
-    if (collection === DEFAULT_ICONS_COLLECTION) hasSimpleIcons = true
   }
 
   if (!chunks.length) return { css: '', warnings }
 
-  const attribution = hasSimpleIcons
-    ? '/* simple-icons (CC0 1.0) — https://simpleicons.org */\n'
-    : ''
-
-  return {
-    css: attribution + BASE_RULES + '\n' + chunks.join(''),
-    warnings
-  }
+  return { css: BASE_RULES + '\n' + chunks.join(''), warnings }
 }
 
 const collectionMissingMessage = (collection: string) =>
