@@ -18,6 +18,8 @@ import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
 import { inBrowser, pathToFile } from './utils'
+import { SidebarTextItem } from './components/SidebarTextItem'
+import { LocalSearchBoxItem } from './components/LocalSearchBoxItem'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
   if (theme.extends) {
@@ -83,6 +85,8 @@ export async function createApp() {
   // install global components
   app.component('Content', Content)
   app.component('ClientOnly', ClientOnly)
+  app.component('SidebarTextItem', SidebarTextItem)
+  app.component('LocalSearchBoxItem', LocalSearchBoxItem)
 
   // expose $frontmatter & $params
   Object.defineProperties(app.config.globalProperties, {
