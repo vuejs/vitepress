@@ -8,6 +8,7 @@ overrides:
   esbuild: '-'
 
 patchedDependencies:
+  vitepress-plugin-group-icons: c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f
   vue-sfc-transformer: 06dbce7d98fac77faf5e66a94aa6e04f34c0cc7ec0910ec10848e5f2e08b8b68
 
 importers:
@@ -308,7 +309,7 @@ importers:
         version: link:..
       vitepress-plugin-group-icons:
         specifier: ^1.7.6
-        version: 1.7.6(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
+        version: 1.7.6(patch_hash=c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f)(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
       vitepress-plugin-llms:
         specifier: ^1.13.4
         version: 1.13.4(supports-color@7.2.0)
@@ -5082,7 +5083,7 @@ snapshots:
       jiti: 1.21.7
       yaml: 2.9.0
 
-  vitepress-plugin-group-icons@1.7.6(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
+  vitepress-plugin-group-icons@1.7.6(patch_hash=c379c3737bf09a62f52fdff21e0d71647ab2bdd813a34ac32a4d8aa1edca0e7f)(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
     dependencies:
       '@iconify-json/logos': 1.2.12
       '@iconify-json/vscode-icons': 1.2.70

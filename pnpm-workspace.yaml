@@ -17,6 +17,7 @@ overrides:
 
 patchedDependencies:
   vue-sfc-transformer: patches/vue-sfc-transformer.patch
+  vitepress-plugin-group-icons: patches/vitepress-plugin-group-icons.patch
 
 shellEmulator: true
 
