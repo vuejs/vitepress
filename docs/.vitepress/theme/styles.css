@@ -85,3 +85,13 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='2 3.92 28 24.15'%3E%3Cpath fill='%2341b883' d='M24.4 3.925H30l-14 24.15L2 3.925h10.71l3.29 5.6l3.22-5.6Z'%3E%3C/path%3E%3Cpath fill='%2341b883' d='m2 3.925l14 24.15l14-24.15h-5.6L16 18.415L7.53 3.925Z'%3E%3C/path%3E%3Cpath fill='%2335495e' d='M7.53 3.925L16 18.485l8.4-14.56h-5.18L16 9.525l-3.29-5.6Z'%3E%3C/path%3E%3C/svg%3E");
   }
 }
+
+body[style*='overflow: hidden'] {
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
