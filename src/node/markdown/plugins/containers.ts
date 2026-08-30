@@ -8,8 +8,9 @@ import type {
   MarkdownEnv,
   MarkdownLocaleOptions
 } from '../../shared'
+import { countLineBreaks } from '../lineMap'
 import { extractTitle } from './preWrapper'
-import { SOURCE_LOC_ATTR } from './sourceAttrs'
+import { renderSourceLocAttr } from './sourceAttrs'
 
 export type { ContainerOptions } from '../../shared'
 
@@ -42,12 +43,14 @@ export const containerPlugin = (
     // explicitly escape Vue syntax
     .use(container, {
       name: 'v-pre',
-      openRender: () => `<div v-pre>\n`,
+      openRender: (tokens, idx) =>
+        `<div v-pre${renderSourceLocAttr(md, tokens[idx])}>\n`,
       closeRender: () => `</div>\n`
     })
     .use(container, {
       name: 'raw',
-      openRender: () => `<div class="vp-raw">\n`,
+      openRender: (tokens, idx) =>
+        `<div class="vp-raw"${renderSourceLocAttr(md, tokens[idx])}>\n`,
       closeRender: () => `</div>\n`
     })
     .use(container, {
@@ -185,12 +188,7 @@ function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {
       }
     }
 
-    const sourceLoc = tokens[idx].attrGet(SOURCE_LOC_ATTR)
-    const sourceLocAttr = sourceLoc
-      ? ` ${SOURCE_LOC_ATTR}="${md.utils.escapeHtml(sourceLoc)}"`
-      : ''
-
-    return `<div class="vp-code-group"${sourceLocAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
+    return `<div class="vp-code-group"${renderSourceLocAttr(md, tokens[idx])}><div class="tabs">${tabs}</div><div class="blocks">\n`
   }
 }
 
@@ -228,9 +226,20 @@ export const gitHubAlertsPlugin = (
         const title =
           match[2].trim() ||
           titlesFor(titles, (state.env as MarkdownEnv)?.localeIndex)[type]
+        const contentBefore = firstContent.content
         firstContent.content = firstContent.content
           .slice(match[0].length)
           .trimStart()
+        // the removed marker line(s) shift the inline content relative to
+        // firstContent.map - record the offset so source positions stay exact
+        const removedLines =
+          countLineBreaks(contentBefore) - countLineBreaks(firstContent.content)
+        if (removedLines) {
+          firstContent.meta = {
+            ...firstContent.meta,
+            vpLineOffset: removedLines
+          }
+        }
         open.type = 'github_alert_open'
         open.tag = 'div'
         open.meta = { title, type }
@@ -241,10 +250,6 @@ export const gitHubAlertsPlugin = (
   })
   md.renderer.rules.github_alert_open = function (tokens, idx) {
     const { title, type } = tokens[idx].meta
-    const sourceLoc = tokens[idx].attrGet(SOURCE_LOC_ATTR)
-    const sourceLocAttr = sourceLoc
-      ? ` ${SOURCE_LOC_ATTR}="${md.utils.escapeHtml(sourceLoc)}"`
-      : ''
-    return `<div class="${type} custom-block github-alert"${sourceLocAttr}><p class="custom-block-title">${title}</p>\n`
+    return `<div class="${type} custom-block github-alert"${renderSourceLocAttr(md, tokens[idx])}><p class="custom-block-title">${title}</p>\n`
   }
 }

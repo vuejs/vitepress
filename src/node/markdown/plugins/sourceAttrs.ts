@@ -1,6 +1,8 @@
 import path from 'node:path'
 
+import type MarkdownIt from 'markdown-it'
 import type { MarkdownItAsync } from 'markdown-it-async'
+import type Token from 'markdown-it/lib/token.mjs'
 
 import { slash, type MarkdownEnv } from '../../shared'
 
@@ -24,6 +26,34 @@ export const SOURCE_LOC_ATTR = 'data-v-inspector'
  * alerts) re-emit the attribute themselves; `html_block` is skipped since
  * raw HTML and Vue components render their content verbatim.
  */
+/**
+ * For renderers that build their markup by hand and would otherwise drop
+ * `token.attrs`: the source-location attribute rendered as ` name="value"`,
+ * or an empty string.
+ */
+export function renderSourceLocAttr(
+  md: Pick<MarkdownIt, 'utils'>,
+  token: Token
+): string {
+  const loc = token.attrGet(SOURCE_LOC_ATTR)
+  return loc ? ` ${SOURCE_LOC_ATTR}="${md.utils.escapeHtml(loc)}"` : ''
+}
+
+/**
+ * Like `renderSourceLocAttr`, but also removes the attribute from the token —
+ * for wrappers whose inner renderer may fall back to a default rule that
+ * renders token attrs, which would emit the location twice.
+ */
+export function popSourceLocAttr(
+  md: Pick<MarkdownIt, 'utils'>,
+  token: Token
+): string {
+  const rendered = renderSourceLocAttr(md, token)
+  const index = token.attrIndex(SOURCE_LOC_ATTR)
+  if (index >= 0) token.attrs!.splice(index, 1)
+  return rendered
+}
+
 export function sourceAttrsPlugin(md: MarkdownItAsync): void {
   md.core.ruler.push('vp_source_attrs', (state) => {
     const env = state.env as MarkdownEnv

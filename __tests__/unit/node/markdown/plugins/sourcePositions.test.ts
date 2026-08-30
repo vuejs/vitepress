@@ -127,6 +127,25 @@ describe('markdown/plugins/sourcePositions', () => {
     ])
   })
 
+  test('github alert bodies report exact positions', async () => {
+    const links = await collect(
+      '> [!TIP]\n> a [one](./one)\n> b [two](./two)\n'
+    )
+    expect(links.map((l) => l.loc)).toEqual([
+      { file: '/docs/page.md', line: 2, column: 5 },
+      { file: '/docs/page.md', line: 3, column: 5 }
+    ])
+  })
+
+  test('github alert with a custom title keeps positions exact', async () => {
+    const links = await collect('> [!WARNING] Custom\n> body [x](./x)\n')
+    expect(links[0].loc).toEqual({
+      file: '/docs/page.md',
+      line: 2,
+      column: 8
+    })
+  })
+
   test('header anchors get no synthetic position', async () => {
     disposeMdItInstance()
     const md = await createMarkdownRenderer('.', {

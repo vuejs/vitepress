@@ -72,6 +72,32 @@ describe('node/markdown/plugins/sourceAttrs', () => {
     )
   })
 
+  test('hand-built wrappers re-emit the attribute', async () => {
+    const { vueSrc, file } = await renderPage(
+      {
+        'index.md': '::: v-pre\nvp\n:::\n\n::: raw\nrw\n:::\n\n$$\nx^2\n$$\n'
+      },
+      { markdown: { math: true } }
+    )
+    const at = (line: number) => `data-v-inspector="${rel(file)}:${line}:1"`
+    expect(vueSrc).toContain(`<div v-pre ${at(1)}>`)
+    expect(vueSrc).toContain(`<div class="vp-raw" ${at(5)}>`)
+    expect(vueSrc).toContain(`tabindex="0" ${at(9)}`)
+  })
+
+  test('a custom highlight fallback does not double-stamp fences', async () => {
+    const { vueSrc, file } = await renderPage(
+      { 'index.md': '```ts\ncode\n```\n' },
+      { markdown: { highlight: (code: string) => code } }
+    )
+    const occurrences = vueSrc.match(/data-v-inspector="[^"]*:1:1"/g)
+    expect(occurrences).toHaveLength(1)
+    // and it sits on the wrapper, not the inner code element
+    expect(vueSrc).toContain(
+      `<div class="language-ts" data-v-inspector="${rel(file)}:1:1">`
+    )
+  })
+
   test('builds render without source attributes', async () => {
     const { vueSrc } = await renderPage(
       { 'index.md': '# Head\n\npara\n' },

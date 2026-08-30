@@ -628,6 +628,15 @@ describe('node/markdown/plugins/include', () => {
       ])
     })
 
+    test('alert bodies inside includes resolve exactly', async () => {
+      await write('sub/part.md', '> [!NOTE]\n> body [x](./x)\n')
+
+      const { locs } = await renderLocs('<!-- @include: ./sub/part.md -->\n')
+      expect(locs).toEqual([
+        { file: path.join(root, 'sub/part.md'), line: 2, column: 8 }
+      ])
+    })
+
     test('pages without includes get an identity line map', async () => {
       const { env } = await render('# Hi\n\n[a](./a)\n')
       expect(env.lineMap!.resolve(2)).toEqual({

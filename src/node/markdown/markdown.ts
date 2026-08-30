@@ -64,7 +64,7 @@ import {
   snippetPlugin,
   type Options as SnippetPluginOptions
 } from './plugins/snippet'
-import { sourceAttrsPlugin } from './plugins/sourceAttrs'
+import { renderSourceLocAttr, sourceAttrsPlugin } from './plugins/sourceAttrs'
 import { sourcePositionsPlugin } from './plugins/sourcePositions'
 import { tablePlugin } from './plugins/table'
 
@@ -547,9 +547,15 @@ export async function createMarkdownRenderer(
       }
       const origMathBlock = md.renderer.rules.math_block!
       md.renderer.rules.math_block = function (...args) {
+        // mathjax's renderer ignores token attrs - re-emit the source
+        // location alongside the v-pre/tabindex injection
+        const sourceLocAttr = renderSourceLocAttr(md!, args[0][args[1]])
         return origMathBlock
           .apply(this, args)
-          .replace(/^<mjx-container /, '<mjx-container v-pre tabindex="0" ')
+          .replace(
+            /^<mjx-container /,
+            `<mjx-container v-pre tabindex="0"${sourceLocAttr} `
+          )
       }
     } catch (error) {
       throw new Error(

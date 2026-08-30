@@ -206,7 +206,9 @@ function sourceLocs(state: StateCore): void {
       const pos = child[POS]
       if (!pos) continue
 
-      const line = token.map[0] + pos.dLine
+      // vpLineOffset: lines a pre-inline core rule removed from the token's
+      // content (the github-alerts marker) while its map kept spanning them
+      const line = token.map[0] + (token.meta?.vpLineOffset ?? 0) + pos.dLine
       const resolved = env.lineMap?.resolve(line)
       const loc: MarkdownSourceLoc = resolved
         ? { file: resolved.file, line: resolved.line + 1 }
