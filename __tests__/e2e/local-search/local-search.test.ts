@@ -87,12 +87,17 @@ describe('local search', () => {
     await page.locator('.VPNavBarSearchButton').click()
 
     const input = await page.waitForSelector('input#localsearch-input')
-    await input.type('Frontmatter Title Resolved')
+    await input.fill('Frontmatter Title Resolved')
 
     const searchResults = page.locator('#localsearch-list')
     await page.waitForFunction(() => {
-      return document.querySelectorAll('#localsearch-list li[role=option]')
-        .length
+      const options = [
+        ...document.querySelectorAll('#localsearch-list li[role=option]')
+      ]
+
+      return options.some((option) =>
+        option.textContent?.includes('Frontmatter Title Resolved')
+      )
     })
 
     expect(
