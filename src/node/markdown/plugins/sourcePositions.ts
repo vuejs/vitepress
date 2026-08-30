@@ -207,11 +207,16 @@ function sourceLocs(state: StateCore): void {
       if (!pos) continue
 
       const line = token.map[0] + pos.dLine
-      const loc = resolveLoc(env, line)
+      const resolved = env.lineMap?.resolve(line)
+      const loc: MarkdownSourceLoc = resolved
+        ? { file: resolved.file, line: resolved.line + 1 }
+        : { file: env.realPath ?? env.path, line: line + 1 }
 
       // block parsing only ever strips a prefix per line, so the inline line
-      // is a suffix of the raw source line; re-align to get the true column
-      if (pos.startInLine >= 0) {
+      // is a suffix of the raw source line; re-align to get the true column.
+      // A spliced line is stitched from more than one source, so no column
+      // on it is meaningful in any single file.
+      if (pos.startInLine >= 0 && !resolved?.spliced) {
         srcLineStarts ??= makeLineStarts(state.src)
         const raw = getLine(state.src, srcLineStarts, line)
         if (raw !== undefined) {
@@ -234,12 +239,6 @@ function sourceLocs(state: StateCore): void {
       if (dest != null) child.meta.vpRaw = safeDecodeURI(dest)
     }
   }
-}
-
-function resolveLoc(env: MarkdownEnv, line: number): MarkdownSourceLoc {
-  const resolved = env.lineMap?.resolve(line)
-  if (resolved) return { file: resolved.file, line: resolved.line + 1 }
-  return { file: env.realPath ?? env.path, line: line + 1 }
 }
 
 function safeDecodeURI(str: string): string {

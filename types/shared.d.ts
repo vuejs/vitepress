@@ -657,5 +657,14 @@ export interface MarkdownSourceLoc {
  * the physical file and 0-based line they came from.
  */
 export interface MarkdownLineMap {
-  resolve(line: number): { file: string; line: number }
+  resolve(line: number): {
+    file: string
+    line: number
+    /**
+     * Set when the line was stitched together from more than one source
+     * (a mid-line include splice) — column positions on it are not
+     * meaningful in any single file.
+     */
+    spliced?: boolean
+  }
 }

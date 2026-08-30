@@ -1,11 +1,20 @@
 import path from 'node:path'
 
 import matter from 'gray-matter'
-import { replaceAsync, type MarkdownItAsync } from 'markdown-it-async'
+import type { MarkdownItAsync } from 'markdown-it-async'
 import type { Logger } from 'vite'
 
 import { slash, type MarkdownEnv } from '../../shared'
 import { readTextFile } from '../../utils/fs'
+import {
+  countLineBreaks,
+  LineMap,
+  MappedBuilder,
+  offsetSegments,
+  resolveInSegments,
+  sliceSegments,
+  type LineMapSegment
+} from '../lineMap'
 import { findRegions } from '../regions'
 
 export interface Options {
@@ -29,18 +38,24 @@ const rangeRE = /\{(\d*),(\d*)\}$/
 const regionRE = /#([^\s{]+)$/
 const separatorRE = /[\\/]/
 const fenceRE = /^ {0,3}(`{3,}|~{3,})/
-const rebaseMarkerRE = /^[ \t]*<!-- @include-(?:start: (.*)|end) -->[ \t]*$/gm
 
-// per-render stacks of included-file directories, driven by the rebase
-// markers while rendering
-const rebaseStacks = new WeakMap<object, string[]>()
+interface Expanded {
+  src: string
+  /** describes `src` in its own 0-based line coordinates */
+  segments: LineMapSegment[]
+  /** lines of `src` stitched together from more than one source */
+  splicedLines: ReadonlySet<number>
+}
+
+const noSplices: ReadonlySet<number> = new Set()
 
 /**
  * Expands `<!-- @include: path -->` directives before rendering. Wraps
  * `renderAsync` so every consumer of the renderer (page rendering, local
  * search indexing, the content loader and `createMarkdownRenderer` users)
- * gets the same expansion. Included files are recorded in `env.includes`
- * and the expanded source is exposed as `env.src`.
+ * gets the same expansion. Included files are recorded in `env.includes`,
+ * the expanded source is exposed as `env.src`, and `env.lineMap` maps its
+ * lines back to the physical files they came from.
  */
 export function includePlugin(
   md: MarkdownItAsync,
@@ -55,9 +70,18 @@ export function includePlugin(
     if (file == null) return renderAsync(src, env)
 
     mdEnv!.includes ??= []
-    src = await processIncludes(md, srcDir, src, file, mdEnv!, options, logger)
-    mdEnv!.src = src
-    return renderAsync(src, env)
+    const expanded = await processIncludes(
+      md,
+      srcDir,
+      src,
+      file,
+      mdEnv!,
+      options,
+      logger
+    )
+    mdEnv!.src = expanded.src
+    mdEnv!.lineMap = new LineMap(expanded.segments, expanded.splicedLines)
+    return renderAsync(expanded.src, env)
   }
 
   if (options.rebaseRelativeUrls !== false) registerRebaseRules(md)
@@ -71,17 +95,36 @@ async function processIncludes(
   env: MarkdownEnv,
   options: Options,
   logger: Pick<Logger, 'warn'>,
-  ancestors: string[] = []
-): Promise<string> {
-  return replaceAsync(src, includeRE, async (...args: string[]) => {
-    const [m, , rawOffset] = args
-    let [, m1] = args
-    if (!m1.length) return m
+  ancestors: string[] = [],
+  base: LineMapSegment[] = [{ start: 0, file, line: 0 }]
+): Promise<Expanded> {
+  const matches = [...src.matchAll(includeRE)]
+  if (!matches.length) return { src, segments: base, splicedLines: noSplices }
 
-    const fail = (message: string): string => {
+  const out = new MappedBuilder()
+  let cursor = 0
+  let cursorLine = 0
+
+  const passthrough = (to: number) => {
+    if (to <= cursor) return
+    const text = src.slice(cursor, to)
+    const breaks = countLineBreaks(text)
+    out.append(text, sliceSegments(base, cursorLine, cursorLine + breaks + 1))
+    cursor = to
+    cursorLine += breaks
+  }
+
+  const expandInclude = async (
+    m: RegExpExecArray,
+    directiveLine: number
+  ): Promise<Expanded | undefined> => {
+    const directive = m[0]
+    let m1 = m[1]
+
+    const fail = (message: string): Expanded => {
       if (!options.silent) throw new Error(message)
       logger.warn(`${message} (in ${file})`)
-      return ''
+      return { src: '', segments: [], splicedLines: noSplices }
     }
 
     const range = rangeRE.exec(m1)
@@ -95,7 +138,9 @@ async function processIncludes(
 
     // leave circular includes unexpanded — only repeats along the ancestor
     // chain are cycles, the same file may still be included by siblings
-    if (includePath === file || ancestors.includes(includePath)) return m
+    if (includePath === file || ancestors.includes(includePath)) {
+      return undefined
+    }
 
     // record the dependency before reading it, so that creating a missing
     // file is picked up by the watcher
@@ -116,19 +161,36 @@ async function processIncludes(
     }
 
     // for markdown files, if a range is used without a region, the line
-    // numbers must account for the frontmatter, so it is kept; otherwise
-    // it is stripped before selecting content
+    // numbers must account for the frontmatter, so it is kept; otherwise it
+    // is stripped before selecting content, and the removed height is folded
+    // into the segments so they keep pointing at real editor lines
+    let fmOffset = 0
     if (path.extname(includePath) === '.md' && (region || !range)) {
-      content = matter(content, {}).content
+      const stripped = matter(content, {}).content
+      fmOffset = countLineBreaks(content) - countLineBreaks(stripped)
+      content = stripped
     }
 
     let lines = content.split('\n')
+    let childBase: LineMapSegment[] = [
+      { start: 0, file: includePath, line: fmOffset }
+    ]
 
     if (region) {
       const name = region[1]
       const regions = findRegions(lines, name)
       if (regions.length > 0) {
-        lines = regions.flatMap((r) => lines.slice(r.start, r.end))
+        const selected: string[] = []
+        childBase = []
+        for (const r of regions) {
+          childBase.push({
+            start: selected.length,
+            file: includePath,
+            line: fmOffset + r.start
+          })
+          selected.push(...lines.slice(r.start, r.end))
+        }
+        lines = selected
       } else {
         // no editor-style region matched — try heading anchors
         const section = findHeadingSection(md, content, includePath, name, {
@@ -140,6 +202,9 @@ async function processIncludes(
             `Include region or heading "${name}" not found in ${includePath}`
           )
         }
+        childBase = [
+          { start: 0, file: includePath, line: fmOffset + section.start }
+        ]
         lines = lines.slice(section.start, section.end)
       }
     }
@@ -152,11 +217,12 @@ async function processIncludes(
           `Include range ${range[0]} is out of bounds in ${includePath}`
         )
       }
+      childBase = sliceSegments(childBase, start - 1, end)
       lines = lines.slice(start - 1, end)
     }
 
     // recursively process includes in the content
-    const expanded = await processIncludes(
+    const child = await processIncludes(
       md,
       srcDir,
       lines.join('\n'),
@@ -164,22 +230,52 @@ async function processIncludes(
       env,
       options,
       logger,
-      [...ancestors, file]
+      [...ancestors, file],
+      childBase
     )
 
-    // wrap included markdown in markers driving the url rebasing at render
-    // time; they are removed from the output by the html_block rule. Blank
-    // lines keep them out of adjacent html blocks, and directives that are
-    // not on a line of their own - inline ones and those inside fences -
-    // are left unwrapped so the markers can't end up in the output.
-    const offset = rawOffset as unknown as number
-    return options.rebaseRelativeUrls !== false &&
+    // wrap included markdown in blank lines so its blocks stay isolated from
+    // adjacent page content; directives that are not on a line of their own -
+    // inline ones and those inside fences - are left unwrapped so the blanks
+    // can't end up inside surrounding constructs. The blank lines belong to
+    // the include directive's own line.
+    if (
       path.extname(includePath) === '.md' &&
-      isOwnLine(src, offset, m.length) &&
-      !isInsideFence(src, offset)
-      ? `<!-- @include-start: ${path.dirname(includePath)} -->\n\n${expanded}\n\n<!-- @include-end -->`
-      : expanded
-  })
+      isOwnLine(src, m.index, directive.length) &&
+      !isInsideFence(src, m.index)
+    ) {
+      const at = resolveInSegments(base, directiveLine)
+      const childLineCount = countLineBreaks(child.src) + 1
+      return {
+        src: `\n\n${child.src}\n\n`,
+        segments: [
+          { start: 0, ...at },
+          ...offsetSegments(child.segments, 2),
+          { start: 2 + childLineCount, ...at }
+        ],
+        splicedLines: new Set([...child.splicedLines].map((l) => l + 2))
+      }
+    }
+    return child
+  }
+
+  for (const m of matches) {
+    passthrough(m.index)
+    const expanded = m[1].length
+      ? await expandInclude(m, cursorLine)
+      : undefined
+    if (expanded === undefined) {
+      // left unexpanded — passes through with the surrounding text
+      passthrough(m.index + m[0].length)
+    } else {
+      out.append(expanded.src, expanded.segments, expanded.splicedLines)
+      cursor = m.index + m[0].length
+      cursorLine += countLineBreaks(m[0])
+    }
+  }
+  passthrough(src.length)
+
+  return out.build()
 }
 
 function findHeadingSection(
@@ -237,43 +333,29 @@ function isInsideFence(src: string, offset: number) {
 }
 
 function registerRebaseRules(md: MarkdownItAsync) {
-  const htmlBlock = md.renderer.rules.html_block!
-  md.renderer.rules.html_block = (tokens, idx, opts, env, self) => {
-    const token = tokens[idx]
-    if (!token.content.includes('<!-- @include-')) {
-      return htmlBlock(tokens, idx, opts, env, self)
-    }
-
-    // markers are emitted on their own lines, but an adjacent html block can
-    // still absorb them into its token, so they are matched anywhere in the
-    // content and removed from it
-    token.content = token.content.replace(rebaseMarkerRE, (_, dir?: string) => {
-      let stack = rebaseStacks.get(env)
-      if (!stack) rebaseStacks.set(env, (stack = []))
-      if (dir == null) stack.pop()
-      else stack.push(dir)
-      return ''
-    })
-
-    return token.content.trim() ? htmlBlock(tokens, idx, opts, env, self) : ''
-  }
-
   for (const rule of ['image', 'link_open'] as const) {
     const render =
       md.renderer.rules[rule] ??
       ((tokens, idx, opts, _env, self) => self.renderToken(tokens, idx, opts))
     md.renderer.rules[rule] = (tokens, idx, opts, env, self) => {
-      const dir = rebaseStacks.get(env)?.at(-1)
-      const file = (env as MarkdownEnv).path
-      if (dir && file) {
-        const token = tokens[idx]
+      const token = tokens[idx]
+      const mdEnv = env as MarkdownEnv
+      const page = mdEnv.path
+      const origin = mdEnv.realPath ?? mdEnv.path
+      // the physical file the construct was authored in, resolved through
+      // the line map — different from the page means it came from an include
+      const sourceFile: string | undefined = token.meta?.vpLoc?.file
+      if (page && sourceFile && sourceFile !== origin) {
         const attr = rule === 'image' ? 'src' : 'href'
         const url = token.attrGet(attr)
         // a destination resolved from `$frontmatter` belongs to the page the
         // frontmatter came from, not to the included file
         if (url?.[0] === '.' && !token.meta?.frontmatterDest) {
           const rebased = slash(
-            path.join(path.relative(path.dirname(file), dir), url)
+            path.join(
+              path.relative(path.dirname(page), path.dirname(sourceFile)),
+              url
+            )
           )
           token.attrSet(attr, rebased[0] === '.' ? rebased : `./${rebased}`)
         }

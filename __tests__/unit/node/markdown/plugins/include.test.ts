@@ -533,6 +533,110 @@ describe('node/markdown/plugins/include', () => {
     expect(html).toContain('href="/abs/target.html"')
   })
 
+  describe('line map', () => {
+    async function renderLocs(
+      src: string,
+      options: MarkdownOptions = {},
+      env: Partial<MarkdownEnv> = {}
+    ) {
+      const locs: { file?: string; line: number; column?: number }[] = []
+      const result = await render(
+        src,
+        {
+          ...options,
+          config(md) {
+            md.core.ruler.push('test_capture_locs', (state) => {
+              for (const token of state.tokens) {
+                for (const child of token.children ?? []) {
+                  if (child.type === 'link_open' && child.meta?.vpLoc) {
+                    locs.push(child.meta.vpLoc)
+                  }
+                }
+              }
+            })
+          }
+        },
+        env
+      )
+      return { ...result, locs }
+    }
+
+    test('positions resolve into included files and stay exact after them', async () => {
+      await write(
+        'sub/part.md',
+        '---\nt: 1\n---\nSome text\n[x](./nope)\nMore text\n'
+      )
+
+      const { locs } = await renderLocs(
+        '---\ntitle: x\n---\n\n# Guide\n\n<!-- @include: ./sub/part.md -->\n\npara [a](./a)\nand [b](./b)\n'
+      )
+      expect(locs).toEqual([
+        { file: path.join(root, 'sub/part.md'), line: 5, column: 1 },
+        { file: path.join(root, 'index.md'), line: 9, column: 6 },
+        { file: path.join(root, 'index.md'), line: 10, column: 5 }
+      ])
+    })
+
+    test('positions resolve through nested includes', async () => {
+      await write('a/one.md', 'one\n\n<!-- @include: ../b/two.md -->\n')
+      await write('b/two.md', 'two [t](./deep)\n')
+
+      const { locs } = await renderLocs('<!-- @include: ./a/one.md -->\n')
+      expect(locs).toEqual([
+        { file: path.join(root, 'b/two.md'), line: 1, column: 5 }
+      ])
+    })
+
+    test('region includes point at real editor lines past frontmatter', async () => {
+      await write(
+        'sub/part.md',
+        '---\nt: 1\n---\nbefore\n<!-- #region sec -->\nin [r](./r) region\n<!-- #endregion sec -->\nafter\n'
+      )
+
+      const { locs } = await renderLocs(
+        '<!-- @include: ./sub/part.md#sec -->\n'
+      )
+      expect(locs).toEqual([
+        { file: path.join(root, 'sub/part.md'), line: 6, column: 4 }
+      ])
+    })
+
+    test('range includes keep frontmatter lines and stay file-accurate', async () => {
+      await write('sub/part.md', 'one\ntwo [r](./r)\nthree\n')
+
+      const { locs } = await renderLocs(
+        '<!-- @include: ./sub/part.md{2,2} -->\n'
+      )
+      expect(locs).toEqual([
+        { file: path.join(root, 'sub/part.md'), line: 2, column: 5 }
+      ])
+    })
+
+    test('inline includes attribute the splice line to the page', async () => {
+      await write('sub/part.md', 'spliced [s](./s)\nnext [n](./n)\n')
+
+      const { locs } = await renderLocs(
+        'before <!-- @include: ./sub/part.md --> after\n'
+      )
+      // the first included line merges into the page's line — it keeps the
+      // page as its file and gets no column, since the stitched line matches
+      // neither file's authored text; content on the included file's own
+      // subsequent lines resolves into it exactly
+      expect(locs).toEqual([
+        { file: path.join(root, 'index.md'), line: 1 },
+        { file: path.join(root, 'sub/part.md'), line: 2, column: 6 }
+      ])
+    })
+
+    test('pages without includes get an identity line map', async () => {
+      const { env } = await render('# Hi\n\n[a](./a)\n')
+      expect(env.lineMap!.resolve(2)).toEqual({
+        file: path.join(root, 'index.md'),
+        line: 2
+      })
+    })
+  })
+
   test('does not rebase destinations resolved from frontmatter', async () => {
     await write(
       'guide/shared/note.md',
