@@ -616,4 +616,11 @@ export interface MarkdownEnv {
    * The key of the locale the page belongs to.
    */
   localeIndex?: string
+  /**
+   * The expressions inlined by eager frontmatter interpolation while
+   * rendering, with the value each resolved to - used to detect values that
+   * `transformPageData` changes after the fact.
+   * @internal
+   */
+  eagerInterpolations?: { expression: string; value: string }[]
 }

@@ -87,6 +87,19 @@ describe('local search', () => {
     ).toBe(0)
   })
 
+  test('typing replaces the persisted query', async () => {
+    await searchFor('lorem')
+    await waitForSearchResults({ minCount: 2 })
+    await page.keyboard.press('Escape')
+
+    // reopening restores the persisted query pre-selected, so keystrokes
+    // must replace it instead of appending to it
+    const input = await openSearch()
+    await input.type('Frontmatter Title Resolved')
+    await waitForSearchResults({ text: 'Frontmatter Title Resolved' })
+    expect(await input.inputValue()).toBe('Frontmatter Title Resolved')
+  })
+
   test('custom tokenize function reaches the client', async () => {
     // '#hash-probe' survives as one token only under the custom tokenizer —
     // MiniSearch's default one would degrade the query to 'hash'/'probe'

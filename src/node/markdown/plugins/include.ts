@@ -269,7 +269,9 @@ function registerRebaseRules(md: MarkdownItAsync) {
         const token = tokens[idx]
         const attr = rule === 'image' ? 'src' : 'href'
         const url = token.attrGet(attr)
-        if (url?.[0] === '.') {
+        // a destination resolved from `$frontmatter` belongs to the page the
+        // frontmatter came from, not to the included file
+        if (url?.[0] === '.' && !token.meta?.frontmatterDest) {
           const rebased = slash(
             path.join(path.relative(path.dirname(file), dir), url)
           )

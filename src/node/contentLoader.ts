@@ -150,7 +150,10 @@ export function createContentLoader<T = ContentData[]>(
             path: file,
             relativePath,
             cleanUrls: !!config.cleanUrls,
-            realPath: file
+            realPath: file,
+            // excerpts are rendered on their own, without the frontmatter
+            // block - provide the data so `$frontmatter` still resolves
+            frontmatter
           }
 
           const html = options.render
