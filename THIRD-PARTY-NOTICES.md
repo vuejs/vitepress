@@ -546,6 +546,20 @@ Repository: https://github.com/jquery/esprima
 > (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 > THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## eta
+
+License: MIT
+By: Ben Gubler <nebrelbug@gmail.com>
+Repository: https://github.com/bgub/eta
+
+> Copyright 2025 Ben Gubler <nebrelbug@gmail.com>
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 ## extend-shallow
 
 License: MIT
@@ -903,89 +917,6 @@ Repository: https://github.com/markdown-it/linkify-it
 > WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 > FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 > OTHER DEALINGS IN THE SOFTWARE.
-
-## lodash._reinterpolate
-
-License: MIT
-By: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/), Benjamin Tan <demoneaux@gmail.com> (https://d10.github.io/), Blaine Bublitz <blaine@iceddev.com> (http://www.iceddev.com/), Kit Cambridge <github@kitcambridge.be> (http://kitcambridge.be/), Mathias Bynens <mathias@qiwi.be> (https://mathiasbynens.be/)
-Repository: https://github.com/lodash/lodash
-
-> Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-> Based on Underscore.js 1.7.0, copyright 2009-2015 Jeremy Ashkenas,
-> DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
->
-> Permission is hereby granted, free of charge, to any person obtaining
-> a copy of this software and associated documentation files (the
-> "Software"), to deal in the Software without restriction, including
-> without limitation the rights to use, copy, modify, merge, publish,
-> distribute, sublicense, and/or sell copies of the Software, and to
-> permit persons to whom the Software is furnished to do so, subject to
-> the following conditions:
->
-> The above copyright notice and this permission notice shall be
-> included in all copies or substantial portions of the Software.
->
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-> NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-> LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-> OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-> WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## lodash.template, lodash.templatesettings
-
-License: MIT
-By: John-David Dalton <john.david.dalton@gmail.com>, Mathias Bynens <mathias@qiwi.be>
-Repository: https://github.com/lodash/lodash
-
-> Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
->
-> Based on Underscore.js, copyright Jeremy Ashkenas,
-> DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
->
-> This software consists of voluntary contributions made by many
-> individuals. For exact contribution history, see the revision history
-> available at https://github.com/lodash/lodash
->
-> The following license applies to all parts of this software except as
-> documented below:
->
-> ====
->
-> Permission is hereby granted, free of charge, to any person obtaining
-> a copy of this software and associated documentation files (the
-> "Software"), to deal in the Software without restriction, including
-> without limitation the rights to use, copy, modify, merge, publish,
-> distribute, sublicense, and/or sell copies of the Software, and to
-> permit persons to whom the Software is furnished to do so, subject to
-> the following conditions:
->
-> The above copyright notice and this permission notice shall be
-> included in all copies or substantial portions of the Software.
->
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-> NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-> LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-> OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-> WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
->
-> ====
->
-> Copyright and related rights for sample code are waived via CC0. Sample
-> code is defined as all source code displayed within the prose of the
-> documentation.
->
-> CC0: http://creativecommons.org/publicdomain/zero/1.0/
->
-> ====
->
-> Files located in the node_modules and vendor directories are externally
-> maintained libraries used by this software which have their own
-> licenses; we recommend you read them, as their terms may differ from the
-> terms above.
 
 ## lru-cache
 
