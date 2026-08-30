@@ -571,9 +571,9 @@ describe('node/markdown/plugins/include', () => {
         '---\ntitle: x\n---\n\n# Guide\n\n<!-- @include: ./sub/part.md -->\n\npara [a](./a)\nand [b](./b)\n'
       )
       expect(locs).toEqual([
-        { file: path.join(root, 'sub/part.md'), line: 5, column: 1 },
-        { file: path.join(root, 'index.md'), line: 9, column: 6 },
-        { file: path.join(root, 'index.md'), line: 10, column: 5 }
+        { file: slash(path.join(root, 'sub/part.md')), line: 5, column: 1 },
+        { file: slash(path.join(root, 'index.md')), line: 9, column: 6 },
+        { file: slash(path.join(root, 'index.md')), line: 10, column: 5 }
       ])
     })
 
@@ -583,7 +583,7 @@ describe('node/markdown/plugins/include', () => {
 
       const { locs } = await renderLocs('<!-- @include: ./a/one.md -->\n')
       expect(locs).toEqual([
-        { file: path.join(root, 'b/two.md'), line: 1, column: 5 }
+        { file: slash(path.join(root, 'b/two.md')), line: 1, column: 5 }
       ])
     })
 
@@ -597,7 +597,7 @@ describe('node/markdown/plugins/include', () => {
         '<!-- @include: ./sub/part.md#sec -->\n'
       )
       expect(locs).toEqual([
-        { file: path.join(root, 'sub/part.md'), line: 6, column: 4 }
+        { file: slash(path.join(root, 'sub/part.md')), line: 6, column: 4 }
       ])
     })
 
@@ -608,7 +608,7 @@ describe('node/markdown/plugins/include', () => {
         '<!-- @include: ./sub/part.md{2,2} -->\n'
       )
       expect(locs).toEqual([
-        { file: path.join(root, 'sub/part.md'), line: 2, column: 5 }
+        { file: slash(path.join(root, 'sub/part.md')), line: 2, column: 5 }
       ])
     })
 
@@ -623,7 +623,7 @@ describe('node/markdown/plugins/include', () => {
       // location at all; the included file's own subsequent lines resolve
       // exactly
       expect(locs).toEqual([
-        { file: path.join(root, 'sub/part.md'), line: 2, column: 6 }
+        { file: slash(path.join(root, 'sub/part.md')), line: 2, column: 6 }
       ])
     })
 
@@ -656,7 +656,7 @@ describe('node/markdown/plugins/include', () => {
         include: { silent: true }
       })
       expect(env.lineMap!.resolve(0)).toEqual({
-        file: path.join(root, 'index.md'),
+        file: slash(path.join(root, 'index.md')),
         line: 0
       })
     })
@@ -666,14 +666,14 @@ describe('node/markdown/plugins/include', () => {
 
       const { locs } = await renderLocs('<!-- @include: ./sub/part.md -->\n')
       expect(locs).toEqual([
-        { file: path.join(root, 'sub/part.md'), line: 2, column: 8 }
+        { file: slash(path.join(root, 'sub/part.md')), line: 2, column: 8 }
       ])
     })
 
     test('pages without includes get an identity line map', async () => {
       const { env } = await render('# Hi\n\n[a](./a)\n')
       expect(env.lineMap!.resolve(2)).toEqual({
-        file: path.join(root, 'index.md'),
+        file: slash(path.join(root, 'index.md')),
         line: 2
       })
     })

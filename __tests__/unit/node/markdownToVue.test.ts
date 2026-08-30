@@ -5,6 +5,7 @@ import path from 'node:path'
 import { resolveConfig } from 'node/config'
 import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
+import { slash } from 'node/shared'
 
 describe('node/markdownToVue', () => {
   let root: string | undefined
@@ -39,7 +40,7 @@ describe('node/markdownToVue', () => {
     expect(result.deadLinks).toContainEqual({
       url: './missing.md',
       resolved: '/missing',
-      file,
+      file: slash(file),
       line: 5,
       column: 1
     })
@@ -69,7 +70,7 @@ describe('node/markdownToVue', () => {
     expect(result.deadLinks).toContainEqual({
       url: './missing.md',
       resolved: '/missing',
-      file,
+      file: slash(file),
       line: 8,
       column: 1
     })
@@ -105,13 +106,13 @@ describe('node/markdownToVue', () => {
       {
         url: './nope',
         resolved: '/nope',
-        file: partial,
+        file: slash(partial),
         line: 5,
         column: 1,
-        via: file
+        via: slash(file)
       },
-      { url: './a', resolved: '/a', file, line: 9, column: 6 },
-      { url: './b', resolved: '/b', file, line: 10, column: 5 }
+      { url: './a', resolved: '/a', file: slash(file), line: 9, column: 6 },
+      { url: './b', resolved: '/b', file: slash(file), line: 10, column: 5 }
     ])
   })
 
@@ -173,8 +174,8 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(calls).toEqual([
-      ['./skip.md', { file, line: 1, column: 1, url: '/skip' }],
-      ['./keep.md', { file, line: 2, column: 5, url: '/keep' }]
+      ['./skip.md', { file: slash(file), line: 1, column: 1, url: '/skip' }],
+      ['./keep.md', { file: slash(file), line: 2, column: 5, url: '/keep' }]
     ])
     expect(result.deadLinks.map((l) => l.url)).toEqual(['./keep.md'])
   })

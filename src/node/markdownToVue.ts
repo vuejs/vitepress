@@ -60,7 +60,7 @@ export interface DeadLink {
   url: string
   /** the site page path it resolved to, for internal links */
   resolved?: string
-  /** absolute path of the file the link was authored in */
+  /** absolute path of the file the link was authored in, posix-style */
   file: string
   /** 1-based position in `file`, when known */
   line?: number
@@ -204,6 +204,8 @@ export async function createMarkdownToVueRenderFn(
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
+    // reported alongside line-map files, which are posix-style
+    const sourceFile = slash(fileOrig)
 
     function shouldIgnoreDeadLink(link: MarkdownLink, resolved: string) {
       if (!siteConfig?.ignoreDeadLinks) {
@@ -217,7 +219,7 @@ export async function createMarkdownToVueRenderFn(
       }
 
       const context: DeadLinkContext = {
-        file: link.loc?.file ?? fileOrig,
+        file: link.loc?.file ?? sourceFile,
         line: link.loc?.line,
         column: link.loc?.column,
         url: resolved
@@ -273,10 +275,11 @@ export async function createMarkdownToVueRenderFn(
           deadLinks.push({
             url: link.raw,
             ...(resolvedPath != null && { resolved: resolvedPath }),
-            file: loc?.file ?? fileOrig,
+            file: loc?.file ?? sourceFile,
             ...(loc != null && { line: loc.line }),
             ...(loc?.column != null && { column: loc.column }),
-            ...(loc?.file != null && loc.file !== fileOrig && { via: fileOrig })
+            ...(loc?.file != null &&
+              loc.file !== sourceFile && { via: sourceFile })
           })
         }
       }

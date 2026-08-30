@@ -3,7 +3,7 @@ import type MarkdownIt from 'markdown-it'
 import type StateCore from 'markdown-it/lib/rules_core/state_core.mjs'
 import type Token from 'markdown-it/lib/token.mjs'
 
-import type { MarkdownEnv, MarkdownSourceLoc } from '../../shared'
+import { slash, type MarkdownEnv, type MarkdownSourceLoc } from '../../shared'
 
 // consumed source range of an inline token, [start, end) offsets into the
 // inline parser's src. Symbols ride on the token objects themselves, so they
@@ -220,9 +220,13 @@ function sourceLocs(state: StateCore): void {
       // it would be wrong in whichever file it names, so it gets none
       if (resolved?.spliced) continue
 
+      const fallbackFile = env.realPath ?? env.path
       const loc: MarkdownSourceLoc = resolved
         ? { file: resolved.file, line: resolved.line + 1 }
-        : { file: env.realPath ?? env.path, line: line + 1 }
+        : {
+            file: fallbackFile == null ? undefined : slash(fallbackFile),
+            line: line + 1
+          }
 
       // block parsing only ever strips a prefix per line, so the inline line
       // is a suffix of the raw source line; re-align to get the true column

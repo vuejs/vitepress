@@ -66,8 +66,11 @@ export function includePlugin(
   const renderAsync = md.renderAsync.bind(md)
   md.renderAsync = async (src, env?) => {
     const mdEnv = env as MarkdownEnv | undefined
-    const file = mdEnv?.realPath ?? mdEnv?.path
-    if (file == null) return renderAsync(src, env)
+    const rawFile = mdEnv?.realPath ?? mdEnv?.path
+    if (rawFile == null) return renderAsync(src, env)
+    // one separator style for everything stored, compared or reported -
+    // segment files, the ancestor chain and includePath are all posix
+    const file = slash(rawFile)
 
     mdEnv!.includes ??= []
     const expanded = await processIncludes(
@@ -365,7 +368,7 @@ function registerRebaseRules(md: MarkdownItAsync) {
       // the physical file the construct was authored in, resolved through
       // the line map — different from the page means it came from an include
       const sourceFile: string | undefined = token.meta?.vpLoc?.file
-      if (page && sourceFile && sourceFile !== origin) {
+      if (page && sourceFile && origin && sourceFile !== slash(origin)) {
         const attr = rule === 'image' ? 'src' : 'href'
         const url = token.attrGet(attr)
         // a destination resolved from `$frontmatter` belongs to the page the
