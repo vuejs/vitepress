@@ -1163,6 +1163,12 @@ export default {
 }
 ```
 
+## Open in Editor
+
+While running the dev server, hold <kbd>Alt</kbd> (<kbd>Option</kbd> on macOS) and click any rendered block — a heading, paragraph, code block, container — to open your editor at the markdown source it came from. Content pulled in via [file inclusion](#markdown-file-inclusion) opens the included file at the right line. The editor is picked up from your environment; set the [`LAUNCH_EDITOR`](https://github.com/yyx990803/launch-editor#supported-editors) environment variable to override it.
+
+This works by stamping rendered elements with `data-v-inspector` source-location attributes in dev. They never appear in builds, and [Vue DevTools](https://devtools.vuejs.org/)' component inspector understands them too — install [`vite-plugin-vue-devtools`](https://devtools.vuejs.org/guide/vite-plugin) for more advanced inspection. Set `markdown.sourceAttrs: false` to keep the dev DOM attribute-free.
+
 ## Advanced Configuration
 
 VitePress uses [markdown-it](https://github.com/markdown-it/markdown-it) as the Markdown renderer. A lot of the extensions above are implemented via custom plugins. You can further customize the `markdown-it` instance using the `markdown` option in `.vitepress/config.js`:
