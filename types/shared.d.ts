@@ -608,6 +608,13 @@ export interface MarkdownEnv {
    */
   src?: string
   /**
+   * Maps lines of the rendered source (`src`) back to the physical files
+   * they came from, set by the include plugin. Token maps stay in rendered
+   * source coordinates; every position that leaves the markdown layer must
+   * be translated through this.
+   */
+  lineMap?: MarkdownLineMap
+  /**
    * The absolute path of the actual source file on disk: the route template
    * for dynamic routes, or the original file when rewrites are in use.
    */
@@ -623,4 +630,32 @@ export interface MarkdownEnv {
    * @internal
    */
   eagerInterpolations?: { expression: string; value: string }[]
+}
+
+/**
+ * A position in a source file, in editor coordinates.
+ */
+export interface MarkdownSourceLoc {
+  /**
+   * Absolute path of the physical file containing the construct — with
+   * includes, the included file rather than the page. Absent when the render
+   * has no backing file.
+   */
+  file?: string
+  /**
+   * 1-based line in `file`.
+   */
+  line: number
+  /**
+   * 1-based column, present when it could be determined exactly.
+   */
+  column?: number
+}
+
+/**
+ * Maps 0-based lines of the rendered markdown source (`MarkdownEnv.src`) to
+ * the physical file and 0-based line they came from.
+ */
+export interface MarkdownLineMap {
+  resolve(line: number): { file: string; line: number }
 }

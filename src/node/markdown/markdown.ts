@@ -64,6 +64,7 @@ import {
   snippetPlugin,
   type Options as SnippetPluginOptions
 } from './plugins/snippet'
+import { sourcePositionsPlugin } from './plugins/sourcePositions'
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
@@ -580,6 +581,10 @@ export async function createMarkdownRenderer(
   if (options.eagerFrontmatterInterpolation !== false) {
     eagerFrontmatterInterpolationPlugin(md)
   }
+
+  // inline rules are wrapped lazily on first parse, so rules registered by
+  // the `config` hook below are position-tracked too
+  sourcePositionsPlugin(md)
 
   // apply user config
   if (options.config) {
