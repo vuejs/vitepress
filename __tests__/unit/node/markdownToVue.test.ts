@@ -36,9 +36,11 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
-      url: './missing',
+      url: './missing.md',
+      resolved: '/missing',
       file,
-      line: 5
+      line: 5,
+      column: 1
     })
   })
 
@@ -63,10 +65,106 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(result.deadLinks).toContainEqual({
-      url: './missing',
+      url: './missing.md',
+      resolved: '/missing',
       file,
-      line: 8
+      line: 8,
+      column: 1
     })
+  })
+
+  test('reports dead links inside included files at their real location', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const partial = path.join(root, 'part.md')
+    await writeFile(
+      partial,
+      '---\nt: 1\n---\nSome text\n[x](./nope)\nMore text\n'
+    )
+    const src =
+      '---\ntitle: x\n---\n\n# Guide\n\n<!-- @include: ./part.md -->\n\npara [a](./a)\nand [b](./b)\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file)
+
+    expect(result.deadLinks).toEqual([
+      { url: './nope', resolved: '/nope', file: partial, line: 5, column: 1 },
+      { url: './a', resolved: '/a', file, line: 9, column: 6 },
+      { url: './b', resolved: '/b', file, line: 10, column: 5 }
+    ])
+  })
+
+  test('reports the URL as authored alongside the resolved path', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '[a](./a.md)\n\n[b](./b#hash)\n\n[c](./中文.md)\n\n[d](/d)\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file)
+
+    expect(
+      result.deadLinks.map(({ url, resolved }) => ({ url, resolved }))
+    ).toEqual([
+      { url: './a.md', resolved: '/a' },
+      { url: './b#hash', resolved: '/b' },
+      { url: './中文.md', resolved: '/中文' },
+      { url: '/d', resolved: '/d' }
+    ])
+  })
+
+  test('passes the authored link and its context to ignoreDeadLinks filters', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-dead-link-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '[s](./skip.md)\nand [k](./keep.md)\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const calls: unknown[] = []
+    siteConfig.ignoreDeadLinks = [
+      (link, context) => {
+        calls.push([link, context])
+        return link === './skip.md'
+      }
+    ]
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file)
+
+    expect(calls).toEqual([
+      ['./skip.md', { file, line: 1, column: 1, url: '/skip' }],
+      ['./keep.md', { file, line: 2, column: 5, url: '/keep' }]
+    ])
+    expect(result.deadLinks.map((l) => l.url)).toEqual(['./keep.md'])
   })
 
   test('selects included heading sections after frontmatter', async () => {

@@ -520,7 +520,7 @@ export default {
 
 ### ignoreDeadLinks
 
-- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, source: string) => boolean))[]`
+- Type: `boolean | 'localhostLinks' | (string | RegExp | ((link: string, context: DeadLinkContext) => boolean))[]`
 - Default: `false`
 
 When set to `true`, VitePress will not fail builds due to dead links.
@@ -533,20 +533,33 @@ export default {
 }
 ```
 
-It can also be an array of exact url string, regex patterns, or custom filter functions.
+It can also be an array of exact url strings, regex patterns, or custom filter functions. These match the link **as authored in the source**, decoded — for example, a link written as `[docs](./guide/index.md)` is matched as `./guide/index.md`.
 
 ```ts
 export default {
   ignoreDeadLinks: [
-    // ignore exact url "/playground"
+    // ignore links written exactly as "/playground"
     '/playground',
     // ignore all localhost links
     /^https?:\/\/localhost/,
-    // ignore all links include "/repl/""
+    // ignore all links including "/repl/"
     /\/repl\//,
-    // custom function, ignore all links include "ignore"
-    (url) => {
-      return url.toLowerCase().includes('ignore')
+    // custom function, ignore all links including "ignore"
+    (link) => {
+      return link.toLowerCase().includes('ignore')
+    }
+  ]
+}
+```
+
+Filter functions also receive the link's context — the absolute path of the file it was authored in (for links inside [included markdown](../guide/markdown#markdown-file-inclusion), the included file itself), its position, and the URL the check resolved:
+
+```ts
+export default {
+  ignoreDeadLinks: [
+    (link, context) => {
+      // context: { file: string; line?: number; column?: number; url: string }
+      return context.file.includes('/generated/')
     }
   ]
 }

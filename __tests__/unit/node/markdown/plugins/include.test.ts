@@ -654,7 +654,7 @@ describe('node/markdown/plugins/include', () => {
     // meant there
     expect(html).toContain('src="./assets/a.png"')
     expect(html).toContain('href="./other.html"')
-    expect(env.links).toContain('./other')
+    expect(env.links!.map((l) => l.url)).toContain('./other.html')
     // urls authored in the included file still rebase
     expect(html).toContain('src="./shared/local.png"')
   })

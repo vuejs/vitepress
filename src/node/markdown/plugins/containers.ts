@@ -195,7 +195,7 @@ export const gitHubAlertsPlugin = (
 ) => {
   const titles = resolveTitlesByLocale(options, locales)
 
-  md.core.ruler.after('block', 'github-alerts', (state) => {
+  md.core.ruler.after('block', 'vp_github_alerts', (state) => {
     const tokens = state.tokens
     for (let i = 0; i < tokens.length; i++) {
       if (tokens[i].type === 'blockquote_open') {

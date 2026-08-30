@@ -590,13 +590,9 @@ export interface MarkdownEnv {
    */
   relativizeUrls?: boolean
   /**
-   * The URLs of the links collected from the page for the dead link check.
+   * The links collected from the page for the dead link check.
    */
-  links?: string[]
-  /**
-   * The line numbers at which each of `links` appears in the source.
-   */
-  linkLines?: number[]
+  links?: MarkdownLink[]
   /**
    * The absolute paths of the files inlined via `<!--@include-->` and
    * imported via `<<<` code snippets, used for watch invalidation.
@@ -630,6 +626,25 @@ export interface MarkdownEnv {
    * @internal
    */
   eagerInterpolations?: { expression: string; value: string }[]
+}
+
+/**
+ * A link collected while rendering markdown.
+ */
+export interface MarkdownLink {
+  /**
+   * The normalized URL the link renders with, used to resolve the target
+   * page for the dead link check.
+   */
+  url: string
+  /**
+   * The destination as authored in the source, decoded.
+   */
+  raw: string
+  /**
+   * Where the link was authored, when known.
+   */
+  loc?: MarkdownSourceLoc
 }
 
 /**

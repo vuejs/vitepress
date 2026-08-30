@@ -1,10 +1,12 @@
 // markdown-it plugin for:
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
+// 3. collecting links, with their source positions, for the dead link check
 
 import { URL } from 'node:url'
 
 import type { MarkdownItAsync } from 'markdown-it-async'
+import type Token from 'markdown-it/lib/token.mjs'
 
 import {
   EXTERNAL_URL_RE,
@@ -24,20 +26,6 @@ export const linkPlugin = (
   base: string,
   slugify: (str: string) => string
 ) => {
-  md.core.ruler.after('inline', 'vitepress_link_lines', (state) => {
-    for (const token of state.tokens) {
-      if (token.type !== 'inline' || !token.children || !token.map) continue
-
-      const line = token.map[0] + 1
-      for (const child of token.children) {
-        if (child.type === 'link_open') {
-          child.meta ??= {}
-          child.meta.vpLine = line
-        }
-      }
-    }
-  })
-
   md.renderer.rules.link_open = (
     tokens,
     idx,
@@ -52,6 +40,10 @@ export const linkPlugin = (
       token.attrGet('class') !== 'header-anchor' // header anchors are already normalized
     ) {
       const hrefAttr = token.attrs![hrefIndex]
+      // the destination as authored, for dead link reporting - the source
+      // positions plugin captures it before include rebasing runs; fall back
+      // to the current href for tokens it did not see
+      const raw: string = token.meta?.vpRaw ?? safeDecodeURI(hrefAttr[1])
       let [url, frag] = hrefAttr[1].split(':~:', 2)
       hrefAttr[1] = url
       if (isExternal(url)) {
@@ -60,7 +52,7 @@ export const linkPlugin = (
         })
         // catch localhost links as dead link
         if (url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost:')) {
-          pushLink(url, env, token.meta?.vpLine)
+          pushLink(url, raw, env, token)
         }
         hrefAttr[1] = url
       } else {
@@ -77,7 +69,7 @@ export const linkPlugin = (
           // skip links to files (other than html/md)
           treatAsHtml(pathname)
         ) {
-          normalizeHref(hrefAttr, env, token.meta?.vpLine)
+          normalizeHref(hrefAttr, env, raw, token)
         } else if (url.startsWith('#')) {
           hrefAttr[1] = decodeURI(normalizeHash(hrefAttr[1]))
         }
@@ -105,7 +97,8 @@ export const linkPlugin = (
   function normalizeHref(
     hrefAttr: [string, string],
     env: MarkdownEnv,
-    line?: number
+    raw: string,
+    token: Token
   ) {
     let url = hrefAttr[1]
 
@@ -143,7 +136,7 @@ export const linkPlugin = (
     }
 
     // export it for existence check
-    pushLink(url.replace(/\.html$/, ''), env, line)
+    pushLink(url, raw, env, token)
 
     // markdown-it encodes the uri
     hrefAttr[1] = decodeURI(url)
@@ -153,12 +146,15 @@ export const linkPlugin = (
     return str ? encodeURI('#' + slugify(decodeURI(str).slice(1))) : ''
   }
 
-  function pushLink(link: string, env: MarkdownEnv, line?: number) {
-    const links = env.links || (env.links = [])
-    links.push(link)
-    if (line != null) {
-      const linkLines = env.linkLines || (env.linkLines = [])
-      linkLines[links.length - 1] = line
-    }
+  function pushLink(url: string, raw: string, env: MarkdownEnv, token: Token) {
+    ;(env.links ??= []).push({ url, raw, loc: token.meta?.vpLoc })
+  }
+}
+
+function safeDecodeURI(str: string): string {
+  try {
+    return decodeURI(str)
+  } catch {
+    return str
   }
 }
