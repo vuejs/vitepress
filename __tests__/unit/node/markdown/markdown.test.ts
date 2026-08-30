@@ -42,6 +42,14 @@ describe('node/markdown/markdown', () => {
       expect(await render(':tada:', { emoji: false })).toContain(':tada:')
     })
 
+    test('frontmatterExpressions', async () => {
+      const src = '---\ntitle: Hello\n---\n\n{{ $frontmatter.title }}'
+      expect(await render(src)).toContain('<p>Hello</p>')
+
+      const disabled = await render(src, { frontmatterExpressions: false })
+      expect(disabled).toContain('<p>{{ $frontmatter.title }}</p>')
+    })
+
     test('tasklist', async () => {
       const src = '- [ ] todo'
       expect(await render(src)).toContain('<input type="checkbox"')

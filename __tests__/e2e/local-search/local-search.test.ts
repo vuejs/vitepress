@@ -83,6 +83,28 @@ describe('local search', () => {
     ).toBe(0)
   })
 
+  test('resolves $frontmatter expressions in search results', async () => {
+    await page.locator('.VPNavBarSearchButton').click()
+
+    const input = await page.waitForSelector('input#localsearch-input')
+    await input.type('Frontmatter Title Resolved')
+
+    const searchResults = page.locator('#localsearch-list')
+    await page.waitForFunction(() => {
+      return document.querySelectorAll('#localsearch-list li[role=option]')
+        .length
+    })
+
+    expect(
+      await searchResults
+        .filter({ hasText: 'Frontmatter Title Resolved' })
+        .count()
+    ).toBe(1)
+    expect(
+      await searchResults.filter({ hasText: '$frontmatter.title' }).count()
+    ).toBe(0)
+  })
+
   test('custom tokenize function reaches the client', async () => {
     await page.locator('.VPNavBarSearchButton').click()
 
