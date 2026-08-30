@@ -174,7 +174,6 @@ export async function createMarkdownToVueRenderFn(
       throw e
     }
     const {
-      content,
       frontmatter = {},
       headers = [],
       includes = [],
@@ -183,10 +182,6 @@ export async function createMarkdownToVueRenderFn(
       sfcBlocks,
       title = ''
     } = env
-    src = env.src ?? src
-    const contentLineOffset = countLineBreaks(
-      content && src.endsWith(content) ? src.slice(0, -content.length) : ''
-    )
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
@@ -219,10 +214,7 @@ export async function createMarkdownToVueRenderFn(
       const dir = path.dirname(file)
       for (const [index, rawUrl] of links.entries()) {
         let url = rawUrl
-        const line =
-          linkLines[index] == null
-            ? undefined
-            : linkLines[index] + contentLineOffset
+        const line = linkLines[index] == null ? undefined : linkLines[index]
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -388,10 +380,6 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   }
 
   return (head && getHeadMetaContent(head, 'description')) || ''
-}
-
-function countLineBreaks(str: string) {
-  return str.match(/\r?\n/g)?.length ?? 0
 }
 
 const getHeadMetaContent = (head: HeadConfig[], name: string) => {

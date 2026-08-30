@@ -4,10 +4,7 @@ import {
   componentPlugin,
   type ComponentPluginOptions
 } from '@mdit-vue/plugin-component'
-import {
-  frontmatterPlugin,
-  type FrontmatterPluginOptions
-} from '@mdit-vue/plugin-frontmatter'
+import type { FrontmatterPluginOptions } from '@mdit-vue/plugin-frontmatter'
 import {
   headersPlugin,
   type HeadersPluginOptions
@@ -52,6 +49,7 @@ import {
   type ContainerOptions
 } from './plugins/containers'
 import { eagerFrontmatterInterpolationPlugin } from './plugins/eagerFrontmatterInterpolation'
+import { frontmatterPlugin } from './plugins/frontmatter'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import {
