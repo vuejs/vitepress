@@ -80,9 +80,6 @@ export interface TransformPageContext<ThemeConfig = any> {
 }
 
 /**
- * VitePress config, usually defined in `.vitepress/config.[ext]`.
- */
-/**
  * Where and how a checked link was authored, passed to `ignoreDeadLinks`
  * filter functions.
  */
@@ -104,6 +101,9 @@ export interface DeadLinkContext {
   url: string
 }
 
+/**
+ * VitePress config, usually defined in `.vitepress/config.[ext]`.
+ */
 export interface UserConfig<
   ThemeConfig = any
 > extends LocaleSpecificConfig<ThemeConfig> {
