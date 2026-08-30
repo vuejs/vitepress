@@ -195,6 +195,7 @@ export async function scaffold({
     autoEscape: false,
     autoTrim: false
   })
+
   const renderFile = async (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
