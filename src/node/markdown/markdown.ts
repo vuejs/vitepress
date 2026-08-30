@@ -336,7 +336,10 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * to simple primitive values in the page's own frontmatter are inlined -
    * anything else (complex expressions, missing keys, non-primitive values,
    * `v-pre` scopes) keeps its runtime interpolation. Set to `false` to leave
-   * all interpolation to the Vue runtime.
+   * all interpolation to the Vue runtime - for example when
+   * `transformPageData` rewrites frontmatter values that pages interpolate,
+   * which would otherwise render the pre-transform value (a warning is
+   * logged when that happens).
    *
    * @experimental
    * @default true
@@ -553,9 +556,6 @@ export async function createMarkdownRenderer(
   // https://github.com/jonschlinkert/gray-matter/blob/310f9349381775d10a221cef903989eb5acc8843/index.js#L44-L47
   ;(options.frontmatter ??= {}).grayMatterOptions ??= {}
   frontmatterPlugin(md, options.frontmatter)
-  if (options.eagerFrontmatterInterpolation !== false) {
-    eagerFrontmatterInterpolationPlugin(md)
-  }
   if (options.headers) {
     headersPlugin(md, {
       level: [2, 3, 4, 5, 6],
@@ -575,6 +575,12 @@ export async function createMarkdownRenderer(
         return tocOptions?.format?.(title) ?? title
       }
     })
+  }
+  // applied after anchor/title so its finalize rule runs once their rules
+  // have extracted the plain resolved text; its main rule is anchored right
+  // after `text_join` regardless of when the plugin is applied
+  if (options.eagerFrontmatterInterpolation !== false) {
+    eagerFrontmatterInterpolationPlugin(md)
   }
 
   // apply user config

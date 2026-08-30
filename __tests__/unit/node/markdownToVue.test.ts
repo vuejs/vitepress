@@ -3,6 +3,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 import { resolveConfig } from 'node/config'
+import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 
 describe('node/markdownToVue', () => {
@@ -152,5 +153,48 @@ describe('node/markdownToVue', () => {
     const result = await render('# Home\n', 'C:/site/docs/en/index.md')
 
     expect(result.pageData.relativePath).toBe('index.md')
+  })
+
+  test('warns when transformPageData rewrites an interpolated value', async () => {
+    disposeMdItInstance()
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-eager-'))
+
+    const file = path.join(root, 'index.md')
+    const src = '---\ntitle: Old\n---\n\n# {{ $frontmatter.title }}\n'
+    await writeFile(file, src)
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const warnings: string[] = []
+    siteConfig.logger = {
+      ...siteConfig.logger,
+      warn: (msg: string) => warnings.push(msg)
+    }
+    siteConfig.transformPageData = (pageData) => {
+      pageData.frontmatter.title = 'New'
+    }
+
+    const render = await createMarkdownToVueRenderFn(
+      siteConfig.srcDir,
+      { cache: false },
+      '/',
+      false,
+      false,
+      siteConfig
+    )
+
+    const result = await render(src, file)
+    expect(result.vueSrc).toContain('Old')
+    expect(warnings.join('\n')).toContain('{{ $frontmatter.title }}')
+
+    // keys only added by the transform are left to the runtime - no warning
+    warnings.length = 0
+    siteConfig.transformPageData = (pageData) => {
+      pageData.frontmatter.added = 'later'
+    }
+    const src2 =
+      '---\ntitle: Old\n---\n\n{{ $frontmatter.title }} {{ $frontmatter.added }}\n'
+    await writeFile(file, src2)
+    await render(src2, file)
+    expect(warnings).toHaveLength(0)
   })
 })

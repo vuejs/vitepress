@@ -12,6 +12,9 @@ const interpolationRE = /\{\{([^]+?)\}\}/g
 // destinations while tokenizing, so the delimiters may appear encoded
 const destInterpolationRE = /(?:\{\{|%7B%7B)([^]*?)(?:\}\}|%7D%7D)/gi
 
+// page-level gate for either spelling
+const anyInterpolationRE = /\{\{|%7B%7B/i
+
 // a statically resolvable path after `$frontmatter`: any number of `.key`,
 // `[<index>]`, `['<key>']` or `["<key>"]` segments. Leading-zero indices and
 // string escapes are excluded - the runtime handles those. Keep both
@@ -21,22 +24,42 @@ const pathRE =
 const segmentRE =
   /\.\s*([A-Za-z_$][\w$]*)|\[\s*(?:(0|[1-9]\d*)|'([^'\\]*)'|"([^"\\]*)")\s*\]/g
 
-// an opening html tag carrying `v-pre`, e.g. `<span v-pre>`, and the tag
-// name of any html tag, for tracking where that scope ends
-const vPreOpenRE = /^<[A-Za-z][\w-]*\s[^>]*(?<=\s)v-pre(?=[\s=/>])/
-const htmlTagRE = /^<(\/?)([A-Za-z][\w-]*)/
-const vPreRE = /\bv-pre\b/
+// one raw html tag: closing slash, name, attributes (a quoted value may
+// contain `>`), self-closing slash
+const htmlTagRE = /<(\/?)([A-Za-z][\w-]*)((?:[^"'>]|"[^"]*"|'[^']*')*?)(\/?)>/g
+const htmlCommentRE = /<!--[^]*?-->/g
+// script/style/textarea/title content is raw text, not markup
+const rawTextElementRE = /<(script|style|textarea|title)\b[^]*?<\/\1\s*>/gi
+const vPreAttrRE = /(?:^|\s)v-pre(?=[\s=/]|$)/
+// void elements never take a closing tag, so v-pre on them opens no scope
+const voidTagRE =
+  /^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/
 
 type Resolve = (expr: string) => string | undefined
 
+interface EagerInterpolation {
+  expression: string
+  value: string
+}
+
+interface VPreScope {
+  tag: string
+  depth: number
+}
+
 export const eagerFrontmatterInterpolationPlugin = (md: MarkdownItAsync) => {
-  // before the rules other plugins push (anchor, toc, ...), so slugs and
-  // extracted titles are derived from the resolved text
+  // the main rule is anchored right after `text_join`, before the rules
+  // other plugins push (anchor, title, ...), so slugs and extracted titles
+  // are derived from the resolved text
   md.core.ruler.after(
     'text_join',
     'vp_eager_frontmatter_interpolation',
-    (state) => eagerFrontmatterInterpolation(md, state)
+    eagerFrontmatterInterpolation
   )
+
+  // the finalize rule is pushed when this plugin is applied - which must be
+  // after anchor/title so it runs once their rules have read the plain text
+  md.core.ruler.push('vp_eager_frontmatter_finalize', finalize)
 
   // resolved values render with their own escaping (see `escapeValue`);
   // everything else keeps the existing text rule
@@ -47,20 +70,84 @@ export const eagerFrontmatterInterpolationPlugin = (md: MarkdownItAsync) => {
       : textRule(tokens, idx, options, env, self)
 }
 
-function eagerFrontmatterInterpolation(
-  md: MarkdownItAsync,
-  state: StateCore
-): void {
-  const { frontmatter } = state.env as MarkdownEnv
-  if (!frontmatter || !state.src.includes('{{')) return
+export function findStaleEagerInterpolations(
+  interpolations: EagerInterpolation[],
+  frontmatter: Record<string, unknown>
+): string[] {
+  const resolve = createResolver(frontmatter)
+  const stale = interpolations
+    .filter(({ expression, value }) => resolve(expression) !== value)
+    .map(({ expression }) => expression)
+  return [...new Set(stale)]
+}
 
+function eagerFrontmatterInterpolation(state: StateCore): void {
+  const { frontmatter } = state.env as MarkdownEnv
+  if (!frontmatter || !anyInterpolationRE.test(state.src)) return
+
+  const resolve = createResolver(frontmatter)
+
+  // an unclosed v-pre element opened by a raw html block scopes over the
+  // markdown after it until later raw html closes it
+  let blockScope: VPreScope | undefined
+  let skipLevel: number | null = null
+  for (const token of state.tokens) {
+    if (token.type === 'html_block') {
+      blockScope = scanRawHtml(token.content, blockScope)
+      continue
+    }
+    if (skipLevel !== null) {
+      if (token.nesting === -1 && token.level === skipLevel) skipLevel = null
+      continue
+    }
+    if (
+      token.nesting === 1 &&
+      (token.type === 'container_v-pre_open' || hasVPre(token))
+    ) {
+      skipLevel = token.level
+      continue
+    }
+    if (token.type !== 'inline' || !token.children) continue
+    if (blockScope) {
+      // a stray closing tag inside a paragraph still ends the scope, but the
+      // paragraph itself stays with the runtime
+      for (const child of token.children) {
+        if (child.type === 'html_inline')
+          blockScope = scanRawHtml(child.content, blockScope)
+      }
+      continue
+    }
+    processInline(state, token, resolve)
+  }
+}
+
+// after anchor ids and the page title have been extracted from the plain
+// text, retype values the shared `text` renderer rule - which user config
+// may replace - could not safely emit: braces would compile as
+// interpolations and entity look-alikes would decode. `html_inline` renders
+// its content verbatim, so these carry their own escaping.
+const unsafeAsTextRE = /[{}]|&[\w#]+;/
+function finalize(state: StateCore): void {
+  if (!(state.env as MarkdownEnv).eagerInterpolations?.length) return
+  for (const token of state.tokens) {
+    if (token.type !== 'inline' || !token.children) continue
+    for (const child of token.children) {
+      if (child.meta?.frontmatterValue && unsafeAsTextRE.test(child.content)) {
+        child.type = 'html_inline'
+        child.content = escapeValue(child.content)
+      }
+    }
+  }
+}
+
+function createResolver(frontmatter: Record<string, unknown>): Resolve {
   // the runtime `$frontmatter` is the frontmatter after the JSON round-trip
   // into `__pageData` (see `injectPageDataCode`), so resolve against the
   // same view of the data - dates become ISO strings and non-JSON values
   // are dropped
   let data: unknown
   let failed = false
-  const resolve: Resolve = (rawExpr) => {
+  return (rawExpr) => {
     const expr = rawExpr.trim()
     if (!expr.startsWith('$frontmatter')) return undefined
     const path = expr.slice('$frontmatter'.length)
@@ -91,29 +178,40 @@ function eagerFrontmatterInterpolation(
     }
     return display(value)
   }
+}
 
-  let skipLevel: number | null = null
-  for (const token of state.tokens) {
-    if (skipLevel !== null) {
-      if (token.nesting === -1 && token.level === skipLevel) skipLevel = null
-    } else if (token.type === 'html_block') {
-      // a raw html block can open a `v-pre` scope spanning the markdown
-      // after it; that cannot be delimited without parsing the html, so
-      // leave the rest of the page to the runtime
-      if (vPreRE.test(token.content)) return
+// scans a chunk of raw html, entering and leaving `v-pre` element scopes the
+// way Vue's parser would: quoted attribute values may contain `>`, tag names
+// match case-insensitively, self-closing and void tags open no scope, and
+// comments and raw-text elements (script/style/...) are not markup
+function scanRawHtml(
+  html: string,
+  scope: VPreScope | undefined
+): VPreScope | undefined {
+  const src = html.replace(htmlCommentRE, '').replace(rawTextElementRE, '')
+  htmlTagRE.lastIndex = 0
+  let m: RegExpExecArray | null
+  while ((m = htmlTagRE.exec(src))) {
+    const [, closing, rawTag, attrs, selfClosing] = m
+    const tag = rawTag.toLowerCase()
+    if (scope) {
+      if (tag === scope.tag && !selfClosing) {
+        scope.depth += closing ? -1 : 1
+        if (!scope.depth) scope = undefined
+      }
     } else if (
-      token.nesting === 1 &&
-      (token.type === 'container_v-pre_open' || hasVPre(token))
+      !closing &&
+      !selfClosing &&
+      !voidTagRE.test(tag) &&
+      vPreAttrRE.test(attrs)
     ) {
-      skipLevel = token.level
-    } else if (token.type === 'inline' && token.children) {
-      processInline(md, state, token, resolve)
+      scope = { tag, depth: 1 }
     }
   }
+  return scope
 }
 
 function processInline(
-  md: MarkdownItAsync,
   state: StateCore,
   inline: Token,
   resolve: Resolve
@@ -122,40 +220,60 @@ function processInline(
 
   let out: Token[] | undefined
   let skipLevel: number | null = null
-  let preTag: string | undefined
-  let preDepth = 0
+  // scopes opened by raw inline tags end with the paragraph - Vue closes
+  // unclosed inline elements at the enclosing block's end tag
+  let scope: VPreScope | undefined
 
   for (let i = 0; i < children.length; i++) {
     const child = children[i]
     let replacement: Token[] | undefined
-    if (skipLevel !== null) {
-      if (child.nesting === -1 && child.level === skipLevel) skipLevel = null
-    } else if (child.type === 'html_inline') {
-      // track raw inline `v-pre` elements the way Vue scopes them
-      const [, closing, tag] = htmlTagRE.exec(child.content) ?? []
-      if (preTag) {
-        if (tag === preTag) preDepth += closing ? -1 : 1
-        if (!preDepth) preTag = undefined
-      } else if (
-        vPreOpenRE.test(child.content) &&
-        !child.content.endsWith('/>')
-      ) {
-        preTag = tag
-        preDepth = 1
-      }
-    } else if (preTag) {
+    if (child.type === 'html_inline') {
+      scope = scanRawHtml(child.content, scope)
+    } else if (scope) {
       // inside a raw v-pre element - leave everything to the runtime
+    } else if (skipLevel !== null) {
+      if (child.nesting === -1 && child.level === skipLevel) skipLevel = null
     } else if (child.nesting === 1 && hasVPre(child)) {
       skipLevel = child.level
     } else if (child.type === 'text' && child.content.includes('{{')) {
-      replacement = replaceInterpolations(state, child, resolve)
+      replacement = replaceInterpolations(state, children, i, resolve)
     } else if (child.type === 'link_open' || child.type === 'image') {
-      resolveDest(md, child, child.type === 'image' ? 'src' : 'href', resolve)
+      resolveDest(
+        state,
+        child,
+        child.type === 'image' ? 'src' : 'href',
+        resolve
+      )
     }
     if (replacement && !out) out = children.slice(0, i)
     if (out) out.push(...(replacement ?? [child]))
   }
   if (out) inline.children = out
+}
+
+// how the neighbor beyond any whitespace looks from a text token: entering a
+// raw inline element, leaving one, or neither
+function rawTagBoundary(
+  children: Token[],
+  i: number,
+  dir: -1 | 1
+): { kind: 'open' | 'close' | null; sawBreak: boolean } {
+  let sawBreak = false
+  for (let j = i + dir; j >= 0 && j < children.length; j += dir) {
+    const t = children[j]
+    if (t.type === 'softbreak') {
+      sawBreak = true
+      continue
+    }
+    if (t.type !== 'html_inline') break
+    htmlTagRE.lastIndex = 0
+    const m = htmlTagRE.exec(t.content)
+    if (!m) break
+    const [, closing, tag, , selfClosing] = m
+    if (selfClosing || voidTagRE.test(tag.toLowerCase())) break
+    return { kind: closing ? 'close' : 'open', sawBreak }
+  }
+  return { kind: null, sawBreak }
 }
 
 // splits a text token around its resolved interpolations; the values become
@@ -164,16 +282,36 @@ function processInline(
 // escaping
 function replaceInterpolations(
   state: StateCore,
-  token: Token,
+  children: Token[],
+  index: number,
   resolve: Resolve
 ): Token[] | undefined {
+  const token = children[index]
   const src = token.content
+  const left = rawTagBoundary(children, index, -1)
+  const right = rawTagBoundary(children, index, 1)
   let out: Token[] | undefined
   let lastIndex = 0
 
   for (const m of src.matchAll(interpolationRE)) {
     const value = resolve(m[1])
     if (value === undefined) continue
+    // an inlined value merges with adjacent whitespace into one text node,
+    // which Vue's whitespace condensing keeps - while the runtime's
+    // whitespace-only text nodes at raw inline element edges are removed.
+    // `<code> {{ x }} </code>` must stay with the runtime to render the same.
+    const before = src.slice(0, m.index)
+    const after = src.slice(m.index + m[0].length)
+    if (
+      (left.kind === 'open' &&
+        !before.trim() &&
+        (before !== '' || left.sawBreak)) ||
+      (right.kind === 'close' &&
+        !after.trim() &&
+        (after !== '' || right.sawBreak))
+    ) {
+      continue
+    }
     out ??= []
     if (m.index > lastIndex) {
       out.push(textToken(state, token, src.slice(lastIndex, m.index)))
@@ -181,6 +319,7 @@ function replaceInterpolations(
     const valueToken = textToken(state, token, value)
     valueToken.meta = { frontmatterValue: true }
     out.push(valueToken)
+    record(state, m[1], value)
     lastIndex = m.index + m[0].length
   }
 
@@ -195,7 +334,7 @@ function replaceInterpolations(
 // destination goes through the same normalization and validation a literal
 // one would
 function resolveDest(
-  md: MarkdownItAsync,
+  state: StateCore,
   token: Token,
   attr: string,
   resolve: Resolve
@@ -203,21 +342,34 @@ function resolveDest(
   const url = token.attrGet(attr)
   if (!url) return
 
-  let changed = false
-  const resolved = url.replace(destInterpolationRE, (match, rawExpr) => {
+  const resolved: EagerInterpolation[] = []
+  const next = url.replace(destInterpolationRE, (match, rawExpr) => {
     let expr = rawExpr as string
     try {
       expr = decodeURIComponent(expr)
     } catch {}
     const value = resolve(expr)
     if (value === undefined) return match
-    changed = true
+    resolved.push({ expression: expr, value })
     return value
   })
-  if (!changed) return
+  if (!resolved.length) return
 
-  const normalized = md.normalizeLink(resolved)
-  if (md.validateLink(normalized)) token.attrSet(attr, normalized)
+  const normalized = state.md.normalizeLink(next)
+  if (!state.md.validateLink(normalized)) return
+  token.attrSet(attr, normalized)
+  // the value belongs to the page whose frontmatter it came from - the
+  // include plugin must not rebase it against an included file's directory
+  token.meta = { ...token.meta, frontmatterDest: true }
+  for (const r of resolved) record(state, r.expression, r.value)
+}
+
+function record(state: StateCore, expression: string, value: string): void {
+  const env = state.env as MarkdownEnv
+  ;(env.eagerInterpolations ??= []).push({
+    expression: expression.trim(),
+    value
+  })
 }
 
 function textToken(state: StateCore, from: Token, content: string): Token {
@@ -234,22 +386,26 @@ const unstableWhitespaceRE = /[\t\n\r\f]|^ | $| {2}/
 
 // mirrors Vue's `toDisplayString`, restricted to values that inline
 // losslessly: non-empty primitive text that survives the template
-// compiler's whitespace condensing. Anything else - including `null`, which
-// renders as an empty string but is also the classic "filled in later by
+// compiler's whitespace condensing and cannot smuggle markup into extracted
+// titles and headers. Anything else - including `null`, which renders as an
+// empty string but is also the classic "filled in later by
 // `transformPageData`" placeholder - stays on the runtime.
 function display(value: unknown): string | undefined {
   if (value == null || typeof value === 'object') return undefined
   const text = typeof value === 'string' ? value : String(value)
-  return text === '' || unstableWhitespaceRE.test(text) ? undefined : text
+  return text === '' || text.includes('<') || unstableWhitespaceRE.test(text)
+    ? undefined
+    : text
 }
 
 // entity-encode the value so the Vue template compiler reads back exactly
-// this text: html syntax must not be parsed as markup, entity look-alikes
-// must survive the compiler's decoding, and `{` must never reach the
-// compiler as a possible interpolation start
+// this text: `{` must never reach the compiler as a possible interpolation
+// start, and entity look-alikes must survive the compiler's decoding. `&` is
+// encoded numerically so downstream passes that undo `&amp;`
+// double-encoding (the toc `format` hook) leave it alone.
 function escapeValue(value: string): string {
   return value
-    .replace(/&/g, '&amp;')
+    .replace(/&/g, '&#38;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\{/g, '&#123;')
