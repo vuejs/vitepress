@@ -45,7 +45,7 @@ async function renderBody(body: string) {
   return (await render(frontmatter + body)).trim()
 }
 
-describe('node/markdown/plugins/frontmatterExpressions', () => {
+describe('node/markdown/plugins/eagerFrontmatterInterpolation', () => {
   test('resolves property paths and escapes the value', async () => {
     const html = await render(`\
 ---
@@ -218,7 +218,7 @@ logo: /logo.png
       ].join('\n\n')
 
       const runtimeEnv: any = {}
-      const runtimeMd = await createMd({ frontmatterExpressions: false })
+      const runtimeMd = await createMd({ eagerFrontmatterInterpolation: false })
       const runtimeHtml = await runtimeMd.renderAsync(
         frontmatter + body,
         runtimeEnv

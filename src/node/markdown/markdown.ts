@@ -51,7 +51,7 @@ import {
   gitHubAlertsPlugin,
   type ContainerOptions
 } from './plugins/containers'
-import { frontmatterExpressionsPlugin } from './plugins/frontmatterExpressions'
+import { eagerFrontmatterInterpolationPlugin } from './plugins/eagerFrontmatterInterpolation'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import {
@@ -341,7 +341,7 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @experimental
    * @default true
    */
-  frontmatterExpressions?: boolean
+  eagerFrontmatterInterpolation?: boolean
   /**
    * Options for `@mdit-vue/plugin-sfc`.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
@@ -553,8 +553,8 @@ export async function createMarkdownRenderer(
   // https://github.com/jonschlinkert/gray-matter/blob/310f9349381775d10a221cef903989eb5acc8843/index.js#L44-L47
   ;(options.frontmatter ??= {}).grayMatterOptions ??= {}
   frontmatterPlugin(md, options.frontmatter)
-  if (options.frontmatterExpressions !== false) {
-    frontmatterExpressionsPlugin(md)
+  if (options.eagerFrontmatterInterpolation !== false) {
+    eagerFrontmatterInterpolationPlugin(md)
   }
   if (options.headers) {
     headersPlugin(md, {

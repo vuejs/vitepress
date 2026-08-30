@@ -29,11 +29,13 @@ const vPreRE = /\bv-pre\b/
 
 type Resolve = (expr: string) => string | undefined
 
-export const frontmatterExpressionsPlugin = (md: MarkdownItAsync) => {
+export const eagerFrontmatterInterpolationPlugin = (md: MarkdownItAsync) => {
   // before the rules other plugins push (anchor, toc, ...), so slugs and
   // extracted titles are derived from the resolved text
-  md.core.ruler.after('text_join', 'vp_frontmatter_expressions', (state) =>
-    frontmatterExpressions(md, state)
+  md.core.ruler.after(
+    'text_join',
+    'vp_eager_frontmatter_interpolation',
+    (state) => eagerFrontmatterInterpolation(md, state)
   )
 
   // resolved values render with their own escaping (see `escapeValue`);
@@ -45,7 +47,10 @@ export const frontmatterExpressionsPlugin = (md: MarkdownItAsync) => {
       : textRule(tokens, idx, options, env, self)
 }
 
-function frontmatterExpressions(md: MarkdownItAsync, state: StateCore): void {
+function eagerFrontmatterInterpolation(
+  md: MarkdownItAsync,
+  state: StateCore
+): void {
   const { frontmatter } = state.env as MarkdownEnv
   if (!frontmatter || !state.src.includes('{{')) return
 
