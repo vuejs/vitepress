@@ -9,6 +9,7 @@ import type {
   MarkdownLocaleOptions
 } from '../../shared'
 import { extractTitle } from './preWrapper'
+import { SOURCE_LOC_ATTR } from './sourceAttrs'
 
 export type { ContainerOptions } from '../../shared'
 
@@ -184,7 +185,12 @@ function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {
       }
     }
 
-    return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+    const sourceLoc = tokens[idx].attrGet(SOURCE_LOC_ATTR)
+    const sourceLocAttr = sourceLoc
+      ? ` ${SOURCE_LOC_ATTR}="${md.utils.escapeHtml(sourceLoc)}"`
+      : ''
+
+    return `<div class="vp-code-group"${sourceLocAttr}><div class="tabs">${tabs}</div><div class="blocks">\n`
   }
 }
 
@@ -235,6 +241,10 @@ export const gitHubAlertsPlugin = (
   })
   md.renderer.rules.github_alert_open = function (tokens, idx) {
     const { title, type } = tokens[idx].meta
-    return `<div class="${type} custom-block github-alert"><p class="custom-block-title">${title}</p>\n`
+    const sourceLoc = tokens[idx].attrGet(SOURCE_LOC_ATTR)
+    const sourceLocAttr = sourceLoc
+      ? ` ${SOURCE_LOC_ATTR}="${md.utils.escapeHtml(sourceLoc)}"`
+      : ''
+    return `<div class="${type} custom-block github-alert"${sourceLocAttr}><p class="custom-block-title">${title}</p>\n`
   }
 }

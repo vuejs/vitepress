@@ -30,7 +30,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -59,7 +60,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -93,7 +95,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -119,7 +122,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -155,7 +159,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -210,7 +215,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)
@@ -245,7 +251,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render('# Home\n', 'C:/site/docs/en/index.md')
@@ -277,7 +284,8 @@ describe('node/markdownToVue', () => {
       '/',
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const result = await render(src, file)

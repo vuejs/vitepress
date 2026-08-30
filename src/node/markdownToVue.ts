@@ -119,7 +119,8 @@ export async function createMarkdownToVueRenderFn(
   base: string,
   includeLastUpdatedData: boolean,
   cleanUrls: boolean,
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig,
+  dev: boolean
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -144,7 +145,7 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = slash(path.relative(srcDir, file))
 
     const srcHash = hash('sha256', src, 'base64url')
-    const cacheKey = `${srcHash}:${ts}:${relativePath}`
+    const cacheKey = `${srcHash}:${ts}:${dev}:${relativePath}`
     if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -176,7 +177,10 @@ export async function createMarkdownToVueRenderFn(
       relativizeUrls: true,
       includes: [],
       realPath: fileOrig,
-      localeIndex
+      localeIndex,
+      // page renders in dev carry source-location attributes for
+      // jump-to-source; everything else stays clean
+      emitSourceLoc: dev
     }
     let html: string
     try {

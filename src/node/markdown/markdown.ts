@@ -64,6 +64,7 @@ import {
   snippetPlugin,
   type Options as SnippetPluginOptions
 } from './plugins/snippet'
+import { sourceAttrsPlugin } from './plugins/sourceAttrs'
 import { sourcePositionsPlugin } from './plugins/sourcePositions'
 import { tablePlugin } from './plugins/table'
 
@@ -349,6 +350,17 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
    */
   sfc?: SfcPluginOptions
+  /**
+   * Stamp rendered block elements with the source file, line and column they
+   * were authored at (`data-v-inspector` attributes) while running the dev
+   * server, so alt+click and the Vue DevTools component inspector jump the
+   * editor to the markdown source — for content pulled in via
+   * `<!--@include-->`, the included file. Never affects builds, the local
+   * search index or content loader output. Set to `false` to keep the dev
+   * DOM attribute-free.
+   * @default true
+   */
+  sourceAttrs?: boolean
 }
 
 // folds `locales.<index>.markdown` entries from the site config into
@@ -585,6 +597,9 @@ export async function createMarkdownRenderer(
   // inline rules are wrapped lazily on first parse, so rules registered by
   // the `config` hook below are position-tracked too
   sourcePositionsPlugin(md)
+  if (options.sourceAttrs !== false) {
+    sourceAttrsPlugin(md)
+  }
 
   // apply user config
   if (options.config) {

@@ -626,6 +626,13 @@ export interface MarkdownEnv {
    * @internal
    */
   eagerInterpolations?: { expression: string; value: string }[]
+  /**
+   * Whether to stamp rendered block elements with their source location
+   * (`data-v-inspector` attributes). Set for page renders in dev; envs
+   * without it (local search, content loaders, builds) render clean HTML.
+   * @internal
+   */
+  emitSourceLoc?: boolean
 }
 
 /**

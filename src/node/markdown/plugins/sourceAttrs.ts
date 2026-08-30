@@ -1,0 +1,53 @@
+import path from 'node:path'
+
+import type { MarkdownItAsync } from 'markdown-it-async'
+
+import { slash, type MarkdownEnv } from '../../shared'
+
+/**
+ * The attribute carrying an element's source location in dev,
+ * `"cwd-relative-path:line:column"` (1-based, both parts required by every
+ * consumer's parser). It is the attribute `vite-plugin-vue-inspector`'s
+ * overlay reads off arbitrary DOM elements — markdown content compiles into
+ * static vnodes without per-element instrumentation, so the attribute is the
+ * only channel — and what VitePress's own dev open-in-editor handler uses.
+ */
+export const SOURCE_LOC_ATTR = 'data-v-inspector'
+
+/**
+ * Stamps rendered block elements with the source location they were authored
+ * at (include-aware via `env.lineMap`). Only runs for envs that opt in
+ * (`env.emitSourceLoc`, set for page renders in dev) — local search
+ * indexing, content loaders and builds stay byte-identical.
+ *
+ * Renderers that build their markup by hand (fences, code groups, GitHub
+ * alerts) re-emit the attribute themselves; `html_block` is skipped since
+ * raw HTML and Vue components render their content verbatim.
+ */
+export function sourceAttrsPlugin(md: MarkdownItAsync): void {
+  md.core.ruler.push('vp_source_attrs', (state) => {
+    const env = state.env as MarkdownEnv
+    if (!env.emitSourceLoc) return
+
+    for (const token of state.tokens) {
+      if (
+        !token.map ||
+        token.nesting < 0 ||
+        token.hidden ||
+        !token.tag ||
+        token.type === 'inline' ||
+        token.type === 'html_block'
+      ) {
+        continue
+      }
+      const { file, line } = env.lineMap
+        ? env.lineMap.resolve(token.map[0])
+        : { file: env.realPath ?? env.path, line: token.map[0] }
+      if (!file) continue
+      token.attrSet(
+        SOURCE_LOC_ATTR,
+        `${slash(path.relative(process.cwd(), file))}:${line + 1}:1`
+      )
+    }
+  })
+}
