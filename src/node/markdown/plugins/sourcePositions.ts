@@ -206,19 +206,27 @@ function sourceLocs(state: StateCore): void {
       const pos = child[POS]
       if (!pos) continue
 
+      // the destination as authored (before rebasing and href normalization
+      // mutate the attr at render time), for dead-link reporting
+      child.meta ??= {}
+      const dest = child.attrGet(isImage ? 'src' : 'href')
+      if (dest != null) child.meta.vpRaw = safeDecodeURI(dest)
+
       // vpLineOffset: lines a pre-inline core rule removed from the token's
       // content (the github-alerts marker) while its map kept spanning them
       const line = token.map[0] + (token.meta?.vpLineOffset ?? 0) + pos.dLine
       const resolved = env.lineMap?.resolve(line)
+      // a spliced line is stitched from more than one source — a position on
+      // it would be wrong in whichever file it names, so it gets none
+      if (resolved?.spliced) continue
+
       const loc: MarkdownSourceLoc = resolved
         ? { file: resolved.file, line: resolved.line + 1 }
         : { file: env.realPath ?? env.path, line: line + 1 }
 
       // block parsing only ever strips a prefix per line, so the inline line
-      // is a suffix of the raw source line; re-align to get the true column.
-      // A spliced line is stitched from more than one source, so no column
-      // on it is meaningful in any single file.
-      if (pos.startInLine >= 0 && !resolved?.spliced) {
+      // is a suffix of the raw source line; re-align to get the true column
+      if (pos.startInLine >= 0) {
         srcLineStarts ??= makeLineStarts(state.src)
         const raw = getLine(state.src, srcLineStarts, line)
         if (raw !== undefined) {
@@ -226,19 +234,17 @@ function sourceLocs(state: StateCore): void {
             loc.column = raw.length - pos.lineText.length + pos.startInLine + 1
           } else {
             // over-indented content gets spaces prepended instead — fall
-            // back to searching, and omit the column on ambiguity
+            // back to searching, and omit the column when the text appears
+            // more than once (repeated table cells)
             const at = raw.indexOf(pos.lineText)
-            if (at >= 0) loc.column = at + pos.startInLine + 1
+            if (at >= 0 && raw.indexOf(pos.lineText, at + 1) === -1) {
+              loc.column = at + pos.startInLine + 1
+            }
           }
         }
       }
 
-      child.meta ??= {}
       child.meta.vpLoc = loc
-      // the destination as authored (before rebasing and href normalization
-      // mutate the attr at render time), for dead-link reporting
-      const dest = child.attrGet(isImage ? 'src' : 'href')
-      if (dest != null) child.meta.vpRaw = safeDecodeURI(dest)
     }
   }
 }

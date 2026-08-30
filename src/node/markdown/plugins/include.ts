@@ -80,7 +80,14 @@ export function includePlugin(
       logger
     )
     mdEnv!.src = expanded.src
-    mdEnv!.lineMap = new LineMap(expanded.segments, expanded.splicedLines)
+    mdEnv!.lineMap = new LineMap(
+      // everything replaced by nothing leaves no segments - fall back to
+      // the page itself so resolve() stays total
+      expanded.segments.length
+        ? expanded.segments
+        : [{ start: 0, file, line: 0 }],
+      expanded.splicedLines
+    )
     return renderAsync(expanded.src, env)
   }
 
@@ -132,9 +139,13 @@ async function processIncludes(
     const region = regionRE.exec(m1)
     if (region) m1 = m1.slice(0, region.index)
 
-    const includePath = m1.startsWith('@')
-      ? path.join(srcDir, m1.slice(separatorRE.test(m1[1]) ? 2 : 1))
-      : path.join(path.dirname(file), m1)
+    // posix-style, so segment files match the vite-style ids in env.path /
+    // env.realPath on every platform
+    const includePath = slash(
+      m1.startsWith('@')
+        ? path.join(srcDir, m1.slice(separatorRE.test(m1[1]) ? 2 : 1))
+        : path.join(path.dirname(file), m1)
+    )
 
     // leave circular includes unexpanded — only repeats along the ancestor
     // chain are cycles, the same file may still be included by siblings
@@ -144,7 +155,7 @@ async function processIncludes(
 
     // record the dependency before reading it, so that creating a missing
     // file is picked up by the watcher
-    env.includes!.push(slash(includePath))
+    env.includes!.push(includePath)
 
     let content: string
     try {
@@ -271,6 +282,15 @@ async function processIncludes(
       out.append(expanded.src, expanded.segments, expanded.splicedLines)
       cursor = m.index + m[0].length
       cursorLine += countLineBreaks(m[0])
+      // page text following the directive on the same source line lands on
+      // an output line whose text matches no single physical line
+      const sourceLineEnd = src.indexOf('\n', cursor)
+      if (
+        cursor < (sourceLineEnd === -1 ? src.length : sourceLineEnd) &&
+        expanded.src
+      ) {
+        out.markLineSpliced()
+      }
     }
   }
   passthrough(src.length)

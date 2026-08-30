@@ -239,6 +239,11 @@ export const gitHubAlertsPlugin = (
             ...firstContent.meta,
             vpLineOffset: removedLines
           }
+          // the enclosing paragraph's map also spans the removed marker
+          const paragraph = tokens[tokens.indexOf(firstContent) - 1]
+          if (paragraph?.type === 'paragraph_open') {
+            paragraph.meta = { ...paragraph.meta, vpLineOffset: removedLines }
+          }
         }
         open.type = 'github_alert_open'
         open.tag = 'div'

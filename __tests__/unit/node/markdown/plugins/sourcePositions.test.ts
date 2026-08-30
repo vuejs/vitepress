@@ -127,6 +127,16 @@ describe('markdown/plugins/sourcePositions', () => {
     ])
   })
 
+  test('repeated cell text keeps the line and omits the column', async () => {
+    const links = await collect(
+      '| a | b |\n|---|---|\n| [x](./x) | [x](./x) |\n'
+    )
+    expect(links.map((l) => l.loc)).toEqual([
+      { file: '/docs/page.md', line: 3 },
+      { file: '/docs/page.md', line: 3 }
+    ])
+  })
+
   test('github alert bodies report exact positions', async () => {
     const links = await collect(
       '> [!TIP]\n> a [one](./one)\n> b [two](./two)\n'

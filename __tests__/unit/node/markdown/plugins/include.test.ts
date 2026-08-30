@@ -612,20 +612,53 @@ describe('node/markdown/plugins/include', () => {
       ])
     })
 
-    test('inline includes attribute the splice line to the page', async () => {
+    test('stitched lines of inline includes carry no position', async () => {
       await write('sub/part.md', 'spliced [s](./s)\nnext [n](./n)\n')
 
       const { locs } = await renderLocs(
         'before <!-- @include: ./sub/part.md --> after\n'
       )
-      // the first included line merges into the page's line — it keeps the
-      // page as its file and gets no column, since the stitched line matches
-      // neither file's authored text; content on the included file's own
-      // subsequent lines resolves into it exactly
+      // the first included line merges into the page's line — a stitched
+      // line matches neither file's authored text, so links on it get no
+      // location at all; the included file's own subsequent lines resolve
+      // exactly
       expect(locs).toEqual([
-        { file: path.join(root, 'index.md'), line: 1 },
         { file: path.join(root, 'sub/part.md'), line: 2, column: 6 }
       ])
+    })
+
+    test('page text after a mid-line include is not misattributed', async () => {
+      await write('sub/part.md', 'spliced [s](./s.md)')
+
+      const { html, locs } = await renderLocs(
+        '<!-- @include: ./sub/part.md --> after [a](./x.md)\n'
+      )
+      // the page's own link must not be rebased against the included file's
+      // directory, and neither link gets a position on the stitched line
+      expect(html).toContain('href="./x.html"')
+      expect(html).not.toContain('sub/x')
+      expect(locs).toEqual([])
+    })
+
+    test('page links after a multi-line inline include carry no position', async () => {
+      await write('sub/part.md', 'T1\nT2\n')
+
+      const { locs } = await renderLocs(
+        'before <!-- @include: ./sub/part.md --> [l](./t.md)\n'
+      )
+      // the tail line's text matches no single physical line - a column
+      // computed against the expanded text would be wrong
+      expect(locs).toEqual([])
+    })
+
+    test('a fully elided source still resolves to the page', async () => {
+      const { env } = await render('<!-- @include: ./missing.md -->', {
+        include: { silent: true }
+      })
+      expect(env.lineMap!.resolve(0)).toEqual({
+        file: path.join(root, 'index.md'),
+        line: 0
+      })
     })
 
     test('alert bodies inside includes resolve exactly', async () => {

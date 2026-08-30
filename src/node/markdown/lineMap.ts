@@ -100,6 +100,15 @@ export class MappedBuilder {
     this.midLine = text[text.length - 1] !== '\n'
   }
 
+  /**
+   * Marks the line currently being written as stitched from more than one
+   * source — for output lines whose text no longer matches any single
+   * physical line (e.g. page text following a mid-line include).
+   */
+  markLineSpliced(): void {
+    this.splicedLines.add(this.outLine)
+  }
+
   private push(segment: LineMapSegment): void {
     const prev = this.segments[this.segments.length - 1]
     if (prev) {

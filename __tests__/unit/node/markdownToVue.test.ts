@@ -102,7 +102,14 @@ describe('node/markdownToVue', () => {
     const result = await render(src, file)
 
     expect(result.deadLinks).toEqual([
-      { url: './nope', resolved: '/nope', file: partial, line: 5, column: 1 },
+      {
+        url: './nope',
+        resolved: '/nope',
+        file: partial,
+        line: 5,
+        column: 1,
+        via: file
+      },
       { url: './a', resolved: '/a', file, line: 9, column: 6 },
       { url: './b', resolved: '/b', file, line: 10, column: 5 }
     ])

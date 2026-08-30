@@ -98,6 +98,35 @@ describe('node/markdown/plugins/sourceAttrs', () => {
     )
   })
 
+  test('alert body paragraphs point past the removed marker line', async () => {
+    const { vueSrc, file } = await renderPage({
+      'index.md': 'intro\n\n> [!WARNING]\n> line A\n>\n> line B\n'
+    })
+    const at = (line: number) => `data-v-inspector="${rel(file)}:${line}:1"`
+    // the alert wrapper spans from the marker; its first paragraph does not
+    expect(vueSrc).toContain(`github-alert" ${at(3)}`)
+    expect(vueSrc).toContain(`<p ${at(4)}>line A</p>`)
+    expect(vueSrc).toContain(`<p ${at(6)}>line B</p>`)
+  })
+
+  test('excerpt renders stay free of source attributes', async () => {
+    disposeMdItInstance()
+    const { createMarkdownRenderer } = await import('node/markdown/markdown')
+    const md = await createMarkdownRenderer('.', {
+      highlight: (code) => code,
+      frontmatter: { grayMatterOptions: { excerpt: true } }
+    })
+    const env = {
+      path: '/docs/page.md',
+      relativePath: 'page.md',
+      cleanUrls: false,
+      emitSourceLoc: true
+    } as any
+    await md.renderAsync('---\nt: 1\n---\nfirst para\n\n---\n\nrest\n', env)
+    expect(env.excerpt).toContain('first para')
+    expect(env.excerpt).not.toContain('data-v-inspector')
+  })
+
   test('builds render without source attributes', async () => {
     const { vueSrc } = await renderPage(
       { 'index.md': '# Head\n\npara\n' },

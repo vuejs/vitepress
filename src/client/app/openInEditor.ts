@@ -47,9 +47,14 @@ export function setupOpenInEditor(): void {
       e.preventDefault()
       e.stopPropagation()
       clear()
+      // a relative site base resolves page-relatively - the endpoint lives
+      // at the server root
+      const base = import.meta.env.BASE_URL
       fetch(
-        `${import.meta.env.BASE_URL}__open-in-editor?file=${encodeURIComponent(loc)}`
-      )
+        `${base.startsWith('.') ? '/' : base}__open-in-editor?file=${encodeURIComponent(loc)}`
+      ).catch(() => {
+        // dev server gone - nothing to do
+      })
     },
     true
   )

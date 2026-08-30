@@ -65,6 +65,8 @@ export interface DeadLink {
   /** 1-based position in `file`, when known */
   line?: number
   column?: number
+  /** the page that pulled the link in, when `file` is an included file */
+  via?: string
 }
 
 export function clearCache(relativePath?: string) {
@@ -273,7 +275,8 @@ export async function createMarkdownToVueRenderFn(
             ...(resolvedPath != null && { resolved: resolvedPath }),
             file: loc?.file ?? fileOrig,
             ...(loc != null && { line: loc.line }),
-            ...(loc?.column != null && { column: loc.column })
+            ...(loc?.column != null && { column: loc.column }),
+            ...(loc?.file != null && loc.file !== fileOrig && { via: fileOrig })
           })
         }
       }

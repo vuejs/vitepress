@@ -70,9 +70,15 @@ export function sourceAttrsPlugin(md: MarkdownItAsync): void {
       ) {
         continue
       }
-      const { file, line } = env.lineMap
-        ? env.lineMap.resolve(token.map[0])
-        : { file: env.realPath ?? env.path, line: token.map[0] }
+      // vpLineOffset: lines a core rule removed from the block's content
+      // (the github-alerts marker) while its map kept spanning them
+      const mapLine = token.map[0] + (token.meta?.vpLineOffset ?? 0)
+      const resolved = env.lineMap?.resolve(mapLine)
+      // a spliced line is stitched from more than one source — skip rather
+      // than point at the wrong file
+      if (resolved?.spliced) continue
+      const file = resolved ? resolved.file : (env.realPath ?? env.path)
+      const line = resolved ? resolved.line : mapLine
       if (!file) continue
       token.attrSet(
         SOURCE_LOC_ATTR,
