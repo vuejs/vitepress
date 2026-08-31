@@ -99,7 +99,9 @@ export async function renderPage(
 
   const title = createTitle(siteData, pageData)
   const description = pageData.description || siteData.description
-  const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
+  const frontmatterDir = pageData.frontmatter.dir
+  const dir = frontmatterDir === false ? false : frontmatterDir || siteData.dir
+  const dirAttr = dir === false ? '' : ` dir="${dir || 'ltr'}"`
   const isDefault404 = page === '404.md' && !hasCustom404
 
   // the initial load only needs the lean page js — the static content is
@@ -200,7 +202,7 @@ export async function renderPage(
   }
 
   const html = `<!DOCTYPE html>
-<html lang="${siteData.lang}" dir="${dir}">
+<html lang="${siteData.lang}"${dirAttr}>
   <head>
     <meta charset="utf-8">
     ${

@@ -409,7 +409,7 @@ export async function resolveSiteData(
 
   return {
     lang: userConfig.lang || 'en-US',
-    dir: userConfig.dir || 'ltr',
+    dir: userConfig.dir === false ? false : userConfig.dir || 'ltr',
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',

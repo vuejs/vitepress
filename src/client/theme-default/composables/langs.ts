@@ -41,7 +41,7 @@ export function useLangs({
               linkToCorrespondingPage
             }),
             lang: value.lang,
-            dir: value.dir
+            dir: value.dir === false ? undefined : value.dir
           }
     )
   )
