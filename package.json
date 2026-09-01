@@ -42,6 +42,7 @@
     "vitepress": "bin/vitepress.js"
   },
   "files": [
+    "THIRD-PARTY-NOTICES.md",
     "bin",
     "dist",
     "types",
@@ -56,8 +57,9 @@
     "build": "tsdown && pnpm typecheck && node scripts/genWebTypes.ts && pnpm build:check",
     "build:check": "publint && attw --pack . --profile esm-only",
     "typecheck": "tsc -p tsconfig.shared.json && vue-tsc -p tsconfig.client.json && tsc -p tsconfig.node.json",
-    "test": "pnpm --aggregate-output --reporter=append-only '/^test:(types|unit|e2e|init)$/'",
-    "test:types": "tsc -p __tests__/unit && vue-tsc -p __tests__/e2e && tsc -p __tests__/init && vue-tsc -p docs",
+    "test": "pnpm --aggregate-output --reporter=append-only '/^test:(types|unit|e2e|init|base)$/'",
+    "test:types": "tsc -p __tests__/unit && vue-tsc -p __tests__/e2e && tsc -p __tests__/init && tsc -p __tests__/base && vue-tsc -p docs",
+    "test:base": "pnpm -F=tests-base test",
     "test:unit": "vitest run -r __tests__/unit",
     "test:unit:watch": "vitest -r __tests__/unit",
     "test:e2e": "pnpm test:e2e-dev && pnpm test:e2e-build",
@@ -80,7 +82,7 @@
     "docs:lunaria:open": "pnpm -F=docs lunaria:open",
     "format": "prettier --experimental-cli --write .",
     "format:fail": "prettier --experimental-cli --check .",
-    "check": "pnpm format:fail && pnpm build && pnpm test",
+    "check": "pnpm format:fail && pnpm build && git ls-files --error-unmatch THIRD-PARTY-NOTICES.md && git diff --exit-code -- THIRD-PARTY-NOTICES.md && pnpm test",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "node scripts/release.ts"
   },
@@ -110,6 +112,7 @@
     "vue": "^3.5.41"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@clack/prompts": "^1.7.0",
     "@iconify/utils": "^3.1.4",
     "@mdit-vue/plugin-component": "^3.0.2",
@@ -125,11 +128,9 @@
     "@mdit/plugin-emoji": "^1.1.1",
     "@mdit/plugin-footnote": "^1.0.2",
     "@mdit/plugin-tasklist": "^1.0.2",
-    "@arethetypeswrong/cli": "^0.18.5",
     "@polka/compression": "^1.0.0-next.28",
     "@rolldown/pluginutils": "^1.0.1",
     "@types/cross-spawn": "^6.0.6",
-    "@types/lodash.template": "^4.5.3",
     "@types/mark.js": "^8.11.12",
     "@types/minimist": "^1.2.5",
     "@types/node": "^26.2.0",
@@ -140,11 +141,11 @@
     "conventional-changelog": "^8.1.1",
     "conventional-changelog-angular": "^9.2.1",
     "cross-spawn": "^7.0.6",
+    "eta": "^4.6.0",
     "get-port": "^7.2.0",
     "gray-matter": "^4.0.3",
     "image-size": "^2.0.2",
     "lint-staged": "^17.3.0",
-    "lodash.template": "^4.18.1",
     "lru-cache": "^11.5.2",
     "markdown-it": "^14.3.0",
     "markdown-it-async": "^2.2.0",
@@ -190,5 +191,5 @@
       "optional": true
     }
   },
-  "packageManager": "pnpm@11.21.0"
+  "packageManager": "pnpm@11.24.0"
 }

@@ -13,6 +13,7 @@ import {
   type MarkdownOptions,
   type MarkdownRenderer
 } from './markdown/markdown'
+import { findStaleEagerInterpolations } from './markdown/plugins/eagerFrontmatterInterpolation'
 import { getPageDataTransformer } from './plugins/dynamicRoutesPlugin'
 import {
   EXTERNAL_URL_RE,
@@ -158,6 +159,7 @@ export async function createMarkdownToVueRenderFn(
       path: file,
       relativePath,
       cleanUrls,
+      relativizeUrls: true,
       includes: [],
       realPath: fileOrig,
       localeIndex
@@ -280,6 +282,24 @@ export async function createMarkdownToVueRenderFn(
       if (fn) {
         const dataToMerge = await fn(pageData, { siteConfig })
         if (dataToMerge) pageData = { ...pageData, ...dataToMerge }
+      }
+    }
+
+    // interpolations were inlined from the frontmatter as rendered - values
+    // rewritten by `transformPageData` afterwards would silently diverge
+    if (transformPageData.length && env.eagerInterpolations?.length) {
+      const stale = findStaleEagerInterpolations(
+        env.eagerInterpolations,
+        (pageData.frontmatter ?? {}) as Record<string, unknown>
+      )
+      if (stale.length) {
+        siteConfig?.logger?.warn(
+          `${relativePath}: ${stale.map((e) => `{{ ${e} }}`).join(', ')} ` +
+            `resolved while rendering markdown, but transformPageData changed ` +
+            `the underlying frontmatter afterwards - the rendered content ` +
+            `keeps the old value. Avoid rewriting interpolated keys, or set ` +
+            `markdown.eagerFrontmatterInterpolation: false.`
+        )
       }
     }
 

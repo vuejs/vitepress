@@ -49,4 +49,19 @@ describe('node/contentLoader', () => {
     expect(data[0].html).toContain('href="./other"')
     expect(data[0].html).not.toContain('./other.html')
   })
+
+  test('excerpts resolve $frontmatter without render', async () => {
+    await setup(false)
+    const { writeFile } = await import('node:fs/promises')
+    await writeFile(
+      path.join(root!, 'post.md'),
+      '---\ntitle: My Post\n---\n\nIntro says {{ $frontmatter.title }}.\n\n---\n\nBody.\n'
+    )
+
+    const data = await createContentLoader('post.md', {
+      excerpt: true
+    }).load()
+
+    expect(data[0].excerpt).toContain('Intro says My Post.')
+  })
 })

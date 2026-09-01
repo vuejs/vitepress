@@ -18,8 +18,10 @@ import type { MarkdownOptions } from './markdown/markdown'
 import { resolvePages } from './plugins/dynamicRoutesPlugin'
 import {
   APPEARANCE_KEY,
+  EXTERNAL_URL_RE,
   VP_SOURCE_KEY,
   isObject,
+  isRelativeBase,
   slash,
   type AdditionalConfig,
   type Awaitable,
@@ -41,6 +43,35 @@ const additionalConfigGlob = `**/config.{js,mjs,ts,mts}`
 
 const resolve = (root: string, file: string) =>
   normalizePath(path.resolve(root, `.vitepress`, file))
+
+export function normalizeSiteBase(base?: string): string {
+  let normalized = base ? base.replace(/([^/])$/, '$1/') : '/'
+  if (normalized.startsWith('.') && !isRelativeBase(normalized)) {
+    throw new Error(
+      `a relative base must be exactly './' (got: ${base}) — pages always ` +
+        `reference the site root relative to their own depth`
+    )
+  }
+  if (
+    !isRelativeBase(normalized) &&
+    !EXTERNAL_URL_RE.test(normalized) &&
+    !normalized.startsWith('/')
+  ) {
+    normalized = '/' + normalized
+  }
+  return normalized
+}
+
+export function normalizeAssetsBase(assetsBase: string): string {
+  const normalized = assetsBase.replace(/([^/])$/, '$1/')
+  if (!EXTERNAL_URL_RE.test(normalized) && !normalized.startsWith('/')) {
+    throw new Error(
+      `assetsBase must be an absolute URL, a protocol-relative URL, or a ` +
+        `root-absolute path (got: ${assetsBase})`
+    )
+  }
+  return normalized
+}
 
 export type { ConfigEnv }
 export type UserConfigFn<ThemeConfig> = (
@@ -142,11 +173,26 @@ export async function resolveConfig(
       ? ''
       : normalizePath(path.resolve(srcDir, vitePublicDir || 'public'))
 
+  const assetsBase = userConfig.assetsBase
+    ? normalizeAssetsBase(userConfig.assetsBase)
+    : undefined
+
+  if (isRelativeBase(site.base) && site.cleanUrls && command === 'build') {
+    logger.warn(
+      c.yellow(
+        `cleanUrls with a relative base needs server-side rewrites and breaks ` +
+          `file:// browsing — links won't end in .html. Consider disabling ` +
+          `cleanUrls for relocatable builds.`
+      )
+    )
+  }
+
   const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
     root,
     srcDir,
     publicDir,
     assetsDir,
+    assetsBase,
     site,
     themeDir,
     configPath,
@@ -174,6 +220,7 @@ export async function resolveConfig(
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,
+    icons: userConfig.icons,
     buildConcurrency: userConfig.buildConcurrency ?? 64
   }
 
@@ -366,7 +413,7 @@ export async function resolveSiteData(
     title: userConfig.title || 'VitePress',
     titleTemplate: userConfig.titleTemplate,
     description: userConfig.description || 'A VitePress site',
-    base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
+    base: normalizeSiteBase(userConfig.base),
     head: resolveSiteDataHead(userConfig),
     router: {
       prefetchLinks: userConfig.router?.prefetchLinks ?? true

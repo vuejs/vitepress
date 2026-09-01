@@ -17,6 +17,14 @@ export async function buildMPAClient(
     cacheDir: config.cacheDir,
     base: config.site.base,
     logLevel: config.vite?.logLevel ?? 'warn',
+    ...(config.assetsBase
+      ? {
+          experimental: {
+            renderBuiltUrl: (filename, ctx) =>
+              ctx.type === 'asset' ? config.assetsBase! + filename : undefined
+          }
+        }
+      : {}),
     build: {
       emptyOutDir: false,
       outDir: config.outDir,

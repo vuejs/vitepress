@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import { cp } from 'node:fs/promises'
+import { cp, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -15,7 +15,13 @@ import {
 import { APP_PATH } from '../alias'
 import type { SiteConfig } from '../config'
 import { createVitePressPlugin, type PageMeta } from '../plugin'
-import { escapeRegExp, sanitizeFileName, slash } from '../shared'
+import {
+  RELATIVE_BASE_SENTINEL,
+  escapeRegExp,
+  isRelativeBase,
+  sanitizeFileName,
+  slash
+} from '../shared'
 import { buildMPAClient } from './buildMPAClient'
 
 // https://github.com/vitejs/vite/blob/a55d0b34400e3360c4100d05e422ae9cf10fa07b/packages/vite/src/node/constants.ts#L50
@@ -75,12 +81,17 @@ export async function bundle(
     ...restOptions
   } = options
 
+  const relativeBase = isRelativeBase(config.site.base)
+
   const resolveViteConfig = async (
     ssr: boolean
   ): Promise<ViteInlineConfig> => ({
     root: config.srcDir,
     cacheDir: config.cacheDir,
-    base: config.site.base,
+    // the client build relativizes its own asset URLs natively; the SSR
+    // build renders into per-page HTML, so it gets the sentinel base that
+    // renderPage swaps for each page's ../-prefix
+    base: ssr && relativeBase ? RELATIVE_BASE_SENTINEL : config.site.base,
     logLevel: config.vite?.logLevel ?? 'warn',
     plugins: await createVitePressPlugin(
       config,
@@ -144,6 +155,10 @@ export async function bundle(
   )) as Rolldown.RolldownOutput
 
   if (config.mpa) {
+    // FIXME: nothing ever empties outDir in MPA mode (no client build runs
+    // with emptyOutDir, and buildMPAClient sets emptyOutDir: false), so
+    // hashed assets of every kind accumulate across rebuilds into a dirty
+    // output directory
     // in MPA mode, we need to copy over the non-js asset files from the
     // server build since there is no client-side build.
     await pMap(
@@ -152,7 +167,21 @@ export async function bundle(
         if (!chunk.fileName.endsWith('.js')) {
           const tempPath = path.resolve(config.tempDir, chunk.fileName)
           const outPath = path.resolve(config.outDir, chunk.fileName)
-          await cp(tempPath, outPath)
+          if (relativeBase && chunk.fileName.endsWith('.css')) {
+            // the server build emits sentinel-based url()s; rewrite them
+            // relative to the css file's own location
+            const css = await readFile(tempPath, 'utf-8')
+            const dir = path.posix.dirname(slash(chunk.fileName))
+            const toRoot =
+              dir === '.' ? './' : '../'.repeat(dir.split('/').length)
+            await mkdir(path.dirname(outPath), { recursive: true })
+            await writeFile(
+              outPath,
+              css.replaceAll(RELATIVE_BASE_SENTINEL, toRoot)
+            )
+          } else {
+            await cp(tempPath, outPath)
+          }
         }
       },
       { concurrency: config.buildConcurrency }

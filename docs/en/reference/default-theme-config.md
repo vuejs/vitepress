@@ -254,6 +254,9 @@ export default {
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       { icon: 'discord', link: '/community', target: '_self' },
+      // You can use any other iconify collection installed in your project
+      // as `collection:name` (e.g. after `npm add -D @iconify-json/lucide`):
+      { icon: 'lucide:rss', link: '/feed.rss' },
       // You can also add custom icons by passing SVG as string:
       {
         icon: {

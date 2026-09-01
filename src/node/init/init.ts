@@ -12,7 +12,7 @@ import {
   select,
   text
 } from '@clack/prompts'
-import template from 'lodash.template'
+import { Eta } from 'eta'
 import c from 'picocolors'
 
 import { slash } from '../shared'
@@ -190,6 +190,12 @@ export async function scaffold({
 
   const useMjs = userPkg.type !== 'module'
 
+  const eta = new Eta({
+    useWith: true,
+    autoEscape: false,
+    autoTrim: false
+  })
+
   const renderFile = async (file: string) => {
     const filePath = path.resolve(templateDir, file)
     let targetPath = path.resolve(resolvedRoot, file)
@@ -205,7 +211,7 @@ export async function scaffold({
     }
 
     const content = await readFile(filePath)
-    const compiled = template(content)(data)
+    const compiled = eta.renderString(content, data)
 
     await mkdir(path.dirname(targetPath), { recursive: true })
     await writeFile(targetPath, compiled)

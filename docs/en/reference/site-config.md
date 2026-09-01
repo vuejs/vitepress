@@ -372,7 +372,9 @@ export default {
 - Type: `string`
 - Default: `/`
 
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash. Relative bases are not supported.
+The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+
+The one exception is `'./'`, which produces a [relocatable build](../guide/deploy#relocatable-builds-relative-base): pages reference everything relative to their own location, so the same output works from any sub path (IPFS gateways, archives) without rebuilding and stays browsable when opened directly from the file system.
 
 The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
 
@@ -381,6 +383,8 @@ export default {
   base: '/base/'
 }
 ```
+
+Can also be set per build with `vitepress build --base /base/`.
 
 ## Routing
 
@@ -460,6 +464,44 @@ Specify the directory to nest generated assets under. The path should be inside 
 ```ts
 export default {
   assetsDir: 'static'
+}
+```
+
+### assetsBase
+
+- Type: `string`
+- Default: `undefined`
+
+URL prefix the generated assets (everything under [`assetsDir`](#assetsdir)) are served from — typically a CDN. Must be an absolute URL, a protocol-relative URL, or a root-absolute path; a trailing slash is appended if missing.
+
+```ts
+export default {
+  base: '/',
+  assetsBase: 'https://cdn.example.com/'
+  // scripts, styles, fonts and imported images resolve to
+  // https://cdn.example.com/assets/*
+}
+```
+
+The emitted asset URL is `assetsBase` joined with the output-relative file path, so the CDN should mirror the layout of `outDir` (upload `outDir/assets` so it is reachable at `<assetsBase>/assets/*`). HTML pages, Markdown links, [`public`](../guide/asset-handling#the-public-directory) files and `hashmap.json` stay on [`base`](#base).
+
+When `assetsBase` points at another origin, VitePress adds `crossorigin` to the emitted script and preload tags — the CDN must send `Access-Control-Allow-Origin` for your site's origin (module scripts are always fetched in CORS mode).
+
+Only production builds are affected. `vitepress preview` serves a root-absolute `assetsBase` (like `/cdn/`) from the local dist; an external one is requested from the real URL. Can also be set per build with `vitepress build --assetsBase https://cdn.example.com/`.
+
+### icons
+
+- Type: `{ include?: string[] }`
+
+Options for the generated icon styles. The build collects every iconify icon rendered during SSR. Names are fully qualified as `collection:name`, resolved against the `@iconify-json/*` packages declared in your project's dependencies.
+
+Icons rendered only on the client — inside `<ClientOnly>`, or after hydration — are invisible to SSR collection. List them in `include` to force them into the stylesheet:
+
+```ts
+export default {
+  icons: {
+    include: ['mdi:home', 'simple-icons:discord']
+  }
 }
 ```
 
@@ -632,6 +674,7 @@ export default {
 interface SSGContext {
   content: string
   teleports?: Record<string, string>
+  vpIcons: Set<string>
   [key: string]: any
 }
 ```
@@ -708,6 +751,10 @@ For simpler cases, it may be possible to use the [`head`](./frontmatter-config#h
 
 ::: warning
 Don't mutate anything inside the `context`. Also, modifying the html content may cause hydration problems in runtime.
+:::
+
+::: note
+The icon stylesheet link still carries its `vp-icons.__VP_ICONS_HASH__.css` placeholder at this point — the content hash only exists once every page has rendered, and it is substituted right after. Hooks that inline or fingerprint head assets should skip that tag.
 :::
 
 ```ts

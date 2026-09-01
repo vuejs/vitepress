@@ -30,6 +30,53 @@ export type {
 export const EXTERNAL_URL_RE = /^(?:[a-z]+:|\/\/)/i
 export const APPEARANCE_KEY = 'vitepress-theme-appearance'
 
+// iconify's icon/collection name grammar
+const iconNameRE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+/**
+ * Parses a fully qualified `collection:name` icon name, corresponding to
+ * the `vpi-<collection>-<name>` class. Returns null for anything else,
+ * keeping malformed input out of generated selectors and class attributes.
+ */
+export function parseIconName(
+  name: string
+): { collection: string; icon: string } | null {
+  const colon = name.indexOf(':')
+  if (colon === -1) return null
+  const collection = name.slice(0, colon)
+  const icon = name.slice(colon + 1)
+  if (!iconNameRE.test(collection) || !iconNameRE.test(icon)) return null
+  return { collection, icon }
+}
+
+/**
+ * Placeholder prepended to SSR-emitted URLs when base is relative, later
+ * replaced with each page's `../` prefix back to the site root.
+ */
+export const RELATIVE_BASE_SENTINEL = '/__VP_BASE__/'
+
+export function isRelativeBase(base: string): boolean {
+  return base === './'
+}
+
+/**
+ * The ../-prefix that leads from `relativePath`'s directory back to the
+ * site root ('./' for root-level pages).
+ */
+export function relativePathToRoot(relativePath: string): string {
+  const depth = relativePath.split('/').length - 1
+  return depth ? '../'.repeat(depth) : './'
+}
+
+/**
+ * Join two paths, collapsing slash collisions but keeping the `//` that
+ * follows a protocol.
+ */
+export function joinPath(base: string, path: string): string {
+  const protocol = /^(?:[a-z]+:)?\/\//i.exec(base)?.[0] ?? ''
+  return protocol + `${base.slice(protocol.length)}${path}`.replace(/\/+/g, '/')
+}
+
 export const VP_SOURCE_KEY = '[VP_SOURCE]'
 const UnpackStackView = Symbol('stack-view:unpack')
 
@@ -113,7 +160,8 @@ export function getLocaleForPath(
 }
 
 /**
- * this merges the locales data to the main data by the route
+ * Resolves the site data for a route, layering the matched locale and
+ * additional configs over the root config.
  */
 export function resolveSiteDataByRoute(
   siteData: SiteData,
@@ -125,8 +173,8 @@ export function resolveSiteDataByRoute(
     siteData.locales[localeIndex] ?? ({} as (typeof siteData.locales)[string])
   Object.assign(localeConfig, { localeIndex })
 
-  // additional configs are colocated with sources, so resolve them by the
-  // source path (filePath) rather than the rewritten one
+  // additional configs are colocated with sources — resolve them by source
+  // path rather than the rewritten one
   const additionalConfigs = resolveAdditionalConfig(
     siteData,
     filePath || relativePath
@@ -313,7 +361,7 @@ function resolveAdditionalConfig(
   return configs.filter((config) => config !== undefined)
 }
 
-// This helps users to understand which configuration files are active
+// logs the config layers active for a page (dev only)
 function reportConfigLayers(path: string, layers: Partial<SiteData>[]) {
   const summaryTitle = `Config Layers for ${path}:`
 
@@ -329,9 +377,8 @@ function reportConfigLayers(path: string, layers: Partial<SiteData>[]) {
 }
 
 /**
- * Creates a deep, merged view of multiple objects without mutating originals.
- * Returns a readonly proxy behaving like a merged object of the input objects.
- * Layers are merged in descending precedence, i.e. earlier layer is on top.
+ * Creates a readonly proxy behaving like a deep merge of the given layers,
+ * without mutating them. Earlier layers take precedence.
  */
 export function stackView<T extends ObjectType>(..._layers: Partial<T>[]): T {
   const layers = _layers.filter((layer) => isObject(layer))

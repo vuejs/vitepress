@@ -1,3 +1,19 @@
 {
-  "extends": "./tsconfig.base.json"
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "vitepress": ["./src/client/index.ts"],
+      "vitepress/theme": ["./types/default-theme.d.ts"],
+      "@siteData": ["./src/client/shims.d.ts"],
+      "@theme/index": ["./src/client/shims.d.ts"],
+      "@localSearchIndex": ["./src/client/shims.d.ts"]
+    }
+  },
+  "include": [
+    "src",
+    "types",
+    "scripts",
+    "shared-globals.d.ts",
+    "tsdown.config.ts"
+  ]
 }

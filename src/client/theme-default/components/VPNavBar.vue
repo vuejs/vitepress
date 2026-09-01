@@ -227,6 +227,15 @@ const overflow = provideNavOverflow({
   height: var(--vp-nav-height);
 }
 
+@media (min-width: 48rem) {
+  /* keeps search on the title's side when there is no nav menu to grow
+     into the middle; with a menu present its flex-grow wins and this
+     margin resolves to zero */
+  .content-body > .search {
+    margin-right: auto;
+  }
+}
+
 /* collapsed into the `⋯` menu — kept mounted (hidden, out of the a11y tree
    and tab order) so its natural width stays measurable */
 .content-body > .collapsed {
@@ -265,6 +274,9 @@ const overflow = provideNavOverflow({
   /* above the background surface, below the bar's content — an open flyout
      panel overlaps the bar's bottom edge and must cover the rule */
   z-index: -1;
+  /* own layer — Safari otherwise sorts the rule behind the sticky local
+     nav's surface in their overlapping row (#5399) */
+  transform: translateZ(0);
   width: 100%;
   height: 1px;
   padding-left: var(--vp-nav-col-offset);

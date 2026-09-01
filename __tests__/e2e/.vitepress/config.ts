@@ -201,6 +201,8 @@ export default defineConfig({
   markdown: {
     image: { lazyLoad: true }
   },
+  // exercises force-inclusion of icons SSR never renders
+  icons: { include: ['lucide:egg'] },
   themeConfig: {
     nav,
     sidebar,
@@ -210,11 +212,22 @@ export default defineConfig({
         link: '/home',
         ariaLabel: 'Home social link',
         target: '_self'
+      },
+      {
+        icon: 'lucide:heart',
+        link: '/home',
+        ariaLabel: 'Heart social link'
       }
     ],
     search: {
       provider: 'local',
       options: {
+        miniSearch: {
+          options: {
+            tokenize: (text) =>
+              text.split(/[\n\r\p{Z}\p{Terminal_Punctuation}]+/u)
+          }
+        },
         async _render(src, env, md) {
           const html = await md.renderAsync(src, env)
           if (env.frontmatter?.search === false) return ''

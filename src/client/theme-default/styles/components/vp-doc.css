@@ -605,8 +605,8 @@
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 0.6875rem 0.6875rem;
-  mask-size: 0.6875rem 0.6875rem;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
   /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: middle;
   font-size: 0.5625rem;

@@ -17,3 +17,6 @@ pnpm-global
 TODOs.md
 *.timestamp-*.mjs
 .claude
+
+# base fixture builds
+__tests__/base/fixture/.vitepress/dist-*

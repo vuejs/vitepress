@@ -51,6 +51,7 @@ import {
   gitHubAlertsPlugin,
   type ContainerOptions
 } from './plugins/containers'
+import { eagerFrontmatterInterpolationPlugin } from './plugins/eagerFrontmatterInterpolation'
 import { highlight as createHighlighter } from './plugins/highlight'
 import { imagePlugin, type Options as ImageOptions } from './plugins/image'
 import {
@@ -327,6 +328,24 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    */
   frontmatter?: FrontmatterPluginOptions
   /**
+   * Resolve `{{ $frontmatter.<path> }}` interpolations to their values while
+   * rendering markdown, so the value also reaches consumers that never run
+   * Vue - heading anchors and titles, the local search index, content loader
+   * output, link destinations - and the compiled Vue template gets static
+   * text instead of a runtime expression. Only bare property paths resolving
+   * to simple primitive values in the page's own frontmatter are inlined -
+   * anything else (complex expressions, missing keys, non-primitive values,
+   * `v-pre` scopes) keeps its runtime interpolation. Set to `false` to leave
+   * all interpolation to the Vue runtime - for example when
+   * `transformPageData` rewrites frontmatter values that pages interpolate,
+   * which would otherwise render the pre-transform value (a warning is
+   * logged when that happens).
+   *
+   * @experimental
+   * @default true
+   */
+  eagerFrontmatterInterpolation?: boolean
+  /**
    * Options for `@mdit-vue/plugin-sfc`.
    * @see https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-sfc
    */
@@ -556,6 +575,12 @@ export async function createMarkdownRenderer(
         return tocOptions?.format?.(title) ?? title
       }
     })
+  }
+  // applied after anchor/title so its finalize rule runs once their rules
+  // have extracted the plain resolved text; its main rule is anchored right
+  // after `text_join` regardless of when the plugin is applied
+  if (options.eagerFrontmatterInterpolation !== false) {
+    eagerFrontmatterInterpolationPlugin(md)
   }
 
   // apply user config

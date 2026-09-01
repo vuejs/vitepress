@@ -532,4 +532,26 @@ describe('node/markdown/plugins/include', () => {
     expect(html).toContain('href="https://example.com/x"')
     expect(html).toContain('href="/abs/target.html"')
   })
+
+  test('does not rebase destinations resolved from frontmatter', async () => {
+    await write(
+      'guide/shared/note.md',
+      '![logo]({{$frontmatter.logo}}) [x]({{$frontmatter.doc}}) ![lit](./local.png)'
+    )
+    const { html, env } = await render(
+      '---\nlogo: ./assets/a.png\ndoc: ./other.md\n---\n\n<!-- @include: ./shared/note.md -->',
+      {},
+      {
+        path: path.join(root, 'guide/index.md'),
+        relativePath: 'guide/index.md'
+      }
+    )
+    // values from the including page's frontmatter keep meaning what they
+    // meant there
+    expect(html).toContain('src="./assets/a.png"')
+    expect(html).toContain('href="./other.html"')
+    expect(env.links).toContain('./other')
+    // urls authored in the included file still rebase
+    expect(html).toContain('src="./shared/local.png"')
+  })
 })

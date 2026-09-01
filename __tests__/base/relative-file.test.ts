@@ -1,0 +1,60 @@
+import { join, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+
+import { newPage, type TestPage } from './helpers'
+
+const dist = resolve(
+  fileURLToPath(import.meta.url),
+  '..',
+  'fixture/.vitepress/dist-relative'
+)
+
+const fileUrl = (...p: string[]) => pathToFileURL(join(dist, ...p)).href
+
+let t: TestPage
+
+beforeAll(async () => {
+  t = await newPage()
+})
+
+afterAll(async () => {
+  await t.page.close()
+  await t.browser.close()
+})
+
+// module scripts are cors-blocked from disk, so nothing hydrates here; the
+// pre-rendered site must still be styled and navigable
+describe('relative base opened over file://', () => {
+  test('pages render styled with working images', async () => {
+    await t.page.goto(fileUrl('sub/page.html'))
+    expect(await t.page.textContent('h1')).toContain('Sub page')
+    const fontFamily = await t.page.evaluate(
+      () => getComputedStyle(document.body).fontFamily
+    )
+    expect(fontFamily).toContain('Inter')
+    const logoLoaded = await t.page.evaluate(
+      () =>
+        document.querySelector<HTMLImageElement>('img[alt="logo again"]')!
+          .naturalWidth
+    )
+    expect(logoLoaded).toBe(1)
+  })
+
+  test('content links navigate between files', async () => {
+    await t.page.click('.vp-doc a[href="../sub/deep/page2.html"]')
+    expect(await t.page.textContent('h1')).toContain('Deep page')
+    expect(t.page.url()).toBe(fileUrl('sub/deep/page2.html'))
+  })
+
+  test('theme links navigate between files', async () => {
+    await t.page.click('.VPSidebar a[href="../../moved/target.html"]')
+    expect(await t.page.textContent('h1')).toContain('Moved page')
+    expect(t.page.url()).toBe(fileUrl('moved/target.html'))
+  })
+
+  test('the root page reaches nested pages', async () => {
+    await t.page.goto(fileUrl('index.html'))
+    await t.page.click('.vp-doc a[href="./sub/index.html"]')
+    expect(await t.page.textContent('h1')).toContain('Sub index')
+  })
+})

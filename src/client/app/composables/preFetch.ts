@@ -3,6 +3,7 @@
 
 import { onMounted, onUnmounted, watch } from 'vue'
 
+import { EXTERNAL_URL_RE } from '../../shared'
 import { useRoute } from '../router'
 import { inBrowser, pathToFile } from '../utils'
 
@@ -12,13 +13,15 @@ const createLink = () => document.createElement('link')
 const viaDOM = (url: string) => {
   const link = createLink()
   link.rel = `prefetch`
+  if (EXTERNAL_URL_RE.test(url)) link.crossOrigin = ''
   link.href = url
   document.head.appendChild(link)
 }
 
 const viaXHR = (url: string) => {
   const req = new XMLHttpRequest()
-  req.open('GET', url, (req.withCredentials = true))
+  req.open('GET', url, true)
+  req.withCredentials = !EXTERNAL_URL_RE.test(url)
   req.send()
 }
 

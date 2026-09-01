@@ -36,10 +36,10 @@ export interface PageData {
    */
   relativePath: string
   /**
-   * The path of the actual source file relative to the source directory.
-   * Differs from `relativePath` when path rewrites are in use, points to
-   * the route template for dynamic routes, and is an empty string if the
-   * page is virtual (e.g. the 404 page).
+   * The path of the actual source file relative to the source directory:
+   * differs from `relativePath` when rewrites are in use, points to the
+   * route template for dynamic routes, and is empty for virtual pages
+   * (e.g. the 404 page).
    */
   filePath: string
   /**
@@ -168,7 +168,8 @@ export interface Header {
  */
 export interface SiteData<ThemeConfig = any> {
   /**
-   * The base URL the site is deployed at.
+   * The base URL the site is deployed at, or `'./'` when each page
+   * references the site relative to its own depth.
    * @default '/'
    */
   base: string
@@ -246,11 +247,10 @@ export interface SiteData<ThemeConfig = any> {
     prefetchLinks: boolean
   }
   /**
-   * Config overrides applied to pages by source directory: either a dict
-   * mapping a directory (e.g. `/guide/`) to overrides, where deeper
-   * directories take precedence, or a function returning the overrides to
-   * apply for a page. Directories are resolved against the source paths of
-   * pages, before rewrites.
+   * Config overrides applied to pages by source directory (before
+   * rewrites): a dict mapping a directory (e.g. `/guide/`) to overrides,
+   * deeper directories taking precedence, or a function returning the
+   * overrides for a page.
    */
   additionalConfig?:
     AdditionalConfigDict<ThemeConfig> | AdditionalConfigLoader<ThemeConfig>
@@ -363,11 +363,11 @@ export interface SSGContext extends SSRContext {
    */
   content: string
   /**
-   * The names of the social icons used on the page, collected so that only
-   * the styles of used icons are emitted.
-   * @experimental
+   * The icons used on the page, registered during SSR (via `useIcon`) so
+   * that only their styles are emitted. Names are fully qualified as
+   * `collection:name`.
    */
-  vpSocialIcons: Set<string>
+  vpIcons: Set<string>
 }
 
 /**
@@ -452,13 +452,10 @@ export interface ContainerOptions {
   cautionLabel?: string
   /**
    * Additional containers to register, mapping the container name to its
-   * default title. Registered names work both as `::: name` blocks and as
-   * GitHub-style alerts (`> [!NAME]`), and are styleable in the theme via
-   * `.custom-block.name`. Names must be lowercase and may only contain
-   * letters, numbers, hyphens, and underscores.
-   *
-   * In locale-specific overrides only the titles of containers registered
-   * at the root level can be changed - new names cannot be added there.
+   * default title. Names must be lowercase (letters, numbers, hyphens,
+   * underscores), work as both `::: name` blocks and `> [!NAME]` alerts,
+   * and are styleable via `.custom-block.name`. Locale overrides may only
+   * change the titles of root-registered names.
    */
   customContainers?: Record<string, string>
 }
@@ -480,9 +477,8 @@ export interface CodeCopyButtonOptions {
 }
 
 /**
- * Build-time markdown strings that can be overridden per locale. Set them
- * under `locales.<index>.markdown` in the site config; values fall back to
- * the root `markdown` options when a locale leaves them unset.
+ * Markdown strings overridable per locale via `locales.<index>.markdown`,
+ * falling back to the root `markdown` options when unset.
  */
 export interface MarkdownLocaleOptions {
   /**
@@ -541,8 +537,8 @@ export type AdditionalConfigLoader<ThemeConfig = any> = (
   filePath: string
 ) => AdditionalConfig<ThemeConfig>[] | void
 
-// Manually declaring all properties as rollup-plugin-dts
-// is unable to merge augmented module declarations
+// all properties are declared manually as rollup-plugin-dts cannot merge
+// augmented module declarations
 /**
  * The environment object passed to `markdown-it` when rendering a page.
  */
@@ -587,6 +583,13 @@ export interface MarkdownEnv {
    */
   cleanUrls: boolean
   /**
+   * Whether the rendered HTML is emitted at `relativePath`, so site-absolute
+   * links may be rewritten relative to it. Content loaders must not set it:
+   * their HTML is embedded in other pages.
+   * @internal
+   */
+  relativizeUrls?: boolean
+  /**
    * The URLs of the links collected from the page for the dead link check.
    */
   links?: string[]
@@ -613,4 +616,11 @@ export interface MarkdownEnv {
    * The key of the locale the page belongs to.
    */
   localeIndex?: string
+  /**
+   * The expressions inlined by eager frontmatter interpolation while
+   * rendering, with the value each resolved to - used to detect values that
+   * `transformPageData` changes after the fact.
+   * @internal
+   */
+  eagerInterpolations?: { expression: string; value: string }[]
 }

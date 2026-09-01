@@ -34,7 +34,7 @@ importers:
         version: 14.1.2
       '@vitejs/plugin-vue':
         specifier: ^6.0.8
-        version: 6.0.8(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
+        version: 6.0.8(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))
       '@vue/devtools-api':
         specifier: ^8.2.1
         version: 8.2.1
@@ -61,7 +61,7 @@ importers:
         version: 4.4.3
       vite:
         specifier: ^8.2.1
-        version: 8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
+        version: 8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
       vue:
         specifier: ^3.5.41
         version: 3.5.41(typescript@6.0.3)
@@ -123,9 +123,6 @@ importers:
       '@types/cross-spawn':
         specifier: ^6.0.6
         version: 6.0.6
-      '@types/lodash.template':
-        specifier: ^4.5.3
-        version: 4.5.3
       '@types/mark.js':
         specifier: ^8.11.12
         version: 8.11.12
@@ -156,6 +153,9 @@ importers:
       cross-spawn:
         specifier: ^7.0.6
         version: 7.0.6
+      eta:
+        specifier: ^4.6.0
+        version: 4.6.0
       get-port:
         specifier: ^7.2.0
         version: 7.2.0
@@ -168,9 +168,6 @@ importers:
       lint-staged:
         specifier: ^17.3.0
         version: 17.3.0
-      lodash.template:
-        specifier: ^4.18.1
-        version: 4.18.1
       lru-cache:
         specifier: ^11.5.2
         version: 11.5.2
@@ -257,7 +254,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
+        version: 4.1.10(@types/node@26.2.0)(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
       vue-sfc-transformer:
         specifier: ^0.2.5
         version: 0.2.5(patch_hash=06dbce7d98fac77faf5e66a94aa6e04f34c0cc7ec0910ec10848e5f2e08b8b68)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.41)(@vue/language-core@3.3.11)(rolldown@1.2.5)(typescript@6.0.3)(vue@3.5.41(typescript@6.0.3))
@@ -268,8 +265,17 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(debug@4.4.3(supports-color@7.2.0))(supports-color@7.2.0)
 
+  __tests__/base:
+    devDependencies:
+      vitepress:
+        specifier: workspace:*
+        version: link:../..
+
   __tests__/e2e:
     devDependencies:
+      '@iconify-json/lucide':
+        specifier: ^1.2.126
+        version: 1.2.126
       vitepress:
         specifier: workspace:*
         version: link:../..
@@ -299,7 +305,7 @@ importers:
         version: link:..
       vitepress-plugin-group-icons:
         specifier: ^1.7.6
-        version: 1.7.6(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
+        version: 1.7.6(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
       vitepress-plugin-llms:
         specifier: ^1.13.4
         version: 1.13.4(supports-color@7.2.0)
@@ -410,6 +416,9 @@ packages:
 
   '@iconify-json/logos@1.2.12':
     resolution: {integrity: sha512-zUi/AoezU2F3L65nPVd2smiU6Y+ZI7RjdVPlGfeAeYbPbZ9kWn7Ucxj+KshmyQRBYwLtKoqAlUyoGgMqWG1T8g==}
+
+  '@iconify-json/lucide@1.2.126':
+    resolution: {integrity: sha512-Fl3OfR71yeWLrlTLp6C4W5W3rJJDWH9/e70mjtq9VAldYDxvHh149JMNPz7foTeLLTE2Paynnp2aYKVL9rgF5Q==}
 
   '@iconify-json/simple-icons@1.2.93':
     resolution: {integrity: sha512-/XhANjfGYOuqvSR3TmUnkQkINvQ4GVjVuukvymRbxtVFBvIq/yiXJqCDycKcQPT401OYT9H2vIY6ihAlz1QIAw==}
@@ -750,12 +759,6 @@ packages:
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
-
-  '@types/lodash.template@4.5.3':
-    resolution: {integrity: sha512-Mo0UYKLu1oXgkV9TVoXZLlXXjyIXlW7ZQRxi/4gQJmzJr63dmicE8gG0OkPjYTKBrBic852q0JzqrtNUWLBIyA==}
-
-  '@types/lodash@4.17.25':
-    resolution: {integrity: sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==}
 
   '@types/mark.js@8.11.12':
     resolution: {integrity: sha512-244ZnaIBpz4c6xutliAnYVZp6xJlmC569jZqnR3ElO1Y01ooYASSVQEqpd2x0A2UfrgVMs5V9/9tUAdZaDMytQ==}
@@ -1457,6 +1460,10 @@ packages:
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
 
+  eta@4.6.0:
+    resolution: {integrity: sha512-lW6is4T1NFOYnmqGZIfvixqj7A7sSvScF+DN8EK6K58xI5MZ5UvYe0GjopxOXQtZvUn4eDdVuZ8XSoYWTMEKwA==}
+    engines: {node: '>=20'}
+
   expect-type@1.4.0:
     resolution: {integrity: sha512-KfYbmpRm0VbLjEvVa9yGwCi9GI34xvi7A/HXYWQO65CSD2u3MczUJSuwXKFIxlGsgBQizV9q5J9NHj4VG0n+pA==}
     engines: {node: '>=12.0.0'}
@@ -1800,16 +1807,6 @@ packages:
     resolution: {integrity: sha512-woZS3vNe3UKqBaLPvbLOtKRY4tLANpWQhom12MGWqC8Mh1lCOO+WgSwmX2amjJAqTY9BkXYW87fCUH5H9Ph6xw==}
     engines: {node: '>=22.22.1'}
     hasBin: true
-
-  lodash._reinterpolate@3.0.0:
-    resolution: {integrity: sha512-xYHt68QRoYGjeeM/XOE1uJtvXQAgvszfBhjV4yvsQH0u2i9I6cI6c6/eG4Hh3UAOVn0y/xAXwmTzEay49Q//HA==}
-
-  lodash.template@4.18.1:
-    resolution: {integrity: sha512-5urZrLnV/VD6zHK5KsVtZgt7H19v51mIzoS0aBNH8yp3I8tbswrEjOABOPY8m8uB7NuibubLrMX+Y0PXsU9X+w==}
-    deprecated: This package is deprecated. Use https://socket.dev/npm/package/eta instead.
-
-  lodash.templatesettings@4.2.0:
-    resolution: {integrity: sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==}
 
   lodash@4.18.1:
     resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
@@ -2594,13 +2591,13 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  vite@8.2.1:
-    resolution: {integrity: sha512-EU/eS7BH3XROHh2YnBefjM6DBKA6ZeMZEYQbj7NLWg5wHYlhB8B/Mayd5XsgWq+NFYccDOTemRpdETWR6Ka/lw==}
+  vite@8.2.2:
+    resolution: {integrity: sha512-cFKLV/PRgAUlIRm5WjMjJ86jrftzpqcgH+Us+DS8mI3CDNiH30Whrz8uHL3+MOLPAgqbMBAqWdAHAphOAM+z/Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
-      '@vitejs/devtools': ^0.4.0
+      '@vitejs/devtools': ^0.4.0 || ^0.5.0
       esbuild: '*'
       jiti: '>=1.21.0'
       less: ^4.0.0
@@ -2920,6 +2917,10 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/lucide@1.2.126':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/simple-icons@1.2.93':
     dependencies:
       '@iconify/types': 2.0.0
@@ -3228,12 +3229,6 @@ snapshots:
 
   '@types/linkify-it@5.0.0': {}
 
-  '@types/lodash.template@4.5.3':
-    dependencies:
-      '@types/lodash': 4.17.25
-
-  '@types/lodash@4.17.25': {}
-
   '@types/mark.js@8.11.12':
     dependencies:
       '@types/jquery': 4.0.1
@@ -3275,10 +3270,10 @@ snapshots:
 
   '@ungap/structured-clone@1.3.3': {}
 
-  '@vitejs/plugin-vue@6.0.8(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))':
+  '@vitejs/plugin-vue@6.0.8(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
       vue: 3.5.41(typescript@6.0.3)
 
   '@vitest/expect@4.1.10':
@@ -3290,13 +3285,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.10(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.10(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.10
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.10':
     dependencies:
@@ -3846,6 +3841,8 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.9
 
+  eta@4.6.0: {}
+
   expect-type@1.4.0: {}
 
   extend-shallow@2.0.1:
@@ -4163,17 +4160,6 @@ snapshots:
       tinyexec: 1.3.0
     optionalDependencies:
       yaml: 2.9.0
-
-  lodash._reinterpolate@3.0.0: {}
-
-  lodash.template@4.18.1:
-    dependencies:
-      lodash._reinterpolate: 3.0.0
-      lodash.templatesettings: 4.2.0
-
-  lodash.templatesettings@4.2.0:
-    dependencies:
-      lodash._reinterpolate: 3.0.0
 
   lodash@4.18.1: {}
 
@@ -5053,7 +5039,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0):
+  vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
@@ -5066,13 +5052,13 @@ snapshots:
       jiti: 1.21.7
       yaml: 2.9.0
 
-  vitepress-plugin-group-icons@1.7.6(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
+  vitepress-plugin-group-icons@1.7.6(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
     dependencies:
       '@iconify-json/logos': 1.2.12
       '@iconify-json/vscode-icons': 1.2.70
       '@iconify/utils': 3.1.4
     optionalDependencies:
-      vite: 8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
 
   vitepress-plugin-llms@1.13.4(supports-color@7.2.0):
     dependencies:
@@ -5093,10 +5079,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vitest@4.1.10(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
+  vitest@4.1.10(@types/node@26.2.0)(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.10
-      '@vitest/mocker': 4.1.10(vite@8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.10
       '@vitest/runner': 4.1.10
       '@vitest/snapshot': 4.1.10
@@ -5113,7 +5099,7 @@ snapshots:
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.1(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(jiti@1.21.7)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.2.0

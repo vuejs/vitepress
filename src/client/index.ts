@@ -17,6 +17,7 @@ import { ClientOnly } from './app/components/ClientOnly'
 import { Content } from './app/components/Content'
 
 // composables
+export { useIcon } from './app/composables/icon'
 export { dataSymbol, useData } from './app/data'
 export { useRoute, useRouter } from './app/router'
 

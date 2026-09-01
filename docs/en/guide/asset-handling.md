@@ -36,23 +36,15 @@ Note that you should reference files placed in `public` using root absolute path
 
 ## Base URL
 
-If your site is deployed to a non-root URL, you will need to set the `base` option in `.vitepress/config.js`. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'` (it should always start and end with a slash).
+If your site is deployed to a non-root URL, set the [`base`](../reference/site-config#base) option. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then `base` should be set to `'/bar/'`
 
-All your static asset paths are automatically processed to adjust for different `base` config values. For example, if you have an absolute reference to an asset under `public` in your markdown:
+Static asset references are automatically adjusted for the base, so an absolute reference to a file in `public` works with any `base` and never needs updating:
 
 ```md
 ![An image](/image-inside-public.png)
 ```
 
-You do **not** need to update it when you change the `base` config value in this case.
-
-However, if you are authoring a theme component that links to assets dynamically, e.g. an image whose `src` is based on a theme config value:
-
-```vue
-<img :src="theme.logoPath" />
-```
-
-In this case it is recommended to wrap the path with the [`withBase` helper](../reference/runtime-api#withbase) provided by VitePress:
+Only dynamically constructed paths need care — for example, an image whose `src` is based on a theme config value. Wrap those with the [`withBase` helper](../reference/runtime-api#withbase) so the base is prepended at runtime:
 
 ```vue
 <script setup>
@@ -65,3 +57,26 @@ const { theme } = useData()
   <img :src="withBase(theme.logoPath)" />
 </template>
 ```
+
+## Serving Assets from a CDN
+
+To serve the generated assets — scripts, styles, fonts, and images imported from Markdown or components — from a different origin than the pages, set [`assetsBase`](../reference/site-config#assetsbase):
+
+```ts
+export default {
+  base: '/',
+  assetsBase: 'https://cdn.example.com/'
+}
+```
+
+Upload the `assets` directory from the build output to the CDN so it is reachable at `https://cdn.example.com/assets/`, and deploy the rest of the output to your site as usual. Files in `public` are referenced from `base` and stay with the pages.
+
+Since the value is often environment-specific, it can also be passed on the command line:
+
+```sh
+vitepress build docs --assetsBase "$CDN_URL"
+```
+
+::: warning CORS Required
+Module scripts are always fetched in CORS mode, so a cross-origin CDN must respond with an appropriate `Access-Control-Allow-Origin` header.
+:::

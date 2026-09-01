@@ -112,6 +112,10 @@ export default defineConfig({
 
 Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
+::: info Document IDs
+Search document IDs (as seen by `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they do not include [`base`](../reference/site-config#base). The theme resolves them against the base when rendering results.
+:::
+
 ### Custom content renderer
 
 You can customize the function used to render the markdown content before indexing it:

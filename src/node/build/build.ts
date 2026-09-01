@@ -1,18 +1,42 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
-import { mkdir, rm, symlink, unlink, writeFile } from 'node:fs/promises'
+import {
+  mkdir,
+  readFile,
+  rm,
+  symlink,
+  unlink,
+  writeFile
+} from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 
-import { getIconsCSS } from '@iconify/utils'
 import pMap from 'p-map'
+import c from 'picocolors'
 import { packageDirectory } from 'package-directory'
 import type { BuildOptions, Rolldown } from 'vite'
 
-import { resolveConfig, type SiteConfig } from '../config'
+import {
+  normalizeAssetsBase,
+  normalizeSiteBase,
+  resolveConfig,
+  type SiteConfig
+} from '../config'
 import { clearCache } from '../markdownToVue'
 import type { PageMeta } from '../plugin'
-import { slash, type Awaitable, type HeadConfig } from '../shared'
+import {
+  EXTERNAL_URL_RE,
+  RELATIVE_BASE_SENTINEL,
+  isRelativeBase,
+  slash,
+  type Awaitable,
+  type HeadConfig
+} from '../shared'
+import {
+  VP_ICONS_HASH_PLACEHOLDER,
+  generateIconsCSS,
+  vpIconsFileName
+} from '../icons'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
@@ -21,12 +45,11 @@ import { bundle } from './bundle'
 import { generateSitemap } from './generateSitemap'
 import { renderPage } from './render'
 
-const require = createRequire(import.meta.url)
-
 export async function build(
   root?: string,
   buildOptions: BuildOptions & {
     base?: string
+    assetsBase?: string
     mpa?: string
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
@@ -46,8 +69,21 @@ export async function build(
   const unlinkVue = await linkVue()
 
   if (buildOptions.base) {
-    siteConfig.site.base = buildOptions.base
+    if (typeof buildOptions.base !== 'string') {
+      throw new Error('--base requires a value (e.g. --base /docs/)')
+    }
+    siteConfig.site.base = normalizeSiteBase(buildOptions.base)
     delete buildOptions.base
+  }
+
+  if (buildOptions.assetsBase) {
+    if (typeof buildOptions.assetsBase !== 'string') {
+      throw new Error(
+        '--assetsBase requires a value (e.g. --assetsBase https://cdn.example.com/)'
+      )
+    }
+    siteConfig.assetsBase = normalizeAssetsBase(buildOptions.assetsBase)
+    delete buildOptions.assetsBase
   }
 
   if (buildOptions.mpa) {
@@ -128,6 +164,9 @@ async function render(
   const clientOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
     clientResult?.output || []
 
+  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
+    (siteConfig.mpa ? serverResult : clientResult)?.output || []
+
   const appChunk = clientOutput.find(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' &&
@@ -135,28 +174,28 @@ async function render(
       !!chunk.facadeModuleId?.endsWith('.js')
   )
 
-  const isDefaultTheme = clientOutput.some(
+  const isDefaultTheme = resultOutput.some(
     (chunk): chunk is Rolldown.OutputChunk =>
       chunk.type === 'chunk' &&
-      chunk.name === 'theme' &&
       chunk.moduleIds.some((id) => id.includes('client/theme-default'))
   )
-
-  // ----
-
-  const resultOutput: (Rolldown.OutputChunk | Rolldown.OutputAsset)[] =
-    (siteConfig.mpa ? serverResult : clientResult)?.output || []
 
   const cssChunk = resultOutput.find(
     (chunk): chunk is Rolldown.OutputAsset =>
       chunk.type === 'asset' && chunk.fileName.endsWith('.css')
   )
 
+  const assetsUrlBase =
+    siteConfig.assetsBase ??
+    (isRelativeBase(siteConfig.site.base)
+      ? RELATIVE_BASE_SENTINEL
+      : siteConfig.site.base)
+
   // prettier-ignore
   const assets = resultOutput.filter(
     (chunk): chunk is Rolldown.OutputAsset =>
       chunk.type === 'asset' && !chunk.fileName.endsWith('.css')
-  ).map((asset) => siteConfig.site.base + asset.fileName)
+  ).map((asset) => assetsUrlBase + asset.fileName)
 
   // ----
 
@@ -181,7 +220,9 @@ async function render(
     }
   }
 
-  const usedIcons = new Set<string>()
+  // pre-seeded with icons SSR collection cannot see (client-only renders)
+  const include = siteConfig.icons?.include
+  const usedIcons = new Set<string>(Array.isArray(include) ? include : [])
 
   await pMap(
     ['404.md', ...siteConfig.pages],
@@ -203,22 +244,62 @@ async function render(
     { concurrency: siteConfig.buildConcurrency }
   )
 
-  const icons = require('@iconify-json/simple-icons/icons.json')
-  const iconsCss = getIconsCSS(icons, Array.from(usedIcons).sort(), {
-    iconSelector: '.vpi-social-{name}',
-    commonSelector: '.vpi-social',
-    varName: 'icon',
-    format: process.env.DEBUG ? 'expanded' : 'compressed',
-    mode: 'mask'
-  }).replace(/[^]*?}\n*/, '')
-
-  await writeFile(path.join(siteConfig.outDir, 'vp-icons.css'), iconsCss)
+  await emitIconsCSS(siteConfig, usedIcons)
 
   // emit page hash map for the case where a user session is open
   // when the site got redeployed (which invalidates current hash map)
   await writeFile(
     path.join(siteConfig.outDir, 'hashmap.json'),
     JSON.stringify(pageToHashMap)
+  )
+}
+
+async function emitIconsCSS(
+  config: SiteConfig,
+  usedIcons: Set<string>
+): Promise<void> {
+  const { css, warnings } = await generateIconsCSS(
+    config.root,
+    usedIcons,
+    process.env.DEBUG ? 'expanded' : 'compressed'
+  )
+  for (const warning of warnings) {
+    config.logger.warn(c.yellow(`(icons) ${warning}`))
+  }
+
+  const assetsDir = path.join(config.outDir, config.assetsDir)
+  const placeholder = vpIconsFileName(VP_ICONS_HASH_PLACEHOLDER)
+
+  let hashedName = ''
+  if (css) {
+    hashedName = vpIconsFileName(
+      createHash('sha256').update(css).digest('hex').slice(0, 8)
+    )
+    await mkdir(assetsDir, { recursive: true })
+    await writeFile(path.join(assetsDir, hashedName), css)
+  }
+
+  const linkRE = new RegExp(
+    `[ \\t]*<link\\b[^>]*${VP_ICONS_HASH_PLACEHOLDER}[^>]*>\\n?`
+  )
+  await pMap(
+    ['404.md', ...config.pages],
+    async (page) => {
+      const file = path.join(
+        config.outDir,
+        (config.rewrites.map[page] || page).replace(/\.md$/, '.html')
+      )
+      const html = await readFile(file, 'utf-8').catch(() => null)
+      if (html === null || !html.includes(placeholder)) return
+      // scoped to the tag so prose mentioning the placeholder stays intact
+      await writeFile(
+        file,
+        html.replace(linkRE, (tag) =>
+          hashedName ? tag.replaceAll(placeholder, hashedName) : ''
+        )
+      )
+    },
+    { concurrency: config.buildConcurrency }
   )
 }
 
@@ -235,13 +316,14 @@ async function generateMetadataScript(
   // It's also embedded as a string and JSON.parsed from the client because
   // it's faster than embedding as JS object literal.
   const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+  const fns: string[] = []
   const siteDataString = JSON.stringify(
-    JSON.stringify(serializeFunctions({ ...config.site, head: [] }))
+    JSON.stringify(serializeFunctions({ ...config.site, head: [] }, fns))
   )
 
   const metadataContent = `window.__VP_HASH_MAP__=JSON.parse(${hashMapString});${
-    siteDataString.includes('_vp-fn_')
-      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}));`
+    fns.length
+      ? `${deserializeFunctions};window.__VP_SITE_DATA__=deserializeFunctions(JSON.parse(${siteDataString}),[${fns.join(',')}]);`
       : `window.__VP_SITE_DATA__=JSON.parse(${siteDataString});`
   }`
 
@@ -255,13 +337,22 @@ async function generateMetadataScript(
   )
 
   const resolvedMetadataFile = path.join(config.outDir, metadataFile)
-  const metadataFileURL = slash(`${config.site.base}${metadataFile}`)
+  const urlBase =
+    config.assetsBase ??
+    (isRelativeBase(config.site.base)
+      ? RELATIVE_BASE_SENTINEL
+      : config.site.base)
+  const metadataFileURL = urlBase + slash(metadataFile)
+  const crossorigin =
+    config.assetsBase && EXTERNAL_URL_RE.test(config.assetsBase)
+      ? ' crossorigin'
+      : ''
 
   await mkdir(path.dirname(resolvedMetadataFile), { recursive: true })
   await writeFile(resolvedMetadataFile, metadataContent)
 
   return {
-    html: `<script type="module" src="${metadataFileURL}"></script>`,
+    html: `<script type="module" src="${metadataFileURL}"${crossorigin}></script>`,
     inHead: true
   }
 }

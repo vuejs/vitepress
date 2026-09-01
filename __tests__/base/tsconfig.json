@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["**/*"],
+  "exclude": ["fixture/.vitepress/dist-*", "fixture/.vitepress/cache"]
+}

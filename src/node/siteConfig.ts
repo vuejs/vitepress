@@ -92,7 +92,9 @@ export interface UserConfig<
    */
   extends?: RawConfigExports<ThemeConfig>
   /**
-   * The base URL the site is deployed at. Must start and end with a slash.
+   * The base URL the site is deployed at. Usually starts and ends with a
+   * slash. Use `'./'` to make page references relative to their own depth,
+   * so the output works at any subpath.
    * @default '/'
    */
   base?: string
@@ -118,6 +120,43 @@ export interface UserConfig<
    * @default 'assets'
    */
   assetsDir?: string
+  /**
+   * URL prefix for built assets (everything under `assetsDir`), e.g. a CDN.
+   *
+   * Must be one of:
+   * - an absolute URL
+   * - a protocol-relative URL
+   * - a root-absolute path
+   *
+   * The prefix must mirror `outDir` layout: each asset URL = this prefix +
+   * file output-relative path.
+   *
+   * These still use `base`:
+   * - pages
+   * - `withBase` links
+   * - `public/` files
+   * - `hashmap.json`
+   *
+   * If the prefix is cross-origin, it must serve CORS headers, because
+   * generated tags are marked `crossorigin`.
+   *
+   * Applies to builds and preview (not dev).
+   *
+   * @example 'https://cdn.example.com/'
+   */
+  assetsBase?: string
+  /**
+   * Options for the generated icon stylesheet (`vp-icons.*.css`).
+   */
+  icons?: {
+    /**
+     * Fully qualified `collection:name` icons to include in addition to
+     * the ones collected during SSR — for icons that only render
+     * client-side (e.g. inside `<ClientOnly>`).
+     * @example ['mdi:home', 'simple-icons:discord']
+     */
+    include?: string[]
+  }
   /**
    * Directory for cache files, relative to the project root.
    * @default './.vitepress/cache'
@@ -209,10 +248,10 @@ export interface UserConfig<
    */
   cleanUrls?: boolean
   /**
-   * Use web fonts instead of emitting font files to dist. The active
-   * theme must import a file named `fonts.(s)css` for this to work. If
-   * you are a theme author, to support this, place your web font import
-   * between `webfont-marker-begin` and `webfont-marker-end` comments.
+   * Use web fonts instead of emitting font files to dist. Requires the
+   * active theme to import a file named `fonts.(s)css`, with its web font
+   * imports placed between `webfont-marker-begin` and `webfont-marker-end`
+   * comments.
    * @experimental
    * @default true in webcontainers, else false
    */
@@ -309,6 +348,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'transformHtml'
   | 'transformPageData'
   | 'sitemap'
+  | 'icons'
 > {
   /**
    * Absolute path of the project root (the directory containing
@@ -349,6 +389,10 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
    * Directory for assets within the build output.
    */
   assetsDir: string
+  /**
+   * URL prefix for built assets, normalized to end with a slash.
+   */
+  assetsBase?: string
   /**
    * Absolute path of the cache directory.
    */

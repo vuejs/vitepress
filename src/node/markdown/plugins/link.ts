@@ -9,6 +9,9 @@ import type { MarkdownItAsync } from 'markdown-it-async'
 import {
   EXTERNAL_URL_RE,
   isExternal,
+  isRelativeBase,
+  joinPath,
+  relativePathToRoot,
   treatAsHtml,
   type MarkdownEnv
 } from '../../shared'
@@ -81,7 +84,15 @@ export const linkPlugin = (
 
         // append base to internal (non-relative) urls
         if (hrefAttr[1].startsWith('/')) {
-          hrefAttr[1] = `${base}${hrefAttr[1]}`.replace(/\/+/g, '/')
+          if (isRelativeBase(base)) {
+            // page-relative, so the same html works at any mount point
+            if (env.relativizeUrls && env.relativePath != null) {
+              hrefAttr[1] =
+                relativePathToRoot(env.relativePath) + hrefAttr[1].slice(1)
+            }
+          } else {
+            hrefAttr[1] = joinPath(base, hrefAttr[1])
+          }
         }
       }
       if (frag) {
@@ -98,10 +109,13 @@ export const linkPlugin = (
   ) {
     let url = hrefAttr[1]
 
+    // directory urls need a server to resolve them, and file:// has none
+    const explicitIndex = isRelativeBase(base) && !env.cleanUrls
+
     const indexMatch = url.match(indexRE)
     if (indexMatch) {
       const [, path, hash] = indexMatch
-      url = path + normalizeHash(hash)
+      url = path + (explicitIndex ? 'index.html' : '') + normalizeHash(hash)
     } else {
       let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
@@ -115,6 +129,9 @@ export const linkPlugin = (
         !cleanUrl.endsWith('/')
       ) {
         cleanUrl += '.html'
+      }
+      if (explicitIndex && cleanUrl.endsWith('/')) {
+        cleanUrl += 'index.html'
       }
       const parsed = new URL(url, 'http://a.com')
       url = cleanUrl + parsed.search + normalizeHash(parsed.hash)

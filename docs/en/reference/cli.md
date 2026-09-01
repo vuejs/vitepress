@@ -45,6 +45,7 @@ vitepress build [root]
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`)                                    |
 | `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
+| `--assetsBase <url>`           | URL prefix the generated assets are served from, e.g. a CDN (`string`)                                              |
 | `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
 | `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
 | `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
@@ -64,6 +65,7 @@ vitepress preview [root]
 | Option          | Description                                |
 | --------------- | ------------------------------------------ |
 | `--base <path>` | Public base path (default: `/`) (`string`) |
+| `--assetsBase <url>` | URL prefix the generated assets are served from, e.g. a CDN (`string`) |
 | `--port <port>` | Specify port (`number`)                    |
 
 ## `vitepress init`

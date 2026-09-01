@@ -24,6 +24,7 @@ export declare const VPHomeContent: typeof import('./dist/client/theme-default/c
 export declare const VPHomeFeatures: typeof import('./dist/client/theme-default/components/VPHomeFeatures.vue').default
 export declare const VPHomeHero: typeof import('./dist/client/theme-default/components/VPHomeHero.vue').default
 export declare const VPHomeSponsors: typeof import('./dist/client/theme-default/components/VPHomeSponsors.vue').default
+export declare const VPIcon: typeof import('./dist/client/theme-default/components/VPIcon.vue').default
 export declare const VPImage: typeof import('./dist/client/theme-default/components/VPImage.vue').default
 export declare const VPLink: typeof import('./dist/client/theme-default/components/VPLink.vue').default
 export declare const VPNavBarSearch: typeof import('./dist/client/theme-default/components/VPNavBarSearch.vue').default
