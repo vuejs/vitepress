@@ -62,7 +62,6 @@ export default defineAdditionalConfig({
       title: '페이지를 찾을 수 없습니다',
       quote:
         '방향을 바꾸지 않고 계속 찾다 보면 결국 당신이 가고 있는 곳에 도달할 수도 있습니다.',
-      linkLabel: '홈으로 가기',
       linkText: '집으로 데려가줘'
     },
 
