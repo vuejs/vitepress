@@ -42,6 +42,13 @@ export const notFoundPlugin = (siteConfig: SiteConfig): Plugin => {
     return index === -1 ? [id, ''] : [id.slice(0, index), id.slice(index + 1)]
   }
 
+  // ids arrive as urls, posix paths or native windows paths (the bundler
+  // entries), with the drive letter in either case
+  const isUnderSrcDir = (file: string) =>
+    file
+      .replace(/^[a-z]:/i, (d) => d.toLowerCase())
+      .startsWith(srcDir.replace(/^[a-z]:/i, (d) => d.toLowerCase()))
+
   // the synthesized page a would-be file stands for, and the authored root
   // page it inherits when there is one
   const virtualPage = (file: string) => {
@@ -64,15 +71,17 @@ export const notFoundPlugin = (siteConfig: SiteConfig): Plugin => {
     resolveId: {
       filter: { id: notFoundRE },
       handler(id, importer) {
-        const [file, query] = splitQuery(id)
+        const [rawFile, query] = splitQuery(id)
         // sub-requests (`?vue&type=…`) belong to the module that owns them
         if (query && !/^t=\d+$/.test(query)) return
-        const resolved = file.startsWith(srcDir)
+        // normalizing first would fold `./x` into `x`, so test the raw id
+        const file = normalizePath(rawFile)
+        const resolved = isUnderSrcDir(file)
           ? file
-          : file.startsWith('/')
-            ? normalizePath(path.join(srcDir, file))
-            : importer && file.startsWith('.')
-              ? normalizePath(path.resolve(path.dirname(importer), file))
+          : rawFile.startsWith('/')
+            ? normalizePath(path.join(srcDir, rawFile))
+            : importer && rawFile.startsWith('.')
+              ? normalizePath(path.resolve(path.dirname(importer), rawFile))
               : undefined
         const page = resolved && virtualPage(resolved)
         if (page) return page.inherits ? VIRTUAL_PREFIX + resolved : resolved

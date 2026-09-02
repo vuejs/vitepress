@@ -12,7 +12,7 @@ async function site(files: Record<string, string>, config = '') {
   const root = mkdtempSync(join(tmpdir(), 'vp-not-found-'))
   mkdirSync(join(root, '.vitepress'), { recursive: true })
   writeFileSync(
-    join(root, '.vitepress/config.ts'),
+    join(root, '.vitepress/config.mjs'),
     `export default { ${locales}, ${config} }`
   )
   for (const [file, content] of Object.entries(files)) {
@@ -22,8 +22,8 @@ async function site(files: Record<string, string>, config = '') {
   const siteConfig = await resolveConfig(root, 'build', 'production')
   const plugin = notFoundPlugin(siteConfig)
   const hooks = {
-    resolveId: (id: string) =>
-      (plugin.resolveId as any).handler.call(undefined, id, undefined, {}),
+    resolveId: (id: string, importer?: string) =>
+      (plugin.resolveId as any).handler.call(undefined, id, importer, {}),
     load: (id: string) => (plugin.load as any).handler.call(undefined, id)
   }
   const file = (page: string) => normalizePath(join(siteConfig.srcDir, page))
@@ -45,6 +45,13 @@ describe('node/plugins/notFoundPlugin', () => {
       ])
       expect(s.resolveId('/zh/404.md')).toBe(s.file('zh/404.md'))
       expect(s.resolveId('/zh/404.md?t=123')).toBe(s.file('zh/404.md'))
+      // the bundler hands entries over as native paths
+      expect(s.resolveId(join(s.siteConfig.srcDir, 'zh', '404.md'))).toBe(
+        s.file('zh/404.md')
+      )
+      expect(s.resolveId('./zh/404.md', s.file('index.md'))).toBe(
+        s.file('zh/404.md')
+      )
       expect(s.load(s.file('404.md'))).toContain('<NotFound />')
       expect(s.load(s.file('zh/404.md'))).toContain('<NotFound />')
     } finally {
