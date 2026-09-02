@@ -23,11 +23,17 @@ const types: Record<string, string> = {
   '.zip': 'application/zip'
 }
 
+// how a miss is answered: with the nearest 404.html up the directory tree
+// (cloudflare pages, gitlab pages), with the root one only (github pages,
+// netlify, vercel), or with nothing (an asset cdn)
+type NotFoundMode = 'nearest' | 'root' | 'none'
+
 // listens on an os-assigned port (the other suites run in parallel on CI,
 // so a pre-picked "free" port can be taken before we bind it)
 function serveStatic(
   mounts: [prefix: string, root: string][],
-  cors: boolean
+  cors: boolean,
+  notFound: NotFoundMode = 'none'
 ): Promise<Server> {
   const server = createServer(async (req, res) => {
     const url = decodeURIComponent(new URL(req.url!, 'http://x').pathname)
@@ -45,6 +51,18 @@ function serveStatic(
         res.end(data)
         return
       } catch {}
+      if (notFound === 'none') break
+      const dirs = notFound === 'nearest' ? file.split('/').slice(0, -1) : []
+      for (let depth = dirs.length; depth >= 0; depth--) {
+        try {
+          const data = await readFile(
+            join(root, ...dirs.slice(0, depth), '404.html')
+          )
+          res.writeHead(404, { 'content-type': 'text/html' })
+          res.end(data)
+          return
+        } catch {}
+      }
     }
     res.writeHead(404)
     res.end('not found')
@@ -88,10 +106,13 @@ export async function setup() {
         [SUB_PREFIX, dist('relative')],
         [ALT_PREFIX, dist('relative')]
       ],
-      false
+      false,
+      'nearest'
     ),
-    await serveStatic([['/', dist('cdn')]], false),
-    cdnServer
+    await serveStatic([['/', dist('cdn')]], false, 'nearest'),
+    cdnServer,
+    // a host that only knows the root 404.html
+    await serveStatic([['/', dist('plain')]], false, 'root')
   ]
 
   browserServer = await chromium.launchServer({
@@ -105,6 +126,7 @@ export async function setup() {
   process.env['SUB_PORT'] = String(portOf(servers[0]!))
   process.env['PAGES_PORT'] = String(portOf(servers[1]!))
   process.env['VP_CDN_PORT'] = String(cdnPort)
+  process.env['PLAIN_PORT'] = String(portOf(servers[3]!))
 }
 
 export async function teardown() {
