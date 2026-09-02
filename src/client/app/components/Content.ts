@@ -2,6 +2,7 @@ import { useData, useRoute } from 'vitepress'
 import { defineComponent, h, watch } from 'vue'
 
 import { contentUpdatedCallbacks } from '../utils'
+import { NotFound } from './NotFound'
 
 const runCbs = () => contentUpdatedCallbacks.forEach((fn) => fn())
 
@@ -17,15 +18,17 @@ export const Content = defineComponent({
     return () =>
       h(
         props.as,
-        site.value.contentProps ?? { style: { position: 'relative' } },
+        site.value.contentProps ?? {
+          class: 'vp-content',
+          style: { position: 'relative' }
+        },
         [
-          route.component
-            ? h(route.component, {
-                onVnodeMounted: runCbs,
-                onVnodeUpdated: runCbs,
-                onVnodeUnmounted: runCbs
-              })
-            : '404 Page Not Found'
+          // a route without a component has nothing to show but a miss
+          h(route.component ?? NotFound, {
+            onVnodeMounted: runCbs,
+            onVnodeUpdated: runCbs,
+            onVnodeUnmounted: runCbs
+          })
         ]
       )
   }

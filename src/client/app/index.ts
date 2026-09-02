@@ -16,29 +16,23 @@ import { useCopyCode } from './composables/copyCode'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
-import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
+import {
+  RouterSymbol,
+  createRouter,
+  isLoadFailure,
+  scrollTo,
+  type Router
+} from './router'
+import { resolveNotFound, resolveThemeExtends } from './theme'
 import { inBrowser, pathToFile } from './utils'
 
-function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
-  if (theme.extends) {
-    const base = resolveThemeExtends(theme.extends)
-    return {
-      ...base,
-      ...theme,
-      async enhanceApp(ctx) {
-        await base.enhanceApp?.(ctx)
-        await theme.enhanceApp?.(ctx)
-      },
-      setup() {
-        base.setup?.()
-        theme.setup?.()
-      }
-    }
-  }
-  return theme
-}
-
 const Theme = resolveThemeExtends(RawTheme)
+
+// a pre-rendered not-found document is never hydrated: the host may serve
+// it for any path, so its markup can belong to another page or locale
+const isNotFoundDocument = () =>
+  inBrowser &&
+  !!document.getElementById('app')?.hasAttribute('data-vp-not-found')
 
 const VitePressApp = defineComponent({
   name: 'VitePressApp',
@@ -123,7 +117,9 @@ function newApp(): App {
 }
 
 function newRouter(): Router {
-  let isInitialPageLoad = inBrowser
+  // the lean build leaves the static content to the pre-rendered markup, so
+  // it only fits a page that is going to be hydrated
+  let isInitialPageLoad = inBrowser && !isNotFoundDocument()
 
   return createRouter((path) => {
     let pageFilePath = pathToFile(path)
@@ -138,7 +134,7 @@ function newRouter(): Router {
       if (import.meta.env.DEV) {
         pageModule = import(/*@vite-ignore*/ pageFilePath).catch((e) => {
           // page load could fail for other reasons, don't swallow
-          console.error(e)
+          if (!isLoadFailure(e)) console.error(e)
           // try with/without trailing slash
           // in prod this is handled in src/client/app/utils.ts#pathToFile
           const url = new URL(pageFilePath!, 'http://a.com')
@@ -160,7 +156,7 @@ function newRouter(): Router {
     }
 
     return pageModule
-  }, Theme.NotFound)
+  }, resolveNotFound(RawTheme))
 }
 
 if (inBrowser) {
@@ -169,6 +165,9 @@ if (inBrowser) {
     router.go(location.href, { initialLoad: true }).then(() => {
       // dynamically update head tags
       useUpdateHead(router.route, data.site)
+      if (import.meta.env.PROD && isNotFoundDocument()) {
+        document.getElementById('app')!.replaceChildren()
+      }
       app.mount('#app')
 
       // scroll to hash on new tab during dev

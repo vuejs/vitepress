@@ -6,7 +6,7 @@ import polka, { type IOptions } from 'polka'
 import sirv from 'sirv'
 
 import { normalizeAssetsBase, resolveConfig } from '../config'
-import { EXTERNAL_URL_RE, isRelativeBase } from '../shared'
+import { EXTERNAL_URL_RE, isRelativeBase, resolveNotFoundPage } from '../shared'
 import { readFile } from '../utils/fs'
 
 export interface ServeOptions {
@@ -39,8 +39,27 @@ export async function serve(options: ServeOptions = {}) {
 
   const notAnAsset = (pathname: string) =>
     !pathname.includes(`/${config.assetsDir}/`)
-  const notFound = await readFile(path.resolve(config.outDir, './404.html'))
-  const onNoMatch: IOptions['onNoMatch'] = (req, res) => {
+
+  // the not-found page of the locale the path belongs to, like hosts that
+  // look for the nearest 404.html do; the root one is the last resort
+  const prefix = base ? `/${base}/` : '/'
+  const notFoundPages = new Map<string, Promise<string | null>>()
+  const notFoundFor = (pathname: string): Promise<string | null> => {
+    const page = resolveNotFoundPage(
+      config.site,
+      pathname.startsWith(prefix) ? pathname.slice(prefix.length) : ''
+    )
+    let body = notFoundPages.get(page)
+    if (!body) {
+      body = readFile(path.join(config.outDir, page.replace(/\.md$/, '.html')))
+        .catch(() => readFile(path.join(config.outDir, '404.html')))
+        .catch(() => null)
+      notFoundPages.set(page, body)
+    }
+    return body
+  }
+
+  const onNoMatch: IOptions['onNoMatch'] = async (req, res) => {
     if (base && req.path === '/') {
       res.statusCode = 302
       res.setHeader('location', `/${base}/`)
@@ -48,7 +67,15 @@ export async function serve(options: ServeOptions = {}) {
       return
     }
     res.statusCode = 404
-    if (notAnAsset(req.path)) res.write(notFound)
+    // req.path loses the base prefix under the mounted app; the original url
+    // still has it
+    const pathname = new URL(req.originalUrl || req.url || '', 'http://a.com')
+      .pathname
+    const body = notAnAsset(pathname) ? await notFoundFor(pathname) : null
+    if (body) {
+      res.setHeader('content-type', 'text/html; charset=utf-8')
+      res.write(body)
+    }
     res.end()
   }
 

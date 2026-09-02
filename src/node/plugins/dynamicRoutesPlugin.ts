@@ -17,6 +17,7 @@ import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { readTextFile } from '../utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
+import { resolveNotFoundPagePaths } from './notFoundPlugin'
 import { resolveRewrites } from './rewritesPlugin'
 
 interface UserRouteConfig {
@@ -77,7 +78,10 @@ export function defineRoutes(loader: RouteModule): RouteModule {
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export async function resolvePages(
-  siteConfig: Optional<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'>,
+  siteConfig: Optional<
+    SiteConfig,
+    'pages' | 'dynamicRoutes' | 'rewrites' | 'notFoundPages'
+  >,
   rebuildCache = false
 ): Promise<void> {
   if (rebuildCache) {
@@ -118,10 +122,21 @@ export async function resolvePages(
 
   const rewrites = resolveRewrites(finalPages, siteConfig.userConfig.rewrites)
 
+  // the not-found page of each locale, backed by a source page when one lands
+  // on that path (rewrites included) and synthesized otherwise; it is not a
+  // page in its own right, so sitemap, search and navigation never see it
+  const notFoundPages = resolveNotFoundPagePaths(siteConfig.site).map(
+    (page) => ({
+      path: page,
+      source: finalPages.find((p) => (rewrites.map[p] || p) === page) ?? null
+    })
+  )
+
   Object.assign(siteConfig, {
-    pages: finalPages,
+    pages: finalPages.filter((p) => !notFoundPages.some((n) => n.source === p)),
     dynamicRoutes: finalDynamicRoutes,
     rewrites,
+    notFoundPages,
     // @ts-expect-error internal flag to reload resolution cache in ../markdownToVue.ts
     __dirty: true
   } satisfies Partial<SiteConfig>)
