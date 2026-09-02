@@ -431,6 +431,61 @@ export interface DocFooter {
 }
 ```
 
+## notFound
+
+- Type: `NotFoundOptions`
+
+Customizes the text of the not-found page. Set it under `locales.<locale>.themeConfig` to translate it. To replace the whole page, add a [`404.md`](../guide/routing#not-found-page) to your site instead.
+
+```ts
+export interface NotFoundOptions {
+  /**
+   * Set custom not found message.
+   *
+   * @default 'PAGE NOT FOUND'
+   */
+  title?: string
+
+  /**
+   * Set custom not found description.
+   *
+   * @default "But if you don't change your direction, and if you keep looking, you may end up where you are heading."
+   */
+  quote?: string
+
+  /**
+   * Target of the home link. Defaults to the home of the current locale.
+   */
+  link?: string
+
+  /**
+   * Set custom home link text.
+   *
+   * @default 'Take me home'
+   */
+  linkText?: string
+
+  /**
+   * @default '404'
+   */
+  code?: string
+}
+```
+
+**Example:**
+
+```ts
+export default {
+  themeConfig: {
+    notFound: {
+      title: 'Nothing here',
+      quote: 'The page you are looking for may have moved.',
+      linkText: 'Back to the docs'
+    }
+  }
+}
+```
+
 ## darkModeSwitchLabel
 
 - Type: `string`
@@ -521,6 +576,7 @@ Returns layout-related data. The returned object has the following type:
 
 ```ts
 interface {
+  layout: ComputedRef<string>
   isHome: ComputedRef<boolean>
 
   sidebar: Readonly<ShallowRef<DefaultTheme.SidebarItem[]>>
