@@ -98,6 +98,12 @@ export async function createApp() {
     }
   })
 
+  // set before enhanceApp so users can still disable it or take over with their own errorHandler;
+  // unhandled errors then fail the build instead of silently shipping broken pages
+  if (import.meta.env.SSR) {
+    app.config.throwUnhandledErrorInProduction = true
+  }
+
   if (Theme.enhanceApp) {
     await Theme.enhanceApp({
       app,
