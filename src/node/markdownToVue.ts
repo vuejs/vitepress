@@ -178,8 +178,8 @@ export async function createMarkdownToVueRenderFn(
       frontmatter = {},
       headers = [],
       includes = [],
-      linkLines = [],
       links = [],
+      linkMetadatas = [],
       sfcBlocks,
       title = ''
     } = env
@@ -219,10 +219,9 @@ export async function createMarkdownToVueRenderFn(
       const dir = path.dirname(file)
       for (const [index, rawUrl] of links.entries()) {
         let url = rawUrl
+        const metadata = linkMetadatas[index]
         const line =
-          linkLines[index] == null
-            ? undefined
-            : linkLines[index] + contentLineOffset
+          metadata?.line != null ? metadata.line + contentLineOffset : undefined
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -254,7 +253,7 @@ export async function createMarkdownToVueRenderFn(
           ) &&
           !shouldIgnoreDeadLink(url)
         ) {
-          recordDeadLink(url, line)
+          recordDeadLink(metadata.rawLink, line)
         }
       }
     }
