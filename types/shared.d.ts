@@ -590,13 +590,9 @@ export interface MarkdownEnv {
    */
   relativizeUrls?: boolean
   /**
-   * The URLs of the links collected from the page for the dead link check.
+   * The links collected from the page for the dead link check.
    */
-  links?: string[]
-  /**
-   * The line numbers at which each of `links` appears in the source.
-   */
-  linkLines?: number[]
+  links?: MarkdownLink[]
   /**
    * The absolute paths of the files inlined via `<!--@include-->` and
    * imported via `<<<` code snippets, used for watch invalidation.
@@ -607,6 +603,13 @@ export interface MarkdownEnv {
    * include processing is enabled.
    */
   src?: string
+  /**
+   * Maps lines of the rendered source (`src`) back to the physical files
+   * they came from, set by the include plugin. Token maps stay in rendered
+   * source coordinates; every position that leaves the markdown layer must
+   * be translated through this.
+   */
+  lineMap?: MarkdownLineMap
   /**
    * The absolute path of the actual source file on disk: the route template
    * for dynamic routes, or the original file when rewrites are in use.
@@ -623,4 +626,67 @@ export interface MarkdownEnv {
    * @internal
    */
   eagerInterpolations?: { expression: string; value: string }[]
+  /**
+   * Whether to stamp rendered block elements with their source location
+   * (`data-v-inspector` attributes). Set for page renders in dev; envs
+   * without it (local search, content loaders, builds) render clean HTML.
+   * @internal
+   */
+  emitSourceLoc?: boolean
+}
+
+/**
+ * A link collected while rendering markdown.
+ */
+export interface MarkdownLink {
+  /**
+   * The normalized URL the link renders with, used to resolve the target
+   * page for the dead link check.
+   */
+  url: string
+  /**
+   * The destination as authored in the source, decoded.
+   */
+  raw: string
+  /**
+   * Where the link was authored, when known.
+   */
+  loc?: MarkdownSourceLoc
+}
+
+/**
+ * A position in a source file, in editor coordinates.
+ */
+export interface MarkdownSourceLoc {
+  /**
+   * Absolute path of the physical file containing the construct — with
+   * includes, the included file rather than the page. Absent when the render
+   * has no backing file.
+   */
+  file?: string
+  /**
+   * 1-based line in `file`.
+   */
+  line: number
+  /**
+   * 1-based column, present when it could be determined exactly.
+   */
+  column?: number
+}
+
+/**
+ * Maps 0-based lines of the rendered markdown source (`MarkdownEnv.src`) to
+ * the physical file and 0-based line they came from.
+ */
+export interface MarkdownLineMap {
+  resolve(line: number): {
+    file: string
+    line: number
+    /**
+     * Set when the line was stitched together from more than one source
+     * (a mid-line include splice) — column positions on it are not
+     * meaningful in any single file.
+     */
+    spliced?: boolean
+  }
 }

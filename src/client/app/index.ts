@@ -119,6 +119,13 @@ export async function createApp() {
     )
   }
 
+  // alt+click jump-to-source for the source locations stamped in dev
+  if (import.meta.env.DEV && inBrowser) {
+    import('./openInEditor.js').then(({ setupOpenInEditor }) =>
+      setupOpenInEditor()
+    )
+  }
+
   return { app, router, data }
 }
 

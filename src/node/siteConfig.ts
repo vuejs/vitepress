@@ -80,6 +80,28 @@ export interface TransformPageContext<ThemeConfig = any> {
 }
 
 /**
+ * Where and how a checked link was authored, passed to `ignoreDeadLinks`
+ * filter functions.
+ */
+export interface DeadLinkContext {
+  /**
+   * Absolute path of the file the link was authored in — for links inside
+   * `<!--@include-->`-ed content, the included file.
+   */
+  file: string
+  /**
+   * 1-based position in `file`, when known.
+   */
+  line?: number
+  column?: number
+  /**
+   * The URL the dead link check resolved: the site page path for internal
+   * links, the normalized URL otherwise.
+   */
+  url: string
+}
+
+/**
  * VitePress config, usually defined in `.vitepress/config.[ext]`.
  */
 export interface UserConfig<
@@ -234,12 +256,19 @@ export interface UserConfig<
    * Don't fail builds due to dead links. Accepts `true` (ignore all),
    * `'localhostLinks'` (only ignore localhost links), or an array of
    * exact strings, regexes, and custom filter functions.
+   *
+   * Strings, regexes and filter functions match the link as authored in the
+   * source, decoded. Filter functions also receive the link's context: the
+   * file it was authored in (for links inside `<!--@include-->`-ed content,
+   * the included file), its position, and the URL the check resolved.
    * @default false
    */
   ignoreDeadLinks?:
     | boolean
     | 'localhostLinks'
-    | (string | RegExp | ((link: string, source: string) => boolean))[]
+    | (
+        string | RegExp | ((link: string, context: DeadLinkContext) => boolean)
+      )[]
   /**
    * Generate `/foo` instead of `/foo.html` for pages and internal
    * links. Requires matching support from the hosting platform.

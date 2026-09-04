@@ -46,7 +46,7 @@ export function snippetPlugin(
   options: Options = {},
   logger: Pick<Logger, 'warn'> = console
 ) {
-  md.block.ruler.before('fence', 'snippet', createSnippetParser(srcDir))
+  md.block.ruler.before('fence', 'vp_snippet', createSnippetParser(srcDir))
   const renderFence = md.renderer.rules.fence!
   md.renderer.rules.fence = createSnippetRenderer(renderFence, options, logger)
 }

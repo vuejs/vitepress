@@ -1,6 +1,7 @@
 import type { MarkdownItAsync } from 'markdown-it-async'
 
 import type { MarkdownEnv, MarkdownLocaleOptions } from '../../shared'
+import { popSourceLocAttr } from './sourceAttrs'
 
 export interface Options {
   codeCopyButton: { tooltipText: string; copiedText: string }
@@ -41,8 +42,14 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
     const copiedText =
       localeButton?.copiedText || options.codeCopyButton.copiedText
 
+    // the fence renderer builds its markup by hand, so the source-location
+    // attribute moves onto the wrapper - popped off the token because a
+    // custom `highlight` may fall back to markdown-it's default fence
+    // renderer, which does render token attrs
+    const sourceLocAttr = popSourceLocAttr(md, token)
+
     return (
-      `<div class="language-${lang}${active}">` +
+      `<div class="language-${lang}${active}"${sourceLocAttr}>` +
       `<button title="${tooltipText}" data-copied="${copiedText}" class="copy"></button>` +
       `<span class="lang">${label}</span>` +
       fence(...args) +
