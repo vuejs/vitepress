@@ -136,6 +136,36 @@ router.onBeforeRouteChange = (to) => {
 
 В пользовательских темах этот же экземпляр маршрутизатора доступен через [`enhanceApp`](../guide/custom-theme#theme-interface).
 
+## `useIcon` <Badge type="info" text="композабл" /> {#useicon}
+
+- **Тип**: `(icon: MaybeRefOrGetter<string | { svg: string } | undefined>, el?: MaybeRefOrGetter<HTMLElement | null>) => ComputedRef<string | undefined>`
+
+Отрисовывает иконку [iconify](https://iconify.design/) через пайплайн иконок VitePress. Принимает полностью квалифицированное имя `collection:name` (разрешается относительно пакетов `@iconify-json/*` в зависимостях вашего проекта) и возвращает класс, который нужно поставить на элемент — `vpi-<collection>-<name>`.
+
+Во время SSR имя регистрируется в [`SSGContext`](./site-config#postrender) страницы, поэтому сборка добавляет стили иконки в сгенерированную таблицу стилей; в режиме разработки иконки отдаются dev-сервером по требованию из локально установленных коллекций. Ни одна иконка никогда не загружается с внешнего сервиса.
+
+```vue
+<script setup>
+import { useIcon } from 'vitepress'
+import { useTemplateRef } from 'vue'
+const el = useTemplateRef('el')
+const iconClass = useIcon('lucide:rocket', el)
+</script>
+<template>
+  <span ref="el" :class="iconClass" />
+</template>
+```
+
+Передайте шаблонную ссылку элемента, несущего класс, чтобы dev-режим мог разрешить на нём иконку. Элементу нужны правила `mask`, которые поставляются с темой по умолчанию; в кастомной теме без них dev применяет встроенный эквивалент, а сгенерированная таблица стилей включает базовые правила с нулевой специфичностью для продакшена.
+
+При использовании темы по умолчанию компонент `VPIcon` из `vitepress/theme` оборачивает этот композабл (а также принимает сырую строку `{ svg }`):
+
+```vue-html
+<VPIcon icon="lucide:rocket" />
+```
+
+Иконки, отрисовываемые только на клиенте (например, внутри `<ClientOnly />`), не могут быть собраны во время сборки — вместо этого перечислите их в [`icons.include`](./site-config#icons).
+
 ## `withBase` <Badge type="info" text="хелпер" /> {#withbase}
 
 - **Тип**: `(path: string) => string`
