@@ -1,3 +1,47 @@
+## [2.0.0-alpha.20](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.19...v2.0.0-alpha.20) (2026-09-04)
+
+### Bug Fixes
+
+- harden eager frontmatter interpolation ([#5413](https://github.com/vuejs/vitepress/issues/5413)) ([09f9672](https://github.com/vuejs/vitepress/commit/09f9672ee108578808f793bb57e306bc92dff7bc))
+- key head entries by id and ignore meta content when deduping ([b18f306](https://github.com/vuejs/vitepress/commit/b18f30680b9bced83abd6eacb9417701298cb309)), closes [#5362](https://github.com/vuejs/vitepress/issues/5362) [#5363](https://github.com/vuejs/vitepress/issues/5363) [#5379](https://github.com/vuejs/vitepress/issues/5379)
+- **search:** respect per-locale markdown options ([#5351](https://github.com/vuejs/vitepress/issues/5351)) ([27c4a1a](https://github.com/vuejs/vitepress/commit/27c4a1a2a3a098a00e332a5db26f3d2d79aa319a))
+- serialize config functions as code, not strings revived via new Function (close [#3685](https://github.com/vuejs/vitepress/issues/3685)) ([d3b2957](https://github.com/vuejs/vitepress/commit/d3b2957db000772a408943d01382650821ce0950))
+- **theme/regression:** fix misaligned external link icon ([2be52f0](https://github.com/vuejs/vitepress/commit/2be52f0657efb6e7e061cf29261158bd99f7ff86))
+- **theme:** adjust z-index for VPNavBar and simplify VPNavScreen styles ([#5374](https://github.com/vuejs/vitepress/issues/5374)) ([35cf647](https://github.com/vuejs/vitepress/commit/35cf6470d36bfea5f7c53de251382a19275f72a9))
+- **theme:** cover the external link icon's paint box with its mask ([39b8f9f](https://github.com/vuejs/vitepress/commit/39b8f9f00140cc3f4a60c9e1ffb0c142de5ea089))
+- **theme:** drop the -webkit-backdrop-filter fallbacks ([a2a0a92](https://github.com/vuejs/vitepress/commit/a2a0a923e5f468af1bb81023347c61513d6c408a))
+- **theme:** fix menu dropdown group dividers ([#5365](https://github.com/vuejs/vitepress/issues/5365)) ([49c84f5](https://github.com/vuejs/vitepress/commit/49c84f570a933a2b5a95411bfd419b7369ab02a7))
+- **theme:** fix nav screen and divider appearance ([#5369](https://github.com/vuejs/vitepress/issues/5369)) ([a0401ee](https://github.com/vuejs/vitepress/commit/a0401eed4b6aa70fcab7c2c9a2d2aeaa674f59bd))
+- **theme:** fix social links spacing in dropdown ([#5370](https://github.com/vuejs/vitepress/issues/5370)) ([cb636b2](https://github.com/vuejs/vitepress/commit/cb636b241075296910237d6c067cba8a9052683e))
+- **theme:** handle outline bottom overscroll ([#5375](https://github.com/vuejs/vitepress/issues/5375)) ([3fe901d](https://github.com/vuejs/vitepress/commit/3fe901dea973ce3b24c1f3d38f313ab40466357e))
+- **theme:** keep search beside the title without a nav menu ([14f4f09](https://github.com/vuejs/vitepress/commit/14f4f09d32a5325a33629b5911c714d44882a726))
+- **theme:** keep the search keycap glyphs out of the DOM text ([60f656b](https://github.com/vuejs/vitepress/commit/60f656b0ec46a4bbe61f877036385ec3af64a9ff)), closes [#5401](https://github.com/vuejs/vitepress/issues/5401)
+- **theme:** mark current navigation links ([#5395](https://github.com/vuejs/vitepress/issues/5395)) ([0f0fe13](https://github.com/vuejs/vitepress/commit/0f0fe135762489f1a6c73348bd8b0a86db969248))
+- **theme:** paint the navbar divider on its own layer ([9bebd09](https://github.com/vuejs/vitepress/commit/9bebd092ebad1818e31cac8e86e5b03704554995)), closes [#5399](https://github.com/vuejs/vitepress/issues/5399)
+- **theme:** prevent layout shifts when locking page scroll ([310679a](https://github.com/vuejs/vitepress/commit/310679a76c43b429dbe8b7127dc7e6bb3ec50569)), closes [#5386](https://github.com/vuejs/vitepress/issues/5386)
+- **theme:** prevent scroll chaining in local nav outline dropdown ([#5367](https://github.com/vuejs/vitepress/issues/5367)) ([0a96bae](https://github.com/vuejs/vitepress/commit/0a96bae50b907b70a3cd712f98514ce77086496a))
+- **theme:** remove extra margins from first and last paragraph inside a list element ([8dbd782](https://github.com/vuejs/vitepress/commit/8dbd782c752ed510a11c04527bed974c122e8133)), closes [#5353](https://github.com/vuejs/vitepress/issues/5353)
+- **theme:** render sidebar active state during ssr ([005aa5c](https://github.com/vuejs/vitepress/commit/005aa5c3e88d5d6a455bcc20b4c4e6f2c3a1abe9))
+- **theme:** render sidebar group toggles as native buttons ([ed2bfb2](https://github.com/vuejs/vitepress/commit/ed2bfb266ef788e86d1a73fe3cd7708a4cd5e260)), closes [#5366](https://github.com/vuejs/vitepress/issues/5366) [#5371](https://github.com/vuejs/vitepress/issues/5371)
+- **theme:** rendering of sponsor and team components inside vp-doc containers ([#4493](https://github.com/vuejs/vitepress/issues/4493)) ([b7602df](https://github.com/vuejs/vitepress/commit/b7602df1cdee75d0814cf3f131b4906a31841851))
+- **theme:** treat negative scrollY as top ([#5368](https://github.com/vuejs/vitepress/issues/5368)) ([9d521db](https://github.com/vuejs/vitepress/commit/9d521db8671a53d5a5f23baf5226879ce2d25960))
+- **theme:** use a getter as VPSidebar's open watch source ([9aeeb4f](https://github.com/vuejs/vitepress/commit/9aeeb4fa31396040b6014af2b45111a05751547d))
+- **theme:** use relative length units to auto-close nav screen menu ([#5387](https://github.com/vuejs/vitepress/issues/5387)) ([c197979](https://github.com/vuejs/vitepress/commit/c1979799936f68443f150122d427fb26ff30e9ae))
+
+### Features
+
+- **cli:** make shortcuts case-insensitive ([#5378](https://github.com/vuejs/vitepress/issues/5378)) ([4ffcdae](https://github.com/vuejs/vitepress/commit/4ffcdae825b7534c24bc9ab4473849c0b8d72669))
+- hashed icon styles, offline dev icons, arbitrary iconify collections ([#5407](https://github.com/vuejs/vitepress/issues/5407)) ([d00a5e0](https://github.com/vuejs/vitepress/commit/d00a5e0f8778923d7ef6adf97b5671e9d0f86be6))
+- relative base (`./`) and `assetsBase` (CDN prefix) ([#5406](https://github.com/vuejs/vitepress/issues/5406)) ([feadd9f](https://github.com/vuejs/vitepress/commit/feadd9fcc1519d52a74940f8cd15a71ffcc25fe8))
+- resolve `$frontmatter` expressions while rendering markdown ([#5412](https://github.com/vuejs/vitepress/issues/5412)) ([a1eb284](https://github.com/vuejs/vitepress/commit/a1eb28496e67f881fc50da776c11aa45a73c4f40))
+- **ssr:** enable `throwUnhandledErrorInProduction` ([#5419](https://github.com/vuejs/vitepress/issues/5419)) ([a6573ff](https://github.com/vuejs/vitepress/commit/a6573ff60c4b85d5473ea3903b223f8f1ee9f412))
+- **theme:** add --vp-local-nav-divider-color ([110209d](https://github.com/vuejs/vitepress/commit/110209dd32bd7b828abccfb773ae2207f36c1147))
+- **theme:** add opt-in severity-based colors for containers, alerts, and badges ([#5373](https://github.com/vuejs/vitepress/issues/5373)) ([45cb85e](https://github.com/vuejs/vitepress/commit/45cb85e5104346422e82f9cae96b0ce0afc690d8))
+- **theme:** redesign the navbar ([#5397](https://github.com/vuejs/vitepress/issues/5397)) ([26b76d6](https://github.com/vuejs/vitepress/commit/26b76d6d9e8fd3ae368c7a1e8ad6698cdeb73e7a))
+- **theme:** scroll toc if active item is out of view ([#5377](https://github.com/vuejs/vitepress/issues/5377)) ([72534af](https://github.com/vuejs/vitepress/commit/72534af30ebe25cfedf7c3ca6d7f9fbfbbaa487f))
+- **theme:** un-deprecate Theme.setup and compose it across extends ([#5404](https://github.com/vuejs/vitepress/issues/5404)) ([ebbd48c](https://github.com/vuejs/vitepress/commit/ebbd48c8c76a1f794ed52d8d4d9917f1bd52bea0))
+- **theme:** use relative length units ([#5323](https://github.com/vuejs/vitepress/issues/5323)) ([2a91caa](https://github.com/vuejs/vitepress/commit/2a91caa78e62227764e8714574b8367e0610e8ee))
+
 ## [2.0.0-alpha.19](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.18...v2.0.0-alpha.19) (2026-08-02)
 
 ### Bug Fixes
