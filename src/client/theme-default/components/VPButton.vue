@@ -42,7 +42,9 @@ const component = computed(() => {
 
 <style scoped>
 .VPButton {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid transparent;
   text-align: center;
   font-weight: 600;
@@ -56,16 +58,16 @@ const component = computed(() => {
 }
 
 .VPButton.medium {
+  height: 2.5rem;
   border-radius: 1.25rem;
   padding: 0 1.25rem;
-  line-height: 2.7142857;
   font-size: 0.875rem;
 }
 
 .VPButton.big {
+  height: 3rem;
   border-radius: 1.5rem;
   padding: 0 1.5rem;
-  line-height: 2.875;
   font-size: 1rem;
 }
 
