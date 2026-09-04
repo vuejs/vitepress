@@ -33,6 +33,11 @@ interface Theme {
    */
   Layout: Component
   /**
+   * Content of the not-found page when the site has no `404.md`
+   * @optional
+   */
+  NotFound?: Component
+  /**
    * Enhance Vue app instance
    * @optional
    */
@@ -130,9 +135,21 @@ The most basic layout component needs to contain a [`<Content />`](../reference/
 </template>
 ```
 
-The above layout simply renders every page's markdown as HTML. The first improvement we can add is to handle 404 errors:
+The above layout renders every page's markdown as HTML. That includes the not-found page: when a visitor opens a URL that has no page, `<Content />` renders the site's `404.md`, or the theme's `NotFound` component when the site has none. A theme should ship that component, so every site gets a not-found page without writing one. Without it, a small unstyled built-in page is shown instead.
 
-```vue{1-4,9-12}
+```js [.vitepress/theme/index.js]
+import Layout from './Layout.vue'
+import NotFound from './NotFound.vue'
+
+export default {
+  Layout,
+  NotFound
+}
+```
+
+The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. For example, `page.isNotFound` is `true` on the not-found page, so the layout can leave out the parts that only make sense for real pages:
+
+```vue{1-4,9}
 <script setup>
 import { useData } from 'vitepress'
 const { page } = useData()
@@ -141,14 +158,12 @@ const { page } = useData()
 <template>
   <h1>Custom Layout!</h1>
 
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
-  <Content v-else />
+  <aside v-if="!page.isNotFound">Table of contents</aside>
+  <Content />
 </template>
 ```
 
-The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
+One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
 
 ```md
 ---
@@ -158,18 +173,15 @@ layout: home
 
 And we can adjust our theme to handle this:
 
-```vue{3,12-14}
+```vue{3,9-12}
 <script setup>
 import { useData } from 'vitepress'
-const { page, frontmatter } = useData()
+const { frontmatter } = useData()
 </script>
 
 <template>
   <h1>Custom Layout!</h1>
 
-  <div v-if="page.isNotFound">
-    Custom 404 page!
-  </div>
   <div v-if="frontmatter.layout === 'home'">
     Custom home page!
   </div>
@@ -179,20 +191,18 @@ const { page, frontmatter } = useData()
 
 You can, of course, split the layout into more components:
 
-```vue{3-5,12-15}
+```vue{3-4,12-13}
 <script setup>
 import { useData } from 'vitepress'
-import NotFound from './NotFound.vue'
 import Home from './Home.vue'
 import Page from './Page.vue'
 
-const { page, frontmatter } = useData()
+const { frontmatter } = useData()
 </script>
 
 <template>
   <h1>Custom Layout!</h1>
 
-  <NotFound v-if="page.isNotFound" />
   <Home v-if="frontmatter.layout === 'home'" />
   <Page v-else /> <!-- <Page /> renders <Content /> -->
 </template>

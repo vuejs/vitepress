@@ -225,12 +225,12 @@ async function render(
   const usedIcons = new Set<string>(Array.isArray(include) ? include : [])
 
   await pMap(
-    ['404.md', ...siteConfig.pages],
+    outputPages(siteConfig),
     async (page) => {
       await renderPage(
         render,
         siteConfig,
-        siteConfig.rewrites.map[page] || page,
+        page,
         clientResult,
         appChunk,
         cssChunk,
@@ -252,6 +252,17 @@ async function render(
     path.join(siteConfig.outDir, 'hashmap.json'),
     JSON.stringify(pageToHashMap)
   )
+}
+
+/**
+ * Every page to emit, by output path: the not-found page of each locale
+ * plus the pages with their rewrites applied.
+ */
+function outputPages(config: SiteConfig): string[] {
+  return [
+    ...config.notFoundPages.map((p) => p.path),
+    ...config.pages.map((p) => config.rewrites.map[p] || p)
+  ]
 }
 
 async function emitIconsCSS(
@@ -283,12 +294,9 @@ async function emitIconsCSS(
     `[ \\t]*<link\\b[^>]*${VP_ICONS_HASH_PLACEHOLDER}[^>]*>\\n?`
   )
   await pMap(
-    ['404.md', ...config.pages],
+    outputPages(config),
     async (page) => {
-      const file = path.join(
-        config.outDir,
-        (config.rewrites.map[page] || page).replace(/\.md$/, '.html')
-      )
+      const file = path.join(config.outDir, page.replace(/\.md$/, '.html'))
       const html = await readFile(file, 'utf-8').catch(() => null)
       if (html === null || !html.includes(placeholder)) return
       // scoped to the tag so prose mentioning the placeholder stays intact

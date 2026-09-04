@@ -62,7 +62,6 @@ export default defineAdditionalConfig({
       title: 'PÁGINA NO ENCONTRADA',
       quote:
         'Pero si no cambias de dirección y sigues buscando, podrías terminar donde te diriges.',
-      linkLabel: 'ir a inicio',
       linkText: 'Llévame a inicio'
     },
 

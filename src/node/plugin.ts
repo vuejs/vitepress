@@ -31,10 +31,11 @@ import { assetsBasePlugin } from './plugins/assetsBasePlugin'
 import { iconsPlugin } from './plugins/iconsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
+import { notFoundPlugin } from './plugins/notFoundPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { slash, type PageDataPayload } from './shared'
+import { isRelativeBase, slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
@@ -117,6 +118,35 @@ export async function createVitePressPlugin(
   let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
   let importerMap: Record<string, Set<string> | undefined> = {}
+
+  // whether a request path has a page behind it, so the dev server can answer
+  // a miss with a real 404 status (the shell is served either way and the
+  // client renders the not-found page)
+  let knownPages: { pages: string[]; set: Set<string> } | undefined
+  const hasPage = (pathname: string): boolean => {
+    if (knownPages?.pages !== siteConfig.pages) {
+      knownPages = {
+        pages: siteConfig.pages,
+        set: new Set([
+          ...siteConfig.pages.map((p) => siteConfig.rewrites.map[p] || p),
+          ...siteConfig.notFoundPages.map((p) => p.path)
+        ])
+      }
+    }
+    const base = isRelativeBase(site.base) ? '/' : site.base
+    if (!pathname.startsWith(base)) return false
+    let page: string
+    try {
+      page = decodeURIComponent(pathname.slice(base.length))
+    } catch {
+      return false
+    }
+    page = page.replace(/\.html$/, '')
+    if (page === '' || page.endsWith('/')) page += 'index'
+    return (
+      knownPages.set.has(`${page}.md`) || knownPages.set.has(`${page}/index.md`)
+    )
+  }
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -224,6 +254,10 @@ export async function createVitePressPlugin(
           return processClientJS(code, id)
         }
         if (id.endsWith('.md')) {
+          // a synthesized not-found page that re-exports another page is
+          // plain js (see ./plugins/notFoundPlugin.ts)
+          if (id.startsWith('\0')) return
+
           const watchIncludes = (files: string[] = []) => {
             files.forEach((i) => {
               ;(importerMap[slash(i)] ??= new Set()).add(slash(id))
@@ -305,7 +339,9 @@ export async function createVitePressPlugin(
         server.middlewares.use(async (req, res, next) => {
           const url = req.url && cleanUrl(req.url)
           if (url?.endsWith('.html')) {
-            res.statusCode = 200
+            res.statusCode = hasPage(cleanUrl(req.originalUrl || url))
+              ? 200
+              : 404
             res.setHeader('Content-Type', 'text/html')
             let html = `\
 <!DOCTYPE html>
@@ -391,6 +427,20 @@ export async function createVitePressPlugin(
       // update pages, dynamicRoutes and rewrites on md file creation / deletion
       if (file.endsWith('.md') && type !== 'update') {
         await resolvePages(siteConfig)
+
+        // a not-found page appearing or disappearing changes what the other
+        // locales' not-found modules re-export, so start over
+        const page = siteConfig.rewrites.map[relativePath] || relativePath
+        if (siteConfig.notFoundPages.some((p) => p.path === page)) {
+          for (const { path: notFoundPage } of siteConfig.notFoundPages) {
+            const mod = this.environment.moduleGraph.getModuleById(
+              normalizePath(path.join(srcDir, notFoundPage))
+            )
+            if (mod) this.environment.moduleGraph.invalidateModule(mod)
+          }
+          this.environment.hot.send({ type: 'full-reload' })
+          return []
+        }
       }
 
       if (
@@ -467,7 +517,8 @@ export async function createVitePressPlugin(
     iconsPlugin(siteConfig),
     await localSearchPlugin(siteConfig),
     staticDataPlugin,
-    await dynamicRoutesPlugin(siteConfig)
+    await dynamicRoutesPlugin(siteConfig),
+    notFoundPlugin(siteConfig)
   ]
 }
 

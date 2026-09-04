@@ -44,6 +44,7 @@ const namedDefaultExportRE = /((?:^|\n|;)\s*)export(.+)as(\s*)default/
 let __pages: string[] = []
 let __dynamicRoutes = new Map<string, [string, string]>()
 let __rewrites = new Map<string, string>()
+let __notFoundPages = new Map<string, string | null>()
 let __ts: number
 
 export interface MarkdownCompileResult {
@@ -69,7 +70,12 @@ function normalizeDriveLetter(file: string) {
 function getResolutionCache(siteConfig: SiteConfig) {
   // @ts-expect-error internal
   if (siteConfig.__dirty) {
-    __pages = siteConfig.pages.map((p) => slash(p.replace(/\.md$/, '')))
+    // link targets: every page plus the not-found pages (the authored source
+    // when there is one, the synthesized page otherwise)
+    __pages = [
+      ...siteConfig.pages,
+      ...siteConfig.notFoundPages.map((p) => p.source ?? p.path)
+    ].map((p) => slash(p.replace(/\.md$/, '')))
 
     __dynamicRoutes = new Map(
       siteConfig.dynamicRoutes.map((r) => [
@@ -85,6 +91,10 @@ function getResolutionCache(siteConfig: SiteConfig) {
       ])
     )
 
+    __notFoundPages = new Map(
+      siteConfig.notFoundPages.map((p) => [p.path, p.source])
+    )
+
     __ts = Date.now()
 
     // @ts-expect-error internal
@@ -95,6 +105,7 @@ function getResolutionCache(siteConfig: SiteConfig) {
     pages: __pages,
     dynamicRoutes: __dynamicRoutes,
     rewrites: __rewrites,
+    notFoundPages: __notFoundPages,
     ts: __ts
   }
 }
@@ -116,7 +127,7 @@ export async function createMarkdownToVueRenderFn(
   )
 
   return async (src: string, file: string): Promise<MarkdownCompileResult> => {
-    const { pages, dynamicRoutes, rewrites, ts } =
+    const { pages, dynamicRoutes, rewrites, notFoundPages, ts } =
       getResolutionCache(siteConfig)
 
     const dynamicRoute = dynamicRoutes.get(file)
@@ -128,6 +139,11 @@ export async function createMarkdownToVueRenderFn(
 
     file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
+
+    // the not-found page of a locale; synthesized when it has no source file
+    const notFoundSource = notFoundPages.get(relativePath)
+    const isNotFound = notFoundSource !== undefined
+    const isVirtual = notFoundSource === null
 
     const srcHash = hash('sha256', src, 'base64url')
     const cacheKey = `${srcHash}:${ts}:${relativePath}`
@@ -267,10 +283,15 @@ export async function createMarkdownToVueRenderFn(
       headers,
       params,
       relativePath,
-      filePath: slash(path.relative(srcDir, fileOrig))
+      filePath: isVirtual ? '' : slash(path.relative(srcDir, fileOrig)),
+      ...(isNotFound ? { isNotFound } : {})
     }
 
-    if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {
+    if (
+      includeLastUpdatedData &&
+      frontmatter.lastUpdated !== false &&
+      !isVirtual
+    ) {
       if (frontmatter.lastUpdated instanceof Date) {
         pageData.lastUpdated = +frontmatter.lastUpdated
       } else {

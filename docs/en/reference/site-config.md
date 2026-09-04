@@ -722,7 +722,7 @@ In many cases, using the [`transformPageData`](#transformpagedata) hook is a cle
 ```ts
 export default {
   async transformHead(context) {
-    if (context.page === '404.md') {
+    if (context.pageData.isNotFound) {
       return
     }
 

@@ -12,6 +12,7 @@ import type { Theme } from 'vitepress'
 
 import VPBadge from './components/VPBadge.vue'
 import Layout from './Layout.vue'
+import NotFound from './NotFound.vue'
 
 export { default as VPBadge } from './components/VPBadge.vue'
 export { default as VPButton } from './components/VPButton.vue'
@@ -37,6 +38,7 @@ export { useLayout } from './composables/layout'
 
 const theme: Theme = {
   Layout,
+  NotFound,
   enhanceApp: ({ app }) => {
     app.component('Badge', VPBadge)
   }

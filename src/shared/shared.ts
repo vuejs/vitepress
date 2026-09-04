@@ -94,15 +94,37 @@ const shellLangs = ['shellscript', 'shell', 'bash', 'sh', 'zsh']
 
 export const inBrowser = typeof document !== 'undefined'
 
-export const notFoundPageData: PageData = {
-  relativePath: '404.md',
-  filePath: '',
-  title: '404',
-  description: 'Not Found',
-  headers: [],
-  frontmatter: { sidebar: false, layout: 'page' },
-  lastUpdated: 0,
-  isNotFound: true
+/**
+ * The not-found page that answers a site-relative path: `<locale>/404.md`
+ * when the path is under a locale directory, `404.md` otherwise.
+ */
+export function resolveNotFoundPage(
+  siteData: SiteData | undefined,
+  relativePath: string
+): string {
+  let locale = 'root'
+  try {
+    locale = getLocaleForPath(siteData, relativePath)
+  } catch {
+    // a path that is not valid percent-encoding belongs to no locale
+  }
+  return (locale === 'root' ? '' : `${locale}/`) + '404.md'
+}
+
+/**
+ * Page data for a not-found page whose module could not be loaded: the last
+ * resort behind the theme's `NotFound` component.
+ */
+export function createNotFoundPageData(relativePath: string): PageData {
+  return {
+    relativePath,
+    filePath: '',
+    title: '404',
+    description: 'Not Found',
+    headers: [],
+    frontmatter: {},
+    isNotFound: true
+  }
 }
 
 export function isActive(

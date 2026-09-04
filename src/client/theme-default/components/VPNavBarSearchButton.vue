@@ -25,7 +25,17 @@ defineProps<{
   font-size: 1.25rem;
 }
 
-.text,
+/* the text stays in the accessibility tree while the bar shows only the icon */
+.text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+
 .keys {
   display: none;
 }
@@ -59,7 +69,12 @@ kbd {
   }
 
   .text {
-    display: inline;
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+    clip-path: none;
+    overflow: visible;
     font-size: 0.8125rem;
   }
 

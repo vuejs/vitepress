@@ -64,6 +64,8 @@ interface PageData {
 
 `page.headers` is populated only when [`markdown.headers`](./site-config#markdown) is enabled. Without that option, it remains an empty array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
 
+`page.isNotFound` is `true` on the [not-found page](../guide/routing#not-found-page), which also answers every URL that has no page. `useRoute().path` still holds the URL the visitor asked for.
+
 **Example:**
 
 ```vue

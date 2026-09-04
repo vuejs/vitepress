@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { resolveDynamicComponent } from 'vue'
 
-import { useData } from '../composables/data'
 import { useLayout } from '../composables/layout'
-import NotFound from '../NotFound.vue'
 import VPDoc from './VPDoc.vue'
 import VPHome from './VPHome.vue'
 import VPPage from './VPPage.vue'
 
-const { page, frontmatter } = useData()
-const { isHome, hasSidebar } = useLayout()
+const { isHome, hasSidebar, layout } = useLayout()
 
 function isRegistered(component: string): boolean {
   return typeof resolveDynamicComponent(component) !== 'string'
@@ -22,14 +19,12 @@ function isRegistered(component: string): boolean {
     id="VPContent"
     :class="{ 'has-sidebar': hasSidebar, 'is-home': isHome }"
   >
-    <slot name="not-found" v-if="page.isNotFound"><NotFound /></slot>
-
-    <VPPage v-else-if="frontmatter.layout === 'page' && !isRegistered('page')">
+    <VPPage v-if="layout === 'page' && !isRegistered('page')">
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
     </VPPage>
 
-    <VPHome v-else-if="frontmatter.layout === 'home' && !isRegistered('home')">
+    <VPHome v-else-if="layout === 'home' && !isRegistered('home')">
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>
@@ -42,7 +37,7 @@ function isRegistered(component: string): boolean {
       <template #home-features-after><slot name="home-features-after" /></template>
     </VPHome>
 
-    <VPDoc v-else-if="(!frontmatter.layout || frontmatter.layout === 'doc') && !isRegistered('doc')">
+    <VPDoc v-else-if="layout === 'doc' && !isRegistered('doc')">
       <template #doc-top><slot name="doc-top" /></template>
       <template #doc-bottom><slot name="doc-bottom" /></template>
 
@@ -58,7 +53,7 @@ function isRegistered(component: string): boolean {
       <template #aside-bottom><slot name="aside-bottom" /></template>
     </VPDoc>
 
-    <component v-else :is="frontmatter.layout || 'doc'" />
+    <component v-else :is="layout" />
   </div>
 </template>
 

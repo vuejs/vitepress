@@ -69,7 +69,9 @@ export interface PageData {
    */
   params?: Record<string, any>
   /**
-   * Whether the page is the not-found (404) page.
+   * Whether this is the not-found page: the `404.md` of the site or of a
+   * locale (or the page synthesized in its place), which also answers every
+   * URL that has no page.
    */
   isNotFound?: boolean
   /**
@@ -234,6 +236,7 @@ export interface SiteData<ThemeConfig = any> {
   localeIndex?: string
   /**
    * Props passed to the wrapper element rendered by the `Content` component.
+   * Defaults to `{ class: 'vp-content', style: { position: 'relative' } }`.
    */
   contentProps?: Record<string, any>
   /**
