@@ -15,14 +15,14 @@ importers:
   .:
     dependencies:
       '@docsearch/css':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@docsearch/js':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@docsearch/sidepanel-js':
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^5.0.4
+        version: 5.0.4
       '@iconify-json/simple-icons':
         specifier: ^1.2.93
         version: 1.2.93
@@ -385,14 +385,14 @@ packages:
     resolution: {integrity: sha512-TzlTVpKPjaqW6qOYjQcYUDuGsLCNsvFHVBXkYGTAnf5V37jCWrE5haKNXzz0WZUtVHjrpV76L1buANjwXMfT8w==}
     engines: {node: '>=22'}
 
-  '@docsearch/css@4.7.0':
-    resolution: {integrity: sha512-Sk5xkdRFeE7PeWjG9l4AfTwdvMfr9wHiwNNCpHXT4v4SNyNMKdHGvEILc31BgaVFGDDNbv5u/a73tofRiwbEZw==}
+  '@docsearch/css@5.0.4':
+    resolution: {integrity: sha512-Bg2VmrPbhBmqKBrt6FL8bvd66f9IaU448Ip9K+elLlX2rivtV5FvBJq7iGsMvvj42etsdJe6VqisoTKZMv0Qdg==}
 
-  '@docsearch/js@4.7.0':
-    resolution: {integrity: sha512-x5lCqu1tetgsJFkjQ6VSocbHldsRkGEgwg5N98Vx21sq/V5wcmj4u226PY9k+TEpIgQ772zlYbPLTPicWyGnpA==}
+  '@docsearch/js@5.0.4':
+    resolution: {integrity: sha512-eKoVwAWKWXYPDZiDXBX4g1RVQnvHHCX91+Z+1ZEJuHPkZjTANk+L4/9t6xM5wxiiNcwD6YjfDMhcE/99sWT4SA==}
 
-  '@docsearch/sidepanel-js@4.7.0':
-    resolution: {integrity: sha512-A8r34jCU8kcIk2viECEn2msA28ojUF1BLi/3v5OWWc5G2N3jOuuumBXoeYjfr8dA0UxgFSy5R2bt12dnFJQSyA==}
+  '@docsearch/sidepanel-js@5.0.4':
+    resolution: {integrity: sha512-RZ6YO4SvLqfjlz49fNlYtlHARSuD0YxAQ8HTl5DDbiW5iHNu8Ichu0teughu1uLBVg06t4OELP3RRU6O7f0fHQ==}
 
   '@hapi/address@5.1.1':
     resolution: {integrity: sha512-A+po2d/dVoY7cYajycYI43ZbYMXukuopIsqCjh5QzsBCipDtdofHntljDlpccMjIfTy6UOkg+5KPriwYch2bXA==}
@@ -2891,11 +2891,11 @@ snapshots:
 
   '@conventional-changelog/template@1.2.1': {}
 
-  '@docsearch/css@4.7.0': {}
+  '@docsearch/css@5.0.4': {}
 
-  '@docsearch/js@4.7.0': {}
+  '@docsearch/js@5.0.4': {}
 
-  '@docsearch/sidepanel-js@4.7.0': {}
+  '@docsearch/sidepanel-js@5.0.4': {}
 
   '@hapi/address@5.1.1':
     dependencies:
