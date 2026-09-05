@@ -184,10 +184,11 @@ export interface SiteData<ThemeConfig = any> {
    */
   lang: string
   /**
-   * The text direction (`dir` attribute) of the site.
+   * The text direction (`dir` attribute) of the site. Set to `false` to let
+   * application code manage the attribute.
    * @default 'ltr'
    */
-  dir: string
+  dir: string | false
   /**
    * The title of the site.
    * @default 'VitePress'
@@ -295,7 +296,7 @@ export interface VitePressData<T = any> {
   /**
    * The text direction of the active locale.
    */
-  dir: Ref<string>
+  dir: Ref<string | false>
   /**
    * The key of the active locale.
    */
@@ -379,9 +380,10 @@ export interface LocaleSpecificConfig<ThemeConfig = any> {
    */
   lang?: string
   /**
-   * The text direction of the locale.
+   * The text direction of the locale. Set to `false` to let application code
+   * manage the `dir` attribute.
    */
-  dir?: string
+  dir?: string | false
   /**
    * The title of the site in the locale.
    */

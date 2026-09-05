@@ -49,7 +49,9 @@ const VitePressApp = defineComponent({
     onMounted(() => {
       watchEffect(() => {
         document.documentElement.lang = lang.value
-        document.documentElement.dir = dir.value
+        if (dir.value !== false) {
+          document.documentElement.dir = dir.value
+        }
       })
     })
 
