@@ -1,6 +1,3 @@
-@import '@docsearch/css/dist/style.css';
-@import '@docsearch/css/dist/sidepanel.css';
-
 #vp-docsearch,
 #vp-docsearch-sidepanel,
 .DocSearch-SidepanelButton {
@@ -10,11 +7,14 @@
 :root:root {
   --docsearch-actions-height: auto;
   --docsearch-actions-width: auto;
-  --docsearch-background-color: var(--vp-c-bg-soft);
+  --docsearch-background-color: var(--vp-c-divider);
   --docsearch-border-radius: 0.25rem;
+  --docsearch-modal-radius: 0.25rem;
   --docsearch-container-background: var(--vp-backdrop-bg-color);
-  --docsearch-dropdown-menu-background: var(--vp-c-bg-elv);
+  --docsearch-dropdown-menu-background: var(--vp-c-bg-alt);
   --docsearch-dropdown-menu-item-hover-background: var(--vp-c-default-soft);
+  --docsearch-popover-background: var(--vp-c-bg-alt);
+  --docsearch-popover-arrow-color: var(--docsearch-popover-background);
   --docsearch-focus-color: var(--vp-c-brand-1);
   --docsearch-footer-background: var(--vp-c-bg-alt);
   --docsearch-footer-height: 3.25rem;
@@ -23,6 +23,7 @@
   --docsearch-hit-color: var(--vp-c-text-1);
   --docsearch-hit-height: 3.5rem;
   --docsearch-hit-highlight-color: var(--vp-c-brand-soft);
+  --docsearch-hit-focus-background: var(--vp-c-brand-soft);
   --docsearch-icon-color: var(--vp-c-text-2);
   --docsearch-key-background: var(--vp-code-bg);
   --docsearch-modal-background: var(--vp-c-bg-soft);
@@ -43,6 +44,7 @@
   --docsearch-subtle-color: var(--vp-c-divider);
   --docsearch-success-color: var(--vp-c-brand-soft);
   --docsearch-text-color: var(--vp-c-text-1);
+  --docsearch-code-block-background: var(--vp-code-bg);
 }
 
 /* mirror the tightened mobile values from @docsearch/css, which the
@@ -134,4 +136,9 @@
 .DocSearch-Title {
   font-size: revert;
   line-height: revert;
+}
+
+.DocSearch-Feedback-Panel-Submit {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
 }

@@ -13,22 +13,16 @@ export type DocSearchProps = Partial<
     | 'translations'
     | 'recentSearchesLimit'
     | 'recentSearchesWithFavoritesLimit'
+    | 'indices'
+    | 'facets'
   >
 > & {
-  /**
-   * Name of the algolia index to query.
-   */
-  indexName?: string
-  /**
-   * Additional algolia search parameters to merge into each query.
-   */
-  searchParameters?: DocSearchPropsJS['searchParameters']
   /**
    * Insights client integration options to send analytics events.
    */
   insights?: boolean
   /**
-   * Configuration or assistant id to enable ask ai mode. Pass a string assistant id or a full config object.
+   * Configuration or agent id to enable ask ai mode. Pass a string agent id or a full config object.
    */
   askAi?: DocSearchAskAi | string
   /**

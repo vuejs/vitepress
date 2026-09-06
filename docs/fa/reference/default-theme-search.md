@@ -198,7 +198,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...'
+        indices: ['...']
       }
     }
   }
@@ -216,9 +216,13 @@ export default defineConfig({
 
 </details>
 
-برای اطلاعات بیشتر به [مستندات رسمی Algolia](https://docsearch.algolia.com/docs/api#translations) مراجعه کنید. برای شروع سریع‌تر، می‌توانید ترجمه‌های استفاده‌شده در این سایت را از [مخزن GitHub ما](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code) کپی کنید.
+برای اطلاعات بیشتر به [مستندات رسمی Algolia](https://docsearch.algolia.com/docs/packages/react/api-reference#translations) مراجعه کنید. برای شروع سریع‌تر، می‌توانید ترجمه‌های استفاده‌شده در این سایت را از [مخزن GitHub ما](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code) کپی کنید.
 
 ### پشتیبانی Algolia Ask AI {#ask-ai}
+
+::: note نکته
+از نسخه `v5.0.0`، Ask AI اکنون از [Agent Studio](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/how-to/quickstart) شرکت Algolia به‌عنوان بک‌اند خود استفاده می‌کند. برای تسهیل این انتقال، [راهنمای مهاجرت Ask AI به Agent Studio](https://docsearch.algolia.com/docs/agent-studio/migrate-to-agent-studio) در دسترس است.
+:::
 
 برای فعال‌سازی **Ask AI** کافی است گزینه `askAi` را اضافه کنید:
 
@@ -232,16 +236,15 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
-        // askAi: "شناسه-دستیار-شما"
+        indices: ['...'],
+        // askAi: "شناسه-عامل-شما"
         // یا
         askAi: {
-          // حداقل باید assistantId دریافت شده از Algolia را ارائه کنید
-          assistantId: 'XXXYYY',
-          // بازنویسی های اختیاری — اگر حذف شوند، مقادیر appId/apiKey/indexName سطح بالا دوباره استفاده می شوند
+          // حداقل باید agentId دریافت شده از Algolia را ارائه کنید
+          agentId: 'XXXYYY',
+          // بازنویسی های اختیاری — اگر حذف شوند، مقادیر appId/apiKey سطح بالا دوباره استفاده می شوند
           // apiKey: '...',
           // appId: '...',
-          // indexName: '...'
         }
       }
     }
@@ -255,7 +258,7 @@ export default defineConfig({
 
 ### پنل کناری Ask AI {#ask-ai-side-panel}
 
-DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/sidepanel/api-reference) شامل لیست کامل گزینه‌ها است.
+DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/packages/sidepanel/api) شامل لیست کامل گزینه‌ها است.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -267,9 +270,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             // آینه API @docsearch/sidepanel-js SidepanelProps
             panel: {
@@ -299,9 +302,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             keyboardShortcuts: {
               'Ctrl/Cmd+I': false
@@ -337,10 +340,9 @@ export default defineConfig({
       options: {
         mode: 'sidePanel',
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           appId: '...',
           apiKey: '...',
-          indexName: '...',
           sidePanel: true
         }
       }

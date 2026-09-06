@@ -93,9 +93,9 @@
     "*": "prettier --experimental-cli --ignore-unknown --write"
   },
   "dependencies": {
-    "@docsearch/css": "^4.7.0",
-    "@docsearch/js": "^4.7.0",
-    "@docsearch/sidepanel-js": "^4.7.0",
+    "@docsearch/css": "^5.0.4",
+    "@docsearch/js": "^5.0.4",
+    "@docsearch/sidepanel-js": "^5.0.4",
     "@iconify-json/simple-icons": "^1.2.93",
     "@shikijs/transformers": "^4.4.3",
     "@types/markdown-it": "^14.1.2",

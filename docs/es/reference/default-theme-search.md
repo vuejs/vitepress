@@ -198,7 +198,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...'
+        indices: ['...']
       }
     }
   }
@@ -216,9 +216,13 @@ Puedes utilizar una configuración como esta para utilizar la búsqueda multilin
 
 </details>
 
-Consulta la [documentación oficial de Algolia](https://docsearch.algolia.com/docs/api#translations) para conocer más detalles. Para empezar rápidamente, también puedes copiar las traducciones usadas por este sitio desde [nuestro repositorio de GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
+Consulta la [documentación oficial de Algolia](https://docsearch.algolia.com/docs/packages/react/api-reference#translations) para conocer más detalles. Para empezar rápidamente, también puedes copiar las traducciones usadas por este sitio desde [nuestro repositorio de GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
 
 ### Algolia Ask AI Support {#ask-ai}
+
+::: note Nota
+A partir de `v5.0.0`, Ask AI ahora utiliza [Agent Studio](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/how-to/quickstart) de Algolia como backend. Hay disponible una [guía de migración](https://docsearch.algolia.com/docs/agent-studio/migrate-to-agent-studio) de Ask AI -> Agent Studio para facilitar la transición.
+:::
 
 Si deseas incluir **Ask AI**, pasa la opción `askAi` (o alguno de sus campos parciales) dentro de `options`:
 
@@ -232,16 +236,15 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
-        // askAi: "TU-ID-DE-ASISTENTE"
+        indices: ['...'],
+        // askAi: "TU-ID-DE-AGENTE"
         // O
         askAi: {
-          // como mínimo debes proporcionar el assistantId que recibiste de Algolia
-          assistantId: 'XXXYYY',
-          // anulaciones opcionales — si se omiten, se reutilizan los valores appId/apiKey/indexName de nivel superior
+          // como mínimo debes proporcionar el agentId que recibiste de Algolia
+          agentId: 'XXXYYY',
+          // anulaciones opcionales — si se omiten, se reutilizan los valores appId/apiKey de nivel superior
           // apiKey: '...',
           // appId: '...',
-          // indexName: '...'
         }
       }
     }
@@ -255,7 +258,7 @@ Si prefieres solo la búsqueda por palabra clave y no la Ask AI, simplemente omi
 
 ### Panel lateral de Ask AI {#ask-ai-side-panel}
 
-DocSearch v4.5+ admite un **panel lateral de Ask AI** opcional. Cuando está habilitado, se puede abrir con **Ctrl/Cmd+I** por defecto. La [Referencia de API del Panel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contiene la lista completa de opciones.
+DocSearch v4.5+ admite un **panel lateral de Ask AI** opcional. Cuando está habilitado, se puede abrir con **Ctrl/Cmd+I** por defecto. La [Referencia de API del Panel Lateral](https://docsearch.algolia.com/docs/packages/sidepanel/api) contiene la lista completa de opciones.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -267,9 +270,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             // Refleja la API de @docsearch/sidepanel-js SidepanelProps
             panel: {
@@ -299,9 +302,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             keyboardShortcuts: {
               'Ctrl/Cmd+I': false
@@ -337,10 +340,9 @@ export default defineConfig({
       options: {
         mode: 'sidePanel',
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           appId: '...',
           apiKey: '...',
-          indexName: '...',
           sidePanel: true
         }
       }

@@ -10,7 +10,7 @@ export interface ValidatedCredentials {
   valid: boolean
   appId?: string
   apiKey?: string
-  indexName?: string
+  indices?: DefaultTheme.AlgoliaSearchOptions['indices']
 }
 
 export type DocSearchMode = 'auto' | 'sidePanel' | 'hybrid' | 'modal'
@@ -19,14 +19,6 @@ export interface ResolvedMode {
   mode: DocSearchMode
   showKeywordSearch: boolean
   useSidePanel: boolean
-}
-
-// FIXME: remove when https://github.com/algolia/docsearch/pull/2906 is released
-export type ResolvedSidePanelProps = SidepanelProps & {
-  agentStudio?: boolean
-  searchParameters?: DocSearchAskAi['searchParameters']
-  suggestedQuestions?: boolean
-  useStagingEnv?: boolean
 }
 
 /**
@@ -40,7 +32,7 @@ export type ResolvedSidePanelProps = SidepanelProps & {
 export function resolveMode(
   options: Pick<
     DefaultTheme.AlgoliaSearchOptions,
-    'appId' | 'apiKey' | 'indexName' | 'askAi' | 'mode'
+    'appId' | 'apiKey' | 'indices' | 'askAi' | 'mode'
   >
 ): ResolvedMode {
   const mode = options.mode ?? 'auto'
@@ -63,7 +55,7 @@ export function resolveMode(
       // Force hybrid - keyword search must be configured
       if (!hasKeyword) {
         console.error(
-          '[vitepress] mode: "hybrid" requires keyword search credentials (appId, apiKey, indexName).'
+          '[vitepress] mode: "hybrid" requires keyword search credentials (appId, apiKey, indices).'
         )
       }
       return {
@@ -94,10 +86,15 @@ export function resolveMode(
 export function hasKeywordSearch(
   options: Pick<
     DefaultTheme.AlgoliaSearchOptions,
-    'appId' | 'apiKey' | 'indexName'
+    'appId' | 'apiKey' | 'indices'
   >
 ): boolean {
-  return Boolean(options.appId && options.apiKey && options.indexName)
+  return Boolean(
+    options.appId &&
+    options.apiKey &&
+    options.indices &&
+    options.indices.length > 0
+  )
 }
 
 export function hasAskAi(
@@ -105,7 +102,40 @@ export function hasAskAi(
 ): boolean {
   if (!askAi) return false
   if (typeof askAi === 'string') return askAi.length > 0
-  return Boolean(askAi.assistantId)
+  return Boolean(askAi.agentId)
+}
+
+const LANG_FILTER_REGEXP =
+  /"(?:\\.|[^"\\])*"|(^|[\s(])((?:NOT\s+)?lang:(?:"(?:\\.|[^"\\])*"|[^\s()]+))/gi
+
+/**
+ * Normalizes existing positive `lang:` filters and applies `lang:${lang}` to
+ * the complete expression.
+ */
+export function mergeLangFilters(
+  existing: string | undefined,
+  lang: string
+): string {
+  const langFilter = `lang:${lang}`
+
+  if (!existing) {
+    return langFilter
+  }
+
+  const normalized = existing.replace(
+    LANG_FILTER_REGEXP,
+    (match, prefix, predicate) => {
+      if (!predicate) {
+        return match
+      }
+
+      if (/^NOT\b/i.test(predicate)) return match
+
+      return `${prefix ?? ''}${langFilter}`
+    }
+  )
+
+  return `(${normalized}) AND ${langFilter}`
 }
 
 /**
@@ -143,24 +173,53 @@ export function mergeLangFacetFilters(
   return [...filtered, `lang:${lang}`]
 }
 
+type CredentialOptions = Pick<
+  DefaultTheme.AlgoliaSearchOptions,
+  'appId' | 'apiKey' | 'indices' | 'mode' | 'askAi'
+>
+
 /**
  * Validates that required Algolia credentials are present.
  */
 export function validateCredentials(
-  options: Pick<
-    DefaultTheme.AlgoliaSearchOptions,
-    'appId' | 'apiKey' | 'indexName'
-  >
+  options: CredentialOptions
 ): ValidatedCredentials {
   const appId = options.appId
   const apiKey = options.apiKey
-  const indexName = options.indexName
+  const indices = options.indices
+  const askAiConfigured = options.askAi !== undefined
+  const hasValidAskAi = hasAskAi(options.askAi)
+  const mode = options.mode || 'auto'
+  const hasSidepanel =
+    typeof options.askAi === 'object' && Boolean(options.askAi.sidePanel)
+  const requiresSidepanel = mode === 'sidePanel' || mode === 'hybrid'
+  const canOmitIndices =
+    mode === 'sidePanel' || (mode === 'auto' && hasSidepanel)
+
+  let isValid = true
+
+  if (askAiConfigured && !hasValidAskAi) {
+    isValid = false
+  }
+
+  if (requiresSidepanel && !hasSidepanel) {
+    isValid = false
+  }
+
+  // Sidepanel only (or auto mode with sidepanel) does not require `indices` since there could be no search
+  if (!canOmitIndices && !indices?.length) {
+    isValid = false
+  }
+
+  if (!appId || !apiKey) {
+    isValid = false
+  }
 
   return {
-    valid: Boolean(appId && apiKey && indexName),
+    valid: isValid,
     appId,
     apiKey,
-    indexName
+    indices
   }
 }
 
@@ -174,41 +233,45 @@ export function buildAskAiConfig(
 ): DocSearchAskAi {
   const isAskAiString = typeof askAiProp === 'string'
 
-  const askAiSearchParameters =
-    !isAskAiString && askAiProp.searchParameters
-      ? { ...askAiProp.searchParameters }
-      : undefined
-  const isAgentStudio = !isAskAiString && askAiProp.agentStudio === true
+  let askAiSearchParameters: DocSearchAskAi['searchParameters']
 
-  const askAiFacetFiltersSource =
-    askAiSearchParameters?.facetFilters ??
-    options.searchParameters?.facetFilters
-  const askAiFacetFilters = mergeLangFacetFilters(
-    askAiFacetFiltersSource as FacetFilter | FacetFilter[] | undefined,
-    lang
-  )
+  if (!isAskAiString) {
+    const mergedSearchParameters: NonNullable<
+      DocSearchAskAi['searchParameters']
+    > = {}
 
-  const mergedAskAiSearchParameters = isAgentStudio
-    ? askAiSearchParameters
-    : {
-        ...askAiSearchParameters,
-        facetFilters: askAiFacetFilters.length ? askAiFacetFilters : undefined
+    const indexes = new Set([
+      ...(askAiProp.indices ?? []),
+      ...Object.keys(askAiProp.searchParameters ?? {})
+    ])
+
+    for (const indexName of indexes) {
+      const searchParameters = askAiProp.searchParameters?.[indexName] ?? {}
+
+      mergedSearchParameters[indexName] = {
+        ...searchParameters,
+        filters: mergeLangFilters(searchParameters.filters, lang)
       }
+    }
+
+    if (indexes.size > 0) {
+      askAiSearchParameters = mergedSearchParameters
+    }
+  }
 
   const result: Record<string, any> = {
     ...(isAskAiString ? {} : askAiProp),
-    indexName: isAskAiString ? options.indexName : askAiProp.indexName,
     apiKey: isAskAiString ? options.apiKey : askAiProp.apiKey,
     appId: isAskAiString ? options.appId : askAiProp.appId,
-    assistantId: isAskAiString ? askAiProp : askAiProp.assistantId
+    agentId: isAskAiString ? askAiProp : askAiProp.agentId
   }
 
   // Keep `searchParameters` undefined unless it has at least one key.
   if (
-    mergedAskAiSearchParameters &&
-    Object.values(mergedAskAiSearchParameters).some((v) => v != null)
+    askAiSearchParameters &&
+    Object.values(askAiSearchParameters).some((v) => v != null)
   ) {
-    result.searchParameters = mergedAskAiSearchParameters
+    result.searchParameters = askAiSearchParameters
   }
 
   return result
@@ -220,19 +283,18 @@ export function buildAskAiConfig(
 export function buildSidePanelProps(
   askAi: DocSearchAskAi,
   options: DefaultTheme.AlgoliaSearchOptions
-): ResolvedSidePanelProps {
+): SidepanelProps {
   const { sidePanel, ...askAiRest } = JSON.parse(
     JSON.stringify(askAi)
   ) as DocSearchAskAi
 
   return {
     container: '#vp-docsearch-sidepanel',
-    indexName: options.indexName,
     appId: options.appId,
     apiKey: options.apiKey,
     ...askAiRest,
     ...(sidePanel && sidePanel !== true ? sidePanel : {})
-  } as ResolvedSidePanelProps
+  } as SidepanelProps
 }
 
 /**
@@ -246,17 +308,33 @@ export function resolveOptionsForLanguage(
 ): DefaultTheme.AlgoliaSearchOptions {
   options = deepMerge(options, options.locales?.[localeIndex] || {})
 
-  const facetFilters = mergeLangFacetFilters(
-    options.searchParameters?.facetFilters,
-    lang
-  )
+  const indices = (options.indices ?? []).map((index) => {
+    if (typeof index === 'string') {
+      return {
+        name: index,
+        searchParameters: { facetFilters: [`lang:${lang}`] }
+      }
+    }
+
+    return {
+      name: index.name,
+      searchParameters: {
+        ...index.searchParameters,
+        facetFilters: mergeLangFacetFilters(
+          index.searchParameters?.facetFilters,
+          lang
+        )
+      }
+    }
+  })
+
   const askAi = options.askAi
     ? buildAskAiConfig(options.askAi, options, lang)
     : undefined
 
   return {
     ...options,
-    searchParameters: { ...options.searchParameters, facetFilters },
+    indices,
     askAi
   }
 }
