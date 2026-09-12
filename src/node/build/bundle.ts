@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import { cp, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -83,6 +84,16 @@ export async function bundle(
 
   const relativeBase = isRelativeBase(config.site.base)
 
+  // with assetsShards, page chunks and assets spread over `assetsDir/<n>/`
+  // (shared chunks stay in `chunks/`) for hosts that cap the files per
+  // directory. the shard depends only on the name, so unchanged files keep
+  // their url across builds. assets get the same names in the server build,
+  // which renders their urls into the html.
+  const shard = (name = '') =>
+    config.assetsShards
+      ? `${createHash('sha256').update(name).digest().readUInt32BE(0) % config.assetsShards}/`
+      : ''
+
   const resolveViteConfig = async (
     ssr: boolean
   ): Promise<ViteInlineConfig> => ({
@@ -122,14 +133,21 @@ export async function bundle(
         output: {
           sanitizeFileName,
           ...rolldownOptions?.output,
-          assetFileNames: `${config.assetsDir}/[name].[hash].[ext]`,
+          assetFileNames: (asset) =>
+            `${config.assetsDir}/${shard(asset.names[0])}[name].[hash].[ext]`,
           ...(ssr
             ? {
                 entryFileNames: '[name].js',
                 chunkFileNames: '[name].[hash].js'
               }
             : {
-                entryFileNames: `${config.assetsDir}/[name].[hash].js`,
+                entryFileNames: (chunk) => {
+                  // only page chunks are sharded; the app entry stays put
+                  const dir = chunk.facadeModuleId?.endsWith('.md')
+                    ? shard(chunk.name)
+                    : ''
+                  return `${config.assetsDir}/${dir}[name].[hash].js`
+                },
                 chunkFileNames(chunk) {
                   // avoid ads chunk being intercepted by adblock
                   return /(?:Carbon|BuySell)Ads/.test(chunk.name)
