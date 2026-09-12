@@ -10,6 +10,12 @@ export namespace DefaultTheme {
    * The layout state returned by `useLayout` from `vitepress/theme`.
    */
   export interface Layout {
+    /**
+     * The layout the current page renders with: its `layout` frontmatter,
+     * or the default (`doc`, and `page` for the not-found page synthesized
+     * from the theme).
+     */
+    layout: ComputedRef<string>
     isHome: ComputedRef<boolean>
 
     sidebar: Readonly<ShallowRef<SidebarItem[]>>
@@ -504,13 +510,6 @@ export namespace DefaultTheme {
      * @default '/'
      */
     link?: string
-
-    /**
-     * Set aria label for home link.
-     *
-     * @default 'go to home'
-     */
-    linkLabel?: string
 
     /**
      * Set custom home link text.

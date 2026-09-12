@@ -205,7 +205,8 @@ export interface UserConfig<
    */
   lastUpdated?: boolean
   /**
-   * Custom props passed to the `<Content />` component.
+   * Custom props passed to the `<Content />` component. Replaces the
+   * default `{ class: 'vp-content', style: { position: 'relative' } }`.
    */
   contentProps?: Record<string, any>
   /**
@@ -417,6 +418,14 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
     map: Record<string, string | undefined>
     inv: Record<string, string | undefined>
   }
+  /**
+   * The not-found page of each locale. `path` is where it is emitted
+   * (`404.md`, `zh/404.md`), relative to `srcDir` and with rewrites
+   * applied; `source` is the markdown file behind it, or `null` when the
+   * page is synthesized from the theme's `NotFound` component. These pages
+   * are not part of `pages`.
+   */
+  notFoundPages: { path: string; source: string | null }[]
   /**
    * The logger used by vite.
    */

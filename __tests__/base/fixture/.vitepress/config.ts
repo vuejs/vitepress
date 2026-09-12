@@ -12,6 +12,15 @@ export default defineConfig({
   outDir: `.vitepress/dist-${mode}`,
   cleanUrls: false,
   rewrites: { 'src-moved.md': 'moved/target.md' },
+  sitemap: { hostname: 'https://example.com' },
+  locales: {
+    root: { label: 'English', lang: 'en' },
+    zh: {
+      label: '中文',
+      lang: 'zh-CN',
+      themeConfig: { notFound: { title: '页面未找到' } }
+    }
+  },
   vite: {
     logLevel: 'error',
     // keep the tiny fixture images as real emitted assets

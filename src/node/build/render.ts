@@ -14,7 +14,6 @@ import {
   escapeHtml,
   isRelativeBase,
   mergeHead,
-  notFoundPageData,
   relativePathToRoot,
   resolveSiteDataByRoute,
   sanitizeFileName,
@@ -70,23 +69,10 @@ export async function renderPage(
   // server build doesn't need hash
   const pageServerJsFileName = pageName + '.js'
 
-  let pageData: PageData
-  let hasCustom404 = true
-
-  try {
-    // resolve page data so we can render head tags
-    const { __pageData } = await nativeImport(
-      path.join(config.tempDir, pageServerJsFileName)
-    )
-    pageData = __pageData
-  } catch (e) {
-    if (page === '404.md') {
-      hasCustom404 = false
-      pageData = notFoundPageData
-    } else {
-      throw e
-    }
-  }
+  // resolve page data so we can render head tags
+  const { __pageData: pageData }: { __pageData: PageData } = await nativeImport(
+    path.join(config.tempDir, pageServerJsFileName)
+  )
 
   const siteData = resolveSiteDataByRoute(config.site, page, pageData.filePath)
 
@@ -100,15 +86,16 @@ export async function renderPage(
   const title = createTitle(siteData, pageData)
   const description = pageData.description || siteData.description
   const dir = pageData.frontmatter.dir || siteData.dir || 'ltr'
-  const isDefault404 = page === '404.md' && !hasCustom404
 
   // the initial load only needs the lean page js — the static content is
   // already in the HTML
   const pageHash = pageToHashMap[pageName.toLowerCase()]
-  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
+  // a not-found document is mounted afresh rather than hydrated, so it needs
+  // the full chunk
+  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}${pageData.isNotFound ? '' : '.lean'}.js`
 
   let preloadLinks: string[] = []
-  if (result && appChunk && !config.mpa && !isDefault404) {
+  if (result && appChunk && !config.mpa) {
     preloadLinks = [
       ...new Set([
         // the imports of index.js + page.md.js as well, so everything
@@ -159,6 +146,12 @@ export async function renderPage(
     )
   ]
 
+  // hosts that answer a miss with 200 would otherwise get the not-found page
+  // indexed as a real page
+  if (pageData.isNotFound && !hasNamedMeta(headBeforeTransform, 'robots')) {
+    headBeforeTransform.push(['meta', { name: 'robots', content: 'noindex' }])
+  }
+
   const transformContext = (head: HeadConfig[]) => ({
     page,
     siteConfig: config,
@@ -185,7 +178,7 @@ export async function renderPage(
     const matchingChunk = result.output.find(
       (chunk): chunk is Rolldown.OutputChunk =>
         chunk.type === 'chunk' &&
-        chunk.facadeModuleId === slash(path.join(config.srcDir, page))
+        facadeFile(chunk) === slash(path.join(config.srcDir, page))
     )
     if (matchingChunk) {
       if (!matchingChunk.code.includes('import')) {
@@ -233,7 +226,7 @@ export async function renderPage(
     ${await renderHead(head)}
   </head>
   <body>${teleports?.body || ''}
-    <div id="app">${page === '404.md' ? '' : content}</div>
+    <div id="app"${pageData.isNotFound ? ' data-vp-not-found' : ''}>${content}</div>
     ${metadataScript.inHead ? '' : metadataScript.html}
     ${inlinedScript}
   </body>
@@ -268,10 +261,16 @@ async function resolvePageImports(
   srcPath = normalizePath(srcPath)
   const pageChunk = result.output.find(
     (chunk): chunk is Rolldown.OutputChunk =>
-      chunk.type === 'chunk' && chunk.facadeModuleId === srcPath
+      chunk.type === 'chunk' && facadeFile(chunk) === srcPath
   )
   // dynamic imports are intentionally not preloaded
   return [...appChunk.imports, ...(pageChunk?.imports || [])]
+}
+
+// the file a chunk was built from; a synthesized not-found page carries the
+// virtual-module marker in front of its would-be file
+function facadeFile(chunk: Rolldown.OutputChunk): string | undefined {
+  return chunk.facadeModuleId?.replace(/^\0/, '')
 }
 
 async function renderHead(head: HeadConfig[]): Promise<string> {

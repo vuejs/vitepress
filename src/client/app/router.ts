@@ -2,7 +2,11 @@ import type { Component, InjectionKey } from 'vue'
 import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
 
 import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
-import { notFoundPageData, treatAsHtml } from '../shared'
+import {
+  createNotFoundPageData,
+  resolveNotFoundPage,
+  treatAsHtml
+} from '../shared'
 import { siteDataRef } from './data'
 import { inBrowser, runtimeBase, withBase } from './utils'
 
@@ -48,12 +52,20 @@ export const RouterSymbol: InjectionKey<Router> = Symbol()
 // matter and is only passed to support same-host hrefs
 const fakeHost = 'http://a.com'
 
+// nothing is rendered before the first page resolves
 const getDefaultRoute = (): Route => ({
   path: '/',
   hash: '',
   query: '',
   component: null,
-  data: notFoundPageData
+  data: {
+    relativePath: '',
+    filePath: '',
+    title: '',
+    description: '',
+    headers: [],
+    frontmatter: {}
+  }
 })
 
 interface PageModule {
@@ -61,9 +73,20 @@ interface PageModule {
   default: Component
 }
 
+/**
+ * Whether a page module failed to load rather than to run: the browser's
+ * dynamic import rejection, or our own miss.
+ */
+export function isLoadFailure(err: unknown): boolean {
+  const message = (err as { message?: string } | null)?.message ?? ''
+  return /fetch|dynamically imported module|module script|Page not found/.test(
+    message
+  )
+}
+
 export function createRouter(
   loadPageModule: (path: string) => Awaitable<PageModule | null>,
-  fallbackComponent?: Component
+  fallbackComponent: Component
 ): Router {
   const route = reactive(getDefaultRoute())
 
@@ -141,17 +164,12 @@ export function createRouter(
         }
       }
     } catch (err: any) {
-      if (
-        !/fetch|Page not found/.test(err.message) &&
-        !/^\/404(\.html|\/)?$/.test(href)
-      ) {
-        console.error(err)
-      }
+      if (!isLoadFailure(err)) console.error(err)
 
       // retry on fetch fail: the page to hash map may have been invalidated
       // because a new deploy happened while the page is open. Try to fetch
       // the updated pageToHash map and fetch again.
-      if (!isRetry) {
+      if (!isRetry && import.meta.env.PROD) {
         try {
           const res = await fetch(runtimeBase() + 'hashmap.json')
           ;(window as any).__VP_HASH_MAP__ = await res.json()
@@ -161,18 +179,41 @@ export function createRouter(
       }
 
       if (latestPendingPath === pendingPath) {
-        latestPendingPath = null
-        route.path = inBrowser ? pendingPath : withBase(pendingPath)
-        route.component = fallbackComponent ? markRaw(fallbackComponent) : null
-        const relativePath = inBrowser
-          ? route.path
-              .replace(/(^|\/)$/, '$1index')
-              .replace(/(\.html)?$/, '.md')
-              .slice(runtimeBase().length)
-          : '404.md'
-        route.data = { ...notFoundPageData, relativePath }
-        syncRouteQueryAndHash(targetLoc)
+        const { default: comp, __pageData } =
+          await loadNotFoundPage(pendingPath)
+        if (latestPendingPath === pendingPath) {
+          latestPendingPath = null
+          route.path = inBrowser ? pendingPath : withBase(pendingPath)
+          route.component = markRaw(comp)
+          route.data = import.meta.env.PROD
+            ? markRaw(__pageData)
+            : (readonly(__pageData) as PageData)
+          syncRouteQueryAndHash(targetLoc)
+        }
       }
+    }
+  }
+
+  /**
+   * The not-found page that answers a path: the one of the path's locale,
+   * loaded like any page, or the theme's component when that fails too.
+   */
+  async function loadNotFoundPage(pendingPath: string): Promise<PageModule> {
+    const base = inBrowser ? runtimeBase() : '/'
+    const relativePath = resolveNotFoundPage(
+      siteDataRef.value,
+      pendingPath.startsWith(base) ? pendingPath.slice(base.length) : ''
+    )
+    const target = base + relativePath.replace(/\.md$/, '')
+    if (target !== pendingPath.replace(/\.html$/, '')) {
+      try {
+        const page = await loadPageModule(target)
+        if (page?.default) return page
+      } catch {}
+    }
+    return {
+      default: fallbackComponent,
+      __pageData: createNotFoundPageData(relativePath)
     }
   }
 
@@ -305,21 +346,16 @@ export function scrollTo(hash: string, scrollPosition = 0) {
 }
 
 function handleHMR(route: Route): void {
-  // update route.data on HMR updates of active page
+  // update route.data on HMR updates of active page; matched by page rather
+  // than by URL, since the not-found page answers URLs that are not its own
   if (import.meta.hot) {
     // hot reload pageData
     import.meta.hot.on('vitepress:pageData', (payload: PageDataPayload) => {
-      if (shouldHotReload(payload)) route.data = payload.pageData
+      if (payload.path === `/${route.data.relativePath}`) {
+        route.data = payload.pageData
+      }
     })
   }
-}
-
-function shouldHotReload(payload: PageDataPayload): boolean {
-  const payloadPath = payload.path.replace(/(?:(^|\/)index)?\.md$/, '$1')
-  const locationPath = location.pathname
-    .replace(/(?:(^|\/)index)?\.html$/, '')
-    .slice(runtimeBase().length - 1)
-  return payloadPath === locationPath
 }
 
 function normalizeHref(href: string): string {

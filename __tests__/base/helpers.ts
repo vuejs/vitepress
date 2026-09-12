@@ -11,14 +11,20 @@ export async function newPage(): Promise<TestPage> {
   const page = await browser.newPage()
   const errors: string[] = []
   page.on('console', (msg) => {
-    if (msg.type() === 'error') errors.push(msg.text())
+    if (msg.type() !== 'error') return
+    // a failed resource is only identified by where it came from
+    const url = msg.location()?.url
+    errors.push(url ? `${msg.text()} <${url}>` : msg.text())
   })
   page.on('pageerror', (err) => errors.push(String(err)))
   return { browser, page, errors }
 }
 
-export function realErrors(errors: string[]): string[] {
-  return errors.filter((e) => !e.includes('favicon'))
+export function realErrors(errors: string[], ignore: string[] = []): string[] {
+  return errors.filter(
+    (e) =>
+      !e.includes('favicon') && !ignore.some((url) => e.includes(`<${url}>`))
+  )
 }
 
 export async function waitForHydration(page: Page): Promise<void> {

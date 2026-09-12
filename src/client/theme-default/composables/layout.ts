@@ -21,15 +21,26 @@ const sidebar = shallowRef<DefaultTheme.SidebarItem[]>([])
 const isDesktop = useMediaQuery('(min-width: 60rem)')
 
 export function useLayout(): DefaultTheme.Layout {
-  const { frontmatter, theme } = useData()
+  const { frontmatter, page, theme } = useData()
+
+  // a not-found page reads like a doc page without the doc chrome; the one
+  // synthesized from the theme's `NotFound` component has no prose to style
+  const isNotFound = computed(() => !!page.value.isNotFound)
+
+  const layout = computed<string>(() => {
+    return (
+      frontmatter.value.layout ||
+      (isNotFound.value && !page.value.filePath ? 'page' : 'doc')
+    )
+  })
 
   const isHome = computed(() => {
-    return !!(frontmatter.value.isHome ?? frontmatter.value.layout === 'home')
+    return !!(frontmatter.value.isHome ?? layout.value === 'home')
   })
 
   const hasSidebar = computed(() => {
     return (
-      frontmatter.value.sidebar !== false &&
+      (frontmatter.value.sidebar ?? !isNotFound.value) !== false &&
       sidebar.value.length > 0 &&
       !isHome.value
     )
@@ -43,7 +54,8 @@ export function useLayout(): DefaultTheme.Layout {
 
   const hasAside = computed(() => {
     if (isHome.value) return false
-    if (frontmatter.value.aside != null) return !!frontmatter.value.aside
+    const aside = frontmatter.value.aside ?? (isNotFound.value ? false : null)
+    if (aside != null) return !!aside
     return theme.value.aside !== false
   })
 
@@ -59,6 +71,7 @@ export function useLayout(): DefaultTheme.Layout {
   })
 
   return {
+    layout,
     isHome,
     sidebar: shallowReadonly(sidebar),
     sidebarGroups,

@@ -21,11 +21,7 @@ const { currentLang } = useLangs()
     </blockquote>
 
     <div class="action">
-      <a
-        class="link"
-        :href="withBase(theme.notFound?.link ?? currentLang.link)"
-        :aria-label="theme.notFound?.linkLabel ?? 'go to home'"
-      >
+      <a class="link" :href="withBase(theme.notFound?.link ?? currentLang.link)">
         {{ theme.notFound?.linkText ?? 'Take me home' }}
       </a>
     </div>

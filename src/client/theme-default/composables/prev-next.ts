@@ -22,6 +22,11 @@ export function usePrevNext() {
       return isActive(page.value.relativePath, '', link.link, false, true)
     })
 
+    // a page outside the sidebar (the not-found page, for one) has no
+    // neighbours; `candidates[-1 + 1]` would otherwise elect the first entry
+    const prevCandidate = index === -1 ? undefined : candidates[index - 1]
+    const nextCandidate = index === -1 ? undefined : candidates[index + 1]
+
     const hidePrev =
       (theme.value.docFooter?.prev === false && !frontmatter.value.prev) ||
       frontmatter.value.prev === false
@@ -40,20 +45,20 @@ export function usePrevNext() {
                 : typeof frontmatter.value.prev === 'object'
                   ? frontmatter.value.prev.text
                   : undefined) ??
-              candidates[index - 1]?.docFooterText ??
-              candidates[index - 1]?.text,
+              prevCandidate?.docFooterText ??
+              prevCandidate?.text,
             link:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.link
-                : undefined) ?? candidates[index - 1]?.link,
+                : undefined) ?? prevCandidate?.link,
             target:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.target
-                : undefined) ?? candidates[index - 1]?.target,
+                : undefined) ?? prevCandidate?.target,
             rel:
               (typeof frontmatter.value.prev === 'object'
                 ? frontmatter.value.prev.rel
-                : undefined) ?? candidates[index - 1]?.rel
+                : undefined) ?? prevCandidate?.rel
           },
       next: hideNext
         ? undefined
@@ -64,20 +69,20 @@ export function usePrevNext() {
                 : typeof frontmatter.value.next === 'object'
                   ? frontmatter.value.next.text
                   : undefined) ??
-              candidates[index + 1]?.docFooterText ??
-              candidates[index + 1]?.text,
+              nextCandidate?.docFooterText ??
+              nextCandidate?.text,
             link:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.link
-                : undefined) ?? candidates[index + 1]?.link,
+                : undefined) ?? nextCandidate?.link,
             target:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.target
-                : undefined) ?? candidates[index + 1]?.target,
+                : undefined) ?? nextCandidate?.target,
             rel:
               (typeof frontmatter.value.next === 'object'
                 ? frontmatter.value.next.rel
-                : undefined) ?? candidates[index + 1]?.rel
+                : undefined) ?? nextCandidate?.rel
           }
     }
   })

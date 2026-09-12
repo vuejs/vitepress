@@ -151,6 +151,28 @@ If, however, you cannot configure your server with such support, you will have t
 └─ index.md
 ```
 
+## Not Found Page
+
+When a visitor opens a URL that has no page, VitePress shows the not-found page. The default theme ships one, and you can change its text with the [`notFound`](../reference/default-theme-config#notfound) theme option.
+
+To replace the page entirely, add a `404.md` file to your source directory. It is a regular page: frontmatter, Markdown and Vue components all work.
+
+```md [404.md]
+---
+title: Page not found
+---
+
+# Page not found
+
+The page you are looking for does not exist. [Go to the homepage](/).
+```
+
+With [multiple locales](./i18n), each locale directory can have its own `404.md`, for example `zh/404.md`. A locale without one uses the root `404.md`, and the theme's default page when there is none either.
+
+The build emits `404.html` at the output root and one in each locale directory. Most hosts pick up `404.html` automatically, see the [deployment guide](./deploy). The dev and preview servers answer a miss with a real 404 status too.
+
+On the not-found page, `useData().page.isNotFound` is `true` and `useRoute().path` holds the URL the visitor asked for. The page is left out of the sitemap and the local search index.
+
 ## Route Rewrites
 
 You can customize the mapping between the source directory structure and the generated pages. It's useful when you have a complex project structure. For example, let's say you have a monorepo with multiple packages, and would like to place documentations along with the source files like this:

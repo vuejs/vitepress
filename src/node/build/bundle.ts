@@ -69,6 +69,14 @@ export async function bundle(
     const alias = config.rewrites.map[file] || file
     input[slash(alias).replace(/\//g, '_')] = path.resolve(config.srcDir, file)
   })
+  // the not-found pages are entries too; a synthesized one resolves to its
+  // virtual module (see ../plugins/notFoundPlugin.ts)
+  config.notFoundPages.forEach(({ path: page, source }) => {
+    input[page.replace(/\//g, '_')] = path.resolve(
+      config.srcDir,
+      source ?? page
+    )
+  })
 
   const themeEntryRE = new RegExp(
     `^${escapeRegExp(slash(path.resolve(config.themeDir, 'index.js'))).slice(0, -2)}m?(j|t)s`

@@ -197,6 +197,11 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
+  // a locale without a 404.md of its own inherits the root one
+  locales: {
+    root: { label: 'English', lang: 'en' },
+    fr: { label: 'Français', lang: 'fr' }
+  },
   srcExclude: ['**/parts/**'],
   markdown: {
     image: { lazyLoad: true }

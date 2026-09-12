@@ -187,7 +187,10 @@ export async function resolveConfig(
     )
   }
 
-  const config: Omit<SiteConfig, 'pages' | 'dynamicRoutes' | 'rewrites'> = {
+  const config: Omit<
+    SiteConfig,
+    'pages' | 'dynamicRoutes' | 'rewrites' | 'notFoundPages'
+  > = {
     root,
     srcDir,
     publicDir,

@@ -1,12 +1,61 @@
 import {
+  createNotFoundPageData,
   isRelativeBase,
   joinPath,
   mergeHead,
   relativePathToRoot,
-  type HeadConfig
+  resolveNotFoundPage,
+  type HeadConfig,
+  type SiteData
 } from 'shared/shared'
 
 describe('shared/shared', () => {
+  describe('resolveNotFoundPage', () => {
+    const site = {
+      locales: {
+        root: { label: 'English', lang: 'en' },
+        zh: { label: '中文', lang: 'zh-CN' },
+        'fr-FR': { label: 'Français', lang: 'fr-FR' },
+        'https://example.com/': { label: 'External' }
+      }
+    } as unknown as SiteData
+
+    test('picks the not-found page of the path locale', () => {
+      expect(resolveNotFoundPage(site, 'zh/guide/missing.md')).toBe('zh/404.md')
+      expect(resolveNotFoundPage(site, 'zh/guide/missing')).toBe('zh/404.md')
+      expect(resolveNotFoundPage(site, 'zh/')).toBe('zh/404.md')
+      expect(resolveNotFoundPage(site, 'fr-FR/missing')).toBe('fr-FR/404.md')
+    })
+
+    test('falls back to the root page', () => {
+      expect(resolveNotFoundPage(site, 'guide/missing.md')).toBe('404.md')
+      expect(resolveNotFoundPage(site, '')).toBe('404.md')
+      // a page named after the locale is not inside the locale directory
+      expect(resolveNotFoundPage(site, 'zh')).toBe('404.md')
+      // locale keys that are links to other sites never match
+      expect(resolveNotFoundPage(site, 'https://example.com/x')).toBe('404.md')
+    })
+
+    test('has only the root page without locales', () => {
+      expect(resolveNotFoundPage({} as SiteData, 'zh/missing')).toBe('404.md')
+      expect(resolveNotFoundPage(undefined, 'zh/missing')).toBe('404.md')
+    })
+  })
+
+  describe('createNotFoundPageData', () => {
+    test('is a virtual page of the given path', () => {
+      expect(createNotFoundPageData('zh/404.md')).toEqual({
+        relativePath: 'zh/404.md',
+        filePath: '',
+        title: '404',
+        description: 'Not Found',
+        headers: [],
+        frontmatter: {},
+        isNotFound: true
+      })
+    })
+  })
+
   describe('mergeHead', () => {
     test('replaces meta tags with the same key in place', () => {
       expect(

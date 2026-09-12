@@ -64,7 +64,6 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
       <template #page-top><slot name="page-top" /></template>
       <template #page-bottom><slot name="page-bottom" /></template>
 
-      <template #not-found><slot name="not-found" /></template>
       <template #home-hero-before><slot name="home-hero-before" /></template>
       <template #home-hero-info-before><slot name="home-hero-info-before" /></template>
       <template #home-hero-info><slot name="home-hero-info" /></template>

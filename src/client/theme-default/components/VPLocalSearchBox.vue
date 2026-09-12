@@ -601,22 +601,28 @@ function onMouseMove(e: MouseEvent) {
 
         <div class="search-keyboard-shortcuts">
           <span>
-            <kbd :aria-label="translate('modal.footer.navigateUpKeyAriaLabel')">
-              <span class="vpi-arrow-up navigate-icon" />
+            <kbd>
+              <span class="vpi-arrow-up navigate-icon" aria-hidden="true" />
+              <span class="visually-hidden">{{ translate('modal.footer.navigateUpKeyAriaLabel') }}</span>
             </kbd>
-            <kbd :aria-label="translate('modal.footer.navigateDownKeyAriaLabel')">
-              <span class="vpi-arrow-down navigate-icon" />
+            <kbd>
+              <span class="vpi-arrow-down navigate-icon" aria-hidden="true" />
+              <span class="visually-hidden">{{ translate('modal.footer.navigateDownKeyAriaLabel') }}</span>
             </kbd>
             {{ translate('modal.footer.navigateText') }}
           </span>
           <span>
-            <kbd :aria-label="translate('modal.footer.selectKeyAriaLabel')">
-              <span class="vpi-corner-down-left navigate-icon" />
+            <kbd>
+              <span class="vpi-corner-down-left navigate-icon" aria-hidden="true" />
+              <span class="visually-hidden">{{ translate('modal.footer.selectKeyAriaLabel') }}</span>
             </kbd>
             {{ translate('modal.footer.selectText') }}
           </span>
           <span>
-            <kbd :aria-label="translate('modal.footer.closeKeyAriaLabel')">esc</kbd>
+            <kbd>
+              <span aria-hidden="true">esc</span>
+              <span class="visually-hidden">{{ translate('modal.footer.closeKeyAriaLabel') }}</span>
+            </kbd>
             {{ translate('modal.footer.closeText') }}
           </span>
         </div>

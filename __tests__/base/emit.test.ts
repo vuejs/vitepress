@@ -91,6 +91,14 @@ describe('relative base emit', () => {
     expect(html).toMatch(/href="\.\/assets\/style\.[\w-]+\.css"/)
   })
 
+  test('locale 404 renders at its own depth', () => {
+    const html = read('relative', 'zh/404.html')
+    expect(html).toContain(
+      'window.__VP_SITE_ROOT__=new URL("../",location).href'
+    )
+    expect(html).toMatch(/href="\.\.\/assets\/style\.[\w-]+\.css"/)
+  })
+
   test('no sentinel leaks into emitted html or css', () => {
     for (const file of walk(dist('relative'))) {
       if (!/\.(html|css)$/.test(file)) continue
@@ -206,5 +214,46 @@ describe('plain base emit is unchanged', () => {
     expect(html).toContain('src="/logo.png"')
     expect(html).not.toContain('__VP_SITE_ROOT__')
     expect(html).not.toContain('crossorigin>')
+  })
+})
+
+describe('not-found emit', () => {
+  for (const mode of ['plain', 'relative', 'cdn', 'mpa']) {
+    test(`${mode}: the theme page stands in for a missing root 404.md`, () => {
+      const html = read(mode, '404.html')
+      expect(html).toContain('<div id="app" data-vp-not-found>')
+      expect(html).toContain('class="NotFound"')
+      expect(html).toContain('<title>404 | Base Fixture</title>')
+      expect(html).toContain('<meta name="robots" content="noindex">')
+      expect(html).toContain('<html lang="en"')
+    })
+
+    test(`${mode}: a locale 404.md is emitted for its locale`, () => {
+      const html = read(mode, 'zh/404.html')
+      expect(html).toContain('<div id="app" data-vp-not-found>')
+      expect(html).toContain('页面未找到')
+      expect(html).toContain('<title>页面未找到 | Base Fixture</title>')
+      expect(html).toContain('<meta name="robots" content="noindex">')
+      expect(html).toContain('<html lang="zh-CN"')
+      expect(html).not.toContain('class="NotFound"')
+    })
+
+    test(`${mode}: not-found pages stay out of the sitemap`, () => {
+      const sitemap = read(mode, 'sitemap.xml')
+      expect(sitemap).toContain('<loc>https://example.com/zh/</loc>')
+      expect(sitemap).toContain('<loc>https://example.com/sub/page.html</loc>')
+      expect(sitemap).not.toContain('404.html')
+    })
+  }
+
+  test('mpa: the not-found page needs no script', () => {
+    const html = read('mpa', '404.html')
+    expect(html).not.toContain('<script type="module"')
+  })
+
+  test('the not-found page is pre-rendered with the site chrome', () => {
+    const html = read('plain', '404.html')
+    expect(html).toContain('class="VPNav"')
+    expect(html).not.toContain('class="VPSidebar"')
   })
 })

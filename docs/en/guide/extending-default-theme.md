@@ -240,8 +240,6 @@ Full list of slots available in the default theme layout:
 - When `layout: 'page'` is enabled via frontmatter:
   - `page-top`
   - `page-bottom`
-- On not found (404) page:
-  - `not-found`
 - Always:
   - `layout-top`
   - `layout-bottom`

@@ -13,7 +13,9 @@ const editLink = useEditLink()
 const control = usePrevNext()
 
 const hasEditLink = computed(
-  () => theme.value.editLink && frontmatter.value.editLink !== false
+  () =>
+    theme.value.editLink &&
+    (frontmatter.value.editLink ?? !page.value.isNotFound) !== false
 )
 const hasLastUpdated = computed(() => page.value.lastUpdated)
 const showFooter = computed(
