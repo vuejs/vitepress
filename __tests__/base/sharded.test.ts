@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { newPage, realErrors, waitForHydration, type TestPage } from './helpers'
@@ -13,7 +13,12 @@ const origin = () => `http://localhost:${process.env['SHARDED_PORT']}`
 const files = () =>
   readdirSync(dist('assets'), { recursive: true, withFileTypes: true })
     .filter((e) => e.isFile())
-    .map((e) => join(e.parentPath, e.name).slice(dist('assets').length + 1))
+    .map((e) =>
+      join(e.parentPath, e.name)
+        .slice(dist('assets').length + 1)
+        .split(sep)
+        .join('/')
+    )
 
 const isShardedPath = (f: string) => /^[0-2]\/[^/]+$/.test(f)
 
