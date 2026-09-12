@@ -136,7 +136,8 @@ export async function createVitePressPlugin(
         site.base,
         lastUpdated ?? false,
         cleanUrls ?? false,
-        siteConfig
+        siteConfig,
+        config.command === 'serve'
       )
     },
 
@@ -477,15 +478,21 @@ function logDeadLinks(
   devMode = false
 ) {
   const logged = new Set<string>()
-  deadLinks.forEach(({ url, file, line }, i) => {
-    const location = line == null ? file : `${file}:${line}`
-    const key = `${location}:::${url}`
+  deadLinks.forEach(({ url, resolved, file, line, column, via }, i) => {
+    const location =
+      line == null
+        ? file
+        : `${file}:${line}${column == null ? '' : `:${column}`}`
+    const key = `${location}:::${url}:::${via ?? ''}`
     if (logged.has(key)) return
     logged.add(key)
     const prefix = '\n'.repeat(i === 0 ? (devMode ? 1 : 2) : 0)
+    const target =
+      resolved && resolved !== url ? ` (resolves to ${c.cyan(resolved)})` : ''
+    const includedBy = via ? ` (via ${c.white(c.dim(via))})` : ''
     logger.warn(
       c.yellow(
-        `${prefix}(!) Found dead link ${c.cyan(url)} in file ${c.white(c.dim(location))}`
+        `${prefix}(!) Found dead link ${c.cyan(url)}${target} in file ${c.white(c.dim(location))}${includedBy}`
       )
     )
   })

@@ -22,8 +22,10 @@ import {
   treatAsHtml,
   type HeadConfig,
   type MarkdownEnv,
+  type MarkdownLink,
   type PageData
 } from './shared'
+import type { DeadLinkContext } from './siteConfig'
 import { getGitTimestamp } from './utils/getGitTimestamp'
 
 const debug = createDebug('vitepress:md')
@@ -49,8 +51,22 @@ let __ts: number
 export interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
-  deadLinks: { url: string; file: string; line?: number }[]
+  deadLinks: DeadLink[]
   includes: string[]
+}
+
+export interface DeadLink {
+  /** the URL as authored in the source, decoded */
+  url: string
+  /** the site page path it resolved to, for internal links */
+  resolved?: string
+  /** absolute path of the file the link was authored in, posix-style */
+  file: string
+  /** 1-based position in `file`, when known */
+  line?: number
+  column?: number
+  /** the page that pulled the link in, when `file` is an included file */
+  via?: string
 }
 
 export function clearCache(relativePath?: string) {
@@ -105,7 +121,8 @@ export async function createMarkdownToVueRenderFn(
   base: string,
   includeLastUpdatedData: boolean,
   cleanUrls: boolean,
-  siteConfig: SiteConfig
+  siteConfig: SiteConfig,
+  dev: boolean
 ) {
   const md = await createMarkdownRenderer(
     srcDir,
@@ -130,7 +147,7 @@ export async function createMarkdownToVueRenderFn(
     const relativePath = slash(path.relative(srcDir, file))
 
     const srcHash = hash('sha256', src, 'base64url')
-    const cacheKey = `${srcHash}:${ts}:${relativePath}`
+    const cacheKey = `${srcHash}:${ts}:${dev}:${relativePath}`
     if (options.cache !== false) {
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -162,7 +179,10 @@ export async function createMarkdownToVueRenderFn(
       relativizeUrls: true,
       includes: [],
       realPath: fileOrig,
-      localeIndex
+      localeIndex,
+      // page renders in dev carry source-location attributes for
+      // jump-to-source; everything else stays clean
+      emitSourceLoc: dev
     }
     let html: string
     try {
@@ -174,29 +194,20 @@ export async function createMarkdownToVueRenderFn(
       throw e
     }
     const {
-      content,
       frontmatter = {},
       headers = [],
       includes = [],
-      linkLines = [],
       links = [],
       sfcBlocks,
       title = ''
     } = env
-    src = env.src ?? src
-    const contentLineOffset = countLineBreaks(
-      content && src.endsWith(content) ? src.slice(0, -content.length) : ''
-    )
 
     // validate data.links
     const deadLinks: MarkdownCompileResult['deadLinks'] = []
-    const recordDeadLink = (url: string, line?: number) => {
-      deadLinks.push(
-        line == null ? { url, file: fileOrig } : { url, file: fileOrig, line }
-      )
-    }
+    // reported alongside line-map files, which are posix-style
+    const sourceFile = slash(fileOrig)
 
-    function shouldIgnoreDeadLink(url: string) {
+    function shouldIgnoreDeadLink(link: MarkdownLink, resolved: string) {
       if (!siteConfig?.ignoreDeadLinks) {
         return false
       }
@@ -204,25 +215,27 @@ export async function createMarkdownToVueRenderFn(
         return true
       }
       if (siteConfig.ignoreDeadLinks === 'localhostLinks') {
-        return url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
+        return link.url.replace(EXTERNAL_URL_RE, '').startsWith('//localhost')
       }
 
+      const context: DeadLinkContext = {
+        file: link.loc?.file ?? sourceFile,
+        line: link.loc?.line,
+        column: link.loc?.column,
+        url: resolved
+      }
       return siteConfig.ignoreDeadLinks.some((ignore) => {
-        if (typeof ignore === 'string') return url === ignore
-        if (ignore instanceof RegExp) return ignore.test(url)
-        if (typeof ignore === 'function') return ignore(url, fileOrig)
+        if (typeof ignore === 'string') return link.raw === ignore
+        if (ignore instanceof RegExp) return ignore.test(link.raw)
+        if (typeof ignore === 'function') return ignore(link.raw, context)
         return false
       })
     }
 
     if (links && siteConfig?.ignoreDeadLinks !== true) {
       const dir = path.dirname(file)
-      for (const [index, rawUrl] of links.entries()) {
-        let url = rawUrl
-        const line =
-          linkLines[index] == null
-            ? undefined
-            : linkLines[index] + contentLineOffset
+      for (const link of links) {
+        let url = link.url
         const { pathname } = new URL(url, 'http://a.com')
         if (!treatAsHtml(pathname)) continue
 
@@ -245,6 +258,10 @@ export async function createMarkdownToVueRenderFn(
           ? undefined
           : siteConfig?.rewrites.map[resolved + '.md']
 
+        const resolvedPath = EXTERNAL_URL_RE.test(link.url)
+          ? undefined
+          : '/' + resolved
+
         if (
           (!pages.includes(resolved) ||
             (rewritten != null && rewritten !== resolved + '.md')) &&
@@ -252,9 +269,18 @@ export async function createMarkdownToVueRenderFn(
             siteConfig?.publicDir &&
             fs.existsSync(path.join(siteConfig.publicDir, `${resolved}.html`))
           ) &&
-          !shouldIgnoreDeadLink(url)
+          !shouldIgnoreDeadLink(link, resolvedPath ?? link.url)
         ) {
-          recordDeadLink(url, line)
+          const { loc } = link
+          deadLinks.push({
+            url: link.raw,
+            ...(resolvedPath != null && { resolved: resolvedPath }),
+            file: loc?.file ?? sourceFile,
+            ...(loc != null && { line: loc.line }),
+            ...(loc?.column != null && { column: loc.column }),
+            ...(loc?.file != null &&
+              loc.file !== sourceFile && { via: sourceFile })
+          })
         }
       }
     }
@@ -388,10 +414,6 @@ const inferDescription = (frontmatter: Record<string, any>) => {
   }
 
   return (head && getHeadMetaContent(head, 'description')) || ''
-}
-
-function countLineBreaks(str: string) {
-  return str.match(/\r?\n/g)?.length ?? 0
 }
 
 const getHeadMetaContent = (head: HeadConfig[], name: string) => {

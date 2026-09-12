@@ -156,7 +156,8 @@ describe('node/plugins/localSearchPlugin', () => {
       siteConfig.site.base,
       false,
       false,
-      siteConfig
+      siteConfig,
+      false
     )
 
     const rootFile = path.join(root, 'index.md')

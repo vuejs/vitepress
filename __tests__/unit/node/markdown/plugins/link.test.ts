@@ -1,6 +1,7 @@
 import { slugify } from '@mdit-vue/shared'
 import { MarkdownItAsync } from 'markdown-it-async'
 import { linkPlugin } from 'node/markdown/plugins/link'
+import type { MarkdownLink } from 'node/shared'
 
 describe('node/markdown/plugins/link', () => {
   const md = new MarkdownItAsync()
@@ -49,17 +50,14 @@ describe('node/markdown/plugins/link', () => {
     )
   })
 
-  test('records source line numbers for collected links', async () => {
-    const env: {
-      cleanUrls: boolean
-      links?: string[]
-      linkLines?: number[]
-    } = { cleanUrls: false }
+  test('collects links with their destination as authored', async () => {
+    const env: { cleanUrls: boolean; links?: MarkdownLink[] } = {
+      cleanUrls: false
+    }
 
     await md.renderAsync('Intro\n\n[Missing](./missing.md)\n', env)
 
-    expect(env.links).toEqual(['./missing'])
-    expect(env.linkLines).toEqual([3])
+    expect(env.links).toEqual([{ url: './missing.html', raw: './missing.md' }])
   })
 })
 
