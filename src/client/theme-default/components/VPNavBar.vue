@@ -193,14 +193,10 @@ const overflow = provideNavOverflow({
 }
 
 @media (min-width: 60rem) {
-  /* outside home the title column matches the sidebar column, so search and
-     menu sit at the same spot on every doc page; on home the title keeps its
-     natural width and search sits right next to it */
-  .VPNavBar:not(.home) .title {
-    min-width: calc(var(--vp-sidebar-width) - 2rem);
-  }
-
+  /* reserve the sidebar column only when it is present; otherwise the title
+     keeps its natural width and search sits right next to it */
   .VPNavBar.has-sidebar .title {
+    min-width: calc(var(--vp-sidebar-width) - 2rem);
     max-width: calc(var(--vp-sidebar-width) - 2rem);
   }
 }
