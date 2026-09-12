@@ -175,6 +175,27 @@ def check_coverage(release: Path, subsets: dict[str, str]) -> None:
         sys.exit("add the missing codepoints to a subset in scripts/fontSubsets.json")
 
 
+# U+FE0E VARIATION SELECTOR-15 requests the text presentation of a character
+# that also has an emoji form; markdown-it's footnote back-reference is one
+# ("↩︎" is U+21A9 U+FE0E). WebKit shapes such a sequence only with a font that
+# has a glyph for every code point in it, and Inter maps nothing to U+FE0E, so
+# Safari passes over Inter and draws the arrow with -apple-system instead - on
+# iOS a visibly thinner, smaller glyph (vuejs/vitepress#5428). Mapping the
+# selector to Inter's empty, zero-advance ZERO WIDTH SPACE glyph in every face
+# keeps the sequence in Inter without adding a glyph, so the variable-font
+# tables stay untouched. U+FE0F, the emoji selector, is left unmapped on
+# purpose: "↩️" should keep falling through to the emoji font.
+ZERO_WIDTH_SPACE = 0x200B
+TEXT_PRESENTATION_SELECTOR = 0xFE0E
+
+
+def map_text_presentation_selector(font: TTFont) -> None:
+    zwsp = font.getBestCmap()[ZERO_WIDTH_SPACE]
+    for table in font["cmap"].tables:
+        if table.isUnicode():
+            table.cmap[TEXT_PRESENTATION_SELECTOR] = zwsp
+
+
 def build_subsets(release: Path, subsets: dict[str, str]) -> None:
     for style, (file, _) in STYLES.items():
         for name, value in subsets.items():
@@ -188,8 +209,9 @@ def build_subsets(release: Path, subsets: dict[str, str]) -> None:
             options.name_IDs = [*options.name_IDs, 13, 14]
             font = subset.load_font(release / file, options)
             subsetter = subset.Subsetter(options)
-            subsetter.populate(unicodes=parse_ranges(value))
+            subsetter.populate(unicodes=parse_ranges(value) | {ZERO_WIDTH_SPACE})
             subsetter.subset(font)
+            map_text_presentation_selector(font)
             buf = io.BytesIO()
             subset.save_font(font, buf, options)
             out = FONTS_DIR / f"inter-{style}-{name}.woff2"
