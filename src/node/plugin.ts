@@ -34,7 +34,7 @@ import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { slash, type PageDataPayload } from './shared'
+import { resolveSiteDataByRoute, slash, type PageDataPayload } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
@@ -307,9 +307,16 @@ export async function createVitePressPlugin(
           if (url?.endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
+            // the shell of the requested locale, so the first paint already
+            // has the page's language and direction (req.url is the fallback
+            // page by now, the original request still names the actual one)
+            const page = cleanUrl(req.originalUrl || url).slice(
+              site.base.length
+            )
+            const { lang, dir } = resolveSiteDataByRoute(site, page)
             let html = `\
 <!DOCTYPE html>
-<html>
+<html lang="${lang}" dir="${dir}">
   <head>
     <title></title>
     <meta charset="utf-8">
