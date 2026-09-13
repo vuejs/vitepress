@@ -25,6 +25,18 @@ const glyphEnds = (selector: string) =>
       return { first, last }
     })
 
+// scrolls a heading into view until the outline marks it active. The scroll
+// is re-issued on every check, so a lost scroll event or a dev-server reload
+// triggered by another spec cannot leave the wait hanging (seen on Windows CI)
+const activateHeading = (id: string) =>
+  page.waitForFunction((id) => {
+    if (document.querySelector(`.outline-link.active[href="#${id}"]`)) {
+      return true
+    }
+    document.getElementById(id)?.scrollIntoView()
+    return false
+  }, id)
+
 describe('rtl', () => {
   beforeAll(async () => {
     await goto('/rtl/')
@@ -59,17 +71,11 @@ describe('rtl', () => {
 
   test('keeps the outline marker on the reading side and moving', async () => {
     const outline = await box('.VPDocAsideOutline .content')
-    await page.evaluate(() =>
-      document.querySelector('#section-one')!.scrollIntoView()
-    )
-    await page.waitForSelector('.outline-link.active[href="#section-one"]')
+    await activateHeading('section-one')
     const before = await box('.outline-marker')
     expect(before.x).toBeGreaterThan(outline.x + outline.width / 2)
 
-    await page.evaluate(() =>
-      document.querySelector('#section-two')!.scrollIntoView()
-    )
-    await page.waitForSelector('.outline-link.active[href="#section-two"]')
+    await activateHeading('section-two')
     const after = await box('.outline-marker')
     expect(after.y).toBeGreaterThan(before.y)
     expect(Math.abs(after.x - before.x)).toBeLessThan(1)
@@ -131,16 +137,18 @@ describe('rtl', () => {
     const closed = await box('.VPSidebar')
     expect(closed.x).toBeGreaterThanOrEqual(viewport - 1)
 
-    await page.locator('.VPLocalNav .menu').click()
-    await page.waitForSelector('.VPSidebar.open')
-    // wait for the slide-in transition to settle against the right edge
+    // open the sidebar and wait for its slide-in to settle against the right
+    // edge, reopening it if a reload closed it meanwhile (see activateHeading)
     await page.waitForFunction(() => {
-      const { right } = document
-        .querySelector('.VPSidebar')!
-        .getBoundingClientRect()
-      return Math.abs(right - innerWidth) < 1
+      const sidebar = document.querySelector('.VPSidebar')!
+      if (!sidebar.classList.contains('open')) {
+        document.querySelector<HTMLElement>('.VPLocalNav .menu')?.click()
+        return false
+      }
+      const { right } = sidebar.getBoundingClientRect()
+      return Math.abs(right - document.documentElement.clientWidth) < 1
     })
     const open = await box('.VPSidebar')
-    expect(open.x).toBeLessThan(375)
+    expect(open.x).toBeLessThan(viewport)
   })
 })
