@@ -324,9 +324,11 @@ export async function createVitePressPlugin(
                 decodeURI(page)
                   .replace(/(^|\/)$/, '$1index')
                   .replace(/\.html$/, '') + '.md'
+              // a bare locale root (/fa) counts as its directory
+              const localePath = /\.\w+$|\/$/.test(page) ? page : page + '/'
               ;({ lang, dir } = resolveSiteDataByRoute(
                 site,
-                page,
+                localePath,
                 siteConfig.rewrites.inv[source] || source
               ))
             } catch {

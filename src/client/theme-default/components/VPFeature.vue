@@ -41,14 +41,14 @@ defineProps<{
         :width="icon.width || 48"
       />
       <div v-else-if="icon" class="icon" v-html="icon"></div>
-      <h2 class="title" v-html="title"></h2>
+      <h2 class="title"><bdi v-html="title" /></h2>
       <ul v-if="Array.isArray(details)" class="details">
-        <li v-for="item in details" :key="item" v-html="item"></li>
+        <li v-for="item in details" :key="item"><bdi v-html="item" /></li>
       </ul>
-      <p v-else-if="details" class="details" v-html="details"></p>
+      <p v-else-if="details" class="details"><bdi v-html="details" /></p>
       <div v-if="linkText" class="link-text">
         <p class="link-text-value">
-          {{ linkText }} <span class="vpi-arrow-right link-text-icon" />
+          <bdi>{{ linkText }}</bdi> <span class="vpi-arrow-right link-text-icon" />
         </p>
       </div>
     </article>

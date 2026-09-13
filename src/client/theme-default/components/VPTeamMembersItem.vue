@@ -22,11 +22,11 @@ withDefaults(defineProps<Props>(), {
       </figure>
       <div class="data">
         <h1 class="name">
-          {{ member.name }}
+          <bdi>{{ member.name }}</bdi>
         </h1>
         <p v-if="member.title || member.org" class="affiliation">
           <span v-if="member.title" class="title">
-            {{ member.title }}
+            <bdi>{{ member.title }}</bdi>
           </span>
           <span v-if="member.title && member.org" class="at"> @ </span>
           <VPLink
@@ -36,10 +36,10 @@ withDefaults(defineProps<Props>(), {
             :href="member.orgLink"
             no-icon
           >
-            {{ member.org }}
+            <bdi>{{ member.org }}</bdi>
           </VPLink>
         </p>
-        <p v-if="member.desc" class="desc" v-html="member.desc" />
+        <p v-if="member.desc" class="desc"><bdi v-html="member.desc" /></p>
         <div v-if="member.links" class="links">
           <VPSocialLinks :links="member.links" :me="false" />
         </div>

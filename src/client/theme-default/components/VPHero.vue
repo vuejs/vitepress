@@ -35,10 +35,10 @@ const { heroImageSlotExists } = inject(
         <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
           <h1 class="heading">
-            <span v-if="name" v-html="name" class="name clip"></span>
-            <span v-if="text" v-html="text" class="text"></span>
+            <span v-if="name" dir="auto" v-html="name" class="name clip"></span>
+            <span v-if="text" dir="auto" v-html="text" class="text"></span>
           </h1>
-          <p v-if="tagline" v-html="tagline" class="tagline"></p>
+          <p v-if="tagline" class="tagline"><bdi v-html="tagline" /></p>
         </slot>
         <slot name="home-hero-info-after" />
 

@@ -3,11 +3,11 @@
     <div class="title">
       <div class="title-line" />
       <h2 v-if="$slots.title" class="title-text">
-        <slot name="title" />
+        <bdi><slot name="title" /></bdi>
       </h2>
     </div>
     <p v-if="$slots.lead" class="lead">
-      <slot name="lead" />
+      <bdi><slot name="lead" /></bdi>
     </p>
     <div v-if="$slots.members" class="members">
       <slot name="members" />
