@@ -16,7 +16,7 @@ import {
   type MarkdownEnv
 } from '../../shared'
 
-const indexRE = /(^|.*\/)index.md(#?.*)$/i
+const indexRE = /(^|.*\/)index\.md$/i
 
 export const linkPlugin = (
   md: MarkdownItAsync,
@@ -112,12 +112,11 @@ export const linkPlugin = (
     // directory urls need a server to resolve them, and file:// has none
     const explicitIndex = isRelativeBase(base) && !env.cleanUrls
 
-    const indexMatch = url.match(indexRE)
+    let cleanUrl = url.replace(/[?#].*$/, '')
+    const indexMatch = cleanUrl.match(indexRE)
     if (indexMatch) {
-      const [, path, hash] = indexMatch
-      url = path + (explicitIndex ? 'index.html' : '') + normalizeHash(hash)
+      cleanUrl = indexMatch[1] + (explicitIndex ? 'index.html' : '')
     } else {
-      let cleanUrl = url.replace(/[?#].*$/, '')
       // transform foo.md -> foo[.html]
       if (cleanUrl.endsWith('.md')) {
         cleanUrl = cleanUrl.replace(/\.md$/, env.cleanUrls ? '' : '.html')
@@ -133,9 +132,9 @@ export const linkPlugin = (
       if (explicitIndex && cleanUrl.endsWith('/')) {
         cleanUrl += 'index.html'
       }
-      const parsed = new URL(url, 'http://a.com')
-      url = cleanUrl + parsed.search + normalizeHash(parsed.hash)
     }
+    const parsed = new URL(url, 'http://a.com')
+    url = cleanUrl + parsed.search + normalizeHash(parsed.hash)
 
     // ensure leading . for relative paths
     if (!url.startsWith('/') && !url.startsWith('./')) {
