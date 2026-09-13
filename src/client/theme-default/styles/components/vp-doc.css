@@ -346,9 +346,9 @@
   font-size: 0.9em;
 }
 
-/* the wrapper carries dir="ltr" (see preWrapper.ts), so code, its gutter and
-   its controls keep their physical layout on rtl pages; the logical
-   properties in this section resolve to left/right accordingly */
+/* code-block wrappers carry dir="ltr" (see preWrapper.ts), so code, its
+   gutter and its controls keep their physical layout on rtl pages; the
+   logical properties in this section resolve to left/right there */
 .vp-doc div[class*='language-'],
 .vp-block {
   position: relative;
