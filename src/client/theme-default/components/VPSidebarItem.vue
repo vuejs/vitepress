@@ -116,7 +116,7 @@ function onItemClick() {
   position: absolute;
   top: 0.375rem;
   bottom: 0.375rem;
-  left: calc(-1rem - 1px);
+  inset-inline-start: calc(-1rem - 1px);
   width: 2px;
   border-radius: 2px;
   transition: background-color 0.25s;
@@ -194,7 +194,7 @@ function onItemClick() {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: -0.4375rem;
+  margin-inline-end: -0.4375rem;
   width: 2rem;
   height: 2rem;
   color: var(--vp-c-text-3);
@@ -213,13 +213,12 @@ function onItemClick() {
 
 .caret-icon {
   font-size: 1.125rem;
-  /*rtl:ignore*/
   transform: rotate(90deg);
   transition: transform 0.25s;
 }
 
 .VPSidebarItem.collapsed .caret-icon {
-  transform: rotate(0) /*rtl:rotate(180deg)*/;
+  transform: rotate(0);
 }
 
 .VPSidebarItem.level-1 .items,
@@ -227,8 +226,8 @@ function onItemClick() {
 .VPSidebarItem.level-3 .items,
 .VPSidebarItem.level-4 .items,
 .VPSidebarItem.level-5 .items {
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 1rem;
+  border-inline-start: 1px solid var(--vp-c-divider);
+  padding-inline-start: 1rem;
 }
 
 .VPSidebarItem.collapsed .items {

@@ -223,7 +223,7 @@ withDefaults(defineProps<Props>(), {
 }
 
 .sp-icon {
-  margin-right: 0.5rem;
+  margin-inline-end: 0.5rem;
   font-size: 1rem;
 }
 </style>

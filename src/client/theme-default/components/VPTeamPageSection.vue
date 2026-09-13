@@ -43,8 +43,7 @@
 .title-line {
   position: absolute;
   top: 1rem;
-  left: 0;
-  width: 100%;
+  inset-inline: 0;
   height: 1px;
   background-color: var(--vp-c-divider);
 }

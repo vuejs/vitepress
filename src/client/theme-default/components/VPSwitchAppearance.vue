@@ -51,7 +51,6 @@ watchPostEffect(() => {
 }
 
 .dark .VPSwitchAppearance :deep(.check) {
-  /*rtl:ignore*/
   transform: translateX(1.125rem);
 }
 </style>

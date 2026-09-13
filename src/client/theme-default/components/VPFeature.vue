@@ -110,7 +110,7 @@ defineProps<{
 
 ul.details {
   list-style-type: disc;
-  padding-left: 0.875rem;
+  padding-inline-start: 0.875rem;
 }
 
 .link-text {
@@ -126,6 +126,6 @@ ul.details {
 }
 
 .link-text-icon {
-  margin-left: 0.375rem;
+  margin-inline-start: 0.375rem;
 }
 </style>

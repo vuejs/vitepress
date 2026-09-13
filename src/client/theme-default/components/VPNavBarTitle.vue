@@ -89,7 +89,7 @@ const textTitle = computed(() => {
 
 :deep(.logo) {
   flex: none;
-  margin-right: 0.5rem;
+  margin-inline-end: 0.5rem;
   height: var(--vp-nav-logo-height);
 }
 </style>

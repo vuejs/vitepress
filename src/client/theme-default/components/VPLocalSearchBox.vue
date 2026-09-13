@@ -917,8 +917,7 @@ function onMouseMove(e: MouseEvent) {
 .excerpt-gradient-bottom {
   position: absolute;
   bottom: -1px;
-  left: 0;
-  width: 100%;
+  inset-inline: 0;
   height: 0.5rem;
   background: linear-gradient(transparent, var(--vp-local-search-result-bg));
   z-index: 1000;
@@ -927,8 +926,7 @@ function onMouseMove(e: MouseEvent) {
 .excerpt-gradient-top {
   position: absolute;
   top: -1px;
-  left: 0;
-  width: 100%;
+  inset-inline: 0;
   height: 0.5rem;
   background: linear-gradient(var(--vp-local-search-result-bg), transparent);
   z-index: 1000;

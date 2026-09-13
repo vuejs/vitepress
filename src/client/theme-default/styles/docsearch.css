@@ -59,7 +59,8 @@
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link {
-  padding: 0.5rem 0.75rem 0.5rem 0.625rem;
+  padding-block: 0.5rem;
+  padding-inline: 0.625rem 0.75rem;
 }
 
 .DocSearch-AskAiScreen-RelatedSources-Item-Link svg {
@@ -73,7 +74,7 @@
 }
 
 .DocSearch-Clear {
-  padding-right: 0.375rem;
+  padding-inline-end: 0.375rem;
 }
 
 .DocSearch-Commands-Key {

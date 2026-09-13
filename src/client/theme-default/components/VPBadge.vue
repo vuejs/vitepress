@@ -16,7 +16,7 @@ withDefaults(defineProps<{
 <style>
 .VPBadge {
   display: inline-block;
-  margin-left: 0.125rem;
+  margin-inline-start: 0.125rem;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   padding: 0 0.625rem;
@@ -40,7 +40,8 @@ withDefaults(defineProps<{
 
 .vp-doc h1 > .VPBadge,
 .vp-doc h2 > .VPBadge {
-  margin: 0 0 0 0.125rem;
+  margin: 0;
+  margin-inline-start: 0.125rem;
   vertical-align: middle;
 }
 

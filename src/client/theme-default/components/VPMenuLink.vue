@@ -67,7 +67,7 @@ defineOptions({ inheritAttrs: false })
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
   transition: background-color 0.25s, color 0.25s;
 }
@@ -89,7 +89,7 @@ defineOptions({ inheritAttrs: false })
 
 .VPNavScreen .link {
   display: block;
-  margin-left: 0.75rem;
+  margin-inline-start: 0.75rem;
   border-radius: 0;
   padding: 0;
   font-weight: 400;

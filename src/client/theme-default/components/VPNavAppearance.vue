@@ -65,7 +65,8 @@ const labelId = useId()
   justify-content: space-between;
   align-items: center;
   border-radius: 0.5rem;
-  padding: 0.75rem 0.875rem 0.75rem 1rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem 0.875rem;
   background-color: var(--vp-c-bg-soft);
 }
 

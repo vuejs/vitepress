@@ -179,7 +179,7 @@ useEventListener('pointerdown', (e) => {
 }
 
 .text-icon {
-  margin-left: 0.25rem;
+  margin-inline-start: 0.25rem;
   font-size: 0.875rem;
 }
 
@@ -191,7 +191,7 @@ useEventListener('pointerdown', (e) => {
 .menu {
   position: absolute;
   top: calc(var(--vp-nav-height) / 2 + 1.25rem);
-  right: 0;
+  inset-inline-end: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s;

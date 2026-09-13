@@ -204,13 +204,13 @@ function isEditingContent(event: KeyboardEvent): boolean {
 @media (min-width: 48rem) {
   .VPNavBarSearch {
     gap: 0.5rem;
-    padding-left: 1.5rem;
+    padding-inline-start: 1.5rem;
   }
 }
 
 @media (min-width: 60rem) {
   .VPNavBarSearch {
-    padding-left: 2rem;
+    padding-inline-start: 2rem;
   }
 }
 </style>

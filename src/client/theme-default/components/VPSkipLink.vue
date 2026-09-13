@@ -27,7 +27,7 @@ watch(() => route.path, () => backToTop.value?.focus())
 .VPSkipLink {
   position: fixed;
   top: 0.5rem;
-  left: 0.5rem;
+  inset-inline-start: 0.5rem;
   padding: 0.5rem 1rem;
   z-index: 999;
   border-radius: 0.5rem;
@@ -49,7 +49,7 @@ watch(() => route.path, () => backToTop.value?.focus())
 @media (min-width: 80rem) {
   .VPSkipLink {
     top: 0.875rem;
-    left: 1rem;
+    inset-inline-start: 1rem;
   }
 }
 </style>
