@@ -83,6 +83,7 @@ watchEffect(() => {
 .middle,
 .bottom {
   position: absolute;
+  inset-inline-start: 0;
   width: 1rem;
   height: 0.125rem;
   background-color: var(--vp-c-text-1);
