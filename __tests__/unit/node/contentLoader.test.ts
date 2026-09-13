@@ -1,4 +1,4 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
@@ -28,6 +28,18 @@ describe('node/contentLoader', () => {
     siteConfig.cleanUrls = cleanUrls
     ;(global as any).VITEPRESS_CONFIG = siteConfig
   }
+
+  test('excludes drafts with a string globOptions.ignore pattern', async () => {
+    await setup(false)
+    await mkdir(path.join(root!, 'drafts'))
+    await writeFile(path.join(root!, 'drafts/post.md'), '# Unpublished')
+
+    const data = await createContentLoader('**/*.md', {
+      globOptions: { cwd: root, ignore: 'drafts/**' }
+    }).load()
+
+    expect(data.map((page) => page.url)).toEqual(['/', '/other.html'])
+  })
 
   test('rendered internal links get .html when cleanUrls is false', async () => {
     await setup(false)
