@@ -57,11 +57,18 @@ BASE_VAR = """\
 # got a chance to pick the right CJK font. The names below cover the defaults
 # of macOS / Windows / Linux (fonts-noto-cjk); families that are not installed
 # are simply skipped, and sites can splice a CJK webfont between 'Inter Core'
-# and the system families. Bare zh means Hans per BCP 47 likely subtags, and
-# with no Traditional Chinese rule it also covers zh-Hant/zh-TW/zh-HK/zh-MO
-# pages. If Hant handling is ever requested, add after the zh rule (same
-# specificity, so the later rule wins; the region tags must be enumerated
-# because `:lang(zh-Hant)` cannot match e.g. `lang="zh-TW"`):
+# and the system families. Unlike the base stack, these do not name
+# -apple-system: WebKit expands it into the system font plus CoreText's whole
+# cascade list and walks that list with each font's full character map, which
+# on macOS 26 / iOS 26 hands the symbols missing from the reduced PingFang
+# (U+FF5C, ①, ★, ※, ...) to Apple Symbols or the Japanese UI font at a
+# single weight. The CJK_FALLBACK_ANCHOR faces route them through the
+# language-aware system fallback instead. Bare zh means Hans per BCP 47
+# likely subtags, and with no Traditional Chinese rule it also covers
+# zh-Hant/zh-TW/zh-HK/zh-MO pages. If Hant handling is ever requested, add
+# after the zh rule (same specificity, so the later rule wins; the region
+# tags must be enumerated because `:lang(zh-Hant)` cannot match e.g.
+# `lang="zh-TW"`):
 #   [lang]:where(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) {
 #     --vp-font-family-base:
 #       'Inter Core', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC',
@@ -72,22 +79,55 @@ CJK_BASE_VAR = """\
 [lang]:where(:lang(zh)) {
   --vp-font-family-base:
     'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ja)) {
   --vp-font-family-base:
     'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ko)) {
   --vp-font-family-base:
     'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+"""
+
+# macOS 26 / iOS 26 ship two copies of PingFang: the full one is an on-demand
+# asset that CoreText flags as user-installed, which Safari keeps away from
+# web content, so pages get the reduced one, from which some 1,400 glyphs -
+# U+FF5C ｜, ①, ★, ※, kana, ... - moved to a hidden ".CJK Symbols Fallback"
+# font. Only CoreText's language-aware system fallback knows about that font,
+# and WebKit performs this fallback relative to the first face of the first
+# family in the stack (FontCascadeFonts::findBestFallbackFont), i.e. relative
+# to Inter, whose fallback chain reaches Hiragino, Helvetica and Lucida Grande
+# first. The faces below make the system font that base instead: U+10FFFF is
+# a noncharacter, so they never draw anything themselves and do not affect
+# the primary font used for metrics (the face covering U+0020), and other
+# engines never load them. WebKit orders the faces of a family last-declared-
+# first, so these must remain the last 'Inter Core' rules. The result matches
+# native apps: SF for the symbols it has, the CJK symbols font for the rest,
+# both at the requested weight.
+CJK_FALLBACK_ANCHOR = """\
+@font-face {
+  font-family: 'Inter Core';
+  font-style: normal;
+  font-weight: 100 900;
+  src: local(-apple-system);
+  unicode-range: U+10FFFF;
+}
+
+@font-face {
+  font-family: 'Inter Core';
+  font-style: italic;
+  font-weight: 100 900;
+  src: local(-apple-system);
+  unicode-range: U+10FFFF;
 }
 """
 
@@ -256,6 +296,7 @@ def write_css(subsets: dict[str, str], cjk_exclusions: set[int]) -> None:
         + "\n".join(inter)
         + f"\n{CJK_COMMENT}\n"
         + "\n".join(cjk)
+        + f"\n{CJK_FALLBACK_ANCHOR}"
         + f"\n{BASE_VAR}\n{CJK_BASE_VAR}"
     )
 
