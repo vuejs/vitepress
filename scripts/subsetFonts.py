@@ -45,8 +45,44 @@ PUA = range(0xE000, 0xF8FF + 1)
 BASE_VAR = """\
 :root {
   --vp-font-family-base:
-    'Inter', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Inter', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+"""
+
+LOCAL_BASE_VAR = """\
+:root, [lang]:where(:not(:lang(zh, ja, ko))) {
+  --vp-font-family-base:
+    'Inter', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+"""
+
+# From https://github.com/tats-u/yu-othic-css/ v1.0.0
+# (officially donated by its author)
+YU_GOTHIC_WEIGHT_FIXED = """\
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 200;
+  src: local('Yu Gothic Light');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 300;
+  src: local('Yu Gothic Regular');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 400;
+  src: local('Yu Gothic Medium');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 600;
+  src: local('Yu Gothic Bold');
 }
 """
 
@@ -62,13 +98,11 @@ BASE_VAR = """\
 # cascade list and walks that list with each font's full character map, which
 # on macOS 26 / iOS 26 hands the symbols missing from the reduced PingFang
 # (U+FF5C, ①, ★, ※, ...) to Apple Symbols or the Japanese UI font at a
-# single weight. The CJK_FALLBACK_ANCHOR faces route them through the
-# language-aware system fallback instead. Bare zh means Hans per BCP 47
-# likely subtags, and with no Traditional Chinese rule it also covers
-# zh-Hant/zh-TW/zh-HK/zh-MO pages. If Hant handling is ever requested, add
-# after the zh rule (same specificity, so the later rule wins; the region
-# tags must be enumerated because `:lang(zh-Hant)` cannot match e.g.
-# `lang="zh-TW"`):
+# single weight. Bare zh means Hans per BCP 47 likely subtags, and with no
+# Traditional Chinese rule it also covers zh-Hant/zh-TW/zh-HK/zh-MO pages.
+# If Hant handling is ever requested, add after the zh rule (same specificity,
+# so the later rule wins; the region tags must be enumerated because
+# `:lang(zh-Hant)` cannot match e.g. `lang="zh-TW"`):
 #   [lang]:where(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) {
 #     --vp-font-family-base:
 #       'Inter Core', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC',
@@ -78,23 +112,57 @@ BASE_VAR = """\
 CJK_BASE_VAR = """\
 [lang]:where(:lang(zh)) {
   --vp-font-family-base:
-    'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
-    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    'Inter Core', 'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Microsoft YaHei',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Traditional Chinese */
+/* https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/likelySubtags.json */
+/* Tentative: for regions that belong to neither PRC nor ROC, leave Chinese fonts to the user. */
+/* :lang(zh-[REGION]) matches zh-Hans-[REGION], which is unwanted, so we prefer [lang|=zh-[REGION]] instead. */
+[lang]:where(:lang(zh-Hant)), [lang|=zh-AU i], [lang|=zh-BN i], [lang|=zh-GB i], [lang|=zh-GF i], [lang|=zh-ID i], [lang|=zh-PA i], [lang|=zh-PF i], [lang|=zh-PH i], [lang|=zh-SR i], [lang|=zh-TH i], [lang|=zh-US i], [lang|=zh-VN i] {
+  --vp-font-family-base:
+    'Inter Core', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* We can't cover cases that don't contain region subtag but contain extension subtags, such as -t-en due to CSS's limitation as of 2026-09 */
+[lang=zh-Hant i], [lang|=zh-TW i], :lang(zh-Hant-TW, zh-Bopo, zh-Hanb) {
+  --vp-font-family-base:
+    'Inter Core', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Microsoft JhengHei',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(zh-Hant-HK)), [lang|=zh-HK i] {
+  /* Microsoft JhengHei is optimized for Taiwan, so we should not prioritize it for PRC regions */
+  --vp-font-family-base:
+    'Inter Core', 'PingFang HK', 'Noto Sans CJK HK', 'Noto Sans HK',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(zh-Hant-MO)), [lang|=zh-MO i] {
+  /* A Macao variant for Noto Sans CJK / Source Han Sans has not been released yet as of 2026-09. */
+  --vp-font-family-base:
+    'Inter Core', 'PingFang MO', 'PingFang HK', 'Noto Sans CJK HK', 'Noto Sans HK',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ja)) {
   --vp-font-family-base:
-    'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
-    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    'Inter Core', 'Hiragino Sans', 'Noto Sans CJK JP', 'Noto Sans JP', 'Yu Gothic Weight Fixed', 'Meiryo',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ko)) {
   --vp-font-family-base:
-    'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
-    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    'Inter Core', 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', 'Malgun Gothic',
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 """
 
@@ -290,8 +358,9 @@ def write_css(subsets: dict[str, str], cjk_exclusions: set[int]) -> None:
         + "\n".join(inter)
         + "\n"
         + "\n".join(cjk)
+        + f"\n{YU_GOTHIC_WEIGHT_FIXED}"
         + f"\n{CJK_FALLBACK_ANCHOR}"
-        + f"\n{BASE_VAR}\n{CJK_BASE_VAR}"
+        + f"\n{LOCAL_BASE_VAR}\n{CJK_BASE_VAR}"
     )
 
 
