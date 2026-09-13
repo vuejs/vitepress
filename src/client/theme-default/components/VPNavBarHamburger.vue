@@ -61,6 +61,7 @@ watchEffect(() => {
   width: 1rem;
   height: 0.875rem;
   overflow: hidden;
+  scale: var(--vp-direction-multiplier) 1;
 }
 
 .VPNavBarHamburger:hover .top    { top: 0; transform: translateX(0.25rem); }

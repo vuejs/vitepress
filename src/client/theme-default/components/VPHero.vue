@@ -293,7 +293,7 @@ const { heroImageSlotExists } = inject(
     align-items: center;
     width: 100%;
     height: 100%;
-    transform: translate(-2rem, -2rem);
+    transform: translate(calc(-2rem * var(--vp-direction-multiplier)), -2rem);
   }
 }
 

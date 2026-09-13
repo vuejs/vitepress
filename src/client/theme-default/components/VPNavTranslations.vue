@@ -165,7 +165,7 @@ const localeProps = (locale: (typeof localeLinks.value)[number]) => ({
 }
 
 .VPNavScreenTranslations.open .icon.chevron {
-  transform: rotate(180deg);
+  transform: rotate(-90deg);
 }
 
 .VPNavScreenTranslations .list {

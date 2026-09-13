@@ -51,6 +51,6 @@ watchPostEffect(() => {
 }
 
 .dark .VPSwitchAppearance :deep(.check) {
-  transform: translateX(1.125rem);
+  transform: translateX(calc(1.125rem * var(--vp-direction-multiplier)));
 }
 </style>
