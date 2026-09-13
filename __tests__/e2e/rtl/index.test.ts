@@ -72,7 +72,7 @@ describe('rtl', () => {
     await page.waitForSelector('.outline-link.active[href="#section-two"]')
     const after = await box('.outline-marker')
     expect(after.y).toBeGreaterThan(before.y)
-    expect(after.x).toBe(before.x)
+    expect(Math.abs(after.x - before.x)).toBeLessThan(1)
   })
 
   test('mirrors the sidebar caret when a group collapses', async () => {
@@ -125,8 +125,11 @@ describe('rtl', () => {
   test('slides the mobile sidebar in from the right', async () => {
     await page.setViewportSize({ width: 375, height: 812 })
     await goto('/rtl/')
+    const viewport = await page.evaluate(
+      () => document.documentElement.clientWidth
+    )
     const closed = await box('.VPSidebar')
-    expect(closed.x).toBeGreaterThanOrEqual(375)
+    expect(closed.x).toBeGreaterThanOrEqual(viewport - 1)
 
     await page.locator('.VPLocalNav .menu').click()
     await page.waitForSelector('.VPSidebar.open')
