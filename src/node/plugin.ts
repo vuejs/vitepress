@@ -166,7 +166,7 @@ export async function createVitePressPlugin(
             'vue',
             'vitepress > @vue/devtools-api',
             'vitepress > @vueuse/core'
-          ].filter((d) => d != null),
+          ],
           exclude: ['@docsearch/js', '@docsearch/sidepanel-js', 'vitepress']
         },
         server: {
