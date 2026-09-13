@@ -124,6 +124,18 @@ describe('node/markdown/markdown', () => {
       )
     })
 
+    test('table wrapper', async () => {
+      const src = '| a |\n| --- |\n| b |'
+      const enabled = await render(src)
+      expect(enabled).toContain(
+        '<div class="vp-table-wrapper">\n<table tabindex="0">'
+      )
+      expect(enabled).toContain('</table>\n</div>')
+
+      const disabled = await render(src, { tableTabIndex: false })
+      expect(disabled).toContain('<div class="vp-table-wrapper">\n<table>')
+    })
+
     test('cjkFriendlyEmphasis', async () => {
       const src = 'これは**「テスト」**です'
       expect(await render(src)).toContain('<strong>「テスト」</strong>')

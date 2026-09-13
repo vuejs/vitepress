@@ -42,8 +42,34 @@ describe('Links', () => {
 
 describe('GitHub-Style Tables', () => {
   test('render table', async () => {
-    const table = page.locator('#github-style-tables + table')
-    expect(table).toBeTruthy()
+    const wrapper = page.locator('#github-style-tables + .vp-table-wrapper')
+    const table = wrapper.locator('table')
+    expect(await wrapper.count()).toBe(1)
+    expect(await table.count()).toBe(1)
+    expect(await wrapper.evaluate((el) => getComputedStyle(el).overflowX)).toBe(
+      'auto'
+    )
+
+    const dimensions = await table.evaluate((el) => ({
+      display: getComputedStyle(el).display,
+      tableWidth: el.getBoundingClientRect().width,
+      wrapperWidth: el.parentElement!.getBoundingClientRect().width
+    }))
+    expect(dimensions.display).toBe('table')
+    expect(dimensions.tableWidth).toBe(dimensions.wrapperWidth)
+
+    const scrolls = await table.evaluate((el) => {
+      el.querySelector('td')!.textContent = 'x'.repeat(200)
+      const wrapper = el.parentElement!
+      return wrapper.scrollWidth > wrapper.clientWidth
+    })
+    expect(scrolls).toBe(true)
+
+    await table.focus()
+    await page.keyboard.press('ArrowRight')
+    await expect
+      .poll(() => wrapper.evaluate((el) => el.scrollLeft))
+      .toBeGreaterThan(0)
   })
 })
 

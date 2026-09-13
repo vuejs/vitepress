@@ -230,6 +230,18 @@
   overflow-x: auto;
 }
 
+.vp-doc .vp-table-wrapper {
+  display: block;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+.vp-doc .vp-table-wrapper > table {
+  display: table;
+  margin: 0;
+  width: 100%;
+}
+
 .vp-doc tr {
   background-color: var(--vp-c-bg);
   border-top: 1px solid var(--vp-c-divider);
