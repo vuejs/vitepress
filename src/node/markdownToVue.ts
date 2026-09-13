@@ -59,7 +59,9 @@ export function clearCache(relativePath?: string) {
     return
   }
 
-  cache.find((_, key) => key.endsWith(`:${relativePath}`) && cache.delete(key))
+  for (const key of cache.keys()) {
+    if (key.endsWith(`:${relativePath}`)) cache.delete(key)
+  }
 }
 
 function normalizeDriveLetter(file: string) {
