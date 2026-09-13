@@ -34,7 +34,12 @@ import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { resolveSiteDataByRoute, slash, type PageDataPayload } from './shared'
+import {
+  isRelativeBase,
+  resolveSiteDataByRoute,
+  slash,
+  type PageDataPayload
+} from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
@@ -307,13 +312,26 @@ export async function createVitePressPlugin(
           if (url?.endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
-            // the shell of the requested locale, so the first paint already
-            // has the page's language and direction (req.url is the fallback
-            // page by now, the original request still names the actual one)
-            const page = cleanUrl(req.originalUrl || url).slice(
-              site.base.length
-            )
-            const { lang, dir } = resolveSiteDataByRoute(site, page)
+            // the shell of the requested page's locale, so the first paint
+            // already has its language and direction. req.url is the fallback
+            // page by now; the original request still names the actual one,
+            // served at the root when the base is relative
+            const base = isRelativeBase(site.base) ? '/' : site.base
+            const page = cleanUrl(req.originalUrl || url).slice(base.length)
+            let { lang, dir } = site
+            try {
+              const source =
+                decodeURI(page)
+                  .replace(/(^|\/)$/, '$1index')
+                  .replace(/\.html$/, '') + '.md'
+              ;({ lang, dir } = resolveSiteDataByRoute(
+                site,
+                page,
+                siteConfig.rewrites.inv[source] || source
+              ))
+            } catch {
+              // malformed percent-encoding: keep the site-level values
+            }
             let html = `\
 <!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
