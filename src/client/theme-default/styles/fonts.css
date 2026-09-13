@@ -301,7 +301,33 @@
   unicode-range: U+0302, U+0306-0307, U+030A, U+030C, U+030F, U+0313, U+0315, U+031B, U+0326-0328, U+032C, U+0337-0338, U+0342-0343, U+0346-036F, U+0E3F, U+1DC0-1DF5, U+1DFC-1DFF, U+2070-2071, U+2075-207E, U+2080, U+2085-208E, U+2090-209C, U+20DB-20DE, U+20E8, U+20F0, U+2100-2101, U+2106, U+2117, U+211E-2120, U+212A, U+212E, U+2132, U+213B, U+214D, U+2150-2152, U+2155-215A, U+215F, U+216C-216F, U+217A-217F, U+2183-2186, U+21AA, U+21B0-21B1, U+21B3-21B5, U+21BA-21BB, U+21D0, U+21DE-21DF, U+21E4-21E5, U+21EA, U+2205-2206, U+2296-2298, U+2303-2305, U+2325-2327, U+232B, U+2380, U+2387, U+238B, U+23CE-23CF, U+2423, U+24EA, U+25A2, U+25AA, U+25BA-25BB, U+25C4-25C5, U+25CA, U+25E6, U+2600, U+263C, U+266B, U+26A0, U+2713, U+2717, U+2756, U+2764, U+2780-2788, U+27EF, U+27F5-27FA, U+2913, U+2A38, U+2B06, U+2B12-2B13, U+2B24, U+2E18, U+A92E, U+1F12F, U+1F16A-1F16B, U+1F850, U+1F852;
 }
 
-:root {
+/* From https://github.com/tats-u/yu-othic-css/ v1.0.0 */
+/* (officially donated by its author) */
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 200;
+  src: local('Yu Gothic Light');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 300;
+  src: local('Yu Gothic Regular');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 400;
+  src: local('Yu Gothic Medium');
+}
+
+@font-face {
+  font-family: 'Yu Gothic Weight Fixed';
+  font-weight: 600;
+  src: local('Yu Gothic Bold');
+}
+
+:root, [lang]:where(:not(:lang(zh, ja, ko))) {
   --vp-font-family-base:
     'Inter', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -309,21 +335,55 @@
 
 [lang]:where(:lang(zh)) {
   --vp-font-family-base:
-    'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    'Inter Core', 'PingFang SC', 'Noto Sans CJK SC', 'Noto Sans SC', 'Microsoft YaHei',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Traditional Chinese */
+/* https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/likelySubtags.json */
+/* Tentative: for regions that belong to neither PRC nor ROC, leave Chinese fonts to the user. */
+/* :lang(zh-[REGION]) matches zh-Hans-[REGION], which is unwanted, so we prefer [lang|=zh-[REGION]] instead. */
+[lang]:where(:lang(zh-Hant)), [lang|=zh-AU i], [lang|=zh-BN i], [lang|=zh-GB i], [lang|=zh-GF i], [lang|=zh-ID i], [lang|=zh-PA i], [lang|=zh-PF i], [lang|=zh-PH i], [lang|=zh-SR i], [lang|=zh-TH i], [lang|=zh-US i], [lang|=zh-VN i] {
+    --vp-font-family-base:
+      'Inter Core', --apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+      'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* We can't cover cases that don't contain region subtag but contain extension subtags, such as -t-en due to CSS's limitation as of 2026-09 */
+[lang=zh-Hant i], [lang|=zh-TW i], :lang(zh-Hant-TW, zh-Bopo, zh-Hanb) {
+  --vp-font-family-base:
+    'Inter Core', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Microsoft JhengHei',
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(zh-Hant-HK)), [lang|=zh-HK i] {
+  /* Microsoft JhengHei is optimized for Taiwan, so we should not prioritize it for PRC regions */
+  --vp-font-family-base:
+    'Inter Core', 'PingFang HK', 'Noto Sans CJK HK', 'Noto Sans HK'
+    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+[lang]:where(:lang(zh-Hant-MO)), [lang|=zh-MO i] {
+  /* A Macao variant for Noto Sans CJK / Source Han Sans has not been released yet as of 2026-09. */
+  --vp-font-family-base:
+    'Inter Core', 'PingFang MO', 'PingFang HK', 'Noto Sans CJK HK', 'Noto Sans HK'
     -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ja)) {
   --vp-font-family-base:
-    'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
+    'Inter Core', 'Hiragino Sans', 'Noto Sans CJK JP', 'Noto Sans JP', 'Yu Gothic Weight Fixed', 'Meiryo',
     -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ko)) {
   --vp-font-family-base:
-    'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
+    'Inter Core', 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', 'Malgun Gothic',
     -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
