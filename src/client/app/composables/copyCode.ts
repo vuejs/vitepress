@@ -61,7 +61,7 @@ async function copyToClipboard(text: string) {
 
     element.style.contain = 'strict'
     element.style.position = 'absolute'
-    element.style.left = '-9999px'
+    element.style.insetInlineStart = '-9999px'
     element.style.fontSize = '12pt' // Prevent zooming on iOS
 
     const selection = document.getSelection()
