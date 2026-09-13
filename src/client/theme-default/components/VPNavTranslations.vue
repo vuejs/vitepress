@@ -124,7 +124,8 @@ const localeProps = (locale: (typeof localeLinks.value)[number]) => ({
 }
 
 .VPNavBarTranslations .title {
-  padding: 0 1.5rem 0 0.75rem;
+  padding-block: 0;
+  padding-inline: 0.75rem 1.5rem;
   line-height: 2.2857143;
   font-size: 0.875rem;
   font-weight: 700;
@@ -155,20 +156,21 @@ const localeProps = (locale: (typeof localeLinks.value)[number]) => ({
 }
 
 .VPNavScreenTranslations .icon.lang {
-  margin-right: 0.5rem;
+  margin-inline-end: 0.5rem;
 }
 
 .VPNavScreenTranslations .icon.chevron {
-  margin-left: 0.25rem;
+  margin-inline-start: 0.25rem;
   transition: transform 0.25s;
 }
 
 .VPNavScreenTranslations.open .icon.chevron {
-  transform: rotate(180deg);
+  transform: rotate(-90deg);
 }
 
 .VPNavScreenTranslations .list {
-  padding: 0.25rem 0 0 1.5rem;
+  padding-block: 0.25rem 0;
+  padding-inline: 1.5rem 0;
 }
 
 .VPNavScreenTranslations .link {

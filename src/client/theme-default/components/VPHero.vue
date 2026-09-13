@@ -35,10 +35,10 @@ const { heroImageSlotExists } = inject(
         <slot name="home-hero-info-before" />
         <slot name="home-hero-info">
           <h1 class="heading">
-            <span v-if="name" v-html="name" class="name clip"></span>
-            <span v-if="text" v-html="text" class="text"></span>
+            <span v-if="name" dir="auto" v-html="name" class="name clip"></span>
+            <span v-if="text" dir="auto" v-html="text" class="text"></span>
           </h1>
-          <p v-if="tagline" v-html="tagline" class="tagline"></p>
+          <p v-if="tagline" class="tagline"><bdi v-html="tagline" /></p>
         </slot>
         <slot name="home-hero-info-after" />
 
@@ -116,7 +116,7 @@ const { heroImageSlotExists } = inject(
 
 @media (min-width: 60rem) {
   .VPHero.has-image .container {
-    text-align: left;
+    text-align: start;
   }
 }
 
@@ -293,22 +293,19 @@ const { heroImageSlotExists } = inject(
     align-items: center;
     width: 100%;
     height: 100%;
-    /*rtl:ignore*/
-    transform: translate(-2rem, -2rem);
+    transform: translate(calc(-2rem * var(--vp-direction-multiplier)), -2rem);
   }
 }
 
 .image-bg {
   position: absolute;
   top: 50%;
-  /*rtl:ignore*/
   left: 50%;
   border-radius: 50%;
   width: 12rem;
   height: 12rem;
   background-image: var(--vp-home-hero-image-background-image);
   filter: var(--vp-home-hero-image-filter);
-  /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 
@@ -329,14 +326,12 @@ const { heroImageSlotExists } = inject(
 :deep(.image-src) {
   position: absolute;
   top: 50%;
-  /*rtl:ignore*/
   left: 50%;
   max-width: 12rem;
   max-height: 12rem;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /*rtl:ignore*/
   transform: translate(-50%, -50%);
 }
 

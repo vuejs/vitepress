@@ -34,7 +34,12 @@ import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
 import { webFontsPlugin } from './plugins/webFontsPlugin'
-import { slash, type PageDataPayload } from './shared'
+import {
+  isRelativeBase,
+  resolveSiteDataByRoute,
+  slash,
+  type PageDataPayload
+} from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
 
@@ -307,9 +312,31 @@ export async function createVitePressPlugin(
           if (url?.endsWith('.html')) {
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html')
+            // the shell of the requested page's locale, so the first paint
+            // already has its language and direction. req.url is the fallback
+            // page by now; the original request still names the actual one,
+            // served at the root when the base is relative
+            const base = isRelativeBase(site.base) ? '/' : site.base
+            const page = cleanUrl(req.originalUrl || url).slice(base.length)
+            let { lang, dir } = site
+            try {
+              const source =
+                decodeURI(page)
+                  .replace(/(^|\/)$/, '$1index')
+                  .replace(/\.html$/, '') + '.md'
+              // a bare locale root (/fa) counts as its directory
+              const localePath = /\.\w+$|\/$/.test(page) ? page : page + '/'
+              ;({ lang, dir } = resolveSiteDataByRoute(
+                site,
+                localePath,
+                siteConfig.rewrites.inv[source] || source
+              ))
+            } catch {
+              // malformed percent-encoding: keep the site-level values
+            }
             let html = `\
 <!DOCTYPE html>
-<html>
+<html lang="${lang}" dir="${dir}">
   <head>
     <title></title>
     <meta charset="utf-8">

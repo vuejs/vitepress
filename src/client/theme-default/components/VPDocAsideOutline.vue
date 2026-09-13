@@ -51,8 +51,8 @@ useActiveAnchor(container, marker)
 
 .content {
   position: relative;
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 1rem;
+  border-inline-start: 1px solid var(--vp-c-divider);
+  padding-inline-start: 1rem;
   font-size: 0.8125rem;
   font-weight: 500;
 }
@@ -60,7 +60,7 @@ useActiveAnchor(container, marker)
 .outline-marker {
   position: absolute;
   top: 2rem;
-  left: -1px;
+  inset-inline-start: -1px;
   z-index: 0;
   opacity: 0;
   width: 2px;

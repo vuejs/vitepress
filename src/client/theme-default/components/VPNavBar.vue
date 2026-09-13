@@ -89,7 +89,7 @@ const overflow = provideNavOverflow({
   height: var(--vp-nav-height);
   pointer-events: none;
   white-space: nowrap;
-  /* left edge of the background surface and divider — on doc pages the
+  /* inline-start edge of the background surface and divider — on doc pages the
      sidebar column paints its own surface up to this offset */
   --vp-nav-col-offset: 0px;
 }
@@ -100,9 +100,8 @@ const overflow = provideNavOverflow({
   content: "";
   position: absolute;
   top: 0;
-  right: 0;
   bottom: 0;
-  left: var(--vp-nav-col-offset);
+  inset-inline: var(--vp-nav-col-offset) 0;
   z-index: -1;
   background-color: var(--vp-nav-bg-color);
   backdrop-filter: var(--vp-nav-backdrop-filter);
@@ -152,7 +151,8 @@ const overflow = provideNavOverflow({
 }
 
 .wrapper {
-  padding: 0 0.5rem 0 1.5rem;
+  padding-block: 0;
+  padding-inline: 1.5rem 0.5rem;
 }
 
 @media (min-width: 48rem) {
@@ -228,7 +228,7 @@ const overflow = provideNavOverflow({
      into the middle; with a menu present its flex-grow wins and this
      margin resolves to zero */
   .content-body > .search {
-    margin-right: auto;
+    margin-inline-end: auto;
   }
 }
 
@@ -238,15 +238,14 @@ const overflow = provideNavOverflow({
   visibility: hidden;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   max-width: 100%;
   overflow: hidden;
 }
 
 /* separators between whichever cluster units are currently in the bar */
 .content-body > :where(.menu, .translations, .appearance, .social-links) + :where(.translations, .appearance, .social-links)::before {
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
+  margin-inline: 0.5rem;
   width: 1px;
   height: 1.5rem;
   background-color: var(--vp-c-divider);
@@ -254,15 +253,15 @@ const overflow = provideNavOverflow({
 }
 
 .content-body > :where(.menu, .translations) + .appearance::before {
-  margin-right: 1rem;
+  margin-inline-end: 1rem;
 }
 
 .content-body > .appearance + .social-links::before {
-  margin-left: 1rem;
+  margin-inline-start: 1rem;
 }
 
 .social-links {
-  margin-right: -0.5rem;
+  margin-inline-end: -0.5rem;
 }
 
 .divider {
@@ -275,7 +274,7 @@ const overflow = provideNavOverflow({
   transform: translateZ(0);
   width: 100%;
   height: 1px;
-  padding-left: var(--vp-nav-col-offset);
+  padding-inline-start: var(--vp-nav-col-offset);
 }
 
 /* the sidebar-column segment of the bottom rule — inset from the column
@@ -284,7 +283,7 @@ const overflow = provideNavOverflow({
   content: "";
   position: absolute;
   top: 0;
-  left: calc(var(--vp-nav-col-offset) - var(--vp-sidebar-width) + 2rem);
+  inset-inline-start: calc(var(--vp-nav-col-offset) - var(--vp-sidebar-width) + 2rem);
   width: calc(var(--vp-sidebar-width) - 4rem);
   height: 1px;
   background-color: var(--vp-c-divider);

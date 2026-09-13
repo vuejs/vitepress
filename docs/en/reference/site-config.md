@@ -367,6 +367,20 @@ export default {
 }
 ```
 
+### dir
+
+- Type: `'ltr' | 'rtl' | 'auto'`
+- Default: `ltr`
+- Can be overridden at the [directory level](#directory-level-overrides)
+
+The text direction of the site. This will render as a `<html dir="rtl">` tag in the page HTML, and the default theme mirrors its layout for right-to-left languages. It can also be overridden per page via [frontmatter](./frontmatter-config#dir). See [RTL Support](../guide/i18n#rtl-support).
+
+```ts
+export default {
+  dir: 'rtl'
+}
+```
+
 ### base
 
 - Type: `string`

@@ -1,10 +1,10 @@
 <template>
   <div class="VPTeamPageTitle">
     <h1 v-if="$slots.title" class="title">
-      <slot name="title" />
+      <bdi><slot name="title" /></bdi>
     </h1>
     <p v-if="$slots.lead" class="lead">
-      <slot name="lead" />
+      <bdi><slot name="lead" /></bdi>
     </p>
   </div>
 </template>

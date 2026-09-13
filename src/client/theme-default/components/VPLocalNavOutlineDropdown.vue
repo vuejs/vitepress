@@ -129,9 +129,9 @@ function scrollToTop() {
 .icon {
   display: inline-block;
   vertical-align: middle;
-  margin-left: 0.125rem;
+  margin-inline-start: 0.125rem;
   font-size: 0.875rem;
-  transform: rotate(0) /*rtl:rotate(180deg)*/;
+  transform: rotate(0);
   transition: transform 0.25s;
 }
 
@@ -146,15 +146,13 @@ function scrollToTop() {
 }
 
 .open > .icon {
-  /*rtl:ignore*/
   transform: rotate(90deg);
 }
 
 .items {
   position: absolute;
   top: 2.5rem;
-  right: 1rem;
-  left: 1rem;
+  inset-inline: 1rem;
   display: grid;
   gap: 1px;
   border: 1px solid var(--vp-c-border);
@@ -168,8 +166,7 @@ function scrollToTop() {
 
 @media (min-width: 60rem) {
   .items {
-    right: auto;
-    left: calc(var(--vp-sidebar-width) + 2rem);
+    inset-inline: calc(var(--vp-sidebar-width) + 2rem) auto;
     width: 20rem;
   }
 }

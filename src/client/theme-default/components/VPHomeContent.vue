@@ -28,8 +28,7 @@
 /* stretch to full viewport width, overflow is clipped by .VPHome */
 .vp-doc :deep(.VPHomeSponsors),
 .vp-doc :deep(.VPTeamPage) {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  margin-inline: calc(50% - 50vw);
 }
 
 .vp-doc :deep(.VPTeamPage a) {

@@ -337,6 +337,22 @@
 }
 
 /**
+ * Direction
+ * -------------------------------------------------------------------------- */
+
+/* 1 in ltr, -1 in rtl: mirrors the few transforms that have no logical form.
+   Keyed on the dir attribute so an ltr island inside an rtl page (a code
+   block) resets it at any depth. */
+:root,
+[dir='ltr'] {
+  --vp-direction-multiplier: 1;
+}
+
+[dir='rtl'] {
+  --vp-direction-multiplier: -1;
+}
+
+/**
  * Layouts
  * -------------------------------------------------------------------------- */
 
