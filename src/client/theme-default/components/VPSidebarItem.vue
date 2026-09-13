@@ -64,9 +64,9 @@ function onItemClick() {
         :rel="item.rel"
         :target="item.target"
       >
-        <component :is="textTag" class="text" v-html="item.text" />
+        <component :is="textTag" class="text"><bdi v-html="item.text" /></component>
       </VPLink>
-      <component v-else :is="textTag" class="text" v-html="item.text" />
+      <component v-else :is="textTag" class="text"><bdi v-html="item.text" /></component>
 
       <button
         v-if="item.collapsed != null && item.items && item.items.length"

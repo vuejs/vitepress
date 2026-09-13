@@ -101,7 +101,7 @@ useEventListener('pointerdown', (e) => {
     >
       <span v-if="button || icon" class="text">
         <span v-if="icon" :class="[icon, 'option-icon']" aria-hidden="true" />
-        <span v-if="button" v-html="button"></span>
+        <span v-if="button" dir="auto" v-html="button"></span>
         <span class="vpi-chevron-down text-icon" aria-hidden="true" />
       </span>
 

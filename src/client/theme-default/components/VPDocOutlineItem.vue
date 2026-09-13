@@ -11,7 +11,7 @@ defineProps<{
   <ul class="VPDocOutlineItem" :class="root ? 'root' : 'nested'">
     <li v-for="{ children, link, title } in headers">
       <a class="outline-link" :href="link" :title>
-        {{ title }}
+        <bdi>{{ title }}</bdi>
       </a>
       <template v-if="children?.length">
         <VPDocOutlineItem :headers="children" />

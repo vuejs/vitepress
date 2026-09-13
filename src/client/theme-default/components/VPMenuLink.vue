@@ -41,7 +41,7 @@ defineOptions({ inheritAttrs: false })
       :no-icon="item.noIcon"
       @click="onClick"
     >
-      <span v-html="item.text"></span>
+      <span dir="auto" v-html="item.text"></span>
     </VPLink>
   </li>
 </template>

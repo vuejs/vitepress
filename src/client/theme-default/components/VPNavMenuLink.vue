@@ -34,7 +34,7 @@ function onClick() {
     :no-icon="item.noIcon"
     @click="onClick"
   >
-    <span v-html="item.text"></span>
+    <span dir="auto" v-html="item.text"></span>
   </VPLink>
 </template>
 

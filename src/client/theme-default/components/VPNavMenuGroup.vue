@@ -86,7 +86,7 @@ function toggle() {
       :aria-controls="groupId"
       @click="toggle"
     >
-      <span class="button-text" v-html="item.text"></span>
+      <span class="button-text" dir="auto" v-html="item.text"></span>
       <span class="vpi-plus button-icon" aria-hidden="true" />
     </button>
 

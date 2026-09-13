@@ -573,11 +573,11 @@ function onMouseMove(e: MouseEvent) {
                     :key="index"
                     class="title"
                   >
-                    <span class="text" v-html="t" />
+                    <span class="text" dir="auto" v-html="t" />
                     <span class="vpi-chevron-right local-search-icon" />
                   </span>
                   <span class="title main">
-                    <span class="text" v-html="p.title" />
+                    <span class="text" dir="auto" v-html="p.title" />
                   </span>
                 </div>
 

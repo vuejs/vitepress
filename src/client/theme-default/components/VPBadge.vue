@@ -8,7 +8,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <span class="VPBadge" :class="type">
+  <span class="VPBadge" :class="type" dir="auto">
     <slot>{{ text }}</slot>
   </span>
 </template>

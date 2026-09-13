@@ -49,7 +49,7 @@ const textTitle = computed(() => {
     >
       <slot name="nav-bar-title-before" />
       <VPImage v-if="theme.logo" class="logo" :image="theme.logo" />
-      <span v-if="theme.siteTitle" v-html="theme.siteTitle"></span>
+      <span v-if="theme.siteTitle" dir="auto" v-html="theme.siteTitle"></span>
       <span v-else-if="theme.siteTitle === undefined">{{ site.title }}</span>
       <slot name="nav-bar-title-after" />
     </a>
