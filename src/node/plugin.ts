@@ -365,9 +365,14 @@ export async function createVitePressPlugin(
         for (const name in bundle) {
           const chunk = bundle[name]
           if (isPageChunk(chunk)) {
-            // record page -> hash relations
+            // record page -> hash relations, keeping the subdirectory the
+            // chunk was sharded into so the client can locate it
             const hash = chunk.fileName.match(hashRE)![1]
-            pageToHashMap![chunk.name.toLowerCase()] = hash
+            const dir = path.posix.dirname(
+              path.posix.relative(siteConfig.assetsDir, chunk.fileName)
+            )
+            pageToHashMap![chunk.name.toLowerCase()] =
+              dir === '.' ? hash : `${dir}/${hash}`
 
             // inject another chunk with the content stripped
             this.emitFile({

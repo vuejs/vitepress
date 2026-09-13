@@ -146,6 +146,16 @@ export interface UserConfig<
    */
   assetsBase?: string
   /**
+   * Number of subdirectories to spread the generated assets over
+   * (`assetsDir/0` ... `assetsDir/N-1`) for hosts that cap the files per
+   * directory. Page chunks and imported assets are distributed by a hash of
+   * their name; shared chunks stay in `assetsDir/chunks`.
+   *
+   * @experimental
+   * @example 4
+   */
+  assetsShards?: number
+  /**
    * Options for the generated icon stylesheet (`vp-icons.*.css`).
    */
   icons?: {
@@ -393,6 +403,10 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
    * URL prefix for built assets, normalized to end with a slash.
    */
   assetsBase?: string
+  /**
+   * Number of subdirectories the generated assets are spread over.
+   */
+  assetsShards?: number
   /**
    * Absolute path of the cache directory.
    */

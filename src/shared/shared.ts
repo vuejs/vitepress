@@ -294,6 +294,21 @@ export function sanitizeFileName(name: string): string {
   )
 }
 
+/**
+ * Output path of a page's client chunk relative to `assetsDir`, from its hash
+ * map entry. The entry is the chunk's hash, prefixed with the subdirectory the
+ * build put the chunk in when `assetsShards` is set (`<shard>/<hash>`), so the
+ * client never has to guess the layout.
+ */
+export function pageChunkPath(
+  pageName: string,
+  hashEntry: string,
+  ext = '.js'
+): string {
+  const dir = hashEntry.lastIndexOf('/') + 1
+  return `${hashEntry.slice(0, dir)}${pageName}.${hashEntry.slice(dir)}${ext}`
+}
+
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }

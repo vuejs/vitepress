@@ -489,6 +489,21 @@ When `assetsBase` points at another origin, VitePress adds `crossorigin` to the 
 
 Only production builds are affected. `vitepress preview` serves a root-absolute `assetsBase` (like `/cdn/`) from the local dist; an external one is requested from the real URL. Can also be set per build with `vitepress build --assetsBase https://cdn.example.com/`.
 
+### assetsShards
+
+- Type: `number`
+- Default: `undefined`
+
+Spreads the generated assets over this many subdirectories of [`assetsDir`](#assetsdir), `assets/0/` through `assets/N-1/`, instead of one flat directory. Use it when the host caps the number of files per directory; Netlify, for example, allows 54,000. Each page emits two JavaScript files, so a site with 60,000 pages needs at least three shards, plus some headroom because files are distributed by a hash of their name.
+
+```ts
+export default {
+  assetsShards: 4
+}
+```
+
+Shared chunks stay in `assets/chunks/`. A file's shard depends only on its name, so unchanged files keep their URL between builds. Only production builds are affected.
+
 ### icons
 
 - Type: `{ include?: string[] }`

@@ -7,6 +7,7 @@ import {
   inBrowser,
   isRelativeBase,
   joinPath,
+  pageChunkPath,
   sanitizeFileName,
   type Awaitable
 } from '../shared'
@@ -84,7 +85,7 @@ export function pathToFile(path: string) {
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
       if (!pageHash) return null
-      pagePath = `${__ASSETS_BASE__ || base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
+      pagePath = `${__ASSETS_BASE__ || base}${__ASSETS_DIR__}/${pageChunkPath(pagePath, pageHash)}`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(
