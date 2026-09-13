@@ -450,9 +450,7 @@ export async function createMarkdownRenderer(
   if (options.include !== false) {
     includePlugin(md, srcDir, normalizePluginOptions(options.include), logger)
   }
-  if (options.tableTabIndex !== false) {
-    tablePlugin(md)
-  }
+  tablePlugin(md, { tableTabIndex: options.tableTabIndex })
 
   // community plugins
   if (options.attrs !== false) {
