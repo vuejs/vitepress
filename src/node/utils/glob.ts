@@ -33,7 +33,7 @@ export async function glob(
     await _glob(patterns, {
       expandDirectories: false,
       ...options,
-      ignore: ['**/node_modules/**', '**/dist/**', ...(options?.ignore || [])]
+      ignore: ['**/node_modules/**', '**/dist/**'].concat(options?.ignore || [])
     })
   ).sort()
 }
