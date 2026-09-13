@@ -322,9 +322,10 @@ export async function createMarkdownToVueRenderFn(
 }
 
 function injectPageDataCode(tags: string[], data: PageData) {
+  // Keep HTML closing tags in page data from terminating the SFC script.
   const code = `\nexport const __pageData = JSON.parse(${JSON.stringify(
     JSON.stringify(data)
-  )})`
+  ).replace(/</g, '\\u003c')})`
 
   const existingScriptIndex = tags.findIndex((tag) => {
     return (
@@ -344,7 +345,8 @@ function injectPageDataCode(tags: string[], data: PageData) {
       defaultExportRE.test(tagSrc) || namedDefaultExportRE.test(tagSrc)
     tags[existingScriptIndex] = tagSrc.replace(
       scriptRE,
-      code +
+      () =>
+        code +
         (hasDefaultExport
           ? ``
           : `\nexport default {name:${JSON.stringify(data.relativePath)}}`) +

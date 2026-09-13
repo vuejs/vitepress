@@ -10,6 +10,12 @@ import { inBrowser, pathToFile } from '../utils'
 const hasFetched = new Set<string>()
 const createLink = () => document.createElement('link')
 
+const getLinkUrl = (link: HTMLAnchorElement | SVGAElement) =>
+  new URL(
+    link.href instanceof SVGAnimatedString ? link.href.animVal : link.href,
+    link.baseURI
+  )
+
 const viaDOM = (url: string) => {
   const link = createLink()
   link.rel = `prefetch`
@@ -64,9 +70,9 @@ export function usePrefetch() {
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const link = entry.target as HTMLAnchorElement
+          const link = entry.target as HTMLAnchorElement | SVGAElement
           observer!.unobserve(link)
-          const { pathname } = link
+          const { pathname } = getLinkUrl(link)
           if (!hasFetched.has(pathname)) {
             hasFetched.add(pathname)
             const pageChunkPath = pathToFile(pathname)
@@ -80,12 +86,7 @@ export function usePrefetch() {
       document
         .querySelectorAll<HTMLAnchorElement | SVGAElement>('#app a')
         .forEach((link) => {
-          const { hostname, pathname } = new URL(
-            link.href instanceof SVGAnimatedString
-              ? link.href.animVal
-              : link.href,
-            link.baseURI
-          )
+          const { hostname, pathname } = getLinkUrl(link)
           const extMatch = pathname.match(/\.\w+$/)
           if (extMatch && extMatch[0] !== '.html') {
             return
@@ -94,7 +95,7 @@ export function usePrefetch() {
           if (
             // only prefetch same tab navigation, since a new tab will load
             // the lean js chunk instead.
-            link.target !== '_blank' &&
+            link.getAttribute('target') !== '_blank' &&
             // only prefetch inbound links
             hostname === location.hostname
           ) {
