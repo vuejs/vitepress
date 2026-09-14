@@ -620,3 +620,7 @@
   content: '\2060';
   color: currentColor;
 }
+
+html {
+  scrollbar-gutter: stable;
+}
