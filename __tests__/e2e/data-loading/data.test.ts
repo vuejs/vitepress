@@ -1,4 +1,4 @@
-import { writeFile, unlink } from 'node:fs/promises'
+import { readFile, writeFile, unlink } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
 describe('static data file support in vite 3', () => {
@@ -85,6 +85,48 @@ describe('static data file support in vite 3', () => {
       await writeFile(b, JSON.stringify({ b: true }, null, 2) + '\n')
     }
   })
+
+  test.runIf(!process.env.VITE_TEST_BUILD)(
+    'hmr updates content rendered from included files',
+    async () => {
+      const foo = fileURLToPath(new URL('./content/foo.md', import.meta.url))
+      const bar = fileURLToPath(new URL('./content/bar.md', import.meta.url))
+      const originalFoo = await readFile(foo, 'utf8')
+      const originalBar = await readFile(bar, 'utf8')
+
+      try {
+        await writeFile(
+          foo,
+          originalFoo.replace('Hello', '<!-- @include: ./bar.md -->')
+        )
+        await page.waitForFunction(() => {
+          const data = JSON.parse(
+            document.querySelector('pre#content')!.textContent!
+          )
+          return data.some(
+            (item: { url: string; src: string }) =>
+              item.url.endsWith('/foo.html') && item.src.includes('@include:')
+          )
+        })
+
+        await writeFile(bar, originalBar.replace('Hello', 'Updated include'))
+        await page.waitForFunction(() => {
+          const data = JSON.parse(
+            document.querySelector('pre#content')!.textContent!
+          )
+          return data.some(
+            (item: { url: string; html: string; excerpt: string }) =>
+              item.url.endsWith('/foo.html') &&
+              item.html.includes('Updated include') &&
+              item.excerpt.includes('Updated include')
+          )
+        })
+      } finally {
+        await writeFile(bar, originalBar)
+        await writeFile(foo, originalFoo)
+      }
+    }
+  )
 
   /*
     MODIFY a.json with { a: false }

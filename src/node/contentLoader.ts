@@ -91,7 +91,14 @@ export function createContentLoader<T = ContentData[]>(
     )
   }
 
-  const cache = new Map<string, { data: any; timestamp: number }>()
+  const cache = new Map<
+    string,
+    {
+      data: ContentData
+      timestamp: number
+      dependencies: Map<string, number | undefined>
+    }
+  >()
 
   watch = normalizeGlob(watch, config.srcDir)
 
@@ -122,7 +129,20 @@ export function createContentLoader<T = ContentData[]>(
           const timestamp = (await stat(file)).mtimeMs
           const cached = cache.get(file)
 
-          if (cached && timestamp === cached.timestamp) return cached.data
+          if (
+            cached &&
+            timestamp === cached.timestamp &&
+            (
+              await Promise.all(
+                [...cached.dependencies].map(
+                  async ([file, timestamp]) =>
+                    (await getDependencyTimestamp(file)) === timestamp
+                )
+              )
+            ).every(Boolean)
+          ) {
+            return cached.data
+          }
 
           const src = await readTextFile(file)
 
@@ -172,7 +192,15 @@ export function createContentLoader<T = ContentData[]>(
             url
           }
 
-          cache.set(file, { data, timestamp })
+          // Both the full render and the excerpt can import other files.
+          const dependencies = new Map(
+            await Promise.all(
+              [...new Set(env.includes)].map(async (file) => {
+                return [file, await getDependencyTimestamp(file)] as const
+              })
+            )
+          )
+          cache.set(file, { data, timestamp, dependencies })
           return data
         },
         { concurrency: config.buildConcurrency }
@@ -181,5 +209,16 @@ export function createContentLoader<T = ContentData[]>(
       const filtered = raw.filter((i) => i !== null)
       return options.transform?.(filtered) ?? (filtered as T)
     }
+  }
+}
+
+async function getDependencyTimestamp(file: string) {
+  try {
+    return (await stat(file)).mtimeMs
+  } catch (error) {
+    // Silent includes can refer to missing files. Their creation must also
+    // invalidate the cache, while deleted files need to be rendered again.
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined
+    throw error
   }
 }
