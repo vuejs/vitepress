@@ -367,6 +367,20 @@ export default {
 }
 ```
 
+### dir
+
+- Type: `'ltr' | 'rtl' | 'auto'`
+- Default: `ltr`
+- Can be overridden at the [directory level](#directory-level-overrides)
+
+The text direction of the site. This will render as a `<html dir="rtl">` tag in the page HTML, and the default theme mirrors its layout for right-to-left languages. It can also be overridden per page via [frontmatter](./frontmatter-config#dir). Set it to `false` to let application code manage the attribute. See [RTL Support](../guide/i18n#rtl-support).
+
+```ts
+export default {
+  dir: 'rtl'
+}
+```
+
 ### base
 
 - Type: `string`
@@ -488,6 +502,21 @@ The emitted asset URL is `assetsBase` joined with the output-relative file path,
 When `assetsBase` points at another origin, VitePress adds `crossorigin` to the emitted script and preload tags — the CDN must send `Access-Control-Allow-Origin` for your site's origin (module scripts are always fetched in CORS mode).
 
 Only production builds are affected. `vitepress preview` serves a root-absolute `assetsBase` (like `/cdn/`) from the local dist; an external one is requested from the real URL. Can also be set per build with `vitepress build --assetsBase https://cdn.example.com/`.
+
+### assetsShards
+
+- Type: `number`
+- Default: `undefined`
+
+Spreads the generated assets over this many subdirectories of [`assetsDir`](#assetsdir), `assets/0/` through `assets/N-1/`, instead of one flat directory. Use it when the host caps the number of files per directory; Netlify, for example, allows 54,000. Each page emits two JavaScript files, so a site with 60,000 pages needs at least three shards, plus some headroom because files are distributed by a hash of their name.
+
+```ts
+export default {
+  assetsShards: 4
+}
+```
+
+Shared chunks stay in `assets/chunks/`. A file's shard depends only on its name, so unchanged files keep their URL between builds. Only production builds are affected.
 
 ### icons
 

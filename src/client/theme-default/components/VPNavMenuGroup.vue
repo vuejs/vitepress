@@ -86,7 +86,7 @@ function toggle() {
       :aria-controls="groupId"
       @click="toggle"
     >
-      <span class="button-text" v-html="item.text"></span>
+      <span class="button-text" dir="auto" v-html="item.text"></span>
       <span class="vpi-plus button-icon" aria-hidden="true" />
     </button>
 
@@ -118,7 +118,6 @@ function toggle() {
 }
 
 .VPNavScreenMenuGroup.open .button-icon {
-  /*rtl:ignore*/
   transform: rotate(45deg);
 }
 
@@ -126,7 +125,8 @@ function toggle() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0.25rem 0.6875rem 0;
+  padding-block: 0.75rem 0.6875rem;
+  padding-inline: 0 0.25rem;
   width: 100%;
   line-height: 1.7142857;
   font-size: 0.875rem;

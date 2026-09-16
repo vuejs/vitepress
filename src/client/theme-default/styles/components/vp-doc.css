@@ -72,8 +72,8 @@
 .vp-doc .header-anchor {
   position: absolute;
   top: 0;
-  left: 0;
-  margin-left: -0.87em;
+  inset-inline-start: 0;
+  margin-inline-start: -0.87em;
   font-weight: 500;
   user-select: none;
   opacity: 0;
@@ -130,8 +130,8 @@
 
 .vp-doc blockquote {
   margin: 1rem 0;
-  border-left: 2px solid var(--vp-c-divider);
-  padding-left: 1rem;
+  border-inline-start: 2px solid var(--vp-c-divider);
+  padding-inline-start: 1rem;
   transition: border-color 0.5s;
   color: var(--vp-c-text-2);
 }
@@ -166,7 +166,7 @@
 
 .vp-doc ul,
 .vp-doc ol {
-  padding-left: 1.25rem;
+  padding-inline-start: 1.25rem;
   margin: 1rem 0;
 }
 
@@ -200,7 +200,8 @@
 }
 
 .vp-doc .task-list-item-checkbox {
-  margin: 0 0.25rem 0.125rem -1.25rem;
+  margin-block: 0 0.125rem;
+  margin-inline: -1.25rem 0.25rem;
   vertical-align: middle;
   accent-color: var(--vp-c-brand-1);
 }
@@ -246,7 +247,7 @@
 }
 
 .vp-doc th {
-  text-align: left;
+  text-align: start;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--vp-c-text-2);
@@ -323,6 +324,8 @@
   border-radius: 0.25rem;
   padding: 0.1875rem 0.375rem;
   background-color: var(--vp-code-bg);
+  /* keep the written order of identifiers and punctuation inside rtl prose */
+  unicode-bidi: plaintext;
   transition:
     color 0.25s,
     background-color 0.5s;
@@ -343,6 +346,9 @@
   font-size: 0.9em;
 }
 
+/* code-block wrappers carry dir="ltr" (see preWrapper.ts), so code, its
+   gutter and its controls keep their physical layout on rtl pages; the
+   logical properties in this section resolve to left/right there */
 .vp-doc div[class*='language-'],
 .vp-block {
   position: relative;
@@ -362,7 +368,9 @@
 
 @media not all and (min-width: 40rem) {
   .vp-doc li div[class*='language-'] {
-    border-radius: 0.5rem 0 0 0.5rem;
+    border-radius: 0;
+    border-start-start-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
   }
 }
 
@@ -386,8 +394,7 @@
   padding: 1.25rem 0;
   background: transparent;
   overflow-x: auto;
-  /*rtl:ignore*/
-  text-align: left;
+  text-align: start;
 }
 
 .vp-doc [class*='language-'] code {
@@ -428,7 +435,7 @@
 
 .vp-doc [class*='language-'] code .diff::before {
   position: absolute;
-  left: 0.625rem;
+  inset-inline-start: 0.625rem;
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
@@ -471,19 +478,16 @@
 }
 
 .vp-doc div[class*='language-'].line-numbers-mode {
-  /*rtl:ignore*/
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
 }
 
 .vp-doc .line-numbers-wrapper {
   position: absolute;
   top: 0;
   bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset-inline-start: 0;
   z-index: 3;
-  /*rtl:ignore*/
-  border-right: 1px solid var(--vp-code-block-divider-color);
+  border-inline-end: 1px solid var(--vp-code-block-divider-color);
   padding-top: 1.25rem;
   width: 2rem;
   text-align: center;
@@ -497,12 +501,9 @@
 }
 
 .vp-doc [class*='language-'] > button.copy {
-  /*rtl:ignore*/
-  direction: ltr;
   position: absolute;
   top: 0.75rem;
-  /*rtl:ignore*/
-  right: 0.75rem;
+  inset-inline-end: 0.75rem;
   z-index: 3;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 0.25rem;
@@ -534,8 +535,8 @@
 
 .vp-doc [class*='language-'] > button.copy.copied,
 .vp-doc [class*='language-'] > button.copy:hover.copied {
-  /*rtl:ignore*/
-  border-radius: 0 0.25rem 0.25rem 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
   background-color: var(--vp-code-copy-code-hover-bg);
   background-image: var(--vp-icon-copied);
 }
@@ -544,16 +545,14 @@
 .vp-doc [class*='language-'] > button.copy:hover.copied::before {
   position: relative;
   top: -1px;
-  /*rtl:ignore*/
   transform: translateX(calc(-100% - 1px));
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid var(--vp-code-copy-code-hover-border-color);
-  /*rtl:ignore*/
-  border-right: 0;
-  /*rtl:ignore*/
-  border-radius: 0.25rem 0 0 0.25rem;
+  border-inline-end: 0;
+  border-start-start-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
   padding: 0 0.625rem;
   width: fit-content;
   height: 2.5rem;
@@ -563,14 +562,15 @@
   color: var(--vp-code-copy-code-active-text);
   background-color: var(--vp-code-copy-code-hover-bg);
   white-space: nowrap;
+  /* the wrapper is ltr; let the translated label pick its own direction */
+  unicode-bidi: plaintext;
   content: attr(data-copied);
 }
 
 .vp-doc [class*='language-'] > span.lang {
   position: absolute;
   top: 0.125rem;
-  /*rtl:ignore*/
-  right: 0.5rem;
+  inset-inline-end: 0.5rem;
   z-index: 2;
   font-size: 0.75rem;
   font-weight: 500;
@@ -593,12 +593,12 @@
 /* prettier-ignore */
 :is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
   display: inline;
-  margin-left: 0.25rem;
-  padding-left: 0.6875rem;
+  margin-inline-start: 0.25rem;
+  padding-inline-start: 0.6875rem;
   background: currentColor;
   color: var(--vp-c-text-3);
   flex-shrink: 0;
-  --icon: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' %3E%3Cpath d='M0 0h24v24H0V0z' fill='none' /%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z' /%3E%3C/svg%3E");
+  --icon: var(--vp-icon-external-link);
   -webkit-mask-image: var(--icon);
   mask-image: var(--icon);
   -webkit-mask-position: center;
@@ -607,7 +607,6 @@
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  /*rtl:raw:transform: scaleX(-1);*/
   vertical-align: middle;
   font-size: 0.5625rem;
 }

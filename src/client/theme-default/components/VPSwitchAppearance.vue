@@ -51,7 +51,6 @@ watchPostEffect(() => {
 }
 
 .dark .VPSwitchAppearance :deep(.check) {
-  /*rtl:ignore*/
-  transform: translateX(1.125rem);
+  transform: translateX(calc(1.125rem * var(--vp-direction-multiplier)));
 }
 </style>

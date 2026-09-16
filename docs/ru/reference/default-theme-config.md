@@ -254,6 +254,9 @@ export default {
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
       { icon: 'twitter', link: '...' },
       { icon: 'discord', link: '/community', target: '_self' },
+      // Вы можете использовать любую другую установленную в проекте коллекцию iconify
+      // в формате `collection:name` (например, после `npm add -D @iconify-json/lucide`):
+      { icon: 'lucide:rss', link: '/feed.rss' },
       // Можно добавить пользовательские иконки, передав SVG в виде строки:
       {
         icon: {
@@ -472,6 +475,27 @@ export interface DocFooter {
 
 Можно использовать для настройки aria-метки кнопки переключения языка в панели навигации. Применяется только в том случае, если вы используете [i18n](../guide/i18n).
 
+## navMenuLabel
+
+- Тип: `string`
+- По умолчанию: `Main Navigation`
+
+Может использоваться для настройки доступной метки основных ориентиров навигации (меню навбара и мобильное меню).
+
+## mobileMenuLabel
+
+- Тип: `string`
+- По умолчанию: `Menu`
+
+Может использоваться для настройки `aria-label` кнопки мобильного меню (гамбургер).
+
+## extraMenuLabel
+
+- Тип: `string`
+- По умолчанию: `More options`
+
+Может использоваться для настройки `aria-label` кнопки меню `⋯` в навбаре. Это меню собирает элементы навигации и элементы управления, которые не помещаются в бар при текущей ширине экрана.
+
 ## skipToContentLabel
 
 - Тип: `string`
@@ -485,6 +509,13 @@ export interface DocFooter {
 - По умолчанию: `false`
 
 Отображать ли значок внешней ссылки рядом с внешними ссылками в Markdown.
+
+## gradedContainers
+
+- Тип: `boolean`
+- По умолчанию: `false`
+
+Определяет, следует ли раскрашивать [пользовательские контейнеры](../guide/markdown#custom-containers), [оповещения в стиле GitHub](../guide/markdown#github-flavored-alerts) и бейджи по градуированной шкале серьёзности — danger красный, warning оранжевый, caution жёлтый. По умолчанию цвета соответствуют оповещениям GitHub, где caution использует красный цвет danger, а warning — жёлтый.
 
 ## `useLayout` <Badge type="info" text="composable" />
 

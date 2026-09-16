@@ -1,8 +1,0 @@
-{
-  "plugins": {
-    "postcss-rtlcss": {
-      "ltrPrefix": ":where([dir=\"ltr\"])",
-      "rtlPrefix": ":where([dir=\"rtl\"])"
-    }
-  }
-}

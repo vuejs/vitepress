@@ -2,11 +2,29 @@ import {
   isRelativeBase,
   joinPath,
   mergeHead,
+  pageChunkPath,
   relativePathToRoot,
   type HeadConfig
 } from 'shared/shared'
 
 describe('shared/shared', () => {
+  describe('pageChunkPath', () => {
+    test('keeps flat chunks directly in assetsDir', () => {
+      expect(pageChunkPath('guide_foo.md', 'Ab-12xyz')).toBe(
+        'guide_foo.md.Ab-12xyz.js'
+      )
+    })
+
+    test('prefixes the shard recorded in the hash map entry', () => {
+      expect(pageChunkPath('guide_foo.md', '3/Ab-12xyz')).toBe(
+        '3/guide_foo.md.Ab-12xyz.js'
+      )
+      expect(pageChunkPath('guide_foo.md', '3/Ab-12xyz', '.lean.js')).toBe(
+        '3/guide_foo.md.Ab-12xyz.lean.js'
+      )
+    })
+  })
+
   describe('mergeHead', () => {
     test('replaces meta tags with the same key in place', () => {
       expect(

@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import {
+  lstat,
   mkdir,
   readFile,
   rm,
@@ -12,8 +13,8 @@ import { createRequire } from 'node:module'
 import path from 'node:path'
 
 import pMap from 'p-map'
-import c from 'picocolors'
 import { packageDirectory } from 'package-directory'
+import c from 'picocolors'
 import type { BuildOptions, Rolldown } from 'vite'
 
 import {
@@ -22,6 +23,11 @@ import {
   resolveConfig,
   type SiteConfig
 } from '../config'
+import {
+  VP_ICONS_HASH_PLACEHOLDER,
+  generateIconsCSS,
+  vpIconsFileName
+} from '../icons'
 import { clearCache } from '../markdownToVue'
 import type { PageMeta } from '../plugin'
 import {
@@ -32,11 +38,6 @@ import {
   type Awaitable,
   type HeadConfig
 } from '../shared'
-import {
-  VP_ICONS_HASH_PLACEHOLDER,
-  generateIconsCSS,
-  vpIconsFileName
-} from '../icons'
 import { deserializeFunctions, serializeFunctions } from '../utils/fnSerialize'
 import { logVersion } from '../utils/logVersion'
 import { nativeImport } from '../utils/nativeImport'
@@ -53,7 +54,7 @@ export async function build(
     mpa?: string
     onAfterConfigResolve?: (siteConfig: SiteConfig) => Awaitable<void>
   } = {}
-) {
+): Promise<void> {
   const start = performance.now()
 
   process.env.NODE_ENV = 'production'
@@ -135,13 +136,17 @@ export async function build(
   )
 }
 
-async function linkVue() {
+// link vitepress' vue unless the user installed their own
+async function linkVue(): Promise<() => Promise<void>> {
   const root = await packageDirectory()
   if (root) {
     const dest = path.resolve(root, 'node_modules/vue')
-    // if user did not install vue by themselves, link VitePress' version
-    if (!fs.existsSync(dest)) {
+    const link = await lstat(dest).catch(() => null)
+    // a dangling link resolves to nothing — treat it as absent and replace it
+    const dangling = !!link?.isSymbolicLink() && !fs.existsSync(dest)
+    if (!link || dangling) {
       const src = path.dirname(createRequire(import.meta.url).resolve('vue'))
+      if (dangling) await unlink(dest)
       await mkdir(path.dirname(dest), { recursive: true })
       await symlink(src, dest, 'junction')
       return () => unlink(dest)

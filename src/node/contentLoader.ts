@@ -10,7 +10,7 @@ import {
   createMarkdownRenderer,
   mergeMarkdownLocales
 } from './markdown/markdown'
-import type { Awaitable, MarkdownEnv } from './shared'
+import { getLocaleForPath, type Awaitable, type MarkdownEnv } from './shared'
 import { readTextFile } from './utils/fs'
 import { glob, normalizeGlob, type GlobOptions } from './utils/glob'
 
@@ -149,6 +149,7 @@ export function createContentLoader<T = ContentData[]>(
           const env: MarkdownEnv = {
             path: file,
             relativePath,
+            localeIndex: getLocaleForPath(config.site, relativePath),
             cleanUrls: !!config.cleanUrls,
             realPath: file,
             // excerpts are rendered on their own, without the frontmatter

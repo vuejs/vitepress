@@ -5,8 +5,7 @@
 .vp-code-group .tabs {
   position: relative;
   display: flex;
-  margin-right: -1.5rem;
-  margin-left: -1.5rem;
+  margin-inline: -1.5rem;
   padding: 0 0.75rem;
   background-color: var(--vp-code-tab-bg);
   overflow-x: auto;
@@ -16,8 +15,7 @@
 
 @media (min-width: 40rem) {
   .vp-code-group .tabs {
-    margin-right: 0;
-    margin-left: 0;
+    margin-inline: 0;
     border-radius: 0.5rem 0.5rem 0 0;
   }
 }
@@ -44,9 +42,8 @@
 
 .vp-code-group .tabs label::after {
   position: absolute;
-  right: 0.5rem;
+  inset-inline: 0.5rem;
   bottom: -1px;
-  left: 0.5rem;
   z-index: 1;
   height: 2px;
   border-radius: 2px;
@@ -71,8 +68,8 @@
 .vp-block {
   display: none;
   margin-top: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+  border-start-start-radius: 0 !important;
+  border-start-end-radius: 0 !important;
 }
 
 .vp-code-group div[class*='language-'].active,

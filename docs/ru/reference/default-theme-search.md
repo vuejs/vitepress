@@ -27,11 +27,11 @@ export default defineConfig({
 
 В качестве альтернативы можно использовать [Algolia DocSearch](#algolia-search) или некоторые плагины сообщества, например:
 
-- <https://www.npmjs.com/package/vitepress-plugin-search>
-- <https://www.npmjs.com/package/vitepress-plugin-pagefind>
-- <https://www.npmjs.com/package/@orama/plugin-vitepress>
-- <https://www.npmjs.com/package/vitepress-plugin-typesense>
-- <https://www.npmjs.com/package/vitepress-plugin-cloudflare-ai-search>
+- <https://npmx.dev/package/vitepress-plugin-pagefind>
+- <https://npmx.dev/package/vitepress-plugin-typesense>
+- <https://npmx.dev/package/vitepress-plugin-cloudflare-ai-search>
+
+<!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- replace with zbsearch one when published -->
 
 ### i18n {#local-search-i18n}
 
@@ -111,6 +111,10 @@ export default defineConfig({
 ```
 
 Подробнее в [документации MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+
+::: info Идентификаторы документов
+Идентификаторы документов поиска (в том виде, в котором их видят `searchOptions.filter`, `boostDocument` и необработанный индекс) — это сайт-относительные пути вида `/guide/page.html#section`; они не включают [`base`](../reference/site-config#base). Тема разрешает их относительно `base` при отображении результатов.
+:::
 
 ### Пользовательский рендерер содержимого {#custom-content-renderer}
 

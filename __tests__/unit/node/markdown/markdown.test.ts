@@ -73,11 +73,11 @@ describe('node/markdown/markdown', () => {
     test('preWrapper', async () => {
       const src = '```js\nconst a = 1\n```'
       const enabled = await render(src)
-      expect(enabled).toContain('<div class="language-js">')
+      expect(enabled).toContain('<div class="language-js" dir="ltr">')
       expect(enabled).toContain('class="copy"')
 
       const disabled = await render(src, { preWrapper: false })
-      expect(disabled).not.toContain('<div class="language-js">')
+      expect(disabled).not.toContain('<div class="language-js" dir="ltr">')
       expect(disabled).not.toContain('class="copy"')
     })
 

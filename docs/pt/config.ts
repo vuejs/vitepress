@@ -3,7 +3,7 @@ import {
   type DefaultTheme,
   type MarkdownLocaleOptions
 } from 'vitepress'
-import { version } from 'vitepress/package.json' with { type: 'json' }
+import pkg from 'vitepress/package.json' with { type: 'json' }
 
 export const markdown: MarkdownLocaleOptions = {
   container: {
@@ -89,7 +89,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/pt/reference/'
     },
     {
-      text: version,
+      text: pkg.version,
       items: [
         {
           text: '1.6.4',

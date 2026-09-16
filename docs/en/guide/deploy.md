@@ -316,6 +316,20 @@ You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by f
 
 You can deploy your VitePress project with [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). While configuring build settings, choose VitePress as the framework and adjust the root directory to `./docs`.
 
+### Lizard
+
+[Lizard (lizard.build)](https://lizard.build) builds VitePress sites from source and serves the generated HTML. For the layout used in this guide, it detects `docs:build` and serves `docs/.vitepress/dist` on port `80`.
+
+Install the [Lizard CLI](https://lizard.build/docs/cli) and sign in with `lizard login`. To deploy a local source directory, run these commands from the project root containing `package.json`:
+
+```sh
+lizard init --name vitepress-docs
+lizard add --service web
+lizard up --service web --port 80
+```
+
+Leave build and start command overrides unset to use automatic detection. For GitHub deployments or other layouts, see the [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress).
+
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).

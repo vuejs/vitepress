@@ -40,7 +40,7 @@ interface VitePressData<T = any> {
   description: Ref<string>
   lang: Ref<string>
   isDark: Ref<boolean>
-  dir: Ref<string | false>
+  dir: Ref<'ltr' | 'rtl' | 'auto' | false>
   localeIndex: Ref<string>
   /**
    * Current location hash

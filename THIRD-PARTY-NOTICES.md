@@ -6,7 +6,7 @@ VitePress is published under the MIT license (see LICENSE). The published vitepr
 
 License: MIT
 By: Anthony Fu <anthonyfu117@hotmail.com>
-Repository: https://github.com/antfu/install-pkg
+Repository: https://github.com/antfu-collective/install-pkg
 
 > MIT License
 >

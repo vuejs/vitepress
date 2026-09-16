@@ -33,12 +33,17 @@ interface Theme {
    */
   Layout: Component
   /**
-   * Улучшение экземпляра приложения Vue
+   * Расширяем экземпляр приложения Vue
    * @optional
    */
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   /**
-   * Расширяем другую тему, вызывая её `enhanceApp` перед нашей
+   * Выполняется внутри `setup()` корневого компонента
+   * @optional
+   */
+  setup?: () => void
+  /**
+   * Расширяем другую тему, вызывая её `enhanceApp` и `setup` перед нашими
    * @optional
    */
   extends?: Theme
@@ -87,6 +92,26 @@ export default {
 ```
 
 Верните `false` из `onBeforeRouteChange` или `onBeforePageLoad`, чтобы отменить переход.
+
+Хук `setup` выполняется внутри `setup()` корневого компонента, поэтому вызовы Composition API (`onMounted`, `watch`, composables и т. д.) работают там без необходимости оборачивать компонент layout:
+
+```ts [.vitepress/theme/index.ts]
+import { watch } from 'vue'
+import { useData } from 'vitepress'
+import DefaultTheme from 'vitepress/theme'
+
+export default {
+  extends: DefaultTheme,
+  setup() {
+    const { page } = useData()
+    watch(() => page.value.relativePath, (path) => {
+      console.log('now viewing', path)
+    })
+  }
+}
+```
+
+При использовании `extends` `setup` каждой темы выполняется в порядке от базовой к производной, как и `enhanceApp`. Он также выполняется во время SSR/SSG-рендеринга, поэтому код, зависящий от браузера, следует размещать внутри `onMounted`.
 
 Экспорт по умолчанию является единственным контрактом для пользовательской темы, и только свойство `Layout` является обязательным. Таким образом, технически тема VitePress может быть простой, как один компонент Vue.
 

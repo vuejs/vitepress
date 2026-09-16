@@ -92,9 +92,10 @@ const hasSubGroups = computed(() =>
 }
 
 .VPMenuGroup > .sub-groups {
-  margin: 0.25rem 0 0.25rem 0.75rem;
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 0.25rem;
+  margin-block: 0.25rem;
+  margin-inline: 0.75rem 0;
+  border-inline-start: 1px solid var(--vp-c-divider);
+  padding-inline-start: 0.25rem;
 }
 
 .VPMenuGroup .VPMenuGroup,

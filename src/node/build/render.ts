@@ -15,6 +15,7 @@ import {
   isRelativeBase,
   mergeHead,
   notFoundPageData,
+  pageChunkPath,
   relativePathToRoot,
   resolveSiteDataByRoute,
   sanitizeFileName,
@@ -104,19 +105,17 @@ export async function renderPage(
   const dirAttr = dir === false ? '' : ` dir="${dir || 'ltr'}"`
   const isDefault404 = page === '404.md' && !hasCustom404
 
-  // the initial load only needs the lean page js — the static content is
-  // already in the HTML
-  const pageHash = pageToHashMap[pageName.toLowerCase()]
-  const pageClientJsFileName = `${config.assetsDir}/${pageName}.${pageHash}.lean.js`
-
   let preloadLinks: string[] = []
   if (result && appChunk && !config.mpa && !isDefault404) {
+    const pageHash = pageToHashMap[pageName.toLowerCase()]
     preloadLinks = [
       ...new Set([
         // the imports of index.js + page.md.js as well, so everything
         // fetches without waiting for the entry chunks to parse
         ...(await resolvePageImports(config, page, result, appChunk)),
-        pageClientJsFileName
+        // the initial load only needs the lean page js — the static content is
+        // already in the HTML
+        `${config.assetsDir}/${pageChunkPath(pageName, pageHash, '.lean.js')}`
       ])
     ]
   }

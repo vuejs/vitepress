@@ -67,6 +67,8 @@ kbd {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    /* the shortcut reads the same way in every direction */
+    direction: ltr;
     padding: 0.25rem 0.375rem;
     border: 1px solid var(--vp-c-divider);
     border-radius: 0.25rem;

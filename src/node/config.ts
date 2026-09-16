@@ -177,6 +177,16 @@ export async function resolveConfig(
     ? normalizeAssetsBase(userConfig.assetsBase)
     : undefined
 
+  const assetsShards = userConfig.assetsShards
+  if (
+    assetsShards !== undefined &&
+    (!Number.isInteger(assetsShards) || assetsShards < 2)
+  ) {
+    throw new Error(
+      `assetsShards must be an integer greater than 1 (got: ${assetsShards})`
+    )
+  }
+
   if (isRelativeBase(site.base) && site.cleanUrls && command === 'build') {
     logger.warn(
       c.yellow(
@@ -193,6 +203,7 @@ export async function resolveConfig(
     publicDir,
     assetsDir,
     assetsBase,
+    assetsShards,
     site,
     themeDir,
     configPath,

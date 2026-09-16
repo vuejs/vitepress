@@ -1,5 +1,5 @@
 import { defineAdditionalConfig, type DefaultTheme } from 'vitepress'
-import { version } from 'vitepress/package.json' with { type: 'json' }
+import pkg from 'vitepress/package.json' with { type: 'json' }
 
 export default defineAdditionalConfig({
   description: 'Vite & Vue powered static site generator.',
@@ -37,7 +37,7 @@ function nav(): DefaultTheme.NavItem[] {
       activeMatch: '/reference/'
     },
     {
-      text: version,
+      text: pkg.version,
       items: [
         {
           text: '1.6.4',
