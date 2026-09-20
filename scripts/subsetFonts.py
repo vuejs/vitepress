@@ -45,7 +45,7 @@ PUA = range(0xE000, 0xF8FF + 1)
 BASE_VAR = """\
 :root {
   --vp-font-family-base:
-    'Inter', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Inter', -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 """
