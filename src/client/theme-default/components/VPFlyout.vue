@@ -167,7 +167,7 @@ useEventListener('pointerdown', (e) => {
 .text {
   display: flex;
   align-items: center;
-  line-height: var(--vp-nav-height);
+  line-height: 1.5;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
