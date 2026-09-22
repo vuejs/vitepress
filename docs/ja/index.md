@@ -21,7 +21,7 @@ hero:
     alt: VitePress
 
 features:
-  - icon: <span class="memo"></span>
+  - icon: <span class="write"></span>
     title: コンテンツに集中
     details: Markdown だけで、美しいドキュメントサイトを簡単に作成できます。
   - icon: <span class="vite"></span>
@@ -30,7 +30,7 @@ features:
   - icon: <span class="vue"></span>
     title: Vue でカスタマイズ
     details: Markdown 内で直接 Vue 構文やコンポーネントを利用したり、Vue で独自テーマを構築できます。
-  - icon: <span class="rocket"></span>
+  - icon: <span class="fast"></span>
     title: 高速サイトを公開
     details: 静的 HTML による高速初期ロードと、クライアントサイドルーティングによる快適なページ遷移。
 ---

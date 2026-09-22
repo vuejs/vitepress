@@ -21,7 +21,7 @@ hero:
     alt: VitePress
 
 features:
-  - icon: <span class="memo"></span>
+  - icon: <span class="write"></span>
     title: Concéntrese en su contenido
     details: Cree lindos sitios de documentación apenas con markdown.
   - icon: <span class="vite"></span>
@@ -30,7 +30,7 @@ features:
   - icon: <span class="vue"></span>
     title: Personaliza con Vue
     details: Usa la sintaxis y componentes Vue directamente en markdown, o construye temas personalizados con Vue.
-  - icon: <span class="rocket"></span>
+  - icon: <span class="fast"></span>
     title: Entrega rápida de sitios
     details: Carga inicial rápida con HTML estático, navegación rápida con enrutamiento del lado del cliente.
 ---
