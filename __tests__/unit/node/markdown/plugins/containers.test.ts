@@ -8,13 +8,18 @@ import type { MarkdownEnv } from 'node/shared'
 async function render(
   src: string,
   options: MarkdownOptions = {},
-  env?: Partial<MarkdownEnv>
+  env?: Partial<MarkdownEnv>,
+  base = '/'
 ) {
   disposeMdItInstance()
-  const md = await createMarkdownRenderer('.', {
-    highlight: (code) => code,
-    ...options
-  })
+  const md = await createMarkdownRenderer(
+    '.',
+    {
+      highlight: (code) => code,
+      ...options
+    },
+    base
+  )
   return md.renderAsync(src, env)
 }
 
@@ -112,6 +117,48 @@ describe('node/markdown/plugins/containers', () => {
       </div>
       "
     `)
+  })
+
+  test.each([
+    ['/', true, true, '/guide/start'],
+    ['./', false, true, '../guide/start.html'],
+    ['./', true, true, '../guide/start'],
+    ['./', false, false, '/guide/start.html']
+  ])(
+    'uses page URL settings in titles (base: %s, cleanUrls: %s, relativizeUrls: %s)',
+    async (base, cleanUrls, relativizeUrls, href) => {
+      const src = [
+        '::: tip [Guide][guide]',
+        '[Guide][guide]',
+        ':::',
+        '',
+        '::: details [Guide][guide]',
+        'content',
+        ':::',
+        '',
+        '[guide]: /guide/start.md'
+      ].join('\n')
+      const html = await render(
+        src,
+        {},
+        { cleanUrls, relativePath: 'nested/page.md', relativizeUrls },
+        base
+      )
+      const link = `<a href="${href}">Guide</a>`
+      expect(html).toContain(`<p class="custom-block-title">${link}</p>`)
+      expect(html).toContain(`<summary>${link}</summary>`)
+      expect(html).toContain(`<p>${link}</p>`)
+    }
+  )
+
+  test('keeps page footnotes out of container titles', async () => {
+    const html = await render(
+      '::: tip [Guide](/guide.md)\nText[^1]\n:::\n\n[^1]: A note'
+    )
+    expect(html).toContain(
+      '<p class="custom-block-title"><a href="/guide.html">Guide</a></p>'
+    )
+    expect(html.match(/class="footnotes"/g)).toHaveLength(1)
   })
 
   test('respects custom labels from container options', async () => {
