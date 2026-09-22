@@ -506,13 +506,16 @@
   top: 0.75rem;
   inset-inline-end: 0.75rem;
   z-index: 3;
+  pointer-events: none;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 0.25rem;
   width: 2.5rem;
   height: 2.5rem;
   background-color: var(--vp-code-copy-code-bg);
   opacity: 0;
+  visibility: hidden;
   cursor: pointer;
+  user-select: none;
   background-image: var(--vp-icon-copy);
   background-position: 50%;
   background-size: 1.25rem;
@@ -520,12 +523,36 @@
   transition:
     border-color 0.25s,
     background-color 0.25s,
-    opacity 0.25s;
+    opacity 0.25s,
+    visibility 0s 0.25s;
 }
 
 .vp-doc [class*='language-']:hover > button.copy,
+.vp-doc [class*='language-']:focus-within > button.copy,
 .vp-doc [class*='language-'] > button.copy:focus {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s,
+    visibility 0s;
+}
+
+.vp-doc [class*='language-'].selecting > button.copy:not(:focus),
+.vp-doc [class*='language-'].selecting > span.lang {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.vp-doc [class*='language-'].selecting > button.copy:not(:focus) {
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s,
+    visibility 0s 0.25s;
 }
 
 .vp-doc [class*='language-'] > button.copy:hover,
