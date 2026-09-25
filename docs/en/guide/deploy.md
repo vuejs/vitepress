@@ -342,6 +342,18 @@ After running `npm run docs:build`, run this command to deploy to [Surge](https:
 npx surge docs/.vitepress/dist
 ```
 
+### VibeHost
+
+[VibeHost](https://vibehost.com) hosts a static build and serves it from a `*.vibehost.space` URL. Deploys are private by default — the URL requires signing in as the workspace owner or as someone explicitly granted access — so a docs build can be reviewed before it is opened up.
+
+Install the [VibeHost CLI](https://docs.vibehost.com/guides/quickstart/) and sign in with `vibehost login`. After running `npm run docs:build`, deploy the build output:
+
+```sh
+vibehost deploy docs/.vitepress/dist --app vitepress-docs
+```
+
+Run `vibehost app visibility vitepress-docs public` when the site should be reachable without signing in. See the [VibeHost docs](https://docs.vibehost.com) for channels, grants and custom domains.
+
 ### harvis
 
 After running `npm run docs:build`, run this command to deploy to [harvis](https://harvis.dev):
