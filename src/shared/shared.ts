@@ -213,7 +213,7 @@ export function createTitle(siteData: SiteData, pageData: PageData): string {
   const template = pageData.titleTemplate ?? siteData.titleTemplate
 
   if (typeof template === 'string' && template.includes(':title')) {
-    return template.replace(/:title/g, title)
+    return template.replace(/:title/g, () => title)
   }
 
   const templateString = createTitleTemplate(siteData.title, template)
