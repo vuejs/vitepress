@@ -21,7 +21,7 @@ hero:
     alt: ویت‌پرس
 
 features:
-  - icon: <span class="memo"></span>
+  - icon: <span class="write"></span>
     title: تمرکز روی محتوا
     details: ایجاد سایت‌های مستند‌سازی زیبا بدون زحمت و فقط با Markdown
   - icon: <span class="vite"></span>
@@ -30,7 +30,7 @@ features:
   - icon: <span class="vue"></span>
     title: شخصی‌سازی با Vue
     details: استفاده مستقیم از syntax و کامپوننت‌های Vue در Markdown، یا ایجاد تم‌های شخصی به کمک Vue
-  - icon: <span class="rocket"></span>
+  - icon: <span class="fast"></span>
     title: ارسال سایت های سریع
     details: بارگذاری اولیه سریع با HTML ایستا، ناوبری سریع پس از بارگیری با مسیریابی سمت کلاینت
 ---
