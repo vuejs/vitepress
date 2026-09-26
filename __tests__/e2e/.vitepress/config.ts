@@ -197,6 +197,7 @@ const sidebar: DefaultTheme.Config['sidebar'] = {
 export default defineConfig({
   title: 'Example',
   description: 'An example app using VitePress.',
+  dir: false,
   srcExclude: ['**/parts/**'],
   markdown: {
     image: { lazyLoad: true }

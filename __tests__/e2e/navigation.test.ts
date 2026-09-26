@@ -42,6 +42,25 @@ describe('navigation accessibility', () => {
     expect(await sectionLink.getAttribute('aria-current')).toBeNull()
   })
 
+  test('preserves a runtime-managed document direction', async () => {
+    await goto('/')
+
+    const html = page.locator('html')
+    expect(await html.getAttribute('dir')).toBeNull()
+
+    await page.evaluate(() => {
+      document.documentElement.dir = 'rtl'
+    })
+    await page
+      .locator('.VPNavBarMenuLink[href="/markdown-extensions/"]')
+      .click()
+    await page.waitForFunction(() =>
+      location.pathname.startsWith('/markdown-extensions')
+    )
+
+    expect(await html.getAttribute('dir')).toBe('rtl')
+  })
+
   test('marks only exact sidebar links, including fragments', async () => {
     const overview = '.VPSidebarItem .link[href="/sidebar-hash/"]'
     const sectionOne = '.VPSidebarItem .link[href="/sidebar-hash/#section-one"]'
