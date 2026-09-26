@@ -439,6 +439,7 @@
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  will-change: filter;
   filter: blur(0.095rem);
   opacity: 0.4;
   transition:
