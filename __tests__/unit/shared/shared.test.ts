@@ -1,10 +1,13 @@
 import {
+  createTitle,
   isRelativeBase,
   joinPath,
   mergeHead,
   pageChunkPath,
   relativePathToRoot,
-  type HeadConfig
+  type HeadConfig,
+  type PageData,
+  type SiteData
 } from 'shared/shared'
 
 describe('shared/shared', () => {
@@ -21,6 +24,16 @@ describe('shared/shared', () => {
       )
       expect(pageChunkPath('guide_foo.md', '3/Ab-12xyz', '.lean.js')).toBe(
         '3/guide_foo.md.Ab-12xyz.lean.js'
+      )
+    })
+  })
+
+  describe('createTitle', () => {
+    test('inserts titles containing $ literally into :title templates', () => {
+      const site = { title: 'Site', titleTemplate: ':title - Docs' }
+      const page = { title: 'Using $& and $$ in Bash' }
+      expect(createTitle(site as SiteData, page as PageData)).toBe(
+        'Using $& and $$ in Bash - Docs'
       )
     })
   })
