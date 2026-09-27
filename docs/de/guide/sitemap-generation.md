@@ -1,10 +1,10 @@
 ---
-description: a sitemap.xml file for your VitePress site zu improve search engine discoverability.
+description: a sitemap.xml file for your VitePress site to improve search engine discoverability.
 ---
 
 # Sitemap-Generierung
 
-VitePress unterstützt standardmäßig die Erzeugung von a `sitemap.xml` file for your site. To enable it, add the following zu your `.vitepress/config.js`:
+VitePress unterstützt standardmäßig die Erzeugung einer `sitemap.xml`-Datei für deine Website. Um dies zu aktivieren, füge Folgendes zu deiner `.vitepress/config.js` hinzu:
 
 ```ts
 export default {
@@ -14,11 +14,11 @@ export default {
 }
 ```
 
-Damit `<lastmod>` tags in your `sitemap.xml`, you can enable the [`lastUpdated`](../reference/default-theme-last-updated) option.
+Damit deine `sitemap.xml`-Datei `<lastmod>`-Tags enthält, kannst du die [`lastUpdated`](../reference/default-theme-last-updated) option.
 
 ## Optionen
 
-Sitemap wird unterstützt durch the [`sitemap`](https://www.npmjs.com/package/sitemap) module. Du kannst pass any options supported by it zu the `sitemap` option in deiner Konfiguration file. These will be passed directly zu the `SitemapStream` construczur. Refer zu the [`sitemap` documentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) for weitere Details. Beispiel:
+Sitemap wird unterstützt durch the [`sitemap`](https://www.npmjs.com/package/sitemap) module. Du kannst pass any options supported by it to the `sitemap` option in your config file. Diese werden direkt an the `SitemapStream` constructor. Siehe die [`sitemap` documentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) für weitere Details. Beispiel:
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ export default {
 }
 ```
 
-Wenn du're Verwendung `base` in deiner Konfiguration, you should append it zu the `hostname` option:
+Wenn du're Verwendung `base` in your config, you should append it to the `hostname` option:
 
 ```ts
 export default {
@@ -42,7 +42,7 @@ export default {
 
 ## `transformItems` Hook
 
-Du kannst use the `sitemap.transformItems` hook zu modify the sitemap items before they are written zu the `sitemap.xml` file. This hook is genannt with an array of sitemap items and expects an array of sitemap items zu be returned. Beispiel:
+Du kannst use the `sitemap.transformItems` Hook verwenden, um die Sitemap-Einträge vor dem Schreiben in die `sitemap.xml` file. This hook is genannt with an array of sitemap items und erwartet, dass ein Array von Sitemap-Einträgen zurückgegeben wird. Beispiel:
 
 ```ts
 export default {
