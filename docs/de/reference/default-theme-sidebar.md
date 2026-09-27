@@ -1,10 +1,10 @@
 ---
-description: Konfigurieren the sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
+description: Konfiguriere die sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
 ---
 
 # Seitenleiste
 
-The sidebar is the main navigation block for your documentation. Du kannst configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
+Die Seitenleiste ist der zentrale Navigationsbereich deiner Dokumentation. Du kannst das Seitenleistenmenü konfigurieren in [`themeConfig.sidebar`](./default-theme-config#sidebar).
 
 ```js
 export default {
@@ -25,7 +25,7 @@ export default {
 
 ## The Basics
 
-The simplest form of the sidebar menu is passing in a single array of links. The first level item defines the "section" for the sidebar. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
+Die einfachste Form des Seitenleistenmenüs besteht aus einem einzelnen Array von Links. Das Element der ersten Ebene definiert den „Abschnitt“ der Seitenleiste. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
 
 ```js
 export default {
