@@ -1,5 +1,5 @@
 ---
-description: Konfigurieren the VitePress Standard theme home page layout with hero sections, features, and custom content.
+description: Konfiguriere das Startseitenlayout des VitePress-Standard-Themes mit Hero-Bereichen, Features und eigenen Inhalten.
 ---
 
 # Startseite
@@ -12,11 +12,11 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. Du kannst add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
+Diese Option allein bewirkt jedoch noch nicht viel. Du kannst der Startseite verschiedene vorgefertigte „Bereiche“ hinzufügen, indem du zusätzliche Optionen wie `hero` und `features` setzt.
 
-## Hero Section
+## Hero-Bereich
 
-The Hero section comes at the top of the homepage. Here's how you can configure the Hero section.
+Der Hero-Bereich befindet sich oben auf der Startseite. So kannst du ihn konfigurieren.
 
 ```yaml
 ---
@@ -82,9 +82,9 @@ interface HeroAction {
 }
 ```
 
-### Customizing the name color
+### Farbe des Namens anpassen
 
-VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you may customize this color by overriding `--vp-home-hero-name-color` variable.
+VitePress verwendet für `name` die Markenfarbe (`--vp-c-brand-1`). Du kannst diese Farbe jedoch durch Überschreiben der Variable `--vp-home-hero-name-color` anpassen.
 
 ```css
 :root {
@@ -92,7 +92,7 @@ VitePress uses the brand color (`--vp-c-brand-1`) for the `name`. However, you m
 }
 ```
 
-Also you may customize it further by combining `--vp-home-hero-name-background` to give the `name` gradient color.
+Du kannst es außerdem weiter anpassen, indem du `--vp-home-hero-name-background` to give the `name` gradient color.
 
 ```css
 :root {
@@ -101,11 +101,11 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 }
 ```
 
-## Features Section
+## Feature-Bereich
 
-In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
+Im Feature-Bereich kannst du beliebig viele Features auflisten, die direkt nach dem Hero-Bereich angezeigt werden sollen. Übergebe dazu die Option `features` im Frontmatter.
 
-Du kannst provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when erforderlich.
+Du kannst für jedes Feature ein Symbol angeben, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme wenn erforderlich.
 
 ```yaml
 ---
@@ -171,9 +171,9 @@ type FeatureIcon =
     }
 ```
 
-## Markdown Inhalt
+## Markdown-Inhalt
 
-Du kannst add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
+Du kannst zusätzliche Inhalte zur Startseite deiner Website hinzufügen, indem du einfach unterhalb der `---`-Frontmatter-Trennlinie Markdown hinzufügst.
 
 ````md
 ---
@@ -195,5 +195,5 @@ npx vitepress init
 ````
 
 ::: info
-VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: falsch` to the frontmatter.
+VitePress hat zusätzliche Inhalte einer Seite mit `layout: home` nicht immer automatisch gestaltet. Um das frühere Verhalten wiederherzustellen, kannst du `markdownStyles: false` im Frontmatter setzen.
 :::
