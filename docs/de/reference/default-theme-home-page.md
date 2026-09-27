@@ -4,7 +4,7 @@ description: Konfiguriere das Startseitenlayout des VitePress-Standard-Themes mi
 
 # Startseite
 
-VitePress Standard theme provides a homepage layout, which you can also see used on [the homepage of this site](../). Du kannst use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
+Das VitePress-Standard-Theme stellt ein Startseitenlayout bereit, das du auch auf [der Startseite dieser Website](../) sehen kannst. Du kannst es auf jeder deiner Seiten verwenden, indem du `layout: home` im [Frontmatter](./frontmatter-config) angibst.
 
 ```yaml
 ---
@@ -41,21 +41,21 @@ hero:
 
 ```ts
 interface Hero {
-  // The string shown top of `text`. Comes with brand color
-  // and expected to be short, such as product name.
+  // Die Zeichenkette, die oberhalb von `text` angezeigt wird. Verwendet die Markenfarbe
+  // Sie sollte kurz sein, beispielsweise der Produktname.
   name?: string
 
-  // The main text for the hero section. This will be defined
+  // Der Haupttext des Hero-Bereichs. Dieser wird definiert
   // as `h1` tag.
   text: string
 
-  // Tagline displayed below `text`.
+  // Unter `text` angezeigter Untertitel.
   tagline?: string
 
-  // The image is displayed next to the text and tagline area.
+  // Das Bild wird neben dem Text- und Untertitelbereich angezeigt.
   image?: ThemeableImage
 
-  // Action buttons to display in home hero section.
+  // Aktionsschaltflächen, die im Hero-Bereich der Startseite angezeigt werden.
   actions?: HeroAction[]
 }
 
@@ -65,16 +65,16 @@ type ThemeableImage =
   | { light: string; dark: string; alt?: string }
 
 interface HeroAction {
-  // Color theme of the button. Defaults to `brand`.
+  // Farbvariante der Schaltfläche. Standardmäßig `brand`.
   theme?: 'brand' | 'alt'
 
-  // Label of the button.
+  // Beschriftung der Schaltfläche.
   text: string
 
-  // Destination link of the button.
+  // Ziellink der Schaltfläche.
   link: string
 
-  // Link target attribute.
+  // Zielattribut des Links.
   target?: string
 
   // Link rel attribute.
