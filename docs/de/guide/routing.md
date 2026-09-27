@@ -27,7 +27,7 @@ guide/index.md            -->  /guide/index.html (erreichbar unter /guide/)
 guide/getting-started.md  -->  /guide/getting-started.html
 ```
 
-The resulting HTML can be hosted on any web server that can serve static files.
+Das erzeugte HTML kann auf jedem Webserver bereitgestellt werden, der statische Dateien ausliefern kann.
 
 ## Stamm- und Quellverzeichnis
 
@@ -35,7 +35,7 @@ In der Dateistruktur eines VitePress-Projekts gibt es zwei wichtige Konzepte: da
 
 ### Projektverzeichnis
 
-Das Projektstammverzeichnis ist der Ort, an dem VitePress nach dem speziellen Verzeichnis `.vitepress` sucht. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+Das Projektstammverzeichnis ist der Ort, an dem VitePress nach dem speziellen Verzeichnis `.vitepress` sucht. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionalen Theme-Anpassungscode reserviert.
 
 Wenn du `vitepress dev` oder `vitepress build` über die Kommandozeile ausführst, verwendet VitePress das aktuelle Arbeitsverzeichnis als Projektstammverzeichnis. Um ein Unterverzeichnis als Stammverzeichnis festzulegen, musst du den relativen Pfad an den Befehl übergeben. Wenn dein VitePress-Projekt beispielsweise in `./docs` liegt, solltest du `vitepress dev docs` ausführen:
 
@@ -63,17 +63,17 @@ docs/getting-started.md  -->  /getting-started.html
 
 Das Quellverzeichnis ist der Ort, an dem deine Markdown-Quelldateien liegen. Standardmäßig entspricht es dem Projektstammverzeichnis. Du kannst es jedoch über die [`srcDir`](../reference/site-config#srcdir) Konfigurationsoption festlegen.
 
-Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `srcDir: 'src'`, your file structure will look like this:
+Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `srcDir: 'src'`, deine Dateistruktur sieht dann so aus:
 
 ```
 .                          # Projektstammverzeichnis
 ├─ .vitepress              # Konfigurationsverzeichnis
-└─ src                     # source dir
+└─ src                     # Quellverzeichnis
    ├─ getting-started.md
    └─ index.md
 ```
 
-The resulting source-to-HTML mapping:
+Die resultierende Zuordnung von Quelle zu HTML:
 
 ```
 src/index.md            -->  /index.html (erreichbar unter /)
@@ -103,42 +103,42 @@ Wenn du auf eine Seite deiner Website verlinken möchtest, die nicht von VitePre
 **Input**
 
 ```md
-[Link to pure.html](/pure.html){target="_self"}
+[Link zu pure.html](/pure.html){target="_self"}
 ```
 
 **Ausgabe**
 
-[Link to pure.html](/pure.html){target="_self"}
+[Link zu pure.html](/pure.html){target="_self"}
 
 ::: tip Hinweis
 
-Bei Markdown-Links wird `base` automatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` in the link (resolved relative to the current page by the browser).
+Bei Markdown-Links wird `base` auzumatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` im Link (resolved relative zu the current page by the browser).
 
 Alternativ kannst du direkt die Anchor-Tag-Syntax verwenden:
 
 ```md
-<a href="/pure.html" target="_self">Link to pure.html</a>
+<a href="/pure.html" target="_self">Link zu pure.html</a>
 ```
 
 :::
 
 ## Saubere URLs erzeugen
 
-::: warning Server Support Required
+::: warning Serverunterstützung erforderlich
 Um saubere URLs mit VitePress bereitzustellen, ist Unterstützung auf Serverseite erforderlich.
 :::
 
-Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` enden. Manche Benutzer bevorzugen jedoch "Clean URLs" without the `.html` extension - for example, `example.com/path` instead of `example.com/path.html`.
+Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` enden. Manche Benutzer bevorzugen jedoch "Saubere URLs" ohne die Erweiterung `.html` – beispielsweise `example.com/path` statt `example.com/path.html`.
 
 Einige Server oder Hosting-Plattformen (beispielsweise Netlify, Vercel und GitHub Pages) können eine URL wie `/foo` ohne Weiterleitung auf `/foo.html` abbilden, wenn diese Datei existiert:
 
 - Netlify and GitHub Seiten support this by default.
-- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Bei Vercel muss the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
 
-Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
+Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) Konfigurationsoption so setzen, dass:
 
-- Inbound links between pages are generated without the `.html` extension.
-- If current path ends with `.html`, the router will perform a client-side redirect to the extension-less path.
+- Links zwischen Seiten ohne die Erweiterung `.html` erzeugt werden.
+- Wenn der aktuelle Pfad mit `.html` endet, führt der Router eine clientseitige Weiterleitung zum Pfad ohne Erweiterung durch.
 
 Wenn du deinen Server jedoch nicht entsprechend konfigurieren kannst, musst du stattdessen manuell die folgende Verzeichnisstruktur verwenden:
 
@@ -190,7 +190,7 @@ export default {
 }
 ```
 
-Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. In the above example, it would be verbose to list all the paths if you have many packages. Given that they all have the same file structure, you can simplify the config like this:
+Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. In the above example, it would be verbose zu list all the paths if you have many packages. Da alle dieselbe Dateistruktur haben, kannst du die Konfiguration so vereinfachen:
 
 ```ts
 export default {
@@ -200,9 +200,9 @@ export default {
 }
 ```
 
-Die Rewrite-Pfade werden mit dem Paket `path-to-regexp` kompiliert – weitere Informationen findest du in [dessen Dokumentation](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) for more advanced syntax.
+Die Rewrite-Pfade werden mit dem Paket `path-zu-regexp` kompiliert – weitere Informationen findest du in [dessen Dokumentation](https://github.com/pillarjs/path-zu-regexp/tree/6.x#parameters) für eine fortgeschrittenere Syntax.
 
-`rewrites` can also be a function that receives the original path und gibt den neuen Pfad zurück:
+`rewrites` kann auch eine Funktion sein, die den ursprünglichen Pfad erhält und gibt den neuen Pfad zurück:
 
 ```ts
 export default {
@@ -214,10 +214,10 @@ export default {
 
 ::: warning Relative Links bei Rewrites
 
-Wenn Rewrites aktiviert sind, sollten **relative Links auf den umgeschriebenen Pfaden basieren**. Um beispielsweise einen relativen Link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
+Wenn Rewrites aktiviert sind, sollten **relative Links auf den umgeschriebenen Pfaden basieren**. Um beispielsweise einen relativen Link from `packages/pkg-a/src/pkg-a-code.md` zu `packages/pkg-b/src/pkg-b-code.md`, solltest du verwenden:
 
 ```md
-[Link to PKG B](../pkg-b/pkg-b-code)
+[Link zu PKG B](../pkg-b/pkg-b-code)
 ```
 :::
 
@@ -227,7 +227,7 @@ Du kannst mit einer einzigen Markdown-Datei und dynamischen Daten viele Seiten e
 
 ### Pfad-Loader-Datei
 
-Da VitePress ein statischer Website-Generator ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
+Da VitePress ein statischer Website-Generazur ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. For `packages/[pkg].md`, benötigen wir `packages/[pkg].paths.js` (`.ts` is also supported):
 
 ```
 .
@@ -238,7 +238,7 @@ Da VitePress ein statischer Website-Generator ist, müssen die möglichen Seiten
 
 Der Paths Loader sollte ein Objekt mit einer Methode `paths` als Standardexport bereitstellen. Die Methode `paths` sollte ein Array von Objekten mit einer Eigenschaft `params` zurückgeben. Jedes dieser Objekte erzeugt eine entsprechende Seite.
 
-Given the following `paths` array:
+Bei folgendem `paths`-Array:
 
 ```js
 // packages/[pkg].paths.js
@@ -363,7 +363,7 @@ export default {
 
 ### Vorlagen- und Datendateien überwachen
 
-Wenn Seiteninhalte aus Vorlagen oder externen Datenquellen erzeugt werden, kannst du die Option `watch` verwenden, um Seiten während der Entwicklung automatisch neu zu erzeugen, wenn sich diese Dateien ändern:
+Wenn Seiteninhalte aus Vorlagen oder externen Datenquellen erzeugt werden, kannst du die Option `watch` verwenden, um Seiten während der Entwicklung auzumatisch neu zu erzeugen, wenn sich diese Dateien ändern:
 
 ```js
 // posts/[slug].paths.js
@@ -387,7 +387,7 @@ export default {
 
       return {
         params: { slug: data.slug },
-        content: renderTemplate(data)  // Use template to generate content
+        content: renderTemplate(data)  // Use template zu generate content
       }
     })
   }
@@ -396,7 +396,7 @@ export default {
 
 Die Option `watch` funktioniert genauso wie bei [Data Loadern](./Daten-loading#Daten-from-local-files):
 
-- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match files
+- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) zu match files
 - Muster sind relativ zur `.paths.js`-Datei selbst
 - Änderungen an überwachten Dateien lösen während der Entwicklung eine Seitengenerierung und HMR aus
 - In Produktions-Builds werden alle Seiten unabhängig von der `watch`-Konfiguration einmal erzeugt
