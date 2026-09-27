@@ -68,7 +68,7 @@ Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `sr
 ```
 .                          # Projektstammverzeichnis
 ├─ .vitepress              # Konfigurationsverzeichnis
-└─ src                     # Quellverzeichnis
+└─ src                     # source dir
    ├─ getting-started.md
    └─ index.md
 ```
@@ -103,21 +103,21 @@ Wenn du auf eine Seite deiner Website verlinken möchtest, die nicht von VitePre
 **Input**
 
 ```md
-[Link zu pure.html](/pure.html){target="_self"}
+[Link to pure.html](/pure.html){target="_self"}
 ```
 
 **Ausgabe**
 
-[Link zu pure.html](/pure.html){target="_self"}
+[Link to pure.html](/pure.html){target="_self"}
 
 ::: tip Hinweis
 
-Bei Markdown-Links wird `base` auzumatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` im Link (resolved relative zu the current page by the browser).
+Bei Markdown-Links wird `base` automatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` in the link (resolved relative to the current page by the browser).
 
 Alternativ kannst du direkt die Anchor-Tag-Syntax verwenden:
 
 ```md
-<a href="/pure.html" target="_self">Link zu pure.html</a>
+<a href="/pure.html" target="_self">Link to pure.html</a>
 ```
 
 :::
@@ -133,11 +133,11 @@ Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` en
 Einige Server oder Hosting-Plattformen (beispielsweise Netlify, Vercel und GitHub Pages) können eine URL wie `/foo` ohne Weiterleitung auf `/foo.html` abbilden, wenn diese Datei existiert:
 
 - Netlify and GitHub Seiten support this by default.
-- Bei Vercel muss the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
 
-Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) Konfigurationsoption so setzen, dass:
+Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
 
-- Links zwischen Seiten ohne die Erweiterung `.html` erzeugt werden.
+- Links zwischen Seiten werden ohne die Erweiterung `.html` erzeugt.
 - Wenn der aktuelle Pfad mit `.html` endet, führt der Router eine clientseitige Weiterleitung zum Pfad ohne Erweiterung durch.
 
 Wenn du deinen Server jedoch nicht entsprechend konfigurieren kannst, musst du stattdessen manuell die folgende Verzeichnisstruktur verwenden:
@@ -190,7 +190,7 @@ export default {
 }
 ```
 
-Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. In the above example, it would be verbose zu list all the paths if you have many packages. Da alle dieselbe Dateistruktur haben, kannst du die Konfiguration so vereinfachen:
+Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. In the above example, it would be verbose to list all the paths if you have many packages. Da alle dieselbe Dateistruktur haben, kannst du die Konfiguration so vereinfachen:
 
 ```ts
 export default {
@@ -200,7 +200,7 @@ export default {
 }
 ```
 
-Die Rewrite-Pfade werden mit dem Paket `path-zu-regexp` kompiliert – weitere Informationen findest du in [dessen Dokumentation](https://github.com/pillarjs/path-zu-regexp/tree/6.x#parameters) für eine fortgeschrittenere Syntax.
+Die Rewrite-Pfade werden mit dem Paket `path-to-regexp` kompiliert – weitere Informationen findest du in [dessen Dokumentation](https://github.com/pillarjs/path-to-regexp/tree/6.x#parameters) für eine fortgeschrittenere Syntax.
 
 `rewrites` kann auch eine Funktion sein, die den ursprünglichen Pfad erhält und gibt den neuen Pfad zurück:
 
@@ -214,10 +214,10 @@ export default {
 
 ::: warning Relative Links bei Rewrites
 
-Wenn Rewrites aktiviert sind, sollten **relative Links auf den umgeschriebenen Pfaden basieren**. Um beispielsweise einen relativen Link from `packages/pkg-a/src/pkg-a-code.md` zu `packages/pkg-b/src/pkg-b-code.md`, solltest du verwenden:
+Wenn Rewrites aktiviert sind, sollten **relative Links auf den umgeschriebenen Pfaden basieren**. Um beispielsweise einen relativen Link from `packages/pkg-a/src/pkg-a-code.md` to `packages/pkg-b/src/pkg-b-code.md`, you should use:
 
 ```md
-[Link zu PKG B](../pkg-b/pkg-b-code)
+[Link to PKG B](../pkg-b/pkg-b-code)
 ```
 :::
 
@@ -227,7 +227,7 @@ Du kannst mit einer einzigen Markdown-Datei und dynamischen Daten viele Seiten e
 
 ### Pfad-Loader-Datei
 
-Da VitePress ein statischer Website-Generazur ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. For `packages/[pkg].md`, benötigen wir `packages/[pkg].paths.js` (`.ts` is also supported):
+Da VitePress ein statischer Website-Generator ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
 
 ```
 .
@@ -363,7 +363,7 @@ export default {
 
 ### Vorlagen- und Datendateien überwachen
 
-Wenn Seiteninhalte aus Vorlagen oder externen Datenquellen erzeugt werden, kannst du die Option `watch` verwenden, um Seiten während der Entwicklung auzumatisch neu zu erzeugen, wenn sich diese Dateien ändern:
+Wenn Seiteninhalte aus Vorlagen oder externen Datenquellen erzeugt werden, kannst du die Option `watch` verwenden, um Seiten während der Entwicklung automatisch neu zu erzeugen, wenn sich diese Dateien ändern:
 
 ```js
 // posts/[slug].paths.js
@@ -387,7 +387,7 @@ export default {
 
       return {
         params: { slug: data.slug },
-        content: renderTemplate(data)  // Use template zu generate content
+        content: renderTemplate(data)  // Use template to generate content
       }
     })
   }
@@ -396,7 +396,7 @@ export default {
 
 Die Option `watch` funktioniert genauso wie bei [Data Loadern](./Daten-loading#Daten-from-local-files):
 
-- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) zu match files
+- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match files
 - Muster sind relativ zur `.paths.js`-Datei selbst
 - Änderungen an überwachten Dateien lösen während der Entwicklung eine Seitengenerierung und HMR aus
 - In Produktions-Builds werden alle Seiten unabhängig von der `watch`-Konfiguration einmal erzeugt
