@@ -1,10 +1,10 @@
 ---
-description: Choose between doc, page, and home layouts in the VitePress default theme.
+description: Wähle zwischen den Layouts doc, page und home im VitePress-Standard-Theme.
 ---
 
 # Layout
 
-Du kannst choose the page layout by setting `layout` option to the page [frontmatter](./frontmatter-config). There are 3 layout options, `doc`, `page`, and `home`. If nothing is specified, then the page is treated as `doc` page.
+Du kannst das Seitenlayout auswählen, indem du die Option `layout` im [Frontmatter](./frontmatter-config) der Seite setzt. Es gibt drei Layoutoptionen: `doc`, `page` und `home`. Wenn nichts angegeben ist, wird die Seite als `doc`-Seite behandelt.
 
 ```yaml
 ---
@@ -14,11 +14,11 @@ layout: doc
 
 ## Doc Layout
 
-Option `doc` is the default layout and it styles the whole Markdown content into "documentation" look. It works by wrapping whole content within `vp-doc` css class, and applying styles to elements underneath it.
+Die Option `doc` ist das Standardlayout. Sie gestaltet den gesamten Markdown-Inhalt im Stil einer „Dokumentation“, indem der gesamte Inhalt in die CSS-Klasse `vp-doc` eingeschlossen und auf die darin enthaltenen Elemente entsprechende Stile angewendet werden.
 
-Almost all generic elements such as `p`, or `h2` get special styling. Therefore, keep in mind that if you add any custom HTML inside a Markdown content, those will get affected by those styles as well.
+Nahezu alle allgemeinen Elemente wie `p` oder `h2` erhalten eine spezielle Gestaltung. Beachte daher, dass auch benutzerdefiniertes HTML innerhalb eines Markdown-Inhalts von diesen Stilen betroffen ist.
 
-It also stellt bereit documentation specific features listed below. These features are only aktiviert in this layout.
+Außerdem stellt dieses Layout die unten aufgeführten dokumentationsspezifischen Funktionen bereit. Diese Funktionen sind nur in diesem Layout aktiviert.
 
 - Bearbeitungslink
 - Prev Weiter Link
@@ -27,23 +27,23 @@ It also stellt bereit documentation specific features listed below. These featur
 
 ## Seite Layout
 
-Option `page` is treated as "blank page". The Markdown will still be parsed, and all of the [Markdown Extensions](../guide/markdown) work as same as `doc` layout, but it wouldn't get any default stylings.
+Die Option `page` wird als „leere Seite“ behandelt. Das Markdown wird weiterhin analysiert und alle [Markdown-Erweiterungen](../guide/markdown) funktionieren wie beim `doc`-Layout, erhalten jedoch keine Standardgestaltung.
 
-The page layout will let you style everything by you without VitePress theme affecting the markup. This is useful when you want to create your own custom page.
+Mit dem Seitenlayout kannst du alles selbst gestalten, ohne dass das VitePress-Theme das Markup beeinflusst. Das ist nützlich, wenn du eine eigene Seite erstellen möchtest.
 
-Beachte, dass even in this layout, sidebar will still show up if the page has a matching sidebar config.
+Beachte, dass auch in diesem Layout die Seitenleiste angezeigt wird, wenn für die Seite eine passende Seitenleistenkonfiguration vorhanden ist.
 
 ## Home Layout
 
-Option `home` will generate templated "Homepage". In this layout, you can set extra options such as `hero` and `features` to customize the content further. Please visit [Standard-Theme: Startseite](./default-theme-home-page) for more details.
+Die Option `home` erzeugt eine vorgefertigte „Startseite“. In diesem Layout kannst du zusätzliche Optionen wie `hero` und `features` festlegen, um den Inhalt weiter anzupassen. Weitere Informationen findest du unter [Standard-Theme: Startseite](./default-theme-home-page).
 
 ## No Layout
 
-Wenn du don't want any layout, you can pass `layout: false` through frontmatter. This option is helpful if you want a fully-customizable landing page (without any sidebar, navbar, or footer by default).
+Wenn du kein Layout möchtest, kannst du über das Frontmatter `layout: false` angeben. Diese Option ist hilfreich, wenn du eine vollständig anpassbare Einstiegsseite ohne standardmäßige Seitenleiste, Navigationsleiste oder Fußzeile erstellen möchtest.
 
 ## Eigenes Layout
 
-Du kannst also use a custom layout:
+Du kannst auch ein eigenes Layout verwenden:
 
 ```md
 ---
@@ -51,7 +51,7 @@ layout: foo
 ---
 ```
 
-This will look for a component named `foo` registered in context. Zum Beispiel, you can register your component globally in `.vitepress/theme/index.ts`:
+Dadurch wird nach einer im Kontext registrierten Komponente namens `foo` gesucht. Zum Beispiel kannst du deine Komponente global in `.vitepress/theme/index.ts` registrieren:
 
 ```ts
 import DefaultTheme from 'vitepress/theme'
