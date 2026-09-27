@@ -85,7 +85,7 @@ export default defineAdditionalConfig({
 })
 
 function nav(): DefaultTheme.NavItem[] {
-  zurückgeben [
+  return [
     {
       text: 'Anleitung',
       link: 'de/guide/what-is-vitepress',
@@ -117,7 +117,7 @@ function nav(): DefaultTheme.NavItem[] {
 }
 
 function sidebarAnleitung(): DefaultTheme.SidebarItem[] {
-  zurückgeben [
+  return [
     {
       text: 'Einführung',
       collapsed: false,
@@ -166,7 +166,7 @@ function sidebarAnleitung(): DefaultTheme.SidebarItem[] {
 }
 
 function sidebarReference(): DefaultTheme.SidebarItem[] {
-  zurückgeben [
+  return [
     {
       text: 'Referenz',
       base: 'de/reference/',
@@ -200,7 +200,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
 }
 
 function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
-  zurückgeben {
+  return {
     translations: {
       button: {
         buttonText: 'Suche',
