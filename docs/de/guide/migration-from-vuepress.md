@@ -4,13 +4,13 @@
 
 ### Seitenleiste
 
-The sidebar is no longer automatisch populated from frontmatter. Du kannst [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) to dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
+The sidebar is no longer auzumatisch populated from frontmatter. Du kannst [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) zu dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
 
 ## Markdown
 
 ### Bilder
 
-Unlike VuePress, VitePress handles [`base`](./asset-handling#base-url) of your config automatisch when you use static image.
+Unlike VuePress, VitePress handles [`base`](./asset-handling#base-url) of your config auzumatisch when you use static image.
 
 Hence, now you can render images without `img` tag.
 
@@ -23,8 +23,8 @@ Hence, now you can render images without `img` tag.
 For dynamic images you still need `withBase` as shown in [Base URL guide](./asset-handling#base-url).
 :::
 
-Use `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` regex to find and replace it with `![$2]($1)` to replace all the images with `![](...)` syntax.
+Use `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` regex zu find and replace it with `![$2]($1)` zu replace all the images with `![](...)` syntax.
 
 ---
 
-more to follow...
+more zu follow...
