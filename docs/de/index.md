@@ -1,11 +1,11 @@
 ---
-description: VitePress ist ein auf Vite und Vue basierender Generator für statische Websites, mit dem man aus Markdown ansprechende Dokumentationen erstellen kann.
+description: VitePress ist ein auf Vite und Vue basierender Generator für statische Websites, mit dem du aus Markdown ansprechende Dokumentationen erstellen kannst.
 layout: home
 
 hero:
   name: VitePress
-  text: Vite & Vue basierender Generator für statische Websites
-  tagline: Markdown zu wunderschönen Docs in Minuten
+  text: Generator für statische Websites mit Vite & Vue
+  tagline: Von Markdown zu ansprechender Dokumentation in wenigen Minuten
   actions:
     - theme: brand
       text: Was ist VitePress?
@@ -22,15 +22,15 @@ hero:
 
 features:
   - icon: <span class="memo"></span>
-    title: Fokussieren auf den Inhalt
-    details: Erstelle mühelos wunderschöne Dokumentationsseiten mit Markdown.
+    title: Konzentriere dich auf deine Inhalte
+    details: Erstelle mühelos ansprechende Dokumentationsseiten mit einfachem Markdown.
   - icon: <span class="vite"></span>
-    title: Genieße Vite DX
-    details: Sofortiger Serverstart, blitzschnelle Hot-Updates und Plugins aus dem Vite-Ökosystem.
+    title: Die Vite-DX nutzen
+    details: Sofortiger Serverstart, blitzschnelle Hot-Updates und Zugriff auf Plugins aus dem Vite-Ökosystem.
   - icon: <span class="vue"></span>
-    title: Anpassen mit Vue
-    details: Nutze Vue-Syntax und Komponenten direkt in Markdown, oder eigene Themes mit Vhe.
+    title: Mit Vue anpassen
+    details: Verwende Vue-Syntax und -Komponenten direkt in Markdown oder erstelle eigene Themes mit Vue.
   - icon: <span class="rocket"></span>
-    title: Liefer schnelle Seitem
-    details: Schneller Initial-Load mit statischem HTML, schnellem Post-Load und Navigation mit Client-Side Routing.
+    title: Schnelle Websites ausliefern
+    details: Schneller initialer Ladevorgang mit statischem HTML und schnelle Navigation nach dem Laden dank clientseitigem Routing.
 ---
