@@ -17,19 +17,19 @@ Gibt seitenspezifische Daten zurück. Das zurückgegebene Objekt hat folgenden T
 ```ts
 interface VitePressData<T = any> {
   /**
-   * Site-level metadata
+   * Metadaten auf Websiteebene
    */
   site: Ref<SiteData<T>>
   /**
-   * themeConfig from .vitepress/config.js
+   * themeConfig aus .vitepress/config.js
    */
   theme: Ref<T>
   /**
-   * Page-level metadata
+   * Metadaten auf Seitenebene
    */
   page: Ref<PageData>
   /**
-   * Page frontmatter
+   * Frontmatter der Seite
    */
   frontmatter: Ref<PageData['frontmatter']>
   /**
