@@ -7,7 +7,7 @@ description: Set up local or Algolia-powered search for your VitePress site.
 
 ## Local Suche
 
-VitePress supports fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress unterstützt fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -35,7 +35,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 
 ### i18n {#local-search-i18n}
 
-You can use a config like this to use multilingual search:
+Du kannst use a config like this to use multilingual search:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -78,7 +78,7 @@ export default defineConfig({
 
 ### miniSearch options
 
-You can configure MiniSearch like this:
+Du kannst configure MiniSearch like this:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -110,15 +110,15 @@ export default defineConfig({
 })
 ```
 
-Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+Mehr erfahren in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
 ::: info Document IDs
 Suche document IDs (as seen by `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they do not include [`base`](../reference/site-config#base). The theme resolves them against the base when rendering results.
 :::
 
-### Custom content renderer
+### Eigenes content renderer
 
-You can customize the function used to render the markdown content before indexing it:
+Du kannst customize the function used to render the markdown content before indexing it:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -146,7 +146,7 @@ This function will be stripped from client-side site data, so you can use Node.j
 
 #### Beispiel: Excluding pages from search
 
-You can exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
+Du kannst exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -196,7 +196,7 @@ export default defineConfig({
 
 ## Algolia Suche
 
-VitePress supports searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer to their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
+VitePress unterstützt searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer to their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -217,7 +217,7 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-You can use a config like this to use multilingual search:
+Du kannst use a config like this to use multilingual search:
 
 <details>
 <summary>View full example</summary>
@@ -230,7 +230,7 @@ Refer [official Algolia docs](https://docsearch.algolia.com/docs/api#translation
 
 ### Algolia Ask AI Support {#ask-ai}
 
-If you would like to include **Ask AI**, pass the `askAi` option (or any of the partial fields) inside `options`:
+Wenn du would like to include **Ask AI**, pass the `askAi` option (or any of the partial fields) inside `options`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -260,12 +260,12 @@ export default defineConfig({
 ```
 
 ::: warning Note
-If you want to default to keyword search and do not want to use Ask AI, omit the `askAi` property.
+Wenn du want to default to keyword search and do not want to use Ask AI, omit the `askAi` property.
 :::
 
 ### Ask AI Side Panel {#ask-ai-side-panel}
 
-DocSearch v4.5+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
+DocSearch v4.5+ unterstützt an optional **Ask AI side panel**. When aktiviert, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -302,7 +302,7 @@ questions. Algolia's standalone Ask AI examples also mention
 VitePress side panel mode and does not make the integrated keyword-search
 modal display suggested questions on first open.
 
-If you need to disable the keyboard shortcut, use the `keyboardShortcuts` option at the sidepanel root level:
+Wenn du need to disable the keyboard shortcut, use the `keyboardShortcuts` option at the sidepanel root level:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -331,7 +331,7 @@ export default defineConfig({
 
 #### Mode (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
-You can optionally control how VitePress integrates keyword search and Ask AI:
+Du kannst optionally control how VitePress integrates keyword search and Ask AI:
 
 - `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask AI side panel is configured.
 - `mode: 'sidePanel'`: force side panel only (hides the keyword search button).
@@ -340,7 +340,7 @@ You can optionally control how VitePress integrates keyword search and Ask AI:
 
 #### Ask AI only (no keyword search) {#ask-ai-only}
 
-If you want to use **Ask AI side panel only**, you can omit top-level keyword search config and provide credentials under `askAi`:
+Wenn du want to use **Ask AI side panel only**, you can omit top-level keyword search config and provide credentials under `askAi`:
 
 ```ts
 import { defineConfig } from 'vitepress'
