@@ -4,15 +4,15 @@ description: Referenz der VitePress-Runtime-APIs einschließlich Composables, Hi
 
 # Runtime API
 
-VitePress bietet mehrere integrierte APIs für den Zugriff auf Anwendungsdaten. VitePress also comes with a few built-in components that can be used globally.
+VitePress bietet außerdem einige integrierte Komponenten, die global verwendet werden können.
 
-Die Hilfsmethoden können global importiert werden from `vitepress` and are typically used in custom theme Vue components. Sie können jedoch auch innerhalb von `.md`-Seiten verwendet werden because markdown files are compiled into Vue [Single-Datei Komponenten](https://vuejs.org/guide/scaling-up/sfc.html).
+Die Hilfsmethoden können global aus `vitepress` importiert werden und werden normalerweise in Vue-Komponenten eigener Themes verwendet. Sie können jedoch auch innerhalb von `.md`-Seiten verwendet werden, da Markdown-Dateien in Vue-[Single-File-Komponenten](https://vuejs.org/guide/scaling-up/sfc.html) kompiliert werden.
 
-Methoden, die mit `use*` beginnen, sind that it is a [Vue 3 Composition API](https://vuejs.org/guide/introduction.html#composition-api) function ("Composable") that can only be used inside `setup()` or `<script setup>`.
+Methoden, die mit `use*` beginnen, sind [Vue-3-Composition-API](https://vuejs.org/guide/introduction.html#composition-api)-Funktionen („Composables“), die nur innerhalb von `setup()` oder `<script setup>` verwendet werden können.
 
 ## `useData` <Badge type="info" text="composable" />
 
-Gibt seitenspezifische Daten zurück. The returned object has the following type:
+Gibt seitenspezifische Daten zurück. Das zurückgegebene Objekt hat folgenden Typ:
 
 ```ts
 interface VitePressData<T = any> {
@@ -62,7 +62,7 @@ interface PageData {
 }
 ```
 
-`page.headers` is populated only when [`markdown.headers`](./site-config#markdown) ist aktiviert. Ohne diese Option bleibt es ein leeres Array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
+`page.headers` wird nur gefüllt, wenn [`markdown.headers`](./site-config#markdown) aktiviert ist. Ohne diese Option bleibt es ein leeres Array. Die Seitenübersicht des Standard-Themes liest gerenderte Überschriften aus dem Seiteninhalt, sodass sie auch bei leerem `page.headers` angezeigt werden kann.
 
 **Beispiel:**
 
@@ -80,7 +80,7 @@ const { theme } = useData()
 
 ## `useRoute` <Badge type="info" text="composable" />
 
-Gibt das aktuelle Routenobjekt zurück with the following type:
+Gibt das aktuelle Routenobjekt mit folgendem Typ zurück:
 
 ```ts
 interface Route {
@@ -124,7 +124,7 @@ interface Router {
 }
 ```
 
-Assign route-change handlers on the router instance:
+Weise der Routerinstanz Handler für Routenänderungen zu:
 
 ```ts
 const router = useRouter()
@@ -140,9 +140,9 @@ Bei eigenen Themes ist derselbe Router über [`enhanceApp`](../guide/custom-them
 
 - **Type**: `(icon: MaybeRefOrGetter<string | { svg: string } | undefined>, el?: MaybeRefOrGetter<HTMLElement | null>) => ComputedRef<string | undefined>`
 
-Renders an [iconify](https://iconify.design/) icon through VitePress's icon pipeline. Erwartet eine vollständig qualifizierte `collection:name` (resolved against the `@iconify-json/*` packages in your project's dependencies) und gibt die Klasse zurück, die auf dem Element gesetzt werden soll — `vpi-<collection>-<name>`.
+Rendert ein [Iconify](https://iconify.design/)-Symbol über die Icon-Pipeline von VitePress. Erwartet eine vollständig qualifizierte `collection:name` (aufgelöst anhand der `@iconify-json/*`-Pakete in den Abhängigkeiten deines Projekts) und gibt die Klasse zurück, die auf dem Element gesetzt werden soll — `vpi-<collection>-<name>`.
 
-Während SSR wird der Name im [`SSGContext`](./site-config#postrender), so the build emits the icon's styles into the generated stylesheet; in dev, icons are served on demand by the dev server from the locally installed collections. No icon is ever fetched from an external service.
+Während SSR wird der Name im [`SSGContext`](./site-config#postrender) registriert, sodass der Build die Symbolstile in das erzeugte Stylesheet schreibt. Im Entwicklungsmodus liefert der Entwicklungsserver Symbole bei Bedarf aus den lokal installierten Sammlungen. Kein Symbol wird jemals von einem externen Dienst geladen.
 
 ```vue
 <script setup>
@@ -158,25 +158,25 @@ const iconClass = useIcon('lucide:rocket', el)
 </template>
 ```
 
-Übergebe die Template-Referenz of the element carrying the class so dev mode can resolve the icon on it. Das Element benötigt the mask rules the default theme ships; in a custom theme without them, dev applies an inline equivalent and the generated stylesheet includes zero-specificity base rules for production.
+Übergebe die Template-Referenz des Elements, das die Klasse trägt, damit der Entwicklungsmodus das Symbol darauf auflösen kann. Das Element benötigt die Maskenregeln des Standard-Themes; bei einem eigenen Theme ohne diese Regeln verwendet der Entwicklungsmodus ein entsprechendes Inline-Äquivalent und das erzeugte Stylesheet enthält für die Produktion Basisregeln ohne Spezifität.
 
-Bei Verwendung des Standard-Themes, the `VPIcon` component from `vitepress/theme` wraps this composable (and also accepts a raw `{ svg }` string):
+Bei Verwendung des Standard-Themes kapselt die Komponente `VPIcon` aus `vitepress/theme` dieses Composable (und akzeptiert auch eine rohe `{ svg }`-Zeichenkette):
 
 ```vue-html
 <VPIcon icon="lucide:rocket" />
 ```
 
-Symbole, die nur auf dem Client gerendert werden (e.g. inside `<ClientOnly />`) can't be collected during the build — list them in [`icons.include`](./site-config#icons) instead.
+Symbole, die nur auf dem Client gerendert werden (z. B. innerhalb von `<ClientOnly />`), können während des Builds nicht erfasst werden. Liste sie stattdessen unter [`icons.include`](./site-config#icons) auf.
 
 ## `withBase` <Badge type="info" text="helper" />
 
 - **Type**: `(path: string) => string`
 
-Stellt das konfigurierte [`base`](./site-config#base) einem angegebenen URL-Pfad voran. Also see [Base URL](../guide/asset-handling#base-url).
+Stellt das konfigurierte [`base`](./site-config#base) einem angegebenen URL-Pfad voran. Siehe auch [Basis-URL](../guide/asset-handling#base-url).
 
 ## `<Inhalt />` <Badge type="info" text="component" />
 
-The `<Inhalt />` component displays the rendered markdown contents. Nützlich [beim Erstellen eines eigenen Themes](../guide/custom-theme).
+Die Komponente `<Content />` zeigt den gerenderten Markdown-Inhalt an. Nützlich [beim Erstellen eines eigenen Themes](../guide/custom-theme).
 
 ```vue
 <template>
@@ -189,9 +189,9 @@ The `<Inhalt />` component displays the rendered markdown contents. Nützlich [b
 
 Die Komponente `<ClientOnly />` rendert ihren Slot nur auf der Clientseite.
 
-Da VitePress-Anwendungen beim Erzeugen statischer Builds in Node.js serverseitig gerendert werden, any Vue usage must conform to the universal code requirements. In short, make sure to only access Browser / DOM APIs in beforeMount or mounted hooks.
+Da VitePress-Anwendungen beim Erzeugen statischer Builds in Node.js serverseitig gerendert werden, muss jede Vue-Verwendung den Anforderungen an universellen Code entsprechen. Kurz gesagt: Greife nur in `beforeMount`- oder `mounted`-Hooks auf Browser-/DOM-APIs zu.
 
-Wenn du are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the `ClientOnly` component.
+Wenn du nicht SSR-kompatible Komponenten verwendest oder demonstrierst (beispielsweise solche mit eigenen Direktiven), kannst du sie in die `ClientOnly`-Komponente einschließen.
 
 ```vue-html
 <ClientOnly>
@@ -203,7 +203,7 @@ Wenn du are using or demoing components that are not SSR-friendly (for example, 
 
 ## `$frontmatter` <Badge type="info" text="template global" />
 
-Greife direkt auf die [frontmatter](../guide/frontmatter) data in Vue expressions.
+Greife direkt auf die [Frontmatter](../guide/frontmatter)-Daten in Vue-Ausdrücken zu.
 
 ```md
 ---
@@ -215,7 +215,7 @@ title: Hello
 
 ## `$params` <Badge type="info" text="template global" />
 
-Greife direkt auf die [dynamic route params](../guide/routing#dynamic-routes) in Vue expressions.
+Greife direkt auf die [Parameter dynamischer Routen](../guide/routing#dynamic-routes) in Vue-Ausdrücken zu.
 
 ```md
 - package name: {{ $params.pkg }}
