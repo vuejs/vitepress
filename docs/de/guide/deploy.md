@@ -8,7 +8,7 @@ description: Stelle deine VitePress-Website auf beliebten Plattformen wie Netlif
 Die folgenden Anleitungen basieren auf einigen gemeinsamen Voraussetzungen:
 
 - Die VitePress-Website befindet sich im Verzeichnis `docs` deines Projekts.
-- Du verwendest das standardmäßige Build-Ausgabeverzeichnis (`.vitepress/dist`).
+- Du verwendest das standardmäßige Ausgabeverzeichnis (`.vitepress/dist`).
 - VitePress ist als lokale Abhängigkeit in deinem Projekt installiert, und du hast die folgenden Skripte in deiner `package.json`:
 
   ```json [package.json]
@@ -56,7 +56,7 @@ Standardmäßig wird angenommen, dass die Website am Stammpfad einer Domain (`/`
 
 ## Verschiebbare Builds (relativer Basispfad) {#relocatable-builds-relative-base}
 
-Wenn die endgültige URL der Website zur Build-Zeit noch nicht bekannt ist – etwa bei einem IPFS-Gateway (`https://gateway/ipfs/<cid>/…`), der Wayback Machine, einem freigegebenen Ordner oder in eine App eingebetteter Dokumentation –, setze `base` auf `'./'`:
+Wenn die endgültige URL der Website zur Erstellungszeit noch nicht bekannt ist – etwa bei einem IPFS-Gateway (`https://gateway/ipfs/<cid>/…`), der Wayback Machine, einem freigegebenen Ordner oder in eine App eingebetteter Dokumentation –, setze `base` auf `'./'`:
 
 ```ts
 export default {
@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-Jede Seite referenziert Assets und andere Seiten dann relativ zu ihrem eigenen Speicherort. Die Client-Laufzeit ermittelt beim Laden der Seite den tatsächlichen Einhängepunkt. Derselbe Build funktioniert von **jedem** Unterpfad aus ohne erneuten Build – auch von mehreren Pfaden gleichzeitig – während Routing, Suche und Prefetching vollständig funktionieren.
+Jede Seite referenziert Assets und andere Seiten dann relativ zu ihrem eigenen Speicherort. Die Client-Laufzeit ermittelt beim Laden der Seite den tatsächlichen Einhängepunkt. Dieselbe Ausgabe funktioniert von **jedem** Unterpfad aus ohne erneute Erstellung – auch von mehreren Pfaden gleichzeitig – während Routing, Suche und Prefetching vollständig funktionieren.
 
 Das direkte Öffnen der erzeugten HTML-Dateien über das Dateisystem (`file://`) funktioniert ebenfalls als vollständig navigierbare statische Website mit Formatierung. Browser blockieren JavaScript-Module über `file://`, daher findet dort keine Hydration statt – interaktive Funktionen wie die Suche bleiben inaktiv, während alle vorgerenderten Inhalte und Links weiterhin funktionieren.
 
@@ -76,13 +76,13 @@ Einige Dinge solltest du beachten:
 - Rohe HTML-`<a>`-Tags in Markdown behalten ihr `href` unverändert – verwende für absolute Links innerhalb der Website die Markdown-Linksyntax (eingebettete `<img>`-Quellen werden über die Asset-Pipeline verarbeitet).
 - Von [`createContentLoader`](./data-loading#createcontentloader) erzeugte Links bleiben absolut zur Website (ihr HTML wird in andere Seiten eingebettet, daher gibt es keinen einheitlichen relativen Präfix) – sie funktionieren nur bei einer Bereitstellung am Stammverzeichnis.
 - Stelle Seiten unter ihren kanonischen URLs bereit: das Stammverzeichnis als `/dir/` (nicht `/dir`) und ohne zusätzliche abschließende Schrägstriche bei Seiten-URLs. Der relative Präfix wird anhand der URL aufgelöst, die der Browser tatsächlich anzeigt, und praktisch alle statischen Hoster verwenden bereits diese kanonische Form.
-- Der Entwicklungsserver stellt immer unter `/` bereit; das relative Verhalten gilt für den Produktions-Build.
+- Der Entwicklungsserver stellt immer unter `/` bereit; das relative Verhalten gilt für den Produktionsausgabe.
 
 ## HTTP-Cache-Header
 
 Wenn du Kontrolle über die HTTP-Header deines Produktionsservers hast, kannst du `cache-control`-Header konfigurieren, um bei wiederholten Besuchen eine bessere Leistung zu erzielen.
 
-Der Produktions-Build verwendet gehashte Dateinamen für statische Assets (JavaScript, CSS und andere importierte Assets, die nicht in `public` liegen). Wenn du die Produktionsvorschau mit dem Netzwerk-Tab der Browser-Entwicklertools untersuchst, siehst du Dateien wie `app.4f283b18.js`.
+Der Produktionsausgabe verwendet gehashte Dateinamen für statische Assets (JavaScript, CSS und andere importierte Assets, die nicht in `public` liegen). Wenn du die Produktionsvorschau mit dem Netzwerk-Tab der Browser-Entwicklertools untersuchst, siehst du Dateien wie `app.4f283b18.js`.
 
 Dieser Hash `4f283b18` wird aus dem Inhalt dieser Datei erzeugt. Dieselbe gehashte URL liefert garantiert denselben Dateiinhalt – wenn sich der Inhalt ändert, ändern sich auch die URLs. Das bedeutet, dass du für diese Dateien bedenkenlos die stärksten Cache-Header verwenden kannst. Alle solchen Dateien werden im Ausgabeverzeichnis unter `assets/` abgelegt. Dafür kannst du den folgenden Header konfigurieren:
 
