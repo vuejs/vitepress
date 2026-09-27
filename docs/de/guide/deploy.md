@@ -1,15 +1,15 @@
 ---
 outline: deep
-description: Deploy your VitePress site to popular platforms like Netlify, Vercel, GitHub Seiten, and more.
+description: Stelle deine VitePress-Website auf beliebten Plattformen wie Netlify, Vercel, GitHub Pages und weiteren Plattformen bereit.
 ---
 
-# Deploy Your VitePress Site
+# Deine VitePress-Website bereitstellen
 
-The following guides are based on some shared assumptions:
+Die folgenden Anleitungen basieren auf einigen gemeinsamen Voraussetzungen:
 
-- The VitePress site is innerhalb the `docs` directory of your project.
-- You are Verwendung the default build output directory (`.vitepress/dist`).
-- VitePress is installed as a local dependency in your project, and you have set up the following scripts in your `package.json`:
+- Die VitePress-Website befindet sich im Verzeichnis `docs` deines Projekts.
+- Du verwendest das standardmäßige Build-Ausgabeverzeichnis (`.vitepress/dist`).
+- VitePress ist als lokale Abhängigkeit in deinem Projekt installiert, und du hast die folgenden Skripte in deiner `package.json`:
 
   ```json [package.json]
   {
@@ -20,23 +20,23 @@ The following guides are based on some shared assumptions:
   }
   ```
 
-## Build and Test Locally
+## Lokal erstellen und testen
 
-1. Run this command to build the docs:
+1. Führe diesen Befehl aus, um die Dokumentation zu erstellen:
 
    ```sh
    $ npm run docs:build
    ```
 
-2. Once built, preview it locally by running:
+2. Nach dem Erstellen kannst du die Website lokal mit folgendem Befehl anzeigen:
 
    ```sh
    $ npm run docs:preview
    ```
 
-   The `preview` command will boot up a local static web server that will serve the output directory `.vitepress/dist` at `http://localhost:4173`. Du kannst use this to make sure everything looks good bevor pushing to production.
+   Der Befehl `preview` startet einen lokalen statischen Webserver, der das Ausgabeverzeichnis `.vitepress/dist` unter `http://localhost:4173` bereitstellt. Du kannst damit überprüfen, ob alles korrekt aussieht, bevor du die Website in die Produktion überträgst.
 
-3. Du kannst configure the port of the server by passing `--port` as an argument.
+3. Du kannst den Port des Servers ändern, indem du `--port` als Argument übergibst.
 
    ```json
    {
@@ -46,17 +46,17 @@ The following guides are based on some shared assumptions:
    }
    ```
 
-   Now the `docs:preview` method will launch the server at `http://localhost:8080`.
+   Das Skript `docs:preview` startet den Server nun unter `http://localhost:8080`.
 
-## Setting a Public Base Path
+## Einen öffentlichen Basispfad festlegen
 
-Standardmäßig, we assume the site is going to be deployed at the root path of a domain (`/`). If your site is going to be served at a sub-path, e.g. `https://mywebsite.com/blog/`, then you need to set the [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
+Standardmäßig wird angenommen, dass die Website am Stammpfad einer Domain (`/`). Wenn deine Website unter einem Unterpfad bereitgestellt wird, e.g. `https://mywebsite.com/blog/`, musst du die Option [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
 
-**Beispiel:** Wenn du're Verwendung Github (or GitLab) Seiten and deploying to `user.github.io/repo/`, then set your `base` to `/repo/`.
+**Beispiel:** Wenn du GitHub- (oder GitLab-) Pages verwendest und unter `user.github.io/repo/`, then set your `base` to `/repo/`.
 
-## Relocatable Builds (Relative Base) {#relocatable-builds-relative-base}
+## Verschiebbare Builds (relativer Basispfad) {#relocatable-builds-relative-base}
 
-When the final URL of the site isn't known at build time — an IPFS gateway (`https://gateway/ipfs/<cid>/…`), the Wayback Machine, a shared folder, docs bundled in an app — set `base` to `'./'`:
+Wenn die endgültige URL der Website zur Build-Zeit noch nicht bekannt ist — an IPFS gateway (`https://gateway/ipfs/<cid>/…`), the Wayback Machine, a shared folder, docs bundled in an app — set `base` to `'./'`:
 
 ```ts
 export default {
@@ -64,33 +64,33 @@ export default {
 }
 ```
 
-Every page then references assets and other pages relative to its own location, and the client runtime recovers the real mount point when the page loads. The same build works von **any** sub path ohne rebuilding — including several at once — mit routing, search and prefetching fully functional.
+Jede Seite referenziert Assets und andere Seiten dann relativ zu ihrem eigenen Speicherort. Die Client-Laufzeit ermittelt beim Laden der Seite den tatsächlichen Einhängepunkt. Derselbe Build funktioniert von **jedem** Unterpfad aus ohne erneuten Build – auch von mehreren Pfaden gleichzeitig – während Routing, Suche und Prefetching vollständig funktionieren.
 
-Opening the generated HTML files straight von the file system (`file://`) also works as a styled, fully navigable static site. Browsers block JavaScript modules over `file://`, so there is no hydration there — interactive features like search stay inactive, while all pre-rendered content and links keep working.
+Das direkte Öffnen der erzeugten HTML-Dateien über das Dateisystem (`file://`) also works as a styled, fully navigable static site. Browser blockieren JavaScript-Module über `file://`, so there is no hydration there — interactive features like search stay inactive, while all pre-rendered content and links keep working.
 
-A few things to know:
+Einige Dinge solltest du beachten:
 
-- Keep [`cleanUrls`](../reference/site-config#cleanurls) off (the default): portable output needs links that end in `.html`, since there is no server to rewrite pretty URLs.
-- `404.html` is generated for the root depth. Hosts that serve it as a fallback for arbitrarily deep URLs will render it ohne styles (there is no correct relative prefix for an unknown depth).
-- [`head`](../reference/site-config#head) entries are emitted verbatim, as always — avoid root-absolute paths like `/favicon.ico` there and prefer absolute URLs or `transformHead`.
-- Raw HTML `<a>` tags in Markdown keep their `href` as written — use Markdown link syntax for site-absolute links (embedded `<img>` sources go durch the asset pipeline and are handled).
-- Links erstellt by [`createContentLoader`](./data-loading#createcontentloader) content stay site-absolute (their HTML is embedded in other pages, so no single relative prefix is correct) — they resolve only for a root mount.
-- Serve pages at their canonical URLs: the root as `/dir/` (not `/dir`), and no added trailing slashes on page URLs. The relative prefix is resolved against the URL the browser actually shows, and virtually all static hosts canonicalize this way already.
-- The dev server always serves at `/`; the relative behavior applies to the production build.
+- Lasse [`cleanUrls`](../reference/site-config#cleanurls) deaktiviert (Standardeinstellung): Für portable Ausgaben müssen Links mit `.html` enden, da kein Server vorhanden ist, der saubere URLs umschreibt.
+- `404.html` wird für die Stammebene erzeugt. Hosts, die sie als Fallback für beliebig tiefe URLs ausliefern, rendern sie ohne Styles (there is no correct relative prefix for an unknown depth).
+- [`head`](../reference/site-config#head) Einträge werden wie immer unverändert ausgegeben – vermeide dort absolute Pfade wie `/favicon.ico` there and prefer absolute URLs or `transformHead`.
+- Rohe HTML-`<a>`-Tags in Markdown behalten ihr `href` unverändert — use Markdown link syntax for site-absolute links (embedded `<img>` sources go durch the asset pipeline and are handled).
+- Von [`createContentLoader`](./data-loading#createcontentloader) erzeugte Links bleiben absolut zur Website (their HTML is embedded in other pages, so no single relative prefix is correct) — they resolve only for a root mount.
+- Stelle Seiten unter ihren kanonischen URLs bereit: the root as `/dir/` (not `/dir`), and no added trailing slashes on page URLs. The relative prefix is resolved against the URL the browser actually shows, and virtually all static hosts canonicalize this way already.
+- Der Entwicklungsserver stellt immer unter `/` bereit; das relative Verhalten gilt für den Produktions-Build.
 
-## HTTP Cache Headers
+## HTTP-Cache-Header
 
-Wenn du have control over the HTTP headers on your production server, you can configure `cache-control` headers to achieve better performance on repeated visits.
+Wenn du Kontrolle über die HTTP-Header deines Produktionsservers hast, kannst du `cache-control`-Header konfigurieren, um bei wiederholten Besuchen eine bessere Leistung zu erzielen.
 
-The production build verwendet hashed file names for static assets (JavaScript, CSS and other imported assets not in `public`). Wenn du inspect the production preview Verwendung your browser devtools' network tab, you will see files like `app.4f283b18.js`.
+Der Produktions-Build verwendet gehashte Dateinamen für statische Assets (JavaScript, CSS and other imported assets not in `public`). Wenn du die Produktionsvorschau mit dem Netzwerk-Tab der Browser-Entwicklertools untersuchst, you will see files like `app.4f283b18.js`.
 
-This `4f283b18` hash is generated von the content of this file. The same hashed URL is guaranteed to serve the same file content - if the contents change, the URLs change too. Das bedeutet you can safely use the strongest cache headers for these files. All such files will be placed under `assets/` in the output directory, so you can configure the following header for them:
+Dieser Hash `4f283b18` wird aus dem Inhalt dieser Datei erzeugt. Dieselbe gehashte URL liefert garantiert denselben Dateiinhalt – wenn sich der Inhalt ändert, ändern sich auch die URLs. Das bedeutet, dass du für diese Dateien bedenkenlos die stärksten Cache-Header verwenden kannst. Alle solchen Dateien werden im Ausgabeverzeichnis unter `assets/` abgelegt. Dafür kannst du den folgenden Header konfigurieren:
 
 ```
 Cache-Control: max-age=31536000,immutable
 ```
 
-::: details Beispiel Netlify `_headers` file
+::: details Beispiel für die Netlify-Datei `_headers`
 
 ```
 /assets/*
@@ -98,13 +98,13 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-Hinweis: the `_headers` file should be placed in the [public directory](./asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
+Hinweis: Die Datei `_headers` sollte im [public directory](./asset-handling#the-public-directory) - in our case, `docs/public/_headers` - liegen, damit sie unverändert in das Ausgabeverzeichnis kopiert wird.
 
-[Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
+[Netlify-Dokumentation zu benutzerdefinierten Headern](https://docs.netlify.com/routing/headers/)
 
 :::
 
-::: details Beispiel Vercel config in `vercel.json`
+::: details Beispiel für die Vercel-Konfiguration in `vercel.json`
 
 ```json
 {
@@ -122,58 +122,58 @@ Hinweis: the `_headers` file should be placed in the [public directory](./asset-
 }
 ```
 
-Hinweis: the `vercel.json` file should be placed at the root of your **repository**.
+Hinweis: Die Datei `vercel.json` sollte im Stammverzeichnis deines **Repositorys** liegen.
 
-[Vercel documentation on headers config](https://vercel.com/docs/concepts/projects/project-Konfiguration#headers)
+[Vercel-Dokumentation zur Header-Konfiguration](https://vercel.com/docs/concepts/projects/project-Konfiguration#headers)
 
 :::
 
-## Platform Guides
+## Anleitungen für Plattformen
 
-### Netlify / Vercel / Cloudflare Seiten / AWS Amplify / Render {#generic}
+### Netlify / Vercel / Cloudflare Pages / AWS Amplify / Render {#generic}
 
-Set up a new project and change these settings Verwendung your dashboard:
+Richte ein neues Projekt ein und ändere diese Einstellungen über dein Dashboard:
 
-- **Build Command:** `npm run docs:build`
-- **Output Verzeichnis:** `docs/.vitepress/dist`
-- **Node Version:** `20` (or above)
+- **Build-Befehl:** `npm run docs:build`
+- **Ausgabeverzeichnis:** `docs/.vitepress/dist`
+- **Node-Version:** `20` (or above)
 
 ::: warning
-Don't enable options like _Auto Minify_ for HTML code. It will remove comments von output which have meaning to Vue. You may see hydration mismatch errors if they get removed.
+Aktiviere keine Optionen wie _Auto Minify_ für HTML-Code. Dadurch werden Kommentare aus der Ausgabe entfernt, die für Vue Bedeutung haben. Wenn sie entfernt werden, können Hydration-Mismatch-Fehler auftreten.
 :::
 
-### GitHub Seiten
+### GitHub Pages
 
-1. Erstellen a file named `deploy.yml` innerhalb `.github/workflows` directory of your project mit some content like this:
+1. Erstelle eine Datei namens `deploy.yml` im Verzeichnis `.github/workflows` deines Projekts, beispielsweise mit folgendem Inhalt:
 
    ```yaml [.github/workflows/deploy.yml]
-   # Sample workflow for building and deploying a VitePress site to GitHub Pages
+   # Beispiel-Workflow zum Erstellen und Bereitstellen einer VitePress-Website auf GitHub Pages
    #
-   name: Deploy VitePress site to Pages
+   name: VitePress-Website auf Pages bereitstellen
 
    on:
-     # Runs on pushes targeting the `main` branch. Change this to `master` if you're
-     # using the `master` branch as the default branch.
+     # Wird bei Pushes auf den `main`-Branch ausgeführt. Ändere dies zu `master`, wenn du
+     # den `master`-Branch als Standard-Branch verwendest.
      push:
        branches: [main]
 
-     # Allows you to run this workflow manually from the Actions tab
+     # Ermöglicht das manuelle Ausführen dieses Workflows über den Actions-Tab
      workflow_dispatch:
 
-   # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+   # Legt die Berechtigungen des GITHUB_TOKEN für die Bereitstellung auf GitHub Pages fest
    permissions:
      contents: read
      pages: write
      id-token: write
 
-   # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-   # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+   # Erlaubt nur eine gleichzeitige Bereitstellung und überspringt zwischenzeitlich eingereihtes Ausführungen.
+   # Laufende Ausführungen dürfen jedoch NICHT abgebrochen werden, damit diese Produktionsbereitstellungen abgeschlossen werden können.
    concurrency:
      group: pages
      cancel-in-progress: false
 
    jobs:
-     # Build job
+     # Build-Aufgabe
      build:
        runs-on: ubuntu-latest
        steps:
@@ -208,33 +208,33 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments v
            with:
              path: docs/.vitepress/dist
 
-     # Deployment job
+     # Bereitstellungsaufgabe
      deploy:
        environment:
          name: github-pages
          url: ${{ steps.deployment.outputs.page_url }}
        needs: build
        runs-on: ubuntu-latest
-       name: Deploy
+       name: Bereitstellen
        steps:
-         - name: Deploy to GitHub Pages
+         - name: Bereitstellen to GitHub Pages
            id: deployment
            uses: actions/deploy-pages@v4
    ```
 
    ::: warning
-   Stelle sicher the `base` option in your VitePress is properly konfiguriert. See [Setting a Public Base Path](#setting-a-public-base-path) for more details.
+   Stelle sicher, dass die Option `base` in deiner VitePress-Konfiguration korrekt konfiguriert ist. Weitere Informationen findest du unter [Einen öffentlichen Basispfad festlegen](#setting-a-public-base-path).
    :::
 
-2. In your repository's settings under "Seiten" menu item, select "GitHub Actions" in "Build and deployment > Source".
+2. Wähle in den Repository-Einstellungen unter „Pages“ bei „Build and deployment > Source“ die Option „GitHub Actions“ aus.
 
-3. Push your changes to the `main` branch and wait for the GitHub Actions workflow to complete. Du solltest see your site deployed to `https://<username>.github.io/[repository]/` or `https://<custom-domain>/` depending on your settings. Your site will automatisch be deployed on every push to the `main` branch.
+3. Übertrage deine Änderungen auf den `main`-Branch und warte, bis der GitHub-Actions-Workflow abgeschlossen ist. Deine Website sollte anschließend unter `https://<username>.github.io/[repository]/` oder `https://<custom-domain>/` bereitstehen, abhängig von deinen Einstellungen. Deine Website wird bei jedem Push auf den `main`-Branch automatisch bereitgestellt.
 
-### GitLab Seiten
+### GitLab Pages
 
-1. Set `outDir` in VitePress config to `../public`. Konfigurieren `base` option to `'/<repository>/'` if you want to deploy to `https://<username>.gitlab.io/<repository>/`. You don't need `base` if you're deploying to custom domain, user or group pages, or have "Verwenden unique domain" setting enabled in GitLab.
+1. Setze `outDir` in der VitePress-Konfiguration auf `../public`. Konfiguriere die Option `base` auf `'/<repository>/'` wenn du unter `https://<username>.gitlab.io/<repository>/`. Du benötigst `base` nicht, wenn du eine benutzerdefinierte Domain, Benutzer- oder Gruppenseiten verwendest oder die Einstellung „Eindeutige Domain verwenden“ in GitLab aktiviert hast.
 
-2. Erstellen a file named `.gitlab-ci.yml` in the root of your project mit the content below. This will build and deploy your site whenever you make changes to your content:
+2. Erstelle eine Datei namens `.gitlab-ci.yml` im Stammverzeichnis deines Projekts mit folgendem Inhalt. Dadurch wird deine Website bei jeder Änderung am Inhalt erstellt und bereitgestellt:
 
    ```yaml [.gitlab-ci.yml]
    image: node:24
@@ -253,13 +253,13 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments v
        - main
    ```
 
-<!-- keep headings sorted alphabetically, leave nginx at the end -->
+<!-- Überschriften alphabetisch sortiert halten, nginx am Ende lassen -->
 
 ### Azure
 
-1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-Konfiguration).
+1. Folge der [offiziellen Dokumentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-Konfiguration).
 
-2. Set these values in your Konfiguration file (and remove the ones you don't require, like `api_location`):
+2. Setze diese Werte in deiner Konfigurationsdatei (und entferne nicht benötigte Werte wie `api_location`):
 
    - **`app_location`**: `/`
    - **`output_location`**: `docs/.vitepress/dist`
@@ -271,7 +271,7 @@ Du kannst deploy your VitePress project mit [CloudRay](https://cloudray.io/) by 
 
 ### Firebase
 
-1. Erstellen `firebase.json` and `.firebaserc` at the root of your project:
+1. Erstelle `firebase.json` und `.firebaserc` im Stammverzeichnis deines Projekts:
 
    `firebase.json`:
 
@@ -294,7 +294,7 @@ Du kannst deploy your VitePress project mit [CloudRay](https://cloudray.io/) by 
    }
    ```
 
-2. After running `npm run docs:build`, run this command to deploy:
+2. Nach `npm run docs:build` führe diesen Befehl aus, um die Website bereitzustellen:
 
    ```sh
    firebase deploy
@@ -302,9 +302,9 @@ Du kannst deploy your VitePress project mit [CloudRay](https://cloudray.io/) by 
 
 ### Heroku
 
-1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
+1. Folge der Dokumentation und Anleitung für [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
 
-2. Erstellen a file genannt `static.json` in the root of your project mit the below content:
+2. Erstelle eine Datei namens `static.json` im Stammverzeichnis deines Projekts mit folgendem Inhalt:
 
    ```json [static.json]
    {
@@ -314,7 +314,7 @@ Du kannst deploy your VitePress project mit [CloudRay](https://cloudray.io/) by 
 
 ### Hostinger
 
-Du kannst deploy your VitePress project mit [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/Unterstützung/how-to-deploy-a-nodejs-website-in-hostinger/). While configuring build settings, choose VitePress as the framework and adjust the root directory to `./docs`.
+Du kannst deploy your VitePress project mit [Hostinger](https://www.hostinger.com/web-apps-hosting) by following these [instructions](https://www.hostinger.com/Unterstützung/how-to-deploy-a-nodejs-website-in-hostinger/). Wähle bei der Build-Konfiguration VitePress als Framework und setze das Stammverzeichnis auf `./docs`.
 
 ### Lizard
 
@@ -328,7 +328,7 @@ lizard add --service web
 lizard up --service web --port 80
 ```
 
-Leave build and start command overrides unset to use automatic detection. For GitHub deployments or other layouts, see the [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress).
+Lasse Überschreibungen für Build- und Startbefehle leer, damit die automatische Erkennung verwendet wird. Für GitHub-Bereitstellungen oder andere Strukturen siehe die [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress).
 
 ### Stormkit
 
@@ -336,7 +336,7 @@ Du kannst deploy your VitePress project to [Stormkit](https://www.stormkit.io) b
 
 ### Surge
 
-After running `npm run docs:build`, run this command to deploy to [Surge](https://surge.sh):
+Nach `npm run docs:build` führe diesen Befehl aus, um die Website auf [Surge](https://surge.sh):
 
 ```sh
 npx surge docs/.vitepress/dist
@@ -344,7 +344,7 @@ npx surge docs/.vitepress/dist
 
 ### harvis
 
-After running `npm run docs:build`, run this command to deploy to [harvis](https://harvis.dev):
+Nach `npm run docs:build` führe diesen Befehl aus, um die Website auf [harvis](https://harvis.dev):
 
 ```sh
 npx harvis docs/.vitepress/dist
@@ -352,7 +352,7 @@ npx harvis docs/.vitepress/dist
 
 ### nginx
 
-Here is a example of an nginx server block Konfiguration. This setup includes gzip compression for common text-based assets, rules for serving your VitePress site's static files mit proper caching headers as well as handling `cleanUrls: wahr`.
+Hier ist ein Beispiel für die Konfiguration eines nginx-Serverblocks. Diese Konfiguration enthält Gzip-Komprimierung für gängige textbasierte Assets, Regeln zum Ausliefern der statischen Dateien deiner VitePress-Website mit geeigneten Cache-Headern sowie die Behandlung von `cleanUrls: true`.
 
 ```nginx
 map $uri $cache_control {
