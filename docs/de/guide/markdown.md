@@ -16,7 +16,7 @@ VitePress enthält integrierte Markdown-Erweiterungen.
 Um für eine Überschrift einen eigenen Anker statt des automatisch erzeugten Ankers festzulegen, füge der Überschrift ein Suffix hinzu:
 
 ```
-# Using custom anchors {#my-anchor}
+# Benutzerdefinierte Anker verwenden {#my-anchor}
 ```
 
 Dadurch kannst du auf die Überschrift über `#my-anchor` statt über den Standardanker `#Verwendung-custom-anchors` verlinken.
@@ -47,17 +47,17 @@ Zum Beispiel bei der folgenden Verzeichnisstruktur:
 Wenn du dich in `foo/one.md` befindest:
 
 ```md
-[Home](/) <!-- sends the user to the root index.md -->
-[foo](/foo/) <!-- sends the user to index.html of directory foo -->
-[foo heading](./#heading) <!-- anchors user to a heading in the foo index file -->
-[bar - three](../bar/three) <!-- you can omit extension -->
-[bar - three](../bar/three.md) <!-- you can append .md -->
-[bar - four](../bar/four.html) <!-- or you can append .html -->
+[Startseite](/) <!-- führt zur index.md im Stammverzeichnis -->
+[foo](/foo/) <!-- führt zur index.html des Verzeichnisses foo -->
+[foo heading](./#heading) <!-- verankert den Benutzer an einer Überschrift der foo-index-Datei -->
+[bar - drei](../bar/three) <!-- die Dateiendung kann weggelassen werden -->
+[bar - drei](../bar/three.md) <!-- .md kann angehängt werden -->
+[bar - vier](../bar/four.html) <!-- alternativ kann .html angehängt werden -->
 ```
 
 ### Seite Suffix
 
-Seiten and internal links get generated with the `.html` suffix by default.
+Seiten und interne Links werden standardmäßig mit dem Suffix `.html` erzeugt.
 
 ### External Links
 
@@ -68,7 +68,7 @@ Outbound links automatisch get `target="_blank" rel="noreferrer"`:
 
 ## Frontmatter
 
-[YAML frontmatter](https://jekyllrb.com/docs/front-matter/) is supported out of the box:
+[YAML-Frontmatter](https://jekyllrb.com/docs/front-matter/) wird standardmäßig unterstützt:
 
 ```yaml
 ---
@@ -77,20 +77,20 @@ lang: en-US
 ---
 ```
 
-This Daten will be verfügbar to the rest of the page, along with all custom and theming Komponenten.
+Diese Daten stehen dem restlichen Seiteninhalt sowie allen benutzerdefinierten und Theme-Komponenten zur Verfügung.
 
-For more details, see [Frontmatter](../reference/frontmatter-config).
+Weitere Informationen findest du unter [Frontmatter](../reference/frontmatter-config).
 
 ## GitHub-Style Tables
 
 **Input**
 
 ```md
-| Tables        |      Are      |  Cool |
+| Tabellen      |      Sind     |  Toll |
 | ------------- | :-----------: | ----: |
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      |   centered    |   $12 |
-| zebra stripes |   are neat    |    $1 |
+| Spalte 3      | rechtsbündig  | $1600 |
+| Spalte 2      | zentriert     |   $12 |
+| Zebrastreifen |   sehen gut aus|    $1 |
 ```
 
 **Ausgabe**
