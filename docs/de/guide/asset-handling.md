@@ -48,7 +48,7 @@ Nur dynamisch erzeugte Pfade benötigen besondere Behandlung – beispielsweise 
 
 \`\`\`vue
 <script setup>
-import { withBase, useData } von 'vitepress'
+import { withBase, useData } from 'vitepress'
 
 const { theme } = useData()
 </script>
