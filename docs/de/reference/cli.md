@@ -6,7 +6,7 @@ description: of VitePress CLI commands including dev, build, preview, and init.
 
 ## `vitepress dev`
 
-Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
+Start VitePress dev Server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
 
 ### Verwendung
 
@@ -22,16 +22,16 @@ vitepress dev [root]
 
 | Option          | Description                                                       |
 | --------------- | ----------------------------------------------------------------- |
-| `--open [path]` | Open browser on startup (`boolean \| string`)                     |
+| `--open [path]` | Open Browser on startup (`boolean \| string`)                     |
 | `--port <port>` | Specify port (`number`)                                           |
-| `--base <path>` | Public base path (default: `/`) (`string`)                        |
-| `--cors`        | Enable CORS                                                       |
+| `--base <path>` | Public base path (Standard: `/`) (`string`)                        |
+| `--cors`        | Aktivieren CORS                                                       |
 | `--strictPort`  | Exit if specified port is already in use (`boolean`)              |
 | `--force`       | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
 
 ## `vitepress build`
 
-Build the VitePress site for production.
+Build the VitePress site for Produktion.
 
 ### Verwendung
 
@@ -43,16 +43,16 @@ vitepress build [root]
 
 | Option                         | Description                                                                                                         |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`)                                    |
-| `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
+| `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without Client-side hydration (`boolean`)                                    |
+| `--base <path>`                | Public base path (Standard: `/`) (`string`)                                                                          |
 | `--assetsBase <url>`           | URL prefix the generated assets are served from, e.g. a CDN (`string`)                                              |
-| `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
-| `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
-| `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
+| `--target <target>`            | Transpile target (Standard: `"modules"`) (`string`)                                                                  |
+| `--outDir <dir>`               | Output directory relative to **cwd** (Standard: `<root>/.vitepress/dist`) (`string`)                                 |
+| `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (Standard: `4096`) (`number`)                                          |
 
 ## `vitepress preview`
 
-Locally preview the production build.
+Locally preview the Produktion build.
 
 ### Verwendung
 
@@ -64,7 +64,7 @@ vitepress preview [root]
 
 | Option          | Description                                |
 | --------------- | ------------------------------------------ |
-| `--base <path>` | Public base path (default: `/`) (`string`) |
+| `--base <path>` | Public base path (Standard: `/`) (`string`) |
 | `--assetsBase <url>` | URL prefix the generated assets are served from, e.g. a CDN (`string`) |
 | `--port <port>` | Specify port (`number`)                    |
 
