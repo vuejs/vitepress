@@ -1,22 +1,22 @@
 ---
 outline: deep
-description: Anpassen and extend the VitePress Standard-Theme mit custom CSS, components, layouts, and slots.
+description: Passe das VitePress-Standard-Theme mit benutzerdefiniertem CSS, Komponenten, Layouts und Slots an und erweitere es.
 ---
 
 # Standard-Theme erweitern
 
-VitePress' Standard-Theme is optimized for documentation, and can be customized. Consult the [Standard-Theme Config Übersicht](../reference/default-theme-config) for a comprehensive list of options.
+Das VitePress-Standard-Theme ist für Dokumentation optimiert und kann angepasst werden. Eine umfassende Liste der Optionen findest du in der [Übersicht zur Standard-Theme-Konfiguration](../reference/default-theme-config).
 
-However, there are a number of cases where Konfiguration alone won't be enough. Zum Beispiel:
+Es gibt jedoch einige Fälle, in denen die Konfiguration allein nicht ausreicht. Zum Beispiel:
 
-1. You need to tweak the CSS styling;
-2. You need to modify the Vue app instance, zum Beispiel to register global components;
-3. You need to inject custom content in the theme via layout slots.
+1. Du musst die CSS-Gestaltung anpassen;
+2. Du musst die Vue-App-Instanz ändern, zum Beispiel um globale Komponenten zu registrieren;
+3. Du musst über Layout-Slots benutzerdefinierte Inhalte in das Theme einfügen.
 
-These advanced customizations will require Verwendung a eigenes Theme that "extends" das Standard-Theme.
+Diese fortgeschrittenen Anpassungen erfordern ein eigenes Theme, das das Standard-Theme „erweitert“.
 
 ::: tip
-Before proceeding, make sure to first read [Using a Eigenes Theme](./custom-theme) to understand how eigenes Themes work.
+Bevor du fortfährst, lies zunächst [Ein eigenes Theme verwenden](./custom-theme), um zu verstehen, wie eigene Themes funktionieren.
 :::
 
 ## Anpassen CSS
@@ -80,9 +80,9 @@ The same treatment carries over to the local nav: `--vp-local-nav-bg-color` foll
 
 Wenn the nav items don't fit the verfügbar width, they move in the `⋯` menu at the end of the navbar instead of being clipped, starting mit the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized mit [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).
 
-## Using Different Fonts
+## Andere Schriftarten verwenden
 
-VitePress verwendet [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the Build-Ausgabe. The font is also auto preloaded in production. However, this may not be desirable wenn you want to use a different main font.
+VitePress verwendet [Inter](https://rsms.me/inter/) als Standardschriftart und fügt die Schriftarten der Build-Ausgabe hinzu. Die Schriftart wird in der Produktion außerdem automatisch vorab geladen. Das ist möglicherweise nicht erwünscht, wenn du eine andere Hauptschriftart verwenden möchtest.
 
 To avoid including Inter in the Build-Ausgabe, import the theme von `vitepress/theme-ohne-fonts` instead:
 
