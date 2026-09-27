@@ -7,23 +7,23 @@ import pkg from 'vitepress/package.json' with { type: 'json' }
 
 export const markdown: MarkdownLocaleOptions = {
   container: {
-    tipLabel: 'TIP',
+    tipLabel: 'TIPP',
     infoLabel: 'INFO',
-    warningLabel: 'WARNING',
-    dangerLabel: 'DANGER',
+    warningLabel: 'WARNUNG',
+    dangerLabel: 'GEFAHR',
     detailsLabel: 'DETAILS',
-    noteLabel: 'NOTE',
-    importantLabel: 'IMPORTANT',
-    cautionLabel: 'CAUTION'
+    noteLabel: 'NOTIZ',
+    importantLabel: 'WICHTIG',
+    cautionLabel: 'VORSICHT'
   },
   codeCopyButton: {
-    tooltipText: 'Copy code',
-    copiedText: 'Copied'
+    tooltipText: 'Code kopieren',
+    copiedText: 'Kopiert'
   }
 }
 
 export default defineAdditionalConfig({
-  description: 'Static site generator with Vite and Vue',
+  description: 'Static-Site-Generator mit Vue und Vite',
 
   head: [
     [
@@ -39,47 +39,47 @@ export default defineAdditionalConfig({
     search: { options: searchOptions() },
 
     sidebar: {
-      '/fa/guide/': { base: '/fa/guide/', items: sidebarGuide() },
-      '/fa/reference/': { base: '/fa/reference/', items: sidebarReference() }
+      '/de/guide/': { base: '/de/guide/', items: sidebarGuide() },
+      '/de/reference/': { base: '/de/reference/', items: sidebarReference() }
     },
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
+      text: 'Bearbeite diese Seite auf GitHub'
     },
 
     footer: {
-      message: 'Released under the MIT License',
-      copyright: 'Copyright © 2019-present Evan You'
+      message: 'Freigegeben unter MIT License',
+      copyright: 'Copyright © 2019-heute Evan You'
     },
 
     docFooter: {
-      prev: 'Previous',
-      next: 'Next'
+      prev: 'Vorheriger',
+      next: 'Nächster'
     },
 
     outline: {
-      label: 'On this page'
+      label: 'Auf dieser Seite'
     },
 
     lastUpdated: {
-      text: 'Last updated'
+      text: 'Zuletzt geupdated'
     },
 
     notFound: {
-      title: 'Page not found',
+      title: 'Seite nicht gefunden',
       quote:
-        'But if you do not change your direction, and if you keep looking, you may end up where you are heading.',
-      linkLabel: 'Go to home',
-      linkText: 'Take me home'
+        'Doch wenn du deine Richtung nicht änderst und weiter in diese Richtung blickst, könntest du tatsächlich dort landen, worauf du zusteuerst.',
+      linkLabel: 'Zur Startseite',
+      linkText: 'Bring mich zur Startseite'
     },
 
-    langMenuLabel: 'Change language',
-    returnToTopLabel: 'Return to top',
-    sidebarMenuLabel: 'Sidebar menu',
-    darkModeSwitchLabel: 'Dark mode',
-    lightModeSwitchTitle: 'Switch to light mode',
-    darkModeSwitchTitle: 'Switch to dark mode',
+    langMenuLabel: 'Sprache ändern',
+    returnToTopLabel: 'Zurück nach oben',
+    sidebarMenuLabel: 'Seitenleiste',
+    darkModeSwitchLabel: 'Dunkelmodus',
+    lightModeSwitchTitle: 'Zum Hellmodus wechseln',
+    darkModeSwitchTitle: 'Zum Dunkelmodus wechseln',
     siteTitle: 'VitePress'
   }
 })
@@ -88,12 +88,12 @@ function nav(): DefaultTheme.NavItem[] {
   return [
     {
       text: 'Guide',
-      link: 'fa/guide/what-is-vitepress',
+      link: 'de/guide/what-is-vitepress',
       activeMatch: '/guide/'
     },
     {
-      text: 'Reference',
-      link: 'fa/reference/site-config',
+      text: 'Referenz',
+      link: 'de/reference/site-config',
       activeMatch: '/reference/'
     },
     {
@@ -104,11 +104,11 @@ function nav(): DefaultTheme.NavItem[] {
           link: 'https://vuejs.github.io/vitepress/v1/fa/'
         },
         {
-          text: 'Changelog',
+          text: 'Änderungen',
           link: 'https://github.com/vuejs/vitepress/blob/main/CHANGELOG.md'
         },
         {
-          text: 'Contributing',
+          text: 'Mitwirken',
           link: 'https://github.com/vuejs/vitepress/blob/main/.github/contributing.md'
         }
       ]
@@ -119,78 +119,78 @@ function nav(): DefaultTheme.NavItem[] {
 function sidebarGuide(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Introduction',
+      text: 'Einführung',
       collapsed: false,
       items: [
-        { text: 'What is VitePress?', link: 'what-is-vitepress' },
-        { text: 'Getting Started', link: 'getting-started' },
+        { text: 'Was ist VitePress?', link: 'what-is-vitepress' },
+        { text: 'Erste Schritte', link: 'getting-started' },
         { text: 'Routing', link: 'routing' },
         { text: 'Deployment', link: 'deploy' }
       ]
     },
     {
-      text: 'Writing',
+      text: 'Schreiben',
       collapsed: false,
       items: [
-        { text: 'Markdown Extensions', link: 'markdown' },
-        { text: 'Asset Handling', link: 'asset-handling' },
+        { text: 'Markdown Erweiterungen', link: 'markdown' },
+        { text: 'Asset-Handhabung', link: 'asset-handling' },
         { text: 'Frontmatter', link: 'frontmatter' },
-        { text: 'Using Vue in Markdown', link: 'using-vue' },
-        { text: 'Internationalization', link: 'i18n' }
+        { text: 'Vue in Markdown benutzen', link: 'using-vue' },
+        { text: 'Internationalisierung', link: 'i18n' }
       ]
     },
     {
-      text: 'Customization',
+      text: 'Anpassung',
       collapsed: false,
       items: [
-        { text: 'Using a Custom Theme', link: 'custom-theme' },
+        { text: 'Ein eigenes Theme nutzen', link: 'custom-theme' },
         {
-          text: 'Extending the Default Theme',
+          text: 'Standart-Theme erweitern',
           link: 'extending-default-theme'
         },
-        { text: 'Data Loading', link: 'data-loading' },
-        { text: 'SSR Compatibility', link: 'ssr-compat' },
-        { text: 'Connecting to a CMS', link: 'cms' }
+        { text: 'Datenladen', link: 'data-loading' },
+        { text: 'SSR-Kompatibilität', link: 'ssr-compat' },
+        { text: 'Mit einem CMS verbinden', link: 'cms' }
       ]
     },
     {
       text: 'Experimental',
       collapsed: false,
       items: [
-        { text: 'MPA Mode', link: 'mpa-mode' },
-        { text: 'Sitemap Generation', link: 'sitemap-generation' }
+        { text: 'MPA-Modus', link: 'mpa-mode' },
+        { text: 'Sitemap-Generation', link: 'sitemap-generation' }
       ]
     },
-    { text: 'Configuration and API Reference', base: 'fa/reference/', link: 'site-config' }
+    { text: 'Konfiguration und API-Referenz', base: 'de/reference/', link: 'site-config' }
   ]
 }
 
 function sidebarReference(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: 'Reference',
-      base: 'fa/reference/',
+      text: 'Referenz',
+      base: 'de/reference/',
       items: [
-        { text: 'Site Config', link: 'site-config' },
-        { text: 'Frontmatter Config', link: 'frontmatter-config' },
-        { text: 'Runtime API', link: 'runtime-api' },
+        { text: 'Seiten-Konfiguration', link: 'site-config' },
+        { text: 'Frontmatter-Konfiguration', link: 'frontmatter-config' },
+        { text: 'Runtime-API', link: 'runtime-api' },
         { text: 'CLI', link: 'cli' },
         {
-          text: 'Default Theme',
-          base: 'fa/reference/default-theme-',
+          text: 'Standart-Theme',
+          base: 'de/reference/default-theme-',
           items: [
-            { text: 'Overview', link: 'config' },
+            { text: 'Übersicht', link: 'config' },
             { text: 'Navigation', link: 'nav' },
-            { text: 'Sidebar', link: 'sidebar' },
-            { text: 'Home Page', link: 'home-page' },
+            { text: 'Seitenleiste', link: 'sidebar' },
+            { text: 'Startseite', link: 'home-page' },
             { text: 'Footer', link: 'footer' },
             { text: 'Layout', link: 'layout' },
             { text: 'Badge', link: 'badge' },
-            { text: 'Team Page', link: 'team-page' },
-            { text: 'Prev / Next Links', link: 'prev-next-links' },
-            { text: 'Edit Link', link: 'edit-link' },
-            { text: 'Last Updated Timestamp', link: 'last-updated' },
-            { text: 'Search', link: 'search' },
+            { text: 'Team-Seite', link: 'team-page' },
+            { text: 'Vorher / Nachher Links', link: 'prev-next-links' },
+            { text: 'Link bearbeiten', link: 'edit-link' },
+            { text: 'Zuletzt geupdated Zeitstempel', link: 'last-updated' },
+            { text: 'Suche', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
         }
@@ -203,26 +203,26 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
   return {
     translations: {
       button: {
-        buttonText: 'Search',
-        buttonAriaLabel: 'Search'
+        buttonText: 'Suche',
+        buttonAriaLabel: 'Suche'
       },
       modal: {
         searchBox: {
-          clearButtonTitle: 'Clear',
-          clearButtonAriaLabel: 'Clear search query',
-          closeButtonText: 'Close',
-          closeButtonAriaLabel: 'Close',
-          placeholderText: 'Search the documentation or ask AI',
-          placeholderTextAskAi: 'Ask another question...',
-          placeholderTextAskAiStreaming: 'Generating answer...',
-          searchInputLabel: 'Search',
-          backToKeywordSearchButtonText: 'Back to keyword search',
-          backToKeywordSearchButtonAriaLabel: 'Back to keyword search',
-          newConversationPlaceholder: 'Ask a question',
-          conversationHistoryTitle: 'My conversation history',
-          startNewConversationText: 'Start a new conversation',
-          viewConversationHistoryText: 'Conversation history',
-          threadDepthErrorPlaceholder: 'Conversation limit reached'
+          clearButtonTitle: 'Löschen',
+          clearButtonAriaLabel: 'Suchverlauf löschen',
+          closeButtonText: 'Schließen',
+          closeButtonAriaLabel: 'Schließen',
+          placeholderText: 'Dokumentation durchsuchen oder KI fragen',
+          placeholderTextAskAi: 'Stell noch eine Frage...',
+          placeholderTextAskAiStreaming: 'Antwort generieren...',
+          searchInputLabel: 'Suche',
+          backToKeywordSearchButtonText: 'Zurück zur Stichwortsuche',
+          backToKeywordSearchButtonAriaLabel: 'Zurück zur Stichwortsuche',
+          newConversationPlaceholder: 'Eine Frage stellen',
+          conversationHistoryTitle: 'Mein Gesprächsverlauf',
+          startNewConversationText: 'Neue Konversation beginnen',
+          viewConversationHistoryText: 'Gesprächsverlauf',
+          threadDepthErrorPlaceholder: 'Gesprächslimit erreicht'
         },
         newConversation: {
           newConversationTitle: 'How can I help you today?',
