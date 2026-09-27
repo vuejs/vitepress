@@ -1,14 +1,14 @@
 ---
-description: Use the Badge component to add status labels to headers in VitePress documentation.
+description: Verwende die Badge-Komponente, um Statusbezeichnungen zu Überschriften in der VitePress-Dokumentation hinzuzufügen.
 ---
 
 # Badge
 
-The badge lets you add status to your headers. Zum Beispiel, it could be useful to specify the section's type, or supported version.
+Mit dem Badge kannst du deinen Überschriften einen Status hinzufügen. Zum Beispiel kann damit der Typ eines Abschnitts oder die unterstützte Version angegeben werden.
 
 ## Verwendung
 
-Du kannst use the `Badge` component which is globally verfügbar.
+Du kannst die global verfügbare `Badge`-Komponente verwenden.
 
 ```html
 ### Title <Badge type="info" text="default" />
@@ -17,7 +17,7 @@ Du kannst use the `Badge` component which is globally verfügbar.
 ### Title <Badge type="danger" text="deprecated" />
 ```
 
-Code above renders like:
+Der obige Code wird folgendermaßen dargestellt:
 
 ### Title <Badge type="info" text="Standard" />
 ### Title <Badge type="tip" text="^1.9.0" />
@@ -26,7 +26,7 @@ Code above renders like:
 
 ## Eigenes Children
 
-`<Badge>` accept `children`, which will be displayed in the badge.
+`<Badge>` akzeptiert `children`, die im Badge angezeigt werden.
 
 ```html
 ### Title <Badge type="info">custom element</Badge>
@@ -34,9 +34,9 @@ Code above renders like:
 
 ### Title <Badge type="info">custom element</Badge>
 
-## Anpassen Type Color
+## Farbe und Typ anpassen
 
-Du kannst customize the style of badges by overriding css variables. The following are the Standard values:
+Du kannst das Erscheinungsbild der Badges durch Überschreiben der CSS-Variablen anpassen. Die folgenden Werte sind die Standardwerte:
 
 ```css
 :root {
@@ -72,7 +72,7 @@ Du kannst customize the style of badges by overriding css variables. The followi
 
 ## `<Badge>`
 
-`<Badge>` component accepts following props:
+Die Komponente `<Badge>` akzeptiert die folgenden Props:
 
 ```ts
 interface Props {
