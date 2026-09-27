@@ -6,7 +6,7 @@ description: Erstelle und verwende ein eigenes Theme in VitePress, um das Ersche
 
 ## Theme-Auflösung
 
-Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (die „Theme-Einstiegsdatei“):
+Du kannst ein eigenes Theme aktivieren, indem du eine Datei `.vitepress/theme/index.js` oder `.vitepress/theme/index.ts` (die „Theme-Einstiegsdatei“) erstellst:
 
 ```
 .
@@ -19,7 +19,7 @@ Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/theme/index.js` o
 └─ package.json
 ```
 
-VitePress verwendet immer das eigene Theme anstelle des Standard-Themes, sobald es eine Theme-Einstiegsdatei erkennt. Du kannst jedoch [extend das Standard-Theme](./extending-default-theme) to perform advanced customizations on top of it.
+VitePress verwendet immer das eigene Theme anstelle des Standard-Themes, sobald es eine Theme-Einstiegsdatei erkennt. Du kannst jedoch [das Standard-Theme erweitern](./extending-default-theme), um darauf aufbauend fortgeschrittene Anpassungen vorzunehmen.
 
 ## Theme-Schnittstelle
 
@@ -73,7 +73,7 @@ export default {
 }
 ```
 
-Der `enhanceApp`-Hook ermöglicht den Zugriff auf die [Vue app instance](https://vuejs.org/api/application.html) und andere Laufzeitdaten. Damit kannst du beispielsweise [register global components](./extending-default-theme.md#registering-global-components), integrate with Vue libraries, etc.
+Der `enhanceApp`-Hook ermöglicht den Zugriff auf die [Vue-App-Instanz](https://vuejs.org/api/application.html) und andere Laufzeitdaten. Damit kannst du beispielsweise [globale Komponenten registrieren](./extending-default-theme.md#registering-global-components), Vue-Bibliotheken integrieren usw.
 
 Der Wert `router` ist dieselbe VitePress-Router-Instanz, die von [`useRouter()`](../reference/runtime-api#userouter). Um auf Routenänderungen zu reagieren, weist du dem Router Handler zu:
 
@@ -115,7 +115,7 @@ Mit `extends` wird das `setup` jedes Themes wie bei `enhanceApp` von der Basis a
 
 Der Standardexport ist der einzige Vertrag für ein eigenes Theme, und nur die Eigenschaft `Layout` ist erforderlich. Technisch kann ein VitePress-Theme daher aus nur einer einzigen Vue-Komponente bestehen.
 
-Innerhalb deiner Layout-Komponente funktioniert alles wie in einer normalen Vite- + Vue-3-Anwendung. Beachte, dass das Theme außerdem [SSR-compatible](./ssr-compat).
+Innerhalb deiner Layout-Komponente funktioniert alles wie in einer normalen Vite- + Vue-3-Anwendung. Beachte, dass das Theme außerdem [mit SSR kompatibel](./ssr-compat) sein muss.
 
 ## Ein Layout erstellen
 
@@ -148,7 +148,7 @@ const { page } = useData()
 </template>
 ```
 
-The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is die aktuelle Seite's frontmatter. We can leverage this to allow the end user to control the layout in each page. Zum Beispiel, the user can indicate die Seite should use a special home Seitenlayout with:
+Der [`useData()`](../reference/runtime-api#usedata)-Helper stellt uns alle Laufzeitdaten zur Verfügung, die wir benötigen, um verschiedene Layouts bedingt zu rendern. Zu den Daten, auf die wir zugreifen können, gehört das Frontmatter der aktuellen Seite. Damit können wir dem Endbenutzer ermöglichen, das Layout jeder Seite zu steuern. Zum Beispiel kann der Benutzer angeben, dass die Seite ein spezielles Startseitenlayout verwenden soll:
 
 ```md
 ---
@@ -156,7 +156,7 @@ layout: home
 ---
 ```
 
-And we can adjust our theme to handle this:
+Anschließend können wir unser Theme entsprechend anpassen:
 
 ```vue{3,12-14}
 <script setup>
