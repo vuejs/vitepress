@@ -20,7 +20,7 @@ export default {
 
 Die Option `pattern` definiert die URL-Struktur des Links. `:path` wird durch den Seitenpfad ersetzt.
 
-Du kannst also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and gibt zurück the URL string.
+Du kannst auch eine reine Funktion angeben, die [`PageData`](./runtime-api#usedata) als Argument akzeptiert und die URL als Zeichenkette zurückgibt.
 
 ```js
 export default {
