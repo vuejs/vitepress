@@ -1,10 +1,10 @@
 ---
-description: Configure the VitePress default theme home page layout with hero sections, features, and custom content.
+description: Konfigurieren the VitePress Standard theme home page layout with hero sections, features, and custom content.
 ---
 
 # Startseite
 
-VitePress default theme provides a homepage layout, which you can also see used on [the homepage of this site](../). You may use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
+VitePress Standard theme provides a homepage layout, which you can also see used on [the homepage of this site](../). Du kannst use it on any of your pages by specifying `layout: home` in the [frontmatter](./frontmatter-config).
 
 ```yaml
 ---
@@ -12,7 +12,7 @@ layout: home
 ---
 ```
 
-However, this option alone wouldn't do much. You can add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
+However, this option alone wouldn't do much. Du kannst add several different pre templated "sections" to the homepage by setting additional other options such as `hero` and `features`.
 
 ## Hero Section
 
@@ -105,7 +105,7 @@ Also you may customize it further by combining `--vp-home-hero-name-background` 
 
 In Features section, you can list any number of features you would like to show right after the Hero section. To configure it, pass `features` option to the frontmatter.
 
-You can provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when required.
+Du kannst provide an icon for each feature, which can be an emoji or any type of image. When the configured icon is an image (svg, png, jpeg...), you must provide the icon with the proper width and height; you can also provide the description, its intrinsic size as well as its variants for dark and light theme when erforderlich.
 
 ```yaml
 ---
@@ -171,9 +171,9 @@ type FeatureIcon =
     }
 ```
 
-## Markdown Content
+## Markdown Inhalt
 
-You can add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
+Du kannst add additional content to your site's homepage just by adding Markdown below the `---` frontmatter divider.
 
 ````md
 ---
@@ -195,5 +195,5 @@ npx vitepress init
 ````
 
 ::: info
-VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: false` to the frontmatter.
+VitePress didn't always auto-style the extra content of the `layout: home` page. To revert to older behavior, you can add `markdownStyles: falsch` to the frontmatter.
 :::
