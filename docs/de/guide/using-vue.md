@@ -150,25 +150,25 @@ Das Ausgabe-HTML wird von [Markdown-it](https://github.com/Markdown-it/Markdown-
 
 ## Maskierung
 
-Du kannst escape Vue interpolations by wrapping them in a `<span>` or other elements with the `v-pre` directive:
+Du kannst Vue-Interpolationen umgehen, indem du sie in ein `<span>` oder ein anderes Element mit der Direktive `v-pre` einschließt:
 
 **Input**
 
 ```md
-This <span v-pre>{{ will be displayed as-is }}</span>
+Dies <span v-pre>{{ wird unverändert angezeigt }}</span>
 ```
 
 **Ausgabe**
 
 <div class="escape-demo">
-  <p>This <span v-pre>{{ will be displayed as-is }}</span></p>
+  <p>Dies <span v-pre>{{ wird unverändert angezeigt }}</span></p>
 </div>
 
-Alternativ kannst du den gesamten Absatz in a `v-pre` custom container:
+Alternativ kannst du den gesamten Absatz in einen benutzerdefinierten `v-pre`-Container einschließen:
 
 ```md
 ::: v-pre
-{{ This will be displayed as-is }}
+{{ Dies wird unverändert angezeigt }}
 :::
 ```
 
@@ -177,14 +177,14 @@ Alternativ kannst du den gesamten Absatz in a `v-pre` custom container:
 <div class="escape-demo">
 
 ::: v-pre
-{{ This will be displayed as-is }}
+{{ Dies wird unverändert angezeigt }}
 :::
 
 </div>
 
 ## Maskierung in Codeblöcken aufheben
 
-Standardmäßig, all fenced code blocks are automatisch wrapped with `v-pre`, so no Vue syntax will be processed inside. To enable Vue-style interpolation inside fences, you can append the language with the `-vue` suffix, e.g. `js-vue`:
+Standardmäßig werden alle abgegrenzten Codeblöcke automatisch mit `v-pre` umschlossen, sodass darin keine Vue-Syntax verarbeitet wird. Um Vue-Interpolation innerhalb solcher Blöcke zu aktivieren, kannst du die Sprache mit dem Suffix `-vue` versehen, z. B. `js-vue`:
 
 **Input**
 
@@ -200,20 +200,20 @@ Hello {{ 1 + 1 }}
 Hello {{ 1 + 1 }}
 ```
 
-Beachte, dass this might prevent certain tokens from being syntax highlighted properly.
+Beachte, dass dies verhindern kann, dass bestimmte Token korrekt hervorgehoben werden.
 
 ## CSS-Präprozessoren verwenden
 
-VitePress has [built-in support](https://vite.dev/guide/features.html#css-pre-processors) for CSS pre-processors: `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
+VitePress bietet [integrierte Unterstützung](https://vite.dev/guide/features.html#css-pre-processors) für CSS-Präprozessoren: Dateien mit `.scss`, `.sass`, `.less`, `.styl` und `.stylus`. Dafür müssen keine Vite-spezifischen Plugins installiert werden, aber der jeweilige Präprozessor selbst muss installiert sein:
 
 ```
-# .scss and .sass
+# .scss und .sass
 npm install -D sass
 
 # .less
 npm install -D less
 
-# .styl and .stylus
+# .styl und .stylus
 npm install -D stylus
 ```
 
