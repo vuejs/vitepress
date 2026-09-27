@@ -1,10 +1,10 @@
 ---
-description: Anpassen the previous and next page links displayed at the bottom of doc pages in VitePress.
+description: Passe die am unteren Rand von Dokumentationsseiten in VitePress angezeigten Links zur vorherigen und nächsten Seite an.
 ---
 
 # Prev Weiter Links
 
-Du kannst customize the text and link for the previous and next pages (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
+Du kannst Text und Link für die vorherige und nächste Seite anpassen (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
 
 ## prev
 
@@ -44,4 +44,4 @@ Du kannst customize the text and link for the previous and next pages (shown at 
 
 ## next
 
-Same as `prev` but for the next page.
+Wie `prev`, aber für die nächste Seite.
