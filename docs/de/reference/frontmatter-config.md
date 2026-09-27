@@ -1,11 +1,11 @@
 ---
 outline: deep
-description: Reference of all verfügbar frontmatter configuration options for VitePress Markdown pages.
+description: Referenz aller verfügbaren Frontmatter-Konfigurationsoptionen für VitePress-Markdown-Seiten.
 ---
 
 # Frontmatter-Konfiguration
 
-Frontmatter enables page based configuration. In every markdown file, you can use frontmatter config to override site-level or theme-level config options. Also, there are config options which you can only define in frontmatter.
+Frontmatter ermöglicht die Konfiguration einzelner Seiten. In jeder Markdown-Datei kannst du Frontmatter verwenden, um Konfigurationsoptionen auf Website- oder Theme-Ebene zu überschreiben. Außerdem gibt es Optionen, die nur im Frontmatter definiert werden können.
 
 Beispiel usage:
 
@@ -16,7 +16,7 @@ editLink: true
 ---
 ```
 
-Du kannst access frontmatter data via the `$frontmatter` global in Vue expressions:
+Du kannst über das globale `$frontmatter` in Vue-Ausdrücken auf Frontmatter-Daten zugreifen:
 
 ```md
 {{ $frontmatter.title }}
@@ -26,7 +26,7 @@ Du kannst access frontmatter data via the `$frontmatter` global in Vue expressio
 
 - Type: `string`
 
-Title for the page. It's same as [config.title](./site-config#title), and it overrides the site-level config.
+Titel der Seite. Entspricht [config.title](./site-config#title) und überschreibt die Konfiguration auf Websiteebene.
 
 ```yaml
 ---
@@ -38,7 +38,7 @@ title: VitePress
 
 - Type: `string | boolean`
 
-The suffix for the title. It's same as [config.titleTemplate](./site-config#titletemplate), and it overrides the site-level config.
+Suffix für den Titel. Entspricht [config.titleTemplate](./site-config#titletemplate) und überschreibt die Konfiguration auf Websiteebene.
 
 ```yaml
 ---
@@ -51,7 +51,7 @@ titleTemplate: Vite & Vue powered static site generator
 
 - Type: `string`
 
-Description for the page. It's same as [config.description](./site-config#description), and it overrides the site-level config.
+Beschreibung der Seite. Entspricht [config.description](./site-config#description) und überschreibt die Konfiguration auf Websiteebene.
 
 ```yaml
 ---
@@ -63,7 +63,7 @@ description: VitePress
 
 - Type: `HeadConfig[]`
 
-Specify extra head tags to be injected for the current page. They are [merged](./site-config#head) with the head tags injected by site-level config.
+Gibt zusätzliche Head-Tags an, die für die aktuelle Seite eingefügt werden. Sie werden mit den über die Konfiguration auf Websiteebene eingefügten Head-Tags [zusammengeführt](./site-config#head).
 
 ```yaml
 ---
@@ -87,7 +87,7 @@ type HeadConfig =
 
 - Type: `'ltr' | 'rtl' | 'auto'`
 
-Overrides the [text direction](./site-config#dir) of the site for the current page.
+Überschreibt die [Schreibrichtung](./site-config#dir) der Website für die aktuelle Seite.
 
 ```yaml
 ---
@@ -97,7 +97,7 @@ dir: rtl
 
 ## Standard-Theme Only
 
-Die folgenden Frontmatter-Optionen are only applicable when using the default theme.
+Die folgenden Frontmatter-Optionen gelten nur bei Verwendung des Standard-Themes.
 
 ### layout
 
@@ -106,9 +106,9 @@ Die folgenden Frontmatter-Optionen are only applicable when using the default th
 
 Legt das Layout der Seite fest.
 
-- `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Startseite". Du kannst add extra options such as `hero` and `features` to rapidly create beautiful landing page.
-- `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
+- `doc` - Wendet die standardmäßigen Dokumentationsstile auf den Markdown-Inhalt an.
+- `home` - Spezielles Layout für die „Startseite“. Du kannst zusätzliche Optionen wie `hero` und `features` hinzufügen, um schnell ansprechende Startseiten zu erstellen.
+- `page` - Verhält sich ähnlich wie `doc`, wendet jedoch keine Stile auf den Inhalt an. Nützlich, wenn du eine vollständig eigene Seite erstellen möchtest.
 
 ```yaml
 ---
@@ -118,11 +118,11 @@ layout: doc
 
 ### hero <Badge type="info" text="home page only" />
 
-Defines contents of home hero section when `layout` is set to `home`. More details in [Standard-Theme: Startseite](./default-theme-home-page).
+Definiert den Inhalt des Hero-Bereichs der Startseite, wenn `layout` auf `home` gesetzt ist. Weitere Details findest du unter [Standard-Theme: Startseite](./default-theme-home-page).
 
 ### features <Badge type="info" text="home page only" />
 
-Defines items to display in features section when `layout` is set to `home`. More details in [Standard-Theme: Startseite](./default-theme-home-page).
+Definiert die im Feature-Bereich anzuzeigenden Elemente, wenn `layout` auf `home` gesetzt ist. Weitere Details findest du unter [Standard-Theme: Startseite](./default-theme-home-page).
 
 ### navbar
 
@@ -155,11 +155,11 @@ sidebar: false
 - Type: `boolean | 'left'`
 - Default: `true`
 
-Defines the location of the aside component in the `doc` layout.
+Definiert die Position der Aside-Komponente im `doc`-Layout.
 
-Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` renders the aside to the right.\
-Setting this value to `'left'` renders the aside to the left.
+Bei `false` wird der Aside-Container nicht gerendert.\
+Bei `true` wird der Aside-Container rechts gerendert.\
+Bei `'left'` wird der Aside-Container links gerendert.
 
 ```yaml
 ---
@@ -172,7 +172,7 @@ aside: false
 - Type: `number | [number, number] | 'deep' | false`
 - Default: `2`
 
-Die Überschriftenebenen, die in der Seitenübersicht für die Seite angezeigt werden. It's same as [config.themeConfig.outline.level](./default-theme-config#outline), and it overrides the value set in site-level config.
+Die Überschriftenebenen, die in der Seitenübersicht für die Seite angezeigt werden. Entspricht [config.themeConfig.outline.level](./default-theme-config#outline) und überschreibt den Wert der Konfiguration auf Websiteebene.
 
 ```yaml
 ---
@@ -185,7 +185,7 @@ outline: [2, 4]
 - Type: `boolean | Date`
 - Default: `true`
 
-Ob [last updated](./default-theme-last-updated) text in the footer of the current page. If a datetime is specified, it will be displayed instead of the last git modified timestamp.
+Ob der Text für die [letzte Aktualisierung](./default-theme-last-updated) in der Fußzeile der aktuellen Seite angezeigt wird. Wenn ein Zeitpunkt angegeben ist, wird dieser anstelle des letzten Änderungszeitpunkts aus Git angezeigt.
 
 ```yaml
 ---
@@ -198,7 +198,7 @@ lastUpdated: false
 - Type: `boolean`
 - Default: `true`
 
-Ob [edit link](./default-theme-edit-link) in the footer of the current page.
+Ob ein [Bearbeitungslink](./default-theme-edit-link) in der Fußzeile der aktuellen Seite angezeigt wird.
 
 ```yaml
 ---
@@ -211,7 +211,7 @@ editLink: false
 - Type: `boolean`
 - Default: `true`
 
-Ob [footer](./default-theme-footer).
+Ob die [Fußzeile](./default-theme-footer) angezeigt wird.
 
 ```yaml
 ---
@@ -231,7 +231,7 @@ pageClass: custom-page-class
 ---
 ```
 
-Anschließend kannst du die Stile of this specific page in `.vitepress/theme/custom.css` file:
+Anschließend kannst du die Stile dieser bestimmten Seite in der Datei `.vitepress/theme/custom.css` anpassen:
 
 ```css
 .custom-page-class {
@@ -243,8 +243,8 @@ Anschließend kannst du die Stile of this specific page in `.vitepress/theme/cus
 
 - Type: `boolean`
 
-The default theme relies on checks like `frontmatter.layout === 'home'` to determine if the current page is the home page.\
-This is useful when you want to force show the home page elements in a custom layout.
+Das Standard-Theme verwendet Prüfungen wie `frontmatter.layout === 'home'`, um festzustellen, ob die aktuelle Seite die Startseite ist.\
+Dies ist nützlich, wenn du die Startseitenelemente in einem eigenen Layout erzwingen möchtest.
 
 ```yaml
 ---
