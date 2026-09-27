@@ -1,16 +1,16 @@
 ---
-description: Load arbitrary data at build time using VitePress data loaders and import it from pages or components.
+description: Load arbitrary data at build time Verwendung VitePress data loaders and import it von pages or components.
 ---
 
-# Build-Time Data Loading
+# Build-Time Daten laden
 
-VitePress provides a feature called **data loaders** that allows you to load arbitrary data and import it from pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.
+VitePress stellt bereit a feature genannt **data loaders** that ermöglicht you to load arbitrary data and import it von pages or components. The data loading is executed **only at build time**: the resulting data will be serialized as JSON in the final JavaScript bundle.
 
-Data loaders can be used to fetch remote data, or generate metadata based on local files. For example, you can use data loaders to parse all your local API pages and automatically generate an index of all API entries.
+Data loaders can be verwendet to fetch remote data, or generate metadata based on local files. Zum Beispiel, you can use data loaders to parse all your local API pages and automatisch generate an index of all API entries.
 
-## Basic Usage
+## Basic Verwendung
 
-A data loader file must end with either `.data.js` or `.data.ts`. The file should provide a default export of an object with the `load()` method:
+A data loader file must end mit either `.data.js` or `.data.ts`. The file should provide a default export of an object mit the `load()` method:
 
 ```js [example.data.js]
 export default {
@@ -24,7 +24,7 @@ export default {
 
 The loader module is evaluated only in Node.js, so you can import Node APIs and npm dependencies as needed.
 
-You can then import data from this file in `.md` pages and `.vue` components using the `data` named export:
+Du kannst then import data von this file in `.md` pages and `.vue` components Verwendung the `data` named export:
 
 ```vue
 <script setup>
@@ -55,13 +55,13 @@ export default {
 }
 ```
 
-## Data from Local Files
+## Data von Local Dateien
 
-When you need to generate data based on local files, you should use the `watch` option in the data loader so that changes made to these files can trigger hot updates.
+Wenn du need to generate data based on local files, you should use the `watch` option in the data loader so that changes made to these files can trigger hot updates.
 
 The `watch` option is also convenient in that you can use [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match multiple files. The patterns can be relative to the loader file itself, and the `load()` function will receive the matched files as absolute paths.
 
-The following example shows loading CSV files and transforming them into JSON using [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Because this file only executes at build time, you will not be shipping the CSV parser to the client!
+The following example shows loading CSV files and transforming them in JSON Verwendung [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Because this file only executes at build time, you will not be shipping the CSV parser to the client!
 
 ```js
 import fs from 'node:fs'
@@ -85,7 +85,7 @@ export default {
 
 ## `createContentLoader`
 
-When building a content focused site, we often need to create an "archive" or "index" page: a page where we list all available entries in our content collection, for example blog posts or API pages. We **can** implement this directly with the data loader API, but since this is such a common use case, VitePress also provides a `createContentLoader` helper to simplify this:
+When building a content focused site, we often need to create an "archive" or "index" page: a page where we list all verfügbar entries in our content collection, for example blog posts or API pages. We **can** implement this directly mit the data loader API, but since this is such a common use case, VitePress also stellt bereit a `createContentLoader` helper to simplify this:
 
 ```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
@@ -93,11 +93,11 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-The helper takes a glob pattern relative to the [source directory](./routing#source-directory), and returns a `{ watch, load }` data loader object that can be used as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
+The helper takes a glob pattern relative to the [source directory](./routing#source-directory), and gibt zurück a `{ watch, load }` data loader object that can be verwendet as the default export in a data loader file. It also implements caching based on file modified timestamps to improve dev performance.
 
-Note the loader only works with Markdown files - matched non-Markdown files will be skipped.
+Hinweis the loader only works mit Markdown files - matched non-Markdown files will be skipped.
 
-The loaded data will be an array with the type of `ContentData[]`:
+The loaded data will be an array mit the type of `ContentData[]`:
 
 ```ts
 interface ContentData {
@@ -115,7 +115,7 @@ interface ContentData {
 }
 ```
 
-By default, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example using the data to build a minimal blog index page:
+Standardmäßig, only `url` and `frontmatter` are provided. This is because the loaded data will be inlined as JSON in the client bundle, so we need to be cautious about its size. Here's an example Verwendung the data to build a minimal blog index page:
 
 ```vue
 <script setup>
@@ -133,9 +133,9 @@ import { data as posts } from './posts.data.js'
 </template>
 ```
 
-### Options
+### Optionen
 
-The default data may not suit all needs - you can opt-in to transform the data using options:
+The default data may not suit all needs - you can opt-in to transform the data Verwendung options:
 
 ```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
@@ -159,9 +159,9 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
-Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
+Check out how it is verwendet in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
 
-The `createContentLoader` API can also be used inside [build hooks](../reference/site-config#build-hooks):
+The `createContentLoader` API can also be verwendet innerhalb [build hooks](../reference/site-config#build-hooks):
 
 ```js [.vitepress/config.js]
 export default {
@@ -216,7 +216,7 @@ interface ContentOptions<T = ContentData[]> {
 
 ## Typed Data Loaders
 
-When using TypeScript, you can type your loader and `data` export like so:
+When Verwendung TypeScript, you can type your loader and `data` export like so:
 
 ```ts
 import { defineLoader } from 'vitepress'
@@ -237,9 +237,9 @@ export default defineLoader({
 })
 ```
 
-## Configuration
+## Konfiguration
 
-To get the configuration information inside a loader, you can use some code like this:
+To get the Konfiguration information innerhalb a loader, you can use some code like this:
 
 ```ts
 import type { SiteConfig } from 'vitepress'
