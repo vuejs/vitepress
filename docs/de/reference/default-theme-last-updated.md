@@ -22,7 +22,7 @@ To fix this in **GitHub Actions**, use the following in your workflow:
 
 Other CI/CD platforms have similar settings.
 
-If such options aren't available, you can prepend the `docs:build` command in your `package.json` with a manual fetch:
+If such options aren't verfügbar, you can prepend the `docs:build` command in your `package.json` with a manual fetch:
 
 ```json
 "docs:build": "git fetch --unshallow && vitepress build docs"
@@ -39,7 +39,7 @@ export default {
 
 ## Frontmatter Config
 
-This can be disabled per-page using the `lastUpdated` option on frontmatter:
+Dies can be deaktiviert per-page using the `lastUpdated` option on frontmatter:
 
 ```yaml
 ---
@@ -47,4 +47,4 @@ lastUpdated: false
 ---
 ```
 
-Also refer [Default Theme: Letzte Aktualisierung](./default-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly disabled at site or page level.
+Also refer [Standard-Theme: Letzte Aktualisierung](./Standard-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly deaktiviert at site or page level.
