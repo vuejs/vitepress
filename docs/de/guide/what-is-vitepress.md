@@ -20,7 +20,7 @@ Du möchtest es einfach ausprobieren? Springe direkt zum [Schnellstart](./gettin
 
 - **Blogs, Portfolios und Marketing-Websites**
 
-  VitePress unterstützt [vollständig angepasste Themes](./custom-theme) mit der Entwicklererfahrung einer normalen Vite- und Vue-Anwendung. Da Vite die Grundlage bildet, kannst du außerdem direkt auf Vite-Plugins aus dessen umfangreichem Ökosystem zurückgreifen. Zusätzlich bietet VitePress flexible APIs zum [Daten laden](./data-loading) (lokal oder entfernt) und [dynamische Routen erzeugen](./routing#dynamic-routes). Damit kannst du nahezu alles erstellen, solange die benötigten Daten zur Build-Zeit bestimmt werden können.
+  VitePress unterstützt [vollständig angepasste Themes](./custom-theme) mit der Entwicklererfahrung einer normalen Vite- und Vue-Anwendung. Da Vite die Grundlage bildet, kannst du außerdem direkt auf Vite-Plugins aus dessen umfangreichem Ökosystem zurückgreifen. Zusätzlich bietet VitePress flexible APIs zum [Daten laden](./data-loading) (lokal oder entfernt) und [dynamische Routen erzeugen](./routing#dynamic-routes). Damit kannst du nahezu alles erstellen, solange die benötigten Daten zur Erstellungszeit bestimmt werden können.
 
   Der offizielle [Vue.js-Blog](https://blog.vuejs.org/) ist ein einfacher Blog, der seine Indexseite auf Grundlage lokaler Inhalte erzeugt.
 
@@ -36,7 +36,7 @@ VitePress möchte eine hervorragende Developer Experience (DX) bei der Arbeit mi
 
 ## Leistung
 
-Anders als bei vielen herkömmlichen SSGs, bei denen jede Navigation ein vollständiges Neuladen der Seite auslöst, liefert eine mit VitePress erzeugte Website beim ersten Besuch statisches HTML aus und wird bei weiterer Navigation innerhalb der Website zu einer [Single-Page-Anwendung](https://en.wikipedia.org/wiki/Single-page_application) (SPA) Dieses Modell bietet unserer Ansicht nach ein ausgewogenes Verhältnis zwischen Leistung und Benutzerfreundlichkeit:
+Anders als bei vielen herkömmlichen SSGs, bei denen jede Navigation ein vollständiges Neuladen der Seite auslöst, liefert eine mit VitePress erzeugte Website beim ersten Besuch statisches HTML aus und wird bei weiterer Navigation innerhalb der Website zu einer [Single-Page-Anwendung](https://en.wikipedia.org/wiki/Single-page_application) (SPA). Dieses Modell bietet unserer Ansicht nach ein ausgewogenes Verhältnis zwischen Leistung und Benutzerfreundlichkeit:
 
 - **Schnelles erstes Laden**
 
