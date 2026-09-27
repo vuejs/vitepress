@@ -12,7 +12,7 @@ export default {
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // Theme related configurations.
+  // Konfigurationsoptionen für das Theme.
   themeConfig: {
     logo: '/logo.svg',
     nav: [...],
@@ -92,7 +92,7 @@ Die Konfiguration für einen Navigationseintrag. Weitere Details findest du unte
 export default {
   themeConfig: {
     nav: [
-      { text: 'Guide', link: '/guide' },
+      { text: 'Anleitung', link: '/guide' },
       {
         text: 'Dropdown Menu',
         items: [
