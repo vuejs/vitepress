@@ -1,67 +1,67 @@
 ---
-description: Create and use a custom theme in VitePress to fully control the look and feel of your site.
+description: Erstelle und verwende ein eigenes Theme in VitePress, um das Erscheinungsbild und Verhalten deiner Website vollständig zu steuern.
 ---
 
-# Using a Custom Theme
+# Ein eigenes Theme verwenden
 
-## Theme Resolving
+## Theme-Auflösung
 
-You can enable a custom theme by creating a `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (the "theme entry file"):
+Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (die „Theme-Einstiegsdatei“):
 
 ```
 .
-├─ docs                # project root
+├─ docs                # Projektstammverzeichnis
 │  ├─ .vitepress
 │  │  ├─ theme
-│  │  │  └─ index.js   # theme entry
-│  │  └─ config.js     # config file
+│  │  │  └─ index.js   # Theme-Einstiegsdatei
+│  │  └─ config.js     # Konfigurationsdatei
 │  └─ index.md
 └─ package.json
 ```
 
-VitePress will always use the custom theme instead of the default theme when it detects presence of a theme entry file. You can, however, [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
+VitePress verwendet immer das eigene Theme anstelle des Standard-Themes, sobald es eine Theme-Einstiegsdatei erkennt. Du kannst jedoch [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
 
-## Theme Interface
+## Theme-Schnittstelle
 
-A VitePress custom theme is defined as an object with the following interface:
+Ein eigenes VitePress-Theme wird als Objekt mit der folgenden Schnittstelle definiert:
 
 ```ts
 interface Theme {
   /**
-   * Root layout component for every page
+   * Stamm-Layout-Komponente für jede Seite
    * @required
    */
   Layout: Component
   /**
-   * Enhance Vue app instance
+   * Vue-App-Instanz erweitern
    * @optional
    */
   enhanceApp?: (ctx: EnhanceAppContext) => Awaitable<void>
   /**
-   * Runs inside the root component's `setup()`
+   * Wird innerhalb von `setup()` der Stammkomponente ausgeführt
    * @optional
    */
   setup?: () => void
   /**
-   * Extend another theme, calling its `enhanceApp` and `setup` before ours
+   * Ein anderes Theme erweitern und dessen `enhanceApp` und `setup` vor unserem aufrufen
    * @optional
    */
   extends?: Theme
 }
 
 interface EnhanceAppContext {
-  app: App // Vue app instance
-  router: Router // VitePress router instance
-  siteData: Ref<SiteData> // Site-level metadata
+  app: App // Vue-App-Instanz
+  router: Router // VitePress-Router-Instanz
+  siteData: Ref<SiteData> // Metadaten auf Website-Ebene
 }
 ```
 
-The theme entry file should export the theme as its default export:
+Die Theme-Einstiegsdatei sollte das Theme als Standardexport exportieren:
 
 ```js [.vitepress/theme/index.js]
 
-// You can directly import Vue files in the theme entry
-// VitePress is pre-configured with @vitejs/plugin-vue.
+// Vue-Dateien können direkt in der Theme-Einstiegsdatei importiert werden
+// VitePress ist bereits mit @vitejs/plugin-vue vorkonfiguriert.
 import Layout from './Layout.vue'
 
 export default {
@@ -73,27 +73,27 @@ export default {
 }
 ```
 
-The `enhanceApp` hook allows you to access the [Vue app instance](https://vuejs.org/api/application.html) and other runtime data, which can be used to [register global components](./extending-default-theme.md#registering-global-components), integrate with Vue libraries, etc.
+Der `enhanceApp`-Hook ermöglicht den Zugriff auf die [Vue app instance](https://vuejs.org/api/application.html) und andere Laufzeitdaten. Damit kannst du beispielsweise [register global components](./extending-default-theme.md#registering-global-components), integrate with Vue libraries, etc.
 
-The `router` value is the same VitePress router instance returned by [`useRouter()`](../reference/runtime-api#userouter). To listen for route changes, assign handlers on the router:
+Der Wert `router` ist dieselbe VitePress-Router-Instanz, die von [`useRouter()`](../reference/runtime-api#userouter). Um auf Routenänderungen zu reagieren, weist du dem Router Handler zu:
 
 ```ts [.vitepress/theme/index.ts]
 export default {
   enhanceApp({ router }) {
     router.onBeforeRouteChange = (to) => {
-      console.log('navigating to', to)
+      console.log('navigiere zu', to)
     }
 
     router.onAfterRouteChange = (to) => {
-      console.log('navigated to', to)
+      console.log('weitergeleitet zu', to)
     }
   }
 }
 ```
 
-Return `false` from `onBeforeRouteChange` or `onBeforePageLoad` to cancel navigation.
+Gib von `onBeforeRouteChange` or `onBeforePageLoad` `false` zurück, um die Navigation abzubrechen.
 
-The `setup` hook runs inside the root component's `setup()`, so Composition API calls (`onMounted`, `watch`, composables, ...) work there without wrapping the layout component:
+Der `setup`-Hook wird innerhalb von `setup()` der Stammkomponente ausgeführt. Deshalb funktionieren Aufrufe der Composition API (`onMounted`, `watch`, composables, ...) dort ohne dass du die Layout-Komponente umschließen musst:
 
 ```ts [.vitepress/theme/index.ts]
 import { watch } from 'vue'
@@ -111,26 +111,26 @@ export default {
 }
 ```
 
-With `extends`, each theme's `setup` runs base-first, like `enhanceApp`. It also runs during SSR/SSG rendering, so keep browser-only work inside `onMounted`.
+Mit `extends` wird das `setup` jedes Themes wie bei `enhanceApp` von der Basis ausgehend ausgeführt. Es läuft außerdem während des SSR-/SSG-Renderings. Browser-spezifische Arbeit sollte daher innerhalb von `onMounted` bleiben.
 
-The default export is the only contract for a custom theme, and only the `Layout` property is required. So technically, a VitePress theme can be as simple as a single Vue component.
+Der Standardexport ist der einzige Vertrag für ein eigenes Theme, und nur die Eigenschaft `Layout` ist erforderlich. Technisch kann ein VitePress-Theme daher aus nur einer einzigen Vue-Komponente bestehen.
 
-Inside your layout component, it works just like a normal Vite + Vue 3 application. Do note the theme also needs to be [SSR-compatible](./ssr-compat).
+Innerhalb deiner Layout-Komponente funktioniert alles wie in einer normalen Vite- + Vue-3-Anwendung. Beachte, dass das Theme außerdem [SSR-compatible](./ssr-compat).
 
-## Building a Layout
+## Ein Layout erstellen
 
-The most basic layout component needs to contain a [`<Content />`](../reference/runtime-api#content) component:
+Die einfachste Layout-Komponente muss eine [`<Content />`](../reference/runtime-api#content) -Komponente enthalten:
 
 ```vue [.vitepress/theme/Layout.vue]
 <template>
-  <h1>Custom Layout!</h1>
+  <h1>Eigenes Layout!</h1>
 
-  <!-- this is where markdown content will be rendered -->
+  <!-- Hier wird der Markdown-Inhalt gerendert -->
   <Content />
 </template>
 ```
 
-The above layout simply renders every page's markdown as HTML. The first improvement we can add is to handle 404 errors:
+Das obige Layout rendert den Markdown-Inhalt jeder Seite einfach als HTML. Als erste Verbesserung können wir die Behandlung von 404-Fehlern hinzufügen:
 
 ```vue{1-4,9-12}
 <script setup>
@@ -139,10 +139,10 @@ const { page } = useData()
 </script>
 
 <template>
-  <h1>Custom Layout!</h1>
+  <h1>Eigenes Layout!</h1>
 
   <div v-if="page.isNotFound">
-    Custom 404 page!
+    Eigene 404-Seite!
   </div>
   <Content v-else />
 </template>
@@ -165,19 +165,19 @@ const { page, frontmatter } = useData()
 </script>
 
 <template>
-  <h1>Custom Layout!</h1>
+  <h1>Eigenes Layout!</h1>
 
   <div v-if="page.isNotFound">
-    Custom 404 page!
+    Eigene 404-Seite!
   </div>
   <div v-if="frontmatter.layout === 'home'">
-    Custom home page!
+    Eigene Startseite!
   </div>
   <Content v-else />
 </template>
 ```
 
-You can, of course, split the layout into more components:
+Natürlich kannst du das Layout auch auf mehrere Komponenten aufteilen:
 
 ```vue{3-5,12-15}
 <script setup>
@@ -190,7 +190,7 @@ const { page, frontmatter } = useData()
 </script>
 
 <template>
-  <h1>Custom Layout!</h1>
+  <h1>Eigenes Layout!</h1>
 
   <NotFound v-if="page.isNotFound" />
   <Home v-if="frontmatter.layout === 'home'" />
@@ -198,27 +198,27 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-Consult the [Runtime API Reference](../reference/runtime-api) for everything available in theme components. In addition, you can leverage [Build-Time Data Loading](./data-loading) to generate data-driven layout - for example, a page that lists all blog posts in the current project.
+In der [Runtime API Reference](../reference/runtime-api) findest du alles, was in Theme-Komponenten verfügbar ist. Zusätzlich kannst du [Build-Time Data Loading](./data-loading) nutzen, um datenbasierte Layouts zu erzeugen – beispielsweise eine Seite, die alle Blogbeiträge des aktuellen Projekts auflistet.
 
-## Distributing a Custom Theme
+## Ein eigenes Theme verteilen
 
-The easiest way to distribute a custom theme is by providing it as a [template repository on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
+Am einfachsten verteilst du ein eigenes Theme, indem du es als [template repository on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository).
 
-If you wish to distribute the theme as an npm package, follow these steps:
+Wenn du das Theme als npm-Paket verteilen möchtest, gehe folgendermaßen vor:
 
-1. Export the theme object as the default export in your package entry.
+1. Exportiere das Theme-Objekt als Standardexport des Paketeintrags.
 
-2. If applicable, export your theme config type definition as `ThemeConfig`.
+2. Falls zutreffend, exportiere die Typdefinition deiner Theme-Konfiguration als `ThemeConfig`.
 
-3. If your theme requires adjusting the VitePress config, export that config under a package sub-path (e.g. `my-theme/config`) so the user can extend it.
+3. Wenn dein Theme Anpassungen an der VitePress-Konfiguration erfordert, exportiere diese Konfiguration unter einem Paket-Unterpfad (e.g. `my-theme/config`) damit Benutzer sie erweitern können.
 
-4. Document the theme config options (both via config file and frontmatter).
+4. Dokumentiere die Optionen der Theme-Konfiguration sowohl über die Konfigurationsdatei als auch über Frontmatter.
 
-5. Provide clear instructions on how to consume your theme (see below).
+5. Stelle klare Anweisungen zur Verwendung deines Themes bereit (siehe unten).
 
-## Consuming a Custom Theme
+## Ein eigenes Theme verwenden
 
-To consume an external theme, import and re-export it from the custom theme entry:
+Um ein externes Theme zu verwenden, importiere und exportiere es aus der Theme-Einstiegsdatei erneut:
 
 ```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
@@ -226,7 +226,7 @@ import Theme from 'awesome-vitepress-theme'
 export default Theme
 ```
 
-If the theme needs to be extended:
+Wenn das Theme erweitert werden muss:
 
 ```js [.vitepress/theme/index.js]
 import Theme from 'awesome-vitepress-theme'
@@ -239,18 +239,18 @@ export default {
 }
 ```
 
-If the theme requires special VitePress config, you will need to also extend it in your own config:
+Wenn das Theme eine spezielle VitePress-Konfiguration benötigt, musst du sie auch in deiner eigenen Konfiguration erweitern:
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
 
 export default {
-  // extend theme base config (if needed)
+  // Basis-Konfiguration des Themes erweitern (falls erforderlich)
   extends: baseConfig
 }
 ```
 
-Finally, if the theme provides types for its theme config:
+Wenn das Theme schließlich Typen für seine Theme-Konfiguration bereitstellt:
 
 ```ts [.vitepress/config.ts]
 import baseConfig from 'awesome-vitepress-theme/config'
@@ -260,7 +260,7 @@ import type { ThemeConfig } from 'awesome-vitepress-theme'
 export default defineConfig<ThemeConfig>({
   extends: baseConfig,
   themeConfig: {
-    // Type is `ThemeConfig`
+    // Typ ist `ThemeConfig`
   }
 })
 ```
