@@ -52,7 +52,7 @@ Die folgenden Anleitungen basieren auf einigen gemeinsamen Voraussetzungen:
 
 Standardmäßig wird angenommen, dass die Website am Stammpfad einer Domain (`/`) bereitgestellt wird. Wenn deine Website unter einem Unterpfad wie `https://mywebsite.com/blog/` bereitgestellt wird, musst du die Option [`base`](../reference/site-config#base) in der VitePress-Konfiguration auf `'/blog/'` setzen.
 
-**Beispiel:** Wenn du GitHub- (oder GitLab-) Pages verwendest und unter `user.github.io/repo/`, dann set your `base` to `/repo/`.
+**Beispiel:** Wenn du GitHub- (oder GitLab-) Pages verwendest und deine Website unter `user.github.io/repo/` bereitstellst, setze `base` auf `/repo/`.
 
 ## Verschiebbare Builds (relativer Basispfad) {#relocatable-builds-relative-base}
 
