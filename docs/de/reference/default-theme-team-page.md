@@ -1,5 +1,5 @@
 ---
-description: Create team pages with member profiles using VitePress built-in team components.
+description: Erstelle Teamseiten mit Mitgliederprofilen mithilfe der integrierten Team-Komponenten von VitePress.
 ---
 
 <script setup>
@@ -29,11 +29,11 @@ const members = [
 
 # Teamseite
 
-Wenn du would like to introduce your team, you may use Team components to construct the Teamseite. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Teamseite.
+Wenn du dein Team vorstellen möchtest, kannst du Team-Komponenten verwenden, um eine Teamseite zu erstellen. Es gibt zwei Möglichkeiten: Du kannst sie in eine Dokumentationsseite einbetten oder eine vollständige Teamseite erstellen.
 
-## Show team members in a page
+## Teammitglieder auf einer Seite anzeigen
 
-Du kannst use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
+Du kannst die von `vitepress/theme` bereitgestellte Komponente `<VPTeamMembers>` verwenden, um auf jeder Seite eine Liste von Teammitgliedern anzuzeigen.
 
 ```html
 <script setup>
@@ -55,26 +55,26 @@ const members = [
 
 # Our Team
 
-Say hello to our awesome team.
+Lerne unser großartiges Team kennen.
 
 <VPTeamMembers size="small" :members />
 ```
 
-The above will display a team member in card looking element. It should display something similar to below.
+Der obige Code zeigt ein Teammitglied in einem kartenähnlichen Element an. Das Ergebnis sollte ungefähr wie folgt aussehen.
 
 <VPTeamMembers size="small" :members />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Mehr erfahren about it in [`<VPTeamMembers>`](#vpteammembers).
+Die Komponente `<VPTeamMembers>` gibt es in zwei Größen: `small` und `medium`. Welche du verwendest, hängt von deinen Anforderungen ab; auf Dokumentationsseiten passt `small` normalerweise besser. Du kannst jedem Mitglied außerdem weitere Eigenschaften wie eine `description` oder eine `sponsor`-Schaltfläche hinzufügen. Weitere Informationen findest du unter [`<VPTeamMembers>`](#vpteammembers).
 
-Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
+Das Einbetten von Teammitgliedern in eine Dokumentationsseite eignet sich für kleine Teams oder wenn nur einzelne Mitglieder im Zusammenhang mit der Dokumentation vorgestellt werden sollen.
 
-Wenn du have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
+Wenn du viele Mitglieder hast oder einfach mehr Platz für ihre Darstellung benötigst, kannst du [eine vollständige Teamseite erstellen](#create-a-full-team-page).
 
 ## Create a full Teamseite
 
-Instead of adding team members to doc page, you may also create a full Teamseite, similar to how you can create a custom [Startseite](./default-theme-home-page).
+Statt Teammitglieder in eine Dokumentationsseite einzubetten, kannst du auch eine vollständige Teamseite erstellen, ähnlich wie bei einer eigenen [Startseite](./default-theme-home-page).
 
-To create a team page, first, create a new md file. The file name doesn't matter, but here lets call it `team.md`. In this file, set frontmatter option `layout: page`, and then you may compose your page structure using `TeamPage` components.
+Erstelle zunächst eine neue Markdown-Datei. Der Dateiname spielt keine Rolle; hier nennen wir sie `team.md`. Setze darin die Frontmatter-Option `layout: page` und baue anschließend die Seitenstruktur mit `TeamPage`-Komponenten auf.
 
 ```html
 ---
@@ -115,17 +115,17 @@ const members = [
 </VPTeamPage>
 ```
 
-When creating a full team page, remember to wrap all components with `<VPTeamPage>` component. This component will ensure all nested team related components get the proper layout structure like spacings.
+Bei einer vollständigen Teamseite musst du alle Komponenten mit der Komponente `<VPTeamPage>` umschließen. Sie sorgt dafür, dass alle verschachtelten Team-Komponenten die passende Layout-Struktur und Abstände erhalten.
 
-`<VPPageTitle>` component adds the page title section. The title being `<h1>` heading. Use `#title` and `#lead` slot to document about your team.
+Die Komponente `<VPPageTitle>` fügt den Seitentitelbereich hinzu. Der Titel ist eine `<h1>`-Überschrift. Verwende die Slots `#title` und `#lead`, um dein Team vorzustellen.
 
-`<VPMembers>` works as same as when used in a doc page. It will display list of members.
+`<VPMembers>` funktioniert genauso wie auf einer Dokumentationsseite und zeigt eine Liste von Mitgliedern an.
 
-### Add sections to divide team members
+### Abschnitte zur Aufteilung der Teammitglieder hinzufügen
 
-Du kannst add "sections" to the team page. Zum Beispiel, you may have different types of team members such as Core Team Members and Community Partners. Du kannst divide these members into sections to better explain the roles of each group.
+Du kannst der Teamseite „Abschnitte“ hinzufügen. Zum Beispiel kannst du verschiedene Arten von Teammitgliedern wie Kernteammitglieder und Community-Partner haben. Mit Abschnitten kannst du die Rollen der einzelnen Gruppen besser erläutern.
 
-To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
+Füge dazu die Komponente `<VPTeamPageSection>` in die zuvor erstellte Datei `team.md` ein.
 
 ```html
 ---
@@ -159,13 +159,13 @@ const partners = [...]
 </VPTeamPage>
 ```
 
-The `<VPTeamPageSection>` component can have `#title` and `#lead` slot similar to `VPTeamPageTitle` component, and also `#members` slot for displaying team members.
+Die Komponente `<VPTeamPageSection>` kann wie `VPTeamPageTitle` die Slots `#title` und `#lead` sowie zusätzlich den Slot `#members` zur Anzeige von Teammitgliedern enthalten.
 
-Remember to put in `<VPTeamMembers>` component within `#members` slot.
+Denke daran, die Komponente `<VPTeamMembers>` innerhalb des Slots `#members` einzufügen.
 
 ## `<VPTeamMembers>`
 
-The `<VPTeamMembers>` component displays a given list of members.
+Die Komponente `<VPTeamMembers>` zeigt eine übergebene Liste von Mitgliedern an.
 
 ```html
 <VPTeamMembers
