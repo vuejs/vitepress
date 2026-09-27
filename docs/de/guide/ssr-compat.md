@@ -1,17 +1,17 @@
 ---
 outline: deep
-description: your VitePress theme Komponenten and cuszum code are compatible with server-side rendering.
+description: your VitePress theme Komponenten and custom code are compatible with server-side rendering.
 ---
 
 # SSR-Kompatibilität
 
-VitePress pre-renders the app in Node.js during the production build, Verwendung Vue's Server-Side Rendering (SSR) capabilities. Das bedeutet all cuszum code in theme Komponenten are subject zu SSR-Kompatibilität.
+VitePress pre-renders the app in Node.js during the production build, Verwendung Vue's Server-Side Rendering (SSR) capabilities. Das bedeutet all custom code in theme Komponenten are subject to SSR-Kompatibilität.
 
-Der [SSR-Abschnitt in der offiziellen Vue-Dokumentation](https://vuejs.org/guide/scaling-up/ssr.html) stellt bereit more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is zu only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue Komponenten.
+Der [SSR-Abschnitt in der offiziellen Vue-Dokumentation](https://vuejs.org/guide/scaling-up/ssr.html) stellt bereit more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. Als Faustregel gilt, dass Browser-/DOM-APIs nur in `beforeMount` or `mounted` hooks of Vue Komponenten.
 
 ## `<ClientOnly>`
 
-Wenn du are Verwendung or demoing Komponenten die nicht SSR-kompatibel sind (for example, contain cuszum directives), kannst du sie in die integrierte `<ClientOnly>` Komponente:
+Wenn du are Verwendung or demoing Komponenten die nicht SSR-kompatibel sind (for example, contain custom directives), kannst du sie in die integrierte `<ClientOnly>` Komponente:
 
 ```md
 <ClientOnly>
@@ -21,7 +21,7 @@ Wenn du are Verwendung or demoing Komponenten die nicht SSR-kompatibel sind (for
 
 ## Bibliotheken, die beim Import auf Browser-APIs zugreifen
 
-Some Komponenten or libraries access browser APIs **on import**. To use code that assumes a browser environment on import, you need zu dynamically import them.
+Some Komponenten or libraries access browser APIs **on import**. Um Code zu verwenden, der beim Import eine Browserumgebung voraussetzt, musst du ihn dynamisch importieren.
 
 ### Import in einem Mounted-Hook
 
@@ -39,7 +39,7 @@ onMounted(() => {
 
 ### Bedingter Import
 
-Du kannst also conditionally import a dependency Verwendung the `import.meta.env.SSR` Flags (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
+Du kannst also conditionally import a dependency Verwendung the `import.meta.env.SSR` flag (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {
@@ -49,7 +49,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-Da [`Theme.enhanceApp`](./cuszum-theme#theme-interface) asynchron sein kann, kannst du Vue-Plugins bedingt importieren und registrieren that access browser APIs on import:
+Da [`Theme.enhanceApp`](./custom-theme#theme-interface) asynchron sein kann, kannst du Vue-Plugins bedingt importieren und registrieren that access browser APIs on import:
 
 ```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
@@ -88,7 +88,7 @@ VitePress stellt bereit a convenience helper for importing Vue Komponenten that 
 import { defineClientComponent } from 'vitepress'
 
 const ClientComp = defineClientComponent(() => {
-  return import('Komponente-that-access-window-on-import')
+  return import('component-that-access-window-on-import')
 })
 </script>
 
@@ -97,7 +97,7 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-Du kannst also pass props/children/slots zu the target Komponente:
+Du kannst also pass props/children/slots to the target Komponente:
 
 ```vue
 <script setup>
@@ -106,9 +106,9 @@ import { defineClientComponent } from 'vitepress'
 
 const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
-  () => import('Komponente-that-access-window-on-import'),
+  () => import('component-that-access-window-on-import'),
 
-  // args are passed zu h() - https://vuejs.org/api/render-function.html#h
+  // args are passed to h() - https://vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef
@@ -120,7 +120,7 @@ const ClientComp = defineClientComponent(
     }
   ],
 
-  // callback after the Komponente is loaded, asynchron sein kann
+  // callback after the component is loaded, can be async
   () => {
     console.log(clientCompRef.value)
   }
