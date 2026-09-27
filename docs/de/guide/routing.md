@@ -68,7 +68,7 @@ Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `sr
 ```
 .                          # Projektstammverzeichnis
 ├─ .vitepress              # Konfigurationsverzeichnis
-└─ src                     # source dir
+└─ src                     # Quellverzeichnis
    ├─ getting-started.md
    └─ index.md
 ```
@@ -112,7 +112,7 @@ Wenn du auf eine Seite deiner Website verlinken möchtest, die nicht von VitePre
 
 ::: tip Hinweis
 
-Bei Markdown-Links wird `base` automatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` in the link (resolved relative to the current page by the browser).
+Bei Markdown-Links wird `base` automatisch der URL vorangestellt. Wenn du auf eine Seite außerhalb deines Basispfads verlinken möchtest, benötigst du daher beispielsweise `../../pure.html` im Link (vom Browser relativ zur aktuellen Seite aufgelöst).
 
 Alternativ kannst du direkt die Anchor-Tag-Syntax verwenden:
 
@@ -132,10 +132,10 @@ Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` en
 
 Einige Server oder Hosting-Plattformen (beispielsweise Netlify, Vercel und GitHub Pages) können eine URL wie `/foo` ohne Weiterleitung auf `/foo.html` abbilden, wenn diese Datei existiert:
 
-- Netlify and GitHub Seiten support this by default.
-- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Netlify und GitHub Pages unterstützen dies standardmäßig.
+- Vercel erfordert die Aktivierung von the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
 
-Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
+Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) Konfigurationsoption so that:
 
 - Links zwischen Seiten werden ohne die Erweiterung `.html` erzeugt.
 - Wenn der aktuelle Pfad mit `.html` endet, führt der Router eine clientseitige Weiterleitung zum Pfad ohne Erweiterung durch.
@@ -177,7 +177,7 @@ packages/pkg-b/src/index.md  -->  /pkg-b/index.html
 packages/pkg-b/src/bar.md    -->  /pkg-b/bar.html
 ```
 
-Du kannst dies durch Konfiguration der the [`rewrites`](../reference/site-config#rewrites) option like this:
+Du kannst dies durch Konfiguration der [`rewrites`](../reference/site-config#rewrites) option like this:
 
 ```ts [.vitepress/config.js]
 export default {
@@ -190,7 +190,7 @@ export default {
 }
 ```
 
-Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. In the above example, it would be verbose to list all the paths if you have many packages. Da alle dieselbe Dateistruktur haben, kannst du die Konfiguration so vereinfachen:
+Die Option `rewrites` unterstützt außerdem dynamische Routenparameter. Im obigen Beispiel wäre es bei vielen Paketen aufwendig, alle Pfade aufzulisten. Da alle dieselbe Dateistruktur haben, kannst du die Konfiguration so vereinfachen:
 
 ```ts
 export default {
@@ -227,7 +227,7 @@ Du kannst mit einer einzigen Markdown-Datei und dynamischen Daten viele Seiten e
 
 ### Pfad-Loader-Datei
 
-Da VitePress ein statischer Website-Generator ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. For `packages/[pkg].md`, we will need `packages/[pkg].paths.js` (`.ts` is also supported):
+Da VitePress ein statischer Website-Generator ist, müssen die möglichen Seitenpfade zur Build-Zeit feststehen. Daher **muss** eine dynamische Routenseite von einer **Paths-Loader-Datei** begleitet werden. Für `packages/[pkg].md` benötigen wir `packages/[pkg].paths.js` (`.ts` wird ebenfalls unterstützt):
 
 ```
 .
@@ -396,14 +396,14 @@ export default {
 
 Die Option `watch` funktioniert genauso wie bei [Data Loadern](./Daten-loading#Daten-from-local-files):
 
-- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match files
+- Akzeptiert [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax), um Dateien zu finden
 - Muster sind relativ zur `.paths.js`-Datei selbst
 - Änderungen an überwachten Dateien lösen während der Entwicklung eine Seitengenerierung und HMR aus
 - In Produktions-Builds werden alle Seiten unabhängig von der `watch`-Konfiguration einmal erzeugt
 
 ### Auf Parameter in Seiten zugreifen
 
-Du kannst die Parameter verwenden, um jeder Seite zusätzliche Daten zu übergeben. The Markdown route file can access the current page params in Vue expressions via the `$params` global property:
+Du kannst die Parameter verwenden, um jeder Seite zusätzliche Daten zu übergeben. Die Markdown-Routendatei kann über die globale Eigenschaft `$params` in Vue-Ausdrücken auf die Parameter der aktuellen Seite zugreifen:
 
 ```md
 - package name: {{ $params.pkg }}
@@ -427,7 +427,7 @@ console.log(params.value)
 
 An die Seite übergebene Parameter werden in der JavaScript-Nutzlast des Clients serialisiert. Daher solltest du vermeiden, große Datenmengen als Parameter zu übergeben, beispielsweise rohes Markdown oder HTML aus einem entfernten CMS.
 
-Stattdessen kannst du solche Inhalte jeder Seite über die Eigenschaft `content` des jeweiligen Pfadobjekts übergeben: `content` property on each path object:
+Stattdessen kannst du solche Inhalte über die Eigenschaft `content` des jeweiligen Pfadobjekts an jede Seite übergeben:
 
 ```js
 export default {
