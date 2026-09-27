@@ -1,13 +1,13 @@
 ---
 outline: deep
-description: Set up local or Algolia-powered search for your VitePress site.
+description: Richte eine lokale oder von Algolia bereitgestellte Suche für deine VitePress-Website ein.
 ---
 
 # Suche
 
-## Local Suche
+## Lokale Suche
 
-VitePress unterstützt fuzzy full-text search using an in-browser index thanks to [minisearch](https://github.com/lucaong/minisearch/). To enable this feature, simply set the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress unterstützt eine unscharfe Volltextsuche mithilfe eines Index im Browser dank [minisearch](https://github.com/lucaong/minisearch/). Um diese Funktion zu aktivieren, setze einfach the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -21,7 +21,7 @@ export default defineConfig({
 })
 ```
 
-Beispiel result:
+Beispielergebnis:
 
 ![screenshot of the search modal](/search.png)
 
@@ -35,7 +35,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 
 ### i18n {#local-search-i18n}
 
-Du kannst use a config like this to use multilingual search:
+Du kannst eine Konfiguration wie diese verwenden, um eine mehrsprachige Suche einzurichten:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -76,9 +76,9 @@ export default defineConfig({
 })
 ```
 
-### miniSearch options
+### MiniSearch-Optionen
 
-Du kannst configure MiniSearch like this:
+Du kannst MiniSearch folgendermaßen konfigurieren:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -110,15 +110,15 @@ export default defineConfig({
 })
 ```
 
-Mehr erfahren in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
+Weitere Informationen findest du in der [MiniSearch-Dokumentation](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
 ::: info Document IDs
-Suche document IDs (as seen by `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they do not include [`base`](../reference/site-config#base). The theme resolves them against the base when rendering results.
+Die Dokument-IDs der Suche (wie sie von `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they enthalten nicht [`base`](../reference/site-config#base). Das Theme löst sie beim Rendern der Ergebnisse gegen `base` auf.
 :::
 
-### Eigenes content renderer
+### Eigenen Inhalts-Renderer
 
-Du kannst customize the function used to render the markdown content before indexing it:
+Du kannst die Funktion anpassen, mit der der Markdown-Inhalt vor der Indizierung gerendert wird:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -142,11 +142,11 @@ export default defineConfig({
 })
 ```
 
-This function will be stripped from client-side site data, so you can use Node.js APIs in it.
+Diese Funktion wird aus den clientseitigen Websitedaten entfernt, sodass du darin Node.js-APIs verwenden kannst.
 
 #### Beispiel: Excluding pages from search
 
-Du kannst exclude pages from search by adding `search: false` to the frontmatter of the page. Alternatively:
+Du kannst Seiten aus der Suche ausschließen by adding `search: false` to the frontmatter of the page. Alternativ:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -169,7 +169,7 @@ export default defineConfig({
 ```
 
 ::: warning Note
-In case a custom `_render` function is provided, you need to handle the `search: false` frontmatter yourself. Also, the `env` object won't be completely populated before `md.renderAsync` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
+Wenn eine eigene `_render`-Funktion bereitgestellt wird, musst du das Frontmatter `search: false` selbst behandeln. Also, das `env`-Objekt ist vor dem Aufruf von `md.renderAsync` is called, so any checks on optional `env` properties like `frontmatter` should be done after that.
 :::
 
 #### Beispiel: Transforming content - adding anchors
@@ -194,9 +194,9 @@ export default defineConfig({
 })
 ```
 
-## Algolia Suche
+## Algolia-Suche
 
-VitePress unterstützt searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Refer to their getting started guide. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
+VitePress unterstützt die Suche in deiner Dokumentation mit [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Siehe die entsprechende Einstiegsanleitung. In your `.vitepress/config.ts` you'll need to provide at least the following to make it work:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -217,20 +217,20 @@ export default defineConfig({
 
 ### i18n {#algolia-search-i18n}
 
-Du kannst use a config like this to use multilingual search:
+Du kannst eine Konfiguration wie diese verwenden, um eine mehrsprachige Suche einzurichten:
 
 <details>
-<summary>View full example</summary>
+<summary>Vollständiges Beispiel anzeigen</summary>
 
 <<< @/snippets/algolia-i18n.ts
 
 </details>
 
-Refer [official Algolia docs](https://docsearch.algolia.com/docs/api#translations) to learn more about them. To quickly get started, you can also copy the translations used by this site from [our GitHub repo](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
+Refer [official Algolia docs](https://docsearch.algolia.com/docs/api#translations) to learn more about them. Für einen schnellen Einstieg kannst du auch the translations used by this site from [our GitHub repo](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
 
 ### Algolia Ask AI Support {#ask-ai}
 
-Wenn du would like to include **Ask AI**, pass the `askAi` option (or any of the partial fields) inside `options`:
+Wenn du **Ask AI** einbinden möchtest, pass the `askAi` option (or any of the partial fields) inside `options`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -260,12 +260,12 @@ export default defineConfig({
 ```
 
 ::: warning Note
-Wenn du want to default to keyword search and do not want to use Ask AI, omit the `askAi` property.
+Wenn du standardmäßig die Stichwortsuche verwenden und Ask AI nicht nutzen möchtest, lasse the `askAi` property.
 :::
 
 ### Ask AI Side Panel {#ask-ai-side-panel}
 
-DocSearch v4.5+ unterstützt an optional **Ask AI side panel**. When aktiviert, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
+DocSearch v4.5+ unterstützt an optional **Ask-AI-Seitenleiste**. Wenn sie aktiviert ist, kann sie with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -302,7 +302,7 @@ questions. Algolia's standalone Ask AI examples also mention
 VitePress side panel mode and does not make the integrated keyword-search
 modal display suggested questions on first open.
 
-Wenn du need to disable the keyboard shortcut, use the `keyboardShortcuts` option at the sidepanel root level:
+Wenn du die Tastenkombination deaktivieren möchtest, verwende the `keyboardShortcuts` option at the sidepanel root level:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -331,16 +331,16 @@ export default defineConfig({
 
 #### Mode (auto / sidePanel / hybrid / modal) {#ask-ai-mode}
 
-Du kannst optionally control how VitePress integrates keyword search and Ask AI:
+Du kannst optional festlegen, wie VitePress Stichwortsuche und Ask AI integriert:
 
-- `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask AI side panel is configured.
+- `mode: 'auto'` (default): infer `hybrid` when keyword search is configured, otherwise `sidePanel` when Ask-AI-Seitenleiste is configured.
 - `mode: 'sidePanel'`: force side panel only (hides the keyword search button).
-- `mode: 'hybrid'`: enable keyword search modal + Ask AI side panel (requires keyword search configuration).
+- `mode: 'hybrid'`: enable keyword search modal + Ask-AI-Seitenleiste (requires keyword search configuration).
 - `mode: 'modal'`: keep Ask AI inside the DocSearch modal (even if you configured the side panel).
 
 #### Ask AI only (no keyword search) {#ask-ai-only}
 
-Wenn du want to use **Ask AI side panel only**, you can omit top-level keyword search config and provide credentials under `askAi`:
+Wenn du want to use **Ask-AI-Seitenleiste only**, you can omit top-level keyword search config and provide credentials under `askAi`:
 
 ```ts
 import { defineConfig } from 'vitepress'
