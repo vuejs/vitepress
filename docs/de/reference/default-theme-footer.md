@@ -10,7 +10,7 @@ VitePress zeigt eine globale Fußzeile am unteren Rand der Seite an, wenn `theme
 export default {
   themeConfig: {
     footer: {
-      message: 'Released under the MIT License.',
+      message: 'Veröffentlicht unter der MIT-Lizenz.',
       copyright: 'Copyright © 2019-present Evan You'
     }
   }
@@ -19,10 +19,10 @@ export default {
 
 ```ts
 export interface Fußzeile {
-  // The message shown right before copyright.
+  // Die Nachricht, die direkt vor dem Copyright angezeigt wird.
   message?: string
 
-  // The actual copyright text.
+  // Der eigentliche Copyright-Text.
   copyright?: string
 }
 ```
@@ -33,7 +33,7 @@ Die obige Konfiguration unterstützt außerdem HTML-Zeichenketten. Wenn du beisp
 export default {
   themeConfig: {
     footer: {
-      message: 'Released under the <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT License</a>.',
+      message: 'Veröffentlicht unter der <a href="https://github.com/vuejs/vitepress/blob/main/LICENSE">MIT-Lizenz</a>.',
       copyright: 'Copyright © 2019-present <a href="https://github.com/yyx990803">Evan You</a>'
     }
   }
