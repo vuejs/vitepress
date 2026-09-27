@@ -1,0 +1,79 @@
+---
+description: of VitePress CLI commands including dev, build, preview, and init.
+---
+
+# Kommandozeilenschnittstelle
+
+## `vitepress dev`
+
+Start VitePress dev server using designated directory as root. Defaults to current directory. The `dev` command can also be omitted when running in current directory.
+
+### Verwendung
+
+```sh
+# start in current directory, omitting `dev`
+vitepress
+
+# start in sub directory
+vitepress dev [root]
+```
+
+### Optionen
+
+| Option          | Description                                                       |
+| --------------- | ----------------------------------------------------------------- |
+| `--open [path]` | Open browser on startup (`boolean \| string`)                     |
+| `--port <port>` | Specify port (`number`)                                           |
+| `--base <path>` | Public base path (default: `/`) (`string`)                        |
+| `--cors`        | Enable CORS                                                       |
+| `--strictPort`  | Exit if specified port is already in use (`boolean`)              |
+| `--force`       | Force the optimizer to ignore the cache and re-bundle (`boolean`) |
+
+## `vitepress build`
+
+Build the VitePress site for production.
+
+### Verwendung
+
+```sh
+vitepress build [root]
+```
+
+### Optionen
+
+| Option                         | Description                                                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `--mpa` (experimental)         | Build in [MPA mode](../guide/mpa-mode) without client-side hydration (`boolean`)                                    |
+| `--base <path>`                | Public base path (default: `/`) (`string`)                                                                          |
+| `--assetsBase <url>`           | URL prefix the generated assets are served from, e.g. a CDN (`string`)                                              |
+| `--target <target>`            | Transpile target (default: `"modules"`) (`string`)                                                                  |
+| `--outDir <dir>`               | Output directory relative to **cwd** (default: `<root>/.vitepress/dist`) (`string`)                                 |
+| `--assetsInlineLimit <number>` | Static asset base64 inline threshold in bytes (default: `4096`) (`number`)                                          |
+
+## `vitepress preview`
+
+Locally preview the production build.
+
+### Verwendung
+
+```sh
+vitepress preview [root]
+```
+
+### Optionen
+
+| Option          | Description                                |
+| --------------- | ------------------------------------------ |
+| `--base <path>` | Public base path (default: `/`) (`string`) |
+| `--assetsBase <url>` | URL prefix the generated assets are served from, e.g. a CDN (`string`) |
+| `--port <port>` | Specify port (`number`)                    |
+
+## `vitepress init`
+
+Start the [Setup Wizard](../guide/getting-started#setup-wizard) in current directory.
+
+### Verwendung
+
+```sh
+vitepress init
+```
