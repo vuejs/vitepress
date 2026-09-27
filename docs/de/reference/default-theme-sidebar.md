@@ -4,7 +4,7 @@ description: Konfiguriere die Seitenleistennavigation im VitePress-Standard-Them
 
 # Seitenleiste
 
-Die Seitenleiste ist der zentrale Navigationsbereich deiner Dokumentation. Du kannst das Seitenleistenmenü konfigurieren in [`themeConfig.sidebar`](./default-theme-config#sidebar).
+Die Seitenleiste ist der zentrale Navigationsbereich deiner Dokumentation. Du kannst das Seitenleistenmenü unter [`themeConfig.sidebar`](./default-theme-config#sidebar) konfigurieren.
 
 ```js
 export default {
