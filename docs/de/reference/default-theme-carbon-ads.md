@@ -1,10 +1,10 @@
 ---
-description: Integrate Carbon Ads into your VitePress site using the Standard theme's built-in support.
+description: Integriere Carbon Ads mithilfe der integrierten Unterstützung des Standard-Themes in deine VitePress-Website.
 ---
 
 # Carbon Ads
 
-VitePress has built in native support for [Carbon Ads](https://www.carbonads.net/). By defining the Carbon Ads credentials in config, VitePress will display ads on the page.
+VitePress has built in native support for [Carbon Ads](https://www.carbonads.net/). Wenn du die Carbon-Ads-Zugangsdaten in der Konfiguration definierst, zeigt VitePress Anzeigen auf der Seite an.
 
 ```js
 export default {
@@ -18,7 +18,7 @@ export default {
 }
 ```
 
-These values are used to call carbon CDN script as shown below.
+Diese Werte werden verwendet, um das Carbon-CDN-Skript wie unten gezeigt aufzurufen.
 
 The `format` option supports `classic`, `responsive`, and `cover`.
 
