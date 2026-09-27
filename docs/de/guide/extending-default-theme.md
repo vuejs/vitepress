@@ -21,7 +21,7 @@ Bevor du fortfährst, lies zunächst [Ein eigenes Theme verwenden](./custom-them
 
 ## Anpassen CSS
 
-The Standard-Theme CSS is customizable by overriding root level CSS variables:
+Das CSS des Standard-Themes kann durch Überschreiben der CSS-Variablen auf Stammebene angepasst werden:
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
@@ -38,11 +38,11 @@ export default DefaultTheme
 }
 ```
 
-Siehe [Standard-Theme CSS variables](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css) that can be overridden.
+Siehe die [CSS-Variablen des Standard-Themes](https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css), die überschrieben werden können.
 
 ### Navbar
 
-The navbar draws a single background surface controlled by CSS variables, so its look can be changed ohne touching component internals:
+Die Navigationsleiste verwendet eine einzelne, über CSS-Variablen gesteuerte Hintergrundfläche. Ihr Erscheinungsbild kann daher geändert werden, ohne die Interna der Komponenten anzupassen:
 
 ```css
 :root {
