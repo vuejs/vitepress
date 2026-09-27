@@ -1,59 +1,59 @@
 ---
-description: a static site generator designed for building fast, content-centric websites powered by Vite and Vue.
+description: Ein statischer Website-Generator zum Erstellen schneller, inhaltsorientierter Websites auf Basis von Vite und Vue.
 ---
 
 # Was ist VitePress?
 
-VitePress is a [Static Site Generator](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) designed for building fast, content-centric websites. In a nutshell, VitePress takes your source content written in [Markdown](https://en.wikipedia.org/wiki/Markdown), applies a theme to it, and generates static HTML pages that can be easily deployed anywhere.
+VitePress ist ein [statischer Website-Generator](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) zum Erstellen schneller, inhaltsorientierter Websites. Kurz gesagt nimmt VitePress deine in [Markdown](https://en.wikipedia.org/wiki/Markdown), geschriebenen Inhalte, wendet ein Theme darauf an und erzeugt statische HTML-Seiten, die sich nahezu überall bereitstellen lassen.
 
 ::: tip {no-title}
-Just want to try it out? Skip to the [Quickstart](./getting-started).
+Du möchtest es einfach ausprobieren? Springe direkt zum [Schnellstart](./getting-started).
 :::
 
 ## Anwendungsfälle
 
-- **Documentation**
+- **Dokumentation**
 
-  VitePress ships with a default theme designed for technical documentation. It powers this page you are reading right now, along with the documentation for [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) and [many more](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
+  VitePress enthält ein Stundard-Theme für technische Dokumentation. Es wird für diese Seite und unter underem für die Dokumentation von [Vite](https://vite.dev/), [Rollup](https://rollupjs.org/), [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Vitest](https://vitest.dev/), [D3](https://d3js.org/), [UnoCSS](https://unocss.dev/), [Iconify](https://iconify.design/) und [many more](https://github.com/search?q=/%22vitepress%22:+/+path:/(?:package%7Cdeno)%5C.jsonc?$/+NOT+is:fork+NOT+is:archived&type=code).
 
-  The [official Vue.js documentation](https://vuejs.org/) is also based on VitePress, but uses a custom theme shared between multiple translations.
+  Die [offizielle Vue.js-Dokumentation](https://vuejs.org/) basiert ebenfalls auf VitePress, verwendet jedoch ein eigenes Theme, das von mehreren Übersetzungen gemeinsam genutzt wird.
 
-- **Blogs, Portfolios, and Marketing Sites**
+- **Blogs, Portfolios und Marketing-Websites**
 
-  VitePress supports [fully customized themes](./custom-theme), with the developer experience of a standard Vite + Vue application. Being built on Vite also means you can directly leverage Vite plugins from its rich ecosystem. In addition, VitePress provides flexible APIs to [load data](./data-loading) (local or remote) and [dynamically generate routes](./routing#dynamic-routes). You can use it to build almost anything as long as the data can be determined at build time.
+  VitePress supports [fully customized themes](./custom-theme), with the developer experience of a stundard Vite + Vue application. Da Vite die Grundlage bildet, kannst du außerdem direkt auf Vite-Plugins aus dessen umfangreichem Ökosystem zurückgreifen. Zusätzlich bietet VitePress flexible APIs zum [load data](./data-loading) (local or remote) und [dynamically generate routes](./routing#dynamic-routes). Damit kannst du nahezu alles erstellen, solange die benötigten Daten zur Build-Zeit bestimmt werden können.
 
-  The official [Vue.js blog](https://blog.vuejs.org/) is a simple blog that generates its index page based on local content.
+  Der offizielle [Vue.js-Blog](https://blog.vuejs.org/) is a simple blog that generates its index page based on local content.
 
 ## Entwicklererfahrung
 
-VitePress aims to provide a great Developer Experience (DX) when working with Markdown content.
+VitePress möchte eine hervorragende Developer Experience (DX) bei der Arbeit mit Markdown-Inhalten bieten.
 
-- **[Vite-Powered:](https://vite.dev/)** instant server start, with edits always instantly reflected (<100ms) without page reload.
+- **[Vite-Powered:](https://vite.dev/)** sofortiger Serverstart, wobei Änderungen ohne Neuladen der Seite unmittelbar (<100 ms) sichtbar werden.
 
-- **[Built-in Markdown Extensions:](./markdown)** Frontmatter, tables, syntax highlighting... you name it. Specifically, VitePress provides many advanced features for working with code blocks, making it ideal for highly technical documentation.
+- **[Built-in Markdown Extensions:](./markdown)** Frontmatter, Tabellen, Syntaxhervorhebung und vieles mehr. VitePress bietet insbesondere zahlreiche fortgeschrittene Funktionen für die Arbeit mit Codeblöcken und eignet sich dadurch besonders für hochtechnische Dokumentation.
 
-- **[Vue-Enhanced Markdown:](./using-vue)** each Markdown page is also a Vue [Single-File Component](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. You can embed interactivity in your static content using Vue templating features or imported Vue components.
+- **[Vue-Enhanced Markdown:](./using-vue)** jede Markdown-Seite ist dank der 100%igen Syntaxkompatibilität von Vue-Templates mit HTML auch eine Vue-[Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html), thanks to Vue template's 100% syntax compatibility with HTML. Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten.
 
-## Performance
+## Leistung
 
-Unlike many traditional SSGs where each navigation results in a full page reload, a website generated by VitePress serves static HTML on the initial visit, but becomes a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application) (SPA) for subsequent navigation within the site. This model, in our opinion, provides an optimal balance for performance:
+Anders als bei vielen herkömmlichen SSGs, bei denen jede Navigation ein vollständiges Neuladen der Seite auslöst, liefert eine mit VitePress erzeugte Website beim ersten Besuch statisches HTML aus und wird bei weiterer Navigation innerhalb der Website zu einer [Single-Page-Anwendung](https://en.wikipedia.org/wiki/Single-page_application) (SPA) Dieses Modell bietet unserer Ansicht nach ein ausgewogenes Verhältnis zwischen Leistung und Benutzerfreundlichkeit:
 
-- **Fast Initial Load**
+- **Schnelles erstes Laden**
 
-  The initial visit to any page will be served the static, pre-rendered HTML for fast loading speed and optimal SEO. The page then loads a JavaScript bundle that turns the page into a Vue SPA ("hydration"). Contrary to common assumptions of SPA hydration being slow, this process is actually extremely fast thanks to Vue 3's raw performance and compiler optimizations. On [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), typical VitePress sites achieve near-perfect performance scores even on low-end mobile devices with a slow network.
+  The initial visit to any page will be served the static, pre-rendered HTML for fast loading speed und optimal SEO. The page then loads a JavaScript bundle that turns the page into a Vue SPA ("hydration"). Contrary to common assumptions of SPA hydration being slow, this process is actually extremely fast thanks to Vue 3's raw performance und compiler optimizations. On [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), typical VitePress sites achieve near-perfect performance scores even on low-end mobile devices with a slow network.
 
-- **Fast Post-load Navigation**
+- **Schnelle Navigation nach dem Laden**
 
-  More importantly, the SPA model leads to better user experience **after** the initial load. Subsequent navigation within the site will no longer cause a full page reload. Instead, the incoming page's content will be fetched and dynamically updated. VitePress also automatically pre-fetches page chunks for links that are within viewport. In most cases, post-load navigation will feel instant.
+  More importantly, the SPA model leads to better user experience **after** the initial load. Subsequent navigation within the site will no longer cause a full page reload. Instead, the incoming page's content will be fetched und dynamically updated. VitePress also automatically pre-fetches page chunks for links that are within viewport. In most cases, post-load navigation will feel instant.
 
-- **Interactivity Without Penalty**
+- **Interaktivität ohne Nachteile**
 
-  To be able to hydrate the dynamic Vue parts embedded inside static Markdown, each Markdown page is processed as a Vue component and compiled into JavaScript. This may sound inefficient, but the Vue compiler is smart enough to separate the static and dynamic parts, minimizing both the hydration cost and payload size. For the initial page load, the static parts are automatically eliminated from the JavaScript payload and skipped during hydration.
+  To be able to hydrate the dynamic Vue parts embedded inside static Markdown, each Markdown page is processed as a Vue component und compiled into JavaScript. This may sound inefficient, but the Vue compiler is smart enough to separate the static und dynamic parts, minimizing both the hydration cost und payload size. For the initial page load, the static parts are automatically eliminated from the JavaScript payload und skipped during hydration.
 
-## What About VuePress?
+## Und was ist mit VuePress?
 
-VitePress is the spiritual successor of VuePress 1. The original VuePress 1 was based on Vue 2 and webpack. With Vue 3 and Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, and a more flexible customization API.
+VitePress is the spiritual successor of VuePress 1. The original VuePress 1 was based on Vue 2 und webpack. With Vue 3 und Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, und a more flexible customization API.
 
-The API difference between VitePress and VuePress 1 mostly lies in theming and customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
+The API difference between VitePress und VuePress 1 mostly lies in theming und customization. If you are using VuePress 1 with the default theme, it should be relatively straightforward to migrate to VitePress.
 
-Maintaining two SSGs in parallel isn't sustainable, so the Vue team has decided to focus on VitePress as the main recommended SSG in the long run. Now VuePress 1 has been deprecated, and VuePress 2 has been handed over to the VuePress community team for further development and maintenance.
+Maintaining two SSGs in parallel isn't sustainable, so the Vue team has decided to focus on VitePress as the main recommended SSG in the long run. Now VuePress 1 has been deprecated, und VuePress 2 has been hunded over to the VuePress community team for further development und maintenance.
