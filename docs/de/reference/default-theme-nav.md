@@ -1,14 +1,14 @@
 ---
-description: Konfiguriere die navigation bar in the VitePress default theme including site title, logo, and menu links.
+description: Konfiguriere die Navigationsleiste im VitePress-Standard-Theme einschließlich Seitentitel, Logo und Menülinks.
 ---
 
 # Nav
 
 Die Navigation ist die oben auf der Seite angezeigte Navigationsleiste. Sie enthält den Seitentitel, globale Menülinks usw.
 
-## Site Title and Logo
+## Seitentitel und Logo
 
-Standardmäßig, nav shows the title of the site referencing [`config.title`](./site-config#title) value. Wenn du die Anzeige in der Navigation ändern möchtest, kannst du einen eigenen Text in `themeConfig.siteTitle` option.
+Standardmäßig zeigt die Navigation den Titel der Website anhand des Werts [`config.title`](./site-config#title) an. Wenn du die Anzeige in der Navigation ändern möchtest, kannst du einen eigenen Text über die Option `themeConfig.siteTitle` festlegen.
 
 ```js
 export default {
@@ -28,7 +28,7 @@ export default {
 }
 ```
 
-Beim Hinzufügen eines Logos wird es zusammen mit dem Seitentitel angezeigt. If your logo is all you need and if you would like to hide the site title text, set `false` to the `siteTitle` option.
+Beim Hinzufügen eines Logos wird es zusammen mit dem Seitentitel angezeigt. Wenn du nur das Logo benötigst und den Seitentitel ausblenden möchtest, setze die Option `siteTitle` auf `false`.
 
 ```js
 export default {
@@ -39,7 +39,7 @@ export default {
 }
 ```
 
-Du kannst als Logo auch ein Objekt übergeben, wenn du ein `alt`-Attribut hinzufügen oder es abhängig vom Hell-/Dunkelmodus anpassen möchtest. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
+Du kannst als Logo auch ein Objekt übergeben, wenn du ein `alt`-Attribut hinzufügen oder es abhängig vom Hell-/Dunkelmodus anpassen möchtest. Einzelheiten findest du unter [`themeConfig.logo`](./default-theme-config#logo).
 
 ## Navigation Links
 
@@ -59,7 +59,7 @@ export default {
 
 `text` ist der tatsächlich angezeigte Text in der Navigation, und `link` ist das Ziel, das beim Anklicken des Textes geöffnet wird. Setze beim Link den Pfad zur tatsächlichen Datei ohne `.md` und beginne immer mit `/`.
 
-The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and gibt zurück the path.
+Der `link` kann auch eine Funktion sein, die [`PageData`](./runtime-api#usedata) als Argument akzeptiert und den Pfad zurückgibt.
 
 Navigationslinks können auch Dropdown-Menüs sein. Setze dazu den Schlüssel `items` in der Link-Option.
 
@@ -81,9 +81,9 @@ export default {
 }
 ```
 
-Beachte, dass der Titel des Dropdown-Menüs (`Dropdown Menu` in the above example) keine Eigenschaft `link` besitzen kann, da er zu einer Schaltfläche zum Öffnen des Dropdowns wird.
+Beachte, dass der Titel des Dropdown-Menüs (`Dropdown Menu` im obigen Beispiel) keine Eigenschaft `link` besitzen kann, da er zu einer Schaltfläche zum Öffnen des Dropdowns wird.
 
-Du kannst den Dropdown-Menüeinträgen außerdem weitere „Abschnitte“ hinzufügen by passing in more nested items.
+Du kannst den Dropdown-Menüeinträgen außerdem weitere „Abschnitte“ hinzufügen, indem du weitere verschachtelte Einträge angibst.
 
 ```js
 export default {
