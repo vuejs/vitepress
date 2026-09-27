@@ -3,23 +3,23 @@ description: VitePress built-in Markdown extensions including custom containers,
 outline: deep
 ---
 
-# Markdown Extensions
+# Markdown-Erweiterungen
 
-VitePress comes with built in Markdown Extensions.
+VitePress comes with built in Markdown-Erweiterungen.
 
 ## Header Anchors
 
-Headers automatically get anchor links applied. Rendering of anchors can be configured using the `markdown.anchor` option.
+Headers automatisch get anchor links applied. Rendering of anchors can be configured Verwendung the `markdown.anchor` option.
 
-### Custom anchors
+### Eigenes anchors
 
-To specify a custom anchor tag for a heading instead of using the auto-generated one, add a suffix to the heading:
+To specify a custom anchor tag for a heading instead of Verwendung the auto-generated one, add a suffix to the heading:
 
 ```
 # Using custom anchors {#my-anchor}
 ```
 
-This allows you to link to the heading as `#my-anchor` instead of the default `#using-custom-anchors`.
+Dies ermöglicht you to link to the heading as `#my-anchor` instead of the default `#Verwendung-custom-anchors`.
 
 ## Links
 
@@ -27,9 +27,9 @@ Both internal and external links get special treatment.
 
 ### Internal Links
 
-Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
+Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatisch be converted to `index.html`, with corresponding URL `/`.
 
-For example, given the following directory structure:
+Zum Beispiel, given the following directory structure:
 
 ```
 .
@@ -55,13 +55,13 @@ And providing you are in `foo/one.md`:
 [bar - four](../bar/four.html) <!-- or you can append .html -->
 ```
 
-### Page Suffix
+### Seite Suffix
 
-Pages and internal links get generated with the `.html` suffix by default.
+Seiten and internal links get generated with the `.html` suffix by default.
 
 ### External Links
 
-Outbound links automatically get `target="_blank" rel="noreferrer"`:
+Outbound links automatisch get `target="_blank" rel="noreferrer"`:
 
 - [vuejs.org](https://vuejs.org)
 - [VitePress on GitHub](https://github.com/vuejs/vitepress)
@@ -77,7 +77,7 @@ lang: en-US
 ---
 ```
 
-This data will be available to the rest of the page, along with all custom and theming components.
+This Daten will be verfügbar to the rest of the page, along with all custom and theming Komponenten.
 
 For more details, see [Frontmatter](../reference/frontmatter-config).
 
@@ -93,7 +93,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 | zebra stripes |   are neat    |    $1 |
 ```
 
-**Output**
+**Ausgabe**
 
 | Tables        |      Are      |   Cool |
 | ------------- | :-----------: | -----: |
@@ -110,7 +110,7 @@ For more details, see [Frontmatter](../reference/frontmatter-config).
 - [x] Update the website
 ```
 
-**Output**
+**Ausgabe**
 
 - [ ] Write the press release
 - [x] Update the website
@@ -125,9 +125,9 @@ Footnotes are supported[^1], including inline ones^[This is an inline footnote.]
 [^1]: Definitions can contain **markdown** and are rendered at the end of the page.
 ```
 
-**Output**
+**Ausgabe**
 
-Footnotes are supported[^1], including inline ones^[This is an inline footnote.].
+Footnotes are supported[^1], including inline ones^[Dies ist an inline footnote.].
 
 [^1]: Definitions can contain **markdown** and are rendered at the end of the page.
 
@@ -139,11 +139,11 @@ Footnotes are supported[^1], including inline ones^[This is an inline footnote.]
 :tada: :100:
 ```
 
-**Output**
+**Ausgabe**
 
 :tada: :100:
 
-A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/data/full.ts) is available.
+A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/packages/plugin-emoji/src/Daten/full.ts) is verfügbar.
 
 ## Table of Contents
 
@@ -153,15 +153,15 @@ A [list of all emojis](https://github.com/mdit-plugins/mdit-plugins/blob/main/pa
 [[toc]]
 ```
 
-**Output**
+**Ausgabe**
 
 [[toc]]
 
-Rendering of the TOC can be configured using the `markdown.toc` option.
+Rendering of the TOC can be configured Verwendung the `markdown.toc` option.
 
-## Custom Containers
+## Eigenes Containers
 
-Custom containers can be defined by their types, titles, and contents.
+Eigenes containers can be defined by their types, titles, and contents.
 
 ### Default Title
 
@@ -189,29 +189,29 @@ This is a details block.
 :::
 ```
 
-**Output**
+**Ausgabe**
 
 ::: info
-This is an info box.
+Dies ist an info box.
 :::
 
 ::: tip
-This is a tip.
+Dies ist a tip.
 :::
 
 ::: warning
-This is a warning.
+Dies ist a warning.
 :::
 
 ::: danger
-This is a dangerous warning.
+Dies ist a dangerous warning.
 :::
 
 ::: details
-This is a details block.
+Dies ist a details block.
 :::
 
-### Custom Title
+### Eigenes Title
 
 You may set custom title by appending the text right after the "type" of the container.
 
@@ -229,7 +229,7 @@ console.log('Hello, VitePress!')
 :::
 ````
 
-**Output**
+**Ausgabe**
 
 ::: danger STOP
 Danger zone, do not proceed
@@ -292,7 +292,7 @@ You have completed the walkthrough!
 > This renders the same way.
 ```
 
-New containers ship without any styling, so add some in your theme using the container name as the class. For this example, the default theme's palette already provides fitting colors:
+New containers ship without any styling, so add some in your theme Verwendung the container name as the class. For this example, the default theme's palette already stellt bereit fitting colors:
 
 ```css
 /* .vitepress/theme/custom.css */
@@ -513,8 +513,8 @@ export default {
 
 ```js{4}
 export default {
-  data () {
-    return {
+  Daten () {
+    zurückgeben {
       msg: 'Highlighted!'
     }
   }
@@ -549,8 +549,8 @@ export default { // Highlighted
 
 ```js{1,4,6-8}
 export default { // Highlighted
-  data () {
-    return {
+  Daten () {
+    zurückgeben {
       msg: `Highlighted!
       This line isn't highlighted,
       but this and the next 2 are.`,
@@ -581,8 +581,8 @@ export default {
 
 ```js
 export default {
-  data() {
-    return {
+  Daten() {
+    zurückgeben {
       msg: 'Highlighted!' // [!code highlight]
     }
   }
@@ -613,8 +613,8 @@ export default {
 
 ```js
 export default {
-  data() {
-    return {
+  Daten() {
+    zurückgeben {
       msg: 'Focused!' // [!code focus]
     }
   }
@@ -644,8 +644,8 @@ export default {
 
 ```js
 export default {
-  data () {
-    return {
+  Daten () {
+    zurückgeben {
       msg: 'Removed' // [!code --]
       msg: 'Added' // [!code ++]
     }
@@ -676,10 +676,10 @@ export default {
 
 ```js
 export default {
-  data() {
-    return {
+  Daten() {
+    zurückgeben {
       msg: 'Error', // [!code error]
-      msg: 'Warning' // [!code warning]
+      msg: 'Warnung' // [!code warning]
     }
   }
 }
@@ -729,20 +729,20 @@ const line4 = 'This is line 4'
 
 ```ts {1}
 // line-numbers is disabled by default
-const line2 = 'This is line 2'
-const line3 = 'This is line 3'
+const line2 = 'Dies ist line 2'
+const line3 = 'Dies ist line 3'
 ```
 
 ```ts:line-numbers {1}
 // line-numbers is enabled
-const line2 = 'This is line 2'
-const line3 = 'This is line 3'
+const line2 = 'Dies ist line 2'
+const line3 = 'Dies ist line 3'
 ```
 
 ```ts:line-numbers=2 {1}
 // line-numbers is enabled and start from 2
-const line3 = 'This is line 3'
-const line4 = 'This is line 4'
+const line3 = 'Dies ist line 3'
+const line4 = 'Dies ist line 4'
 ```
 
 ## Import Code Snippets
@@ -893,7 +893,7 @@ You can also [import snippets](#import-code-snippets) in code groups:
 ```md
 ::: code-group
 
-<!-- filename is used as title by default -->
+<!-- filename is verwendet as title by default -->
 
 <<< @/snippets/snippet.js
 
@@ -939,9 +939,9 @@ For example, you can include a relative markdown file using this:
 ```md
 Some getting started stuff.
 
-### Configuration
+### Konfiguration
 
-Can be created using `.foorc.json`.
+Can be erstellt Verwendung `.foorc.json`.
 ```
 
 **Equivalent code**
@@ -953,9 +953,9 @@ Can be created using `.foorc.json`.
 
 Some getting started stuff.
 
-### Configuration
+### Konfiguration
 
-Can be created using `.foorc.json`.
+Can be erstellt Verwendung `.foorc.json`.
 ```
 
 It also supports selecting a line range:
@@ -975,9 +975,9 @@ It also supports selecting a line range:
 ```md:line-numbers
 Some getting started stuff.
 
-### Configuration
+### Konfiguration
 
-Can be created using `.foorc.json`.
+Can be erstellt Verwendung `.foorc.json`.
 ```
 
 **Equivalent code**
@@ -987,9 +987,9 @@ Can be created using `.foorc.json`.
 
 ## Basics
 
-### Configuration
+### Konfiguration
 
-Can be created using `.foorc.json`.
+Can be erstellt Verwendung `.foorc.json`.
 ```
 
 The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
@@ -1011,11 +1011,11 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 ```md:line-numbers
 <!-- #region basic-usage -->
-## Usage Line 1
+## Verwendung Line 1
 
-## Usage Line 2
+## Verwendung Line 2
 
-## Usage Line 3
+## Verwendung Line 3
 <!-- #endregion basic-usage -->
 ```
 
@@ -1026,9 +1026,9 @@ You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/co
 
 ## Basics
 
-## Usage Line 1
+## Verwendung Line 1
 
-## Usage Line 3
+## Verwendung Line 3
 ```
 
 ::: warning
@@ -1048,7 +1048,7 @@ Some more content here.
 
 ## Another Section
 
-Content outside `My Base Section`.
+Inhalt outside `My Base Section`.
 ```
 
 You can include the `My Base Section` section like this:
