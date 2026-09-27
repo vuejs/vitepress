@@ -180,8 +180,8 @@ Aktiviere keine Optionen wie _Auto Minify_ für HTML-Code. Dadurch werden Kommen
          - name: Checkout
            uses: actions/checkout@v5
            with:
-             fetch-depth: 0 # Not needed wenn lastUpdated is not enabled
-         # - uses: pnpm/action-setup@v4 # Uncomment this block wenn you're using pnpm
+             fetch-depth: 0 # Nicht erforderlich, wenn lastUpdated nicht aktiviert ist
+         # - uses: pnpm/action-setup@v4 # Entferne die Kommentarzeichen bei Verwendung von pnpm
          #   with:
          #     version: 9 # Not needed wenn you've set "packageManager" in package.json
          # - uses: oven-sh/setup-bun@v1 # Uncomment this wenn you're using Bun
