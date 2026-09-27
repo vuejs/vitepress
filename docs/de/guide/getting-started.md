@@ -101,7 +101,7 @@ Angenommen, du hast das VitePress-Projekt in `./docs`, Die erzeugte Dateistruktu
 Das Verzeichnis `docs` gilt als **Projektstammverzeichnis** der VitePress-Website. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionale Anpassungen des Themes reserviert.
 
 ::: tip
-Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. Diese Verzeichnisse können ebenfalls [konfiguriert](../reference/site-config#outdir).
+Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktionsausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. Diese Verzeichnisse können ebenfalls [konfiguriert](../reference/site-config#outdir).
 :::
 
 ### Die Konfigurationsdatei
@@ -190,7 +190,7 @@ $ bun vitepress dev docs
 
 :::
 
-Weitere Informationen zur Verwendung der Kommandozeile findest du in der [CLI Referenz](../reference/cli).
+Weitere Informationen zur Verwendung der Kommandozeile findest du in der [CLI-Referenz](../reference/cli).
 
 Der Entwicklungsserver sollte unter `http://localhost:5173` laufen. Öffne die URL in deinem Browser, um deine neue Website zu sehen.
 
@@ -200,7 +200,7 @@ Der Entwicklungsserver sollte unter `http://localhost:5173` laufen. Öffne die U
 
 - Um mehr darüber zu erfahren, was du auf einer Seite tun kannst, etwa Markdown-Inhalte schreiben oder Vue-Komponenten verwenden, lies den Abschnitt „Schreiben“ der Anleitung. Ein guter Ausgangspunkt sind die [Markdown Extensions](./markdown).
 
-- Um die Funktionen des Standard-Dokumentationsthemes kennenzulernen, sieh dir die [Standard-Theme Config Referenz](../reference/default-theme-config).
+- Um die Funktionen des Standard-Dokumentationsthemes kennenzulernen, sieh dir die [Referenz zur Standard-Theme-Konfiguration](../reference/default-theme-config).
 
 - Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Standard-Theme erweitern](./extending-default-theme) oder [ein eigenes Theme erstellst](./custom-theme).
 
