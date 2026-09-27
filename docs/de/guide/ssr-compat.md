@@ -1,17 +1,17 @@
 ---
 outline: deep
-description: your VitePress theme components and custom code are compatible with server-side rendering.
+description: your VitePress theme Komponenten and custom code are compatible with server-side rendering.
 ---
 
 # SSR-Kompatibilität
 
-VitePress pre-renders the app in Node.js during the production build, using Vue's Server-Side Rendering (SSR) capabilities. This means all custom code in theme components are subject to SSR Compatibility.
+VitePress pre-renders the app in Node.js during the production build, Verwendung Vue's Server-Side Rendering (SSR) capabilities. Das bedeutet all custom code in theme Komponenten are subject to SSR-Kompatibilität.
 
-The [SSR section in official Vue docs](https://vuejs.org/guide/scaling-up/ssr.html) provides more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is to only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue components.
+The [SSR section in official Vue docs](https://vuejs.org/guide/scaling-up/ssr.html) stellt bereit more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. The rule of thumb is to only access browser / DOM APIs in `beforeMount` or `mounted` hooks of Vue Komponenten.
 
 ## `<ClientOnly>`
 
-If you are using or demoing components that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the built-in `<ClientOnly>` component:
+Wenn du are Verwendung or demoing Komponenten that are not SSR-friendly (for example, contain custom directives), you can wrap them inside the built-in `<ClientOnly>` Komponente:
 
 ```md
 <ClientOnly>
@@ -21,7 +21,7 @@ If you are using or demoing components that are not SSR-friendly (for example, c
 
 ## Libraries that Access Browser API on Import
 
-Some components or libraries access browser APIs **on import**. To use code that assumes a browser environment on import, you need to dynamically import them.
+Some Komponenten or libraries access browser APIs **on import**. To use code that assumes a browser environment on import, you need to dynamically import them.
 
 ### Importing in Mounted Hook
 
@@ -39,7 +39,7 @@ onMounted(() => {
 
 ### Conditional Import
 
-You can also conditionally import a dependency using the `import.meta.env.SSR` flag (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
+Du kannst also conditionally import a dependency Verwendung the `import.meta.env.SSR` flag (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
 
 ```js
 if (!import.meta.env.SSR) {
@@ -64,7 +64,7 @@ export default {
 }
 ```
 
-If you're using TypeScript:
+Wenn du're Verwendung TypeScript:
 ```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 
@@ -81,7 +81,7 @@ export default {
 
 ### `defineClientComponent`
 
-VitePress provides a convenience helper for importing Vue components that access browser APIs on import.
+VitePress stellt bereit a convenience helper for importing Vue Komponenten that access browser APIs on import.
 
 ```vue
 <script setup>
@@ -97,7 +97,7 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-You can also pass props/children/slots to the target component:
+Du kannst also pass props/children/slots to the target Komponente:
 
 ```vue
 <script setup>
@@ -132,4 +132,4 @@ const ClientComp = defineClientComponent(
 </template>
 ```
 
-The target component will only be imported in the mounted hook of the wrapper component.
+The target Komponente will only be imported in the mounted hook of the wrapper Komponente.
