@@ -1,17 +1,17 @@
 ---
 outline: deep
-description: your VitePress theme Komponenten and custom code are compatible with server-side rendering.
+description: Sicherstellen, dass deine VitePress-Theme-Komponenten und dein eigener Code mit serverseitigem Rendering kompatibel sind.
 ---
 
 # SSR-Kompatibilität
 
-VitePress pre-renders the app in Node.js during the production build, Verwendung Vue's Server-Side Rendering (SSR) capabilities. Das bedeutet all custom code in theme Komponenten are subject to SSR-Kompatibilität.
+VitePress rendert die Anwendung während des Produktions-Builds in Node.js vor und verwendet dabei die Server-Side-Rendering-Funktionen (SSR) von Vue. Das bedeutet, dass eigener Code in Theme-Komponenten SSR-kompatibel sein muss.
 
-Der [SSR-Abschnitt in der offiziellen Vue-Dokumentation](https://vuejs.org/guide/scaling-up/ssr.html) stellt bereit more context on what SSR is, the relationship between SSR / SSG, and common notes on writing SSR-friendly code. Als Faustregel gilt, dass Browser-/DOM-APIs nur in `beforeMount` or `mounted` hooks of Vue Komponenten.
+Der [SSR-Abschnitt in der offiziellen Vue-Dokumentation](https://vuejs.org/guide/scaling-up/ssr.html) bietet weitere Informationen zu SSR, zum Verhältnis zwischen SSR und SSG sowie zu wichtigen Hinweisen für SSR-kompatiblen Code. Als Faustregel gilt, dass Browser-/DOM-APIs nur in `beforeMount`- oder `mounted`-Hooks von Vue-Komponenten verwendet werden sollten.
 
 ## `<ClientOnly>`
 
-Wenn du are Verwendung or demoing Komponenten die nicht SSR-kompatibel sind (for example, contain custom directives), kannst du sie in die integrierte `<ClientOnly>` Komponente:
+Wenn du nicht SSR-kompatible Komponenten verwendest oder demonstrierst (beispielsweise solche mit eigenen Direktiven), kannst du sie in die integrierte `<ClientOnly>`-Komponente einschließen:
 
 ```md
 <ClientOnly>
@@ -21,7 +21,7 @@ Wenn du are Verwendung or demoing Komponenten die nicht SSR-kompatibel sind (for
 
 ## Bibliotheken, die beim Import auf Browser-APIs zugreifen
 
-Some Komponenten or libraries access browser APIs **on import**. Um Code zu verwenden, der beim Import eine Browserumgebung voraussetzt, musst du ihn dynamisch importieren.
+Einige Komponenten oder Bibliotheken greifen **beim Import** auf Browser-APIs zu. Um Code zu verwenden, der beim Import eine Browserumgebung voraussetzt, musst du ihn dynamisch importieren.
 
 ### Import in einem Mounted-Hook
 
@@ -39,7 +39,7 @@ onMounted(() => {
 
 ### Bedingter Import
 
-Du kannst also conditionally import a dependency Verwendung the `import.meta.env.SSR` flag (part of [Vite env variables](https://vite.dev/guide/env-and-mode.html#env-variables)):
+Du kannst eine Abhängigkeit auch bedingt mithilfe des Flags `import.meta.env.SSR` importieren, das zu den [Vite-Umgebungsvariablen](https://vite.dev/guide/env-and-mode.html#env-variables) gehört:
 
 ```js
 if (!import.meta.env.SSR) {
@@ -49,7 +49,7 @@ if (!import.meta.env.SSR) {
 }
 ```
 
-Da [`Theme.enhanceApp`](./custom-theme#theme-interface) asynchron sein kann, kannst du Vue-Plugins bedingt importieren und registrieren that access browser APIs on import:
+Da [`Theme.enhanceApp`](./custom-theme#theme-interface) asynchron sein kann, kannst du Vue-Plugins, die beim Import auf Browser-APIs zugreifen, bedingt importieren und registrieren:
 
 ```js [.vitepress/theme/index.js]
 /** @type {import('vitepress').Theme} */
@@ -81,7 +81,7 @@ export default {
 
 ### `defineClientComponent`
 
-VitePress stellt bereit a convenience helper for importing Vue Komponenten that access browser APIs on import.
+VitePress stellt einen praktischen Helper zum Importieren von Vue-Komponenten bereit, die beim Import auf Browser-APIs zugreifen.
 
 ```vue
 <script setup>
@@ -97,7 +97,7 @@ const ClientComp = defineClientComponent(() => {
 </template>
 ```
 
-Du kannst also pass props/children/slots to the target Komponente:
+Du kannst der Zielkomponente auch Props, Children und Slots übergeben:
 
 ```vue
 <script setup>
@@ -132,4 +132,4 @@ const ClientComp = defineClientComponent(
 </template>
 ```
 
-The target Komponente will only be imported in the mounted hook of the wrapper Komponente.
+Die Zielkomponente wird erst im `mounted`-Hook der Wrapper-Komponente importiert.
