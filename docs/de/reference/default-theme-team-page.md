@@ -29,11 +29,11 @@ const members = [
 
 # Teamseite
 
-If you would like to introduce your team, you may use Team components to construct the Teamseite. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Teamseite.
+Wenn du would like to introduce your team, you may use Team components to construct the Teamseite. There are two ways of using these components. One is to embed it in doc page, and another is to create a full Teamseite.
 
 ## Show team members in a page
 
-You may use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
+Du kannst use `<VPTeamMembers>` component exposed from `vitepress/theme` to display a list of team members on any page.
 
 ```html
 <script setup>
@@ -64,11 +64,11 @@ The above will display a team member in card looking element. It should display 
 
 <VPTeamMembers size="small" :members />
 
-`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Learn more about it in [`<VPTeamMembers>`](#vpteammembers).
+`<VPTeamMembers>` component comes in 2 different sizes, `small` and `medium`. While it boils down to your preference, usually `small` size should fit better when used in doc page. Also, you may add more properties to each member such as adding "description" or "sponsor" button. Mehr erfahren about it in [`<VPTeamMembers>`](#vpteammembers).
 
 Embedding team members in doc page is good for small size team where having dedicated full team page might be too much, or introducing partial members as a reference to documentation context.
 
-If you have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
+Wenn du have large number of members, or simply would like to have more space to show team members, consider [creating a full team page](#create-a-full-team-page).
 
 ## Create a full Teamseite
 
@@ -123,7 +123,7 @@ When creating a full team page, remember to wrap all components with `<VPTeamPag
 
 ### Add sections to divide team members
 
-You may add "sections" to the team page. For example, you may have different types of team members such as Core Team Members and Community Partners. You can divide these members into sections to better explain the roles of each group.
+Du kannst add "sections" to the team page. Zum Beispiel, you may have different types of team members such as Core Team Members and Community Partners. Du kannst divide these members into sections to better explain the roles of each group.
 
 To do so, add `<VPTeamPageSection>` component to the `team.md` file we created previously.
 
@@ -244,7 +244,7 @@ Adds "title" section of the page. Best use at the very beginning under `<VPTeamP
 
 ## `<VPTeamPageSection>`
 
-Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. You may add as many sections as you like inside `<VPTeamPage>`.
+Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. Du kannst add as many sections as you like inside `<VPTeamPage>`.
 
 ```html
 <VPTeamPage>
