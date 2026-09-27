@@ -16,7 +16,7 @@ Du kannst Text und Link für die vorherige und nächste Seite anpassen (sie werd
 
 - Beispiele:
 
-  - To customize only the text:
+  - Nur den Text anpassen:
 
     ```yaml
     ---
@@ -24,7 +24,7 @@ Du kannst Text und Link für die vorherige und nächste Seite anpassen (sie werd
     ---
     ```
 
-  - To customize both text and link:
+  - Text und Link anpassen:
 
     ```yaml
     ---
@@ -34,7 +34,7 @@ Du kannst Text und Link für die vorherige und nächste Seite anpassen (sie werd
     ---
     ```
 
-  - To hide previous page:
+  - Vorherige Seite ausblenden:
 
     ```yaml
     ---
