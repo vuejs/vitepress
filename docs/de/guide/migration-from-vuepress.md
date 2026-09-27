@@ -4,15 +4,15 @@
 
 ### Seitenleiste
 
-The sidebar is no longer automatisch populated from frontmatter. Du kannst [read the frontmatter yourself](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225) to dynamically populate the sidebar. [Additional utilities for this](https://github.com/vuejs/vitepress/issues/96) may be provided in the future.
+Die Seitenleiste wird nicht mehr automatisch aus dem Frontmatter erzeugt. Du kannst [das Frontmatter selbst auslesen](https://github.com/vuejs/vitepress/issues/572#issuecomment-1170116225), um die Seitenleiste dynamisch zu erzeugen. [Zusätzliche Hilfsfunktionen dafür](https://github.com/vuejs/vitepress/issues/96) könnten in Zukunft bereitgestellt werden.
 
 ## Markdown
 
 ### Bilder
 
-Unlike VuePress, VitePress handles [`base`](./asset-handling#base-url) of your config automatisch when you use static image.
+Anders als VuePress verarbeitet VitePress [`base`](./asset-handling#base-url) aus deiner Konfiguration bei der Verwendung statischer Bilder automatisch.
 
-Hence, now you can render images without `img` tag.
+Daher kannst du Bilder jetzt ohne ein `img`-Tag rendern.
 
 ```diff
 - <img :src="$withBase('/foo.png')" alt="foo">
@@ -20,11 +20,11 @@ Hence, now you can render images without `img` tag.
 ```
 
 ::: warning
-For dynamic images you still need `withBase` as shown in [Base URL guide](./asset-handling#base-url).
+Für dynamische Bilder benötigst du weiterhin `withBase`, wie in der [Anleitung zur Basis-URL](./asset-handling#base-url) gezeigt.
 :::
 
-Use `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>` regex to find and replace it with `![$2]($1)` to replace all the images with `![](...)` syntax.
+Verwende den regulären Ausdruck `<img.*withBase\('(.*)'\).*alt="([^"]*)".*>`, um die entsprechenden Stellen zu finden und durch `![$2]($1)` zu ersetzen. So werden alle Bilder in die `![](...)`-Syntax umgewandelt.
 
 ---
 
-more to follow...
+Weitere Inhalte folgen...
