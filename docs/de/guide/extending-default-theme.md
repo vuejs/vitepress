@@ -1,25 +1,25 @@
 ---
 outline: deep
-description: Customize and extend the VitePress default theme with custom CSS, components, layouts, and slots.
+description: Anpassen and extend the VitePress default theme mit custom CSS, components, layouts, and slots.
 ---
 
-# Extending the Default Theme
+# Standard-Theme erweitern
 
-VitePress' default theme is optimized for documentation, and can be customized. Consult the [Default Theme Config Overview](../reference/default-theme-config) for a comprehensive list of options.
+VitePress' default theme is optimized for documentation, and can be customized. Consult the [Standard-Theme Config Übersicht](../reference/default-theme-config) for a comprehensive list of options.
 
-However, there are a number of cases where configuration alone won't be enough. For example:
+However, there are a number of cases where Konfiguration alone won't be enough. Zum Beispiel:
 
 1. You need to tweak the CSS styling;
 2. You need to modify the Vue app instance, for example to register global components;
-3. You need to inject custom content into the theme via layout slots.
+3. You need to inject custom content in the theme via layout slots.
 
-These advanced customizations will require using a custom theme that "extends" the default theme.
+These advanced customizations will require Verwendung a custom theme that "extends" the default theme.
 
 ::: tip
-Before proceeding, make sure to first read [Using a Custom Theme](./custom-theme) to understand how custom themes work.
+Before proceeding, make sure to first read [Using a Eigenes Theme](./custom-theme) to understand how custom themes work.
 :::
 
-## Customizing CSS
+## Anpassen CSS
 
 The default theme CSS is customizable by overriding root level CSS variables:
 
@@ -42,7 +42,7 @@ See [default theme CSS variables](https://github.com/vuejs/vitepress/blob/main/s
 
 ### Navbar
 
-The navbar draws a single background surface controlled by CSS variables, so its look can be changed without touching component internals:
+The navbar draws a single background surface controlled by CSS variables, so its look can be changed ohne touching component internals:
 
 ```css
 :root {
@@ -63,7 +63,7 @@ The navbar draws a single background surface controlled by CSS variables, so its
 }
 ```
 
-For example, a frosted-glass navbar:
+Zum Beispiel, a frosted-glass navbar:
 
 ```css
 :root {
@@ -75,16 +75,16 @@ For example, a frosted-glass navbar:
 The same treatment carries over to the local nav: `--vp-local-nav-bg-color` follows the navbar surface color by default, and where the two bars meet they share a single blurred surface, so the glass stays continuous across them.
 
 ::: warning
-`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When using a translucent bar, also check text contrast over your page content. Safari 17 and earlier don't apply variable-driven backdrop filters, so they show the translucent color without the blur.
+`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. When Verwendung a translucent bar, also check text contrast over your page content. Safari 17 and earlier don't apply variable-driven backdrop filters, so they show the translucent color ohne the blur.
 :::
 
-When the nav items don't fit the available width, they move into the `⋯` menu at the end of the navbar instead of being clipped, starting with the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized with [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).
+When the nav items don't fit the verfügbar width, they move in the `⋯` menu at the end of the navbar instead of being clipped, starting mit the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized mit [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).
 
 ## Using Different Fonts
 
-VitePress uses [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
+VitePress verwendet [Inter](https://rsms.me/inter/) as the default font, and will include the fonts in the build output. The font is also auto preloaded in production. However, this may not be desirable if you want to use a different main font.
 
-To avoid including Inter in the build output, import the theme from `vitepress/theme-without-fonts` instead:
+To avoid including Inter in the build output, import the theme von `vitepress/theme-ohne-fonts` instead:
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme-without-fonts'
@@ -102,10 +102,10 @@ export default DefaultTheme
 ```
 
 ::: warning
-If you are using optional components like the [Team Page](../reference/default-theme-team-page) components, make sure to also import them from `vitepress/theme-without-fonts`!
+Wenn du are Verwendung optional components like the [Team Seite](../reference/default-theme-team-page) components, make sure to also import them von `vitepress/theme-ohne-fonts`!
 :::
 
-If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` with hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
+If your font is a local file referenced via `@font-face`, it will be processed as an asset and included under `.vitepress/dist/assets` mit hashed filename. To preload this file, use the [transformHead](../reference/site-config#transformhead) build hook:
 
 ```js [.vitepress/config.js]
 export default {
@@ -145,7 +145,7 @@ export default {
 }
 ```
 
-If you're using TypeScript:
+Wenn du're Verwendung TypeScript:
 ```ts [.vitepress/theme/index.ts]
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
@@ -159,11 +159,11 @@ export default {
 } satisfies Theme
 ```
 
-Since we are using Vite, you can also leverage Vite's [glob import feature](https://vite.dev/guide/features.html#glob-import) to auto register a directory of components.
+Since we are Verwendung Vite, you can also leverage Vite's [glob import feature](https://vite.dev/guide/features.html#glob-import) to auto register a directory of components.
 
 ## Layout Slots
 
-The default theme's `<Layout/>` component has a few slots that can be used to inject content at certain locations of the page. Here's an example of injecting a component into the before outline:
+The default theme's `<Layout/>` component has a few slots that can be verwendet to inject content at certain locations of the page. Here's an example of injecting a component in the bevor outline:
 
 ```js [.vitepress/theme/index.js]
 import DefaultTheme from 'vitepress/theme'
@@ -210,33 +210,33 @@ export default {
 }
 ```
 
-Full list of slots available in the default theme layout:
+Full list of slots verfügbar in the default theme layout:
 
 - When `layout: 'doc'` (default) is enabled via frontmatter:
   - `doc-top`
   - `doc-bottom`
-  - `doc-footer-before`
-  - `doc-before`
-  - `doc-after`
-  - `sidebar-nav-before`
-  - `sidebar-nav-after`
+  - `doc-footer-bevor`
+  - `doc-bevor`
+  - `doc-nach`
+  - `sidebar-nav-bevor`
+  - `sidebar-nav-nach`
   - `aside-top`
   - `aside-bottom`
-  - `aside-outline-before`
-  - `aside-outline-after`
-  - `aside-ads-before`
-  - `aside-ads-after`
+  - `aside-outline-bevor`
+  - `aside-outline-nach`
+  - `aside-ads-bevor`
+  - `aside-ads-nach`
 - When `layout: 'home'` is enabled via frontmatter:
-  - `home-hero-before`
-  - `home-hero-info-before`
+  - `home-hero-bevor`
+  - `home-hero-info-bevor`
   - `home-hero-info`
-  - `home-hero-info-after`
-  - `home-hero-actions-before-actions`
-  - `home-hero-actions-after`
+  - `home-hero-info-nach`
+  - `home-hero-actions-bevor-actions`
+  - `home-hero-actions-nach`
   - `home-hero-image`
-  - `home-hero-after`
-  - `home-features-before`
-  - `home-features-after`
+  - `home-hero-nach`
+  - `home-features-bevor`
+  - `home-features-nach`
 - When `layout: 'page'` is enabled via frontmatter:
   - `page-top`
   - `page-bottom`
@@ -245,18 +245,18 @@ Full list of slots available in the default theme layout:
 - Always:
   - `layout-top`
   - `layout-bottom`
-  - `nav-bar-title-before`
-  - `nav-bar-title-after`
-  - `nav-bar-content-before`
-  - `nav-bar-content-after`
-  - `nav-screen-content-before`
-  - `nav-screen-content-after`
+  - `nav-bar-title-bevor`
+  - `nav-bar-title-nach`
+  - `nav-bar-content-bevor`
+  - `nav-bar-content-nach`
+  - `nav-screen-content-bevor`
+  - `nav-screen-content-nach`
 
 ## Using View Transitions API
 
 ### On Appearance Toggle
 
-You can extend the default theme to provide a custom transition when the color mode is toggled. An example:
+Du kannst extend the default theme to provide a custom transition when the color mode is toggled. An example:
 
 <<< @/components/AppearanceToggleTransition.vue [.vitepress/theme/Layout.vue]
 
@@ -269,7 +269,7 @@ Result (**warning!**: flashing colors, sudden movements, bright lights):
 
 </details>
 
-Refer [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) from more details on view transitions.
+Refer [Chrome Docs](https://developer.chrome.com/docs/web-platform/view-transitions/) von more details on view transitions.
 
 ### On Route Change
 
@@ -277,7 +277,7 @@ Coming soon.
 
 ## Overriding Internal Components
 
-You can use Vite's [aliases](https://vite.dev/config/shared-options.html#resolve-alias) to replace default theme components with your custom ones:
+Du kannst use Vite's [aliases](https://vite.dev/config/shared-options.html#resolve-alias) to replace default theme components mit your custom ones:
 
 ```ts
 import { fileURLToPath, URL } from 'node:url'
@@ -299,4 +299,4 @@ export default defineConfig({
 })
 ```
 
-To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight chance their name is updated between minor releases.
+To know the exact name of the component refer [our source code](https://github.com/vuejs/vitepress/tree/main/src/client/theme-default/components). Since the components are internal, there is a slight chance their name is updated zwischen minor releases.
