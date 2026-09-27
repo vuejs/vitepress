@@ -1,53 +1,53 @@
 ---
-description: Erfahre how to use YAML frontmatter in VitePress Markdown files to control page-level metadata and behavior.
+description: Erfahre, wie du YAML-Frontmatter in VitePress-Markdown-Dateien verwendest, um Metadaten und Verhalten einzelner Seiten zu steuern.
 ---
 
 # Frontmatter
 
 ## Verwendung
 
-VitePress unterstützt YAML frontmatter in all Markdown files, parsing them mit [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (bevor any elements including `<script>` tags), and must take the form of valid YAML set zwischen triple-dashed lines. Beispiel:
+VitePress unterstützt YAML frontmatter in allen Markdown-Dateien und verarbeitet sie mit [gray-matter](https://github.com/jonschlinkert/gray-matter). Das Frontmatter muss am Anfang der Markdown-Datei stehen (vor allen Elementen einschließlich `<script>`-Tags) und aus gültigem YAML zwischen drei Bindestrichzeilen bestehen. Beispiel:
 
 ```md
 ---
-title: Docs with VitePress
+title: Dokumentation mit VitePress
 editLink: true
 ---
 ```
 
-Many site or default theme config options have corresponding options in frontmatter. Du kannst use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Referenz](../reference/frontmatter-config).
+Viele Optionen der Website- oder Standard-Theme-Konfiguration besitzen entsprechende Optionen im Frontmatter. Du kannst Frontmatter verwenden, um bestimmtes Verhalten nur für die aktuelle Seite zu überschreiben. Einzelheiten findest du in [Frontmatter Config Referenz](../reference/frontmatter-config).
 
-Du kannst also define custom frontmatter data of your own, to be verwendet in dynamic Vue expressions on the page.
+Du kannst außerdem eigene Frontmatter-Daten definieren und sie in dynamischen Vue-Ausdrücken auf der Seite verwenden.
 
-## Accessing Frontmatter Data
+## Zugriff auf Frontmatter-Daten
 
-Frontmatter data can be accessed via the special `$frontmatter` global variable:
+Auf Frontmatter-Daten kannst du über die spezielle globale Variable `$frontmatter` zugreifen:
 
-Here's an example of how you could use it in your Markdown file:
+Hier ist ein Beispiel dafür, wie du sie in deiner Markdown-Datei verwenden kannst:
 
 ```md
 ---
-title: Docs with VitePress
+title: Dokumentation mit VitePress
 editLink: true
 ---
 
 # {{ $frontmatter.title }}
 
-Guide content
+Inhalt der Anleitung
 ```
 
-Property accesses like `{{ $frontmatter.title }}` are resolved while the Markdown is rendered, so the value also ends up in the local search index, in [content loader](./data-loading#createcontentloader) output, in heading anchors - the heading above gets `id="docs-mit-vitepress"` - and in link targets written ohne spaces around the expression, like `[text]({{$frontmatter.link}})`. Other expressions are evaluated by Vue at runtime as usual, and wrapping an expression in [`v-pre`](./Verwendung-vue#escaping) shows it literally.
+Zugriffe auf Eigenschaften wie `{{ $frontmatter.title }}` werden beim Rendern von Markdown aufgelöst. Der Wert landet dadurch auch im lokalen Suchindex, in [content loader](./data-loading#createcontentloader) Ausgabe, in Überschriftenankern – die obige Überschrift erhält `id="docs-mit-vitepress"` – und in Linkzielen, die ohne Leerzeichen um den Ausdruck geschrieben werden, etwa `[text]({{$frontmatter.link}})`. Andere Ausdrücke werden wie gewohnt zur Laufzeit von Vue ausgewertet. Wenn du einen Ausdruck in [`v-pre`](./Verwendung-vue#escaping) einschließt, wird er wörtlich angezeigt.
 
-Du kannst also access current page's frontmatter data in `<script setup>` mit the [`useData()`](../reference/runtime-api#usedata) helper.
+Du kannst außerdem auf die Frontmatter-Daten der aktuellen Seite in `<script setup>` mit dem [`useData()`](../reference/runtime-api#usedata) -Helper zugreifen.
 
-## Alternative Frontmatter Formats
+## Alternative Frontmatter-Formate
 
-VitePress also unterstützt JSON frontmatter syntax, starting and ending in curly braces:
+VitePress unterstützt auch die JSON-Frontmatter-Syntax, die mit geschweiften Klammern beginnt und endet:
 
 ```json
 ---
 {
-  "title": "Blogging Like a Hacker",
+  "title": "Bloggen wie ein Hacker",
   "editLink": true
 }
 ---
