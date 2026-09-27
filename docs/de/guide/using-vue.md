@@ -30,7 +30,7 @@ Jede Markdown-Datei wird zunächst in HTML kompiliert und anschließend als Vue-
 
 ### Directives
 
-Direktiven funktionieren ebenfalls (note that by design, raw HTML is also valid in Markdown):
+Direktiven funktionieren ebenfalls (beachte, dass rohes HTML absichtlich auch in Markdown gültig ist):
 
 **Input**
 
@@ -59,7 +59,7 @@ const count = ref(0)
 
 ## Markdown-Inhalt
 
-The count is: {{ count }}
+Die Anzahl beträgt: {{ count }}
 
 <button :class="$style.button" @click="count++">Increment</button>
 
@@ -75,7 +75,7 @@ The count is: {{ count }}
 Bei Verwendung in Markdown erfordert `<style scoped>` das Hinzufügen spezieller Attribute zu jedem Element der aktuellen Seite, wodurch die Seitengröße erheblich zunimmt. `<style module>` wird bevorzugt, wenn eine lokal begrenzte Gestaltung auf einer Seite benötigt wird.
 :::
 
-You also have access to VitePress' runtime APIs such as the [`useData` helper](../reference/runtime-api#usedata), which stellt bereit access to current page's metadata:
+Du hast außerdem Zugriff auf VitePress' Laufzeit-APIs wie den [`useData`-Helper](../reference/runtime-api#usedata), der Zugriff auf die Metadaten der aktuellen Seite bereitstellt:
 
 **Input**
 
@@ -94,7 +94,7 @@ const { page } = useData()
 ```json
 {
   "path": "/using-vue.html",
-  "title": "Using Vue in Markdown",
+  "title": "Vue in Markdown verwenden",
   "frontmatter": {},
   ...
 }
@@ -126,7 +126,7 @@ Dies ist eine .md-Datei, die eine benutzerdefinierte Komponente verwendet
 
 ### Komponenten global registrieren
 
-Wenn eine Komponente auf den meisten Seiten verwendet werden soll, kann sie durch Anpassen der Vue-App-Instanz global registriert werden. Siehe den entsprechenden Abschnitt unter [Standard-Theme erweitern](./extending-default-theme#registering-global-Komponenten) for an example.
+Wenn eine Komponente auf den meisten Seiten verwendet werden soll, kann sie durch Anpassen der Vue-App-Instanz global registriert werden. Siehe den entsprechenden Abschnitt unter [Standard-Theme erweitern](./extending-default-theme#registering-global-Komponenten) für ein Beispiel.
 
 ::: warning IMPORTANT
 Stelle sicher, dass der Name einer benutzerdefinierten Komponente entweder einen Bindestrich enthält oder in PascalCase geschrieben ist. Andernfalls wird sie als Inline-Element behandelt und in ein `<p>`-Tag eingeschlossen, was zu einer Abweichung bei der Hydration führt, da `<p>` keine Block-Elemente enthalten darf.
@@ -144,7 +144,7 @@ Du kannst Vue-Komponenten in Überschriften verwenden, beachte jedoch den Unters
 Das von `<code>` umschlossene HTML wird unverändert angezeigt; nur HTML, das **nicht** umschlossen ist, wird von Vue analysiert.
 
 ::: tip
-The output HTML is accomplished by [Markdown-it](https://github.com/Markdown-it/Markdown-it), while the parsed headers are handled by VitePress (and verwendet for both the sidebar and document title).
+Das Ausgabe-HTML wird von [Markdown-it](https://github.com/Markdown-it/Markdown-it) erzeugt, während die analysierten Überschriften von VitePress verarbeitet werden (und sowohl für die Seitenleiste als auch für den Dokumenttitel verwendet werden).
 :::
 
 
