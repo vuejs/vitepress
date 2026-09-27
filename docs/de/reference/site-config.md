@@ -20,7 +20,7 @@ export default {
   // app level config options
   lang: 'en-US',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'Statischer Website-Generator auf Basis von Vite und Vue.',
   ...
 }
 ```
@@ -39,7 +39,7 @@ export default async () => {
     // app level config options
     lang: 'en-US',
     title: 'VitePress',
-    description: 'Vite & Vue powered static site generator.',
+    description: 'Statischer Website-Generator auf Basis von Vite und Vue.',
 
     // Konfigurationsoptionen auf Theme-Ebene
     themeConfig: {
@@ -65,7 +65,7 @@ export default defineConfig({
   // app level config options
   lang: 'en-US',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'Statischer Website-Generator auf Basis von Vite und Vue.',
 
   // Konfigurationsoptionen auf Theme-Ebene
   themeConfig: {
