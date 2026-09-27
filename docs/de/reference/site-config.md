@@ -5,7 +5,7 @@ description: Complete reference of VitePress site configuration options includin
 
 # Site-Konfiguration
 
-Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. For example, the base directory or the title of the site.
+Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. Zum Beispiel, the base directory or the title of the site.
 
 ## Übersicht
 
@@ -27,7 +27,7 @@ export default {
 
 ::: details Dynamic (Async) Config
 
-If you need to dynamically generate the config, you can also default export a function. For example:
+Wenn du need to dynamically generate the config, you can also default export a function. Zum Beispiel:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -54,7 +54,7 @@ export default async () => {
 }
 ```
 
-You can also use top-level `await`. For example:
+Du kannst also use top-level `await`. Zum Beispiel:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -83,7 +83,7 @@ export default defineConfig({
 
 ### Config Intellisense
 
-Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE supports it, this should work in both JavaScript and TypeScript.
+Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE unterstützt it, this should work in both JavaScript and TypeScript.
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -95,7 +95,7 @@ export default defineConfig({
 
 ### Typed Theme Config
 
-By default, `defineConfig` helper expects the theme config type from default theme:
+Standardmäßig, `defineConfig` helper expects the theme config type from default theme:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -107,7 +107,7 @@ export default defineConfig({
 })
 ```
 
-If you use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
+Wenn du use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -124,23 +124,23 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-  You can configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+  Du kannst configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
 
 - **Vue**
 
-  VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). You can configure its options using the [vue](#vue) option in your VitePress config.
+  VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Du kannst configure its options using the [vue](#vue) option in your VitePress config.
 
 - **Markdown**
 
-  You can configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
+  Du kannst configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
 
-### Page-Level Overrides
+### Seite-Level Overrides
 
 Some settings can be overridden for specific pages using frontmatter.
 
 See [Frontmatter-Konfiguration](./frontmatter-config) for details.
 
-### Directory-Level Overrides
+### Verzeichnis-Level Overrides
 
 Some config settings can be overridden at the directory level, allowing all pages in that directory to share settings without needing to repeat them in the frontmatter of each page.
 
@@ -148,9 +148,9 @@ This is achieved by adding a file called `config.ts` (or `.js`, `.mjs`, or `.mts
 
 Nested directories inherit settings from their parent directory, with configuration overrides being merged accordingly.
 
-The `defineAdditionalConfig` helper can be used to get TypeScript-powered intellisense for the available options, though as with `defineConfig` its use is optional.
+The `defineAdditionalConfig` helper can be used to get TypeScript-powered intellisense for the verfügbar options, though as with `defineConfig` its use is optional.
 
-For example, for a site with multiple languages we might want a different `description` for each language. We could add `es/config.ts` with the following content:
+Zum Beispiel, for a site with multiple languages we might want a different `description` for each language. We could add `es/config.ts` with the following content:
 
 ```ts
 import { defineAdditionalConfig } from 'vitepress'
@@ -174,7 +174,7 @@ Alternatively, when using the built-in i18n features, the settings for a locale 
 
 Title for the site. When using the default theme, this will be displayed in the nav bar.
 
-It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. For example with the following config and page content:
+It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. Zum Beispiel with the following config and page content:
 
 ```ts
 export default {
@@ -193,7 +193,7 @@ The title of the page will be `Hello | My Awesome Site`.
 - Type: `string | boolean`
 - Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate) or at the [directory level](#directory-level-overrides)
 
-Allows customizing each page's title suffix or the entire title. For example:
+Allows customizing each page's title suffix or the entire title. Zum Beispiel:
 
 ```ts
 export default {
@@ -206,7 +206,7 @@ export default {
 # Hello
 ```
 
-The title of the page will be `Hello | Custom Suffix`.
+The title of the page will be `Hello | Eigenes Suffix`.
 
 To completely customize how the title should be rendered, you can use the `:title` symbol in `titleTemplate`:
 
@@ -216,7 +216,7 @@ export default {
 }
 ```
 
-Here `:title` will be replaced with the text inferred from the page's first `<h1>` header. The title of the previous example page will be `Hello - Custom Suffix`.
+Here `:title` will be replaced with the text inferred from the page's first `<h1>` header. The title of the previous example page will be `Hello - Eigenes Suffix`.
 
 The option can be set to `false` to disable title suffixes.
 
@@ -386,11 +386,11 @@ export default {
 - Type: `string`
 - Default: `/`
 
-The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. If you plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
+The base URL the site will be deployed at. You will need to set this if you plan to deploy your site under a sub path, for example, GitHub pages. Wenn du plan to deploy your site to `https://foo.github.io/bar/`, then you should set base to `'/bar/'`. It should always start and end with a slash.
 
 The one exception is `'./'`, which produces a [relocatable build](../guide/deploy#relocatable-builds-relative-base): pages reference everything relative to their own location, so the same output works from any sub path (IPFS gateways, archives) without rebuilding and stays browsable when opened directly from the file system.
 
-The base is automatically prepended to all the URLs that start with / in other options, so you only need to specify it once.
+The base is automatisch prepended to all the URLs that start with / in other options, so you only need to specify it once.
 
 ```ts
 export default {
@@ -434,7 +434,7 @@ export default {
 - Type: `string`
 - Default: `.`
 
-The directory where your markdown pages are stored, relative to project root. Also see [Root and Source Directory](../guide/routing#root-and-source-directory).
+The directory where your markdown pages are stored, relative to project root. Also see [Root and Quelle Verzeichnis](../guide/routing#root-and-source-directory).
 
 ```ts
 export default {
@@ -508,7 +508,7 @@ Only production builds are affected. `vitepress preview` serves a root-absolute 
 - Type: `number`
 - Default: `undefined`
 
-Spreads the generated assets over this many subdirectories of [`assetsDir`](#assetsdir), `assets/0/` through `assets/N-1/`, instead of one flat directory. Use it when the host caps the number of files per directory; Netlify, for example, allows 54,000. Each page emits two JavaScript files, so a site with 60,000 pages needs at least three shards, plus some headroom because files are distributed by a hash of their name.
+Spreads the generated assets over this many subdirectories of [`assetsDir`](#assetsdir), `assets/0/` through `assets/N-1/`, instead of one flat directory. Use it when the host caps the number of files per directory; Netlify, for example, ermöglicht 54,000. Each page emits two JavaScript files, so a site with 60,000 pages needs at least three shards, plus some headroom because files are distributed by a hash of their name.
 
 ```ts
 export default {
@@ -539,7 +539,7 @@ export default {
 - Type: `string`
 - Default: `./.vitepress/cache`
 
-The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). See also: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
+The directory for cache files, relative to [project root](../guide/routing#root-and-source-directory). Siehe auch: [cacheDir](https://vite.dev/config/shared-options.html#cachedir).
 
 ```ts
 export default {
@@ -614,7 +614,7 @@ This option injects an inline script that restores users settings from local sto
 
 Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
 
-When using the default theme, enabling this option will display each page's last updated time. You can customize the text via [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) option.
+When using the default theme, enabling this option will display each page's last updated time. Du kannst customize the text via [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) option.
 
 ## Customization
 
@@ -622,7 +622,7 @@ When using the default theme, enabling this option will display each page's last
 
 - Type: `MarkdownOption`
 
-Configure Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
+Konfigurieren Markdown parser options. VitePress uses [Markdown-it](https://github.com/markdown-it/markdown-it) as the parser, and [Shiki](https://github.com/shikijs/shiki) to highlight language syntax. Inside this option, you may pass various Markdown related options to fit your needs.
 
 ```js
 export default {
@@ -630,9 +630,9 @@ export default {
 }
 ```
 
-Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options available.
+Check the [type declaration and jsdocs](https://github.com/vuejs/vitepress/blob/main/src/node/markdown/markdown.ts) for all the options verfügbar.
 
-Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) options to collect headings into [`useData().page.headers`](./runtime-api#usedata). This option is disabled by default.
+Set `markdown.headers` to `true` or pass [`@mdit-vue/plugin-headers`](https://github.com/mdit-vue/mdit-vue/tree/main/packages/plugin-headers) options to collect headings into [`useData().page.headers`](./runtime-api#usedata). This option is deaktiviert by default.
 
 ### vite
 
@@ -712,7 +712,7 @@ interface SSGContext {
 
 - Type: `(context: TransformContext) => Awaitable<HeadConfig[]>`
 
-`transformHead` is a build hook to add extra tags to the `<head>` of each page. It allows you to add head entries that cannot be statically added to your VitePress config. You only need to return extra entries, they will be merged automatically with the existing ones.
+`transformHead` is a build hook to add extra tags to the `<head>` of each page. It ermöglicht you to add head entries that cannot be statically added to your VitePress config. You only need to zurückgeben extra entries, they will be merged automatisch with the existing ones.
 
 ::: warning
 Don't mutate anything inside the `context`.
@@ -798,10 +798,10 @@ export default {
 
 - Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
 
-`transformPageData` is a hook to transform the `pageData` of each page. You can directly mutate `pageData` or return changed values which will be merged into the page data.
+`transformPageData` is a hook to transform the `pageData` of each page. Du kannst directly mutate `pageData` or zurückgeben changed values which will be merged into the page data.
 
 ::: warning
-Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. You can check for `process.env.NODE_ENV === 'production'` for conditional logic.
+Don't mutate anything inside the `context` and be careful that this might impact the performance of dev server, especially if you have some network requests or heavy computations (like generating images) in the hook. Du kannst check for `process.env.NODE_ENV === 'production'` for conditional logic.
 :::
 
 ```ts
