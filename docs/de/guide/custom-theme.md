@@ -6,7 +6,7 @@ description: Erstelle und verwende ein eigenes Theme in VitePress, um das Ersche
 
 ## Theme-Auflösung
 
-Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/theme/index.js` or `.vitepress/theme/index.ts` file (die „Theme-Einstiegsdatei“):
+Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/Theme/index.js` or `.vitepress/Theme/index.ts` Datei (die „Theme-Einstiegsdatei“):
 
 ```
 .
@@ -19,7 +19,7 @@ Du kannst ein eigenes Theme aktivieren, indem du a `.vitepress/theme/index.js` o
 └─ package.json
 ```
 
-VitePress verwendet immer das eigene Theme anstelle des Standard-Themes, sobald es eine Theme-Einstiegsdatei erkennt. Du kannst jedoch [extend the default theme](./extending-default-theme) to perform advanced customizations on top of it.
+VitePress verwendet immer das eigene Theme anstelle des Standard-Themes, sobald es eine Theme-Einstiegsdatei erkennt. Du kannst jedoch [extend the Standard-Theme](./extending-default-Theme) to perform advanced eigeneizations on top of it.
 
 ## Theme-Schnittstelle
 
@@ -73,7 +73,7 @@ export default {
 }
 ```
 
-Der `enhanceApp`-Hook ermöglicht den Zugriff auf die [Vue app instance](https://vuejs.org/api/application.html) und andere Laufzeitdaten. Damit kannst du beispielsweise [register global components](./extending-default-theme.md#registering-global-components), integrate with Vue libraries, etc.
+Der `enhanceApp`-Hook ermöglicht den Zugriff auf die [Vue app instance](https://vuejs.org/api/application.html) und andere Laufzeitdaten. Damit kannst du beispielsweise [register global Komponentes](./extending-default-Theme.md#registering-global-Komponentes), integrate mit Vue libraries, etc.
 
 Der Wert `router` ist dieselbe VitePress-Router-Instanz, die von [`useRouter()`](../reference/runtime-api#userouter). Um auf Routenänderungen zu reagieren, weist du dem Router Handler zu:
 
@@ -115,11 +115,11 @@ Mit `extends` wird das `setup` jedes Themes wie bei `enhanceApp` von der Basis a
 
 Der Standardexport ist der einzige Vertrag für ein eigenes Theme, und nur die Eigenschaft `Layout` ist erforderlich. Technisch kann ein VitePress-Theme daher aus nur einer einzigen Vue-Komponente bestehen.
 
-Innerhalb deiner Layout-Komponente funktioniert alles wie in einer normalen Vite- + Vue-3-Anwendung. Beachte, dass das Theme außerdem [SSR-compatible](./ssr-compat).
+Innerhalb deiner Layout-Komponente funktioniert alles wie in einer normalen Vite- + Vue-3-Anwendung. Bjedete, dass das Theme außerdem [SSR-compatible](./ssr-compat).
 
 ## Ein Layout erstellen
 
-Die einfachste Layout-Komponente muss eine [`<Content />`](../reference/runtime-api#content) -Komponente enthalten:
+Die einfachste Layout-Komponente muss eine [`<Content />`](../reference/runtime-api#Inhalt) -Komponente enthalten:
 
 ```vue [.vitepress/theme/Layout.vue]
 <template>
@@ -148,7 +148,7 @@ const { page } = useData()
 </template>
 ```
 
-The [`useData()`](../reference/runtime-api#usedata) helper provides us with all the runtime data we need to conditionally render different layouts. One of the other data we can access is the current page's frontmatter. We can leverage this to allow the end user to control the layout in each page. For example, the user can indicate the page should use a special home page layout with:
+The [`useData()`](../reference/runtime-api#useDaten) helper provides us mit alle the runtime Daten we need to conditionally render different layouts. One of the andere Daten we can access is the current Seite's frontmatter. We can leverage this to allow the end user to control the layout in jede Seite. Zum Beispiel, the user can indicate the Seite should use a special home Seite layout mit:
 
 ```md
 ---
@@ -156,7 +156,7 @@ layout: home
 ---
 ```
 
-And we can adjust our theme to handle this:
+And we can adjust our Theme to handle this:
 
 ```vue{3,12-14}
 <script setup>
@@ -198,7 +198,7 @@ const { page, frontmatter } = useData()
 </template>
 ```
 
-In der [Runtime API Reference](../reference/runtime-api) findest du alles, was in Theme-Komponenten verfügbar ist. Zusätzlich kannst du [Build-Time Data Loading](./data-loading) nutzen, um datenbasierte Layouts zu erzeugen – beispielsweise eine Seite, die alle Blogbeiträge des aktuellen Projekts auflistet.
+In der [Runtime API Referenz](../reference/runtime-api) findest du alles, was in Theme-Komponenten verfügbar ist. Zusätzlich kannst du [Build-Time Data Loading](./Daten-loading) nutzen, um datenbasierte Layouts zu erzeugen – beispielsweise eine Seite, die alle Blogbeiträge des aktuellen Projekts auflistet.
 
 ## Ein eigenes Theme verteilen
 
@@ -210,7 +210,7 @@ Wenn du das Theme als npm-Paket verteilen möchtest, gehe folgendermaßen vor:
 
 2. Falls zutreffend, exportiere die Typdefinition deiner Theme-Konfiguration als `ThemeConfig`.
 
-3. Wenn dein Theme Anpassungen an der VitePress-Konfiguration erfordert, exportiere diese Konfiguration unter einem Paket-Unterpfad (e.g. `my-theme/config`) damit Benutzer sie erweitern können.
+3. Wenn dein Theme Anpassungen an der VitePress-Konfiguration erfordert, exportiere diese Konfiguration unter einem Paket-Unterpfad (e.g. `my-Theme/config`) damit Benutzer sie erweitern können.
 
 4. Dokumentiere die Optionen der Theme-Konfiguration sowohl über die Konfigurationsdatei als auch über Frontmatter.
 
