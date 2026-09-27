@@ -36,9 +36,9 @@ editLink: true
 Inhalt der Anleitung
 ```
 
-Zugriffe auf Eigenschaften wie `{{ $frontmatter.title }}` werden beim Rendern von Markdown aufgelöst. Der Wert landet dadurch auch im lokalen Suchindex, in [Inhalt loader](./Daten-loading#createInhaltloader) Ausgabe, in Überschriftenankern – die obige Überschrift erhält `id="docs-mit-vitepress"` – und in Linkzielen, die ohne Leerzeichen um den Ausdruck geschrieben werden, etwa `[text]({{$frontmatter.link}})`. Andere Ausdrücke werden wie gewohnt zur Laufzeit von Vue ausgewertet. Wenn du einen Ausdruck in [`v-pre`](./Verwendung-vue#escaping) einschließt, wird er wörtlich angezeigt.
+Zugriffe auf Eigenschaften wie `{{ $frontmatter.title }}` werden beim Rendern von Markdown aufgelöst. Der Wert landet dadurch auch im lokalen Suchindex, in [content loader](./data-loading#createcontentloader) Ausgabe, in Überschriftenankern – die obige Überschrift erhält `id="docs-mit-vitepress"` – und in Linkzielen, die ohne Leerzeichen um den Ausdruck geschrieben werden, etwa `[text]({{$frontmatter.link}})`. Andere Ausdrücke werden wie gewohnt zur Laufzeit von Vue ausgewertet. Wenn du einen Ausdruck in [`v-pre`](./Verwendung-vue#escaping) einschließt, wird er wörtlich angezeigt.
 
-Du kannst außerdem auf die Frontmatter-Daten der aktuellen Seite in `<script setup>` mit dem [`useData()`](../reference/runtime-api#useDaten) -Helper zugreifen.
+Du kannst außerdem auf die Frontmatter-Daten der aktuellen Seite in `<script setup>` mit dem [`useData()`](../reference/runtime-api#usedata) -Helper zugreifen.
 
 ## Alternative Frontmatter-Formate
 
