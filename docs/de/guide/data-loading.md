@@ -1,10 +1,10 @@
 ---
-description: Lade beliebige Daten zur Build-Zeit mit VitePress Data Loadern und importiere sie in Seiten oder Komponenten.
+description: Lade beliebige Daten zur Erstellungszeit mit VitePress-Datenladern und importiere sie in Seiten oder Komponenten.
 ---
 
-# Daten zur Build-Zeit laden
+# Daten zur Erstellungszeit laden
 
-VitePress stellt eine Funktion namens **Data Loader** bereit, mit der du beliebige Daten laden und in Seiten oder Komponenten importieren kannst. Das Laden der Daten wird **nur zur Build-Zeit** ausgeführt: Die resultierenden Daten werden als JSON im endgültigen JavaScript-Bundle serialisiert.
+VitePress stellt eine Funktion namens **Datenlader** bereit, mit der du beliebige Daten laden und in Seiten oder Komponenten importieren kannst. Das Laden der Daten wird **nur zur Erstellungszeit** ausgeführt: Die resultierenden Daten werden als JSON im endgültigen JavaScript-Bundle serialisiert.
 
 Data Loader können verwendet werden, um entfernte Daten abzurufen oder Metadaten auf Grundlage lokaler Dateien zu erzeugen. Zum Beispiel kannst du damit deine lokalen API-Seiten analysieren und automatisch einen Index aller API-Einträge erzeugen.
 
@@ -57,11 +57,11 @@ export default {
 
 ## Daten aus lokalen Dateien
 
-Wenn du Daten auf Grundlage lokaler Dateien erzeugen musst, solltest du die `watch` Option im Data Loader verwenden, damit Änderungen an diesen Dateien automatische Aktualisierungen während der Entwicklung auslösen können.
+Wenn du Daten auf Grundlage lokaler Dateien erzeugen musst, solltest du die Option `watch` im Datenlader verwenden, damit Änderungen an diesen Dateien automatische Aktualisierungen während der Entwicklung auslösen können.
 
 Die Option `watch` ist außerdem praktisch, weil du [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) verwenden kannst, um mehrere Dateien zu finden. Die Muster können relativ zur Loader-Datei angegeben werden, und die Funktion `load()` erhält die gefundenen Dateien als absolute Pfade.
 
-Das folgende Beispiel zeigt, wie CSV-Dateien geladen und mit [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Da diese Datei nur zur Build-Zeit ausgeführt wird, wird der CSV-Parser nicht an den Client ausgeliefert!
+Das folgende Beispiel zeigt, wie CSV-Dateien mit [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/) geladen werden. Da diese Datei nur zur Build-Zeit ausgeführt wird, wird der CSV-Parser nicht an den Client ausgeliefert!
 
 ```js
 import fs from 'node:fs'
@@ -93,7 +93,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-Der Helper akzeptiert ein Glob-Muster relativ zum [Quellverzeichnis](./routing#source-directory), und gibt ein `{ watch, load }`-Data-Loader-Objekt zurück, das als Standardexport in einer Data-Loader-Datei verwendet werden kann. Außerdem wird ein Cache auf Grundlage der Änderungszeitpunkte von Dateien verwendet, um die Leistung während der Entwicklung zu verbessern.
+Der Helper akzeptiert ein Glob-Muster relativ zum [Quellverzeichnis](./routing#source-directory), und gibt ein `{ watch, load }`-Datenlader-Objekt zurück, das als Standardexport in einer Data-Loader-Datei verwendet werden kann. Außerdem wird ein Cache auf Grundlage der Änderungszeitpunkte von Dateien verwendet, um die Leistung während der Entwicklung zu verbessern.
 
 Hinweis: Der Loader funktioniert nur mit Markdown-Dateien – gefundene Dateien ohne Markdown-Endung werden übersprungen.
 
