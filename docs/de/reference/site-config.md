@@ -3,7 +3,7 @@ outline: deep
 description: Vollständige Referenz der VitePress-Website-Konfigurationsoptionen einschließlich Einstellungen auf Anwendungsebene, Theme-Konfiguration und Build-Optionen.
 ---
 
-# Site-Konfiguration
+# Website-Konfiguration
 
 In der Website-Konfiguration definierst du die globalen Einstellungen der Website. Konfigurationsoptionen auf Anwendungsebene gelten für jede VitePress-Website, unabhängig vom verwendeten Theme. Zum Beispiel das Basisverzeichnis oder den Titel der Website.
 
@@ -41,7 +41,7 @@ export default async () => {
     title: 'VitePress',
     description: 'Vite & Vue powered static site generator.',
 
-    // theme level config options
+    // Konfigurationsoptionen auf Theme-Ebene
     themeConfig: {
       sidebar: [
         ...posts.map((post) => ({
@@ -67,7 +67,7 @@ export default defineConfig({
   title: 'VitePress',
   description: 'Vite & Vue powered static site generator.',
 
-  // theme level config options
+  // Konfigurationsoptionen auf Theme-Ebene
   themeConfig: {
     sidebar: [
       ...posts.map((post) => ({
@@ -102,7 +102,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   themeConfig: {
-    // Type is `DefaultTheme.Config`
+    // Typ ist `DefaultTheme.Config`
   }
 })
 ```
