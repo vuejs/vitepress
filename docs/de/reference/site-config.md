@@ -5,15 +5,15 @@ description: Vollständige Referenz der VitePress-Website-Konfigurationsoptionen
 
 # Site-Konfiguration
 
-In der Website-Konfiguration definierst du die globalen Einstellungen der Website. Konfigurationsoptionen auf Anwendungsebene gelten für jede VitePress-Website, unabhängig vom verwendeten Theme. Zum Beispiel, the base directory or the title of the site.
+In der Website-Konfiguration definierst du die globalen Einstellungen der Website. Konfigurationsoptionen auf Anwendungsebene gelten für jede VitePress-Website, unabhängig vom verwendeten Theme. Zum Beispiel das Basisverzeichnis oder den Titel der Website.
 
 ## Übersicht
 
 ### Auflösung der Konfiguration
 
-Die Konfigurationsdatei wird immer aus `<root>/.vitepress/config.[ext]`, wobei `<root>` dein VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
+Die Konfigurationsdatei wird immer aus `<root>/.vitepress/config.[ext]`, wobei `<root>` dein VitePress-[Projektstammverzeichnis](../guide/routing#root-and-source-directory) ist und `[ext]` eine der unterstützten Dateierweiterungen bezeichnet. TypeScript wird standardmäßig unterstützt. Unterstützte Erweiterungen sind `.js`, `.ts`, `.mjs` und `.mts`.
 
-Es wird empfohlen, in Konfigurationsdateien die ES-Modul-Syntax zu verwenden. The config file should default export an object:
+Es wird empfohlen, in Konfigurationsdateien die ES-Modul-Syntax zu verwenden. Die Konfigurationsdatei sollte standardmäßig ein Objekt exportieren:
 
 ```ts
 export default {
@@ -25,9 +25,9 @@ export default {
 }
 ```
 
-::: details Dynamic (Async) Config
+::: details Dynamische (asynchrone) Konfiguration
 
-Wenn du die Konfiguration dynamisch erzeugen musst, you can also default export a function. Zum Beispiel:
+Wenn du die Konfiguration dynamisch erzeugen musst, kannst du auch standardmäßig eine Funktion exportieren. Zum Beispiel:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -83,7 +83,7 @@ export default defineConfig({
 
 ### Konfigurations-IntelliSense
 
-Die Verwendung des Helpers `defineConfig` stellt TypeScript-basierte IntelliSense für Konfigurationsoptionen bereit. Sofern deine IDE dies unterstützt, this should work in both JavaScript and TypeScript.
+Die Verwendung des Helpers `defineConfig` stellt TypeScript-basierte IntelliSense für Konfigurationsoptionen bereit. Sofern deine IDE dies unterstützt, sollte dies sowohl in JavaScript als auch in TypeScript funktionieren.
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -95,7 +95,7 @@ export default defineConfig({
 
 ### Typisierte Theme-Konfiguration
 
-Standardmäßig erwartet der Helper `defineConfig` the theme config type from default theme:
+Standardmäßig erwartet der Helper `defineConfig` den Theme-Konfigurationstyp des Standard-Themes:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -107,7 +107,7 @@ export default defineConfig({
 })
 ```
 
-Wenn du ein eigenes Theme verwendest und Typprüfungen for the theme config, musst du stattdessen `defineConfigWithTheme` verwenden, and pass the config type for your custom theme via a generic argument:
+Wenn du ein eigenes Theme verwendest und Typprüfungen für dessen Theme-Konfiguration möchtest, musst du stattdessen `defineConfigWithTheme` verwenden und den Konfigurationstyp deines eigenen Themes als generisches Argument übergeben:
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -124,33 +124,33 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-  Du kannst configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. Eine separate Vite-Konfigurationsdatei ist nicht erforderlich.
+  Du kannst die zugrunde liegende Vite-Instanz über die Option [vite](#vite) in deiner VitePress-Konfiguration konfigurieren. Eine separate Vite-Konfigurationsdatei ist nicht erforderlich.
 
 - **Vue**
 
-  VitePress enthält bereits das offizielle Vue-Plugin für Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Du kannst dessen Optionen konfigurieren using the [vue](#vue) option in your VitePress config.
+  VitePress enthält bereits das offizielle Vue-Plugin für Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Du kannst dessen Optionen über die Option [vue](#vue) in deiner VitePress-Konfiguration konfigurieren.
 
 - **Markdown**
 
-  Du kannst configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
+  Du kannst die zugrunde liegende [Markdown-It](https://github.com/markdown-it/markdown-it)-Instanz über die Option [markdown](#markdown) in deiner VitePress-Konfiguration konfigurieren.
 
 ### Überschreibungen auf Seitenebene
 
 Einige Einstellungen können für bestimmte Seiten über das Frontmatter überschrieben werden.
 
-See [Frontmatter-Konfiguration](./frontmatter-config) for details.
+Weitere Informationen findest du unter [Frontmatter-Konfiguration](./frontmatter-config).
 
 ### Überschreibungen auf Verzeichnisebene
 
-Einige Konfigurationseinstellungen können auf Verzeichnisebene überschrieben werden, allowing all pages in that directory to share settings without needing to repeat them in the frontmatter of each page.
+Einige Konfigurationseinstellungen können auf Verzeichnisebene überschrieben werden, sodass alle Seiten in diesem Verzeichnis dieselben Einstellungen verwenden können, ohne sie im Frontmatter jeder Seite wiederholen zu müssen.
 
-Dies wird erreicht, indem eine Datei namens `config.ts` (or `.js`, `.mjs`, or `.mts`) in the relevant directory. This file should export a config object using `export default`, similar to the main config file.
+Dies wird erreicht, indem im entsprechenden Verzeichnis eine Datei namens `config.ts` (oder `.js`, `.mjs` bzw. `.mts`) angelegt wird. Diese Datei sollte wie die Hauptkonfigurationsdatei ein Konfigurationsobjekt über `export default` exportieren.
 
-Verschachtelte Verzeichnisse übernehmen Einstellungen ihres übergeordneten Verzeichnisses, with configuration overrides being merged accordingly.
+Verschachtelte Verzeichnisse übernehmen die Einstellungen ihres übergeordneten Verzeichnisses; Überschreibungen werden entsprechend zusammengeführt.
 
-Der Helper `defineAdditionalConfig` kann verwendet werden to get TypeScript-powered intellisense for the verfügbar options, though as with `defineConfig` its use is optional.
+Der Helper `defineAdditionalConfig` kann verwendet werden, um TypeScript-basierte IntelliSense für die verfügbaren Optionen zu erhalten. Wie bei `defineConfig` ist seine Verwendung optional.
 
-Zum Beispiel können wir bei einer Website mit mehreren Sprachen we might want a different `description` for each language. We could add `es/config.ts` with the following content:
+Bei einer Website mit mehreren Sprachen möchten wir beispielsweise für jede Sprache eine andere `description` verwenden. Dazu können wir `es/config.ts` mit folgendem Inhalt anlegen:
 
 ```ts
 import { defineAdditionalConfig } from 'vitepress'
@@ -160,9 +160,9 @@ export default defineAdditionalConfig({
 })
 ```
 
-Diese `description` wird anschließend für alle Seiten in the `es` directory.
+Diese `description` wird anschließend für alle Seiten im Verzeichnis `es` verwendet.
 
-Alternativ können bei Verwendung der integrierten i18n-Funktionen, the settings for a locale directory can be overridden via the `locales` setting in the main configuration file. See [Internationalization](../guide/i18n) for details.
+Alternativ können die Einstellungen eines Sprachverzeichnisses bei Verwendung der integrierten i18n-Funktionen über die `locales`-Einstellung in der Hauptkonfigurationsdatei überschrieben werden. Weitere Informationen findest du unter [Internationalisierung](../guide/i18n).
 
 ## Website-Metadaten
 
@@ -170,11 +170,11 @@ Alternativ können bei Verwendung der integrierten i18n-Funktionen, the settings
 
 - Type: `string`
 - Default: `VitePress`
-- Can be overridden per page via [frontmatter](./frontmatter-config#title) or at the [directory level](#directory-level-overrides)
+- Kann pro Seite über das [Frontmatter](./frontmatter-config#title) oder auf [Verzeichnisebene](#directory-level-overrides) überschrieben werden
 
-Title for the site. Bei Verwendung des Standard-Themes, this will be displayed in the nav bar.
+Titel der Website. Bei Verwendung des Standard-Themes wird er in der Navigationsleiste angezeigt.
 
-Er wird außerdem als Standardsuffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. Zum Beispiel with the following config and page content:
+Er wird außerdem als Standardsuffix für alle einzelnen Seitentitel verwendet, sofern [`titleTemplate`](#titletemplate) nicht definiert ist. Der endgültige Titel einer einzelnen Seite besteht aus dem Text ihrer ersten `<h1>`-Überschrift und dem globalen `title` als Suffix. Zum Beispiel bei folgender Konfiguration und folgendem Seiteninhalt:
 
 ```ts
 export default {
@@ -191,9 +191,9 @@ Der Titel der Seite lautet `Hello | My Awesome Site`.
 ### titleTemplate
 
 - Type: `string | boolean`
-- Can be overridden per page via [frontmatter](./frontmatter-config#titletemplate) or at the [directory level](#directory-level-overrides)
+- Kann pro Seite über das [Frontmatter](./frontmatter-config#titletemplate) oder auf [Verzeichnisebene](#directory-level-overrides) überschrieben werden
 
-Allows customizing each page's title suffix or the entire title. Zum Beispiel:
+Ermöglicht die Anpassung des Titelsuffixes jeder Seite oder des gesamten Titels. Zum Beispiel:
 
 ```ts
 export default {
@@ -208,7 +208,7 @@ export default {
 
 Der Titel der Seite lautet `Hello | Eigenes Suffix`.
 
-To completely customize how the title should be rendered, you can use the `:title` symbol in `titleTemplate`:
+Um die Darstellung des Titels vollständig anzupassen, kannst du das Symbol `:title` in `titleTemplate` verwenden:
 
 ```ts
 export default {
@@ -216,17 +216,17 @@ export default {
 }
 ```
 
-Here `:title` will be replaced with the text inferred from the page's first `<h1>` header. The title of the previous example page will be `Hello - Eigenes Suffix`.
+Hier wird `:title` durch den aus der ersten `<h1>`-Überschrift der Seite ermittelten Text ersetzt. Der Titel der vorherigen Beispielseite lautet `Hello - Eigenes Suffix`.
 
-The option can be set to `false` to disable title suffixes.
+Die Option kann auf `false` gesetzt werden, um Titelsuffixe zu deaktivieren.
 
 ### description
 
 - Type: `string`
-- Default: `A VitePress site`
+- Standard: `Eine VitePress-Website`
 - Can be overridden per page via [frontmatter](./frontmatter-config#description) or at the [directory level](#directory-level-overrides)
 
-Description for the site. This will render as a `<meta>` tag in the page HTML.
+Beschreibung der Website. Sie wird als `<meta>`-Tag im HTML der Seite ausgegeben.
 
 ```ts
 export default {
@@ -240,7 +240,7 @@ export default {
 - Default: `[]`
 - Can be appended per page via [frontmatter](./frontmatter-config#head) or at the [directory level](#directory-level-overrides)
 
-Additional elements to render in the `<head>` tag in the page HTML. The user-added tags are rendered before the closing `head` tag, after VitePress tags.
+Zusätzliche Elemente, die im `<head>`-Tag des Seiten-HTML gerendert werden. Vom Benutzer hinzugefügte Tags werden nach den VitePress-Tags und vor dem schließenden `head`-Tag gerendert.
 
 ```ts
 type HeadConfig =
