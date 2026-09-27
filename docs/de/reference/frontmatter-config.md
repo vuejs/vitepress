@@ -1,6 +1,6 @@
 ---
 outline: deep
-description: Reference of all available frontmatter configuration options for VitePress Markdown pages.
+description: Reference of all verfügbar frontmatter configuration options for VitePress Markdown pages.
 ---
 
 # Frontmatter-Konfiguration
@@ -16,7 +16,7 @@ editLink: true
 ---
 ```
 
-You can access frontmatter data via the `$frontmatter` global in Vue expressions:
+Du kannst access frontmatter data via the `$frontmatter` global in Vue expressions:
 
 ```md
 {{ $frontmatter.title }}
@@ -107,7 +107,7 @@ The following frontmatter options are only applicable when using the default the
 Determines the layout of the page.
 
 - `doc` - It applies default documentation styles to the markdown content.
-- `home` - Special layout for "Startseite". You may add extra options such as `hero` and `features` to rapidly create beautiful landing page.
+- `home` - Special layout for "Startseite". Du kannst add extra options such as `hero` and `features` to rapidly create beautiful landing page.
 - `page` - Behave similar to `doc` but it applies no styles to the content. Useful when you want to create a fully custom page.
 
 ```yaml
