@@ -1,10 +1,10 @@
 ---
-description: Configure the sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
+description: Konfigurieren the sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
 ---
 
 # Seitenleiste
 
-The sidebar is the main navigation block for your documentation. You can configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
+The sidebar is the main navigation block for your documentation. Du kannst configure the sidebar menu in [`themeConfig.sidebar`](./default-theme-config#sidebar).
 
 ```js
 export default {
@@ -52,7 +52,7 @@ export default {
 }
 ```
 
-Each `link` should specify the path to the actual file starting with `/`. If you add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
+Each `link` should specify the path to the actual file starting with `/`. Wenn du add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
 
 ```js
 export default {
@@ -70,7 +70,7 @@ export default {
 }
 ```
 
-You may further nest the sidebar items up to 6 level deep counting up from the root level. Note that deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+Du kannst further nest the sidebar items up to 6 level deep counting up from the root level. Beachte, dass deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
 
 ```js
 export default {
@@ -99,7 +99,7 @@ export default {
 
 ## Multiple Sidebars
 
-You may show different sidebar depending on the page path. For example, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
+Du kannst show different sidebar depending on the page path. Zum Beispiel, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
 
 To do so, first organize your pages into directories for each desired section:
 
@@ -169,7 +169,7 @@ export default {
 }
 ```
 
-All sections are "open" by default. If you would like them to be "closed" on initial page load, set `collapsed` option to `true`.
+All sections are "open" by default. Wenn du would like them to be "closed" on initial page load, set `collapsed` option to `true`.
 
 ```js
 export default {
@@ -187,13 +187,13 @@ export default {
 
 ## Path Prefix
 
-When your documentation structure has deep directories or groups located under the same subdirectory, you can use the `base` option to automatically prepend a path prefix to all nested `items` inside that group. This avoids repeating the same path prefix for every `link`.
+When your documentation structure has deep directories or groups located under the same subdirectory, you can use the `base` option to automatisch prepend a path prefix to all nested `items` inside that group. This avoids repeating the same path prefix for every `link`.
 
 The `base` option is supported in both multiple sidebar configurations and nested sidebar groups.
 
 ### In Multiple Sidebars
 
-You can define `base` at the root of a sidebar section configuration:
+Du kannst define `base` at the root of a sidebar section configuration:
 
 ```js {5}
 export default {
@@ -215,7 +215,7 @@ export default {
 
 ### In Nested Groups
 
-You can also use `base` inside nested sidebar groups. It will apply to the immediate children of that group:
+Du kannst also use `base` inside nested sidebar groups. It will apply to the immediate children of that group:
 
 ```js{6,13}
 export default {
