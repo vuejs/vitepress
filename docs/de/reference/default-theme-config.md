@@ -1,10 +1,10 @@
 ---
-description: Reference of all Konfiguration options verfügbar for the VitePress Standard theme.
+description: Referenz aller für das VitePress-Standard-Theme verfügbaren Konfigurationsoptionen.
 ---
 
 # Konfiguration des Standard-Themes
 
-Theme config lets you customize your theme. Du kannst define theme config via the `themeConfig` option in the config file:
+Mit der Theme-Konfiguration kannst du dein Theme anpassen. Du kannst sie über die Option `themeConfig` in der Konfigurationsdatei definieren:
 
 ```ts
 export default {
@@ -21,15 +21,15 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the Standard theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**Die auf dieser Seite dokumentierten Optionen gelten nur für das Standard-Theme.** Andere Themes erwarten eine andere Theme-Konfiguration. Bei Verwendung eines eigenen Themes wird das Theme-Konfigurationsobjekt an das Theme übergeben, damit es davon abhängiges Verhalten definieren kann.
 
 ## i18nRouting
 
 - Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. Du kannst disable this behavior by setting `themeConfig.i18nRouting` to `falsch`.
+Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. Du kannst disable this behavior by setting `themeConfig.i18nRouting` to `false`.
 
-Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current route, and the target locale key, and gibt zurück the target link.
+Setze `themeConfig.i18nRouting` auf eine Funktion, um den Sprachlink anzupassen. Die Funktion erhält die aktuellen VitePress-Daten, die aktuelle Route und den Schlüssel der Zielsprache und gibt den Ziellink zurück.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -51,7 +51,7 @@ export default defineConfig({
 
 - Type: `ThemeableImage`
 
-Logo file to display in nav bar, right before the site title. Accepts a path string, or an object to set a different logo for light/dark mode.
+Logo-Datei, die in der Navigationsleiste direkt vor dem Seitentitel angezeigt wird. Akzeptiert eine Pfadzeichenkette oder ein Objekt, um unterschiedliche Logos für den Hell-/Dunkelmodus festzulegen.
 
 ```ts
 export default {
@@ -70,9 +70,9 @@ type ThemeableImage =
 
 ## siteTitle
 
-- Type: `string | falsch`
+- Type: `string | false`
 
-Du kannst customize this item to replace the Standard site title (`title` in app config) in nav. When set to `falsch`, title in nav will be deaktiviert. Useful when you have `logo` that already contains the site title text.
+Du kannst dieses Element anpassen, um den Standard-Seitentitel (`title` in der App-Konfiguration) in der Navigation zu ersetzen. Bei `false` wird der Titel in der Navigation deaktiviert. Dies ist nützlich, wenn dein `logo` den Seitentitel bereits enthält.
 
 ```ts
 export default {
@@ -86,7 +86,7 @@ export default {
 
 - Type: `NavItem`
 
-The Konfiguration for the nav menu item. More details in [Standard-Theme: Nav](./Standard-theme-nav#navigation-links).
+Die Konfiguration für einen Navigationseintrag. Weitere Details findest du unter [Standard-Theme: Navigation](./Standard-theme-nav#navigation-links).
 
 ```ts
 export default {
@@ -132,9 +132,9 @@ interface NavItemWithChildren {
 
 ## sidebar
 
-- Type: `Seitenleiste`
+- Type: `Sidebar`
 
-The Konfiguration for the sidebar menu item. More details in [Standard-Theme: Seitenleiste](./Standard-theme-sidebar).
+Die Konfiguration für einen Seitenleisteneintrag. Weitere Details findest du unter [Standard-Theme: Seitenleiste](./Standard-theme-sidebar).
 
 ```ts
 export default {
@@ -203,22 +203,22 @@ export type SidebarItem = {
 ## aside
 
 - Type: `boolean | 'left'`
-- Default: `wahr`
+- Default: `true`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
-Setting this value to `falsch` prevents rendering of aside container.\
-Setting this value to `wahr` renders the aside to the right.\
-Setting this value to `left` renders the aside to the left.\
-In right-to-left layouts, both sides are mirrored.
+Setting this value to `false` prevents rendering of aside container.\
+Setting this value to `true` renders the aside to the right.\
+Wenn dieser Wert auf `left` gesetzt wird, wird der Aside-Container links gerendert.\
+In Rechts-nach-Links-Layouts werden beide Seiten gespiegelt.
 
-Wenn du want to disable it for all viewports, you should use `outline: falsch` instead.
+Wenn du es für alle Ansichtsgrößen deaktivieren möchtest, solltest du stattdessen `outline: false` verwenden.
 
 ## outline
 
-- Type: `Outline | Outline['level'] | falsch`
-- Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
+- Type: `Outline | Outline['level'] | false`
+- Die Ebene kann pro Seite über das [Frontmatter] überschrieben werden.(./frontmatter-config#outline)
 
-Setting this value to `falsch` prevents rendering of outline container. Refer this interface for more details:
+Wenn dieser Wert auf `false` gesetzt wird, wird der Outline-Container nicht gerendert. Weitere Details findest du in diesem Interface:
 
 ```ts
 interface Outline {
@@ -245,7 +245,7 @@ interface Outline {
 
 - Type: `SocialLink[]`
 
-Du kannst define this option to show your social account links with icons in nav.
+Du kannst diese Option definieren, um Links zu deinen sozialen Konten mit Symbolen in der Navigation anzuzeigen.
 
 ```ts
 export default {
@@ -286,7 +286,7 @@ interface SocialLink {
 - Type: `Fußzeile`
 - Can be overridden per page via [frontmatter](./frontmatter-config#footer)
 
-Fußzeile Konfiguration. Du kannst add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. Dies is due to design concerns.
+Konfiguration der Fußzeile. Du kannst eine Nachricht oder einen Copyright-Text in der Fußzeile hinzufügen. Er wird jedoch nur angezeigt, wenn die Seite keine Seitenleiste enthält. Dies ist eine bewusste Designentscheidung.
 
 ```ts
 export default {
@@ -300,7 +300,7 @@ export default {
 ```
 
 ```ts
-export interface Fußzeile {
+export interface Footer {
   message?: string
   copyright?: string
 }
@@ -335,7 +335,7 @@ export interface EditLink {
 
 - Type: `LastUpdatedOptions`
 
-Allows customization for the last updated text and date format.
+Ermöglicht die Anpassung des Textes und Datumsformats für die letzte Aktualisierung.
 
 ```ts
 export default {
@@ -378,7 +378,7 @@ export interface AlgoliaSearchOptions extends DocSearchProps {
 }
 ```
 
-View full options [here](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
+Eine vollständige Liste der Optionen findest du [hier](https://github.com/vuejs/vitepress/blob/main/types/docsearch.d.ts).
 
 ## carbonAds {#carbon-ads}
 
@@ -406,13 +406,13 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Learn more in [Standard-Theme: Carbon Ads](./Standard-theme-carbon-ads)
+Weitere Informationen findest du unter [Standard-Theme: Carbon Ads](./Standard-theme-carbon-ads)
 
 ## docFooter
 
 - Type: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. Wenn du want to selectively enable/disable prev/next links, you can use [frontmatter](./Standard-theme-prev-next-links).
+Kann verwendet werden, um den Text über den Links zur vorherigen und nächsten Seite anzupassen. Dies ist hilfreich, wenn die Dokumentation nicht auf Englisch verfasst ist. Außerdem können die Links global deaktiviert werden. Wenn du die Links gezielt aktivieren oder deaktivieren möchtest, kannst du [frontmatter](./Standard-theme-prev-next-links).
 
 ```ts
 export default {
@@ -437,42 +437,42 @@ export interface DocFooter {
 - Type: `string`
 - Default: `Appearance`
 
-Can be used to customize the dark mode switch label. Dies label is only displayed in the mobile view.
+Kann verwendet werden, um die Beschriftung des Dunkelmodus-Schalters anzupassen. Diese Beschriftung wird nur in der mobilen Ansicht angezeigt.
 
 ## lightModeSwitchTitle
 
 - Type: `string`
 - Default: `Switch to light theme`
 
-Can be used to customize the light mode switch title that appears on hovering.
+Kann verwendet werden, um den Titel des Hellmodus-Schalters anzupassen, der beim Darüberfahren angezeigt wird.
 
 ## darkModeSwitchTitle
 
 - Type: `string`
 - Default: `Switch to dark theme`
 
-Can be used to customize the dark mode switch title that appears on hovering.
+Kann verwendet werden, um den Titel des Dunkelmodus-Schalters anzupassen, der beim Darüberfahren angezeigt wird.
 
 ## sidebarMenuLabel
 
 - Type: `string`
 - Default: `Menu`
 
-Can be used to customize the sidebar menu label. Dies label is only displayed in the mobile view.
+Kann verwendet werden, um die Beschriftung des Seitenleistenmenüs anzupassen. Diese Beschriftung wird nur in der mobilen Ansicht angezeigt.
 
 ## returnToTopLabel
 
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the zurückgeben to top button. Dies label is only displayed in the mobile view.
+Kann verwendet werden, um die Beschriftung der Schaltfläche zum Zurückkehren nach oben anzupassen. Diese Beschriftung wird nur in der mobilen Ansicht angezeigt.
 
 ## langMenuLabel
 
 - Type: `string`
 - Default: `Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. Dies is only used if you're using [i18n](../guide/i18n).
+Kann verwendet werden, um das aria-label der Sprachumschalt-Schaltfläche in der Navigationsleiste anzupassen. Dies wird nur bei Verwendung von [i18n] genutzt.(../guide/i18n).
 
 ## navMenuLabel
 
@@ -505,14 +505,14 @@ Can be used to customize the label of the skip to content link. Dies link is sho
 ## externalLinkIcon
 
 - Type: `boolean`
-- Default: `falsch`
+- Default: `false`
 
 Whether to show an external link icon next to external links in markdown.
 
 ## gradedContainers
 
 - Type: `boolean`
-- Default: `falsch`
+- Default: `false`
 
 Whether to color [custom containers](../guide/markdown#custom-containers), [GitHub-flavored alerts](../guide/markdown#github-flavored-alerts), and badges on a graded severity scale — danger red, warning orange, caution yellow. By Standard, colors match GitHub's alerts, where caution shares danger's red and warning is yellow.
 
