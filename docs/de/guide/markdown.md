@@ -513,8 +513,8 @@ export default {
 
 ```js{4}
 export default {
-  Daten () {
-    zurückgeben {
+  data () {
+    return {
       msg: 'Highlighted!'
     }
   }
@@ -549,8 +549,8 @@ export default { // Highlighted
 
 ```js{1,4,6-8}
 export default { // Highlighted
-  Daten () {
-    zurückgeben {
+  data () {
+    return {
       msg: `Highlighted!
       This line isn't highlighted,
       but this and the next 2 are.`,
@@ -581,8 +581,8 @@ export default {
 
 ```js
 export default {
-  Daten() {
-    zurückgeben {
+  data() {
+    return {
       msg: 'Highlighted!' // [!code highlight]
     }
   }
@@ -613,8 +613,8 @@ export default {
 
 ```js
 export default {
-  Daten() {
-    zurückgeben {
+  data() {
+    return {
       msg: 'Focused!' // [!code focus]
     }
   }
@@ -644,8 +644,8 @@ export default {
 
 ```js
 export default {
-  Daten () {
-    zurückgeben {
+  data () {
+    return {
       msg: 'Removed' // [!code --]
       msg: 'Added' // [!code ++]
     }
@@ -676,8 +676,8 @@ export default {
 
 ```js
 export default {
-  Daten() {
-    zurückgeben {
+  data() {
+    return {
       msg: 'Error', // [!code error]
       msg: 'Warnung' // [!code warning]
     }
