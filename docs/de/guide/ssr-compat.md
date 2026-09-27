@@ -108,7 +108,7 @@ const clientCompRef = ref(null)
 const ClientComp = defineClientComponent(
   () => import('component-that-access-window-on-import'),
 
-  // args are passed to h() - https://vuejs.org/api/render-function.html#h
+  // Argumente werden an h() übergeben – https://vuejs.org/api/render-function.html#h
   [
     {
       ref: clientCompRef
@@ -120,7 +120,7 @@ const ClientComp = defineClientComponent(
     }
   ],
 
-  // callback after the component is loaded, can be async
+  // Rückruffunktion nach dem Laden der Komponente, kann asynchron sein
   () => {
     console.log(clientCompRef.value)
   }
