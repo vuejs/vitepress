@@ -24,17 +24,17 @@ layout: home
 
 hero:
   name: VitePress
-  text: Vite & Vue powered static site generator.
+  text: Statischer Website-Generator auf Basis von Vite und Vue.
   tagline: Lorem ipsum...
   image:
     src: /logo.png
     alt: VitePress
   actions:
     - theme: brand
-      text: Get Started
+      text: Erste Schritte
       link: /guide/what-is-vitepress
     - theme: alt
-      text: View on GitHub
+      text: Auf GitHub ansehen
       link: https://github.com/vuejs/vitepress
 ---
 ```
@@ -77,7 +77,7 @@ interface HeroAction {
   // Zielattribut des Links.
   target?: string
 
-  // Link rel attribute.
+  // Link-rel-Attribut.
   rel?: string
 }
 ```
@@ -181,7 +181,7 @@ layout: home
 
 hero:
   name: VitePress
-  text: Vite & Vue powered static site generator.
+  text: Statischer Website-Generator auf Basis von Vite und Vue.
 ---
 
 ## Getting Started
