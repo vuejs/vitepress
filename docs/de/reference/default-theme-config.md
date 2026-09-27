@@ -27,7 +27,7 @@ export default {
 
 - Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. Du kannst disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+Wenn du die Sprache beispielsweise auf `zh` änderst, ändert sich die URL von `/foo` (oder `/en/foo/`) zu `/zh/foo`. Du kannst dieses Verhalten deaktivieren, indem du `themeConfig.i18nRouting` auf `false` setzt.
 
 Setze `themeConfig.i18nRouting` auf eine Funktion, um den Sprachlink anzupassen. Die Funktion erhält die aktuellen VitePress-Daten, die aktuelle Route und den Schlüssel der Zielsprache und gibt den Ziellink zurück.
 
@@ -162,12 +162,12 @@ export interface SidebarMulti {
 
 export type SidebarItem = {
   /**
-   * The text label of the item.
+   * Die Textbeschriftung des Eintrags.
    */
   text?: string
 
   /**
-   * The link of the item.
+   * Der Link des Eintrags.
    */
   link?: string
 
