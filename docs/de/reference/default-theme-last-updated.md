@@ -9,7 +9,7 @@ Der Aktualisierungszeitpunkt des letzten Inhalts wird unten rechts auf der Seite
 ::: info
 VitePress zeigt den Zeitpunkt der letzten Aktualisierung anhand des Zeitstempels des neuesten Git-Commits für jede Datei an. Dafür muss die Markdown-Datei in Git committed sein.
 
-Internally, VitePress runs `git log -1 --pretty="%ai"` on each file to retrieve its timestamp. If all pages show the same update time, it's likely due to shallow cloning (common in CI environments), which limits Git history.
+Intern führt VitePress für jede Datei `git log -1 --pretty="%ai"` aus, um den Zeitstempel abzurufen. Wenn alle Seiten dieselbe Aktualisierungszeit anzeigen, liegt dies wahrscheinlich an einem flachen Klonen (häufig in CI-Umgebungen), das den Git-Verlauf begrenzt.
 
 To fix this in **GitHub Actions**, use the following in your workflow:
 
@@ -39,7 +39,7 @@ export default {
 
 ## Frontmatter-Konfiguration
 
-Dies can be deaktiviert per-page using the `lastUpdated` option on frontmatter:
+Dies kann pro Seite über die `lastUpdated`-Option im Frontmatter deaktiviert werden:
 
 ```yaml
 ---
@@ -47,4 +47,4 @@ lastUpdated: false
 ---
 ```
 
-Weitere Informationen findest du unter [Standard-Theme: Letzte Aktualisierung](./Standard-theme-config#lastupdated) for more details. Any truthy value at theme-level will also enable the feature unless explicitly deaktiviert at site or page level.
+Weitere Informationen findest du unter [Standard-Theme: Letzte Aktualisierung](./Standard-theme-config#lastupdated). Jeder als wahr ausgewertete Wert auf Theme-Ebene aktiviert die Funktion ebenfalls, sofern sie nicht ausdrücklich auf Website- oder Seitenebene deaktiviert wird.
