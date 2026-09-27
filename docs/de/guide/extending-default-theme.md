@@ -46,18 +46,18 @@ Die Navigationsleiste verwendet eine einzelne, über CSS-Variablen gesteuerte Hi
 
 ```css
 :root {
-  /* bar height and background */
+  /* Höhe und Hintergrund der Leiste */
   --vp-nav-height: 4rem;
   --vp-nav-bg-color: var(--vp-c-bg);
 
-  /* background while on top of the home page (unscrolled);
-     set to var(--vp-nav-bg-color) to opt out of the transparent treatment */
+  /* Hintergrund am oberen Rand der Startseite (nicht gescrollt);
+     auf var(--vp-nav-bg-color) setzen, um die Transparenz zu deaktivieren */
   --vp-nav-home-bg-color: transparent;
 
-  /* filter applied to the content behind the bar */
+  /* Filter für den Inhalt hinter der Leiste */
   --vp-nav-backdrop-filter: none;
 
-  /* the bar's bottom rule and the mobile menu background */
+  /* untere Linie der Leiste und Hintergrund des mobilen Menüs */
   --vp-nav-divider-color: var(--vp-c-gutter);
   --vp-nav-screen-bg-color: var(--vp-c-bg);
 }
@@ -72,10 +72,10 @@ Zum Beispiel, a frosted-glass navbar:
 }
 ```
 
-The same treatment carries over to the local nav: `--vp-local-nav-bg-color` follows the navbar surface color standardmäßig, and where the two bars meet they share a single blurred surface, so the glass stays continuous across them.
+Dieselbe Gestaltung gilt auch für die lokale Navigation: `--vp-local-nav-bg-color` folgt standardmäßig der Oberflächenfarbe der Navigationsleiste. Wo die beiden Leisten zusammentreffen, teilen sie sich eine einzige verschwommene Fläche, sodass der Glaseffekt durchgehend bleibt.
 
 ::: warning
-`backdrop-filter` has a measurable scroll performance cost, especially on large or high-DPI screens. Wenn Verwendung a translucent bar, also check text contrast over your page content. Safari 17 and earlier don't apply variable-driven backdrop filters, so they show the translucent color ohne the blur.
+`backdrop-filter` kann die Scrollleistung messbar beeinträchtigen, insbesondere auf großen Bildschirmen oder Bildschirmen mit hoher Pixeldichte. Wenn du eine halbtransparente Leiste verwendest, prüfe daher den Kontrast des Textes gegenüber deinem Seiteninhalt. Safari 17 und ältere Versionen wenden variablenbasierte Hintergrundfilter nicht an und zeigen daher die halbtransparente Farbe ohne Unschärfe.
 :::
 
 Wenn the nav items don't fit the verfügbar width, they move in the `⋯` menu at the end of the navbar instead of being clipped, starting mit the social links, the appearance switch and the locale switcher, followed by the nav items right-to-left. Its button label can be localized mit [`extraMenuLabel`](../reference/default-theme-config#extramenulabel).
