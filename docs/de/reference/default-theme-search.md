@@ -7,7 +7,7 @@ description: Richte eine lokale oder von Algolia bereitgestellte Suche für dein
 
 ## Lokale Suche
 
-VitePress unterstützt eine unscharfe Volltextsuche mithilfe eines Index im Browser dank [minisearch](https://github.com/lucaong/minisearch/). Um diese Funktion zu aktivieren, setze einfach the `themeConfig.search.provider` option to `'local'` in your `.vitepress/config.ts` file:
+VitePress unterstützt eine unscharfe Volltextsuche mithilfe eines Index im Browser dank [minisearch](https://github.com/lucaong/minisearch/). Um diese Funktion zu aktivieren, setze einfach die Option `themeConfig.search.provider` in deiner Datei `.vitepress/config.ts` auf `'local'`:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -25,7 +25,7 @@ Beispielergebnis:
 
 ![screenshot of the search modal](/search.png)
 
-Alternatively, you can use [Algolia DocSearch](#algolia-search) or some community plugins like:
+Alternativ kannst du [Algolia DocSearch](#algolia-search) oder Community-Plugins verwenden, zum Beispiel:
 
 - <https://npmx.dev/package/vitepress-plugin-pagefind>
 - <https://npmx.dev/package/vitepress-plugin-typesense>
@@ -33,7 +33,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 
 <!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- replace with zbsearch one when published -->
 
-### i18n {#local-search-i18n}
+### Internationalisierung {#local-search-i18n}
 
 Du kannst eine Konfiguration wie diese verwenden, um eine mehrsprachige Suche einzurichten:
 
@@ -113,7 +113,7 @@ export default defineConfig({
 Weitere Informationen findest du in der [MiniSearch-Dokumentation](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
 ::: info Document IDs
-Die Dokument-IDs der Suche (wie sie von `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they enthalten nicht [`base`](../reference/site-config#base). Das Theme löst sie beim Rendern der Ergebnisse gegen `base` auf.
+Die Dokument-IDs der Suche (wie sie von `searchOptions.filter`, `boostDocument` und im rohen Index verwendet werden) sind relative Pfade innerhalb der Website wie `/guide/page.html#section` – sie enthalten nicht [`base`](../reference/site-config#base). Das Theme löst sie beim Rendern der Ergebnisse gegen `base` auf.
 :::
 
 ### Eigenen Inhalts-Renderer
@@ -144,9 +144,9 @@ export default defineConfig({
 
 Diese Funktion wird aus den clientseitigen Websitedaten entfernt, sodass du darin Node.js-APIs verwenden kannst.
 
-#### Beispiel: Excluding pages from search
+#### Beispiel: Seiten aus der Suche ausschließen
 
-Du kannst Seiten aus der Suche ausschließen by adding `search: false` to the frontmatter of the page. Alternativ:
+Du kannst Seiten aus der Suche ausschließen, indem du `search: false` in das Frontmatter der Seite einfügst. Alternativ:
 
 ```ts
 import { defineConfig } from 'vitepress'
