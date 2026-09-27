@@ -50,13 +50,13 @@ Die folgenden Anleitungen basieren auf einigen gemeinsamen Voraussetzungen:
 
 ## Einen öffentlichen Basispfad festlegen
 
-Standardmäßig wird angenommen, dass die Website am Stammpfad einer Domain (`/`). Wenn deine Website unter einem Unterpfad bereitgestellt wird, e.g. `https://mywebsite.com/blog/`, musst du die Option [`base`](../reference/site-config#base) option to `'/blog/'` in the VitePress config.
+Standardmäßig wird angenommen, dass die Website am Stammpfad einer Domain (`/`) bereitgestellt wird. Wenn deine Website unter einem Unterpfad wie `https://mywebsite.com/blog/` bereitgestellt wird, musst du die Option [`base`](../reference/site-config#base) in der VitePress-Konfiguration auf `'/blog/'` setzen.
 
 **Beispiel:** Wenn du GitHub- (oder GitLab-) Pages verwendest und unter `user.github.io/repo/`, dann set your `base` to `/repo/`.
 
 ## Verschiebbare Builds (relativer Basispfad) {#relocatable-builds-relative-base}
 
-Wenn die endgültige URL der Website zur Build-Zeit noch nicht bekannt ist — an IPFS gateway (`https://gateway/ipfs/<cid>/…`), the Wayback Machine, a shared folder, docs bundled in an app — set `base` to `'./'`:
+Wenn die endgültige URL der Website zur Build-Zeit noch nicht bekannt ist – etwa bei einem IPFS-Gateway (`https://gateway/ipfs/<cid>/…`), der Wayback Machine, einem freigegebenen Ordner oder in eine App eingebetteter Dokumentation –, setze `base` auf `'./'`:
 
 ```ts
 export default {
@@ -66,23 +66,23 @@ export default {
 
 Jede Seite referenziert Assets und andere Seiten dann relativ zu ihrem eigenen Speicherort. Die Client-Laufzeit ermittelt beim Laden der Seite den tatsächlichen Einhängepunkt. Derselbe Build funktioniert von **jedem** Unterpfad aus ohne erneuten Build – auch von mehreren Pfaden gleichzeitig – während Routing, Suche und Prefetching vollständig funktionieren.
 
-Das direkte Öffnen der erzeugten HTML-Dateien über das Dateisystem (`file://`) also works as a styled, fully navigable static site. Browser blockieren JavaScript-Module über `file://`, so there is no hydration there — interactive features like search stay inactive, while all pre-rendered content and links keep working.
+Das direkte Öffnen der erzeugten HTML-Dateien über das Dateisystem (`file://`) funktioniert ebenfalls als vollständig navigierbare statische Website mit Formatierung. Browser blockieren JavaScript-Module über `file://`, daher findet dort keine Hydration statt – interaktive Funktionen wie die Suche bleiben inaktiv, während alle vorgerenderten Inhalte und Links weiterhin funktionieren.
 
 Einige Dinge solltest du beachten:
 
 - Lasse [`cleanUrls`](../reference/site-config#cleanurls) deaktiviert (Standardeinstellung): Für portable Ausgaben müssen Links mit `.html` enden, da kein Server vorhanden ist, der saubere URLs umschreibt.
-- `404.html` wird für die Stammebene erzeugt. Hosts, die sie als Fallback für beliebig tiefe URLs ausliefern, rendern sie ohne Styles (there is no correct relative prefix for an unknown depth).
-- [`head`](../reference/site-config#head) Einträge werden wie immer unverändert ausgegeben – vermeide dort absolute Pfade wie `/favicon.ico` there and prefer absolute URLs or `transformHead`.
-- Rohe HTML-`<a>`-Tags in Markdown behalten ihr `href` unverändert — use Markdown link syntax for site-absolute links (embedded `<img>` sources go durch the asset pipeline and are handled).
-- Von [`createContentLoader`](./data-loading#createcontentloader) erzeugte Links bleiben absolut zur Website (their HTML is embedded in other pages, so no single relative prefix is correct) — they resolve only for a root mount.
-- Stelle Seiten unter ihren kanonischen URLs bereit: the root as `/dir/` (not `/dir`), and no added trailing slashes on page URLs. The relative prefix is resolved against the URL the browser actually shows, and virtually all static hosts canonicalize this way already.
+- `404.html` wird für die Stammebene erzeugt. Hosts, die sie als Fallback für beliebig tiefe URLs ausliefern, rendern sie ohne Styles (für eine unbekannte Pfadtiefe gibt es keinen korrekten relativen Präfix).
+- [`head`](../reference/site-config#head)-Einträge werden wie immer unverändert ausgegeben – vermeide dort absolute Pfade wie `/favicon.ico` und bevorzuge absolute URLs oder `transformHead`.
+- Rohe HTML-`<a>`-Tags in Markdown behalten ihr `href` unverändert – verwende für absolute Links innerhalb der Website die Markdown-Linksyntax (eingebettete `<img>`-Quellen werden über die Asset-Pipeline verarbeitet).
+- Von [`createContentLoader`](./data-loading#createcontentloader) erzeugte Links bleiben absolut zur Website (ihr HTML wird in andere Seiten eingebettet, daher gibt es keinen einheitlichen relativen Präfix) – sie funktionieren nur bei einer Bereitstellung am Stammverzeichnis.
+- Stelle Seiten unter ihren kanonischen URLs bereit: das Stammverzeichnis als `/dir/` (nicht `/dir`) und ohne zusätzliche abschließende Schrägstriche bei Seiten-URLs. Der relative Präfix wird anhand der URL aufgelöst, die der Browser tatsächlich anzeigt, und praktisch alle statischen Hoster verwenden bereits diese kanonische Form.
 - Der Entwicklungsserver stellt immer unter `/` bereit; das relative Verhalten gilt für den Produktions-Build.
 
 ## HTTP-Cache-Header
 
 Wenn du Kontrolle über die HTTP-Header deines Produktionsservers hast, kannst du `cache-control`-Header konfigurieren, um bei wiederholten Besuchen eine bessere Leistung zu erzielen.
 
-Der Produktions-Build verwendet gehashte Dateinamen für statische Assets (JavaScript, CSS and other imported assets not in `public`). Wenn du die Produktionsvorschau mit dem Netzwerk-Tab der Browser-Entwicklertools untersuchst, you will see files like `app.4f283b18.js`.
+Der Produktions-Build verwendet gehashte Dateinamen für statische Assets (JavaScript, CSS und andere importierte Assets, die nicht in `public` liegen). Wenn du die Produktionsvorschau mit dem Netzwerk-Tab der Browser-Entwicklertools untersuchst, siehst du Dateien wie `app.4f283b18.js`.
 
 Dieser Hash `4f283b18` wird aus dem Inhalt dieser Datei erzeugt. Dieselbe gehashte URL liefert garantiert denselben Dateiinhalt – wenn sich der Inhalt ändert, ändern sich auch die URLs. Das bedeutet, dass du für diese Dateien bedenkenlos die stärksten Cache-Header verwenden kannst. Alle solchen Dateien werden im Ausgabeverzeichnis unter `assets/` abgelegt. Dafür kannst du den folgenden Header konfigurieren:
 
@@ -98,7 +98,7 @@ Cache-Control: max-age=31536000,immutable
   cache-control: immutable
 ```
 
-Hinweis: Die Datei `_headers` sollte im [Public-Verzeichnis](./asset-handling#the-public-directory) - in our case, `docs/public/_headers` - liegen, damit sie unverändert in das Ausgabeverzeichnis kopiert wird.
+Hinweis: Die Datei `_headers` sollte im [Public-Verzeichnis](./asset-handling#the-public-directory) – in diesem Fall `docs/public/_headers` – liegen, damit sie unverändert in das Ausgabeverzeichnis kopiert wird.
 
 [Netlify-Dokumentation zu benutzerdefinierten Headern](https://docs.netlify.com/routing/headers/)
 
@@ -136,7 +136,7 @@ Richte ein neues Projekt ein und ändere diese Einstellungen über dein Dashboar
 
 - **Build-Befehl:** `npm run docs:build`
 - **Ausgabeverzeichnis:** `docs/.vitepress/dist`
-- **Node-Version:** `20` (or above)
+- **Node-Version:** `20` (oder höher)
 
 ::: warning
 Aktiviere keine Optionen wie _Auto Minify_ für HTML-Code. Dadurch werden Kommentare aus der Ausgabe entfernt, die für Vue Bedeutung haben. Wenn sie entfernt werden, können Hydration-Mismatch-Fehler auftreten.
