@@ -23,7 +23,7 @@ export default defineConfig({
 
 Beispielergebnis:
 
-![screenshot of the search modal](/search.png)
+![Screenshot des Suchfensters](/search.png)
 
 Alternativ kannst du [Algolia DocSearch](#algolia-search) oder Community-Plugins verwenden, zum Beispiel:
 
@@ -31,7 +31,7 @@ Alternativ kannst du [Algolia DocSearch](#algolia-search) oder Community-Plugins
 - <https://npmx.dev/package/vitepress-plugin-typesense>
 - <https://npmx.dev/package/vitepress-plugin-cloudflare-ai-search>
 
-<!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- replace with zbsearch one when published -->
+<!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- durch zbsearch ersetzen, sobald veröffentlicht -->
 
 ### Internationalisierung {#local-search-i18n}
 
@@ -46,7 +46,7 @@ export default defineConfig({
       provider: 'local',
       options: {
         locales: {
-          zh: { // make this `root` if you want to translate the default locale
+          zh: { // auf `root` setzen, wenn die Standardsprache übersetzt werden soll
             translations: {
               button: {
                 buttonText: '搜索',
