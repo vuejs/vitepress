@@ -103,12 +103,12 @@ Wenn du auf eine Seite deiner Website verlinken möchtest, die nicht von VitePre
 **Input**
 
 ```md
-[Link to pure.html](/pure.html){target="_self"}
+[Link zu pure.html](/pure.html){target="_self"}
 ```
 
 **Ausgabe**
 
-[Link to pure.html](/pure.html){target="_self"}
+[Link zu pure.html](/pure.html){target="_self"}
 
 ::: tip Hinweis
 
@@ -117,7 +117,7 @@ Bei Markdown-Links wird `base` automatisch der URL vorangestellt. Wenn du auf ei
 Alternativ kannst du direkt die Anchor-Tag-Syntax verwenden:
 
 ```md
-<a href="/pure.html" target="_self">Link to pure.html</a>
+<a href="/pure.html" target="_self">Link zu pure.html</a>
 ```
 
 :::
@@ -128,14 +128,14 @@ Alternativ kannst du direkt die Anchor-Tag-Syntax verwenden:
 Um saubere URLs mit VitePress bereitzustellen, ist Unterstützung auf Serverseite erforderlich.
 :::
 
-Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` enden. Manche Benutzer bevorzugen jedoch "Saubere URLs" ohne die Erweiterung `.html` – beispielsweise `example.com/path` statt `example.com/path.html`.
+Standardmäßig löst VitePress eingehende Links in URLs auf, die mit `.html` enden. Manche Benutzer bevorzugen jedoch „saubere URLs“ ohne die Erweiterung `.html` – beispielsweise `example.com/path` statt `example.com/path.html`.
 
 Einige Server oder Hosting-Plattformen (beispielsweise Netlify, Vercel und GitHub Pages) können eine URL wie `/foo` ohne Weiterleitung auf `/foo.html` abbilden, wenn diese Datei existiert:
 
 - Netlify und GitHub Pages unterstützen dies standardmäßig.
-- Vercel erfordert die Aktivierung von the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Vercel erfordert die Aktivierung der [`cleanUrls`-Option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
 
-Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls) Konfigurationsoption so that:
+Wenn diese Funktion verfügbar ist, kannst du auch VitePress' eigene [`cleanUrls`](../reference/site-config#cleanurls)-Konfigurationsoption so konfigurieren:
 
 - Links zwischen Seiten werden ohne die Erweiterung `.html` erzeugt.
 - Wenn der aktuelle Pfad mit `.html` endet, führt der Router eine clientseitige Weiterleitung zum Pfad ohne Erweiterung durch.
@@ -177,7 +177,7 @@ packages/pkg-b/src/index.md  -->  /pkg-b/index.html
 packages/pkg-b/src/bar.md    -->  /pkg-b/bar.html
 ```
 
-Du kannst dies durch Konfiguration der [`rewrites`](../reference/site-config#rewrites) option like this:
+Du kannst dies durch Konfiguration der [`rewrites`](../reference/site-config#rewrites)-Option wie folgt tun:
 
 ```ts [.vitepress/config.js]
 export default {
