@@ -1,12 +1,12 @@
 ---
-description: Display an edit link on doc pages to let users suggest changes on GitHub or GitLab.
+description: Zeige auf Dokumentationsseiten einen Bearbeitungslink an, über den Nutzer Änderungen auf GitHub oder GitLab vorschlagen können.
 ---
 
 # Bearbeitungslink
 
-## Site-Level Config
+## Websiteweite Konfiguration
 
-Bearbeitungslink lets you display a link to edit the page on Git management services such as GitHub, or GitLab. To enable it, add `themeConfig.editLink` options to your config.
+Mit dem Bearbeitungslink kannst du einen Link zum Bearbeiten der Seite bei Git-Verwaltungsdiensten wie GitHub oder GitLab anzeigen. Füge zum Aktivieren die Optionen von `themeConfig.editLink` zu deiner Konfiguration hinzu.
 
 ```js
 export default {
@@ -18,7 +18,7 @@ export default {
 }
 ```
 
-The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
+Die Option `pattern` definiert die URL-Struktur des Links. `:path` wird durch den Seitenpfad ersetzt.
 
 Du kannst also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and gibt zurück the URL string.
 
@@ -38,9 +38,9 @@ export default {
 }
 ```
 
-It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the Browser.
+Die Funktion sollte keine Seiteneffekte haben und nicht auf Dinge außerhalb ihres Gültigkeitsbereichs zugreifen, da sie serialisiert und im Browser ausgeführt wird.
 
-By Standard, this will add the link text "Edit this page" at the bottom of the doc page. Du kannst customize this text by defining the `text` option.
+Standardmäßig wird am unteren Rand der Dokumentationsseite der Linktext „Diese Seite bearbeiten“ hinzugefügt. Du kannst diesen Text über die Option `text` anpassen.
 
 ```js
 export default {
@@ -53,9 +53,9 @@ export default {
 }
 ```
 
-## Frontmatter Config
+## Frontmatter-Konfiguration
 
-Dies can be deaktiviert per-page using the `editLink` option on frontmatter:
+Dies kann pro Seite über die Option `editLink` im Frontmatter deaktiviert werden:
 
 ```yaml
 ---
