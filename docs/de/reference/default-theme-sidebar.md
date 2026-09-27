@@ -1,5 +1,5 @@
 ---
-description: Konfiguriere die sidebar navigation in the VitePress default theme with groups, collapsible sections, and multiple sidebars.
+description: Konfiguriere die Seitenleistennavigation im VitePress-Standard-Theme mit Gruppen, einklappbaren Abschnitten und mehreren Seitenleisten.
 ---
 
 # Seitenleiste
@@ -23,9 +23,9 @@ export default {
 }
 ```
 
-## The Basics
+## Grundlagen
 
-Die einfachste Form des Seitenleistenmenüs besteht aus einem einzelnen Array von Links. Das Element der ersten Ebene definiert den „Abschnitt“ der Seitenleiste. It should contain `text`, which is the title of the section, and `items` which are the actual navigation links.
+Die einfachste Form des Seitenleistenmenüs besteht aus einem einzelnen Array von Links. Das Element der ersten Ebene definiert den „Abschnitt“ der Seitenleiste. Es sollte `text`, den Titel des Abschnitts, und `items`, die eigentlichen Navigationslinks, enthalten.
 
 ```js
 export default {
@@ -52,7 +52,7 @@ export default {
 }
 ```
 
-Each `link` should specify the path to the actual file starting with `/`. Wenn du add trailing slash to the end of link, it will show `index.md` of the corresponding directory.
+Jeder `link` sollte den Pfad zur tatsächlichen Datei angeben und mit `/` beginnen. Wenn du am Ende des Links einen abschließenden Schrägstrich hinzufügst, wird `index.md` des entsprechenden Verzeichnisses angezeigt.
 
 ```js
 export default {
@@ -70,7 +70,7 @@ export default {
 }
 ```
 
-Du kannst further nest the sidebar items up to 6 level deep counting up from the root level. Beachte, dass deeper than 6 level of nested items gets ignored and will not be displayed on the sidebar.
+Du kannst die Seitenleisteneinträge bis zu sechs Ebenen tief verschachteln, ausgehend von der obersten Ebene. Beachte, dass Verschachtelungen mit mehr als sechs Ebenen ignoriert und nicht in der Seitenleiste angezeigt werden.
 
 ```js
 export default {
@@ -99,9 +99,9 @@ export default {
 
 ## Multiple Sidebars
 
-Du kannst show different sidebar depending on the page path. Zum Beispiel, as shown on this site, you might want to create a separate sections of content in your documentation like "Guide" page and "Config" page.
+Du kannst abhängig vom Seitenpfad unterschiedliche Seitenleisten anzeigen. Zum Beispiel möchtest du in deiner Dokumentation möglicherweise separate Inhaltsbereiche wie eine „Anleitung“-Seite und eine „Konfiguration“-Seite erstellen.
 
-To do so, first organize your pages into directories for each desired section:
+Ordne dazu zunächst deine Seiten in Verzeichnissen für die gewünschten Abschnitte an:
 
 ```
 .
