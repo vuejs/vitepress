@@ -1,23 +1,23 @@
 # Migration von VitePress 0.x
 
-Wenn du're coming von VitePress 0.x version, there're several breaking changes due to new features and enhancement. Please follow this guide to see how to migrate your app over to the latest VitePress.
+Wenn du von einer VitePress-0.x-Version kommst, gibt es aufgrund neuer Funktionen und Verbesserungen mehrere Änderungen, die nicht abwärtskompatibel sind. Befolge diese Anleitung, um deine Anwendung auf die aktuelle VitePress-Version zu migrieren.
 
-## App Config
+## App-Konfiguration
 
-- The internationalization feature is not yet implemented.
+- Die Internationalisierungsfunktion ist noch nicht implementiert.
 
-## Theme Config
+## Theme-Konfiguration
 
-- `sidebar` option has changed its structure.
-  - `children` key is now named `items`.
-  - Top level item may not contain `link` at the moment. We're planning to bring it back.
-- `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks`, `editLinkText` are removed in favor of more flexible api.
-  - For adding GitHub link with icon to the nav, use [Social Links](../reference/default-theme-nav#navigation-links) feature.
-  - For adding "Edit this page" feature, use [Bearbeitungslink](../reference/default-theme-edit-link) feature.
-- `lastUpdated` option is now split into `config.lastUpdated` and `themeConfig.lastUpdated.text`.
-- `carbonAds.carbon` is changed to `carbonAds.code`.
+- Die Option `sidebar` hat ihre Struktur geändert.
+  - Der Schlüssel `children` heißt jetzt `items`.
+  - Ein Element der obersten Ebene darf derzeit kein `link` enthalten. Es ist geplant, dies wieder zu ermöglichen.
+- `repo`, `repoLabel`, `docsDir`, `docsBranch`, `editLinks` und `editLinkText` wurden zugunsten einer flexibleren API entfernt.
+  - Um einen GitHub-Link mit Symbol zur Navigation hinzuzufügen, verwende die Funktion [Social Links](../reference/default-theme-nav#navigationslinks).
+  - Um die Funktion „Diese Seite bearbeiten“ hinzuzufügen, verwende die Funktion [Bearbeitungslink](../reference/default-theme-edit-link).
+- Die Option `lastUpdated` ist jetzt in `config.lastUpdated` und `themeConfig.lastUpdated.text` aufgeteilt.
+- `carbonAds.carbon` wurde in `carbonAds.code` geändert.
 
 ## Frontmatter-Konfiguration
 
-- `home: true` option has changed to `layout: home`. Also, many Homepage related settings have been modified to provide additional features. See [Home Seite guide](../reference/default-theme-home-page) for details.
-- `footer` option is moved to [`themeConfig.footer`](../reference/default-theme-config#footer).
+- Die Option `home: true` wurde in `layout: home` geändert. Außerdem wurden viele Einstellungen der Startseite angepasst, um zusätzliche Funktionen bereitzustellen. Weitere Informationen findest du in der [Anleitung zur Startseite](../reference/default-theme-home-page).
+- Die Option `footer` wurde nach [`themeConfig.footer`](../reference/default-theme-config#footer) verschoben.
