@@ -18,7 +18,7 @@ To have `<lastmod>` tags in your `sitemap.xml`, you can enable the [`lastUpdated
 
 ## Optionen
 
-Sitemap support is powered by the [`sitemap`](https://www.npmjs.com/package/sitemap) module. You can pass any options supported by it to the `sitemap` option in your config file. These will be passed directly to the `SitemapStream` constructor. Refer to the [`sitemap` documentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) for more details. Example:
+Sitemap support is powered by the [`sitemap`](https://www.npmjs.com/package/sitemap) module. Du kannst pass any options supported by it to the `sitemap` option in your config file. These will be passed directly to the `SitemapStream` constructor. Refer to the [`sitemap` documentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) for more details. Beispiel:
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ export default {
 }
 ```
 
-If you're using `base` in your config, you should append it to the `hostname` option:
+Wenn du're Verwendung `base` in your config, you should append it to the `hostname` option:
 
 ```ts
 export default {
@@ -42,7 +42,7 @@ export default {
 
 ## `transformItems` Hook
 
-You can use the `sitemap.transformItems` hook to modify the sitemap items before they are written to the `sitemap.xml` file. This hook is called with an array of sitemap items and expects an array of sitemap items to be returned. Example:
+Du kannst use the `sitemap.transformItems` hook to modify the sitemap items before they are written to the `sitemap.xml` file. This hook is genannt with an array of sitemap items and expects an array of sitemap items to be returned. Beispiel:
 
 ```ts
 export default {
