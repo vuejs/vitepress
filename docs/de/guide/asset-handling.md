@@ -41,14 +41,14 @@ Wenn deine Website unter einer URL bereitgestellt wird, die nicht dem Stammverze
 Referenzen auf statische Assets werden automatisch an \`base\` angepasst. Eine absolute Referenz auf eine Datei in \`public\` funktioniert daher mit jedem \`base\` und muss nicht aktualisiert werden:
 
 \`\`\`md
-![Ein Bild](/image-inside-public.png)
+![Ein Bild](/image-innerhalb-public.png)
 \`\`\`
 
 Nur dynamisch erzeugte Pfade benötigen besondere Behandlung – beispielsweise ein Bild, dessen \`src\` auf einem Wert aus der Theme-Konfiguration basiert. Um den Basis-Pfad zur Laufzeit voranzustellen, umschließe solche Pfade mit dem [\`withBase\`-Helper](../reference/runtime-api#withbase):
 
 \`\`\`vue
 <script setup>
-import { withBase, useData } from 'vitepress'
+import { withBase, useData } von 'vitepress'
 
 const { theme } = useData()
 </script>
