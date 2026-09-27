@@ -1,35 +1,35 @@
 ---
-description: VitePress built-in Markdown extensions including custom containers, code blocks with syntax highlighting, line highlighting, code groups, and more.
+description: In VitePress integrierte Markdown-Erweiterungen einschließlich benutzerdefinierter Container, Codeblöcke mit Syntaxhervorhebung, Zeilenhervorhebung, Codegruppen und weiterer Funktionen.
 outline: deep
 ---
 
 # Markdown-Erweiterungen
 
-VitePress comes with built in Markdown-Erweiterungen.
+VitePress enthält integrierte Markdown-Erweiterungen.
 
 ## Header Anchors
 
-Headers automatisch get anchor links applied. Rendering of anchors can be configured Verwendung the `markdown.anchor` option.
+Überschriften erhalten automatisch Ankerlinks. Die Darstellung der Anker kann über die Option `markdown.anchor` konfiguriert werden.
 
 ### Eigenes anchors
 
-To specify a custom anchor tag for a heading instead of Verwendung the auto-generated one, add a suffix to the heading:
+Um für eine Überschrift einen eigenen Anker statt des automatisch erzeugten Ankers festzulegen, füge der Überschrift ein Suffix hinzu:
 
 ```
 # Using custom anchors {#my-anchor}
 ```
 
-Dies ermöglicht you to link to the heading as `#my-anchor` instead of the default `#Verwendung-custom-anchors`.
+Dadurch kannst du auf die Überschrift über `#my-anchor` statt über den Standardanker `#Verwendung-custom-anchors` verlinken.
 
 ## Links
 
-Both internal and external links get special treatment.
+Interne und externe Links werden speziell behandelt.
 
 ### Internal Links
 
-Internal links are converted to router links for SPA navigation. Also, every `index.md` contained in each sub-directory will automatisch be converted to `index.html`, with corresponding URL `/`.
+Interne Links werden für die SPA-Navigation in Router-Links umgewandelt. Außerdem wird jedes `index.md` in einem Unterverzeichnis automatisch in `index.html` mit der entsprechenden URL `/` umgewandelt.
 
-Zum Beispiel, given the following directory structure:
+Zum Beispiel bei der folgenden Verzeichnisstruktur:
 
 ```
 .
@@ -44,7 +44,7 @@ Zum Beispiel, given the following directory structure:
    └─ four.md
 ```
 
-And providing you are in `foo/one.md`:
+Wenn du dich in `foo/one.md` befindest:
 
 ```md
 [Home](/) <!-- sends the user to the root index.md -->
