@@ -1,10 +1,10 @@
 ---
-description: Reference of all configuration options available for the VitePress default theme.
+description: Reference of all Konfiguration options verfügbar for the VitePress Standard theme.
 ---
 
 # Konfiguration des Standard-Themes
 
-Theme config lets you customize your theme. You can define theme config via the `themeConfig` option in the config file:
+Theme config lets you customize your theme. Du kannst define theme config via the `themeConfig` option in the config file:
 
 ```ts
 export default {
@@ -21,15 +21,15 @@ export default {
 }
 ```
 
-**The options documented on this page only apply to the default theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
+**The options documented on this page only apply to the Standard theme.** Different themes expect different theme config. When using a custom theme, the theme config object will be passed to the theme so the theme can define conditional behavior based on it.
 
 ## i18nRouting
 
 - Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. Du kannst disable this behavior by setting `themeConfig.i18nRouting` to `falsch`.
 
-Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current route, and the target locale key, and returns the target link.
+Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current route, and the target locale key, and gibt zurück the target link.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -70,9 +70,9 @@ type ThemeableImage =
 
 ## siteTitle
 
-- Type: `string | false`
+- Type: `string | falsch`
 
-You can customize this item to replace the default site title (`title` in app config) in nav. When set to `false`, title in nav will be disabled. Useful when you have `logo` that already contains the site title text.
+Du kannst customize this item to replace the Standard site title (`title` in app config) in nav. When set to `falsch`, title in nav will be deaktiviert. Useful when you have `logo` that already contains the site title text.
 
 ```ts
 export default {
@@ -86,7 +86,7 @@ export default {
 
 - Type: `NavItem`
 
-The configuration for the nav menu item. More details in [Default Theme: Nav](./default-theme-nav#navigation-links).
+The Konfiguration for the nav menu item. More details in [Standard-Theme: Nav](./Standard-theme-nav#navigation-links).
 
 ```ts
 export default {
@@ -132,9 +132,9 @@ interface NavItemWithChildren {
 
 ## sidebar
 
-- Type: `Sidebar`
+- Type: `Seitenleiste`
 
-The configuration for the sidebar menu item. More details in [Default Theme: Sidebar](./default-theme-sidebar).
+The Konfiguration for the sidebar menu item. More details in [Standard-Theme: Seitenleiste](./Standard-theme-sidebar).
 
 ```ts
 export default {
@@ -203,22 +203,22 @@ export type SidebarItem = {
 ## aside
 
 - Type: `boolean | 'left'`
-- Default: `true`
+- Default: `wahr`
 - Can be overridden per page via [frontmatter](./frontmatter-config#aside)
 
-Setting this value to `false` prevents rendering of aside container.\
-Setting this value to `true` renders the aside to the right.\
+Setting this value to `falsch` prevents rendering of aside container.\
+Setting this value to `wahr` renders the aside to the right.\
 Setting this value to `left` renders the aside to the left.\
 In right-to-left layouts, both sides are mirrored.
 
-If you want to disable it for all viewports, you should use `outline: false` instead.
+Wenn du want to disable it for all viewports, you should use `outline: falsch` instead.
 
 ## outline
 
-- Type: `Outline | Outline['level'] | false`
+- Type: `Outline | Outline['level'] | falsch`
 - Level can be overridden per page via [frontmatter](./frontmatter-config#outline)
 
-Setting this value to `false` prevents rendering of outline container. Refer this interface for more details:
+Setting this value to `falsch` prevents rendering of outline container. Refer this interface for more details:
 
 ```ts
 interface Outline {
@@ -245,7 +245,7 @@ interface Outline {
 
 - Type: `SocialLink[]`
 
-You may define this option to show your social account links with icons in nav.
+Du kannst define this option to show your social account links with icons in nav.
 
 ```ts
 export default {
@@ -286,7 +286,7 @@ interface SocialLink {
 - Type: `Fußzeile`
 - Can be overridden per page via [frontmatter](./frontmatter-config#footer)
 
-Fußzeile configuration. You can add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. This is due to design concerns.
+Fußzeile Konfiguration. Du kannst add a message or copyright text on the footer, however, it will only be displayed when the page doesn't contain a sidebar. Dies is due to design concerns.
 
 ```ts
 export default {
@@ -311,7 +311,7 @@ export interface Fußzeile {
 - Type: `EditLink`
 - Can be overridden per page via [frontmatter](./frontmatter-config#editlink)
 
-Bearbeitungslink lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Default Theme: Bearbeitungslink](./default-theme-edit-link) for more details.
+Bearbeitungslink lets you display a link to edit the page on Git management services such as GitHub, or GitLab. See [Standard-Theme: Bearbeitungslink](./Standard-theme-edit-link) for more details.
 
 ```ts
 export default {
@@ -370,7 +370,7 @@ export interface LastUpdatedOptions {
 
 - Type: `AlgoliaSearch`
 
-An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Default Theme: Search](./default-theme-search)
+An option to support searching your docs site using [Algolia DocSearch](https://docsearch.algolia.com/docs/what-is-docsearch). Learn more in [Standard-Theme: Suche](./Standard-theme-search)
 
 ```ts
 export interface AlgoliaSearchOptions extends DocSearchProps {
@@ -406,13 +406,13 @@ export interface CarbonAdsOptions {
 }
 ```
 
-Learn more in [Default Theme: Carbon Ads](./default-theme-carbon-ads)
+Learn more in [Standard-Theme: Carbon Ads](./Standard-theme-carbon-ads)
 
 ## docFooter
 
 - Type: `DocFooter`
 
-Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. If you want to selectively enable/disable prev/next links, you can use [frontmatter](./default-theme-prev-next-links).
+Can be used to customize text appearing above previous and next links. Helpful if not writing docs in English. Also can be used to disable prev/next links globally. Wenn du want to selectively enable/disable prev/next links, you can use [frontmatter](./Standard-theme-prev-next-links).
 
 ```ts
 export default {
@@ -437,7 +437,7 @@ export interface DocFooter {
 - Type: `string`
 - Default: `Appearance`
 
-Can be used to customize the dark mode switch label. This label is only displayed in the mobile view.
+Can be used to customize the dark mode switch label. Dies label is only displayed in the mobile view.
 
 ## lightModeSwitchTitle
 
@@ -458,21 +458,21 @@ Can be used to customize the dark mode switch title that appears on hovering.
 - Type: `string`
 - Default: `Menu`
 
-Can be used to customize the sidebar menu label. This label is only displayed in the mobile view.
+Can be used to customize the sidebar menu label. Dies label is only displayed in the mobile view.
 
 ## returnToTopLabel
 
 - Type: `string`
 - Default: `Return to top`
 
-Can be used to customize the label of the return to top button. This label is only displayed in the mobile view.
+Can be used to customize the label of the zurückgeben to top button. Dies label is only displayed in the mobile view.
 
 ## langMenuLabel
 
 - Type: `string`
 - Default: `Change language`
 
-Can be used to customize the aria-label of the language toggle button in navbar. This is only used if you're using [i18n](../guide/i18n).
+Can be used to customize the aria-label of the language toggle button in navbar. Dies is only used if you're using [i18n](../guide/i18n).
 
 ## navMenuLabel
 
@@ -500,21 +500,21 @@ Can be used to customize the aria-label of the `⋯` menu button in the navbar. 
 - Type: `string`
 - Default: `Skip to content`
 
-Can be used to customize the label of the skip to content link. This link is shown when the user is navigating the site using a keyboard.
+Can be used to customize the label of the skip to content link. Dies link is shown when the user is navigating the site using a keyboard.
 
 ## externalLinkIcon
 
 - Type: `boolean`
-- Default: `false`
+- Default: `falsch`
 
 Whether to show an external link icon next to external links in markdown.
 
 ## gradedContainers
 
 - Type: `boolean`
-- Default: `false`
+- Default: `falsch`
 
-Whether to color [custom containers](../guide/markdown#custom-containers), [GitHub-flavored alerts](../guide/markdown#github-flavored-alerts), and badges on a graded severity scale — danger red, warning orange, caution yellow. By default, colors match GitHub's alerts, where caution shares danger's red and warning is yellow.
+Whether to color [custom containers](../guide/markdown#custom-containers), [GitHub-flavored alerts](../guide/markdown#github-flavored-alerts), and badges on a graded severity scale — danger red, warning orange, caution yellow. By Standard, colors match GitHub's alerts, where caution shares danger's red and warning is yellow.
 
 ## `useLayout` <Badge type="info" text="composable" />
 
