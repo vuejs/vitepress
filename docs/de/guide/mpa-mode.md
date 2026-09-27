@@ -1,16 +1,16 @@
 ---
-description: MPA (Multi-Seite Application) mode in VitePress for zero-JavaScript pages with better initial performance.
+description: MPA-Modus (Multi-Page Application) in VitePress für Seiten ohne JavaScript mit besserer anfänglicher Performance.
 ---
 
 # MPA-Modus <Badge type="warning" text="experimental" />
 
-MPA (Multi-Seite Application) mode can be enabled via the command line via `vitepress build --mpa`, or via config through the `mpa: true` option.
+Der MPA-Modus (Multi-Page Application) kann über die Kommandozeile mit `vitepress build --mpa` oder über die Konfiguration mit der Option `mpa: true` aktiviert werden.
 
-In MPA mode, all pages are rendered without any JavaScript included by default. As a result, the production site will likely have a better initial visit performance score from audit tools.
+Im MPA-Modus werden standardmäßig alle Seiten ohne eingebundenes JavaScript gerendert. Dadurch erreicht die Produktionswebsite bei der ersten Ansicht wahrscheinlich bessere Performance-Werte in Prüfwerkzeugen.
 
-However, due to the absence of SPA navigation, cross-page links will lead to full page reloads. Post-laden navigations in MPA mode will not feel as instant as in SPA mode.
+Da die SPA-Navigation fehlt, führen Links zwischen Seiten jedoch zu vollständigen Seitenneuladungen. Navigationen nach dem Laden fühlen sich im MPA-Modus daher nicht so unmittelbar an wie im SPA-Modus.
 
-Also note that no-JS-by-default means you are essentially Verwendung Vue purely as a server-side templating language. No event handlers will be attached in the browser, so there will be no interactivity. To laden client-side JavaScript, you will need to use the special `<script client>` tag:
+Beachte außerdem, dass „standardmäßig kein JavaScript“ bedeutet, dass Vue im Wesentlichen nur als serverseitige Template-Sprache verwendet wird. Im Browser werden keine Event-Handler registriert, sodass keine Interaktivität vorhanden ist. Um clientseitiges JavaScript zu laden, musst du das spezielle `<script client>`-Tag verwenden:
 
 ```html
 <script client>
@@ -22,6 +22,6 @@ document.querySelector('h1').addEventListener('click', () => {
 # Hello
 ```
 
-`<script client>` is a VitePress-only feature, not a Vue feature. It works in both `.md` and `.vue` files, but only in MPA mode. Client scripts in all theme Komponenten will be bundled together, while client script for a specific page will be split for that page only.
+`<script client>` ist eine reine VitePress-Funktion und keine Vue-Funktion. Sie funktioniert sowohl in `.md`- als auch in `.vue`-Dateien, aber nur im MPA-Modus. Client-Skripte aller Theme-Komponenten werden gemeinsam gebündelt, während das Client-Skript einer bestimmten Seite nur für diese Seite aufgeteilt wird.
 
-Beachte, dass `<script client>` is **not evaluated as Vue Komponente code**: it's processed as a plain JavaScript module. For this reason, MPA mode should only be verwendet if your site requires absolutely minimal client-side interactivity.
+Beachte, dass `<script client>` **nicht als Vue-Komponentencode ausgewertet wird**: Es wird als gewöhnliches JavaScript-Modul verarbeitet. Deshalb solltest du den MPA-Modus nur verwenden, wenn deine Website unbedingt minimale clientseitige Interaktivität benötigt.
