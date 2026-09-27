@@ -1,23 +1,23 @@
 ---
-description: Get up and running mit VitePress. Erfahre how to install, scaffold, and start developing your documentation site.
+description: Starte mit VitePress. Erfahre, wie du deine Dokumentations-Website installierst, einrichtest und mit der Entwicklung beginnst.
 ---
 
 # Erste Schritte
 
 ## Online ausprobieren
 
-Du kannst try VitePress directly in your browser on [StackBlitz](https://vitepress.new).
+Du kannst VitePress direkt im Browser auf [StackBlitz](https://vitepress.new).
 
 ## Installation
 
 ### Voraussetzungen
 
-- [Node.js](https://nodejs.org/) version 22 or higher.
-- Terminal for accessing VitePress via its command line interface (CLI).
-- Text Editor mit [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax Unterstützung.
-  - [VSCode](https://code.visualstudio.com/) is recommended, along mit the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
+- [Node.js](https://nodejs.org/) Version 22 oder höher.
+- Ein Terminal, um über die Kommandozeilenschnittstelle (CLI) auf VitePress zuzugreifen.
+- Ein Texteditor mit [Markdown](https://en.wikipedia.org/wiki/Markdown) Syntax-Unterstützung.
+  - [VSCode](https://code.visualstudio.com/) wird zusammen mit der [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
-VitePress can be verwendet on its own, or be installed in an existing project. In both cases, you can install it mit:
+VitePress kann eigenständig verwendet oder in einem bestehenden Projekt installiert werden. In beiden Fällen kannst du es mit folgendem Befehl installieren:
 
 ::: code-group
 
@@ -43,15 +43,15 @@ $ deno add -D vitepress@next
 
 :::
 
-::: tip NOTE
+::: tip Hinweis
 
-VitePress is an ESM-only package. Don't use `require()` to import it, and make sure your nearest `package.json` contains `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Refer to [Vite's troubleshooting guide](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) for more details. Also, innerhalb async CJS contexts, you can use `await import('vitepress')` instead.
+VitePress ist ein reines ESM-Paket. Verwende `require()` zum Importieren nicht `package.json` enthält `"type": "module"`, or change the file extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Weitere Informationen findest du in der [Vite's troubleshooting guide](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) In asynchronen CJS-Kontexten kannst du außerdem stattdessen `await import('vitepress')` instead.
 
 :::
 
 ### Einrichtungsassistent
 
-VitePress ships mit a command line setup wizard that will help you scaffold a basic project. After installation, start the wizard by running:
+VitePress enthält einen Einrichtungsassistenten für die Kommandozeile, der dir beim Erstellen eines grundlegenden Projekts hilft. Starte den Assistenten nach der Installation mit:
 
 ::: code-group
 
@@ -73,19 +73,19 @@ $ bun vitepress init
 
 :::
 
-You will be greeted mit a few simple questions:
+Der Assistent stellt dir einige einfache Fragen:
 
 <<< @/snippets/init.ansi
 
-::: tip Vue as Peer Dependency
-Wenn du intend to perform customization that verwendet Vue components or APIs, you should also explicitly install `vue` as a dependency.
+::: tip Vue als Peer-Abhängigkeit
+Wenn du Anpassungen vornehmen möchtest, die Vue-Komponenten oder APIs verwenden, solltest du `vue` zusätzlich ausdrücklich als Abhängigkeit installieren.
 :::
 
 ## Dateistruktur
 
-Wenn du are building a standalone VitePress site, you can scaffold the site in your current directory (`./`). However, if you are installing VitePress in an existing project alongside other source code, it is recommended to scaffold the site in a nested directory (e.g. `./docs`) so that it is separate von the rest of the project.
+Wenn du eine eigenständige VitePress-Website erstellst, kannst du sie im aktuellen Verzeichnis (`./`). Wenn du VitePress jedoch zusammen mit anderem Quellcode in einem bestehenden Projekt installierst, empfiehlt es sich, die Website in einem Unterverzeichnis (e.g. `./docs`) damit sie vom restlichen Projekt getrennt ist.
 
-Assuming you chose to scaffold the VitePress project in `./docs`, the generated file structure should look like this:
+Angenommen, du hast das VitePress-Projekt in `./docs`, Die erzeugte Dateistruktur sollte dann so aussehen:
 
 ```
 .
@@ -98,41 +98,41 @@ Assuming you chose to scaffold the VitePress project in `./docs`, the generated 
 └─ package.json
 ```
 
-The `docs` directory is considered the **project root** of the VitePress site. The `.vitepress` directory is a reserved location for VitePress' config file, dev server cache, build output, and optional theme customization code.
+Das Verzeichnis `docs` gilt als **Projektstammverzeichnis** der VitePress-Website. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionale Anpassungen des Themes reserviert.
 
 ::: tip
-Standardmäßig, VitePress stores its dev server cache in `.vitepress/cache`, and the production build output in `.vitepress/dist`. If Verwendung Git, you should add them to your `.gitignore` file. These locations can also be [konfiguriert](../reference/site-config#outdir).
+Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. These locations can also be [konfiguriert](../reference/site-config#outdir).
 :::
 
 ### Die Konfigurationsdatei
 
-The config file (`.vitepress/config.js`) ermöglicht you to customize various aspects of your VitePress site, mit the most basic options being the title and description of the site:
+Die Konfigurationsdatei (`.vitepress/config.js`) ermöglicht es dir, verschiedene Aspekte deiner VitePress-Website anzupassen. various aspects of your VitePress site, mit the most basic options being the title and description of the site:
 
 ```js [.vitepress/config.js]
 export default {
-  // site-level options
+  // Optionen auf Website-Ebene
   title: 'VitePress',
   description: 'Just playing around.',
 
   themeConfig: {
-    // theme-level options
+    // Optionen auf Theme-Ebene
   }
 }
 ```
 
-Du kannst also configure the behavior of the theme via the `themeConfig` option. Consult the [Config Referenz](../reference/site-config) for full details on all config options.
+Du kannst das Verhalten des Themes außerdem über die `themeConfig` option. Eine vollständige Übersicht findest du in der [Config Referenz](../reference/site-config) for full details on all config options.
 
 ### Quelldateien
 
-Markdown files außerhalb the `.vitepress` directory are considered **source files**.
+Markdown-Dateien außerhalb des Verzeichnisses `.vitepress` gelten als **Quelldateien**.
 
-VitePress verwendet **file-based routing**: each `.md` file is compiled in a corresponding `.html` file mit the same path. Zum Beispiel, `index.md` will be compiled in `index.html`, and can be visited at the root path `/` of the resulting VitePress site.
+VitePress verwendet **file-based routing**: Jede `.md`-Datei wird in eine entsprechende `.html`-Datei mit demselben Pfad kompiliert. Beispielsweise wird `index.md` in `index.html`, und kann über den Stammpfad `/` of the resulting VitePress site.
 
-VitePress also stellt bereit the ability to generate clean URLs, rewrite paths, and dynamically generate pages. These will be covered in the [Routing Anleitung](./routing).
+VitePress bietet außerdem die Möglichkeit, saubere URLs zu erzeugen, Pfade umzuschreiben und Seiten dynamisch zu generieren. Diese Funktionen werden in der [Routing Anleitung](./routing).
 
 ## Loslegen
 
-The tool should have also injected the following npm scripts to your `package.json` if you allowed it to do so während the setup process:
+Wenn du dies während der Einrichtung zugelassen hast, sollte das Tool außerdem die folgenden npm-Skripte in deine `package.json` if you allowed it to do so während the setup process:
 
 ```json [package.json]
 {
@@ -146,7 +146,7 @@ The tool should have also injected the following npm scripts to your `package.js
 }
 ```
 
-The `docs:dev` script will start a local dev server mit instant hot updates. Run it mit the following command:
+Das Skript `docs:dev` startet einen lokalen Entwicklungsserver mit sofortigen Hot-Updates. Starte ihn mit folgendem Befehl:
 
 ::: code-group
 
@@ -168,7 +168,7 @@ $ bun run docs:dev
 
 :::
 
-Instead of npm scripts, you can also invoke VitePress directly mit:
+Statt npm-Skripte zu verwenden, kannst du VitePress auch direkt aufrufen:
 
 ::: code-group
 
@@ -190,18 +190,18 @@ $ bun vitepress dev docs
 
 :::
 
-More command line usage is documented in the [CLI Referenz](../reference/cli).
+Weitere Informationen zur Verwendung der Kommandozeile findest du in der [CLI Referenz](../reference/cli).
 
-The dev server should be running at `http://localhost:5173`. Visit the URL in your browser to see your new site in action!
+The dev server should be running at `http://localhost:5173`. Öffne die URL in deinem Browser, um deine neue Website zu sehen.
 
-## What's Weiter?
+## Wie geht es weiter?
 
-- To better understand how markdown files are mapped to generated HTML, proceed to the [Routing Anleitung](./routing).
+- Um besser zu verstehen, wie Markdown-Dateien auf erzeugtes HTML abgebildet werden, fahre mit der [Routing Anleitung](./routing).
 
-- To discover more about what you can do on the page, such as writing markdown content or Verwendung Vue Components, refer to the "Schreiben" section of the guide. A great place to start would be to learn about [Markdown Extensions](./markdown).
+- Um mehr darüber zu erfahren, was du auf einer Seite tun kannst, etwa Markdown-Inhalte schreiben oder Vue-Komponenten verwenden, lies den Abschnitt „Schreiben“ der Anleitung. Ein guter Ausgangspunkt sind die [Markdown Extensions](./markdown).
 
-- To explore the features provided by the default documentation theme, check out the [Standard-Theme Config Referenz](../reference/default-theme-config).
+- Um die Funktionen des Standard-Dokumentationsthemes kennenzulernen, sieh dir die [Standard-Theme Config Referenz](../reference/default-theme-config).
 
-- Wenn du want to further customize the appearance of your site, explore how to either [Extend the Standard-Theme](./extending-default-theme) or [Build a Eigenes Theme](./custom-theme).
+- Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Extend the Standard-Theme](./extending-default-theme) oder [ein eigenes Theme erstellst](./custom-theme).
 
-- Once your documentation site takes shape, make sure to read the [Bereitstellung Anleitung](./deploy).
+- Sobald deine Dokumentations-Website Gestalt annimmt, solltest du die [Bereitstellung Anleitung](./deploy).
