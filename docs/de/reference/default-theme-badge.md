@@ -4,11 +4,11 @@ description: Use the Badge component to add status labels to headers in VitePres
 
 # Badge
 
-The badge lets you add status to your headers. For example, it could be useful to specify the section's type, or supported version.
+The badge lets you add status to your headers. Zum Beispiel, it could be useful to specify the section's type, or supported version.
 
 ## Verwendung
 
-You may use the `Badge` component which is globally available.
+Du kannst use the `Badge` component which is globally verfügbar.
 
 ```html
 ### Title <Badge type="info" text="default" />
@@ -19,12 +19,12 @@ You may use the `Badge` component which is globally available.
 
 Code above renders like:
 
-### Title <Badge type="info" text="default" />
+### Title <Badge type="info" text="Standard" />
 ### Title <Badge type="tip" text="^1.9.0" />
 ### Title <Badge type="warning" text="beta" />
 ### Title <Badge type="danger" text="deprecated" />
 
-## Custom Children
+## Eigenes Children
 
 `<Badge>` accept `children`, which will be displayed in the badge.
 
@@ -36,7 +36,7 @@ Code above renders like:
 
 ## Anpassen Type Color
 
-You can customize the style of badges by overriding css variables. The following are the default values:
+Du kannst customize the style of badges by overriding css variables. The following are the Standard values:
 
 ```css
 :root {
