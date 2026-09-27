@@ -10,7 +10,7 @@ Mit der Theme-Konfiguration kannst du dein Theme anpassen. Du kannst sie über d
 export default {
   lang: 'en-US',
   title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  description: 'Statischer Website-Generator auf Basis von Vite und Vue.',
 
   // Konfigurationsoptionen für das Theme.
   themeConfig: {
@@ -94,11 +94,11 @@ export default {
     nav: [
       { text: 'Anleitung', link: '/guide' },
       {
-        text: 'Dropdown Menu',
+        text: 'Dropdown-Menü',
         items: [
-          { text: 'Item A', link: '/item-1' },
-          { text: 'Item B', link: '/item-2' },
-          { text: 'Item C', link: '/item-3' }
+          { text: 'Eintrag A', link: '/item-1' },
+          { text: 'Eintrag B', link: '/item-2' },
+          { text: 'Eintrag C', link: '/item-3' }
         ]
       }
     ]
