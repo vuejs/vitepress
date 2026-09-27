@@ -11,28 +11,28 @@ Mit dem Badge kannst du deinen Überschriften einen Status hinzufügen. Zum Beis
 Du kannst die global verfügbare `Badge`-Komponente verwenden.
 
 ```html
-### Title <Badge type="info" text="default" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="deprecated" />
+### Titel <Badge type="info" text="default" />
+### Titel <Badge type="tip" text="^1.9.0" />
+### Titel <Badge type="warning" text="beta" />
+### Titel <Badge type="danger" text="deprecated" />
 ```
 
 Der obige Code wird folgendermaßen dargestellt:
 
-### Title <Badge type="info" text="Standard" />
-### Title <Badge type="tip" text="^1.9.0" />
-### Title <Badge type="warning" text="beta" />
-### Title <Badge type="danger" text="deprecated" />
+### Titel <Badge type="info" text="Standard" />
+### Titel <Badge type="tip" text="^1.9.0" />
+### Titel <Badge type="warning" text="beta" />
+### Titel <Badge type="danger" text="deprecated" />
 
 ## Eigenes Children
 
 `<Badge>` akzeptiert `children`, die im Badge angezeigt werden.
 
 ```html
-### Title <Badge type="info">custom element</Badge>
+### Titel <Badge type="info">benutzerdefiniertes Element</Badge>
 ```
 
-### Title <Badge type="info">custom element</Badge>
+### Titel <Badge type="info">benutzerdefiniertes Element</Badge>
 
 ## Farbe und Typ anpassen
 
