@@ -28,7 +28,7 @@ export default defineAdditionalConfig({
   head: [
     [
       'link',
-      // for the vazirmatn font-face defined in .vitepress/theme/styles.css
+      // für die in .vitepress/theme/styles.css definierte Vazirmatn-Schrift
       { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' }
     ]
   ],
@@ -39,23 +39,23 @@ export default defineAdditionalConfig({
     search: { options: searchOptions() },
 
     sidebar: {
-      '/de/guide/': { base: '/de/guide/', items: sidebarGuide() },
+      '/de/guide/': { base: '/de/guide/', items: sidebarAnleitung() },
       '/de/reference/': { base: '/de/reference/', items: sidebarReference() }
     },
 
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Bearbeite diese Seite auf GitHub'
+      text: 'Diese Seite auf GitHub bearbeiten'
     },
 
     footer: {
-      message: 'Freigegeben unter MIT License',
+      message: 'Veröffentlicht unter der MIT-Lizenz',
       copyright: 'Copyright © 2019-heute Evan You'
     },
 
     docFooter: {
-      prev: 'Vorheriger',
-      next: 'Nächster'
+      prev: 'Zurück',
+      next: 'Weiter'
     },
 
     outline: {
@@ -63,7 +63,7 @@ export default defineAdditionalConfig({
     },
 
     lastUpdated: {
-      text: 'Zuletzt geupdated'
+      text: 'Zuletzt aktualisiert'
     },
 
     notFound: {
@@ -75,7 +75,7 @@ export default defineAdditionalConfig({
     },
 
     langMenuLabel: 'Sprache ändern',
-    returnToTopLabel: 'Zurück nach oben',
+    returnToTopLabel: 'Nach oben',
     sidebarMenuLabel: 'Seitenleiste',
     darkModeSwitchLabel: 'Dunkelmodus',
     lightModeSwitchTitle: 'Zum Hellmodus wechseln',
@@ -87,7 +87,7 @@ export default defineAdditionalConfig({
 function nav(): DefaultTheme.NavItem[] {
   zurückgeben [
     {
-      text: 'Guide',
+      text: 'Anleitung',
       link: 'de/guide/what-is-vitepress',
       activeMatch: '/guide/'
     },
@@ -116,7 +116,7 @@ function nav(): DefaultTheme.NavItem[] {
   ]
 }
 
-function sidebarGuide(): DefaultTheme.SidebarItem[] {
+function sidebarAnleitung(): DefaultTheme.SidebarItem[] {
   zurückgeben [
     {
       text: 'Einführung',
@@ -125,7 +125,7 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
         { text: 'Was ist VitePress?', link: 'what-is-vitepress' },
         { text: 'Erste Schritte', link: 'getting-started' },
         { text: 'Routing', link: 'routing' },
-        { text: 'Deployment', link: 'deploy' }
+        { text: 'Bereitstellung', link: 'deploy' }
       ]
     },
     {
@@ -145,16 +145,16 @@ function sidebarGuide(): DefaultTheme.SidebarItem[] {
       items: [
         { text: 'Ein eigenes Theme nutzen', link: 'custom-theme' },
         {
-          text: 'Standart-Theme erweitern',
+          text: 'Standard-Theme erweitern',
           link: 'extending-default-theme'
         },
-        { text: 'Datenladen', link: 'data-loading' },
+        { text: 'Daten laden', link: 'data-loading' },
         { text: 'SSR-Kompatibilität', link: 'ssr-compat' },
         { text: 'Mit einem CMS verbinden', link: 'cms' }
       ]
     },
     {
-      text: 'Experimental',
+      text: 'Experimentell',
       collapsed: false,
       items: [
         { text: 'MPA-Modus', link: 'mpa-mode' },
@@ -176,7 +176,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
         { text: 'Runtime-API', link: 'runtime-api' },
         { text: 'CLI', link: 'cli' },
         {
-          text: 'Standart-Theme',
+          text: 'Standard-Theme',
           base: 'de/reference/default-theme-',
           items: [
             { text: 'Übersicht', link: 'config' },
@@ -189,7 +189,7 @@ function sidebarReference(): DefaultTheme.SidebarItem[] {
             { text: 'Team-Seite', link: 'team-page' },
             { text: 'Vorher / Nachher Links', link: 'prev-next-links' },
             { text: 'Link bearbeiten', link: 'edit-link' },
-            { text: 'Zuletzt geupdated Zeitstempel', link: 'last-updated' },
+            { text: 'Zuletzt aktualisiert Zeitstempel', link: 'last-updated' },
             { text: 'Suche', link: 'search' },
             { text: 'Carbon Ads', link: 'carbon-ads' }
           ]
@@ -239,7 +239,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           closeText: 'Schließen',
           backToSearchText: 'Zurück zur Suche',
           closeKeyAriaLabel: 'Escape-Taste',
-          poweredByText: 'Angetrieben von'
+          poweredByText: 'Bereitgestellt von'
         },
         errorScreen: {
           titleText: 'Ergebnisse konnten nicht abgerufen werden.',
@@ -272,12 +272,12 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
           disclaimerText:
             'Die Antworten werden von einer KI generiert und können ungenau sein. Bitte überprüfen Sie diese.',
           relatedSourcesText: 'Verwandte Quellen',
-          thinkingText: 'Denken...',
+          thinkingText: 'Nachdenken...',
           copyButtonText: 'Kopieren',
           copyButtonCopiedText: 'Kopiert!',
           copyButtonTitle: 'Kopieren',
           likeButtonTitle: 'Hilfreich',
-          dislikeButtonTitle: 'Nicht Hilfreich',
+          dislikeButtonTitle: 'Nicht hilfreich',
           thanksForFeedbackText: 'Danke für Ihr Feedback!',
           preToolCallText: 'Suchen...',
           duringToolCallText: 'Suchen...',
@@ -305,7 +305,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
               viewConversationHistoryText: 'Gesprächsverlauf'
             },
             promptForm: {
-              promptPlaceholderText: 'Frage eine Frage',
+              promptPlaceholderText: 'Eine Frage stellen',
               promptAnsweringText: 'Antwort generieren...',
               promptAskAnotherQuestionText: 'Frage eine weitere Frage',
               promptDisclaimerText:
@@ -317,17 +317,17 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
             conversationScreen: {
               preToolCallText: 'Suchen...',
               searchingText: 'Suchen...',
-              toolCallResultText: 'Siche nach',
+              toolCallResultText: 'Suche nach',
               conversationDisclaimer:
                 'Die Antworten werden von einer KI generiert und können ungenau sein. Bitte überprüfen Sie diese.',
               reasoningText: 'Nachdenken...',
-              thinkingText: 'Denken...',
-              relatedSourcesText: 'Ähnliche Quellen',
+              thinkingText: 'Nachdenken...',
+              relatedSourcesText: 'Verwandte Quellen',
               stoppedStreamingText: 'Du hast diese Antwort angehalten',
               copyButtonText: 'Kopieren',
               copyButtonCopiedText: 'Kopiert!',
               likeButtonTitle: 'Hilfreich',
-              dislikeButtonTitle: 'Nicht Hilfreich',
+              dislikeButtonTitle: 'Nicht hilfreich',
               thanksForFeedbackText: 'Danke für dein Feedback!',
               errorTitleText: 'Konversationsfehler'
             },
@@ -337,7 +337,7 @@ function searchOptions(): Partial<DefaultTheme.AlgoliaSearchOptions> {
                 'Ich werde Ihre Dokumentation durchsuchen, um schnell Einrichtungsanleitungen, Details zu Funktionen und Tipps zur Fehlerbehebung zu finden.'
             },
             logo: {
-              poweredByText: 'Angetrieben von'
+              poweredByText: 'Bereitgestellt von'
             }
           }
         }
