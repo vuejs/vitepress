@@ -15,7 +15,7 @@ editLink: true
 ---
 ```
 
-Viele Optionen der Website- oder Standard-Theme-Konfiguration besitzen entsprechende Optionen im Frontmatter. Du kannst Frontmatter verwenden, um bestimmtes Verhalten nur für die aktuelle Seite zu überschreiben. Einzelheiten findest du in [Frontmatter Config Referenz](../reference/frontmatter-config).
+Viele Optionen der Website- oder Standard-Theme-Konfiguration besitzen entsprechende Optionen im Frontmatter. Du kannst Frontmatter verwenden, um bestimmtes Verhalten nur für die aktuelle Seite zu überschreiben. Einzelheiten findest du in [Referenz zur Frontmatter-Konfiguration](../reference/frontmatter-config).
 
 Du kannst außerdem eigene Frontmatter-Daten definieren und sie in dynamischen Vue-Ausdrücken auf der Seite verwenden.
 
@@ -36,9 +36,9 @@ editLink: true
 Inhalt der Anleitung
 ```
 
-Zugriffe auf Eigenschaften wie `{{ $frontmatter.title }}` werden beim Rendern von Markdown aufgelöst. Der Wert landet dadurch auch im lokalen Suchindex, in [content loader](./data-loading#createcontentloader) Ausgabe, in Überschriftenankern – die obige Überschrift erhält `id="docs-mit-vitepress"` – und in Linkzielen, die ohne Leerzeichen um den Ausdruck geschrieben werden, etwa `[text]({{$frontmatter.link}})`. Andere Ausdrücke werden wie gewohnt zur Laufzeit von Vue ausgewertet. Wenn du einen Ausdruck in [`v-pre`](./Verwendung-vue#escaping) einschließt, wird er wörtlich angezeigt.
+Zugriffe auf Eigenschaften wie `{{ $frontmatter.title }}` werden beim Rendern von Markdown aufgelöst. Der Wert landet dadurch auch im lokalen Suchindex, in der Ausgabe des [Datenladers](./data-loading#createcontentloader), in Überschriftenankern – die obige Überschrift erhält `id="docs-mit-vitepress"` – und in Linkzielen, die ohne Leerzeichen um den Ausdruck geschrieben werden, etwa `[text]({{$frontmatter.link}})`. Andere Ausdrücke werden wie gewohnt zur Laufzeit von Vue ausgewertet. Wenn du einen Ausdruck in [`v-pre`](./Verwendung-vue#escaping) einschließt, wird er wörtlich angezeigt.
 
-Du kannst außerdem auf die Frontmatter-Daten der aktuellen Seite in `<script setup>` mit dem [`useData()`](../reference/runtime-api#usedata) -Helper zugreifen.
+Du kannst außerdem in `<script setup>` mit dem [`useData()`](../reference/runtime-api#usedata)-Helper auf die Frontmatter-Daten der aktuellen Seite zugreifen.
 
 ## Alternative Frontmatter-Formate
 
