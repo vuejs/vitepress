@@ -43,9 +43,9 @@ $ deno add -D vitepress@next
 
 :::
 
-::: Tipp Hinweis
+::: tip Hinweis
 
-VitePress ist ein reines ESM-Paket. Verwende `require()` zum Importieren nicht `package.json` enthält `"type": "module"`, or change the Datei extension of your relevant Dateis like `.vitepress/config.js` to `.mjs`/`.mts`. Weitere Informationen findest du in der [Vite's troubleshooting guide](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-nur) In asynchronen CJS-Kontexten kannst du außerdem stattdessen `await import('vitepress')` stattdessen.
+VitePress ist ein reines ESM-Paket. Verwende `require()` zum Importieren nicht `package.json` enthält `"type": "module"`, or change die Datei extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Weitere Informationen findest du in der [Vite's troubleshooting guide](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) In asynchronen CJS-Kontexten kannst du außerdem stattdessen `await import('vitepress')` instead.
 
 :::
 
@@ -77,7 +77,7 @@ Der Assistent stellt dir einige einfache Fragen:
 
 <<< @/snippets/init.ansi
 
-::: Tipp Vue als Peer-Abhängigkeit
+::: tip Vue als Peer-Abhängigkeit
 Wenn du Anpassungen vornehmen möchtest, die Vue-Komponenten oder APIs verwenden, solltest du `vue` zusätzlich ausdrücklich als Abhängigkeit installieren.
 :::
 
@@ -98,15 +98,15 @@ Angenommen, du hast das VitePress-Projekt in `./docs`, Die erzeugte Dateistruktu
 └─ package.json
 ```
 
-Das Verzeichnis `docs` gilt als **Projektstammverzeichnis** der VitePress-Website. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und Optionale Anpassungen des Themes reserviert.
+Das Verzeichnis `docs` gilt als **Projektstammverzeichnis** der VitePress-Website. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionale Anpassungen des Themes reserviert.
 
-::: Tipp
-Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. These locations can außerdem be [konfiguriert](../reference/site-config#outdir).
+::: tip
+Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. These locations can also be [konfiguriert](../reference/site-config#outdir).
 :::
 
 ### Die Konfigurationsdatei
 
-Die Konfigurationsdatei (`.vitepress/config.js`) ermöglicht es dir, verschiedene Aspekte deiner VitePress-Website anzupassen. various aspects of your VitePress site, mit the most basic Options being the title and description of the site:
+Die Konfigurationsdatei (`.vitepress/config.js`) ermöglicht es dir, verschiedene Aspekte deiner VitePress-Website anzupassen. various aspects of your VitePress site, mit the most basic options being the title and description of the site:
 
 ```js [.vitepress/config.js]
 export default {
@@ -120,13 +120,13 @@ export default {
 }
 ```
 
-Du kannst das Verhalten des Themes außerdem über die `ThemeConfig` Option. Eine vollständige Übersicht findest du in der [Config Referenz](../reference/site-config) for full details on alle config Options.
+Du kannst das Verhalten des Themes außerdem über die `themeConfig` option. Eine vollständige Übersicht findest du in der [Config Referenz](../reference/site-config) for full details on all config options.
 
 ### Quelldateien
 
 Markdown-Dateien außerhalb des Verzeichnisses `.vitepress` gelten als **Quelldateien**.
 
-VitePress verwendet **Datei-based routing**: Jede `.md`-Datei wird in eine entsprechende `.html`-Datei mit demselben Pfad kompiliert. Beispielsweise wird `index.md` in `index.html`, und kann über den Stammpfad `/` of the resulting VitePress site.
+VitePress verwendet **file-based routing**: Jede `.md`-Datei wird in eine entsprechende `.html`-Datei mit demselben Pfad kompiliert. Beispielsweise wird `index.md` in `index.html`, und kann über den Stammpfad `/` of the resulting VitePress site.
 
 VitePress bietet außerdem die Möglichkeit, saubere URLs zu erzeugen, Pfade umzuschreiben und Seiten dynamisch zu generieren. Diese Funktionen werden in der [Routing Anleitung](./routing).
 
@@ -200,8 +200,8 @@ The dev server should be running at `http://localhost:5173`. Öffne die URL in d
 
 - Um mehr darüber zu erfahren, was du auf einer Seite tun kannst, etwa Markdown-Inhalte schreiben oder Vue-Komponenten verwenden, lies den Abschnitt „Schreiben“ der Anleitung. Ein guter Ausgangspunkt sind die [Markdown Extensions](./markdown).
 
-- Um die Funktionen des Standard-DokumentationsThemes kennenzulernen, sieh dir die [Standard-Theme Config Referenz](../reference/default-Theme-config).
+- Um die Funktionen des Standard-Dokumentationsthemes kennenzulernen, sieh dir die [Standard-Theme Config Referenz](../reference/default-theme-config).
 
-- Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Extend the Standard-Theme](./extending-default-Theme) oder [ein eigenes Theme erstellst](./eigene-Theme).
+- Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Extend the Standard-Theme](./extending-default-theme) oder [ein eigenes Theme erstellst](./custom-theme).
 
 - Sobald deine Dokumentations-Website Gestalt annimmt, solltest du die [Bereitstellung Anleitung](./deploy).
