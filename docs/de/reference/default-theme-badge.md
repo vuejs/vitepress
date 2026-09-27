@@ -76,7 +76,7 @@ Die Komponente `<Badge>` akzeptiert die folgenden Props:
 
 ```ts
 interface Props {
-  // When `<slot>` is passed, this value gets ignored.
+  // Wenn `<slot>` übergeben wird, wird dieser Wert ignoriert.
   text?: string
 
   // Defaults to `tip`. Matches markdown containers/alerts colors.
