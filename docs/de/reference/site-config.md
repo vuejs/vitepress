@@ -1,19 +1,19 @@
 ---
 outline: deep
-description: Complete reference of VitePress site configuration options including app-level settings, theming, and build options.
+description: Vollständige Referenz der VitePress-Website-Konfigurationsoptionen einschließlich Einstellungen auf Anwendungsebene, Theme-Konfiguration und Build-Optionen.
 ---
 
 # Site-Konfiguration
 
-Site config is where you can define the global settings of the site. App config options define settings that apply to every VitePress site, regardless of what theme it is using. Zum Beispiel, the base directory or the title of the site.
+In der Website-Konfiguration definierst du die globalen Einstellungen der Website. Konfigurationsoptionen auf Anwendungsebene gelten für jede VitePress-Website, unabhängig vom verwendeten Theme. Zum Beispiel, the base directory or the title of the site.
 
 ## Übersicht
 
-### Config Resolution
+### Auflösung der Konfiguration
 
-The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
+Die Konfigurationsdatei wird immer aus `<root>/.vitepress/config.[ext]`, wobei `<root>` dein VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
 
-It is recommended to use ES modules syntax in config files. The config file should default export an object:
+Es wird empfohlen, in Konfigurationsdateien die ES-Modul-Syntax zu verwenden. The config file should default export an object:
 
 ```ts
 export default {
@@ -27,7 +27,7 @@ export default {
 
 ::: details Dynamic (Async) Config
 
-Wenn du need to dynamically generate the config, you can also default export a function. Zum Beispiel:
+Wenn du die Konfiguration dynamisch erzeugen musst, you can also default export a function. Zum Beispiel:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -54,7 +54,7 @@ export default async () => {
 }
 ```
 
-Du kannst also use top-level `await`. Zum Beispiel:
+Du kannst auch `await` auf oberster Ebene verwenden. Zum Beispiel:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -81,9 +81,9 @@ export default defineConfig({
 
 :::
 
-### Config Intellisense
+### Konfigurations-IntelliSense
 
-Using the `defineConfig` helper will provide TypeScript-powered intellisense for config options. Assuming your IDE unterstützt it, this should work in both JavaScript and TypeScript.
+Die Verwendung des Helpers `defineConfig` stellt TypeScript-basierte IntelliSense für Konfigurationsoptionen bereit. Sofern deine IDE dies unterstützt, this should work in both JavaScript and TypeScript.
 
 ```js
 import { defineConfig } from 'vitepress'
@@ -93,9 +93,9 @@ export default defineConfig({
 })
 ```
 
-### Typed Theme Config
+### Typisierte Theme-Konfiguration
 
-Standardmäßig, `defineConfig` helper expects the theme config type from default theme:
+Standardmäßig erwartet der Helper `defineConfig` the theme config type from default theme:
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -107,7 +107,7 @@ export default defineConfig({
 })
 ```
 
-Wenn du use a custom theme and want type checks for the theme config, you'll need to use `defineConfigWithTheme` instead, and pass the config type for your custom theme via a generic argument:
+Wenn du ein eigenes Theme verwendest und Typprüfungen for the theme config, musst du stattdessen `defineConfigWithTheme` verwenden, and pass the config type for your custom theme via a generic argument:
 
 ```ts
 import { defineConfigWithTheme } from 'vitepress'
@@ -124,33 +124,33 @@ export default defineConfigWithTheme<ThemeConfig>({
 
 - **Vite**
 
-  Du kannst configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. No need to create a separate Vite config file.
+  Du kannst configure the underlying Vite instance using the [vite](#vite) option in your VitePress config. Eine separate Vite-Konfigurationsdatei ist nicht erforderlich.
 
 - **Vue**
 
-  VitePress already includes the official Vue plugin for Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Du kannst configure its options using the [vue](#vue) option in your VitePress config.
+  VitePress enthält bereits das offizielle Vue-Plugin für Vite ([@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue)). Du kannst dessen Optionen konfigurieren using the [vue](#vue) option in your VitePress config.
 
 - **Markdown**
 
   Du kannst configure the underlying [Markdown-It](https://github.com/markdown-it/markdown-it) instance using the [markdown](#markdown) option in your VitePress config.
 
-### Seite-Level Overrides
+### Überschreibungen auf Seitenebene
 
-Some settings can be overridden for specific pages using frontmatter.
+Einige Einstellungen können für bestimmte Seiten über das Frontmatter überschrieben werden.
 
 See [Frontmatter-Konfiguration](./frontmatter-config) for details.
 
-### Verzeichnis-Level Overrides
+### Überschreibungen auf Verzeichnisebene
 
-Some config settings can be overridden at the directory level, allowing all pages in that directory to share settings without needing to repeat them in the frontmatter of each page.
+Einige Konfigurationseinstellungen können auf Verzeichnisebene überschrieben werden, allowing all pages in that directory to share settings without needing to repeat them in the frontmatter of each page.
 
-This is achieved by adding a file called `config.ts` (or `.js`, `.mjs`, or `.mts`) in the relevant directory. This file should export a config object using `export default`, similar to the main config file.
+Dies wird erreicht, indem eine Datei namens `config.ts` (or `.js`, `.mjs`, or `.mts`) in the relevant directory. This file should export a config object using `export default`, similar to the main config file.
 
-Nested directories inherit settings from their parent directory, with configuration overrides being merged accordingly.
+Verschachtelte Verzeichnisse übernehmen Einstellungen ihres übergeordneten Verzeichnisses, with configuration overrides being merged accordingly.
 
-The `defineAdditionalConfig` helper can be used to get TypeScript-powered intellisense for the verfügbar options, though as with `defineConfig` its use is optional.
+Der Helper `defineAdditionalConfig` kann verwendet werden to get TypeScript-powered intellisense for the verfügbar options, though as with `defineConfig` its use is optional.
 
-Zum Beispiel, for a site with multiple languages we might want a different `description` for each language. We could add `es/config.ts` with the following content:
+Zum Beispiel können wir bei einer Website mit mehreren Sprachen we might want a different `description` for each language. We could add `es/config.ts` with the following content:
 
 ```ts
 import { defineAdditionalConfig } from 'vitepress'
@@ -160,11 +160,11 @@ export default defineAdditionalConfig({
 })
 ```
 
-This `description` would then be used for all pages in the `es` directory.
+Diese `description` wird anschließend für alle Seiten in the `es` directory.
 
-Alternatively, when using the built-in i18n features, the settings for a locale directory can be overridden via the `locales` setting in the main configuration file. See [Internationalization](../guide/i18n) for details.
+Alternativ können bei Verwendung der integrierten i18n-Funktionen, the settings for a locale directory can be overridden via the `locales` setting in the main configuration file. See [Internationalization](../guide/i18n) for details.
 
-## Site Metadata
+## Website-Metadaten
 
 ### title
 
@@ -172,9 +172,9 @@ Alternatively, when using the built-in i18n features, the settings for a locale 
 - Default: `VitePress`
 - Can be overridden per page via [frontmatter](./frontmatter-config#title) or at the [directory level](#directory-level-overrides)
 
-Title for the site. When using the default theme, this will be displayed in the nav bar.
+Title for the site. Bei Verwendung des Standard-Themes, this will be displayed in the nav bar.
 
-It will also be used as the default suffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. Zum Beispiel with the following config and page content:
+Er wird außerdem als Standardsuffix for all individual page titles, unless [`titleTemplate`](#titletemplate) is defined. An individual page's final title will be the text content of its first `<h1>` header, combined with the global `title` as the suffix. Zum Beispiel with the following config and page content:
 
 ```ts
 export default {
@@ -186,7 +186,7 @@ export default {
 # Hello
 ```
 
-The title of the page will be `Hello | My Awesome Site`.
+Der Titel der Seite lautet `Hello | My Awesome Site`.
 
 ### titleTemplate
 
@@ -206,7 +206,7 @@ export default {
 # Hello
 ```
 
-The title of the page will be `Hello | Eigenes Suffix`.
+Der Titel der Seite lautet `Hello | Eigenes Suffix`.
 
 To completely customize how the title should be rendered, you can use the `:title` symbol in `titleTemplate`:
 
@@ -524,7 +524,7 @@ Shared chunks stay in `assets/chunks/`. A file's shard depends only on its name,
 
 Optionen for the generated icon styles. The build collects every iconify icon rendered during SSR. Names are fully qualified as `collection:name`, resolved against the `@iconify-json/*` packages declared in your project's dependencies.
 
-Icons rendered only on the client — inside `<ClientOnly>`, or after hydration — are invisible to SSR collection. List them in `include` to force them into the stylesheet:
+Symbole, die nur auf dem Client gerendert werden — inside `<ClientOnly>`, or after hydration — are invisible to SSR collection. List them in `include` to force them into the stylesheet:
 
 ```ts
 export default {
@@ -614,7 +614,7 @@ This option injects an inline script that restores users settings from local sto
 
 Whether to get the last updated timestamp for each page using Git. The timestamp will be included in each page's page data, accessible via [`useData`](./runtime-api#usedata).
 
-When using the default theme, enabling this option will display each page's last updated time. Du kannst customize the text via [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) option.
+Bei Verwendung des Standard-Themes, enabling this option will display each page's last updated time. Du kannst customize the text via [`themeConfig.lastUpdated.text`](./default-theme-config#lastupdated) option.
 
 ## Customization
 
