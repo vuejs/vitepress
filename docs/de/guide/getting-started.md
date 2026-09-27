@@ -45,7 +45,7 @@ $ deno add -D vitepress@next
 
 ::: tip Hinweis
 
-VitePress ist ein reines ESM-Paket. Verwende `require()` zum Importieren nicht `package.json` enthält `"type": "module"`, or change die Datei extension of your relevant files like `.vitepress/config.js` to `.mjs`/`.mts`. Weitere Informationen findest du in der [Vite's troubleshooting guide](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only) In asynchronen CJS-Kontexten kannst du außerdem stattdessen `await import('vitepress')` instead.
+VitePress ist ein reines ESM-Paket. Verwende `require()` nicht zum Importieren, es sei denn, `package.json` enthält `"type": "module"`. Alternativ kannst du die Dateiendung relevanter Dateien wie `.vitepress/config.js` in `.mjs`/`.mts` ändern. Weitere Informationen findest du in der [Fehlerbehebung von Vite](http://vite.dev/guide/troubleshooting.html#this-package-is-esm-only). In asynchronen CJS-Kontexten kannst du stattdessen `await import('vitepress')` verwenden.
 
 :::
 
@@ -101,12 +101,12 @@ Angenommen, du hast das VitePress-Projekt in `./docs`, Die erzeugte Dateistruktu
 Das Verzeichnis `docs` gilt als **Projektstammverzeichnis** der VitePress-Website. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionale Anpassungen des Themes reserviert.
 
 ::: tip
-Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. These locations can also be [konfiguriert](../reference/site-config#outdir).
+Standardmäßig speichert VitePress den Cache des Entwicklungsservers in `.vitepress/cache`, und die Produktions-Build-Ausgabe in `.vitepress/dist`. Wenn du Git verwendest, solltest du diese Verzeichnisse in deine `.gitignore` aufnehmen. Diese Verzeichnisse können ebenfalls [konfiguriert](../reference/site-config#outdir).
 :::
 
 ### Die Konfigurationsdatei
 
-Die Konfigurationsdatei (`.vitepress/config.js`) ermöglicht es dir, verschiedene Aspekte deiner VitePress-Website anzupassen. various aspects of your VitePress site, mit the most basic options being the title and description of the site:
+Die Konfigurationsdatei (`.vitepress/config.js`) ermöglicht es dir, verschiedene Aspekte deiner VitePress-Website anzupassen. Zu den grundlegenden Optionen gehören der Titel und die Beschreibung der Website:
 
 ```js [.vitepress/config.js]
 export default {
@@ -120,19 +120,19 @@ export default {
 }
 ```
 
-Du kannst das Verhalten des Themes außerdem über die `themeConfig` option. Eine vollständige Übersicht findest du in der [Config Referenz](../reference/site-config) for full details on all config options.
+Du kannst das Verhalten des Themes außerdem über die Option `themeConfig` anpassen. Eine vollständige Übersicht über alle Konfigurationsoptionen findest du in der [Referenz zur Konfiguration](../reference/site-config).
 
 ### Quelldateien
 
 Markdown-Dateien außerhalb des Verzeichnisses `.vitepress` gelten als **Quelldateien**.
 
-VitePress verwendet **file-based routing**: Jede `.md`-Datei wird in eine entsprechende `.html`-Datei mit demselben Pfad kompiliert. Beispielsweise wird `index.md` in `index.html`, und kann über den Stammpfad `/` of the resulting VitePress site.
+VitePress verwendet **dateibasierte Routen**: Jede `.md`-Datei wird in eine entsprechende `.html`-Datei mit demselben Pfad kompiliert. Beispielsweise wird `index.md` zu `index.html` und kann über den Stammpfad `/` der daraus erzeugten VitePress-Website aufgerufen werden.
 
 VitePress bietet außerdem die Möglichkeit, saubere URLs zu erzeugen, Pfade umzuschreiben und Seiten dynamisch zu generieren. Diese Funktionen werden in der [Routing Anleitung](./routing).
 
 ## Loslegen
 
-Wenn du dies während der Einrichtung zugelassen hast, sollte das Tool außerdem die folgenden npm-Skripte in deine `package.json` wenn you allowed it to do so während the setup process:
+Wenn du dies während der Einrichtung zugelassen hast, sollte das Tool außerdem die folgenden npm-Skripte in deine `package.json` einfügen:
 
 ```json [package.json]
 {
@@ -192,7 +192,7 @@ $ bun vitepress dev docs
 
 Weitere Informationen zur Verwendung der Kommandozeile findest du in der [CLI Referenz](../reference/cli).
 
-The dev server should be running at `http://localhost:5173`. Öffne die URL in deinem Browser, um deine neue Website zu sehen.
+Der Entwicklungsserver sollte unter `http://localhost:5173` laufen. Öffne die URL in deinem Browser, um deine neue Website zu sehen.
 
 ## Wie geht es weiter?
 
@@ -202,6 +202,6 @@ The dev server should be running at `http://localhost:5173`. Öffne die URL in d
 
 - Um die Funktionen des Standard-Dokumentationsthemes kennenzulernen, sieh dir die [Standard-Theme Config Referenz](../reference/default-theme-config).
 
-- Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Extend the Standard-Theme](./extending-default-theme) oder [ein eigenes Theme erstellst](./custom-theme).
+- Wenn du das Erscheinungsbild deiner Website weiter anpassen möchtest, erfahre, wie du entweder [Standard-Theme erweitern](./extending-default-theme) oder [ein eigenes Theme erstellst](./custom-theme).
 
 - Sobald deine Dokumentations-Website Gestalt annimmt, solltest du die [Bereitstellung Anleitung](./deploy).
