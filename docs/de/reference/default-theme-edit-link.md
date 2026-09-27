@@ -47,7 +47,7 @@ export default {
   themeConfig: {
     editLink: {
       pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-      text: 'Edit this page on GitHub'
+      text: 'Diese Seite auf GitHub bearbeiten'
     }
   }
 }
