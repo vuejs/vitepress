@@ -10,7 +10,7 @@ Data Loader können verwendet werden, um entfernte Daten abzurufen oder Metadate
 
 ## Grundlegende Verwendung
 
-Eine Data-Loader-Datei muss mit `.data.js` or `.data.ts`. enden. Die Datei sollte ein Objekt als Standardexport bereitstellen, das die `load()` method:
+Eine Data-Loader-Datei muss mit `.data.js` oder `.data.ts` enden. Die Datei sollte ein Objekt als Standardexport bereitstellen, das die `load()`-Methode enthält:
 
 ```js [example.data.js]
 export default {
@@ -57,9 +57,9 @@ export default {
 
 ## Daten aus lokalen Dateien
 
-Wenn du Daten auf Grundlage lokaler Dateien erzeugen musst, solltest du die `watch` Option im Data Loader verwenden, damit Änderungen an diesen Dateien Hot-Updates auslösen können.
+Wenn du Daten auf Grundlage lokaler Dateien erzeugen musst, solltest du die `watch` Option im Data Loader verwenden, damit Änderungen an diesen Dateien automatische Aktualisierungen während der Entwicklung auslösen können.
 
-Die Option `watch` ist außerdem praktisch, weil du [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) verwenden kannst, um mehrere Dateien zu finden. Die Muster können relativ zur Loader-Datei angegeben werden, und die Funktion `load()` erhält die gefundenen Dateien als absolute Pfade.
+Die Option `watch` ist außerdem praktisch, weil du [Glob-Muster](https://github.com/mrmlnc/fast-glob#pattern-syntax) verwenden kannst, um mehrere Dateien zu finden. Die Muster können relativ zur Loader-Datei angegeben werden, und die Funktion `load()` erhält die gefundenen Dateien als absolute Pfade.
 
 Das folgende Beispiel zeigt, wie CSV-Dateien geladen und mit [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Da diese Datei nur zur Build-Zeit ausgeführt wird, wird der CSV-Parser nicht an den Client ausgeliefert!
 
