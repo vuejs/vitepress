@@ -4,7 +4,7 @@ description: Ein statischer Website-Generator zum Erstellen schneller, inhaltsor
 
 # Was ist VitePress?
 
-VitePress ist ein [statischer Website-Generator](https://en.wikipedia.org/wiki/Static_site_generazur) (SSG) zum Erstellen schneller, inhaltsorientierter Websites. Kurz gesagt nimmt VitePress deine in [Markdown](https://en.wikipedia.org/wiki/Markdown), geschriebenen Inhalte, wendet ein Theme darauf an und erzeugt statische HTML-Seiten, die sich nahezu überall bereitstellen lassen.
+VitePress ist ein [statischer Website-Generator](https://en.wikipedia.org/wiki/Static_site_generator) (SSG) zum Erstellen schneller, inhaltsorientierter Websites. Kurz gesagt nimmt VitePress deine in [Markdown](https://en.wikipedia.org/wiki/Markdown), geschriebenen Inhalte, wendet ein Theme darauf an und erzeugt statische HTML-Seiten, die sich nahezu überall bereitstellen lassen.
 
 ::: tip {no-title}
 Du möchtest es einfach ausprobieren? Springe direkt zum [Schnellstart](./getting-started).
@@ -32,7 +32,7 @@ VitePress möchte eine hervorragende Developer Experience (DX) bei der Arbeit mi
 
 - **[Integrierte Markdown-Erweiterungen:](./markdown)** Frontmatter, Tabellen, Syntaxhervorhebung und vieles mehr. VitePress bietet insbesondere zahlreiche fortgeschrittene Funktionen für die Arbeit mit Codeblöcken und eignet sich dadurch besonders für hochtechnische Dokumentation.
 
-- **[Vue-erweitertes Markdown:](./using-vue)** Jede Markdown-Seite ist dank der 100%igen Syntaxkompatibilität von Vue-Templates mit HTML auch eine Vue-[Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html). Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten. Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten.
+- **[Vue-erweitertes Markdown:](./using-vue)** Jede Markdown-Seite ist dank der 100%igen Syntaxkompatibilität von Vue-Templates mit HTML auch eine Vue-[Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html). Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten.
 
 ## Leistung
 
