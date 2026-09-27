@@ -4,7 +4,7 @@ description: Passe die am unteren Rand von Dokumentationsseiten in VitePress ang
 
 # Prev Weiter Links
 
-Du kannst Text und Link für die vorherige und nächste Seite anpassen (shown at doc footer). This is helpful if you want a different text there than what you have on your sidebar. Additionally, you may find it useful to disable the footer or link to a page that is not included in your sidebar.
+Du kannst Text und Link für die vorherige und nächste Seite anpassen (sie werden am Ende der Dokumentationsseite angezeigt). Das ist hilfreich, wenn du dort einen anderen Text als in deiner Seitenleiste verwenden möchtest. Außerdem kann es nützlich sein, die Fußzeile zu deaktivieren oder auf eine Seite zu verlinken, die nicht in deiner Seitenleiste enthalten ist.
 
 ## prev
 
@@ -12,7 +12,7 @@ Du kannst Text und Link für die vorherige und nächste Seite anpassen (shown at
 
 - Details:
 
-  Specifies the text/link to show on the link to the previous page. Wenn du don't set this in frontmatter, the text/link will be inferred from the sidebar config.
+  Legt den Text/Link fest, der für den Link zur vorherigen Seite angezeigt wird. Wenn du dies im Frontmatter nicht festlegst, werden Text und Link aus der Seitenleistenkonfiguration abgeleitet.
 
 - Beispiele:
 
