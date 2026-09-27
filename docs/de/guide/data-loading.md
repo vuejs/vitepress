@@ -10,7 +10,7 @@ Data Loader können verwendet werden, um entfernte Daten abzurufen oder Metadate
 
 ## Grundlegende Verwendung
 
-Eine Data-Loader-Datei muss mit `.Daten.js` or `.Daten.ts`. enden. Die Datei sollte ein Objekt als Standardexport bereitstellen, das die `load()` method:
+Eine Data-Loader-Datei muss mit `.data.js` or `.data.ts`. enden. Die Datei sollte ein Objekt als Standardexport bereitstellen, das die `load()` method:
 
 ```js [example.data.js]
 export default {
@@ -24,7 +24,7 @@ export default {
 
 Das Loader-Modul wird nur in Node.js ausgewertet. Du kannst daher nach Bedarf Node-APIs und npm-Abhängigkeiten importieren.
 
-Du kannst anschließend Daten aus dieser Datei in `.md`-Seiten und `.vue`-Komponenten mit dem `Daten` named export:
+Du kannst anschließend Daten aus dieser Datei in `.md`-Seiten und `.vue`-Komponenten mit dem `data` named export:
 
 ```vue
 <script setup>
@@ -42,7 +42,7 @@ Ausgabe:
 }
 ```
 
-Du wirst feststellen, dass der Data Loader selbst `Daten` nicht exportiert. Stattdessen ruft VitePress im Hintergrund die Methode `load()` auf und stellt das Ergebnis implizit über den benannten Export `Daten` bereit.
+Du wirst feststellen, dass der Data Loader selbst `data` nicht exportiert. Stattdessen ruft VitePress im Hintergrund die Methode `load()` auf und stellt das Ergebnis implizit über den benannten Export `data` bereit.
 
 Das funktioniert auch, wenn der Loader asynchron ist:
 
@@ -85,7 +85,7 @@ export default {
 
 ## `createContentLoader`
 
-Beim Erstellen einer inhaltsorientierten Website müssen wir häufig eine „Archiv“- oder „Index“-Seite erstellen: eine Seite, auf der wir alle verfügbaren Einträge unserer Inhaltssammlung auflisten, beispielsweise Blogbeiträge oder API-Seiten. Wir **können** dies direkt mit der Data-Loader-API umsetzen. Da dies jedoch ein sehr häufiger Anwendungsfalle ist, stellt VitePress den Helper `createContentLoader` bereit, der dies vereinfacht:
+Beim Erstellen einer inhaltsorientierten Website müssen wir häufig eine „Archiv“- oder „Index“-Seite erstellen: eine Seite, auf der wir alle verfügbaren Einträge unserer Inhaltssammlung auflisten, beispielsweise Blogbeiträge oder API-Seiten. Wir **können** dies direkt mit der Data-Loader-API umsetzen. Da dies jedoch ein sehr häufiger Anwendungsfall ist, stellt VitePress den Helper `createContentLoader` bereit, der dies vereinfacht:
 
 ```js [posts.data.js]
 import { createContentLoader } from 'vitepress'
@@ -93,7 +93,7 @@ import { createContentLoader } from 'vitepress'
 export default createContentLoader('posts/*.md', /* options */)
 ```
 
-Der Helper akzeptiert ein Glob-Muster relativ zum [source directory](./routing#source-directory), und gibt ein `{ watch, load }`-Data-Loader-Objekt zurück, das als Standardexport in einer Data-Loader-Datei verwendet werden kann. Außerdem wird ein Cache auf Grundlage der Änderungszeitpunkte von Dateien verwendet, um die Leistung während der Entwicklung zu verbessern.
+Der Helper akzeptiert ein Glob-Muster relativ zum [Quellverzeichnis](./routing#source-directory), und gibt ein `{ watch, load }`-Data-Loader-Objekt zurück, das als Standardexport in einer Data-Loader-Datei verwendet werden kann. Außerdem wird ein Cache auf Grundlage der Änderungszeitpunkte von Dateien verwendet, um die Leistung während der Entwicklung zu verbessern.
 
 Hinweis: Der Loader funktioniert nur mit Markdown-Dateien – gefundene Dateien ohne Markdown-Endung werden übersprungen.
 
@@ -159,7 +159,7 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
-Sieh dir an, wie dies im [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/Theme/posts.Daten.ts).
+Sieh dir an, wie dies im [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
 
 Die `createContentLoader`-API kann auch innerhalb von [build hooks](../reference/site-config#build-hooks):
 
@@ -216,7 +216,7 @@ interface ContentOptions<T = ContentData[]> {
 
 ## Typisierte Data Loader
 
-Bei Verwendung von TypeScript kannst du deinen Loader und den `Daten`-Export wie folgt typisieren:
+Bei Verwendung von TypeScript kannst du deinen Loader und den `data`-Export wie folgt typisieren:
 
 ```ts
 import { defineLoader } from 'vitepress'
