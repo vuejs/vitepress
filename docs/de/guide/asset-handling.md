@@ -60,7 +60,7 @@ const { theme } = useData()
 
 ## Assets über ein CDN ausliefern
 
-Um generierte Assets – Skripte, Styles, Schriftarten und aus Markdown oder Komponenten importierte Bilder – von einer anderen Origin als den Seiten auszuliefern, setze [\`assetsBase\`](../reference/site-config#assetsbase):
+Um generierte Assets – Skripte, Styles, Schriftarten und aus Markdown oder Komponenten importierte Bilder – von einer anderen Herkunft als den Seiten auszuliefern, setze [\`assetsBase\`](../reference/site-config#assetsbase):
 
 \`\`\`ts
 export default {
@@ -69,7 +69,7 @@ export default {
 }
 \`\`\`
 
-Lade das Verzeichnis \`assets\` aus dem Build-Ausgabeverzeichnis auf das CDN hoch, sodass es unter \`https://cdn.example.com/assets/\` erreichbar ist, und stelle den restlichen Output wie gewohnt auf deiner Website bereit. Dateien in \`public\` werden relativ zu \`base\` referenziert und bleiben bei den Seiten.
+Lade das Verzeichnis \`assets\` aus dem Ausgabeverzeichnis auf das CDN hoch, sodass es unter \`https://cdn.example.com/assets/\` erreichbar ist, und stelle die übrige Ausgabe wie gewohnt auf deiner Website bereit. Dateien in \`public\` werden relativ zu \`base\` referenziert und bleiben bei den Seiten.
 
 Da der Wert häufig von der Umgebung abhängt, kann er auch über die Kommandozeile übergeben werden:
 
