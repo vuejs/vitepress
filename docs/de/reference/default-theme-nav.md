@@ -1,5 +1,5 @@
 ---
-description: Configure the navigation bar in the VitePress default theme including site title, logo, and menu links.
+description: Konfigurieren the navigation bar in the VitePress default theme including site title, logo, and menu links.
 ---
 
 # Nav
@@ -8,7 +8,7 @@ The Nav is the navigation bar displayed on top of the page. It contains the site
 
 ## Site Title and Logo
 
-By default, nav shows the title of the site referencing [`config.title`](./site-config#title) value. If you would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
+Standardmäßig, nav shows the title of the site referencing [`config.title`](./site-config#title) value. Wenn du would like to change what's displayed on nav, you may define custom text in `themeConfig.siteTitle` option.
 
 ```js
 export default {
@@ -18,7 +18,7 @@ export default {
 }
 ```
 
-If you have a logo for your site, you can display it by passing in the path to the image. You should place the logo within `public` directly, and define the absolute path to it.
+Wenn du have a logo for your site, you can display it by passing in the path to the image. Du solltest place the logo within `public` directly, and define the absolute path to it.
 
 ```js
 export default {
@@ -39,11 +39,11 @@ export default {
 }
 ```
 
-You can also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
+Du kannst also pass an object as logo if you want to add `alt` attribute or customize it based on dark/light mode. Refer [`themeConfig.logo`](./default-theme-config#logo) for details.
 
 ## Navigation Links
 
-You may define `themeConfig.nav` option to add links to your nav.
+Du kannst define `themeConfig.nav` option to add links to your nav.
 
 ```js
 export default {
@@ -59,7 +59,7 @@ export default {
 
 The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
 
-The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
+The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and gibt zurück the path.
 
 Nav links can also be dropdown menus. To do this, set `items` key on link option.
 
@@ -81,9 +81,9 @@ export default {
 }
 ```
 
-Note that dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
+Beachte, dass dropdown menu title (`Dropdown Menu` in the above example) can not have `link` property since it becomes a button to open dropdown dialog.
 
-You may further add "sections" to the dropdown menu items as well by passing in more nested items.
+Du kannst further add "sections" to the dropdown menu items as well by passing in more nested items.
 
 ```js
 export default {
@@ -120,7 +120,7 @@ export default {
 }
 ```
 
-### Customize link's "active" state
+### Anpassen link's "active" state
 
 Nav menu items will be highlighted when the current page is under the matching path. if you would like to customize the path to be matched, define `activeMatch` property and regex as a string value.
 
@@ -144,9 +144,9 @@ export default {
 `activeMatch` is expected to be a regex string, but you must define it as a string. We can't use actual RegExp object here because it isn't serializable during the build time.
 :::
 
-### Customize link's "target" and "rel" attributes
+### Anpassen link's "target" and "rel" attributes
 
-By default, VitePress automatically determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
+Standardmäßig, VitePress automatisch determines `target` and `rel` attributes based on whether the link is an external link. But if you want, you can customize them too.
 
 ```js
 export default {
@@ -167,9 +167,9 @@ export default {
 
 Refer [`socialLinks`](./default-theme-config#sociallinks).
 
-## Custom Components
+## Eigenes Komponenten
 
-You can include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
+Du kannst include custom components in the navigation bar by using the `component` option. The `component` key should be the Vue component name, and must be registered globally using [Theme.enhanceApp](../guide/custom-theme#theme-interface).
 
 ```js [.vitepress/config.js]
 export default {
@@ -218,4 +218,4 @@ Your component will be rendered in the navigation bar. VitePress will provide th
 - `screenMenu`: an optional boolean indicating whether the component is inside mobile navigation menu
 - `menu`: an optional boolean indicating whether the component is inside a dropdown panel — for example, the `⋯` menu that nav items collapse into when they don't fit the bar. In both these contexts, render a flat list instead of a floating flyout, which would end up nested inside the panel
 
-You can check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).
+Du kannst check an example in the e2e tests [here](https://github.com/vuejs/vitepress/tree/main/__tests__/e2e/.vitepress).
