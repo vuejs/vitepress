@@ -11,7 +11,7 @@ Beispiel usage:
 
 ```md
 ---
-title: Docs with VitePress
+title: Dokumentation mit VitePress
 editLink: true
 ---
 ```
@@ -43,7 +43,7 @@ Suffix für den Titel. Entspricht [config.titleTemplate](./site-config#titletemp
 ```yaml
 ---
 title: VitePress
-titleTemplate: Vite & Vue powered static site generator
+titleTemplate: Statischer Website-Generator auf Basis von Vite und Vue
 ---
 ```
 
