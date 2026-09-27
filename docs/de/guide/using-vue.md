@@ -1,22 +1,22 @@
 ---
-description: Vue Komponenten and dynamic templating features directly inside Markdown files in VitePress.
+description: Verwende Vue-Komponenten und dynamische Vorlagen direkt in Markdown-Dateien von VitePress.
 ---
 
 # Vue in Markdown verwenden
 
-In VitePress wird jede Markdown-Datei in HTML kompiliert und anschließend als [Vue Single-Datei Component](https://vuejs.org/guide/scaling-up/sfc.html). Das bedeutet you can use any Vue features inside the Markdown, including dynamic templating, Verwendung Vue Komponenten, or arbitrary in-page Vue Komponente logic by adding a `<script>` tag.
+In VitePress wird jede Markdown-Datei in HTML kompiliert und anschließend als [Vue-Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html) behandelt. Das bedeutet, dass du beliebige Vue-Funktionen innerhalb von Markdown verwenden kannst, einschließlich dynamischer Vorlagen, Vue-Komponenten oder beliebiger Vue-Logik innerhalb der Seite, indem du ein `<script>`-Tag hinzufügst.
 
-Beachte, dass VitePress leverages Vue's compiler to automatisch detect and optimize the purely static parts of the Markdown content. Static contents are optimized into single placeholder nodes and eliminated from the page's JavaScript payload for initial visits. They are also skipped during client-side hydration. Kurz gesagt betrifft der zusätzliche Aufwand nur die dynamischen Teile einer jeweiligen Seite.
+Beachte, dass VitePress den Vue-Compiler verwendet, um die rein statischen Teile des Markdown-Inhalts automatisch zu erkennen und zu optimieren. Statische Inhalte werden zu einzelnen Platzhalterknoten optimiert und bei ersten Besuchen aus der JavaScript-Nutzlast der Seite entfernt. Sie werden auch während der clientseitigen Hydration übersprungen. Kurz gesagt betrifft der zusätzliche Aufwand nur die dynamischen Teile der jeweiligen Seite.
 
 ::: tip SSR-Kompatibilität
-Jede Verwendung von Vue muss SSR-kompatibel sein. See [SSR-Kompatibilität](./ssr-compat) for details and common workarounds.
+Jede Verwendung von Vue muss SSR-kompatibel sein. Einzelheiten und gängige Lösungen findest du unter [SSR-Kompatibilität](./ssr-compat).
 :::
 
 ## Templating
 
 ### Interpolation
 
-Each Markdown file is first compiled into HTML and then passed on as a Vue Komponente to the Vite process pipeline. Das bedeutet you can use Vue-style interpolation in text:
+Jede Markdown-Datei wird zunächst in HTML kompiliert und anschließend als Vue-Komponente an die Vite-Prozesspipeline übergeben. Das bedeutet, dass du Vue-Interpolation in Text verwenden kannst:
 
 **Input**
 
@@ -42,9 +42,9 @@ Direktiven funktionieren ebenfalls (note that by design, raw HTML is also valid 
 
 <div class="language-text"><pre><code><span v-for="i in 3">{{ i }} </span></code></pre></div>
 
-## `<script>` and `<style>`
+## `<script>` und `<style>`
 
-Root-level `<script>` and `<style>` tags in Markdown files work just like they do in Vue SFCs, including `<script setup>`, `<style module>`, etc. The main difference here is that there is no `<Vorlage>` tag: all other root-level content is Markdown. Also note that all tags should be placed **after** the frontmatter:
+Auf oberster Ebene verwendete `<script>`- und `<style>`-Tags in Markdown-Dateien funktionieren genauso wie in Vue-SFCs, einschließlich `<script setup>`, `<style module>` usw. Der wichtigste Unterschied besteht darin, dass es kein `<Vorlage>`-Tag gibt: Alle anderen Inhalte auf oberster Ebene sind Markdown. Beachte außerdem, dass alle Tags **nach** dem Frontmatter stehen sollten:
 
 ```html
 ---
@@ -57,7 +57,7 @@ import { ref } from 'vue'
 const count = ref(0)
 </script>
 
-## Markdown Content
+## Markdown-Inhalt
 
 The count is: {{ count }}
 
@@ -72,7 +72,7 @@ The count is: {{ count }}
 ```
 
 ::: warning Avoid `<style scoped>` in Markdown
-When verwendet in Markdown, `<style scoped>` requires adding special attributes to every element on the current page, which will significantly bloat the page size. `<style module>` is preferred when locally-scoped styling is needed in a page.
+Bei Verwendung in Markdown erfordert `<style scoped>` das Hinzufügen spezieller Attribute zu jedem Element der aktuellen Seite, wodurch die Seitengröße erheblich zunimmt. `<style module>` wird bevorzugt, wenn eine lokal begrenzte Gestaltung auf einer Seite benötigt wird.
 :::
 
 You also have access to VitePress' runtime APIs such as the [`useData` helper](../reference/runtime-api#usedata), which stellt bereit access to current page's metadata:
@@ -102,11 +102,11 @@ const { page } = useData()
 
 ## Komponenten verwenden
 
-Du kannst import and use Vue Komponenten directly in Markdown files.
+Du kannst Vue-Komponenten direkt in Markdown-Dateien importieren und verwenden.
 
 ### Importing in Markdown
 
-If a Komponente is only verwendet by a few pages, it's recommended to explicitly import them where they are verwendet. Dies ermöglicht them to be properly code-split and only geladen when the relevant pages are shown:
+Wenn eine Komponente nur auf wenigen Seiten verwendet wird, empfiehlt es sich, sie dort explizit zu importieren, wo sie verwendet wird. Dadurch kann sie korrekt aufgeteilt und nur geladen werden, wenn die entsprechenden Seiten angezeigt werden:
 
 ```md
 <script setup>
@@ -115,33 +115,33 @@ import CustomComponent from '../components/CustomComponent.vue'
 
 # Docs
 
-This is a .md using a custom component
+Dies ist eine .md-Datei, die eine benutzerdefinierte Komponente verwendet
 
 <CustomComponent />
 
-## More docs
+## Weitere Dokumentation
 
 ...
 ```
 
 ### Komponenten global registrieren
 
-If a Komponente is going to be verwendet on most of the pages, they can be registered globally by customizing the Vue app instance. See relevant section in [Extending Standard-Theme](./extending-default-theme#registering-global-Komponenten) for an example.
+Wenn eine Komponente auf den meisten Seiten verwendet werden soll, kann sie durch Anpassen der Vue-App-Instanz global registriert werden. Siehe den entsprechenden Abschnitt unter [Standard-Theme erweitern](./extending-default-theme#registering-global-Komponenten) for an example.
 
 ::: warning IMPORTANT
-Stelle sicher a custom Komponente's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
+Stelle sicher, dass der Name einer benutzerdefinierten Komponente entweder einen Bindestrich enthält oder in PascalCase geschrieben ist. Andernfalls wird sie als Inline-Element behandelt und in ein `<p>`-Tag eingeschlossen, was zu einer Abweichung bei der Hydration führt, da `<p>` keine Block-Elemente enthalten darf.
 :::
 
 ### Komponenten verwenden In Headers <ComponentInHeader />
 
-Du kannst use Vue Komponenten in the headers, but note the difference between the following syntaxes:
+Du kannst Vue-Komponenten in Überschriften verwenden, beachte jedoch den Unterschied zwischen den folgenden Syntaxvarianten:
 
 | Markdown                                                | Ausgabe HTML                               | Parsed Header |
 | ------------------------------------------------------- | ----------------------------------------- | ------------- |
 | <pre v-pre><code> # text &lt;Tag/&gt; </code></pre>     | `<h1>text <Tag/></h1>`                    | `text`        |
 | <pre v-pre><code> # text \`&lt;Tag/&gt;\` </code></pre> | `<h1>text <code>&lt;Tag/&gt;</code></h1>` | `text <Tag/>` |
 
-The HTML wrapped by `<code>` will be displayed as-is; only the HTML that is **not** wrapped will be parsed by Vue.
+Das von `<code>` umschlossene HTML wird unverändert angezeigt; nur HTML, das **nicht** umschlossen ist, wird von Vue analysiert.
 
 ::: tip
 The output HTML is accomplished by [Markdown-it](https://github.com/Markdown-it/Markdown-it), while the parsed headers are handled by VitePress (and verwendet for both the sidebar and document title).
