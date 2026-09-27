@@ -11,10 +11,10 @@ Starte den VitePress-Entwicklungsserver mit dem angegebenen Verzeichnis als Stam
 ### Verwendung
 
 ```sh
-# start in current directory, omitting `dev`
+# Start im aktuellen Verzeichnis, wobei `dev` weggelassen wird
 vitepress
 
-# start in sub directory
+# Start in einem Unterverzeichnis
 vitepress dev [root]
 ```
 
@@ -43,7 +43,7 @@ vitepress build [root]
 
 | Option                         | Beschreibung                                                                                                         |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `--mpa` (experimental)         | Im [MPA-Modus erstellen](../guide/mpa-mode) ohne clientseitige Hydration (`boolean`)                                    |
+| `--mpa` (experimentell)         | Im [MPA-Modus erstellen](../guide/mpa-mode) ohne clientseitige Hydration (`boolean`)                                    |
 | `--base <path>`                | Öffentlicher Basispfad (Standard: `/`) (`string`)                                                                          |
 | `--assetsBase <url>`           | URL-Präfix, von dem die erzeugten Assets ausgeliefert werden, z. B. ein CDN (`string`)                                              |
 | `--target <target>`            | Transpilierungsziel (Standard: `"modules"`) (`string`)                                                                  |
@@ -70,7 +70,7 @@ vitepress preview [root]
 
 ## `vitepress init`
 
-Starte den [Einrichtungsassistenten](../guide/getting-started#setup-wizard) in current directory.
+Starte den [Einrichtungsassistenten](../guide/getting-started#setup-wizard) im aktuellen Verzeichnis.
 
 ### Verwendung
 
