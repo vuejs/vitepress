@@ -41,14 +41,14 @@ export default {
 ```
 
 ::: warning
-In `message` und `copyright` können nur Inline-Elemente verwendet werden, da sie innerhalb eines `<p>`-Elements gerendert werden. Wenn du want to add block elements, consider using [`layout-bottom`](../guide/extending-Standard-theme#layout-slots) slot instead.
+In `message` und `copyright` können nur Inline-Elemente verwendet werden, da sie innerhalb eines `<p>`-Elements gerendert werden. Wenn du Block-Elemente hinzufügen möchtest, verwende stattdessen den Slot [`layout-bottom`](../guide/extending-Standard-theme#layout-slots).
 :::
 
-Hinweis that footer will not be displayed when the [SideBar](./Standard-theme-sidebar) is visible.
+Beachte, dass die Fußzeile nicht angezeigt wird, wenn die [Seitenleiste](./Standard-theme-sidebar) sichtbar ist.
 
 ## Frontmatter-Konfiguration
 
-Dies can be deaktiviert per-page using the `footer` option on frontmatter:
+Dies kann pro Seite über die `footer`-Option im Frontmatter deaktiviert werden:
 
 ```yaml
 ---
