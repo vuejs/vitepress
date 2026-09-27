@@ -35,7 +35,7 @@ In der Dateistruktur eines VitePress-Projekts gibt es zwei wichtige Konzepte: da
 
 ### Projektverzeichnis
 
-Das Projektstammverzeichnis ist der Ort, an dem VitePress nach dem speziellen Verzeichnis `.vitepress` sucht. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Build-Ausgabe und optionalen Theme-Anpassungscode reserviert.
+Das Projektstammverzeichnis ist der Ort, an dem VitePress nach dem speziellen Verzeichnis `.vitepress` sucht. Das Verzeichnis `.vitepress` ist für die VitePress-Konfigurationsdatei, den Cache des Entwicklungsservers, die Ausgabedateien und optionalen Theme-Anpassungscode reserviert.
 
 Wenn du `vitepress dev` oder `vitepress build` über die Kommandozeile ausführst, verwendet VitePress das aktuelle Arbeitsverzeichnis als Projektstammverzeichnis. Um ein Unterverzeichnis als Stammverzeichnis festzulegen, musst du den relativen Pfad an den Befehl übergeben. Wenn dein VitePress-Projekt beispielsweise in `./docs` liegt, solltest du `vitepress dev docs` ausführen:
 
@@ -63,7 +63,7 @@ docs/getting-started.md  -->  /getting-started.html
 
 Das Quellverzeichnis ist der Ort, an dem deine Markdown-Quelldateien liegen. Standardmäßig entspricht es dem Projektstammverzeichnis. Du kannst es jedoch über die [`srcDir`](../reference/site-config#srcdir) Konfigurationsoption festlegen.
 
-Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `srcDir: 'src'`, deine Dateistruktur sieht dann so aus:
+Die Option `srcDir` wird relativ zum Projektstammverzeichnis aufgelöst. Mit `srcDir: 'src'` sieht deine Dateistruktur so aus:
 
 ```
 .                          # Projektstammverzeichnis
