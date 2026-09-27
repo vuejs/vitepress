@@ -1,10 +1,10 @@
 ---
-description: Konfigurieren the global footer displayed at the bottom of VitePress pages.
+description: Konfiguriere die globale Fußzeile, die am unteren Rand von VitePress-Seiten angezeigt wird.
 ---
 
 # Fußzeile
 
-VitePress will display global footer at the bottom of the page when `themeConfig.footer` is present.
+VitePress zeigt eine globale Fußzeile am unteren Rand der Seite an, wenn `themeConfig.footer` vorhanden ist.
 
 ```ts
 export default {
@@ -27,7 +27,7 @@ export interface Fußzeile {
 }
 ```
 
-The above Konfiguration also supports HTML strings. So, for example, if you want to configure footer text to have some links, you can adjust the Konfiguration as follows:
+Die obige Konfiguration unterstützt außerdem HTML-Zeichenketten. Wenn du beispielsweise Links in der Fußzeile anzeigen möchtest, kannst du die Konfiguration wie folgt anpassen:
 
 ```ts
 export default {
@@ -41,12 +41,12 @@ export default {
 ```
 
 ::: warning
-Only inline elements can be used in `message` and `copyright` as they are rendered inside a `<p>` element. Wenn du want to add block elements, consider using [`layout-bottom`](../guide/extending-Standard-theme#layout-slots) slot instead.
+In `message` und `copyright` können nur Inline-Elemente verwendet werden, da sie innerhalb eines `<p>`-Elements gerendert werden. Wenn du want to add block elements, consider using [`layout-bottom`](../guide/extending-Standard-theme#layout-slots) slot instead.
 :::
 
 Hinweis that footer will not be displayed when the [SideBar](./Standard-theme-sidebar) is visible.
 
-## Frontmatter Config
+## Frontmatter-Konfiguration
 
 Dies can be deaktiviert per-page using the `footer` option on frontmatter:
 
