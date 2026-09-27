@@ -1,5 +1,5 @@
 ---
-description: Integrate Carbon Ads into your VitePress site using the default theme's built-in support.
+description: Integrate Carbon Ads into your VitePress site using the Standard theme's built-in support.
 ---
 
 # Carbon Ads
@@ -26,4 +26,4 @@ The `format` option supports `classic`, `responsive`, and `cover`.
 `//cdn.carbonads.com/carbon.js?serve=${code}&placement=${placement}&format=${format}`
 ```
 
-To learn more about Carbon Ads configuration, please visit [Carbon Ads website](https://www.carbonads.net/).
+To learn more about Carbon Ads Konfiguration, please visit [Carbon Ads website](https://www.carbonads.net/).
