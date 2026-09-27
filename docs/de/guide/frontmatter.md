@@ -1,12 +1,12 @@
 ---
-description: Learn how to use YAML frontmatter in VitePress Markdown files to control page-level metadata and behavior.
+description: Erfahre how to use YAML frontmatter in VitePress Markdown files to control page-level metadata and behavior.
 ---
 
 # Frontmatter
 
-## Usage
+## Verwendung
 
-VitePress supports YAML frontmatter in all Markdown files, parsing them with [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (before any elements including `<script>` tags), and must take the form of valid YAML set between triple-dashed lines. Example:
+VitePress unterstützt YAML frontmatter in all Markdown files, parsing them mit [gray-matter](https://github.com/jonschlinkert/gray-matter). The frontmatter must be at the top of the Markdown file (bevor any elements including `<script>` tags), and must take the form of valid YAML set zwischen triple-dashed lines. Beispiel:
 
 ```md
 ---
@@ -15,9 +15,9 @@ editLink: true
 ---
 ```
 
-Many site or default theme config options have corresponding options in frontmatter. You can use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Reference](../reference/frontmatter-config).
+Many site or default theme config options have corresponding options in frontmatter. Du kannst use frontmatter to override specific behavior for the current page only. For details, see [Frontmatter Config Referenz](../reference/frontmatter-config).
 
-You can also define custom frontmatter data of your own, to be used in dynamic Vue expressions on the page.
+Du kannst also define custom frontmatter data of your own, to be verwendet in dynamic Vue expressions on the page.
 
 ## Accessing Frontmatter Data
 
@@ -36,13 +36,13 @@ editLink: true
 Guide content
 ```
 
-Property accesses like `{{ $frontmatter.title }}` are resolved while the Markdown is rendered, so the value also ends up in the local search index, in [content loader](./data-loading#createcontentloader) output, in heading anchors - the heading above gets `id="docs-with-vitepress"` - and in link targets written without spaces around the expression, like `[text]({{$frontmatter.link}})`. Other expressions are evaluated by Vue at runtime as usual, and wrapping an expression in [`v-pre`](./using-vue#escaping) shows it literally.
+Property accesses like `{{ $frontmatter.title }}` are resolved while the Markdown is rendered, so the value also ends up in the local search index, in [content loader](./data-loading#createcontentloader) output, in heading anchors - the heading above gets `id="docs-mit-vitepress"` - and in link targets written ohne spaces around the expression, like `[text]({{$frontmatter.link}})`. Other expressions are evaluated by Vue at runtime as usual, and wrapping an expression in [`v-pre`](./Verwendung-vue#escaping) shows it literally.
 
-You can also access current page's frontmatter data in `<script setup>` with the [`useData()`](../reference/runtime-api#usedata) helper.
+Du kannst also access current page's frontmatter data in `<script setup>` mit the [`useData()`](../reference/runtime-api#usedata) helper.
 
 ## Alternative Frontmatter Formats
 
-VitePress also supports JSON frontmatter syntax, starting and ending in curly braces:
+VitePress also unterstützt JSON frontmatter syntax, starting and ending in curly braces:
 
 ```json
 ---
