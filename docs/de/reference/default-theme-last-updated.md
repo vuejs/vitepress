@@ -11,7 +11,7 @@ VitePress zeigt den Zeitpunkt der letzten Aktualisierung anhand des Zeitstempels
 
 Intern führt VitePress für jede Datei `git log -1 --pretty="%ai"` aus, um den Zeitstempel abzurufen. Wenn alle Seiten dieselbe Aktualisierungszeit anzeigen, liegt dies wahrscheinlich an einem flachen Klonen (häufig in CI-Umgebungen), das den Git-Verlauf begrenzt.
 
-To fix this in **GitHub Actions**, use the following in your workflow:
+Um dies in **GitHub Actions** zu beheben, verwende Folgendes in deinem Workflow:
 
 ```yaml{4}
 - name: Checkout
