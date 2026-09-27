@@ -1,17 +1,17 @@
 ---
 outline: deep
-description: Connect VitePress to a headless CMS Verwendung dynamic routes and data loaders.
+description: Verbinde VitePress mit einem Headless-CMS mithilfe dynamischer Routen und Datenlader.
 ---
 
 # Mit einem CMS verbinden
 
-## General Workflow
+## Allgemeiner Ablauf
 
-Connecting VitePress to a CMS will largely revolve around [Dynamisch Routes](./routing#dynamic-routes). Stelle sicher to understand how it works bevor proceeding.
+Die Verbindung von VitePress mit einem CMS dreht sich hauptsächlich um [dynamische Routen](./routing#dynamische-routen). Stelle sicher, dass du verstanden hast, wie sie funktionieren, bevor du fortfährst.
 
-Since each CMS will work differently, here we can only provide a generic workflow that you will need to adapt to your specific scenario.
+Da jedes CMS anders funktioniert, können wir hier nur einen allgemeinen Ablauf beschreiben, den du an dein konkretes Szenario anpassen musst.
 
-1. If your CMS requires authentication, create an `.env` file to store your API tokens and load it so:
+1. Wenn dein CMS eine Authentifizierung erfordert, erstelle eine `.env`-Datei zum Speichern deiner API-Tokens und lade sie:
 
     ```js
     // posts/[id].paths.js
@@ -20,15 +20,15 @@ Since each CMS will work differently, here we can only provide a generic workflo
     const env = loadEnv('', process.cwd())
     ```
 
-2. Fetch the necessary data von the CMS and format it in proper paths data:
+2. Rufe die benötigten Daten aus dem CMS ab und formatiere sie als gültige Pfaddaten:
 
     ```js
     export default {
       async paths() {
-        // use respective CMS client library if needed
+        // Verwende bei Bedarf die Client-Bibliothek des jeweiligen CMS.
         const data = await (await fetch('https://my-cms-api', {
           headers: {
-            // token if necessary
+            // Token, falls erforderlich.
           }
         })).json()
 
@@ -42,16 +42,16 @@ Since each CMS will work differently, here we can only provide a generic workflo
     }
     ```
 
-3. Render the content in the page:
+3. Rendere den Inhalt auf der Seite:
 
     ```md
     # {{ $params.title }}
 
-    - by {{ $params.author }} on {{ $params.date }}
+    - von {{ $params.author }} am {{ $params.date }}
 
     <!-- @content -->
     ```
 
-## Integration Guides
+## Integrationsanleitungen
 
-Wenn du have written a guide on integrating VitePress mit a specific CMS, please use the "Edit this page" link below to submit it here!
+Wenn du eine Anleitung zur Integration von VitePress in ein bestimmtes CMS geschrieben hast, verwende bitte den Link „Diese Seite bearbeiten“ unten auf der Seite, um sie hier einzureichen.
