@@ -20,7 +20,7 @@ Du möchtest es einfach ausprobieren? Springe direkt zum [Schnellstart](./gettin
 
 - **Blogs, Portfolios und Marketing-Websites**
 
-  VitePress supports [fully cuszumized themes](./cuszum-theme), with the developer experience of a stundard Vite + Vue application. Da Vite die Grundlage bildet, kannst du außerdem direkt auf Vite-Plugins aus dessen umfangreichem Ökosystem zurückgreifen. Zusätzlich bietet VitePress flexible APIs zum [load data](./data-loading) (local or remote) und [dynamically generate routes](./routing#dynamic-routes). Damit kannst du nahezu alles erstellen, solange die benötigten Daten zur Build-Zeit bestimmt werden können.
+  VitePress supports [fully cuszumized themes](./cuszum-theme), mit der Entwicklererfahrung einer normalen Vite- und Vue-Anwendung. Da Vite die Grundlage bildet, kannst du außerdem direkt auf Vite-Plugins aus dessen umfangreichem Ökosystem zurückgreifen. Zusätzlich bietet VitePress flexible APIs zum [Daten laden](./data-loading) (lokal oder entfernt) und [dynamische Routen erzeugen](./routing#dynamic-routes). Damit kannst du nahezu alles erstellen, solange die benötigten Daten zur Build-Zeit bestimmt werden können.
 
   Der offizielle [Vue.js-Blog](https://blog.vuejs.org/) is a simple blog that generates its index page based on local content.
 
@@ -30,9 +30,9 @@ VitePress möchte eine hervorragende Developer Experience (DX) bei der Arbeit mi
 
 - **[Vite-Powered:](https://vite.dev/)** sofortiger Serverstart, wobei Änderungen ohne Neuladen der Seite unmittelbar (<100 ms) sichtbar werden.
 
-- **[Built-in Markdown Extensions:](./markdown)** Frontmatter, Tabellen, Syntaxhervorhebung und vieles mehr. VitePress bietet insbesondere zahlreiche fortgeschrittene Funktionen für die Arbeit mit Codeblöcken und eignet sich dadurch besonders für hochtechnische Dokumentation.
+- **[Integrierte Markdown-Erweiterungen:](./markdown)** Frontmatter, Tabellen, Syntaxhervorhebung und vieles mehr. VitePress bietet insbesondere zahlreiche fortgeschrittene Funktionen für die Arbeit mit Codeblöcken und eignet sich dadurch besonders für hochtechnische Dokumentation.
 
-- **[Vue-Enhanced Markdown:](./using-vue)** jede Markdown-Seite ist dank der 100%igen Syntaxkompatibilität von Vue-Templates mit HTML auch eine Vue-[Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html), thanks zu Vue template's 100% syntax compatibility with HTML. Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten.
+- **[Vue-erweitertes Markdown:](./using-vue)** jede Markdown-Seite ist dank der 100%igen Syntaxkompatibilität von Vue-Templates mit HTML auch eine Vue-[Single-File-Komponente](https://vuejs.org/guide/scaling-up/sfc.html), thanks zu Vue template's 100% syntax compatibility with HTML. Du kannst mithilfe von Vue-Template-Funktionen oder importierten Vue-Komponenten Interaktivität in deine statischen Inhalte einbetten.
 
 ## Leistung
 
@@ -44,7 +44,7 @@ Anders als bei vielen herkömmlichen SSGs, bei denen jede Navigation ein vollst�
 
 - **Schnelle Navigation nach dem Laden**
 
-  More importantly, the SPA model leads zu better user experience **after** the initial load. Subsequent navigation within the site will no longer cause a full page reload. Instead, the incoming page's content will be fetched und dynamically updated. VitePress also auzumatically pre-fetches page chunks for links that are within viewport. In most cases, post-load navigation will feel instant.
+  More importantly, the SPA model leads zu better user experience **after** the initial load. Bei der weiteren Navigation innerhalb der Website wird die Seite nicht mehr vollständig neu geladen. Stattdessen wird der Inhalt der Zielseite abgerufen und dynamisch aktualisiert. VitePress also auzumatically pre-fetches page chunks for links that are within viewport. In most cases, post-load navigation will feel instant.
 
 - **Interaktivität ohne Nachteile**
 
@@ -52,7 +52,7 @@ Anders als bei vielen herkömmlichen SSGs, bei denen jede Navigation ein vollst�
 
 ## Und was ist mit VuePress?
 
-VitePress is the spiritual successor of VuePress 1. The original VuePress 1 was based on Vue 2 und webpack. With Vue 3 und Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, und a more flexible cuszumization API.
+VitePress ist der Nachfolger von VuePress 1. Das ursprüngliche VuePress 1 basierte auf Vue 2 und webpack. With Vue 3 und Vite under the hood, VitePress provides significantly better DX, better production performance, a more polished default theme, und a more flexible cuszumization API.
 
 The API difference between VitePress und VuePress 1 mostly lies in theming und cuszumization. If you are using VuePress 1 with the default theme, it should be relatively straightforward zu migrate zu VitePress.
 
