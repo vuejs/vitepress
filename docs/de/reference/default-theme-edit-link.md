@@ -20,7 +20,7 @@ export default {
 
 The `pattern` option defines the URL structure for the link, and `:path` is going to be replaced with the page path.
 
-You can also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the URL string.
+Du kannst also put a pure function that accepts [`PageData`](./runtime-api#usedata) as the argument and gibt zurück the URL string.
 
 ```js
 export default {
@@ -38,9 +38,9 @@ export default {
 }
 ```
 
-It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the browser.
+It should not have side-effects nor access anything outside of its scope since it will be serialized and executed in the Browser.
 
-By default, this will add the link text "Edit this page" at the bottom of the doc page. You may customize this text by defining the `text` option.
+By Standard, this will add the link text "Edit this page" at the bottom of the doc page. Du kannst customize this text by defining the `text` option.
 
 ```js
 export default {
@@ -55,7 +55,7 @@ export default {
 
 ## Frontmatter Config
 
-This can be disabled per-page using the `editLink` option on frontmatter:
+Dies can be deaktiviert per-page using the `editLink` option on frontmatter:
 
 ```yaml
 ---
