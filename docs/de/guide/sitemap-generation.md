@@ -1,5 +1,5 @@
 ---
-description: a sitemap.xml file for your VitePress site to improve search engine discoverability.
+description: Eine sitemap.xml-Datei für deine VitePress-Website zur besseren Auffindbarkeit durch Suchmaschinen.
 ---
 
 # Sitemap-Generierung
@@ -14,11 +14,11 @@ export default {
 }
 ```
 
-Damit deine `sitemap.xml`-Datei `<lastmod>`-Tags enthält, kannst du die [`lastUpdated`](../reference/default-theme-last-updated) option.
+Damit deine `sitemap.xml`-Datei `<lastmod>`-Tags enthält, kannst du die Option [`lastUpdated`](../reference/default-theme-last-updated) aktivieren.
 
 ## Optionen
 
-Sitemap wird unterstützt durch the [`sitemap`](https://www.npmjs.com/package/sitemap) module. Du kannst pass any options supported by it to the `sitemap` option in your config file. Diese werden direkt an the `SitemapStream` constructor. Siehe die [`sitemap` documentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) für weitere Details. Beispiel:
+Die Sitemap wird durch das [`sitemap`](https://www.npmjs.com/package/sitemap)-Modul unterstützt. Du kannst alle von ihm unterstützten Optionen an die `sitemap`-Option deiner Konfigurationsdatei übergeben. Diese werden direkt an den `SitemapStream`-Konstruktor übergeben. Siehe die [`sitemap`-Dokumentation](https://www.npmjs.com/package/sitemap#options-you-can-pass) für weitere Details. Beispiel:
 
 ```ts
 export default {
@@ -29,7 +29,7 @@ export default {
 }
 ```
 
-Wenn du're Verwendung `base` in your config, you should append it to the `hostname` option:
+Wenn du `base` in deiner Konfiguration verwendest, solltest du den Wert an die Option `hostname` anhängen:
 
 ```ts
 export default {
@@ -42,14 +42,14 @@ export default {
 
 ## `transformItems` Hook
 
-Du kannst use the `sitemap.transformItems` Hook verwenden, um die Sitemap-Einträge vor dem Schreiben in die `sitemap.xml` file. This hook is genannt with an array of sitemap items und erwartet, dass ein Array von Sitemap-Einträgen zurückgegeben wird. Beispiel:
+Du kannst den `sitemap.transformItems`-Hook verwenden, um die Sitemap-Einträge vor dem Schreiben in die Datei `sitemap.xml` zu verändern. Dieser Hook wird mit einem Array von Sitemap-Einträgen aufgerufen und erwartet, dass ein Array von Sitemap-Einträgen zurückgegeben wird. Beispiel:
 
 ```ts
 export default {
   sitemap: {
     hostname: 'https://example.com',
     transformItems: (items) => {
-      // add new items or modify/filter existing items
+      // Neue Einträge hinzufügen oder vorhandene Einträge ändern/filtern
       items.push({
         url: '/extra-page',
         changefreq: 'monthly',
