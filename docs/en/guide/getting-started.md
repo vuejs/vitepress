@@ -17,7 +17,14 @@ You can try VitePress directly in your browser on [StackBlitz](https://vitepress
 - Text Editor with [Markdown](https://en.wikipedia.org/wiki/Markdown) syntax support.
   - [VSCode](https://code.visualstudio.com/) is recommended, along with the [official Vue extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar).
 
-VitePress can be used on its own, or be installed into an existing project. In both cases, you can install it with:
+You can add VitePress to an existing project, or create a new project just for your VitePress site. To start a new project, create an empty folder and open it in your terminal:
+
+```sh
+$ mkdir my-docs
+$ cd my-docs
+```
+
+Then install VitePress. You don't need an existing `package.json`: in an empty folder, npm, pnpm, Yarn 1 and Bun create one for you. If you use Yarn 2 or later, run `yarn init` first.
 
 ::: code-group
 
