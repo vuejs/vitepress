@@ -354,7 +354,11 @@
   position: relative;
   margin: 1rem -1.5rem;
   background-color: var(--vp-code-block-bg);
+  /* pair overflow-x so overflow-y does not compute to auto; otherwise the
+     wrapper becomes a vertical scrollport and WebKit can paint the block
+     (and its scrollbar) over the following paragraph */
   overflow-x: auto;
+  overflow-y: hidden;
   transition: background-color 0.5s;
 }
 
