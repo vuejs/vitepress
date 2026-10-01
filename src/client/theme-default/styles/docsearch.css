@@ -51,6 +51,63 @@
   :root:root {
     --docsearch-footer-height: 3rem;
     --docsearch-spacing: 0.625rem;
+    --docsearch-searchbox-height: calc(var(--vp-nav-height) + 1px);
+    --docsearch-searchbox-initial-height: calc(var(--vp-nav-height) + 1px);
+  }
+
+  .DocSearch-Form {
+    padding-block: 0;
+    padding-inline: 1.5rem 0.5rem;
+  }
+
+  .DocSearch-Form .DocSearch-Actions {
+    padding: 0;
+  }
+
+  .DocSearch-Form .DocSearch-Close,
+  .DocSearch-Sidepanel-Action-close {
+    width: 3rem;
+    height: var(--vp-nav-height);
+    padding: 0;
+  }
+
+  .DocSearch-Form .DocSearch-Close svg,
+  .DocSearch-Sidepanel-Action-close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .DocSearch-Sidepanel-Header {
+    height: calc(var(--vp-nav-height) + 1px);
+    min-height: calc(var(--vp-nav-height) + 1px);
+    padding-block: 0;
+  }
+
+  .DocSearch-Sidepanel-Header--left {
+    inset-inline-start: 1.5rem;
+  }
+
+  .DocSearch-Sidepanel-Header--right {
+    inset-inline-end: 0.5rem;
+  }
+
+  .DocSearch-Input,
+  .DocSearch-Modal-heading {
+    height: 1.5rem;
+    padding-block: 0;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .DocSearch-Sidepanel-Title {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .DocSearch-MagnifierLabel svg,
+  .DocSearch-LoadingIndicator svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
