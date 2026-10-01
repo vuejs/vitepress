@@ -66,9 +66,7 @@
 
   .DocSearch-Form .DocSearch-Close,
   .DocSearch-Sidepanel-Action-close {
-    width: 3rem;
-    height: var(--vp-nav-height);
-    padding: 0;
+    margin-inline: 0.75rem;
   }
 
   .DocSearch-Form .DocSearch-Close svg,
