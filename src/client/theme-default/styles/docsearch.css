@@ -89,6 +89,10 @@
     inset-inline-end: 0.5rem;
   }
 
+  .DocSearch-Sidepanel-Content {
+    padding-inline: 1.5rem;
+  }
+
   .DocSearch-Input,
   .DocSearch-Modal-heading {
     height: 1.5rem;
