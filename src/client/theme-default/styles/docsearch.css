@@ -93,6 +93,10 @@
     padding-inline: 1.5rem;
   }
 
+  .DocSearch-NewConversationScreen {
+    padding-inline: calc(1.5rem - var(--docsearch-spacing));
+  }
+
   .DocSearch-Input,
   .DocSearch-Modal-heading {
     height: 1.5rem;
