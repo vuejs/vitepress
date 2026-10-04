@@ -45,6 +45,29 @@
   --docsearch-text-color: var(--vp-c-text-1);
 }
 
+.DocSearch-Footer {
+  padding-inline: 1rem;
+}
+
+.DocSearch-Form .DocSearch-AskAi-Return {
+  min-width: 1.25rem;
+  padding: 0;
+}
+
+.DocSearch-Hit {
+  margin-inline: calc(1rem - var(--docsearch-spacing));
+}
+
+.DocSearch-Hit-source {
+  padding-inline-start: var(--docsearch-spacing);
+}
+
+.DocSearch-Dropdown .DocSearch-AskAiScreen-Body,
+.DocSearch-Dropdown .DocSearch-AskAiScreen-Error--ThreadDepth {
+  margin-inline: calc(1rem - var(--docsearch-spacing));
+  width: calc(100% - 2 * (1rem - var(--docsearch-spacing)));
+}
+
 /* mirror the tightened mobile values from @docsearch/css, which the
    higher-specificity overrides above would otherwise mask */
 @media not all and (min-width: 48rem) {
@@ -97,6 +120,15 @@
     padding-inline: calc(1.5rem - var(--docsearch-spacing));
   }
 
+  .DocSearch-Hit a,
+  .DocSearch-Hit--AskAI {
+    padding-inline-start: 0.5rem;
+  }
+
+  .DocSearch-Hit-Container {
+    padding-inline-end: 5px;
+  }
+
   .DocSearch-Input,
   .DocSearch-Modal-heading {
     height: 1.5rem;
@@ -108,6 +140,30 @@
   .DocSearch-Sidepanel-Title {
     font-size: 1rem;
     line-height: 1.5rem;
+  }
+
+  .DocSearch-MagnifierLabel svg,
+  .DocSearch-LoadingIndicator svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .DocSearch-Hit-AskAIButton-icon {
+    margin-inline-end: 8px;
+  }
+
+  .DocSearch-Form {
+    padding-inline: 28px 25px;
+  }
+
+  .DocSearch-NewConversationScreen {
+    padding-inline: calc(1.75rem - var(--docsearch-spacing));
+  }
+
+  .DocSearch-Hit-source {
+    padding-inline-start: 8px;
   }
 
   .DocSearch-MagnifierLabel svg,
