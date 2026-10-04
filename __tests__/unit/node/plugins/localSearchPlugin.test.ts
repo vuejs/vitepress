@@ -1,8 +1,10 @@
+import { EventEmitter } from 'node:events'
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 import MiniSearch from 'minisearch'
+import type { Mock } from 'vitest'
 import { resolveConfig } from 'node/config'
 import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
@@ -227,6 +229,136 @@ describe('node/plugins/localSearchPlugin', () => {
       expect.stringContaining('Failed to index broken.md for search')
     )
   })
+
+  test('drops a deleted page from the index when its file is unlinked', async () => {
+    // dev mode: `load` must not re-scan, so the only thing that can change the
+    // index between the two reads is the watcher
+    process.env.NODE_ENV = 'development'
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+    await mkdir(path.join(root, 'guide'))
+
+    await writeFile(path.join(root, 'index.md'), '# Home\n\nhealthytoken\n')
+    await writeFile(
+      path.join(root, 'guide', 'old.md'),
+      '# Old guide\n\ndeletedtoken\n'
+    )
+    await writeFile(
+      path.join(configDir, 'config.mjs'),
+      "export default { themeConfig: { search: { provider: 'local' } } }"
+    )
+
+    const siteConfig = await resolveConfig(root, 'serve', 'development')
+    const plugin = await localSearchPlugin(siteConfig)
+    await hooks(plugin).configResolved?.call(
+      {},
+      {
+        publicDir: siteConfig.publicDir
+      }
+    )
+
+    const server = createDevServer()
+    hooks(plugin).configureServer?.call({}, server)
+    await loadIndexEntry(plugin)
+
+    expect(
+      (await loadLocaleIndex(plugin, 'root')).search('deletedtoken')
+    ).toHaveLength(1)
+
+    // what `rm docs/guide/old.md` does while the dev server keeps running
+    const oldPath = path.join(root, 'guide', 'old.md')
+    await rm(oldPath)
+    server.watcher.emit('unlink', oldPath)
+
+    const index = await loadLocaleIndex(plugin, 'root')
+    expect(index.search('deletedtoken')).toEqual([])
+    // the pages that are still there must survive
+    expect(index.search('healthytoken')).toHaveLength(1)
+    expect(server.moduleGraph.onFileChange).toHaveBeenCalledWith(
+      '/@localSearchIndex'
+    )
+  })
+
+  test('keeps only the new path after a page is renamed', async () => {
+    process.env.NODE_ENV = 'development'
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+    await mkdir(path.join(root, 'guide'))
+
+    const content = '# Renamed guide\n\nrenametoken\n'
+    await writeFile(path.join(root, 'guide', 'old.md'), content)
+    await writeFile(path.join(root, 'guide', 'new.md'), content)
+    await writeFile(
+      path.join(configDir, 'config.mjs'),
+      "export default { themeConfig: { search: { provider: 'local' } } }"
+    )
+
+    const siteConfig = await resolveConfig(root, 'serve', 'development')
+    const plugin = await localSearchPlugin(siteConfig)
+    await hooks(plugin).configResolved?.call(
+      {},
+      {
+        publicDir: siteConfig.publicDir
+      }
+    )
+
+    const server = createDevServer()
+    hooks(plugin).configureServer?.call({}, server)
+    await loadIndexEntry(plugin)
+
+    // the keyword matches both paths while the move is half done
+    expect(
+      (await loadLocaleIndex(plugin, 'root')).search('renametoken')
+    ).toHaveLength(2)
+
+    const oldPath = path.join(root, 'guide', 'old.md')
+    await rm(oldPath)
+    server.watcher.emit('unlink', oldPath)
+
+    const index = await loadLocaleIndex(plugin, 'root')
+    expect(index.search('renametoken')).toMatchObject([
+      { id: '/guide/new.html#renamed-guide' }
+    ])
+    expect(index.has('/guide/old.html#renamed-guide')).toBe(false)
+  })
+
+  test('ignores unlinks for files that were never indexed', async () => {
+    process.env.NODE_ENV = 'development'
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+
+    await writeFile(path.join(root, 'index.md'), '# Home\n\nhealthytoken\n')
+    await writeFile(
+      path.join(configDir, 'config.mjs'),
+      "export default { themeConfig: { search: { provider: 'local' } } }"
+    )
+
+    const siteConfig = await resolveConfig(root, 'serve', 'development')
+    const plugin = await localSearchPlugin(siteConfig)
+    await hooks(plugin).configResolved?.call(
+      {},
+      {
+        publicDir: siteConfig.publicDir
+      }
+    )
+
+    const server = createDevServer()
+    hooks(plugin).configureServer?.call({}, server)
+    await loadIndexEntry(plugin)
+
+    const callsBefore = server.moduleGraph.onFileChange.mock.calls.length
+    // an included partial is not a page, and a non-markdown file is not either
+    server.watcher.emit('unlink', path.join(root, 'partial.md'))
+    server.watcher.emit('unlink', path.join(root, 'theme.css'))
+
+    expect(server.moduleGraph.onFileChange).toHaveBeenCalledTimes(callsBefore)
+    expect(
+      (await loadLocaleIndex(plugin, 'root')).search('healthytoken')
+    ).toHaveLength(1)
+  })
 })
 
 function loadIndex(serializedModule: string) {
@@ -237,4 +369,46 @@ function loadIndex(serializedModule: string) {
     fields: ['title', 'titles', 'text'],
     storeFields: ['title', 'titles']
   })
+}
+
+/** the plugin hooks the dev-server tests drive, spelled out to avoid `any` */
+interface LocalSearchHooks {
+  configResolved?: (
+    this: unknown,
+    config: { publicDir: string }
+  ) => Promise<void>
+  configureServer?: (this: unknown, server: DevServerStub) => void
+  load: { handler: (this: unknown, id: string) => Promise<string> }
+}
+
+interface DevServerStub {
+  watcher: EventEmitter
+  moduleGraph: { onFileChange: Mock; getModuleById: Mock }
+}
+
+function hooks(plugin: object) {
+  return plugin as unknown as LocalSearchHooks
+}
+
+function createDevServer(): DevServerStub {
+  return {
+    watcher: new EventEmitter(),
+    moduleGraph: {
+      onFileChange: vi.fn(),
+      // no module for the virtual index yet, so onIndexUpdated stops after
+      // invalidating it and never reaches the HMR send
+      getModuleById: vi.fn(() => undefined)
+    }
+  }
+}
+
+/** awaits the `scanForBuild()` that `configureServer` kicks off */
+async function loadIndexEntry(plugin: object) {
+  await hooks(plugin).load.handler.call({}, '/@localSearchIndex')
+}
+
+async function loadLocaleIndex(plugin: object, locale: string) {
+  return loadIndex(
+    await hooks(plugin).load.handler.call({}, `/@localSearchIndex${locale}`)
+  )
 }

@@ -95,6 +95,9 @@ export async function localSearchPlugin(
     return index
   }
 
+  // the ids a page put into its locale index, so an unlink can take them out
+  const indexedIdsByPage = new Map<string, Set<string>>()
+
   let server: ViteDevServer | undefined
   let pending: Promise<void>
 
@@ -163,11 +166,14 @@ export async function localSearchPlugin(
       (await options.miniSearch?._splitIntoSections?.(file, html)) ??
       // default implementation
       splitPageIntoSections(html)
+    const ids = indexedIdsByPage.get(page) ?? new Set<string>()
+    indexedIdsByPage.set(page, ids)
     // add sections to the locale index
     for await (const section of sections) {
       if (!section || !(section.text || section.titles)) break
       const { anchor, text, titles } = section
       const id = anchor ? [fileId, anchor].join('#') : fileId
+      ids.add(id)
       index.has(id) && index.discard(id)
       index.add({
         id,
@@ -217,6 +223,26 @@ export async function localSearchPlugin(
     configureServer(_server) {
       server = _server
       pending = scanForBuild().then(onIndexUpdated)
+
+      // a deleted or renamed page leaves its documents in the index otherwise,
+      // and MiniSearch only forgets them on `discard`
+      server.watcher.on('unlink', (file) => {
+        if (!file.endsWith('.md')) return
+        const page = slash(path.relative(siteConfig.srcDir, file))
+        const ids = indexedIdsByPage.get(page)
+        // not a page we indexed — an include, a route template, a rewrite source
+        if (!ids?.size) return
+        const index = getIndexByLocale(
+          getLocaleForPath(
+            siteConfig.site,
+            siteConfig.rewrites.map[page] || page
+          )
+        )
+        for (const id of ids) index.has(id) && index.discard(id)
+        indexedIdsByPage.delete(page)
+        debug('🔍️ Removed', file)
+        onIndexUpdated()
+      })
     },
 
     resolveId: {
