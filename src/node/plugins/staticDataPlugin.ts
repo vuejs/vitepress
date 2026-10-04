@@ -10,7 +10,12 @@ import {
 } from 'vite'
 
 import type { Awaitable } from '../shared'
-import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
+import {
+  glob,
+  isGlobMatch,
+  normalizeGlob,
+  type GlobOptions
+} from '../utils/glob'
 
 const loaderMatch = /\.data\.m?(j|t)s($|\?)/
 
@@ -88,7 +93,7 @@ export const staticDataPlugin: Plugin = {
       const loader = idToLoaderModulesMap[id]
       if (
         loader?.watch?.length &&
-        pm(loader.watch, loader.options.globOptions)(normalizedFile)
+        isGlobMatch(normalizedFile, loader.watch, loader.options.globOptions)
       ) {
         const mod = this.environment.moduleGraph.getModuleById(id)
         if (mod) modules.push(mod)
