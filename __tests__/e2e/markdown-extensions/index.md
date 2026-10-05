@@ -181,7 +181,7 @@ export default config
 
 <<< @/markdown-extensions/foo.md
 
-<<< @/markdown-extensions/foo.md#snippet{1 ts:line-numbers} [snippet with region]
+<<< @/markdown-extensions/foo.md#snippet{1 ts:line-numbers} [snippet with region and a long mobile tab label]
 
 :::
 
