@@ -46,6 +46,25 @@ describe('node/contentLoader', () => {
     expect(data.map((page) => page.url)).toEqual(['/', '/other.html'])
   })
 
+  test('loads pages when the project path has glob characters', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress (content) [loader]-'))
+    await mkdir(path.join(root, 'posts'))
+    await writeFile(path.join(root, 'posts/first.md'), '# First\n')
+    await writeFile(path.join(root, 'posts/second.md'), '# Second\n')
+    ;(global as any).VITEPRESS_CONFIG = await resolveConfig(
+      root,
+      'build',
+      'production'
+    )
+
+    const data = await createContentLoader('posts/*.md').load()
+
+    expect(data.map((page) => page.url)).toEqual([
+      '/posts/first.html',
+      '/posts/second.html'
+    ])
+  })
+
   test('rendered internal links get .html when cleanUrls is false', async () => {
     await setup(false)
 

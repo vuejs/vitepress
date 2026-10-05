@@ -2,7 +2,10 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
-import { glob } from 'node/utils/glob'
+import pm from 'picomatch'
+import { normalizePath } from 'vite'
+
+import { glob, normalizeGlob } from 'node/utils/glob'
 
 describe('node/utils/glob', () => {
   let root: string
@@ -34,5 +37,16 @@ describe('node/utils/glob', () => {
       'drafts/post.md',
       'published.md'
     ])
+  })
+
+  test('normalizes patterns from a base with glob characters', async () => {
+    const base = path.join(root, 'docs (x) [y]')
+    await mkdir(path.join(base, 'posts'), { recursive: true })
+    await writeFile(path.join(base, 'posts/a.md'), '# A')
+    const file = normalizePath(path.join(base, 'posts/a.md'))
+    const patterns = normalizeGlob('./posts/*.md', base)
+
+    expect(await glob(patterns, { absolute: true })).toEqual([file])
+    expect(pm(patterns)(file)).toBe(true)
   })
 })
