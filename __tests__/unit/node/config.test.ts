@@ -3,10 +3,16 @@ import {
   mergeConfig,
   normalizeAssetsBase,
   normalizeSiteBase,
+  resolveSiteData,
   type UserConfig
 } from 'node/config'
 
 describe('node/config', () => {
+  test('preserves disabled automatic direction handling', async () => {
+    expect((await resolveSiteData('', { dir: false })).dir).toBe(false)
+    expect((await resolveSiteData('', {})).dir).toBe('ltr')
+  })
+
   test('merges markdown hooks from extended configs', async () => {
     const calls: string[] = []
     const md = {} as MarkdownItAsync
