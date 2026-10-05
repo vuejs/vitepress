@@ -19,6 +19,7 @@
   :host {
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
     tab-size: 4;
     font-family: var(--vp-font-family-base);
     font-feature-settings: normal;
