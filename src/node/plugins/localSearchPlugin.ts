@@ -81,6 +81,7 @@ export async function localSearchPlugin(
   }
 
   const indexByLocales = new Map<string, MiniSearch<IndexObject>>()
+  const indexedIdsByPage = new Map<string, Set<string>>()
 
   function getIndexByLocale(locale: string) {
     let index = indexByLocales.get(locale)
@@ -157,6 +158,13 @@ export async function localSearchPlugin(
       )
       return
     }
+    // Replace all sections from the previous render, including anchors that
+    // disappeared or pages that now opt out of search.
+    for (const id of indexedIdsByPage.get(page) ?? []) {
+      index.has(id) && index.discard(id)
+    }
+    const indexedIds = new Set<string>()
+    indexedIdsByPage.set(page, indexedIds)
     if (!html) return
     const sections =
       // user provided generator
@@ -175,6 +183,7 @@ export async function localSearchPlugin(
         title: titles.at(-1)!,
         titles: titles.slice(0, -1)
       })
+      indexedIds.add(id)
     }
   }
 

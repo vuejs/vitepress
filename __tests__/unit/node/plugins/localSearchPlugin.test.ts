@@ -226,7 +226,97 @@ describe('node/plugins/localSearchPlugin', () => {
     expect(warn).toHaveBeenCalledWith(
       expect.stringContaining('Failed to index broken.md for search')
     )
+
+    const file = path.join(root, 'index.md')
+    await writeFile(file, '# Home\n\n<!-- @include: ./missing.md -->\n')
+    await (plugin.hotUpdate as any).call(
+      { environment: { name: 'client' } },
+      { file }
+    )
+    const previousIndex = loadIndex(
+      await (plugin.load as any)?.handler.call({}, '/@localSearchIndexroot')
+    )
+    expect(previousIndex.search('healthytoken')).toHaveLength(1)
   })
+
+  test.each([
+    [
+      'renames a heading',
+      '# Main\n\nstabletoken\n\n## Updated\n\ncurrenttoken\n'
+    ],
+    ['removes a section', '# Main\n\nstabletoken\n'],
+    ['empties a page', ''],
+    [
+      'disables search',
+      '---\nsearch: false\n---\n\n# Original\n\nobsoletetoken\n'
+    ],
+    ['produces empty custom search content', 'hiddenbycustomrender', true]
+  ] as [string, string, boolean?][])(
+    'removes stale search results when an edit %s',
+    async (_, content, customRender) => {
+      root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+      await mkdir(path.join(root, '.vitepress'))
+      const file = path.join(root, 'changed.md')
+      await writeFile(
+        file,
+        '# Main\n\nstabletoken\n\n## Original\n\nobsoletetoken\n'
+      )
+      await writeFile(
+        path.join(root, 'other.md'),
+        '# Other\n\nunrelatedtoken\n'
+      )
+      await writeFile(
+        path.join(root, '.vitepress/config.mjs'),
+        `export default {
+        rewrites: { 'changed.md': 'zh/changed.md', 'other.md': 'zh/changed-extra.md' },
+        locales: { zh: { lang: 'zh' } },
+        themeConfig: { search: { provider: 'local' } }
+      }`
+      )
+
+      const siteConfig = await resolveConfig(root, 'build', 'production')
+      if (customRender) {
+        siteConfig.site.themeConfig.search.options = {
+          _render: (src: string, env: any, md: any) =>
+            src === content ? '' : md.renderAsync(src, env)
+        }
+      }
+      const plugin = await localSearchPlugin(siteConfig)
+      await (plugin.configResolved as any)?.call(
+        {},
+        { publicDir: siteConfig.publicDir }
+      )
+      await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
+      const readIndex = async () =>
+        loadIndex(
+          await (plugin.load as any)?.handler.call({}, '/@localSearchIndexzh')
+        )
+
+      expect((await readIndex()).search('obsoletetoken')).toMatchObject([
+        { id: '/zh/changed.html#original' }
+      ])
+
+      await writeFile(file, content)
+      await (plugin.hotUpdate as any).call(
+        { environment: { name: 'client' } },
+        { file }
+      )
+
+      const index = await readIndex()
+      expect(index.search('obsoletetoken')).toEqual([])
+      expect(index.search('unrelatedtoken')).toMatchObject([
+        { id: '/zh/changed-extra.html#other' }
+      ])
+      if (content.includes('currenttoken')) {
+        expect(index.search('currenttoken')).toMatchObject([
+          { id: '/zh/changed.html#updated' }
+        ])
+      }
+      if (content.includes('stabletoken')) {
+        expect(index.search('stabletoken')).toHaveLength(1)
+      }
+    }
+  )
 })
 
 function loadIndex(serializedModule: string) {
