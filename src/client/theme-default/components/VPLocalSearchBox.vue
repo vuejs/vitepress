@@ -316,7 +316,7 @@ function selectNextResult(event: KeyboardEvent) {
   event.preventDefault()
   selectedIndex.value++
   if (selectedIndex.value >= results.value.length) {
-    selectedIndex.value = 0
+    selectedIndex.value = results.value.length ? 0 : -1
   }
   disableMouseOver.value = true
   scrollToSelectedResult()
