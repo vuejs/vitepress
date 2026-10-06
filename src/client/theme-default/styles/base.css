@@ -20,10 +20,16 @@
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
     tab-size: 4;
-    font-family: var(--vp-font-family-base);
     font-feature-settings: normal;
     font-variation-settings: normal;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* [lang] is additionally specified to reflect changes to --vp-font-family-base */
+  html,
+  :host,
+  [lang] {
+    font-family: var(--vp-font-family-base);
   }
 
   hr {
