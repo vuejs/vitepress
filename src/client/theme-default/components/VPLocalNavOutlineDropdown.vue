@@ -9,9 +9,8 @@ import { resolveTitle } from '../composables/outline'
 import { useBodyScrollLock } from '../composables/scroll-lock'
 import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
-const props = defineProps<{
+defineProps<{
   headers: DefaultTheme.OutlineItem[]
-  navHeight: number
 }>()
 
 const { theme } = useData()
@@ -49,7 +48,10 @@ onContentUpdated(() => {
 
 function toggle() {
   open.value = !open.value
-  vh.value = window.innerHeight + Math.min(window.scrollY - props.navHeight, 0)
+  // the panel is positioned relative to the sticky local nav, so cap it by the
+  // space below where that nav actually sits: flush with the top of the
+  // viewport below 60rem, pinned under the fixed navbar from 60rem on
+  vh.value = window.innerHeight - (main.value?.getBoundingClientRect().top ?? 0)
 }
 
 function onItemClick(e: Event) {
