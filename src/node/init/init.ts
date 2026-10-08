@@ -58,7 +58,7 @@ export async function init(root?: string) {
           initialValue: './',
           defaultValue: './',
           validate(value) {
-            // if value is undefined it will be handle as cwd.
+            // if value is undefined it will be handled as cwd.
             if (value === undefined) return undefined
 
             if (!isPathInside(process.cwd(), value))
@@ -75,7 +75,7 @@ export async function init(root?: string) {
           initialValue: results.root,
           defaultValue: results.root,
           validate(value) {
-            // if value is undefined it will be handle as cwd.
+            // if value is undefined it will be handled as root.
             if (value === undefined) return undefined
 
             const resolvedRoot = path.resolve(results.root)
@@ -313,6 +313,8 @@ export async function scaffold({
  * isPathInside("/home/test", "../foo")     // false (outside)
  * isPathInside("/home/test", "/home/test/a")  // true (absolute and inside)
  * isPathInside("/home/test", "/dev/foo")   // false (absolute and outside)
+ * isPathInside("/home/test", "..")         // false (outside)
+ * isPathInside("/home/test", "../foo")     // false (outside)
  * isPathInside("C:\\test", "D:\\foo")      // false (cross-drive, on Windows)
  */
 function isPathInside(root: string, target: string): boolean {
