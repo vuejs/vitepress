@@ -1,3 +1,4 @@
+import assert from 'node:assert'
 import fs from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -56,8 +57,13 @@ export async function init(root?: string) {
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           defaultValue: './',
-          validate() {
-            // TODO make sure directory is inside
+          validate(value) {
+            // if value is undefined it will be handle as cwd.
+            if (value === undefined) return undefined
+
+            if (!isPathInside(process.cwd(), value))
+              return `\`root\` must be in ${process.cwd()}`
+
             return undefined
           }
         })
@@ -67,7 +73,17 @@ export async function init(root?: string) {
         return text({
           message: 'Where should VitePress look for your markdown files?',
           initialValue: results.root,
-          defaultValue: results.root
+          defaultValue: results.root,
+          validate(value) {
+            // if value is undefined it will be handle as cwd.
+            if (value === undefined) return undefined
+
+            const resolvedRoot = path.resolve(results.root)
+            if (!isPathInside(resolvedRoot, value))
+              return `\`root\` must be in ${resolvedRoot}`
+
+            return undefined
+          }
         })
       },
 
@@ -279,4 +295,44 @@ export async function scaffold({
   } else {
     return `You're all set! Now run ${c.cyan(`${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`)} and start writing.${tip}`
   }
+}
+
+/**
+ *
+ * @description Returns whether `target` is inside `root`.
+ *
+ * @param {string} root an absolute directory.
+ * @param {string} target an absolute or relative directory.
+ *
+ * @example
+ * isPathInside("/home/test", "foo")        // true (inside)
+ * isPathInside("/home/test", "./foo")      // true (inside)
+ * isPathInside("/home/test", "..foo")      // true (inside)
+ * isPathInside("/home/test", ".")          // true (root itself)
+ * isPathInside("/home/test", "..")         // false (outside)
+ * isPathInside("/home/test", "../foo")     // false (outside)
+ * isPathInside("/home/test", "/home/test/a")  // true (absolute and inside)
+ * isPathInside("/home/test", "/dev/foo")   // false (absolute and outside)
+ * isPathInside("C:\test", "D:\foo")      // false (cross-drive, on Windows)
+ * isPathInside("C:\\test", "D:\\foo")      // false (cross-drive, on Windows)
+ */
+function isPathInside(root: string, target: string): boolean {
+  assert(path.isAbsolute(root), '`root` must be an absolute path')
+
+  const resolvedTarget = path.resolve(root, target)
+  const relativePath = path.relative(root, resolvedTarget)
+
+  /**
+   * - relativePath === "" means it's cwd.
+   * - relativePath === ".." means it's the parent of cwd.
+   * - relativePath === "../" (or, "..\", we use `path.sep` to handle this) means it's outside.
+   * - if relativePath is an absolute path, means cross drive on Windows.
+   */
+
+  return (
+    relativePath === '' ||
+    (relativePath !== '..' &&
+      !relativePath.startsWith('..' + path.sep) &&
+      !path.isAbsolute(relativePath))
+  )
 }
