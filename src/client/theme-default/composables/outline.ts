@@ -155,12 +155,13 @@ export function useActiveAnchor(
     }
 
     // Calculate active link based on header positions relative to viewport
-    // Smoothly adjust reference offset as page reaches bottom so intermediate short sections are highlighted
-    const maxScroll = offsetHeight - innerHeight
+    // Step 2: Smoothly scale reference offset down viewport as page reaches bottom
+    const maxScroll = Math.max(0, offsetHeight - innerHeight)
     const bottomRatio =
       maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0
+    const maxViewportOffset = Math.max(0, innerHeight - 96)
     const targetOffset =
-      scrollY + 4 + (innerHeight - 100) * (bottomRatio * bottomRatio)
+      scrollY + 4 + maxViewportOffset * Math.pow(bottomRatio, 1.5)
 
     let activeLink: string | null = null
     for (const { link, top, scrollMarginTop } of headers) {
