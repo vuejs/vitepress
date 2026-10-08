@@ -9,6 +9,7 @@ import {
   confirm,
   group,
   intro,
+  isCancel,
   outro,
   select,
   text
@@ -53,7 +54,7 @@ export async function init(root?: string) {
       root: async () => {
         if (root) return root
 
-        return text({
+        const value = await text({
           message: 'Where should VitePress initialize the config?',
           initialValue: './',
           defaultValue: './',
@@ -67,10 +68,17 @@ export async function init(root?: string) {
             return undefined
           }
         })
+
+        if (isCancel(value)) {
+          cancel('Cancelled.')
+          process.exit(0)
+        }
+
+        return path.resolve(value)
       },
 
       srcDir: async ({ results }: any) => {
-        return text({
+        const value = await text({
           message: 'Where should VitePress look for your markdown files?',
           initialValue: results.root,
           defaultValue: results.root,
@@ -80,11 +88,18 @@ export async function init(root?: string) {
 
             const resolvedRoot = path.resolve(results.root)
             if (!isPathInside(resolvedRoot, value))
-              return `\`srcDir\` must be in \`root\`(${path.resolve(results.root)})`
+              return `\`srcDir\` must be in \`root\`(${results.root})`
 
             return undefined
           }
         })
+
+        if (isCancel(value)) {
+          cancel('Cancelled.')
+          process.exit(0)
+        }
+
+        return path.resolve(value)
       },
 
       title: async () => {
@@ -168,8 +183,8 @@ export async function init(root?: string) {
 }
 
 export async function scaffold({
-  root: root_ = './',
-  srcDir: srcDir_ = root_,
+  root = './',
+  srcDir = root,
   title = 'My Awesome Project',
   description = 'A VitePress Site',
   theme = ScaffoldThemeType.Default,
@@ -178,12 +193,6 @@ export async function scaffold({
   addNpmScriptsPrefix = true,
   npmScriptsPrefix = 'docs'
 }: ScaffoldOptions) {
-  const resolvedRoot = path.resolve(root_)
-  const root = path.relative(process.cwd(), resolvedRoot)
-
-  const resolvedSrcDir = path.resolve(srcDir_)
-  const srcDir = path.relative(resolvedRoot, resolvedSrcDir)
-
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../../template'
@@ -214,7 +223,7 @@ export async function scaffold({
 
   const renderFile = async (file: string) => {
     const filePath = path.resolve(templateDir, file)
-    let targetPath = path.resolve(resolvedRoot, file)
+    let targetPath = path.resolve(root, file)
 
     if (useMjs && file === '.vitepress/config.js') {
       targetPath = targetPath.replace(/\.js$/, '.mjs')
@@ -223,7 +232,7 @@ export async function scaffold({
       targetPath = targetPath.replace(/\.(m?)js$/, '.$1ts')
     }
     if (file.endsWith('.md')) {
-      targetPath = path.resolve(resolvedSrcDir, file)
+      targetPath = path.resolve(srcDir, file)
     }
 
     const content = await readFile(filePath)
@@ -309,8 +318,6 @@ export async function scaffold({
  * isPathInside("/home/test", "./foo")      // true (inside)
  * isPathInside("/home/test", "..foo")      // true (inside)
  * isPathInside("/home/test", ".")          // true (root itself)
- * isPathInside("/home/test", "..")         // false (outside)
- * isPathInside("/home/test", "../foo")     // false (outside)
  * isPathInside("/home/test", "/home/test/a")  // true (absolute and inside)
  * isPathInside("/home/test", "/dev/foo")   // false (absolute and outside)
  * isPathInside("/home/test", "..")         // false (outside)
