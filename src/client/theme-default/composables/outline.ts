@@ -154,20 +154,26 @@ export function useActiveAnchor(
       return
     }
 
-    // page bottom - highlight last link
-    if (isBottom) {
-      activateLink(headers.at(-1)?.link ?? null)
-      return
-    }
+    // Calculate active link based on header positions relative to viewport
+    // Smoothly adjust reference offset as page reaches bottom so intermediate short sections are highlighted
+    const maxScroll = offsetHeight - innerHeight
+    const bottomRatio =
+      maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0
+    const targetOffset =
+      scrollY + 4 + (innerHeight - 100) * (bottomRatio * bottomRatio)
 
-    // find the last header above the top of viewport
     let activeLink: string | null = null
     for (const { link, top, scrollMarginTop } of headers) {
-      if (top > scrollY + scrollMarginTop + 4) {
+      if (top > targetOffset + scrollMarginTop) {
         break
       }
       activeLink = link
     }
+
+    if (isBottom && !activeLink) {
+      activeLink = headers.at(-1)?.link ?? null
+    }
+
     activateLink(activeLink)
   }
 
