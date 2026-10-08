@@ -117,8 +117,13 @@ export function useBodyScrollLock(): WritableComputedRef<boolean> {
   const isLocked = shallowRef(false)
   let useEvents = false
 
+  let scrollY = 0
+
   function lock() {
     if (isLocked.value) return
+
+    scrollY = window.scrollY
+
     useEvents =
       window.innerWidth > document.documentElement.clientWidth &&
       !CSS.supports('scrollbar-gutter', 'stable')
@@ -130,6 +135,8 @@ export function useBodyScrollLock(): WritableComputedRef<boolean> {
     if (!isLocked.value) return
     useEvents ? unlockEvents() : unlockOverflow()
     isLocked.value = false
+
+    window.scrollTo(0, scrollY)
   }
 
   onScopeDispose(unlock)
