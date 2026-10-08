@@ -80,7 +80,7 @@ export async function init(root?: string) {
 
             const resolvedRoot = path.resolve(results.root)
             if (!isPathInside(resolvedRoot, value))
-              return `\`root\` must be in ${resolvedRoot}`
+              return `\`srcDir\` must be in \`root\`(${path.resolve(results.root)})`
 
             return undefined
           }
@@ -313,7 +313,6 @@ export async function scaffold({
  * isPathInside("/home/test", "../foo")     // false (outside)
  * isPathInside("/home/test", "/home/test/a")  // true (absolute and inside)
  * isPathInside("/home/test", "/dev/foo")   // false (absolute and outside)
- * isPathInside("C:\test", "D:\foo")      // false (cross-drive, on Windows)
  * isPathInside("C:\\test", "D:\\foo")      // false (cross-drive, on Windows)
  */
 function isPathInside(root: string, target: string): boolean {
@@ -323,8 +322,8 @@ function isPathInside(root: string, target: string): boolean {
   const relativePath = path.relative(root, resolvedTarget)
 
   /**
-   * - relativePath === "" means it's cwd.
-   * - relativePath === ".." means it's the parent of cwd.
+   * - relativePath === "" means it's root.
+   * - relativePath === ".." means it's the parent of root.
    * - relativePath === "../" (or, "..\", we use `path.sep` to handle this) means it's outside.
    * - if relativePath is an absolute path, means cross drive on Windows.
    */
