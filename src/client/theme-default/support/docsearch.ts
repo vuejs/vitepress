@@ -285,3 +285,16 @@ function deepMerge<T>(target: T, source: Partial<T>): T {
   delete result.locales
   return result
 }
+
+/**
+ * Normalizes Algolia hit URL to a relative path respecting `cleanUrls`.
+ * Returns an empty string if the URL is missing or empty (e.g. Ask AI conversation items).
+ */
+export function getRelativePath(
+  url?: string | null,
+  cleanUrls = false
+): string {
+  if (!url) return ''
+  const { pathname, hash } = new URL(url, 'http://localhost')
+  return pathname.replace(/\.html$/, cleanUrls ? '' : '.html') + hash
+}

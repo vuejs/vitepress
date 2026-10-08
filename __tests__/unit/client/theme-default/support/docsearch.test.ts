@@ -1,6 +1,7 @@
 import {
   buildAskAiConfig,
   buildSidePanelProps,
+  getRelativePath,
   hasAskAi,
   hasKeywordSearch,
   mergeLangFacetFilters,
@@ -297,6 +298,35 @@ describe('client/theme-default/support/docsearch', () => {
           suggestedQuestions: true
         }
       })
+    })
+  })
+
+  describe('getRelativePath', () => {
+    test('returns empty string when url is empty or undefined', () => {
+      expect(getRelativePath('')).toBe('')
+      expect(getRelativePath(undefined)).toBe('')
+      expect(getRelativePath(null)).toBe('')
+    })
+
+    test('extracts relative pathname and preserves html without cleanUrls', () => {
+      expect(
+        getRelativePath('https://example.com/guide/getting-started.html')
+      ).toBe('/guide/getting-started.html')
+    })
+
+    test('strips .html when cleanUrls is true', () => {
+      expect(
+        getRelativePath('https://example.com/guide/getting-started.html', true)
+      ).toBe('/guide/getting-started')
+    })
+
+    test('preserves hash with and without cleanUrls', () => {
+      expect(
+        getRelativePath('https://example.com/guide/index.html#section', false)
+      ).toBe('/guide/index.html#section')
+      expect(
+        getRelativePath('https://example.com/guide/index.html#section', true)
+      ).toBe('/guide/index#section')
     })
   })
 })
