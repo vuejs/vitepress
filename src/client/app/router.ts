@@ -216,7 +216,7 @@ export function createRouter(
         const linkHref =
           link.getAttribute('href') ??
           (link instanceof SVGAElement ? link.getAttribute('xlink:href') : null)
-        if (linkHref == null) return
+        if (!linkHref) return
 
         const { href, origin, pathname } = new URL(linkHref, link.baseURI)
         const currentLoc = new URL(location.href) // copy to keep old data
