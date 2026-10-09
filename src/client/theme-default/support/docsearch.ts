@@ -285,3 +285,8 @@ function deepMerge<T>(target: T, source: Partial<T>): T {
   delete result.locales
   return result
 }
+
+export function getRelativePath(url: string): string {
+  const { pathname, hash } = new URL(url, 'http://localhost')
+  return pathname + hash
+}

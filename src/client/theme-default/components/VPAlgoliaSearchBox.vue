@@ -9,6 +9,7 @@ import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
 import {
   buildSidePanelProps,
+  getRelativePath,
   resolveMode,
   validateCredentials
 } from '../support/docsearch'
@@ -235,11 +236,6 @@ function loadSidepanel() {
     sidepanelLoader = import('@docsearch/sidepanel-js')
   }
   return sidepanelLoader
-}
-
-function getRelativePath(url: string) {
-  const { pathname, hash } = new URL(url, location.origin)
-  return pathname.replace(/\.html$/, site.value.cleanUrls ? '' : '.html') + hash
 }
 </script>
 
