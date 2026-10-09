@@ -340,7 +340,7 @@ Install the [Pethost CLI](https://github.com/pethost-dev/cli#readme), and run th
 pethost deploy
 ```
 
-It signs you in, finds the script that runs `vitepress build`, writes a `Dockerfile` that runs it and serves `docs/.vitepress/dist`, and prints the site's address. For GitHub deploys, your own domain and other layouts, see the [Pethost VitePress guide](https://pethost.dev/blog/deploy-vitepress-site/).
+It finds the script that runs `vitepress build`, writes a `Dockerfile` that runs it and serves `docs/.vitepress/dist`, and prints the site's address. For GitHub deploys and your own domain, see the [Pethost VitePress guide](https://pethost.dev/blog/deploy-vitepress-site/).
 
 ### Stormkit
 
