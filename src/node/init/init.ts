@@ -49,6 +49,7 @@ const getPackageManger = () => {
 export async function init(root?: string) {
   intro(c.bold(c.cyan('Welcome to VitePress!')))
 
+  const cwd = process.cwd()
   const options = await group(
     {
       root: async () => {
@@ -56,14 +57,13 @@ export async function init(root?: string) {
 
         const value = await text({
           message: 'Where should VitePress initialize the config?',
-          initialValue: './',
-          defaultValue: './',
+          initialValue: cwd,
+          defaultValue: cwd,
           validate(value) {
             // if root is undefined it will be handled as cwd.
             if (value === undefined) return undefined
 
-            if (!isPathInside(process.cwd(), value))
-              return `\`root\` must be in ${process.cwd()}`
+            if (!isPathInside(cwd, value)) return `\`root\` must be in ${cwd}`
 
             return undefined
           }
