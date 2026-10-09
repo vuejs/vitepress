@@ -134,9 +134,11 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         router.go(item.itemUrl)
       }
     },
-    // Note (Issue #5451 investigation): Ask AI conversation history and action items have empty URLs ("").
-    // Passing them through getRelativePath resolves them to current page pathname, which can cause background scrolling on click.
-    transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
+    transformItems: (items) =>
+      items.map((item) => ({
+        ...item,
+        url: getRelativePath(item.url, site.value.cleanUrls)
+      })),
     // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && {
       interceptAskAiEvent: (initialMessage) => {
