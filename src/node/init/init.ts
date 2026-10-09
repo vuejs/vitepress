@@ -59,7 +59,7 @@ export async function init(root?: string) {
           initialValue: './',
           defaultValue: './',
           validate(value) {
-            // if value is undefined it will be handled as cwd.
+            // if root is undefined it will be handled as cwd.
             if (value === undefined) return undefined
 
             if (!isPathInside(process.cwd(), value))
@@ -83,11 +83,10 @@ export async function init(root?: string) {
           initialValue: results.root,
           defaultValue: results.root,
           validate(value) {
-            // if value is undefined it will be handled as root.
+            // if srcDir is undefined it will be handled as root.
             if (value === undefined) return undefined
 
-            const resolvedRoot = path.resolve(results.root)
-            if (!isPathInside(resolvedRoot, value))
+            if (!isPathInside(results.root, value))
               return `\`srcDir\` must be in \`root\`(${results.root})`
 
             return undefined
@@ -99,7 +98,8 @@ export async function init(root?: string) {
           process.exit(0)
         }
 
-        return path.resolve(value)
+        // should resolved based root
+        return path.resolve(results.root, value)
       },
 
       title: async () => {
