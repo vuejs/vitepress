@@ -129,7 +129,7 @@ export function useActiveAnchor(
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
     const offsetHeight = document.body.offsetHeight
-    const isBottom = scrollY + innerHeight - offsetHeight >= 0
+    const isBottom = Math.ceil(scrollY + innerHeight) >= offsetHeight
 
     // resolvedHeaders may be repositioned, hidden or fix positioned
     const headers = resolvedHeaders
@@ -154,20 +154,27 @@ export function useActiveAnchor(
       return
     }
 
-    // page bottom - highlight last link
-    if (isBottom) {
-      activateLink(headers.at(-1)?.link ?? null)
-      return
-    }
+    // Calculate active link based on header positions relative to viewport
+    // Smoothly scale reference offset down viewport as page reaches bottom so intermediate short sections are highlighted
+    const maxScroll = Math.max(0, offsetHeight - innerHeight)
+    const bottomRatio =
+      maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0
+    const maxViewportOffset = Math.max(0, innerHeight - 96)
+    const targetOffset =
+      scrollY + 4 + maxViewportOffset * Math.pow(bottomRatio, 1.5)
 
-    // find the last header above the top of viewport
     let activeLink: string | null = null
     for (const { link, top, scrollMarginTop } of headers) {
-      if (top > scrollY + scrollMarginTop + 4) {
+      if (top > targetOffset + scrollMarginTop) {
         break
       }
       activeLink = link
     }
+
+    if (isBottom) {
+      activeLink = headers.at(-1)?.link ?? activeLink
+    }
+
     activateLink(activeLink)
   }
 
