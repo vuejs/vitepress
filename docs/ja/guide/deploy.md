@@ -192,7 +192,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
    ```
 
    ::: warning
-   VitePress の `base` オプションが正しく設定されていることを確認してください。詳細は [公開ベースパスの設定](#公開ベースパスの設定) を参照してください。
+   VitePress の `base` オプションが正しく設定されていることを確認してください。詳細は [公開ベースパスの設定](#setting-a-public-base-path) を参照してください。
    :::
 
 2. リポジトリ設定の「Pages」メニューで、「Build and deployment > Source」を「GitHub Actions」に設定します。
