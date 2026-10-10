@@ -1,3 +1,4 @@
+import assert from 'node:assert'
 import fs from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -8,6 +9,7 @@ import {
   confirm,
   group,
   intro,
+  isCancel,
   outro,
   select,
   text
@@ -47,28 +49,57 @@ const getPackageManger = () => {
 export async function init(root?: string) {
   intro(c.bold(c.cyan('Welcome to VitePress!')))
 
+  const cwd = process.cwd()
   const options = await group(
     {
       root: async () => {
         if (root) return root
 
-        return text({
+        const value = await text({
           message: 'Where should VitePress initialize the config?',
-          initialValue: './',
-          defaultValue: './',
-          validate() {
-            // TODO make sure directory is inside
+          initialValue: cwd,
+          defaultValue: cwd,
+          validate(value) {
+            // if root is undefined it will be handled as cwd.
+            if (value === undefined) return undefined
+
+            if (!isPathInside(cwd, value)) return `\`root\` must be in ${cwd}`
+
             return undefined
           }
         })
+
+        if (isCancel(value)) {
+          cancel('Cancelled.')
+          process.exit(0)
+        }
+
+        return path.resolve(value)
       },
 
       srcDir: async ({ results }: any) => {
-        return text({
+        const value = await text({
           message: 'Where should VitePress look for your markdown files?',
           initialValue: results.root,
-          defaultValue: results.root
+          defaultValue: results.root,
+          validate(value) {
+            // if srcDir is undefined it will be handled as root.
+            if (value === undefined) return undefined
+
+            if (!isPathInside(results.root, value))
+              return `\`srcDir\` must be in \`root\`(${results.root})`
+
+            return undefined
+          }
         })
+
+        if (isCancel(value)) {
+          cancel('Cancelled.')
+          process.exit(0)
+        }
+
+        // should resolved based root
+        return path.resolve(results.root, value)
       },
 
       title: async () => {
@@ -152,8 +183,8 @@ export async function init(root?: string) {
 }
 
 export async function scaffold({
-  root: root_ = './',
-  srcDir: srcDir_ = root_,
+  root = './',
+  srcDir = root,
   title = 'My Awesome Project',
   description = 'A VitePress Site',
   theme = ScaffoldThemeType.Default,
@@ -162,12 +193,6 @@ export async function scaffold({
   addNpmScriptsPrefix = true,
   npmScriptsPrefix = 'docs'
 }: ScaffoldOptions) {
-  const resolvedRoot = path.resolve(root_)
-  const root = path.relative(process.cwd(), resolvedRoot)
-
-  const resolvedSrcDir = path.resolve(srcDir_)
-  const srcDir = path.relative(resolvedRoot, resolvedSrcDir)
-
   const templateDir = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../../template'
@@ -198,7 +223,7 @@ export async function scaffold({
 
   const renderFile = async (file: string) => {
     const filePath = path.resolve(templateDir, file)
-    let targetPath = path.resolve(resolvedRoot, file)
+    let targetPath = path.resolve(root, file)
 
     if (useMjs && file === '.vitepress/config.js') {
       targetPath = targetPath.replace(/\.js$/, '.mjs')
@@ -207,7 +232,7 @@ export async function scaffold({
       targetPath = targetPath.replace(/\.(m?)js$/, '.$1ts')
     }
     if (file.endsWith('.md')) {
-      targetPath = path.resolve(resolvedSrcDir, file)
+      targetPath = path.resolve(srcDir, file)
     }
 
     const content = await readFile(filePath)
@@ -279,4 +304,43 @@ export async function scaffold({
   } else {
     return `You're all set! Now run ${c.cyan(`${pm === 'npm' ? 'npx' : pm} vitepress dev${dir}`)} and start writing.${tip}`
   }
+}
+
+/**
+ *
+ * @description Returns whether `target` is inside `root`.
+ *
+ * @param {string} root an absolute directory.
+ * @param {string} target an absolute or relative directory.
+ *
+ * @example
+ * isPathInside("/home/test", "foo")        // true (inside)
+ * isPathInside("/home/test", "./foo")      // true (inside)
+ * isPathInside("/home/test", "..foo")      // true (inside)
+ * isPathInside("/home/test", ".")          // true (root itself)
+ * isPathInside("/home/test", "/home/test/a")  // true (absolute and inside)
+ * isPathInside("/home/test", "/dev/foo")   // false (absolute and outside)
+ * isPathInside("/home/test", "..")         // false (outside)
+ * isPathInside("/home/test", "../foo")     // false (outside)
+ * isPathInside("C:\\test", "D:\\foo")      // false (cross-drive, on Windows)
+ */
+function isPathInside(root: string, target: string): boolean {
+  assert(path.isAbsolute(root), '`root` must be an absolute path')
+
+  const resolvedTarget = path.resolve(root, target)
+  const relativePath = path.relative(root, resolvedTarget)
+
+  /**
+   * - relativePath === "" means it's root.
+   * - relativePath === ".." means it's the parent of root.
+   * - relativePath === "../" (or, "..\", we use `path.sep` to handle this) means it's outside.
+   * - if relativePath is an absolute path, means cross drive on Windows.
+   */
+
+  return (
+    relativePath === '' ||
+    (relativePath !== '..' &&
+      !relativePath.startsWith('..' + path.sep) &&
+      !path.isAbsolute(relativePath))
+  )
 }
