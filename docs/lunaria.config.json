@@ -22,6 +22,10 @@
   },
   "locales": [
     {
+      "label": "Deutsch",
+      "lang": "de"
+    },
+    {
       "label": "简体中文",
       "lang": "zh"
     },
