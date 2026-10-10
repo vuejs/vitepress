@@ -10,7 +10,7 @@
     "site:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.139",
+    "@iconify-json/lucide": "^1.2.142",
     "vitepress": "workspace:*"
   }
 }

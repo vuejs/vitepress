@@ -12,9 +12,6 @@ ignoreWorkspaceRootCheck: true
 
 minimumReleaseAge: 1440
 
-overrides:
-  esbuild: '-'
-
 shellEmulator: true
 
 strictPeerDependencies: true
