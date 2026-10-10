@@ -334,7 +334,7 @@ Leave build and start command overrides unset to use automatic detection. For Gi
 
 [Pethost](https://pethost.dev) builds VitePress sites from source and serves them over HTTPS.
 
-Install the [Pethost CLI](https://github.com/pethost-dev/cli#readme), and run this command from the project root containing `package.json`:
+Install the [Pethost CLI](https://pethost.dev/docs/cli/), and run this command from the project root containing `package.json`:
 
 ```sh
 pethost deploy
