@@ -93,13 +93,15 @@ function scrollToTop() {
     </button>
     <Transition name="flyout">
       <div v-if="open" ref="items" :id="itemsId" class="items" @click="onItemClick">
-        <div class="header">
-          <a class="top-link" href="#" @click="scrollToTop">
-            {{ theme.returnToTopLabel || 'Return to top' }}
-          </a>
-        </div>
-        <div class="outline">
-          <VPDocOutlineItem :headers />
+        <div class="items-scroll">
+          <div class="header">
+            <a class="top-link" href="#" @click="scrollToTop">
+              {{ theme.returnToTopLabel || 'Return to top' }}
+            </a>
+          </div>
+          <div class="outline">
+            <VPDocOutlineItem :headers />
+          </div>
         </div>
       </div>
     </Transition>
@@ -153,15 +155,19 @@ function scrollToTop() {
   position: absolute;
   top: 2.5rem;
   inset-inline: 1rem;
-  display: grid;
-  gap: 1px;
   border: 1px solid var(--vp-c-border);
   border-radius: 0.5rem;
   background-color: var(--vp-c-gutter);
-  max-height: calc(var(--vp-vh, 100vh) - 5.375rem);
+  overflow: hidden;
+  box-shadow: var(--vp-shadow-3);
+}
+
+.items-scroll {
+  display: grid;
+  gap: 1px;
+  max-height: calc(var(--vp-vh, 100vh) - 5.375rem - 2px);
   overflow: hidden auto;
   overscroll-behavior: contain;
-  box-shadow: var(--vp-shadow-3);
 }
 
 @media (min-width: 60rem) {
