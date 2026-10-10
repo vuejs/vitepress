@@ -53,7 +53,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vpi-align-left menu-icon" aria-hidden="true"></span>
+        <span class="vpi-text-align-start menu-icon" aria-hidden="true"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
