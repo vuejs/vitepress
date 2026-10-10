@@ -158,7 +158,7 @@ export default {
 
 عنوان صفحه خواهد بود `سلام | سایت فوق‌العاده من`.
 
-### قالب عنوان  {##titletemplate}
+### قالب عنوان  {#titletemplate}
 
 - نوع: `string | boolean`
 - می‌تواند به ازای هر صفحه از طریق [frontmatter](./frontmatter-config#titletemplate) جایگزین شود.
