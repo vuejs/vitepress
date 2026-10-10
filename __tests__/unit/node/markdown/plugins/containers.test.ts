@@ -96,9 +96,9 @@ describe('node/markdown/plugins/containers', () => {
       <p>content</p>
       </div>
       <details class="details custom-block"><summary>Click me to toggle the code</summary>
-      <div class="language-js" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
+      <div class="language-js" dir="ltr"><pre><code class="language-js">console.log('hi')
       </code></pre>
-      </div></details>
+      <button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span></div></details>
       "
     `)
   })
@@ -335,11 +335,11 @@ describe('node/markdown/plugins/containers', () => {
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
       "<div class="vp-code-group"><div class="tabs"><input type="radio" name="group-0" id="tab-1" checked><label data-title="config.js" for="tab-1">config.js</label><input type="radio" name="group-0" id="tab-2" ><label data-title="config.ts" for="tab-2">config.ts</label></div><div class="blocks">
-      <div class="language-js active" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js active" dir="ltr"><pre><code class="language-js">const a = 1
       </code></pre>
-      </div><div class="language-ts" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
+      <button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span></div><div class="language-ts" dir="ltr"><pre><code class="language-ts">const a: number = 1
       </code></pre>
-      </div></div></div>
+      <button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span></div></div></div>
       "
     `)
   })
@@ -497,9 +497,9 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
       <ul>
       <li>list item</li>
       </ul>
-      <div class="language-js" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js" dir="ltr"><pre><code class="language-js">const a = 1
       </code></pre>
-      </div></div>
+      <button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span></div></div>
       "
     `)
   })
