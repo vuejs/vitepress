@@ -608,8 +608,6 @@
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  vertical-align: middle;
-  font-size: 0.5625rem;
 }
 
 .vp-external-link-icon::after {
