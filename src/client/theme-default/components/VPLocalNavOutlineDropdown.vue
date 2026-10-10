@@ -11,7 +11,6 @@ import VPDocOutlineItem from './VPDocOutlineItem.vue'
 
 const props = defineProps<{
   headers: DefaultTheme.OutlineItem[]
-  navHeight: number
 }>()
 
 const { theme } = useData()
@@ -49,7 +48,7 @@ onContentUpdated(() => {
 
 function toggle() {
   open.value = !open.value
-  vh.value = window.innerHeight + Math.min(window.scrollY - props.navHeight, 0)
+  vh.value = window.innerHeight - (main.value?.getBoundingClientRect().top ?? 0)
 }
 
 function onItemClick(e: Event) {
@@ -99,7 +98,7 @@ function scrollToTop() {
           </a>
         </div>
         <div class="outline">
-          <VPDocOutlineItem :headers />
+          <VPDocOutlineItem :headers="props.headers" />
         </div>
       </div>
     </Transition>
