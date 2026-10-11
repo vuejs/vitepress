@@ -5,6 +5,7 @@ import {
   mergeHead,
   pageChunkPath,
   relativePathToRoot,
+  tokenizeSearchText,
   type HeadConfig,
   type PageData,
   type SiteData
@@ -126,6 +127,101 @@ describe('shared/shared url helpers', () => {
       expect(relativePathToRoot('foo.md')).toBe('./')
       expect(relativePathToRoot('guide/index.md')).toBe('../')
       expect(relativePathToRoot('guide/nested/page.md')).toBe('../../')
+    })
+  })
+
+  describe('tokenizeSearchText', () => {
+    const tokens = (text: string) => tokenizeSearchText(text).filter(Boolean)
+
+    test('splits on spaces and punctuation like the MiniSearch default', () => {
+      for (const text of [
+        "Hello, world! don't stop-me 3.14",
+        'Привет, мир',
+        '한국어 검색 기능',
+        'line\nbreak\r\nand\u00a0nbsp'
+      ]) {
+        expect(tokenizeSearchText(text)).toEqual(
+          text.split(/[\n\r\p{Z}\p{P}]+/u)
+        )
+      }
+    })
+
+    test('segments Chinese words', () => {
+      expect(tokens('全文搜索引擎很好用')).toEqual([
+        '全文',
+        '搜索',
+        '引擎',
+        '很好',
+        '用'
+      ])
+    })
+
+    test('segments Japanese words', () => {
+      expect(tokens('日本語の検索機能を改善する')).toEqual([
+        '日本語',
+        'の',
+        '検索',
+        '機能',
+        'を',
+        '改善',
+        'する'
+      ])
+    })
+
+    test('keeps non-CJK words in mixed text', () => {
+      expect(tokens('Vue3是框架,hello-world')).toEqual([
+        'Vue3',
+        '是',
+        '框架',
+        'hello',
+        'world'
+      ])
+    })
+
+    test('keeps symbols and emoji next to CJK text', () => {
+      expect(tokenizeSearchText('C++入門')).toEqual(['C++', '入門'])
+      expect(tokenizeSearchText('👩‍💻日本語ガイド')).toEqual([
+        '👩‍💻',
+        '日本語',
+        'ガイド'
+      ])
+      expect(tokenizeSearchText('Vue3の使い方')).toEqual([
+        'Vue3',
+        'の',
+        '使い方'
+      ])
+    })
+
+    test('never changes the non-CJK parts of the text', () => {
+      const cjk = /[\p{scx=Han}\p{scx=Hiragana}\p{scx=Katakana}]/u
+      for (const text of [
+        'C++入門',
+        '👩‍💻日本語ガイド',
+        'Vue3の使い方',
+        "v1.2.3は安定版、don't",
+        'a=b+c 検索 x*y'
+      ]) {
+        // the old tokenizer on the text with the CJK characters removed
+        const old = text
+          .replace(new RegExp(cjk.source, 'gu'), ' ')
+          .split(/[\n\r\p{Z}\p{P}]+/u)
+          .filter(Boolean)
+        expect(tokens(text).filter((term) => !cjk.test(term))).toEqual(old)
+      }
+    })
+
+    test('never emits empty strings for words containing CJK', () => {
+      expect(tokenizeSearchText('C++入門')).not.toContain('')
+      expect(tokenizeSearchText('👩‍💻日本語')).not.toContain('')
+    })
+
+    test('falls back to the default split without Intl.Segmenter', () => {
+      vi.stubGlobal('Intl', { ...Intl, Segmenter: undefined })
+      try {
+        expect(tokens('全文搜索 hello')).toEqual(['全文搜索', 'hello'])
+      } finally {
+        vi.unstubAllGlobals()
+      }
     })
   })
 })

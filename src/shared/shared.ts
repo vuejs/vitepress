@@ -339,6 +339,46 @@ export function treatAsHtml(filename: string): boolean {
   return ext == null || !KNOWN_EXTENSIONS.has(ext.toLowerCase())
 }
 
+// same as the default of MiniSearch's `tokenize`
+const SPACE_OR_PUNCTUATION_RE = /[\n\r\p{Z}\p{P}]+/u
+// runs of characters from scripts written without spaces between words
+// (`scx` also covers marks like the prolonged sound mark `ー`)
+const UNSPACED_RUN_RE =
+  /[\p{scx=Han}\p{scx=Hiragana}\p{scx=Katakana}]+|[^\p{scx=Han}\p{scx=Hiragana}\p{scx=Katakana}]+/gu
+const UNSPACED_START_RE = /^[\p{scx=Han}\p{scx=Hiragana}\p{scx=Katakana}]/u
+
+let segmenter: Intl.Segmenter | undefined
+
+/**
+ * Default `tokenize` of the local search. It splits on spaces and punctuation
+ * like MiniSearch does, and additionally segments the runs of Chinese or
+ * Japanese characters inside those words, as they are not separated by spaces.
+ * Everything else is kept as MiniSearch would.
+ *
+ * It is used both when building the index and when searching in the browser.
+ * A browser without `Intl.Segmenter` (e.g. Firefox < 125) falls back to the
+ * plain split, which can't match multi-word queries against an index that was
+ * built with segmentation.
+ *
+ * @internal
+ */
+export function tokenizeSearchText(text: string): string[] {
+  const terms = text.split(SPACE_OR_PUNCTUATION_RE)
+  if (typeof Intl.Segmenter !== 'function') return terms
+  segmenter ??= new Intl.Segmenter(undefined, { granularity: 'word' })
+  return terms.flatMap(
+    (term) =>
+      // an empty term has no runs
+      term
+        .match(UNSPACED_RUN_RE)
+        ?.flatMap((run) =>
+          UNSPACED_START_RE.test(run)
+            ? Array.from(segmenter!.segment(run), (part) => part.segment)
+            : run
+        ) ?? term
+  )
+}
+
 // https://github.com/sindresorhus/escape-string-regexp/blob/ba9a4473850cb367936417e97f1f2191b7cc67dd/index.js
 export function escapeRegExp(str: string) {
   return str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
