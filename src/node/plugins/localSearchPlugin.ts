@@ -12,7 +12,12 @@ import {
   createMarkdownRenderer,
   mergeMarkdownLocales
 } from '../markdown/markdown'
-import { getLocaleForPath, slash, type MarkdownEnv } from '../shared'
+import {
+  getLocaleForPath,
+  slash,
+  tokenizeSearchText,
+  type MarkdownEnv
+} from '../shared'
 import { readTextFile } from '../utils/fs'
 
 const debug = createDebug('vitepress:local-search')
@@ -88,6 +93,7 @@ export async function localSearchPlugin(
       index = new MiniSearch<IndexObject>({
         fields: ['title', 'titles', 'text'],
         storeFields: ['title', 'titles'],
+        tokenize: tokenizeSearchText,
         ...options.miniSearch?.options
       })
       indexByLocales.set(locale, index)

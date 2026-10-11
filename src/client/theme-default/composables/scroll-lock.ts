@@ -65,10 +65,13 @@ let eventLockCount = 0
 let initialOverflow: string | undefined
 let initialGutter: string | undefined
 
-function lockOverflow() {
+function lockOverflow(reserveGutter: boolean) {
   if (++overflowLockCount > 1) return
   const html = document.documentElement
-  if (!getComputedStyle(html).scrollbarGutter.includes('stable')) {
+  if (
+    reserveGutter &&
+    !getComputedStyle(html).scrollbarGutter.includes('stable')
+  ) {
     initialGutter = html.style.scrollbarGutter
     html.style.scrollbarGutter = 'stable'
   }
@@ -105,24 +108,17 @@ function unlockEvents() {
   document.removeEventListener('keydown', blockScrollKeys, listenerOptions)
 }
 
-/**
- * Locks page scrolling behind an overlay.
- *
- * Prefer `scrollbar-gutter: stable` + `overflow: hidden` so layout width
- * stays stable when the scrollbar is hidden. If unsupported, fall back to
- * blocking scroll events while still allowing events inside scrollable
- * elements.
- */
 export function useBodyScrollLock(): WritableComputedRef<boolean> {
   const isLocked = shallowRef(false)
   let useEvents = false
 
   function lock() {
     if (isLocked.value) return
+    const scrollbarTakesSpace =
+      window.innerWidth > document.documentElement.clientWidth
     useEvents =
-      window.innerWidth > document.documentElement.clientWidth &&
-      !CSS.supports('scrollbar-gutter', 'stable')
-    useEvents ? lockEvents() : lockOverflow()
+      scrollbarTakesSpace && !CSS.supports('scrollbar-gutter', 'stable')
+    useEvents ? lockEvents() : lockOverflow(scrollbarTakesSpace)
     isLocked.value = true
   }
 
