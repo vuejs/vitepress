@@ -174,7 +174,7 @@ Icons rendered only on the client (e.g. inside `<ClientOnly />`) can't be collec
 
 Prepends the configured [`base`](./site-config#base) to a given URL path. Also see [Base URL](../guide/asset-handling#base-url).
 
-## `<Content />` <Badge type="info" text="component" />
+## `<Content />` <Badge type="info" text="component" /> {#content}
 
 The `<Content />` component displays the rendered markdown contents. Useful [when creating your own theme](../guide/custom-theme).
 

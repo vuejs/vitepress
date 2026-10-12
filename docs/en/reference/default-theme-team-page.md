@@ -163,7 +163,7 @@ The `<VPTeamPageSection>` component can have `#title` and `#lead` slot similar t
 
 Remember to put in `<VPTeamMembers>` component within `#members` slot.
 
-## `<VPTeamMembers>`
+## `<VPTeamMembers>` {#vpteammembers}
 
 The `<VPTeamMembers>` component displays a given list of members.
 
@@ -220,11 +220,11 @@ interface TeamMember {
 }
 ```
 
-## `<VPTeamPage>`
+## `<VPTeamPage>` {#vpteampage}
 
 The root component when creating a full team page. It only accepts a single slot. It will style all passed in team related components.
 
-## `<VPTeamPageTitle>`
+## `<VPTeamPageTitle>` {#vpteampagetitle}
 
 Adds "title" section of the page. Best use at the very beginning under `<VPTeamPage>`. It accepts `#title` and `#lead` slot.
 
@@ -242,7 +242,7 @@ Adds "title" section of the page. Best use at the very beginning under `<VPTeamP
 </VPTeamPage>
 ```
 
-## `<VPTeamPageSection>`
+## `<VPTeamPageSection>` {#vpteampagesection}
 
 Creates a "section" with in team page. It accepts `#title`, `#lead`, and `#members` slot. You may add as many sections as you like inside `<VPTeamPage>`.
 
