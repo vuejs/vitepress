@@ -130,10 +130,16 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
     container: '#vp-docsearch',
     navigator: {
       navigate(item) {
-        router.go(item.itemUrl)
+        if (item.itemUrl) {
+          router.go(item.itemUrl)
+        }
       }
     },
-    transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
+    transformItems: (items) =>
+      items.map((item) => ({
+        ...item,
+        url: getRelativePath(item.url, site.value.cleanUrls)
+      })),
     // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && {
       interceptAskAiEvent: (initialMessage) => {
@@ -235,9 +241,15 @@ function loadSidepanel() {
   return sidepanelLoader
 }
 
-function getRelativePath(url: string) {
+/**
+ * Normalizes an Algolia hit URL to a VitePress-relative path.
+ * Returns '' for falsy/empty values so Ask AI conversation items
+ * (which have url: '') do not trigger unintended page navigation.
+ */
+function getRelativePath(url: string | undefined | null, cleanUrls = false) {
+  if (!url) return ''
   const { pathname, hash } = new URL(url, location.origin)
-  return pathname.replace(/\.html$/, site.value.cleanUrls ? '' : '.html') + hash
+  return pathname.replace(/\.html$/, cleanUrls ? '' : '.html') + hash
 }
 </script>
 
