@@ -36,3 +36,9 @@ const isExternal = computed(() =>
     <slot />
   </component>
 </template>
+
+<style scoped>
+.vp-external-link-icon::after {
+  color: var(--vp-c-text-3);
+}
+</style>

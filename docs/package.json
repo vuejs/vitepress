@@ -14,7 +14,7 @@
     "markdown-it-mathjax3": "^4.3.2",
     "open-cli": "^9.0.0",
     "vitepress": "workspace:*",
-    "vitepress-plugin-group-icons": "^1.7.6",
+    "vitepress-plugin-group-icons": "^1.7.7",
     "vitepress-plugin-llms": "^1.14.0"
   }
 }

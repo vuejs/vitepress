@@ -188,7 +188,7 @@ export default {
 
 Заголовок страницы будет таким: `Привет | Мой замечательный сайт`.
 
-### titleTemplate {##titletemplate}
+### titleTemplate {#titletemplate}
 
 - Тип: `string | boolean`
 - Можно переопределить для каждой страницы с помощью [метаданных](./frontmatter-config#titletemplate) или на [уровне директории](#directory-level-overrides)
