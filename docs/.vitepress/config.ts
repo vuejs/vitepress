@@ -90,12 +90,6 @@ export default defineConfig({
         appId: '8J64VVRP8K',
         apiKey: '52f578a92b88ad6abde815aae2b0ad7c',
         indices: ['vitepress']
-        // TODO: Update to use Agent Studio `agentId` once created.
-        // For now the Ask AI functionality won't work as DocSearch v5 only support Agent Studio.
-        // askAi: {
-        //   agentId: '',
-        //   sidePanel: true
-        // }
       }
     },
 
