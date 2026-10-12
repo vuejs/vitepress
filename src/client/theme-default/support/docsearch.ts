@@ -6,12 +6,9 @@ import { isObject } from '../../shared'
 
 export type FacetFilter = string | string[] | FacetFilter[]
 
-export interface ValidatedCredentials {
+export type ValidatedCredentials = {
   valid: boolean
-  appId?: string
-  apiKey?: string
-  indices?: DefaultTheme.AlgoliaSearchOptions['indices']
-}
+} & Pick<DefaultTheme.AlgoliaSearchOptions, 'appId' | 'apiKey' | 'indices'>
 
 export type DocSearchMode = 'auto' | 'sidePanel' | 'hybrid' | 'modal'
 
