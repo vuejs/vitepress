@@ -9,6 +9,7 @@ import type { DocSearchAskAi } from '../../../../types/docsearch'
 import { useData } from '../composables/data'
 import {
   buildSidePanelProps,
+  getRelativePath,
   resolveMode,
   validateCredentials
 } from '../support/docsearch'
@@ -133,7 +134,11 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         router.go(item.itemUrl)
       }
     },
-    transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
+    transformItems: (items) =>
+      items.map((item) => ({
+        ...item,
+        url: getRelativePath(item.url, site.value.cleanUrls)
+      })),
     // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && {
       interceptAskAiEvent: (initialMessage) => {
@@ -235,10 +240,6 @@ function loadSidepanel() {
   return sidepanelLoader
 }
 
-function getRelativePath(url: string) {
-  const { pathname, hash } = new URL(url, location.origin)
-  return pathname.replace(/\.html$/, site.value.cleanUrls ? '' : '.html') + hash
-}
 </script>
 
 <template>
