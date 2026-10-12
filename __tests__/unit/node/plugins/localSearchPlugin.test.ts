@@ -2,11 +2,12 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
-import MiniSearch from 'minisearch'
+import { loadLocalSearchIndex } from 'client/theme-default/support/local-search'
 import { resolveConfig } from 'node/config'
 import { disposeMdItInstance } from 'node/markdown/markdown'
 import { createMarkdownToVueRenderFn } from 'node/markdownToVue'
 import { localSearchPlugin } from 'node/plugins/localSearchPlugin'
+import type { DefaultTheme } from 'vitepress/theme'
 
 describe('node/plugins/localSearchPlugin', () => {
   let root: string | undefined
@@ -185,6 +186,86 @@ describe('node/plugins/localSearchPlugin', () => {
     expect(rootIndex.search('tip')).toHaveLength(1)
   })
 
+  test('segments Chinese and Japanese text by default (#4049)', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+
+    await writeFile(
+      path.join(root, 'index.md'),
+      '# 首页\n\n全文搜索引擎很好用，日本語の検索機能を改善する。\n'
+    )
+    await writeFile(
+      path.join(configDir, 'config.mjs'),
+      "export default { themeConfig: { search: { provider: 'local' } } }"
+    )
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const plugin = await localSearchPlugin(siteConfig)
+    await (plugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+    await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
+    const index = loadIndex(
+      (await (plugin.load as any)?.handler.call(
+        {},
+        '/@localSearchIndexroot'
+      )) as string
+    )
+
+    expect(index.search('搜索')).toMatchObject([{ id: '/#首页' }])
+    expect(index.search('引擎')).toMatchObject([{ id: '/#首页' }])
+    expect(index.search('検索')).toMatchObject([{ id: '/#首页' }])
+    expect(index.search('改善')).toMatchObject([{ id: '/#首页' }])
+    // multi-word query, segmented the same way on both sides
+    expect(index.search('検索機能')).toMatchObject([{ id: '/#首页' }])
+    expect(index.search('全文搜索')).toMatchObject([{ id: '/#首页' }])
+  })
+
+  test('keeps a user provided tokenize', async () => {
+    root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
+    const configDir = path.join(root, '.vitepress')
+    await mkdir(configDir)
+
+    await writeFile(path.join(root, 'index.md'), '# Home\n\n全文搜索引擎\n')
+    await writeFile(
+      path.join(configDir, 'config.mjs'),
+      [
+        'export default {',
+        '  themeConfig: {',
+        '    search: {',
+        "      provider: 'local',",
+        '      options: {',
+        '        miniSearch: {',
+        '          options: { tokenize: (text) => text.split("") }',
+        '        }',
+        '      }',
+        '    }',
+        '  }',
+        '}'
+      ].join('\n')
+    )
+
+    const siteConfig = await resolveConfig(root, 'build', 'production')
+    const plugin = await localSearchPlugin(siteConfig)
+    await (plugin.configResolved as any)?.call(
+      {},
+      { publicDir: siteConfig.publicDir }
+    )
+    await (plugin.load as any)?.handler.call({}, '/@localSearchIndex')
+    const index = loadIndex(
+      (await (plugin.load as any)?.handler.call(
+        {},
+        '/@localSearchIndexroot'
+      )) as string,
+      { options: { tokenize: (text) => text.split('') } }
+    )
+
+    // single characters are only indexed when the custom tokenizer is used
+    expect(index.search('搜')).toMatchObject([{ id: '/#home' }])
+  })
+
   test('warns and skips pages that fail to render', async () => {
     root = await mkdtemp(path.join(tmpdir(), 'vitepress-local-search-'))
     const configDir = path.join(root, '.vitepress')
@@ -229,12 +310,13 @@ describe('node/plugins/localSearchPlugin', () => {
   })
 })
 
-function loadIndex(serializedModule: string) {
+function loadIndex(
+  serializedModule: string,
+  miniSearch?: DefaultTheme.MiniSearchOptions
+) {
   const serializedIndex = JSON.parse(
     serializedModule.slice('export default '.length)
   )
-  return MiniSearch.loadJSON(serializedIndex, {
-    fields: ['title', 'titles', 'text'],
-    storeFields: ['title', 'titles']
-  })
+  // the same way the search box loads it in the browser
+  return loadLocalSearchIndex(serializedIndex, miniSearch)
 }
