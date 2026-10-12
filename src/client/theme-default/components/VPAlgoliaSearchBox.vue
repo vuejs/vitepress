@@ -134,7 +134,11 @@ async function initialize(userOptions: DefaultTheme.AlgoliaSearchOptions) {
         router.go(item.itemUrl)
       }
     },
-    transformItems: (items) => items.map((item) => ({ ...item, url: getRelativePath(item.url) })),
+    transformItems: (items) =>
+      items.map((item) => ({
+        ...item,
+        url: getRelativePath(item.url, site.value.cleanUrls)
+      })),
     // When sidepanel is enabled, intercept Ask AI events to open it instead (hybrid mode)
     ...(useSidePanel && sidepanelInstance && {
       interceptAskAiEvent: (initialMessage) => {
