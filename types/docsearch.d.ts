@@ -6,6 +6,8 @@ export type DocSearchProps = Partial<
     DocSearchPropsJS,
     | 'appId'
     | 'apiKey'
+    | 'indices'
+    | 'facets'
     | 'placeholder'
     | 'maxResultsPerGroup'
     | 'disableUserPersonalization'
@@ -13,8 +15,7 @@ export type DocSearchProps = Partial<
     | 'translations'
     | 'recentSearchesLimit'
     | 'recentSearchesWithFavoritesLimit'
-    | 'indices'
-    | 'facets'
+    | 'resultBadgeKey'
   >
 > & {
   /**
