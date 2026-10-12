@@ -11,7 +11,7 @@ description: VitePressのサイト設定オプションの完全なリファレ�
 
 ### 設定ファイルの解決 {#config-resolution}
 
-設定ファイルは常に `<root>/.vitepress/config.[ext]` から解決されます。`<root>` は VitePress の[プロジェクトルート](../guide/routing#root-and-source-directory)で、`[ext]` にはサポートされる拡張子が入ります。TypeScript はそのまま使えます。サポートされる拡張子は `.js`、`.ts`、`.mjs`、`.mts` です。
+設定ファイルは常に `<root>/.vitepress/config.[ext]` から解決されます。`<root>` は VitePress の[プロジェクトルート](../guide/routing#root-and-source-directories)で、`[ext]` にはサポートされる拡張子が入ります。TypeScript はそのまま使えます。サポートされる拡張子は `.js`、`.ts`、`.mjs`、`.mts` です。
 
 設定ファイルでは ES Modules 構文の使用を推奨します。設定オブジェクトをデフォルトエクスポートしてください。
 
@@ -378,7 +378,7 @@ export default {
 - 型: `string`
 - 既定値: `.`
 
-Markdown ページを置くディレクトリ（プロジェクトルートからの相対パス）。[ルートとソースディレクトリ](../guide/routing#root-and-source-directory) も参照。
+Markdown ページを置くディレクトリ（プロジェクトルートからの相対パス）。[ルートとソースディレクトリ](../guide/routing#root-and-source-directories) も参照。
 
 ```ts
 export default {
@@ -404,7 +404,7 @@ export default {
 - 型: `string`
 - 既定値: `./.vitepress/dist`
 
-ビルド出力先（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。
+ビルド出力先（[プロジェクトルート](../guide/routing#root-and-source-directories) からの相対パス）。
 
 ```ts
 export default {
@@ -430,7 +430,7 @@ export default {
 - 型: `string`
 - 既定値: `./.vitepress/cache`
 
-キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directory) からの相対パス）。参考: [cacheDir](https://vite.dev/config/shared-options.html#cachedir)
+キャッシュファイル用ディレクトリ（[プロジェクトルート](../guide/routing#root-and-source-directories) からの相対パス）。参考: [cacheDir](https://vite.dev/config/shared-options.html#cachedir)
 
 ```ts
 export default {

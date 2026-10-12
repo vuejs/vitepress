@@ -68,7 +68,7 @@ const members = [
 
 小規模なチームで専用ページまでは不要な場合や、文脈上の参考として一部のメンバーのみを紹介したい場合は、ドキュメントページへ埋め込む方法が適しています。
 
-メンバーが多い場合や、より広いスペースで紹介したい場合は、[専用のチームページを作成する](#専用のチームページを作成する) ことを検討してください。
+メンバーが多い場合や、より広いスペースで紹介したい場合は、[専用のチームページを作成する](#create-a-full-team-page) ことを検討してください。
 
 ## 専用のチームページを作成する {#create-a-full-team-page}
 
@@ -163,7 +163,7 @@ const partners = [...]
 
 `#members` スロット内に `<VPTeamMembers>` を配置するのを忘れないでください。
 
-## `<VPTeamMembers>`
+## `<VPTeamMembers>` {#vpteammembers}
 
 `<VPTeamMembers>` コンポーネントは、与えられたメンバー配列を表示します。
 
@@ -219,11 +219,11 @@ interface TeamMember {
 }
 ```
 
-## `<VPTeamPage>`
+## `<VPTeamPage>` {#vpteampage}
 
 専用のチームページを作成する際のルートコンポーネントです。単一のスロットのみを受け取り、渡されたチーム関連コンポーネント全体に適切なスタイルを適用します。
 
-## `<VPTeamPageTitle>`
+## `<VPTeamPageTitle>` {#vpteampagetitle}
 
 ページの「タイトル」セクションを追加します。`<VPTeamPage>` の直下に置くのが最適です。`#title` と `#lead` のスロットを受け取ります。
 
@@ -241,7 +241,7 @@ interface TeamMember {
 </VPTeamPage>
 ```
 
-## `<VPTeamPageSection>`
+## `<VPTeamPageSection>` {#vpteampagesection}
 
 チームページ内に「セクション」を作成します。`#title`、`#lead`、`#members` の各スロットを受け取ります。`<VPTeamPage>` の中に必要な数だけ追加できます。
 
