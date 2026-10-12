@@ -1,6 +1,7 @@
 import {
   buildAskAiConfig,
   buildSidePanelProps,
+  getRelativePath,
   hasAskAi,
   hasKeywordSearch,
   mergeLangFacetFilters,
@@ -297,6 +298,55 @@ describe('client/theme-default/support/docsearch', () => {
           suggestedQuestions: true
         }
       })
+    })
+  })
+
+  describe('getRelativePath', () => {
+    test('returns empty string for falsy url values', () => {
+      // Ask AI conversation items and action buttons have no url;
+      // an empty string must not be resolved to the current page.
+      expect(getRelativePath('')).toBe('')
+      expect(getRelativePath(undefined)).toBe('')
+      expect(getRelativePath(null)).toBe('')
+    })
+
+    test('strips origin and keeps .html extension when cleanUrls is false', () => {
+      expect(
+        getRelativePath('https://example.com/guide/getting-started.html')
+      ).toBe('/guide/getting-started.html')
+    })
+
+    test('strips .html extension when cleanUrls is true', () => {
+      expect(
+        getRelativePath('https://example.com/guide/getting-started.html', true)
+      ).toBe('/guide/getting-started')
+    })
+
+    test('preserves URL hash with cleanUrls false', () => {
+      expect(
+        getRelativePath('https://example.com/guide/index.html#overview', false)
+      ).toBe('/guide/index.html#overview')
+    })
+
+    test('preserves URL hash with cleanUrls true', () => {
+      expect(
+        getRelativePath('https://example.com/guide/index.html#overview', true)
+      ).toBe('/guide/index#overview')
+    })
+
+    test('handles paths without .html extension', () => {
+      expect(getRelativePath('https://example.com/guide/', true)).toBe(
+        '/guide/'
+      )
+      expect(getRelativePath('https://example.com/guide/', false)).toBe(
+        '/guide/'
+      )
+    })
+
+    test('works with hash fragments', () => {
+      expect(
+        getRelativePath('https://example.com/page.html#section', false)
+      ).toBe('/page.html#section')
     })
   })
 })
