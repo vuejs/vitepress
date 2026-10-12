@@ -1,5 +1,12 @@
 import { tryOnUnmounted } from '@vueuse/core'
-import { h, onMounted, shallowRef, type AsyncComponentLoader } from 'vue'
+import {
+  h,
+  isVNode,
+  onMounted,
+  shallowRef,
+  type AsyncComponentLoader,
+  type SetupContext
+} from 'vue'
 
 import {
   EXTERNAL_URL_RE,
@@ -7,6 +14,7 @@ import {
   inBrowser,
   isRelativeBase,
   joinPath,
+  pageChunkPath,
   sanitizeFileName,
   type Awaitable
 } from '../shared'
@@ -84,7 +92,7 @@ export function pathToFile(path: string) {
         pageHash = __VP_HASH_MAP__[pagePath.toLowerCase()]
       }
       if (!pageHash) return null
-      pagePath = `${__ASSETS_BASE__ || base}${__ASSETS_DIR__}/${pagePath}.${pageHash}.js`
+      pagePath = `${__ASSETS_BASE__ || base}${__ASSETS_DIR__}/${pageChunkPath(pagePath, pageHash)}`
     } else {
       // ssr build uses much simpler name mapping
       pagePath = `./${sanitizeFileName(
@@ -115,7 +123,7 @@ export function defineClientComponent(
   cb?: () => Awaitable<void>
 ) {
   return {
-    setup() {
+    setup(_: unknown, { slots }: SetupContext) {
       const comp = shallowRef()
       onMounted(async () => {
         let res = await loader()
@@ -126,7 +134,23 @@ export function defineClientComponent(
         comp.value = res
         await cb?.()
       })
-      return () => (comp.value ? h(comp.value, ...(args ?? [])) : null)
+      return () => {
+        if (!comp.value) return null
+
+        const props = args?.[0]
+        // Forward slots unless args already supply children in an h() overload.
+        if (
+          (!args || args.length < 2) &&
+          (props == null ||
+            (typeof props === 'object' &&
+              !Array.isArray(props) &&
+              !isVNode(props)))
+        ) {
+          return h(comp.value, props, slots)
+        }
+
+        return h(comp.value, ...(args ?? []))
+      }
     }
   }
 }

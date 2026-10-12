@@ -48,12 +48,7 @@ onKeyStroke('Escape', () => {
 <style scoped>
 .VPNavScreen {
   position: fixed;
-  top: 0;
-  /*rtl:ignore*/
-  right: 0;
-  bottom: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset: 0;
   padding: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 1px) 2rem 0;
   width: 100%;
   background-color: var(--vp-nav-screen-bg-color);

@@ -101,11 +101,11 @@ useEventListener('pointerdown', (e) => {
     >
       <span v-if="button || icon" class="text">
         <span v-if="icon" :class="[icon, 'option-icon']" aria-hidden="true" />
-        <span v-if="button" v-html="button"></span>
+        <span v-if="button" dir="auto" v-html="button"></span>
         <span class="vpi-chevron-down text-icon" aria-hidden="true" />
       </span>
 
-      <span v-else class="vpi-more-horizontal icon" aria-hidden="true" />
+      <span v-else class="vpi-ellipsis icon" aria-hidden="true" />
     </button>
 
     <div ref="menuEl" class="menu" :id="menuId" @pointerleave="onPointerLeave">
@@ -167,7 +167,7 @@ useEventListener('pointerdown', (e) => {
 .text {
   display: flex;
   align-items: center;
-  line-height: var(--vp-nav-height);
+  line-height: 1.5;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
@@ -179,7 +179,7 @@ useEventListener('pointerdown', (e) => {
 }
 
 .text-icon {
-  margin-left: 0.25rem;
+  margin-inline-start: 0.25rem;
   font-size: 0.875rem;
 }
 
@@ -191,7 +191,7 @@ useEventListener('pointerdown', (e) => {
 .menu {
   position: absolute;
   top: calc(var(--vp-nav-height) / 2 + 1.25rem);
-  right: 0;
+  inset-inline-end: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s, visibility 0.25s;

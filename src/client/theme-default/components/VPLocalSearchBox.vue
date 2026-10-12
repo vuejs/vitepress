@@ -10,7 +10,7 @@ import {
 } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 import Mark from 'mark.js/src/vanilla.js'
-import MiniSearch, { type SearchResult } from 'minisearch'
+import { type SearchResult } from 'minisearch'
 import { dataSymbol, useRouter, withBase } from 'vitepress'
 import {
   computed,
@@ -32,6 +32,7 @@ import { pathToFile } from '../../app/utils'
 import { escapeRegExp } from '../../shared'
 import { useData } from '../composables/data'
 import { useBodyScrollLock } from '../composables/scroll-lock'
+import { loadLocalSearchIndex } from '../support/local-search'
 import { LRUCache } from '../support/lru'
 import { createSearchTranslate } from '../support/translation'
 
@@ -80,19 +81,12 @@ const searchIndex = computedAsync(
     const json = (await searchIndexData.value[localeIndex.value]?.())?.default
     if (!json) return null
     return markRaw(
-      MiniSearch.loadJSON<Result>(json, {
-        fields: ['title', 'titles', 'text'],
-        storeFields: ['title', 'titles'],
-        searchOptions: {
-          fuzzy: 0.2,
-          prefix: true,
-          boost: { title: 4, text: 2, titles: 1 },
-          ...(theme.value.search?.provider === 'local' &&
-            theme.value.search.options?.miniSearch?.searchOptions)
-        },
-        ...(theme.value.search?.provider === 'local' &&
-          theme.value.search.options?.miniSearch?.options)
-      })
+      loadLocalSearchIndex<Result>(
+        json,
+        theme.value.search?.provider === 'local'
+          ? theme.value.search.options?.miniSearch
+          : undefined
+      )
     )
   },
   undefined,
@@ -573,11 +567,11 @@ function onMouseMove(e: MouseEvent) {
                     :key="index"
                     class="title"
                   >
-                    <span class="text" v-html="t" />
+                    <span class="text" dir="auto" v-html="t" />
                     <span class="vpi-chevron-right local-search-icon" />
                   </span>
                   <span class="title main">
-                    <span class="text" v-html="p.title" />
+                    <span class="text" dir="auto" v-html="p.title" />
                   </span>
                 </div>
 
@@ -917,8 +911,7 @@ function onMouseMove(e: MouseEvent) {
 .excerpt-gradient-bottom {
   position: absolute;
   bottom: -1px;
-  left: 0;
-  width: 100%;
+  inset-inline: 0;
   height: 0.5rem;
   background: linear-gradient(transparent, var(--vp-local-search-result-bg));
   z-index: 1000;
@@ -927,8 +920,7 @@ function onMouseMove(e: MouseEvent) {
 .excerpt-gradient-top {
   position: absolute;
   top: -1px;
-  left: 0;
-  width: 100%;
+  inset-inline: 0;
   height: 0.5rem;
   background: linear-gradient(var(--vp-local-search-result-bg), transparent);
   z-index: 1000;

@@ -61,6 +61,42 @@ describe('node/markdown/plugins/link', () => {
     expect(env.links).toEqual(['./missing'])
     expect(env.linkLines).toEqual([3])
   })
+
+  test.each([false, true])(
+    'preserves index page queries (cleanUrls: %s)',
+    async (cleanUrls) => {
+      for (const [source, expected] of [
+        ['/guide/index.md?lang=fr', '/guide/?lang=fr'],
+        [
+          './index.md?lang=fr&mode=full#Hello%20World',
+          './?lang=fr&amp;mode=full#hello-world'
+        ],
+        [
+          '/guide/index.md?next=/other/index.md#Hello%20World',
+          '/guide/?next=/other/index.md#hello-world'
+        ],
+        [
+          '/guide/index.md?lang=fr#:~:text=Hello%20World',
+          '/guide/?lang=fr#:~:text=Hello%20World'
+        ]
+      ]) {
+        expect(
+          await md.renderAsync(`[link](${source})`, { cleanUrls })
+        ).toContain(`href="${expected}"`)
+      }
+    }
+  )
+
+  test.each([false, true])(
+    'only removes the exact index.md filename (cleanUrls: %s)',
+    async (cleanUrls) => {
+      for (const file of ['indexAmd', 'index.md-extra']) {
+        expect(
+          await md.renderAsync(`[link](/guide/${file})`, { cleanUrls })
+        ).toContain(`href="/guide/${file}${cleanUrls ? '' : '.html'}"`)
+      }
+    }
+  )
 })
 
 describe('node/markdown/plugins/link with a relative base', () => {
@@ -113,6 +149,19 @@ describe('node/markdown/plugins/link with a relative base', () => {
       'href="../guide/"'
     )
   })
+
+  test.each([false, true])(
+    'preserves index page queries with a relative base (cleanUrls: %s)',
+    async (cleanUrls) => {
+      expect(
+        await render('[link](/guide/index.md?lang=fr#Hello%20World)', {
+          cleanUrls
+        })
+      ).toContain(
+        `href="../guide/${cleanUrls ? '' : 'index.html'}?lang=fr#hello-world"`
+      )
+    }
+  )
 
   test('content-loader renders keep absolute links site-absolute', async () => {
     // content loaders set relativePath but not relativizeUrls — their html

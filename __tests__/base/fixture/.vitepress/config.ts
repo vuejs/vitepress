@@ -5,10 +5,11 @@ const mode = process.env.VP_TEST_MODE || 'relative'
 export default defineConfig({
   title: 'Base Fixture',
   description: 'Fixture site for base/assetsBase behavior',
-  base: mode === 'plain' || mode === 'cdn' ? '/' : './',
+  base: ['plain', 'cdn', 'sharded'].includes(mode) ? '/' : './',
   assetsBase:
     mode === 'cdn' ? `http://localhost:${process.env.VP_CDN_PORT}/` : undefined,
   mpa: mode === 'mpa',
+  assetsShards: mode === 'sharded' ? 3 : undefined,
   outDir: `.vitepress/dist-${mode}`,
   cleanUrls: false,
   rewrites: { 'src-moved.md': 'moved/target.md' },

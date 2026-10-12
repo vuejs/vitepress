@@ -36,10 +36,12 @@ export const imagePlugin = (
         url = './' + url
       }
 
+      // Strip URL suffixes before decoding so encoded hashes stay in filenames.
+      const pathname = decodeURIComponent(url.replace(/[?#].*$/, ''))
       url = decodeURIComponent(url)
       token.attrSet('src', url)
 
-      addImageDimensions(token, url, publicDir, env)
+      addImageDimensions(token, pathname, publicDir, env)
     }
 
     if (lazyLoad && token.attrIndex('loading') < 0) {

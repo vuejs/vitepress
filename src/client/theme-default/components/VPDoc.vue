@@ -128,15 +128,15 @@ const pageName = computed(() => {
   display: none;
   order: 2;
   flex-grow: 1;
-  padding-left: 2rem;
+  padding-inline-start: 2rem;
   width: 100%;
   max-width: 16rem;
 }
 
 .left-aside {
   order: 1;
-  padding-left: unset;
-  padding-right: 2rem;
+  padding-inline-start: unset;
+  padding-inline-end: 2rem;
 }
 
 .aside-container {
@@ -147,6 +147,7 @@ const pageName = computed(() => {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   scrollbar-width: none;
 }
 

@@ -8,13 +8,18 @@ import type { MarkdownEnv } from 'node/shared'
 async function render(
   src: string,
   options: MarkdownOptions = {},
-  env?: Partial<MarkdownEnv>
+  env?: Partial<MarkdownEnv>,
+  base = '/'
 ) {
   disposeMdItInstance()
-  const md = await createMarkdownRenderer('.', {
-    highlight: (code) => code,
-    ...options
-  })
+  const md = await createMarkdownRenderer(
+    '.',
+    {
+      highlight: (code) => code,
+      ...options
+    },
+    base
+  )
   return md.renderAsync(src, env)
 }
 
@@ -91,7 +96,7 @@ describe('node/markdown/plugins/containers', () => {
       <p>content</p>
       </div>
       <details class="details custom-block"><summary>Click me to toggle the code</summary>
-      <div class="language-js"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
+      <div class="language-js" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">console.log('hi')
       </code></pre>
       </div></details>
       "
@@ -112,6 +117,48 @@ describe('node/markdown/plugins/containers', () => {
       </div>
       "
     `)
+  })
+
+  test.each([
+    ['/', true, true, '/guide/start'],
+    ['./', false, true, '../guide/start.html'],
+    ['./', true, true, '../guide/start'],
+    ['./', false, false, '/guide/start.html']
+  ])(
+    'uses page URL settings in titles (base: %s, cleanUrls: %s, relativizeUrls: %s)',
+    async (base, cleanUrls, relativizeUrls, href) => {
+      const src = [
+        '::: tip [Guide][guide]',
+        '[Guide][guide]',
+        ':::',
+        '',
+        '::: details [Guide][guide]',
+        'content',
+        ':::',
+        '',
+        '[guide]: /guide/start.md'
+      ].join('\n')
+      const html = await render(
+        src,
+        {},
+        { cleanUrls, relativePath: 'nested/page.md', relativizeUrls },
+        base
+      )
+      const link = `<a href="${href}">Guide</a>`
+      expect(html).toContain(`<p class="custom-block-title">${link}</p>`)
+      expect(html).toContain(`<summary>${link}</summary>`)
+      expect(html).toContain(`<p>${link}</p>`)
+    }
+  )
+
+  test('keeps page footnotes out of container titles', async () => {
+    const html = await render(
+      '::: tip [Guide](/guide.md)\nText[^1]\n:::\n\n[^1]: A note'
+    )
+    expect(html).toContain(
+      '<p class="custom-block-title"><a href="/guide.html">Guide</a></p>'
+    )
+    expect(html.match(/class="footnotes"/g)).toHaveLength(1)
   })
 
   test('respects custom labels from container options', async () => {
@@ -288,9 +335,9 @@ describe('node/markdown/plugins/containers', () => {
     ].join('\n')
     expect(await render(src)).toMatchInlineSnapshot(`
       "<div class="vp-code-group"><div class="tabs"><input type="radio" name="group-0" id="tab-1" checked><label data-title="config.js" for="tab-1">config.js</label><input type="radio" name="group-0" id="tab-2" ><label data-title="config.ts" for="tab-2">config.ts</label></div><div class="blocks">
-      <div class="language-js active"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js active" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
       </code></pre>
-      </div><div class="language-ts"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
+      </div><div class="language-ts" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
       </code></pre>
       </div></div></div>
       "
@@ -450,7 +497,7 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
       <ul>
       <li>list item</li>
       </ul>
-      <div class="language-js"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
+      <div class="language-js" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
       </code></pre>
       </div></div>
       "

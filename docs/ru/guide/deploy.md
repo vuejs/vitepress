@@ -54,6 +54,30 @@ outline: deep
 
 **Пример:** Если вы используете Github (или GitLab) Pages и развёртываете на `user.github.io/repo/`, то установите `base` на `/repo/`.
 
+## Переносимые сборки (относительный base) {#relocatable-builds-relative-base}
+
+Когда конечный URL сайта неизвестен на момент сборки — шлюз IPFS (`https://gateway/ipfs/<cid>/…`), Wayback Machine, общая папка, документация, встроенная в приложение — установите `base` равным `'./'`:
+
+```ts
+export default {
+  base: './'
+}
+```
+
+Каждая страница затем ссылается на ресурсы и другие страницы относительно своего собственного расположения, а клиентский рантайм восстанавливает реальную точку монтирования при загрузке страницы. Одна и та же сборка работает из **любого** подпути без пересборки — в том числе из нескольких одновременно — с полностью работающими маршрутизацией, поиском и предзагрузкой.
+
+Открытие сгенерированных HTML-файлов напрямую из файловой системы (`file://`) также работает как стилизованный, полностью навигируемый статический сайт. Браузеры блокируют JavaScript-модули при использовании `file://`, поэтому гидратации там нет — интерактивные функции вроде поиска остаются неактивными, при этом весь предварительно отрендеренный контент и ссылки продолжают работать.
+
+Несколько важных моментов:
+
+- Держите [`cleanUrls`](../reference/site-config#cleanurls) выключенным (значение по умолчанию): переносимому выводу нужны ссылки, оканчивающиеся на `.html`, поскольку нет сервера для переписывания «красивых» URL.
+- `404.html` генерируется для корневой глубины. Хосты, отдающие его как fallback для URL произвольной глубины, отрендерят его без стилей (для неизвестной глубины нет корректного относительного префикса).
+- Записи [`head`](../reference/site-config#head) выводятся как есть, как и всегда — избегайте в них корне-абсолютных путей вроде `/favicon.ico` и предпочитайте абсолютные URL или `transformHead`.
+- Сырые HTML-теги `<a>` в Markdown сохраняют `href` в том виде, как написаны — используйте синтаксис Markdown-ссылок для сайт-абсолютных ссылок (встроенные источники `<img>` проходят через пайплайн ресурсов и обрабатываются корректно).
+- Ссылки, созданные [`createContentLoader`](./data-loading#createcontentloader), остаются сайт-абсолютными (их HTML встраивается в другие страницы, поэтому единого корректного относительного префикса не существует) — они разрешаются только для корневого монтирования.
+- Отдавайте страницы по их каноническим URL: корень как `/dir/` (не `/dir`), и без добавленных завершающих слэшей у URL страниц. Относительный префикс разрешается относительно URL, который браузер реально показывает, а практически все статические хостинги уже канонизируют именно так.
+- Dev-сервер всегда отдаёт по `/`; относительное поведение применяется к продакшен-сборке.
+
 ## Заголовки кэша HTTP {#http-cache-headers}
 
 Если вы контролируете HTTP-заголовки на своем рабочем сервере, можно настроить заголовки `cache-control` для достижения лучшей производительности при повторных посещениях.
@@ -229,6 +253,8 @@ Cache-Control: max-age=31536000,immutable
        - main
    ```
 
+<!-- keep headings sorted alphabetically, leave nginx at the end -->
+
 ### Azure
 
 1. Следуйте [официальной документации](https://docs.microsoft.com/ru-ru/azure/static-web-apps/build-configuration).
@@ -290,62 +316,77 @@ Cache-Control: max-age=31536000,immutable
 
 Вы можете развернуть свой проект VitePress на [Hostinger](https://www.hostinger.com/web-apps-hosting), следуя этим [инструкциям](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). При настройке параметров сборки выберите VitePress в качестве фреймворка и укажите корневой каталог `./docs`.
 
-### Kinsta
-
-Вы можете развернуть свой сайт VitePress на [Kinsta](https://kinsta.com/static-site-hosting/), следуя этим [инструкциям](https://kinsta.com/docs/vitepress-static-site-example/).
-
 ### Stormkit
 
 Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Surge
 
-1. После запуска `npm run docs:build` выполните эту команду для развёртывания:
+После запуска `npm run docs:build` выполните эту команду для развёртывания на [Surge](https://surge.sh):
 
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
+```sh
+npx surge docs/.vitepress/dist
+```
+
+### harvis
+
+После выполнения `npm run docs:build` выполните эту команду для развёртывания на [harvis](https://harvis.dev):
+
+```sh
+npx harvis docs/.vitepress/dist
+```
 
 ### Nginx
 
 Вот пример конфигурации блока сервера Nginx. Эта настройка включает сжатие gzip для общих текстовых ресурсов, правила обслуживания статических файлов вашего сайта VitePress с правильными заголовками кэширования и обработку параметра `cleanUrls: true`.
 
 ```nginx
-server {
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+map $uri $cache_control {
+    ~^/assets/  "public, max-age=31536000, immutable";
+    default     "no-cache";
+}
 
-    listen 80;
+server {
+    listen 8080;
+    listen [::]:8080;
     server_name _;
+
+    root /usr/share/nginx/html;
     index index.html;
+    charset utf-8;
+    server_tokens off;
+
+    absolute_redirect off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_types
+        application/javascript
+        application/json
+        application/manifest+json
+        image/svg+xml
+        text/css
+        text/javascript
+        text/plain;
+
+    add_header Cache-Control $cache_control always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
     location / {
-        # расположение контента
-        root /app;
-
-        # точные совпадения -> обратные чистые URL-адреса -> папки -> не найдены
-        try_files $uri $uri.html $uri/ =404;
-
-        # несуществующие страницы
-        error_page 404 /404.html;
-
-        # папка без index.html вызывает ошибку 403 в этой настройке
-        error_page 403 /404.html;
-
-        # настройка заголовков кэширования
-        # файлы в папке с ресурсами имеют хэши имён файлов
-        location ~* ^/assets/ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
+        try_files $uri $uri.html $uri/index.html =404;
     }
+
+    location ~ ^(?<page>.+)/$ {
+        if (-f $document_root$page.html) {
+            return 301 $page$is_args$args;
+        }
+        try_files $page/index.html =404;
+    }
+
+    error_page 404 /404.html;
 }
 ```
-
-Эта конфигурация предполагает, что ваш собранный сайт VitePress находится в директории `/app`. При необходимости измените директиву `root`, если файлы вашего сайта расположены в другом месте.
-
-::: warning Не используйте index.html по умолчанию
-Разрешение try_files не должно использовать index.html, как это делается в других приложениях Vue. Это может привести к недопустимому состоянию страницы.
-:::
-
-Дополнительную информацию можно найти в официальной документации [Nginx](https://nginx.org/ru/docs/), а также в следующих обсуждениях: [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235), а также в [блоге Mehdi Merah](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings).

@@ -64,7 +64,7 @@ export async function setup() {
 
   // one process per flavor: the markdown renderer is a module-level
   // singleton, so in-process builds would leak the first base into the rest
-  for (const mode of ['plain', 'relative', 'cdn', 'mpa']) {
+  for (const mode of ['plain', 'relative', 'cdn', 'mpa', 'sharded']) {
     // mpa builds never empty outDir, so stale assets would survive reruns
     await rm(dist(mode), { recursive: true, force: true })
     const res = spawnSync(process.execPath, [bin, 'build', 'fixture'], {
@@ -91,7 +91,8 @@ export async function setup() {
       false
     ),
     await serveStatic([['/', dist('cdn')]], false),
-    cdnServer
+    cdnServer,
+    await serveStatic([['/', dist('sharded')]], false)
   ]
 
   browserServer = await chromium.launchServer({
@@ -105,6 +106,7 @@ export async function setup() {
   process.env['SUB_PORT'] = String(portOf(servers[0]!))
   process.env['PAGES_PORT'] = String(portOf(servers[1]!))
   process.env['VP_CDN_PORT'] = String(cdnPort)
+  process.env['SHARDED_PORT'] = String(portOf(servers[3]!))
 }
 
 export async function teardown() {

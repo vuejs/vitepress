@@ -28,8 +28,7 @@
 .check {
   position: absolute;
   top: 1px;
-  /*rtl:ignore*/
-  left: 1px;
+  inset-inline-start: 1px;
   width: 1.125rem;
   height: 1.125rem;
   border-radius: 50%;
@@ -50,7 +49,7 @@
 .icon :deep([class^='vpi-']) {
   position: absolute;
   top: 0.1875rem;
-  left: 0.1875rem;
+  inset-inline-start: 0.1875rem;
   width: 0.75rem;
   height: 0.75rem;
   color: var(--vp-c-text-2);

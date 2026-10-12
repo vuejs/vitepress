@@ -61,11 +61,12 @@ watchEffect(() => {
   width: 1rem;
   height: 0.875rem;
   overflow: hidden;
+  scale: var(--vp-direction-multiplier) 1;
 }
 
-.VPNavBarHamburger:hover .top    { top: 0; left: 0; transform: translateX(0.25rem); }
-.VPNavBarHamburger:hover .middle { top: 0.375rem; left: 0; transform: translateX(0); }
-.VPNavBarHamburger:hover .bottom { top: 0.75rem; left: 0; transform: translateX(0.5rem); }
+.VPNavBarHamburger:hover .top    { top: 0; transform: translateX(0.25rem); }
+.VPNavBarHamburger:hover .middle { top: 0.375rem; transform: translateX(0); }
+.VPNavBarHamburger:hover .bottom { top: 0.75rem; transform: translateX(0.5rem); }
 
 .VPNavBarHamburger.active .top    { top: 0.375rem; transform: translateX(0) rotate(225deg); }
 .VPNavBarHamburger.active .middle { top: 0.375rem; transform: translateX(1rem); }
@@ -82,13 +83,14 @@ watchEffect(() => {
 .middle,
 .bottom {
   position: absolute;
+  inset-inline-start: 0;
   width: 1rem;
   height: 0.125rem;
   background-color: var(--vp-c-text-1);
   transition: top 0.25s, background-color 0.5s, transform 0.25s;
 }
 
-.top    { top: 0; left: 0; transform: translateX(0); }
-.middle { top: 0.375rem; left: 0; transform: translateX(0.5rem); }
-.bottom { top: 0.75rem; left: 0; transform: translateX(0.25rem); }
+.top    { top: 0; transform: translateX(0); }
+.middle { top: 0.375rem; transform: translateX(0.5rem); }
+.bottom { top: 0.75rem; transform: translateX(0.25rem); }
 </style>

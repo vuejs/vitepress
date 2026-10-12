@@ -138,7 +138,13 @@ function createOpenRender(
     if (noTitle) return `<div ${renderedAttrs}>\n`
     const title = md.renderInline(
       info || titlesFor(titles, env.localeIndex)[name],
-      { references: env.references, frontmatter: env.frontmatter }
+      {
+        references: env.references,
+        frontmatter: env.frontmatter,
+        cleanUrls: env.cleanUrls,
+        relativePath: env.relativePath,
+        relativizeUrls: env.relativizeUrls
+      }
     )
     if (name === 'details')
       return `<details ${renderedAttrs}><summary>${title}</summary>\n`

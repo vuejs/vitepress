@@ -4,7 +4,6 @@ import {
   createSSRApp,
   defineComponent,
   h,
-  onMounted,
   watchEffect,
   type App
 } from 'vue'
@@ -45,13 +44,14 @@ const VitePressApp = defineComponent({
   setup() {
     const { site, lang, dir } = useData()
 
-    // change the language on the HTML element based on the current lang
-    onMounted(() => {
+    // keep the html element's lang and dir in sync with the page, before
+    // the theme mounts so anything it measures already has the right direction
+    if (inBrowser) {
       watchEffect(() => {
         document.documentElement.lang = lang.value
         document.documentElement.dir = dir.value
       })
-    })
+    }
 
     if (import.meta.env.PROD && site.value.router.prefetchLinks) {
       // in prod mode, enable intersectionObserver based pre-fetch

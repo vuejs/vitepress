@@ -83,6 +83,18 @@ type HeadConfig =
   | [string, Record<string, string>, string]
 ```
 
+## dir
+
+- Type: `'ltr' | 'rtl' | 'auto'`
+
+Overrides the [text direction](./site-config#dir) of the site for the current page.
+
+```yaml
+---
+dir: rtl
+---
+```
+
 ## Default Theme Only
 
 The following frontmatter options are only applicable when using the default theme.

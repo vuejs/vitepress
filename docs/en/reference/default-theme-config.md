@@ -208,7 +208,8 @@ export type SidebarItem = {
 
 Setting this value to `false` prevents rendering of aside container.\
 Setting this value to `true` renders the aside to the right.\
-Setting this value to `left` renders the aside to the left.
+Setting this value to `left` renders the aside to the left.\
+In right-to-left layouts, both sides are mirrored.
 
 If you want to disable it for all viewports, you should use `outline: false` instead.
 

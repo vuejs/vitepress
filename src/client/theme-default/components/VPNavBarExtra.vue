@@ -89,7 +89,7 @@ const hasContent = computed(
 <style scoped>
 .VPNavBarExtra {
   display: none;
-  margin-right: -0.75rem;
+  margin-inline-end: -0.75rem;
 }
 
 @media (min-width: 48rem) {

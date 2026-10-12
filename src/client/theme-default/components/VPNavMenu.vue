@@ -64,7 +64,7 @@ function isVisible(index: number) {
   visibility: hidden;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   max-width: 100%;
   overflow: hidden;
 }

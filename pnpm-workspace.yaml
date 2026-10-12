@@ -12,12 +12,6 @@ ignoreWorkspaceRootCheck: true
 
 minimumReleaseAge: 1440
 
-overrides:
-  esbuild: '-'
-
-patchedDependencies:
-  vue-sfc-transformer: patches/vue-sfc-transformer.patch
-
 shellEmulator: true
 
 strictPeerDependencies: true

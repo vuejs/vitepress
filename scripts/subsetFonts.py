@@ -57,11 +57,18 @@ BASE_VAR = """\
 # got a chance to pick the right CJK font. The names below cover the defaults
 # of macOS / Windows / Linux (fonts-noto-cjk); families that are not installed
 # are simply skipped, and sites can splice a CJK webfont between 'Inter Core'
-# and the system families. Bare zh means Hans per BCP 47 likely subtags, and
-# with no Traditional Chinese rule it also covers zh-Hant/zh-TW/zh-HK/zh-MO
-# pages. If Hant handling is ever requested, add after the zh rule (same
-# specificity, so the later rule wins; the region tags must be enumerated
-# because `:lang(zh-Hant)` cannot match e.g. `lang="zh-TW"`):
+# and the system families. Unlike the base stack, these do not name
+# -apple-system: WebKit expands it into the system font plus CoreText's whole
+# cascade list and walks that list with each font's full character map, which
+# on macOS 26 / iOS 26 hands the symbols missing from the reduced PingFang
+# (U+FF5C, ①, ★, ※, ...) to Apple Symbols or the Japanese UI font at a
+# single weight. The CJK_FALLBACK_ANCHOR faces route them through the
+# language-aware system fallback instead. Bare zh means Hans per BCP 47
+# likely subtags, and with no Traditional Chinese rule it also covers
+# zh-Hant/zh-TW/zh-HK/zh-MO pages. If Hant handling is ever requested, add
+# after the zh rule (same specificity, so the later rule wins; the region
+# tags must be enumerated because `:lang(zh-Hant)` cannot match e.g.
+# `lang="zh-TW"`):
 #   [lang]:where(:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK), :lang(zh-MO)) {
 #     --vp-font-family-base:
 #       'Inter Core', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans CJK TC',
@@ -72,22 +79,55 @@ CJK_BASE_VAR = """\
 [lang]:where(:lang(zh)) {
   --vp-font-family-base:
     'Inter Core', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ja)) {
   --vp-font-family-base:
     'Inter Core', 'Hiragino Sans', 'Meiryo', 'Yu Gothic', 'Noto Sans CJK JP',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 [lang]:where(:lang(ko)) {
   --vp-font-family-base:
     'Inter Core', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR',
-    -apple-system, BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+"""
+
+# macOS 26 / iOS 26 ship two copies of PingFang: the full one is an on-demand
+# asset that CoreText flags as user-installed, which Safari keeps away from
+# web content, so pages get the reduced one, from which some 1,400 glyphs -
+# U+FF5C ｜, ①, ★, ※, kana, ... - moved to a hidden ".CJK Symbols Fallback"
+# font. Only CoreText's language-aware system fallback knows about that font,
+# and WebKit performs this fallback relative to the first face of the first
+# family in the stack (FontCascadeFonts::findBestFallbackFont), i.e. relative
+# to Inter, whose fallback chain reaches Hiragino, Helvetica and Lucida Grande
+# first. The faces below make the system font that base instead: U+10FFFF is
+# a noncharacter, so they never draw anything themselves and do not affect
+# the primary font used for metrics (the face covering U+0020), and other
+# engines never load them. WebKit orders the faces of a family last-declared-
+# first, so these must remain the last 'Inter Core' rules. The result matches
+# native apps: SF for the symbols it has, the CJK symbols font for the rest,
+# both at the requested weight.
+CJK_FALLBACK_ANCHOR = """\
+@font-face {
+  font-family: 'Inter Core';
+  font-style: normal;
+  font-weight: 100 900;
+  src: local(-apple-system);
+  unicode-range: U+10FFFF;
+}
+
+@font-face {
+  font-family: 'Inter Core';
+  font-style: italic;
+  font-weight: 100 900;
+  src: local(-apple-system);
+  unicode-range: U+10FFFF;
 }
 """
 
@@ -102,25 +142,6 @@ WEBFONT_IMPORT = f"""\
 {BASE_VAR}\
 /* webfont-marker-end */
 """
-
-# The `cjkExclusions` key of the json lists characters that have both a
-# Western (proportional) and an East Asian (em-square) form with no
-# encoding-level distinction - mostly East Asian Ambiguous punctuation and
-# symbols (UAX #11). The generated 'Inter Core' faces reuse the same font files
-# but leave these out of their unicode-ranges so that CJK fonts render them
-# in CJK documents. References:
-# https://www.unicode.org/L2/L2014/14006-sv-western-vs-cjk.pdf
-# https://www.unicode.org/L2/L2018/18013-svs-proposal.pdf
-# https://www.unicode.org/L2/L2018/18073-svs-proposal.pdf
-# https://www.unicode.org/L2/L2023/23212r-quotes-svs-proposal.pdf
-# https://github.com/w3c/clreq/blob/gh-pages/local.css
-# & U+2015 (used like U+2014 in Japanese), U+203B (Japanese reference mark),
-# U+007E (zh's request; both forms are fine in ja because it is unused there)
-CJK_COMMENT = """\
-/* 'Inter Core' reuses the files above, but leaves out characters that should
-   be rendered by CJK fonts in CJK documents - see scripts/subsetFonts.py */
-"""
-
 
 def parse_ranges(value: str) -> set[int]:
     cps: set[int] = set()
@@ -175,6 +196,27 @@ def check_coverage(release: Path, subsets: dict[str, str]) -> None:
         sys.exit("add the missing codepoints to a subset in scripts/fontSubsets.json")
 
 
+# U+FE0E VARIATION SELECTOR-15 requests the text presentation of a character
+# that also has an emoji form; markdown-it's footnote back-reference is one
+# ("↩︎" is U+21A9 U+FE0E). WebKit shapes such a sequence only with a font that
+# has a glyph for every code point in it, and Inter maps nothing to U+FE0E, so
+# Safari passes over Inter and draws the arrow with -apple-system instead - on
+# iOS a visibly thinner, smaller glyph (vuejs/vitepress#5428). Mapping the
+# selector to Inter's empty, zero-advance ZERO WIDTH SPACE glyph in every face
+# keeps the sequence in Inter without adding a glyph, so the variable-font
+# tables stay untouched. U+FE0F, the emoji selector, is left unmapped on
+# purpose: "↩️" should keep falling through to the emoji font.
+ZERO_WIDTH_SPACE = 0x200B
+TEXT_PRESENTATION_SELECTOR = 0xFE0E
+
+
+def map_text_presentation_selector(font: TTFont) -> None:
+    zwsp = font.getBestCmap()[ZERO_WIDTH_SPACE]
+    for table in font["cmap"].tables:
+        if table.isUnicode():
+            table.cmap[TEXT_PRESENTATION_SELECTOR] = zwsp
+
+
 def build_subsets(release: Path, subsets: dict[str, str]) -> None:
     for style, (file, _) in STYLES.items():
         for name, value in subsets.items():
@@ -188,8 +230,9 @@ def build_subsets(release: Path, subsets: dict[str, str]) -> None:
             options.name_IDs = [*options.name_IDs, 13, 14]
             font = subset.load_font(release / file, options)
             subsetter = subset.Subsetter(options)
-            subsetter.populate(unicodes=parse_ranges(value))
+            subsetter.populate(unicodes=parse_ranges(value) | {ZERO_WIDTH_SPACE})
             subsetter.subset(font)
+            map_text_presentation_selector(font)
             buf = io.BytesIO()
             subset.save_font(font, buf, options)
             out = FONTS_DIR / f"inter-{style}-{name}.woff2"
@@ -215,6 +258,19 @@ def face(family: str, css_style: str, file: str, ranges: str) -> str:
     )
 
 
+# The `cjkExclusions` key of the json lists characters that have both a
+# Western (proportional) and an East Asian (em-square) form with no
+# encoding-level distinction - mostly East Asian Ambiguous punctuation and
+# symbols (UAX #11). The generated 'Inter Core' faces reuse the same font files
+# but leave these out of their unicode-ranges so that CJK fonts render them
+# in CJK documents. References:
+# https://www.unicode.org/L2/L2014/14006-sv-western-vs-cjk.pdf
+# https://www.unicode.org/L2/L2018/18013-svs-proposal.pdf
+# https://www.unicode.org/L2/L2018/18073-svs-proposal.pdf
+# https://www.unicode.org/L2/L2023/23212r-quotes-svs-proposal.pdf
+# https://github.com/w3c/clreq/blob/gh-pages/local.css
+# & U+2015 (used like U+2014 in Japanese), U+203B (Japanese reference mark),
+# U+007E (zh's request; both forms are fine in ja because it is unused there)
 def write_css(subsets: dict[str, str], cjk_exclusions: set[int]) -> None:
     inter = []
     cjk = []
@@ -232,8 +288,9 @@ def write_css(subsets: dict[str, str], cjk_exclusions: set[int]) -> None:
         f"{WEBFONT_IMPORT}\n"
         "/* Generated by scripts/subsetFonts.py from scripts/fontSubsets.json */\n\n"
         + "\n".join(inter)
-        + f"\n{CJK_COMMENT}\n"
+        + "\n"
         + "\n".join(cjk)
+        + f"\n{CJK_FALLBACK_ANCHOR}"
         + f"\n{BASE_VAR}\n{CJK_BASE_VAR}"
     )
 

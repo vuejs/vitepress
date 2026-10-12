@@ -53,7 +53,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
         aria-controls="VPSidebarNav"
         @click="$emit('open-menu')"
       >
-        <span class="vpi-align-left menu-icon" aria-hidden="true"></span>
+        <span class="vpi-text-align-start menu-icon" aria-hidden="true"></span>
         <span class="menu-text">
           {{ theme.sidebarMenuLabel || 'Menu' }}
         </span>
@@ -68,8 +68,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
 .VPLocalNav {
   position: sticky;
   top: 0;
-  /*rtl:ignore*/
-  left: 0;
+  inset-inline-start: 0;
   z-index: var(--vp-z-index-local-nav);
   border-bottom: 1px solid var(--vp-local-nav-divider-color);
   padding-top: var(--vp-layout-top-height, 0px);
@@ -104,7 +103,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
   }
 
   .VPLocalNav.has-sidebar {
-    padding-left: var(--vp-sidebar-width);
+    padding-inline-start: var(--vp-sidebar-width);
   }
 
   .VPLocalNav.empty {
@@ -146,7 +145,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
 }
 
 .menu-icon {
-  margin-right: 0.5rem;
+  margin-inline-end: 0.5rem;
   font-size: 0.875rem;
 }
 

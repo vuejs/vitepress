@@ -23,13 +23,13 @@ defineOptions({ inheritAttrs: false })
       <VPImage
         class="dark"
         :image="image.dark"
-        :alt="image.alt"
+        :alt="alt ?? image.alt"
         v-bind="$attrs"
       />
       <VPImage
         class="light"
         :image="image.light"
-        :alt="image.alt"
+        :alt="alt ?? image.alt"
         v-bind="$attrs"
       />
     </template>

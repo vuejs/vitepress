@@ -69,7 +69,7 @@ watch(
   position: fixed;
   top: var(--vp-layout-top-height, 0px);
   bottom: 0;
-  left: 0;
+  inset-inline-start: 0;
   z-index: var(--vp-z-index-sidebar);
   padding: 2rem 2rem 6rem;
   width: calc(100vw - 4rem);
@@ -79,7 +79,7 @@ watch(
   box-shadow: var(--vp-c-shadow-3);
   overflow-x: hidden;
   overflow-y: auto;
-  transform: translateX(-100%);
+  transform: translateX(calc(-100% * var(--vp-direction-multiplier)));
   transition: opacity 0.5s, transform 0.25s ease;
   overscroll-behavior: contain;
 }
@@ -110,7 +110,7 @@ watch(
 
 @media (min-width: 90rem) {
   .VPSidebar {
-    padding-left: max(2rem, calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2));
+    padding-inline-start: max(2rem, calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2));
     width: calc((100% - (var(--vp-layout-max-width) - 4rem)) / 2 + var(--vp-sidebar-width) - 2rem);
   }
 }
@@ -119,11 +119,10 @@ watch(
   .curtain {
     position: sticky;
     top: calc(var(--vp-nav-height) * -1);
-    left: 0;
+    inset-inline-start: 0;
     z-index: 1;
     margin-top: calc(var(--vp-nav-height) * -1);
-    margin-right: -2rem;
-    margin-left: -2rem;
+    margin-inline: -2rem;
     height: var(--vp-nav-height);
     background-color: var(--vp-sidebar-bg-color);
   }
