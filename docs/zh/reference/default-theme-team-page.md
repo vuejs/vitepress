@@ -163,7 +163,7 @@ const partners = [...]
 
 请记住将 `<VPTeamMembers>` 组件放入 `#members` 插槽中。
 
-## `<VPTeamMembers>`
+## `<VPTeamMembers>` {#vpteammembers}
 
 `<VPTeamMembers>` 组件显示给定的成员列表。
 
@@ -219,11 +219,11 @@ interface TeamMember {
 }
 ```
 
-## `<VPTeamPage>`
+## `<VPTeamPage>` {#vpteampage}
 
 创建完整团队页面时的根组件。它只接受一个插槽。它将设置所有传入的团队相关组件的样式。
 
-## `<VPTeamPageTitle>`
+## `<VPTeamPageTitle>` {#vpteampagetitle}
 
 添加页面的标题。最好在一开始就在 `<VPTeamPage>` 下使用。它接受 `#title` 和 `#lead` 插槽。
 
@@ -241,7 +241,7 @@ interface TeamMember {
 </VPTeamPage>
 ```
 
-## `<VPTeamPageSection>`
+## `<VPTeamPageSection>` {#vpteampagesection}
 
 在团队页面中创建一个“section”。它接受 `#title`、`#lead` 和 `#members` 插槽。你可以在 `<VPTeamPage>` 中添加任意数量的 section。
 

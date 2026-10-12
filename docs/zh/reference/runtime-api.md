@@ -170,3 +170,14 @@ title: Hello
 - package name: {{ $params.pkg }}
 - version: {{ $params.version }}
 ```
+
+## `<Content />` <Badge type="info" text="component" /> {#content}
+
+`<Content />` 组件显示渲染后的 markdown 内容。[创建自己的主题](../guide/custom-theme)时很有用。
+
+```vue
+<template>
+  <h1>自定义布局！</h1>
+  <Content />
+</template>
+```
