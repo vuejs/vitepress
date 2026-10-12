@@ -73,8 +73,8 @@ export async function init(root?: string) {
           cancel('Cancelled.')
           process.exit(0)
         }
-
-        return path.resolve(value)
+        // should resolved based cwd
+        return path.resolve(cwd, value)
       },
 
       srcDir: async ({ results }: any) => {
