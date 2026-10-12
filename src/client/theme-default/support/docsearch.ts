@@ -285,3 +285,20 @@ function deepMerge<T>(target: T, source: Partial<T>): T {
   delete result.locales
   return result
 }
+
+/**
+ * Normalizes an Algolia hit URL to a VitePress-relative path.
+ *
+ * - Strips the origin so the router can navigate within the SPA.
+ * - Respects the `cleanUrls` setting: removes `.html` when `true`.
+ * - Returns an empty string for falsy values (e.g. Ask AI conversation
+ *   items whose `url` field is `""` or `undefined`).
+ */
+export function getRelativePath(
+  url?: string | null,
+  cleanUrls = false
+): string {
+  if (!url) return ''
+  const { pathname, hash } = new URL(url, 'http://localhost')
+  return pathname.replace(/\.html$/, cleanUrls ? '' : '.html') + hash
+}
