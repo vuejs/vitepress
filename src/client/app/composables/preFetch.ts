@@ -97,6 +97,6 @@ export function usePrefetch() {
   )
 
   onUnmounted(() => {
-    observer && observer.disconnect()
+    observer?.disconnect()
   })
 }
