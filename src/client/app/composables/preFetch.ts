@@ -42,7 +42,7 @@ export function usePrefetch() {
       !isOnline.value || saveData.value || !!effectiveType.value?.includes('2g')
   )
 
-  const doFetch = createLink().relList?.supports?.('prefetch') ? viaDOM : viaXHR
+  const prefetch = createLink().relList.supports('prefetch') ? viaDOM : viaXHR
   const rIC = window.requestIdleCallback || setTimeout
   let observer: IntersectionObserver | null = null
 
@@ -65,7 +65,7 @@ export function usePrefetch() {
         if (!pageChunkPath || hasFetched.has(pageChunkPath)) return
 
         hasFetched.add(pageChunkPath)
-        doFetch(pageChunkPath, () => hasFetched.delete(pageChunkPath))
+        prefetch(pageChunkPath, () => hasFetched.delete(pageChunkPath))
       })
     })
 
