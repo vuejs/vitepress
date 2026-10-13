@@ -4,49 +4,37 @@
 import { onMounted, onUnmounted, watch } from 'vue'
 
 import { EXTERNAL_URL_RE } from '../../shared'
-import { useRoute } from '../router'
+import { getRoutableLinkUrl, useRoute } from '../router'
 import { inBrowser, pathToFile } from '../utils'
 
 const hasFetched = new Set<string>()
 const createLink = () => document.createElement('link')
 
-const getLinkUrl = (link: HTMLAnchorElement | SVGAElement) =>
-  new URL(
-    link.href instanceof SVGAnimatedString ? link.href.animVal : link.href,
-    link.baseURI
-  )
-
-const viaDOM = (url: string) => {
+const viaDOM = (url: string, onError: () => void) => {
   const link = createLink()
   link.rel = `prefetch`
   if (EXTERNAL_URL_RE.test(url)) link.crossOrigin = ''
   link.href = url
+  link.onerror = () => {
+    link.remove()
+    onError()
+  }
   document.head.appendChild(link)
 }
 
-const viaXHR = (url: string) => {
+const viaXHR = (url: string, onError: () => void) => {
   const req = new XMLHttpRequest()
   req.open('GET', url, true)
   req.withCredentials = !EXTERNAL_URL_RE.test(url)
+  req.onerror = onError
   req.send()
 }
 
-let link
-const doFetch: (url: string) => void =
-  inBrowser &&
-  (link = createLink()) &&
-  link.relList &&
-  link.relList.supports &&
-  link.relList.supports('prefetch')
-    ? viaDOM
-    : viaXHR
+const doFetch =
+  inBrowser && createLink().relList?.supports?.('prefetch') ? viaDOM : viaXHR
 
 export function usePrefetch() {
   if (!inBrowser) {
-    return
-  }
-
-  if (!window.IntersectionObserver) {
     return
   }
 
@@ -69,19 +57,18 @@ export function usePrefetch() {
 
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if ('onLine' in navigator && !navigator.onLine) {
-            return
-          }
-          const link = entry.target as HTMLAnchorElement | SVGAElement
-          observer!.unobserve(link)
-          const { pathname } = getLinkUrl(link)
-          if (!hasFetched.has(pathname)) {
-            hasFetched.add(pathname)
-            const pageChunkPath = pathToFile(pathname)
-            if (pageChunkPath) doFetch(pageChunkPath)
-          }
-        }
+        // offline links stay observed, so they're retried when back online
+        if (!entry.isIntersecting || !navigator.onLine) return
+
+        const link = entry.target as HTMLAnchorElement | SVGAElement
+        observer!.unobserve(link)
+
+        const url = getRoutableLinkUrl(link)
+        const pageChunkPath = url && pathToFile(url.pathname)
+        if (!pageChunkPath || hasFetched.has(pageChunkPath)) return
+
+        hasFetched.add(pageChunkPath)
+        doFetch(pageChunkPath, () => hasFetched.delete(pageChunkPath))
       })
     })
 
@@ -89,29 +76,10 @@ export function usePrefetch() {
       document
         .querySelectorAll<HTMLAnchorElement | SVGAElement>('#app a')
         .forEach((link) => {
-          const { hostname, pathname } = getLinkUrl(link)
-          const extMatch = pathname.match(/\.\w+$/)
-          if (extMatch && extMatch[0] !== '.html') {
-            return
-          }
-
-          if (
-            // only prefetch same tab navigation, since a new tab will load
-            // the lean js chunk instead.
-            link.getAttribute('target') !== '_blank' &&
-            // only prefetch inbound links
-            hostname === location.hostname
-          ) {
-            if (pathname !== location.pathname) {
-              observer!.observe(link)
-            } else {
-              // No need to prefetch chunk for the current page, but also mark
-              // it as already fetched. This is because the initial page uses its
-              // lean chunk, and if we don't mark it, navigation to another page
-              // with a link back to the first page will fetch its full chunk
-              // which isn't needed.
-              hasFetched.add(pathname)
-            }
+          // links left to the browser load a fresh page with its lean chunk
+          const url = getRoutableLinkUrl(link)
+          if (url && url.pathname !== location.pathname) {
+            observer!.observe(link)
           }
         })
     })
@@ -120,7 +88,16 @@ export function usePrefetch() {
   onMounted(observeLinks)
 
   const route = useRoute()
-  watch(() => route.path, observeLinks)
+  watch(
+    () => route.path,
+    () => {
+      // visited pages already have their full chunk, unlike the initial page
+      // which only has the lean one
+      const pageChunkPath = pathToFile(location.pathname)
+      if (pageChunkPath) hasFetched.add(pageChunkPath)
+      observeLinks()
+    }
+  )
 
   onUnmounted(() => {
     observer && observer.disconnect()
