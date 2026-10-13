@@ -2,7 +2,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import c from 'picocolors'
-import pm from 'picomatch'
 import {
   loadConfigFromFile,
   normalizePath,
@@ -15,7 +14,12 @@ import {
 import type { Awaitable } from '../shared'
 import { type SiteConfig, type UserConfig } from '../siteConfig'
 import { readTextFile } from '../utils/fs'
-import { glob, normalizeGlob, type GlobOptions } from '../utils/glob'
+import {
+  glob,
+  isGlobMatch,
+  normalizeGlob,
+  type GlobOptions
+} from '../utils/glob'
 import { ModuleGraph } from '../utils/moduleGraph'
 import { resolveRewrites } from './rewritesPlugin'
 
@@ -194,7 +198,7 @@ export const dynamicRoutesPlugin = async (
       for (const [file, route] of routeModuleCache) {
         if (
           route.watch?.length &&
-          pm(route.watch, route.options.globOptions)(normalizedFile)
+          isGlobMatch(normalizedFile, route.watch, route.options.globOptions)
         ) {
           route.routes = undefined
           watchedFileChanged = true
