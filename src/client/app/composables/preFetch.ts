@@ -1,6 +1,7 @@
 // Customized pre-fetch for page chunks based on
 // https://github.com/GoogleChromeLabs/quicklink
 
+import { useNetwork } from '@vueuse/core'
 import { onMounted, onUnmounted, watch } from 'vue'
 
 import { EXTERNAL_URL_RE } from '../../shared'
@@ -30,23 +31,14 @@ const viaXHR = (url: string, onError: () => void) => {
   req.send()
 }
 
-const doFetch =
-  inBrowser && createLink().relList?.supports?.('prefetch') ? viaDOM : viaXHR
-
 export function usePrefetch() {
   if (!inBrowser) {
     return
   }
 
-  let conn
-  if (
-    (conn = (navigator as any).connection) &&
-    (conn.saveData || /2g/.test(conn.effectiveType))
-  ) {
-    // Don't prefetch if using 2G or if Save-Data is enabled.
-    return
-  }
+  const { isOnline, saveData, effectiveType } = useNetwork()
 
+  const doFetch = createLink().relList?.supports?.('prefetch') ? viaDOM : viaXHR
   const rIC = window.requestIdleCallback || setTimeout
   let observer: IntersectionObserver | null = null
 
@@ -57,8 +49,14 @@ export function usePrefetch() {
 
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        // offline links stay observed, so they're retried when back online
-        if (!entry.isIntersecting || !navigator.onLine) return
+        // keep these observed, so that they can be retried if the user's connection improves
+        if (
+          !entry.isIntersecting ||
+          !isOnline.value ||
+          saveData.value ||
+          effectiveType.value?.includes('2g')
+        )
+          return
 
         const link = entry.target as HTMLAnchorElement | SVGAElement
         observer!.unobserve(link)
