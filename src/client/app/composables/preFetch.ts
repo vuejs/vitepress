@@ -50,6 +50,10 @@ export function usePrefetch() {
     return
   }
 
+  if ('onLine' in navigator && !navigator.onLine) {
+    return
+  }
+
   let conn
   if (
     (conn = (navigator as any).connection) &&
