@@ -50,10 +50,6 @@ export function usePrefetch() {
     return
   }
 
-  if ('onLine' in navigator && !navigator.onLine) {
-    return
-  }
-
   let conn
   if (
     (conn = (navigator as any).connection) &&
@@ -74,6 +70,9 @@ export function usePrefetch() {
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          if ('onLine' in navigator && !navigator.onLine) {
+            return
+          }
           const link = entry.target as HTMLAnchorElement | SVGAElement
           observer!.unobserve(link)
           const { pathname } = getLinkUrl(link)
