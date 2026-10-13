@@ -2,7 +2,7 @@
 // https://github.com/GoogleChromeLabs/quicklink
 
 import { useNetwork } from '@vueuse/core'
-import { onMounted, onUnmounted, watch } from 'vue'
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 
 import { EXTERNAL_URL_RE } from '../../shared'
 import { getRoutableLinkUrl, useRoute } from '../router'
@@ -37,6 +37,10 @@ export function usePrefetch() {
   }
 
   const { isOnline, saveData, effectiveType } = useNetwork()
+  const isWeak = computed(
+    () =>
+      !isOnline.value || saveData.value || !!effectiveType.value?.includes('2g')
+  )
 
   const doFetch = createLink().relList?.supports?.('prefetch') ? viaDOM : viaXHR
   const rIC = window.requestIdleCallback || setTimeout
@@ -49,14 +53,9 @@ export function usePrefetch() {
 
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        // keep these observed, so that they can be retried if the user's connection improves
-        if (
-          !entry.isIntersecting ||
-          !isOnline.value ||
-          saveData.value ||
-          effectiveType.value?.includes('2g')
-        )
-          return
+        // skip fetching if the network is slow/offline
+        // but still keep observing the link for when the network gets better
+        if (!entry.isIntersecting || isWeak.value) return
 
         const link = entry.target as HTMLAnchorElement | SVGAElement
         observer!.unobserve(link)
