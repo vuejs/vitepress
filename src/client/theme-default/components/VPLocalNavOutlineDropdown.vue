@@ -53,7 +53,8 @@ function toggle() {
 }
 
 function onItemClick(e: Event) {
-  if ((e.target as HTMLElement).classList.contains('outline-link')) {
+  // the link text is wrapped in <bdi>, so the target can be a descendant
+  if ((e.target as Element).closest('.outline-link')) {
     // disable animation on hash navigation when page jumps
     if (items.value) {
       items.value.style.transition = 'none'
