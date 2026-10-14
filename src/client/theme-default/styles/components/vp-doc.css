@@ -355,6 +355,7 @@
   margin: 1rem -1.5rem;
   background-color: var(--vp-code-block-bg);
   overflow-x: auto;
+  overflow-y: clip;
   transition: background-color 0.5s;
 }
 
