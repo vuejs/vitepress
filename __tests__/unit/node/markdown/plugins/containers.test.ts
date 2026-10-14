@@ -451,6 +451,16 @@ describe('node/markdown/plugins/containers (github alerts)', () => {
     `)
   })
 
+  test('renders custom titles as inline markdown', async () => {
+    expect(await render('> [!TIP] Wrap it in `<ClientOnly>`\n> content'))
+      .toMatchInlineSnapshot(`
+      "<div class="tip custom-block github-alert"><p class="custom-block-title">Wrap it in <code>&lt;ClientOnly&gt;</code></p>
+      <p>content</p>
+      </div>
+      "
+    `)
+  })
+
   test('respects custom labels from container options', async () => {
     expect(
       await render('> [!TIP]\n> content', { container: { tipLabel: '提示' } })
