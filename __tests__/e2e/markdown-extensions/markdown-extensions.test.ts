@@ -362,3 +362,37 @@ describe('Image Lazy Loading', () => {
     expect(await img.getAttribute('loading')).toBe('lazy')
   })
 })
+
+describe('Wide code blocks', () => {
+  beforeEach(async () => {
+    await goto('/markdown-extensions/wide-code')
+  })
+
+  test('do not paint over the following paragraph', async () => {
+    const block = page.locator('.vp-doc div[class*="language-"]').first()
+    const paragraph = page.locator('#after-wide-code')
+
+    expect(await block.count()).toBe(1)
+    expect(await paragraph.count()).toBe(1)
+
+    const overflowY = await block.evaluate(
+      (el) => getComputedStyle(el).overflowY
+    )
+    expect(overflowY).toBe('hidden')
+
+    const pre = block.locator('pre')
+    expect(await pre.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(
+      true
+    )
+
+    const [blockBox, paragraphBox] = await Promise.all([
+      block.boundingBox(),
+      paragraph.boundingBox()
+    ])
+    expect(blockBox).toBeTruthy()
+    expect(paragraphBox).toBeTruthy()
+    expect(paragraphBox!.y).toBeGreaterThanOrEqual(
+      blockBox!.y + blockBox!.height - 1
+    )
+  })
+})
