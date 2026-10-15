@@ -10,6 +10,7 @@ import {
 } from 'vitepress-plugin-group-icons'
 import llmstxt from 'vitepress-plugin-llms'
 
+import { markdown as deMarkdown } from '../de/config.ts'
 import { markdown as esMarkdown } from '../es/config.ts'
 import { markdown as faMarkdown } from '../fa/config.ts'
 import { markdown as jaMarkdown } from '../ja/config.ts'
@@ -31,7 +32,8 @@ const localeToOgLocaleMap: Record<string, string> = {
   es: 'es_ES',
   ko: 'ko_KR',
   fa: 'fa_IR',
-  ja: 'ja_JP'
+  ja: 'ja_JP',
+  de: 'de_DE'
 }
 
 export default defineConfig({
@@ -103,6 +105,7 @@ export default defineConfig({
   // prettier-ignore
   locales: {
     root: { label: 'English', lang: 'en-US', dir: 'ltr' },
+    de: { label: 'Deutsch', lang:'de-DE', dir: 'ltr', markdown: deMarkdown },
     zh: { label: '简体中文', lang: 'zh-Hans', dir: 'ltr', markdown: zhMarkdown },
     pt: { label: 'Português', lang: 'pt-BR', dir: 'ltr', markdown: ptMarkdown },
     ru: { label: 'Русский', lang: 'ru-RU', dir: 'ltr', markdown: ruMarkdown },
