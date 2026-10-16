@@ -194,7 +194,7 @@ Una opción puede ser definida como `false` para desactivar sufijos del título.
 
 - Tipo: `string`
 - Predeterminado: `Um site VitePress`
-- Puede ser sustituído por página a través de [frontmatter](./frontmatter-config#descrição)
+- Puede ser sustituído por página a través de [frontmatter](./frontmatter-config#descripcion)
 
 Descripción del sitio web. Esto se presentará como una etiqueta. `<meta>` en la página HTML.
 
