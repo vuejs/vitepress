@@ -43,9 +43,9 @@ export function preWrapperPlugin(md: MarkdownItAsync, options: Options) {
 
     return (
       `<div class="language-${lang}${active}" dir="ltr">` +
+      fence(...args) +
       `<button title="${tooltipText}" data-copied="${copiedText}" class="copy"></button>` +
       `<span class="lang">${label}</span>` +
-      fence(...args) +
       '</div>'
     )
   }
