@@ -19,6 +19,7 @@ export type {
   LocaleSpecificConfig,
   MarkdownEnv,
   MarkdownLocaleOptions,
+  MermaidLocaleOptions,
   PageData,
   PageDataPayload,
   Route,

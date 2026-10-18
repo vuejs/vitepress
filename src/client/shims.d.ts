@@ -7,6 +7,7 @@ declare const __VP_HASH_MAP__: Record<string, string>
 declare const __VP_LOCAL_SEARCH__: boolean
 declare const __ALGOLIA__: boolean
 declare const __CARBON__: boolean
+declare const __VP_MERMAID__: boolean
 declare const __VUE_PROD_DEVTOOLS__: boolean
 declare const __ASSETS_DIR__: string
 declare const __ASSETS_BASE__: string

@@ -232,3 +232,35 @@ export default config
 ## Image Lazy Loading
 
 ![vitepress logo](/vitepress.png)
+
+## Diagrams
+
+### Mermaid Diagram
+
+```mermaid
+flowchart LR
+  A[Start] --> B{Is it?}
+  B -- Yes --> C[OK]
+  B -- No --> D[Nope]
+```
+
+### Mermaid Code Fallback
+
+```mmd
+flowchart LR
+  A --> B
+```
+
+### Mermaid Error
+
+```mermaid
+flowchart LR
+  A -->
+```
+
+### Mermaid Zoom
+
+```mermaid
+flowchart LR
+  A[Request arrives] --> B[Parse headers] --> C[Authenticate caller] --> D[Load the user profile] --> E[Render the template] --> F[Compress the response] --> G[Send it back]
+```

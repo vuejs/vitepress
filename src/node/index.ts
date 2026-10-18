@@ -21,5 +21,6 @@ export type {
   HeadConfig,
   Header,
   MarkdownLocaleOptions,
+  MermaidLocaleOptions,
   SiteData
 } from '../../types/shared'

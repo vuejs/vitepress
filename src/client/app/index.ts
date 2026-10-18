@@ -13,6 +13,7 @@ import { Content } from './components/Content'
 import { useCodeGroups } from './composables/codeGroups'
 import { useCopyCode } from './composables/copyCode'
 import { useUpdateHead } from './composables/head'
+import { useMermaidZoom } from './composables/mermaidZoom'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
 import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
@@ -62,6 +63,8 @@ const VitePressApp = defineComponent({
     useCopyCode()
     // setup global code groups handler
     useCodeGroups()
+    // zoom and pan for the diagrams `markdown.mermaid` renders at build time
+    if (__VP_MERMAID__) useMermaidZoom()
 
     if (Theme.setup) Theme.setup()
     return () => h(Theme.Layout!)

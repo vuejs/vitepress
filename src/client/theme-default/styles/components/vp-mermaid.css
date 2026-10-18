@@ -1,0 +1,218 @@
+/**
+ * Mermaid diagrams
+ *
+ * `markdown.mermaid` renders diagrams to SVG at build time. Their colors and
+ * fonts come from pele's CSS variables (https://pele.run/theming), which
+ * follow the theme's tokens here. Override them on `.vp-mermaid` to restyle
+ * diagrams, e.g. `.vp-mermaid { --pele-surface: var(--vp-c-brand-soft) }`.
+ * -------------------------------------------------------------------------- */
+
+.vp-mermaid {
+  --pele-bg: var(--vp-mermaid-bg);
+  --pele-fg: var(--vp-c-text-1);
+  --pele-muted: var(--vp-c-text-2);
+  --pele-line: var(--vp-c-text-2);
+  --pele-surface: var(--vp-c-bg-elv);
+  --pele-surface-alt: var(--vp-c-default-soft);
+  --pele-border: var(--vp-c-border);
+  --pele-accent: var(--vp-c-brand-1);
+  --pele-critical: var(--vp-c-danger-1);
+  --pele-error: var(--vp-c-danger-1);
+  --pele-font: var(--vp-font-family-base);
+  --pele-font-mono: var(--vp-font-family-mono);
+  --pele-radius: 6px;
+  --pele-title-weight: 600;
+  --pele-heading-weight: 600;
+  --pele-bold-weight: 600;
+
+  /* charts and color-coded categories */
+  --pele-series-1: var(--vp-c-indigo-3);
+  --pele-series-2: var(--vp-c-green-3);
+  --pele-series-3: var(--vp-c-orange-3);
+  --pele-series-4: var(--vp-c-purple-3);
+  --pele-series-5: var(--vp-c-red-3);
+  --pele-series-6: var(--vp-c-yellow-3);
+  --pele-series-7: var(--vp-c-sponsor);
+  --pele-series-8: var(--vp-c-text-3);
+}
+
+.dark .vp-mermaid {
+  --pele-series-1: var(--vp-c-indigo-2);
+  --pele-series-2: var(--vp-c-green-2);
+  --pele-series-3: var(--vp-c-orange-2);
+  --pele-series-4: var(--vp-c-purple-2);
+  --pele-series-5: var(--vp-c-red-2);
+  --pele-series-6: var(--vp-c-yellow-2);
+}
+
+/**
+ * Layout
+ * -------------------------------------------------------------------------- */
+
+/* laid out like code blocks: full-bleed on narrow screens, a rounded panel
+   otherwise */
+.vp-doc .vp-mermaid {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem -1.5rem;
+  padding: 1.5rem;
+  background-color: var(--vp-mermaid-bg);
+  overflow-x: auto;
+  transition: background-color 0.5s;
+}
+
+/* room for the zoom controls over the shortest of diagrams */
+.vp-doc .vp-mermaid[data-zoom] {
+  min-height: 7.75rem;
+}
+
+@media (min-width: 40rem) {
+  .vp-doc .vp-mermaid {
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+}
+
+@media not all and (min-width: 40rem) {
+  .vp-doc li .vp-mermaid {
+    border-radius: 0;
+    border-start-start-radius: 0.5rem;
+    border-end-start-radius: 0.5rem;
+  }
+}
+
+.vp-doc .vp-mermaid > svg {
+  display: block;
+  border-radius: 0.25rem;
+}
+
+/* keyboard zoom focuses the drawing; a click does not ring it */
+.vp-doc .vp-mermaid > svg:focus {
+  outline: none;
+}
+
+.vp-doc .vp-mermaid > svg:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 4px;
+}
+
+/**
+ * Zoom controls
+ * -------------------------------------------------------------------------- */
+
+/* a column: the reset button joins at the bottom once the diagram is
+   enlarged, so the buttons above it never move under the pointer */
+.vp-doc .vp-mermaid-controls {
+  position: absolute;
+  top: 0.75rem;
+  inset-inline-end: 0.75rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--vp-code-copy-code-border-color);
+  border-radius: 0.25rem;
+  background-color: var(--vp-code-copy-code-bg);
+  opacity: 0;
+  transition:
+    border-color 0.25s,
+    background-color 0.25s,
+    opacity 0.25s;
+}
+
+.vp-doc .vp-mermaid-controls[hidden] {
+  display: none;
+}
+
+.vp-doc .vp-mermaid:hover > .vp-mermaid-controls,
+.vp-doc .vp-mermaid.zoomed > .vp-mermaid-controls,
+.vp-doc .vp-mermaid-controls:focus-within {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .vp-doc .vp-mermaid-controls {
+    opacity: 1;
+  }
+}
+
+.vp-doc .vp-mermaid-controls > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--vp-c-text-2);
+  cursor: pointer;
+  transition:
+    color 0.25s,
+    background-color 0.25s;
+}
+
+.vp-doc .vp-mermaid-controls > button[hidden] {
+  display: none;
+}
+
+.vp-doc .vp-mermaid-controls > button:first-child {
+  border-start-start-radius: 0.25rem;
+  border-start-end-radius: 0.25rem;
+}
+
+.vp-doc .vp-mermaid-controls > button:last-child {
+  border-end-start-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+}
+
+.vp-doc .vp-mermaid-controls > button + button {
+  border-top: 1px solid var(--vp-code-copy-code-border-color);
+}
+
+.vp-doc .vp-mermaid-controls > button:hover:not(:disabled) {
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-code-copy-code-hover-bg);
+}
+
+.vp-doc .vp-mermaid-controls > button:disabled {
+  color: var(--vp-c-text-3);
+  cursor: default;
+}
+
+/**
+ * Diagrams that could not be rendered
+ * -------------------------------------------------------------------------- */
+
+.vp-doc .vp-mermaid-error {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+
+.vp-doc .vp-mermaid-error-message {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--vp-c-danger-soft);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--vp-c-danger-1);
+}
+
+.vp-doc .vp-mermaid-error-title {
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.vp-doc .vp-mermaid-error-message > pre {
+  margin: 0.25rem 0 0;
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--vp-c-text-1);
+}
+
+.vp-doc .vp-mermaid-error > div[class*='language-'] {
+  margin: 0;
+  border-radius: 0;
+}

@@ -46,6 +46,7 @@ export default defineConfig({
 
   markdown: {
     math: true,
+    mermaid: true,
     codeTransformers: [
       // We use `[!!code` and `@@include` in demo to prevent transformation,
       // here we revert it back.

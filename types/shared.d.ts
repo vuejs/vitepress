@@ -490,6 +490,38 @@ export interface MarkdownLocaleOptions {
    * Locale-specific strings for the copy button in code blocks.
    */
   codeCopyButton?: CodeCopyButtonOptions
+  /**
+   * Locale-specific strings baked into mermaid diagrams.
+   */
+  mermaid?: MermaidLocaleOptions
+}
+
+/**
+ * Strings the markdown renderer bakes into mermaid diagrams
+ * (`markdown.mermaid`).
+ */
+export interface MermaidLocaleOptions {
+  /**
+   * Accessible label of the zoom-in button.
+   * @default 'Zoom in'
+   */
+  zoomInLabel?: string
+  /**
+   * Accessible label of the zoom-out button.
+   * @default 'Zoom out'
+   */
+  zoomOutLabel?: string
+  /**
+   * Accessible label of the button that resets the zoom.
+   * @default 'Reset zoom'
+   */
+  resetZoomLabel?: string
+  /**
+   * Title of the message rendered in place of a diagram that could not be
+   * rendered.
+   * @default 'Unable to render diagram'
+   */
+  errorLabel?: string
 }
 
 /**

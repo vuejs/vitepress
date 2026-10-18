@@ -199,7 +199,8 @@ export default defineConfig({
   description: 'An example app using VitePress.',
   srcExclude: ['**/parts/**'],
   markdown: {
-    image: { lazyLoad: true }
+    image: { lazyLoad: true },
+    mermaid: true
   },
   // exercises force-inclusion of icons SSR never renders
   icons: { include: ['lucide:egg'] },

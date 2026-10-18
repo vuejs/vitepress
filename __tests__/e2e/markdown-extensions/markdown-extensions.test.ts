@@ -117,6 +117,11 @@ describe('Table of Contents', () => {
         "header 1.1.1",
         "header 1.1.2",
         "Image Lazy Loading",
+        "Diagrams",
+        "Mermaid Diagram",
+        "Mermaid Code Fallback",
+        "Mermaid Error",
+        "Mermaid Zoom",
       ]
     `)
   })
@@ -360,5 +365,61 @@ describe('Image Lazy Loading', () => {
   test('render loading="lazy" in the <img> tag', async () => {
     const img = page.locator('#image-lazy-loading + p img')
     expect(await img.getAttribute('loading')).toBe('lazy')
+  })
+})
+
+describe('Diagrams', () => {
+  test('render mermaid blocks as svg', async () => {
+    const diagram = page.locator('#mermaid-diagram + .vp-mermaid')
+    expect(await diagram.getAttribute('data-type')).toBe('flowchart')
+    const svg = diagram.locator('> svg.pele')
+    expect(await svg.count()).toBe(1)
+    expect(await svg.textContent()).toContain('Is it?')
+    // a diagram that fits offers no zoom
+    const controls = diagram.locator('.vp-mermaid-controls')
+    expect(await controls.getAttribute('hidden')).toBe('')
+  })
+
+  test('keep mmd blocks as code', async () => {
+    const block = page.locator('#mermaid-code-fallback + div')
+    expect(await getClassList(block)).toContain('language-mmd')
+    expect(await block.locator('svg').count()).toBe(0)
+  })
+
+  test('render errors in place with the source', async () => {
+    const error = page.locator('#mermaid-error + .vp-mermaid-error')
+    expect(await error.locator('.vp-mermaid-error-title').textContent()).toBe(
+      'Unable to render diagram'
+    )
+    expect(
+      await error.locator('.vp-mermaid-error-message pre').textContent()
+    ).toContain('Parse error')
+    const source = error.locator('div[class*="language-"]')
+    expect(await getClassList(source)).toContain('language-mermaid')
+    expect(await source.locator('code').textContent()).toContain('A -->')
+  })
+
+  test('zoom diagrams that were shrunk to fit', async () => {
+    const diagram = page.locator('#mermaid-zoom + .vp-mermaid')
+    const controls = diagram.locator('.vp-mermaid-controls')
+    await expect.poll(() => controls.getAttribute('hidden')).toBeNull()
+
+    const svg = diagram.locator('> svg')
+    const rest = await svg.getAttribute('viewBox')
+    expect(await svg.getAttribute('tabindex')).toBe('0')
+    expect(await controls.locator('.zoom-reset').getAttribute('hidden')).toBe(
+      ''
+    )
+
+    await controls.locator('.zoom-in').click()
+    expect(await svg.getAttribute('viewBox')).not.toBe(rest)
+    expect(await getClassList(diagram)).toContain('zoomed')
+    expect(await controls.locator('.zoom-reset').getAttribute('hidden')).toBe(
+      null
+    )
+
+    await controls.locator('.zoom-reset').click()
+    expect(await svg.getAttribute('viewBox')).toBe(rest)
+    expect(await getClassList(diagram)).not.toContain('zoomed')
   })
 })
