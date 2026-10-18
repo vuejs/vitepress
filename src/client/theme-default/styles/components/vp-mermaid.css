@@ -55,12 +55,17 @@
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin: 1rem -1.5rem;
   padding: 1.5rem;
   background-color: var(--vp-mermaid-bg);
   overflow-x: auto;
   transition: background-color 0.5s;
+}
+
+/* room for the zoom controls over the shortest of diagrams */
+.vp-doc .vp-mermaid[data-zoom] {
+  min-height: 7.75rem;
 }
 
 @media (min-width: 40rem) {
@@ -97,13 +102,15 @@
  * Zoom controls
  * -------------------------------------------------------------------------- */
 
-/* a row, so that the bar fits over the shortest of diagrams */
+/* a column: the reset button joins at the bottom once the diagram is
+   enlarged, so the buttons above it never move under the pointer */
 .vp-doc .vp-mermaid-controls {
   position: absolute;
   top: 0.75rem;
   inset-inline-end: 0.75rem;
   z-index: 3;
   display: flex;
+  flex-direction: column;
   border: 1px solid var(--vp-code-copy-code-border-color);
   border-radius: 0.25rem;
   background-color: var(--vp-code-copy-code-bg);
@@ -149,16 +156,16 @@
 
 .vp-doc .vp-mermaid-controls > button:first-child {
   border-start-start-radius: 0.25rem;
-  border-end-start-radius: 0.25rem;
+  border-start-end-radius: 0.25rem;
 }
 
 .vp-doc .vp-mermaid-controls > button:last-child {
-  border-start-end-radius: 0.25rem;
+  border-end-start-radius: 0.25rem;
   border-end-end-radius: 0.25rem;
 }
 
 .vp-doc .vp-mermaid-controls > button + button {
-  border-inline-start: 1px solid var(--vp-code-copy-code-border-color);
+  border-top: 1px solid var(--vp-code-copy-code-border-color);
 }
 
 .vp-doc .vp-mermaid-controls > button:hover:not(:disabled) {
