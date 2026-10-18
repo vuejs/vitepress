@@ -156,6 +156,7 @@ export async function createVitePressPlugin(
             site.themeConfig?.search?.provider === 'algolia' ||
             !!site.themeConfig?.algolia, // legacy
           __CARBON__: !!site.themeConfig?.carbonAds,
+          __VP_MERMAID__: !!markdown?.mermaid,
           __ASSETS_DIR__: JSON.stringify(siteConfig.assetsDir),
           __ASSETS_BASE__: JSON.stringify(siteConfig.assetsBase ?? ''),
           __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: !!process.env.DEBUG

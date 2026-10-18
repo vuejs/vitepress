@@ -1148,6 +1148,121 @@ $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$
 | $\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t}  = \vec{\mathbf{0}}$                                                          | curl of $\vec{\mathbf{E}}$ is proportional to the rate of change of $\vec{\mathbf{B}}$ |
 | $\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} = \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} = 4 \pi \rho$ | _wha?_                                                                                 |
 
+## Diagrams
+
+Code blocks with the `mermaid` language render as [Mermaid](https://mermaid.js.org/) diagrams, as they do on GitHub. This is opt-in: set `markdown.mermaid` to `true` in your config file.
+
+```ts [.vitepress/config.ts]
+export default {
+  markdown: {
+    mermaid: true
+  }
+}
+```
+
+Diagrams are rendered to SVG at build time with [Pele](https://pele.run), which supports [every diagram type of Mermaid 12](https://pele.run/compatibility) with its own layout and visual style. No diagramming library is shipped to the browser: the diagrams are part of the page, follow the theme's colors and fonts, adapt to dark mode and shrink to fit narrow screens.
+
+**Input**
+
+````md
+```mermaid
+flowchart LR
+  A[Markdown] --> B(VitePress)
+  B --> C{Diagram?}
+  C -- Yes --> D[SVG]
+  C -- No --> E[Code block]
+```
+````
+
+**Output**
+
+```mermaid
+flowchart LR
+  A[Markdown] --> B(VitePress)
+  B --> C{Diagram?}
+  C -- Yes --> D[SVG]
+  C -- No --> E[Code block]
+```
+
+Use the `mmd` language to show Mermaid source as a code block instead:
+
+````md
+```mmd
+flowchart LR
+  A[Markdown] --> B[Code block]
+```
+````
+
+```mmd
+flowchart LR
+  A[Markdown] --> B[Code block]
+```
+
+A diagram that was shrunk to fit can be zoomed and panned in the browser: pinch, hold <kbd>Ctrl</kbd> / <kbd>⌘</kbd> while scrolling, drag, double-click, or use the buttons shown on hover. With the diagram focused, <kbd>+</kbd>, <kbd>-</kbd>, <kbd>0</kbd> and the arrow keys work too. Set `zoom: true` to allow zooming every diagram, or `zoom: false` to turn it off.
+
+### Diagram Errors
+
+A diagram that cannot be rendered shows the error and its source in its place, and a warning is logged with the page's path. Set `onError` to `'throw'` to fail the build instead:
+
+```ts [.vitepress/config.ts]
+export default {
+  markdown: {
+    mermaid: {
+      onError: 'throw'
+    }
+  }
+}
+```
+
+### Diagram Options
+
+Besides `onError` and `zoom`, `markdown.mermaid` accepts [Pele's render options](https://pele.run/api#renderoptions), for example:
+
+```ts [.vitepress/config.ts]
+export default {
+  markdown: {
+    mermaid: {
+      // default Mermaid config, overridden by a diagram's own frontmatter
+      // and directives
+      config: { flowchart: { curve: 'linear' } },
+      // the font labels are measured and drawn in
+      fontFamily: 'Inter, sans-serif',
+      // URL schemes links may use besides relative URLs
+      linkSchemes: ['http', 'https'],
+      // the time Gantt charts treat as now, for reproducible builds
+      now: new Date('2026-01-01')
+    }
+  }
+}
+```
+
+Label text is measured at build time to size the shapes around it. Labels in Inter, the default theme's font, are measured with Inter's metrics; for other fonts a generic width table is used, which keeps labels inside their shapes for the common system fonts. Pass a [`measurer`](https://pele.run/api#text-measurement) to measure another font exactly.
+
+Icons in diagrams, such as `fa:fa-car` in a label or `logos:aws-lambda` in an architecture diagram, are resolved from the [Iconify](https://icones.js.org/) collections installed in your project, like [icons elsewhere in VitePress](../reference/site-config#icons). Install a collection to use it:
+
+```sh
+npm add -D @iconify-json/logos
+```
+
+Mermaid's `fa`, `fas`, `far` and `fab` prefixes map to the `fa6-solid`, `fa6-regular` and `fa6-brands` collections. Pass an `icons` function to resolve icons yourself.
+
+### Diagram Theming
+
+The default theme draws diagrams with its own palette through [Pele's CSS variables](https://pele.run/theming). Override them on `.vp-mermaid` to restyle diagrams, in light and dark mode:
+
+```css
+.vp-mermaid {
+  --pele-surface: var(--vp-c-brand-soft);
+  --pele-border: var(--vp-c-brand-1);
+}
+
+.dark .vp-mermaid {
+  --pele-line: var(--vp-c-text-1);
+}
+```
+
+Set `--vp-mermaid-bg` to change the background of the box around a diagram, which follows the code blocks' by default. The labels of the zoom buttons and the title of the error message can be [translated per locale](./i18n#per-locale-markdown-strings).
+
 ## Image Lazy Loading
 
 You can enable lazy loading for each image added via markdown by setting `lazyLoad` to `true` in your config file:

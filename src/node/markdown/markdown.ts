@@ -60,6 +60,7 @@ import {
 } from './plugins/include'
 import { lineNumberPlugin } from './plugins/lineNumbers'
 import { linkPlugin } from './plugins/link'
+import { mermaidPlugin, type MermaidOptions } from './plugins/mermaid'
 import { preWrapperPlugin } from './plugins/preWrapper'
 import { restoreEntities } from './plugins/restoreEntities'
 import {
@@ -69,6 +70,7 @@ import {
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
+export type { MermaidOptions, MermaidZoomOptions } from './plugins/mermaid'
 
 // not exported from @mdit/plugin-emoji, so derive it from the plugin signature
 type EmojiPluginOptions = NonNullable<Parameters<typeof emojiPlugin>[1]>
@@ -223,6 +225,17 @@ export interface MarkdownOptions extends MarkdownItAsyncOptions {
    * @see https://vitepress.dev/guide/markdown#markdown-file-inclusion
    */
   include?: IncludePluginOptions | boolean
+  /**
+   * Render ```mermaid code blocks as diagrams. The diagrams are rendered to
+   * SVG at build time with [pele](https://pele.run) and themed with CSS
+   * variables, so no renderer ships to the browser. ```mmd blocks are
+   * highlighted as code instead. Set to `true` to enable with the default
+   * options, or pass options to configure fonts, limits, links, icons, zoom
+   * and error handling.
+   * @default false
+   * @see https://vitepress.dev/guide/markdown#diagrams
+   */
+  mermaid?: MermaidOptions | boolean
 
   /* ==================== Markdown Extensions ==================== */
 
@@ -369,6 +382,7 @@ export function mergeMarkdownLocales(
 }
 
 let md: MarkdownRenderer | undefined
+let _creating: Promise<MarkdownRenderer> | undefined
 let _disposeHighlighter: (() => void) | undefined
 
 export function disposeMdItInstance() {
@@ -381,15 +395,36 @@ export function disposeMdItInstance() {
 /**
  * @experimental
  */
-export async function createMarkdownRenderer(
+export function createMarkdownRenderer(
   srcDir: string,
   options: MarkdownOptions = {},
   base = '/',
   logger: Pick<Logger, 'warn'> = console,
   publicDir?: string
 ): Promise<MarkdownRenderer> {
-  if (md) return md
+  if (md) return Promise.resolve(md)
+  // callers that overlap (the vite plugin, local search, content loaders)
+  // share the instance in the making - creation awaits plugin imports and
+  // user hooks after `md` is assigned, so a second run would otherwise swap
+  // the instance those steps are applied to and register plugins twice
+  return (_creating ??= createRenderer(
+    srcDir,
+    options,
+    base,
+    logger,
+    publicDir
+  ).finally(() => {
+    _creating = undefined
+  }))
+}
 
+async function createRenderer(
+  srcDir: string,
+  options: MarkdownOptions,
+  base: string,
+  logger: Pick<Logger, 'warn'>,
+  publicDir?: string
+): Promise<MarkdownRenderer> {
   publicDir ??= path.resolve(srcDir, 'public')
 
   const theme = options.theme ?? { light: 'github-light', dark: 'github-dark' }
@@ -425,6 +460,15 @@ export async function createMarkdownRenderer(
     })
     // must be applied after preWrapper as it augments its output
     lineNumberPlugin(md, options.lineNumbers)
+  }
+  if (options.mermaid) {
+    // the renderer is bundled, but only loaded when diagrams are enabled
+    const pele = await import('pele')
+    mermaidPlugin(md, pele, normalizePluginOptions(options.mermaid), {
+      locales: options.locales,
+      logger,
+      root: srcDir
+    })
   }
   if (options.snippet !== false) {
     snippetPlugin(md, srcDir, normalizePluginOptions(options.snippet), logger)

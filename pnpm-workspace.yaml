@@ -12,6 +12,9 @@ ignoreWorkspaceRootCheck: true
 
 minimumReleaseAge: 1440
 
+minimumReleaseAgeExclude:
+  - pele@1.6.0
+
 shellEmulator: true
 
 strictPeerDependencies: true
