@@ -6,18 +6,16 @@ import { fileURLToPath } from 'node:url'
 
 import * as prompts from '@clack/prompts'
 import { spawn } from 'cross-spawn'
-import semver from 'semver'
+import { increment, isValid, type IncrementType } from 'verkit'
 
 import pkg from '../package.json' with { type: 'json' }
-
-const { inc: _inc, valid } = semver
 
 const versionIncrements = ['patch', 'minor', 'major'] as const
 
 const tags = ['latest', 'next'] as const
 
 const dir = fileURLToPath(new URL('.', import.meta.url))
-const inc = (i: semver.ReleaseType) => _inc(pkg.version, i)
+const inc = (i: IncrementType) => increment(pkg.version, i)
 const run = async (bin: string, args: string[], opts: SpawnOptions = {}) => {
   const child = spawn(bin, args, { stdio: 'inherit', ...opts })
   const [code, signal] = (await once(child, 'close')) as [
@@ -58,7 +56,7 @@ async function main() {
     targetVersion = versions[release].match(/\((.*)\)/)![1]
   }
 
-  if (!valid(targetVersion)) {
+  if (!isValid(targetVersion)) {
     throw new Error(`Invalid target version: ${targetVersion}`)
   }
 

@@ -287,9 +287,6 @@ importers:
       '@types/picomatch':
         specifier: ^4.0.3
         version: 4.0.3
-      '@types/semver':
-        specifier: ^7.8.0
-        version: 7.8.0
       '@volar/typescript':
         specifier: ^2.4.28
         version: 2.4.28(typescript@6.0.3)
@@ -383,9 +380,6 @@ importers:
       rolldown:
         specifier: ^1.2.13
         version: 1.2.13
-      semver:
-        specifier: ^7.8.5
-        version: 7.8.5
       simple-git-hooks:
         specifier: ^2.14.0
         version: 2.14.0
@@ -404,6 +398,9 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+      verkit:
+        specifier: ^0.5.0
+        version: 0.5.0
       vitest:
         specifier: ^5.0.3
         version: 5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@1.21.7)(yaml@2.9.1))
@@ -945,9 +942,6 @@ packages:
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
-
-  '@types/semver@7.8.0':
-    resolution: {integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -3422,8 +3416,6 @@ snapshots:
   '@types/sax@1.2.7':
     dependencies:
       '@types/node': 26.6.5
-
-  '@types/semver@7.8.0': {}
 
   '@types/unist@3.0.3': {}
 
