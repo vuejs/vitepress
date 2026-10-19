@@ -440,6 +440,17 @@ export async function createVitePressPlugin(
         return restartServer?.()
       }
 
+      // `transformPageData` can derive data from any page, so a markdown
+      // change may invalidate every page's transformed data. The markdown
+      // compile cache and Vite's module graph both need to be reset before a
+      // full reload can request the affected page again.
+      if (file.endsWith('.md') && siteConfig.transformPageData) {
+        clearCache()
+        this.environment.moduleGraph.invalidateAll()
+        this.environment.hot.send({ type: 'full-reload' })
+        return []
+      }
+
       if (themeRE.test(relativePath) && type !== 'update') {
         siteConfig.themeDir =
           type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
