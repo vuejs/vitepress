@@ -1,0 +1,10 @@
+.git
+.github
+node_modules
+dist
+coverage
+.temp
+.vite_opt_cache
+cache
+temp
+__tests__/base/fixture/.vitepress/dist-*
