@@ -334,9 +334,10 @@ export async function createVitePressPlugin(
             } catch {
               // malformed percent-encoding: keep the site-level values
             }
+            const dirAttr = dir === false ? '' : ` dir="${dir}"`
             let html = `\
 <!DOCTYPE html>
-<html lang="${lang}" dir="${dir}">
+<html lang="${lang}"${dirAttr}>
   <head>
     <title></title>
     <meta charset="utf-8">
