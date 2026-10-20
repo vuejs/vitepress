@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
-import { glob } from 'node/utils/glob'
+import { glob, isGlobMatch } from 'node/utils/glob'
 
 describe('node/utils/glob', () => {
   let root: string
@@ -35,4 +35,25 @@ describe('node/utils/glob', () => {
       'published.md'
     ])
   })
+})
+
+describe('node/utils/glob isGlobMatch', () => {
+  const patterns = ['/root/posts/**/*.md', '!/root/posts/draft.md']
+
+  test('treats negated patterns as exclusions', () => {
+    expect(isGlobMatch('/root/posts/a.md', patterns)).toBe(true)
+    expect(isGlobMatch('/root/posts/draft.md', patterns)).toBe(false)
+    expect(isGlobMatch('/root/other.md', patterns)).toBe(false)
+  })
+
+  test.each([{ ignore: '**/drafts/**' }, { ignore: ['**/drafts/**'] }])(
+    'combines negated patterns with ignore as $ignore',
+    (options) => {
+      expect(isGlobMatch('/root/posts/b/c.md', patterns, options)).toBe(true)
+      expect(isGlobMatch('/root/posts/drafts/c.md', patterns, options)).toBe(
+        false
+      )
+      expect(isGlobMatch('/root/posts/draft.md', patterns, options)).toBe(false)
+    }
+  )
 })
