@@ -112,6 +112,22 @@ describe('navigation accessibility', () => {
     )
   })
 
+  test('outline dropdown closes after selecting a heading', async () => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await goto('/sidebar-hash/')
+
+    const dropdown = page.locator('.VPLocalNavOutlineDropdown')
+    await dropdown.locator('button').click()
+    await page.waitForSelector(
+      '.VPLocalNavOutlineDropdown button[aria-expanded="true"]'
+    )
+
+    await dropdown.locator('.outline-link bdi').first().click()
+    await page.waitForSelector(
+      '.VPLocalNavOutlineDropdown button[aria-expanded="false"]'
+    )
+  })
+
   test('overflowing nav items move into the extra menu instead of clipping', async () => {
     await goto('/')
 
