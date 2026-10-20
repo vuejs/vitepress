@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { glob as _glob } from 'tinyglobby'
+import { glob as _glob, escapePath } from 'tinyglobby'
 import { normalizePath } from 'vite'
 
 export interface GlobOptions {
@@ -17,10 +17,14 @@ export function normalizeGlob(
 ): string[] {
   if (!patterns) return []
   if (typeof patterns === 'string') patterns = [patterns]
+  // the base path may contain glob characters, e.g. `~/Dropbox (Team)/docs`
+  const escapedBase = escapePath(normalizePath(base))
+  const resolve = (p: string) =>
+    path.isAbsolute(p)
+      ? normalizePath(path.resolve(p))
+      : path.posix.join(escapedBase, normalizePath(p))
   return patterns.map((p) =>
-    p[0] === '!'
-      ? '!' + normalizePath(path.resolve(base, p.slice(1)))
-      : normalizePath(path.resolve(base, p))
+    p[0] === '!' ? '!' + resolve(p.slice(1)) : resolve(p)
   )
 }
 
