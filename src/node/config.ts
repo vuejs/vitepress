@@ -136,7 +136,17 @@ export async function resolveConfig(
       allowClearScreen: userConfig.vite?.clearScreen
     })
   const site = await resolveSiteData(root, userConfig)
-  const srcDir = normalizePath(path.resolve(root, userConfig.srcDir || '.'))
+  let srcDir = path.resolve(root, userConfig.srcDir || '.')
+  // Vite resolves symlinks in module ids, so page paths are only relative to
+  // `srcDir` when it is resolved the same way
+  if (!userConfig.vite?.resolve?.preserveSymlinks) {
+    try {
+      srcDir = fs.realpathSync(srcDir)
+    } catch {
+      // keep the path as is when it doesn't exist
+    }
+  }
+  srcDir = normalizePath(srcDir)
   const assetsDir = userConfig.assetsDir
     ? slash(userConfig.assetsDir).replace(/^\.?\/|\/$/g, '')
     : 'assets'
