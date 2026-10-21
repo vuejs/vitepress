@@ -316,6 +316,13 @@ export interface UserConfig<
     ctx: TransformContext<ThemeConfig>
   ) => Awaitable<string | void>
   /**
+   * Enable full Markdown HMR invalidation for `transformPageData` hooks that
+   * derive data from another Markdown page.
+   * @experimental
+   * @default false
+   */
+  transformPageDataHmr?: boolean
+  /**
    * Hook for augmenting the data of each page, applied when rendering
    * markdown to vue in both dev and build. Returned values are merged
    * into the page data.
@@ -356,6 +363,7 @@ export interface SiteConfig<ThemeConfig = any> extends Pick<
   | 'buildEnd'
   | 'transformHead'
   | 'transformHtml'
+  | 'transformPageDataHmr'
   | 'transformPageData'
   | 'sitemap'
   | 'icons'

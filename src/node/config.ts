@@ -228,6 +228,7 @@ export async function resolveConfig(
     buildEnd: userConfig.buildEnd,
     transformHead: userConfig.transformHead,
     transformHtml: userConfig.transformHtml,
+    transformPageDataHmr: !!userConfig.transformPageDataHmr,
     transformPageData: userConfig.transformPageData,
     userConfig,
     sitemap: userConfig.sitemap,

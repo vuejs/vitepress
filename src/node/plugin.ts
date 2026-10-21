@@ -440,6 +440,18 @@ export async function createVitePressPlugin(
         return restartServer?.()
       }
 
+      // `transformPageDataHmr` is opt-in because a page-data hook may only
+      // depend on the page currently being edited. When enabled, clear the
+      // Markdown result cache and invalidate Vite's client graph before a
+      // full reload so site-level and dynamic-route page-data transformers
+      // see changes made to other Markdown pages.
+      if (file.endsWith('.md') && siteConfig.transformPageDataHmr) {
+        clearCache()
+        this.environment.moduleGraph.invalidateAll()
+        this.environment.hot.send({ type: 'full-reload' })
+        return []
+      }
+
       if (themeRE.test(relativePath) && type !== 'update') {
         siteConfig.themeDir =
           type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
