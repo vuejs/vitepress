@@ -440,11 +440,12 @@ export async function createVitePressPlugin(
         return restartServer?.()
       }
 
-      // `transformPageData` can derive data from any page, so a markdown
-      // change may invalidate every page's transformed data. The markdown
-      // compile cache and Vite's module graph both need to be reset before a
-      // full reload can request the affected page again.
-      if (file.endsWith('.md') && siteConfig.transformPageData) {
+      // `transformPageDataHmr` is opt-in because a page-data hook may only
+      // depend on the page currently being edited. When enabled, clear the
+      // Markdown result cache and invalidate Vite's client graph before a
+      // full reload so site-level and dynamic-route page-data transformers
+      // see changes made to other Markdown pages.
+      if (file.endsWith('.md') && siteConfig.transformPageDataHmr) {
         clearCache()
         this.environment.moduleGraph.invalidateAll()
         this.environment.hot.send({ type: 'full-reload' })
