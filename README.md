@@ -21,40 +21,6 @@ Detailed changes for each release are documented in the [CHANGELOG](https://gith
 
 Please make sure to read the [Contributing Guide](https://github.com/vuejs/vitepress/blob/main/.github/contributing.md) before making a pull request.
 
-## Development
-
-The repository uses Node.js `22.22.1` and pnpm `12.11.2`. Use the version in
-`.nvmrc`, enable Corepack, and install the workspace dependencies:
-
-```sh
-nvm use
-corepack enable
-pnpm install
-```
-
-Start the documentation site with:
-
-```sh
-make dev
-```
-
-Run the offline unit-test command after installing dependencies with:
-
-```sh
-make test
-```
-
-Build the package with `make build`. To build the documentation site for
-deployment, run `make deploy`; the static output is written to
-`docs/.vitepress/dist`.
-
-The same package build and documentation dev server can be run in Docker:
-
-```sh
-docker build -t vitepress .
-docker run --rm -p 5173:5173 vitepress
-```
-
 ## License
 
 [MIT](https://github.com/vuejs/vitepress/blob/main/LICENSE)
