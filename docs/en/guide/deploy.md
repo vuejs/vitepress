@@ -354,6 +354,17 @@ After running `npm run docs:build`, run this command to deploy to [Surge](https:
 npx surge docs/.vitepress/dist
 ```
 
+### deed.page
+
+After running `npm run docs:build`, pack the output folder and upload it to [deed.page](https://deed.page) with one HTTP `PUT`. No account is needed:
+
+```sh
+tar -C docs/.vitepress/dist -czf site.tar.gz .
+curl -T site.tar.gz "https://deed.page/v1/sites?slug=my-docs"
+```
+
+The response includes the live `https://my-docs.deed.page/` URL and a token. Send the token as `Authorization: Bearer <token>` to publish updates to the same slug. A single upload is capped at 4 MB, so larger builds use the manifest upload described in the [deed.page docs](https://deed.page/docs).
+
 ### harvis
 
 After running `npm run docs:build`, run this command to deploy to [harvis](https://harvis.dev):
