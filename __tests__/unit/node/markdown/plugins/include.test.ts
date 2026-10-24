@@ -510,6 +510,38 @@ describe('node/markdown/plugins/include', () => {
     expect(html).not.toContain('@include-')
   })
 
+  test('does not leak rebase markers into includes in nested fences', async () => {
+    await write('sub/part.md', 'partial line\n')
+
+    // the inner fence is shorter than the outer one, so it can't close it
+    const { html } = await render(
+      '````md\n```md\n<!-- @include: ./sub/part.md -->\n```\n````\n'
+    )
+    expect(html).toContain('partial line')
+    expect(html).not.toContain('@include-')
+  })
+
+  test('does not leak rebase markers from nested includes inside fences', async () => {
+    await write('sub/part.md', 'partial line\n')
+    await write('sub/outer.md', 'outer line\n\n<!-- @include: ./part.md -->\n')
+
+    const { html } = await render(
+      '```md\n<!-- @include: ./sub/outer.md -->\n```\n'
+    )
+    expect(html).toContain('outer line')
+    expect(html).toContain('partial line')
+    expect(html).not.toContain('@include-')
+  })
+
+  test('rebases includes after a nested fence closes', async () => {
+    await write('sub/part.md', '![img](./img.png)\n')
+
+    const { html } = await render(
+      '````md\n```md\n````\n\n<!-- @include: ./sub/part.md -->\n'
+    )
+    expect(html).toContain('src="./sub/img.png"')
+  })
+
   test('does not leak rebase markers for inline includes', async () => {
     await write('sub/part.md', 'partial line\n')
 
