@@ -1,3 +1,42 @@
+## [2.0.0-alpha.21](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.20...v2.0.0-alpha.21) (2026-10-25)
+
+### Bug Fixes
+
+- **client:** don't create prefetch link when offline ([#5534](https://github.com/vuejs/vitepress/issues/5534)) ([9cc085c](https://github.com/vuejs/vitepress/commit/9cc085cfaa65ad9cd4e2a24816faeeb0f89e186b))
+- **client:** forward slots to client components ([#5445](https://github.com/vuejs/vitepress/issues/5445)) ([d702051](https://github.com/vuejs/vitepress/commit/d70205185949ddf681ba7995b53626001d59d930))
+- **client:** make link prefetching reactive to network and consistent with the router ([16c020d](https://github.com/vuejs/vitepress/commit/16c020dbbc791853e73131cedb21a79428005da3)), closes [#5534](https://github.com/vuejs/vitepress/issues/5534)
+- **client:** resolve SVG links when prefetching ([#5442](https://github.com/vuejs/vitepress/issues/5442)) ([6500851](https://github.com/vuejs/vitepress/commit/6500851eaabaac355f3bb73771dd1cb2b93428d5))
+- **data:** watch files outside the site root ([#5441](https://github.com/vuejs/vitepress/issues/5441)) ([ac1081f](https://github.com/vuejs/vitepress/commit/ac1081f6e617f73421071011e2ca1b44ce002194))
+- handle dangling vue symlinks after deps upgrade ([74f9d1d](https://github.com/vuejs/vitepress/commit/74f9d1d309599fd81dc7f1864da8201e0bbd2420))
+- **hmr:** invalidate all cached revisions of an importing page ([#5448](https://github.com/vuejs/vitepress/issues/5448)) ([50f3a74](https://github.com/vuejs/vitepress/commit/50f3a74f9efe539f7de7adaf2e786ad7e68a5588))
+- insert page title literally into titleTemplate ([#5470](https://github.com/vuejs/vitepress/issues/5470)) ([56fa6c9](https://github.com/vuejs/vitepress/commit/56fa6c9df102de34089fec773281b18530768bd3))
+- **markdown:** don't leak include markers into code fences ([#5550](https://github.com/vuejs/vitepress/issues/5550)) ([fd4ecf0](https://github.com/vuejs/vitepress/commit/fd4ecf0ea38472f851b585e1ca317d011477e7c0))
+- **markdown:** infer image dimensions with URL suffixes ([#5443](https://github.com/vuejs/vitepress/issues/5443)) ([f1bcc0d](https://github.com/vuejs/vitepress/commit/f1bcc0d971a805f322b2f13eb9faaf9a0386b3d5))
+- **markdown:** preserve page data when injecting scripts ([#5440](https://github.com/vuejs/vitepress/issues/5440)) ([9d9a37b](https://github.com/vuejs/vitepress/commit/9d9a37bcb6a377a037bb80a18e56a18302c52440))
+- **markdown:** preserve queries on index page links ([#5436](https://github.com/vuejs/vitepress/issues/5436)) ([034fd0c](https://github.com/vuejs/vitepress/commit/034fd0c754fae79acc554861d608a747e6615a00))
+- **markdown:** preserve URL settings in container titles ([#5446](https://github.com/vuejs/vitepress/issues/5446)) ([19145a2](https://github.com/vuejs/vitepress/commit/19145a2fc7e27e2dff812af2a68d08c4f38b0cae))
+- **node:** preserve string glob ignore patterns ([#5435](https://github.com/vuejs/vitepress/issues/5435)) ([80c8a28](https://github.com/vuejs/vitepress/commit/80c8a28fd6b72197acaad526f414167f9144f62f))
+- **node:** use page locales in content loaders ([#5434](https://github.com/vuejs/vitepress/issues/5434)) ([a32f618](https://github.com/vuejs/vitepress/commit/a32f618fe529f289cb3ef298980549979ae12dbb))
+- **search:** segment Chinese and Japanese text in local search ([#5509](https://github.com/vuejs/vitepress/issues/5509)) ([b39a1e4](https://github.com/vuejs/vitepress/commit/b39a1e4b17b02da2e21bcabd5e5832278a11f046))
+- **theme/regression:** theme switch animation not working ([2287aa9](https://github.com/vuejs/vitepress/commit/2287aa93ca1054a5673427ed92cf131331be20c4)), closes [#5397](https://github.com/vuejs/vitepress/issues/5397)
+- **theme:** align nav bar flyout label with nav link labels ([#5461](https://github.com/vuejs/vitepress/issues/5461)) ([8d75cff](https://github.com/vuejs/vitepress/commit/8d75cfffcb8bcdc862d2f68a1215c233828ff564))
+- **theme:** avoid sidebar spacing without a sidebar ([e9215cb](https://github.com/vuejs/vitepress/commit/e9215cbfdd3dc3ff3d179902f49f2c0653181161)), closes [vuejs/vitepress#5426](https://github.com/vuejs/vitepress/issues/5426)
+- **theme:** correct RTL external link icons and scroll locking ([bead138](https://github.com/vuejs/vitepress/commit/bead1384b2aca9101f3da76d504d7642a42befa0))
+- **theme:** decouple VPButton height from line-height ([#5421](https://github.com/vuejs/vitepress/issues/5421)) ([7afe929](https://github.com/vuejs/vitepress/commit/7afe929937835cace9258095efe286a8c882256a))
+- **theme:** exclude inline footnotes from text selection ([#5541](https://github.com/vuejs/vitepress/issues/5541)) ([8ffc07c](https://github.com/vuejs/vitepress/commit/8ffc07c44eb9a688354d62202336a88c3609ed09))
+- **theme:** keep footnote back-reference in Inter on Safari ([c29e565](https://github.com/vuejs/vitepress/commit/c29e565653fa4006c00e832eb5304aea88738240)), closes [#5428](https://github.com/vuejs/vitepress/issues/5428)
+- **theme:** preserve alt overrides for themed images ([#5457](https://github.com/vuejs/vitepress/issues/5457)) ([61c0cbb](https://github.com/vuejs/vitepress/commit/61c0cbbefe32cbcbc394f5a46b07fbec90bfe80a))
+- **theme:** prevent outline scroll chaining ([#5472](https://github.com/vuejs/vitepress/issues/5472)) ([b2540b0](https://github.com/vuejs/vitepress/commit/b2540b0b9bab650f0c5e99160614adb937da733a))
+- **theme:** render focus blur correctly on WebKit 27 ([#5462](https://github.com/vuejs/vitepress/issues/5462)) (closes [#5459](https://github.com/vuejs/vitepress/issues/5459)) ([23361e2](https://github.com/vuejs/vitepress/commit/23361e24937b636a91ad6913e076d337f9ae9740))
+- **theme:** render home hero blur correctly on Safari 27 ([#5465](https://github.com/vuejs/vitepress/issues/5465)) ([69b11b9](https://github.com/vuejs/vitepress/commit/69b11b9a579714aa83866bb1ad02891ec7f2fd29))
+- **theme:** route CJK symbol fallback through the system font on WebKit ([ae3a548](https://github.com/vuejs/vitepress/commit/ae3a548e7f5e70169ec1bc832dba4b912f90fe10)), closes [#5428](https://github.com/vuejs/vitepress/issues/5428)
+- **theme:** update icons to latest lucide designs ([#5506](https://github.com/vuejs/vitepress/issues/5506)) ([44457ff](https://github.com/vuejs/vitepress/commit/44457ff2cca18439496b954a727fc2e337d52c3c))
+
+### Features
+
+- add support for asset sharding ([#5432](https://github.com/vuejs/vitepress/issues/5432)) ([5f69cc9](https://github.com/vuejs/vitepress/commit/5f69cc9d90a5dff9064624d37937f02785f919eb))
+- **theme:** native rtl support ([#5437](https://github.com/vuejs/vitepress/issues/5437)) ([304207c](https://github.com/vuejs/vitepress/commit/304207c497b66126f60d47be1e7bdf9689181aed))
+
 ## [2.0.0-alpha.20](https://github.com/vuejs/vitepress/compare/v2.0.0-alpha.19...v2.0.0-alpha.20) (2026-09-04)
 
 ### Bug Fixes
