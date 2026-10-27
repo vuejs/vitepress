@@ -210,6 +210,11 @@
  * Footnotes
  * -------------------------------------------------------------------------- */
 
+.vp-doc sup.footnote-ref {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .vp-doc .footnote-ref a,
 .vp-doc .footnote-backref {
   text-decoration: none;
