@@ -28,8 +28,8 @@ import {
   type MarkdownCompileResult
 } from './markdownToVue'
 import { assetsBasePlugin } from './plugins/assetsBasePlugin'
-import { iconsPlugin } from './plugins/iconsPlugin'
 import { dynamicRoutesPlugin } from './plugins/dynamicRoutesPlugin'
+import { iconsPlugin } from './plugins/iconsPlugin'
 import { localSearchPlugin } from './plugins/localSearchPlugin'
 import { rewritesPlugin } from './plugins/rewritesPlugin'
 import { staticDataPlugin } from './plugins/staticDataPlugin'
@@ -42,6 +42,11 @@ import {
 } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
+import {
+  injectStaticMarkers,
+  removeStaticMarkers,
+  stripStaticContent
+} from './utils/leanChunk'
 
 declare module 'vite' {
   interface UserConfig {
@@ -54,9 +59,6 @@ const startsWithThemeRE = /^@theme(?:\/|$)/
 const docsearchRE = /\bdocsearch\b/ // narrow it if any issue arises
 
 const hashRE = /\.([-\w]+)\.js$/
-const staticInjectMarkerRE = /\bcreateStaticVNode\((?:(".*")|('.*')), (\d+)\)/g
-const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
-const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
 // matches client-side js blocks in MPA mode.
 // in the future we may add different execution strategies like visible or
@@ -362,15 +364,7 @@ export async function createVitePressPlugin(
         // For each page chunk, inject marker for start/end of static strings.
         // we do this here because in generateBundle the chunks would have been
         // minified and we won't be able to safely locate the strings.
-        // Using a regexp relies on specific output from Vue compiler core,
-        // which is a reasonable trade-off considering the massive perf win over
-        // a full AST parse.
-        code = code.replace(staticInjectMarkerRE, (_, str1, str2, flag) => {
-          const str = str1 || str2
-          const quote = str[0]
-          return `createStaticVNode(${quote}__VP_STATIC_START__${str.slice(1, -1)}__VP_STATIC_END__${quote}, ${flag})`
-        })
-        return code
+        return injectStaticMarkers(code)
       }
       return null
     },
@@ -406,11 +400,11 @@ export async function createVitePressPlugin(
               type: 'asset',
               name: name + '-lean',
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              source: chunk.code.replace(staticStripRE, `""`)
+              source: stripStaticContent(chunk.code)
             })
 
             // remove static markers from original code
-            chunk.code = chunk.code.replace(staticRestoreRE, '')
+            chunk.code = removeStaticMarkers(chunk.code)
           }
         }
       }
