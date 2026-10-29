@@ -480,5 +480,5 @@ export function isObject(value: unknown): value is ObjectType {
 }
 
 export function isShell(lang: string): boolean {
-  return shellLangs.includes(lang)
+  return shellLangs.includes(lang.toLowerCase())
 }

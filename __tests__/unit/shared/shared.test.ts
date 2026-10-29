@@ -1,6 +1,7 @@
 import {
   createTitle,
   isRelativeBase,
+  isShell,
   joinPath,
   mergeHead,
   pageChunkPath,
@@ -36,6 +37,22 @@ describe('shared/shared', () => {
       expect(createTitle(site as SiteData, page as PageData)).toBe(
         'Using $& and $$ in Bash - Docs'
       )
+    })
+  })
+
+  describe('isShell', () => {
+    test('matches shell languages regardless of case', () => {
+      expect(isShell('bash')).toBe(true)
+      expect(isShell('Bash')).toBe(true)
+      expect(isShell('SH')).toBe(true)
+      expect(isShell('Shell')).toBe(true)
+      expect(isShell('ZSH')).toBe(true)
+      expect(isShell('ShellScript')).toBe(true)
+    })
+
+    test('rejects other languages', () => {
+      expect(isShell('ts')).toBe(false)
+      expect(isShell('')).toBe(false)
     })
   })
 
