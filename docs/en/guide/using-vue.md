@@ -132,6 +132,11 @@ If a component is going to be used on most of the pages, they can be registered 
 Make sure a custom component's name either contains a hyphen or is in PascalCase. Otherwise, it will be treated as an inline element and wrapped inside a `<p>` tag, which will lead to hydration mismatch because `<p>` does not allow block elements to be placed inside it.
 :::
 
+If a custom component renders headings and you want them to appear in the
+default theme outline, make sure each heading renders with an `id` attribute.
+Markdown headings get generated `id`s automatically, but headings rendered
+inside Vue components are not processed by the Markdown pipeline.
+
 ### Using Components In Headers <ComponentInHeader />
 
 You can use Vue components in the headers, but note the difference between the following syntaxes:
