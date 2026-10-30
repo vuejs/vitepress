@@ -172,6 +172,21 @@ export default {
 }
 ```
 
+### Importing Page Data Directly
+
+If you only need data from a few known pages, you can import their generated page data directly instead of creating a content loader:
+
+```vue
+<script setup>
+import { __pageData as about } from './about.md'
+
+console.log(about.frontmatter)
+console.log(about.headers)
+</script>
+```
+
+This exposes the same `PageData` shape used by [`useData()`](../reference/runtime-api#usedata), including the target page's `frontmatter`, `headers`, `title`, and `description`. For larger collections, prefer `createContentLoader` so VitePress can watch matching files and let you transform or filter the data before it is shipped to the client.
+
 **Types**
 
 ```ts
