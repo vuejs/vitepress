@@ -64,17 +64,25 @@ interface PageData {
 
 `page.headers` is populated only when [`markdown.headers`](./site-config#markdown) is enabled. Without that option, it remains an empty array. The default theme outline reads rendered headings from the page content, so it can still appear when `page.headers` is empty.
 
+`theme` is a computed ref to `site.value.themeConfig`. The generic `T` lets custom themes type their own `themeConfig`; it is not limited to the default theme. Access it as `theme.value` in scripts, while templates unwrap the ref automatically. VitePress exposes site data as readonly client data, so nested objects and arrays read from `theme.value` may be Vue readonly proxies. Treat them as configuration data and avoid mutating them or relying on raw object identity.
+
 **Example:**
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import { useData } from 'vitepress'
 
-const { theme } = useData()
+interface MyThemeConfig {
+  footer?: {
+    copyright?: string
+  }
+}
+
+const { theme } = useData<MyThemeConfig>()
 </script>
 
 <template>
-  <h1>{{ theme.footer.copyright }}</h1>
+  <h1>{{ theme.footer?.copyright }}</h1>
 </template>
 ```
 
