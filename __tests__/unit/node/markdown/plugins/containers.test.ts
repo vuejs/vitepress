@@ -333,8 +333,12 @@ describe('node/markdown/plugins/containers', () => {
       '',
       ':::'
     ].join('\n')
-    expect(await render(src)).toMatchInlineSnapshot(`
-      "<div class="vp-code-group"><div class="tabs"><input type="radio" name="group-0" id="tab-1" checked><label data-title="config.js" for="tab-1">config.js</label><input type="radio" name="group-0" id="tab-2" ><label data-title="config.ts" for="tab-2">config.ts</label></div><div class="blocks">
+    const html = await render(src)
+    expect(html).toContain(
+      '<div class="tabs" role="radiogroup" aria-label="Code group">'
+    )
+    expect(html).toMatchInlineSnapshot(`
+      "<div class="vp-code-group"><div class="tabs" role="radiogroup" aria-label="Code group"><input type="radio" name="group-0" id="tab-1" checked><label data-title="config.js" for="tab-1">config.js</label><input type="radio" name="group-0" id="tab-2" ><label data-title="config.ts" for="tab-2">config.ts</label></div><div class="blocks">
       <div class="language-js active" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">js</span><pre><code class="language-js">const a = 1
       </code></pre>
       </div><div class="language-ts" dir="ltr"><button title="Copy code" data-copied="Copied" class="copy"></button><span class="lang">ts</span><pre><code class="language-ts">const a: number = 1
