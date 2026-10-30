@@ -128,8 +128,6 @@ export function useActiveAnchor(
 
     const scrollY = window.scrollY
     const innerHeight = window.innerHeight
-    const offsetHeight = document.body.offsetHeight
-    const isBottom = scrollY + innerHeight - offsetHeight >= 0
 
     // resolvedHeaders may be repositioned, hidden or fix positioned
     const headers = resolvedHeaders
@@ -142,33 +140,12 @@ export function useActiveAnchor(
       .filter(({ top }) => !Number.isNaN(top))
       .sort((a, b) => a.top - b.top)
 
-    // no headers available for active link
-    if (!headers.length) {
-      activateLink(null)
-      return
-    }
+    const scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    )
 
-    // page top
-    if (scrollY < 1) {
-      activateLink(null)
-      return
-    }
-
-    // page bottom - highlight last link
-    if (isBottom) {
-      activateLink(headers.at(-1)?.link ?? null)
-      return
-    }
-
-    // find the last header above the top of viewport
-    let activeLink: string | null = null
-    for (const { link, top, scrollMarginTop } of headers) {
-      if (top > scrollY + scrollMarginTop + 4) {
-        break
-      }
-      activeLink = link
-    }
-    activateLink(activeLink)
+    activateLink(findActiveLink(headers, scrollY, innerHeight, scrollHeight))
   }
 
   function activateLink(hash: string | null) {
@@ -259,4 +236,44 @@ function buildTree(
   })
 
   return result
+}
+
+export function findActiveLink(
+  headers: { link: string; top: number; scrollMarginTop: number }[],
+  scrollY: number,
+  innerHeight: number,
+  scrollHeight: number
+): string | null {
+  if (!headers.length || scrollY < 1) {
+    return null
+  }
+
+  const maxScroll = Math.max(0, scrollHeight - innerHeight)
+  const isBottom = maxScroll > 0 && scrollY >= maxScroll - 2
+
+  if (isBottom) {
+    return headers.at(-1)?.link ?? null
+  }
+
+  const threshold = Math.min(innerHeight, maxScroll)
+  const bottomProgress =
+    threshold > 0
+      ? Math.min(
+          1,
+          Math.max(0, (scrollY - (maxScroll - threshold)) / threshold)
+        )
+      : 0
+
+  let activeLink: string | null = null
+  for (const { link, top, scrollMarginTop } of headers) {
+    const baseOffset = scrollMarginTop + 4
+    const activeLine =
+      scrollY + baseOffset + (innerHeight - baseOffset) * bottomProgress
+    if (top > activeLine) {
+      break
+    }
+    activeLink = link
+  }
+
+  return activeLink
 }
