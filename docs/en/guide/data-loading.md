@@ -61,6 +61,26 @@ When you need to generate data based on local files, you should use the `watch` 
 
 The `watch` option is also convenient in that you can use [glob patterns](https://github.com/mrmlnc/fast-glob#pattern-syntax) to match multiple files. The patterns can be relative to the loader file itself, and the `load()` function will receive the matched files as absolute paths.
 
+You can pass `options.globOptions` to customize how these patterns are matched.
+For example, set `dot: true` if the watched files may start with a dot:
+
+```js
+export default {
+  watch: ['./data/*.json'],
+  options: {
+    globOptions: {
+      dot: true
+    }
+  },
+  load(watchedFiles) {
+    return watchedFiles
+  }
+}
+```
+
+These options are used both when collecting `watchedFiles` and when checking
+whether a dev server update matches the `watch` patterns.
+
 The following example shows loading CSV files and transforming them into JSON using [csv-parse](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse/). Because this file only executes at build time, you will not be shipping the CSV parser to the client!
 
 ```js
