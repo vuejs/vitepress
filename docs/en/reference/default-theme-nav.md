@@ -59,7 +59,21 @@ export default {
 
 The `text` is the actual text displayed in nav, and the `link` is the link that will be navigated to when the text is clicked. For the link, set path to the actual file without `.md` prefix, and always start with `/`.
 
-The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path.
+The `link` can also be a function that accepts [`PageData`](./runtime-api#usedata) as the argument and returns the path. For example, you can point the same nav item to a guide page from the home page, and back to the home page from every other page:
+
+```js
+export default {
+  themeConfig: {
+    nav: [
+      {
+        text: 'Guide',
+        link: ({ relativePath }) =>
+          relativePath === 'index.md' ? '/guide/' : '/'
+      }
+    ]
+  }
+}
+```
 
 Nav links can also be dropdown menus. To do this, set `items` key on link option.
 
