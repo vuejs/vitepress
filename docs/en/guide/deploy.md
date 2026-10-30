@@ -36,6 +36,13 @@ The following guides are based on some shared assumptions:
 
    The `preview` command will boot up a local static web server that will serve the output directory `.vitepress/dist` at `http://localhost:4173`. You can use this to make sure everything looks good before pushing to production.
 
+   ::: tip
+   VitePress output is intended to be served by a static web server. Opening the
+   generated HTML files directly from your file system is not supported, and
+   setting `base: './'` is not a supported workaround. Use `vitepress preview`
+   locally, or deploy the output directory to a static hosting service.
+   :::
+
 3. You can configure the port of the server by passing `--port` as an argument.
 
    ```json
