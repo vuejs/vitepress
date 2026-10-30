@@ -7,11 +7,33 @@ const ignoredNodes = ['.vp-copy-ignore', '.diff.remove'].join(', ')
 export function useCopyCode() {
   if (inBrowser) {
     const timeoutIdMap: WeakMap<HTMLElement, number> = new WeakMap()
+    let selectingBlock: HTMLElement | null = null
+
+    const blockOf = (node: Node | null) =>
+      node?.parentElement?.closest<HTMLElement>('div[class*="language-"]') ??
+      null
+
+    document.addEventListener('selectionchange', () => {
+      const selection = document.getSelection()
+      const block =
+        selection && !selection.isCollapsed
+          ? blockOf(selection.anchorNode) || blockOf(selection.focusNode)
+          : null
+
+      if (selectingBlock && selectingBlock !== block) {
+        selectingBlock.classList.remove('selecting')
+      }
+      if (block) {
+        block.classList.add('selecting')
+      }
+      selectingBlock = block
+    })
+
     window.addEventListener('click', (e) => {
       const el = e.target as HTMLElement
       if (el.matches('div[class*="language-"] > button.copy')) {
         const parent = el.parentElement
-        const sibling = el.nextElementSibling?.nextElementSibling // <pre> tag
+        const sibling = parent?.querySelector('pre')
         if (!parent || !sibling) {
           return
         }
