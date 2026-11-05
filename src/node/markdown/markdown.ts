@@ -29,6 +29,7 @@ import {
 } from '@mdit/plugin-tasklist'
 import { MarkdownItAsync, type MarkdownItAsyncOptions } from 'markdown-it-async'
 import mditCjkFriendly from 'markdown-it-cjk-friendly'
+import type Token from 'markdown-it/lib/token.mjs'
 import type {
   BuiltinLanguage,
   BuiltinTheme,
@@ -489,17 +490,16 @@ export async function createMarkdownRenderer(
     anchorPlugin(md, {
       slugify,
       getTokensText: (tokens) => {
-        return tokens
+        return skipBadgeContent(tokens)
           .filter((t) => !['html_inline', 'emoji'].includes(t.type))
           .map((t) => t.content)
           .join('')
       },
       permalink: (slug, _, state, idx) => {
-        const title =
-          state.tokens[idx + 1]?.children
-            ?.filter((token) => ['text', 'code_inline'].includes(token.type))
-            .reduce((acc, t) => acc + t.content, '')
-            .trim() || ''
+        const title = skipBadgeContent(state.tokens[idx + 1]?.children ?? [])
+          .filter((token) => ['text', 'code_inline'].includes(token.type))
+          .reduce((acc, t) => acc + t.content, '')
+          .trim()
 
         const linkTokens = [
           Object.assign(new state.Token('text', '', 0), { content: ' ' }),
@@ -597,4 +597,20 @@ function normalizePluginOptions<T>(
   value: T | boolean | undefined
 ): T | undefined {
   return typeof value === 'boolean' ? undefined : value
+}
+
+const badgeOpenRE = /^<badge(?:\s[^>]*)?>$/i
+const badgeCloseRE = /^<\/badge\s*>$/i
+
+// drops the children of `<Badge>...</Badge>`, so a badge passing its text
+// through the slot is left out of a heading's slug like one using the prop
+function skipBadgeContent(tokens: Token[]): Token[] {
+  let depth = 0
+  return tokens.filter((t) => {
+    if (t.type === 'html_inline') {
+      if (badgeCloseRE.test(t.content)) depth = Math.max(0, depth - 1)
+      else if (badgeOpenRE.test(t.content) && !t.content.endsWith('/>')) depth++
+    }
+    return depth === 0
+  })
 }
