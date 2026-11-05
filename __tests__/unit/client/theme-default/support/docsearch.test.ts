@@ -3,6 +3,7 @@ import {
   buildSidePanelProps,
   hasAskAi,
   hasKeywordSearch,
+  mergeLangFilters,
   mergeLangFacetFilters,
   validateCredentials
 } from 'client/theme-default/support/docsearch'
@@ -41,13 +42,55 @@ describe('client/theme-default/support/docsearch', () => {
     })
   })
 
+  describe('mergeLangFilters', () => {
+    test('adds a lang filter when none is provided', () => {
+      expect(mergeLangFilters(undefined, 'en')).toBe('lang:en')
+    })
+
+    test('replaces a lang filter in an AND expression', () => {
+      expect(
+        mergeLangFilters('type:lvl AND lang:en-US AND content:*', 'en')
+      ).toBe('(type:lvl AND lang:en AND content:*) AND lang:en')
+    })
+
+    test('replaces a lang filter in an OR group', () => {
+      expect(
+        mergeLangFilters('(type:lvl OR lang:en-US) AND content:*', 'en')
+      ).toBe('((type:lvl OR lang:en) AND content:*) AND lang:en')
+    })
+
+    test('preserves top-level OR precedence', () => {
+      expect(mergeLangFilters('tag:a OR tag:b', 'en')).toBe(
+        '(tag:a OR tag:b) AND lang:en'
+      )
+    })
+
+    test('preserves nested groups containing only lang filters', () => {
+      expect(mergeLangFilters('type:a AND (lang:en OR lang:fr)', 'de')).toBe(
+        '(type:a AND (lang:de OR lang:de)) AND lang:de'
+      )
+    })
+
+    test('preserves negated lang filters', () => {
+      expect(mergeLangFilters('tag:a AND NOT lang:fr', 'en')).toBe(
+        '(tag:a AND NOT lang:fr) AND lang:en'
+      )
+    })
+
+    test('normalizes quoted lang filter values', () => {
+      expect(mergeLangFilters('lang:"en US" AND tag:a', 'en')).toBe(
+        '(lang:en AND tag:a) AND lang:en'
+      )
+    })
+  })
+
   describe('hasKeywordSearch', () => {
     test('returns true when all credentials are provided', () => {
       expect(
         hasKeywordSearch({
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
         })
       ).toBe(true)
     })
@@ -57,41 +100,48 @@ describe('client/theme-default/support/docsearch', () => {
         hasKeywordSearch({
           appId: undefined,
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
         })
       ).toBe(false)
       expect(
         hasKeywordSearch({
           appId: 'app',
           apiKey: undefined,
-          indexName: 'index'
+          indices: ['index']
         })
       ).toBe(false)
       expect(
         hasKeywordSearch({
           appId: 'app',
           apiKey: 'key',
-          indexName: undefined
+          indices: undefined
+        })
+      ).toBe(false)
+      expect(
+        hasKeywordSearch({
+          appId: 'app',
+          apiKey: 'key',
+          indices: []
         })
       ).toBe(false)
     })
   })
 
   describe('hasAskAi', () => {
-    test('returns true for valid string assistantId', () => {
-      expect(hasAskAi('assistant123')).toBe(true)
+    test('returns true for valid string agentId', () => {
+      expect(hasAskAi('agent123')).toBe(true)
     })
 
-    test('returns false for empty string assistantId', () => {
+    test('returns false for empty string agentId', () => {
       expect(hasAskAi('')).toBe(false)
     })
 
-    test('returns true for object with assistantId', () => {
-      expect(hasAskAi({ assistantId: 'assistant123' } as any)).toBe(true)
+    test('returns true for object with agentId', () => {
+      expect(hasAskAi({ agentId: 'agent123' } as any)).toBe(true)
     })
 
-    test('returns false for object without assistantId', () => {
-      expect(hasAskAi({ assistantId: null } as any)).toBe(false)
+    test('returns false for object without agentId', () => {
+      expect(hasAskAi({ agentId: null } as any)).toBe(false)
       expect(hasAskAi({} as any)).toBe(false)
     })
 
@@ -105,12 +155,12 @@ describe('client/theme-default/support/docsearch', () => {
       const result = validateCredentials({
         appId: 'app',
         apiKey: 'key',
-        indexName: 'index'
+        indices: ['index']
       })
       expect(result.valid).toBe(true)
       expect(result.appId).toBe('app')
       expect(result.apiKey).toBe('key')
-      expect(result.indexName).toBe('index')
+      expect(result.indices).toEqual(['index'])
     })
 
     test('invalidates incomplete credentials', () => {
@@ -118,87 +168,140 @@ describe('client/theme-default/support/docsearch', () => {
         validateCredentials({
           appId: undefined,
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
         }).valid
       ).toBe(false)
     })
   })
 
   describe('buildAskAiConfig', () => {
-    test('builds config from string assistantId', () => {
+    test('builds config from string agentId', () => {
       const result = buildAskAiConfig(
-        'assistant123',
+        'agent123',
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
         } as any,
         'en'
       )
-      expect(result.assistantId).toBe('assistant123')
+      expect(result.agentId).toBe('agent123')
       expect(result.appId).toBe('app')
       expect(result.apiKey).toBe('key')
-      expect(result.indexName).toBe('index')
+      expect(result.indices).toBeUndefined()
     })
 
     test('builds config from object with overrides', () => {
       const result = buildAskAiConfig(
         {
-          assistantId: 'assistant123',
+          agentId: 'agent123',
           appId: 'custom-app',
-          apiKey: 'custom-key',
-          indexName: 'custom-index'
+          apiKey: 'custom-key'
         } as any,
         {
           appId: 'default-app',
           apiKey: 'default-key',
-          indexName: 'default-index'
+          indices: ['default-index']
         } as any,
         'en'
       )
-      expect(result.assistantId).toBe('assistant123')
+      expect(result.agentId).toBe('agent123')
       expect(result.appId).toBe('custom-app')
       expect(result.apiKey).toBe('custom-key')
-      expect(result.indexName).toBe('custom-index')
+      expect(result.indices).toBeUndefined()
     })
 
-    test('merges facet filters with lang', () => {
+    test('merges filters with lang by index', () => {
       const result = buildAskAiConfig(
         {
-          assistantId: 'assistant123',
+          agentId: 'agent123',
+          indices: ['ai_index'],
           searchParameters: {
-            facetFilters: ['tag:docs']
+            ai_index: {
+              filters: 'tag:docs'
+            }
           }
-        } as any,
+        },
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index'
-        } as any,
+          indices: ['index']
+        },
         'en'
       )
-      expect(result.searchParameters?.facetFilters).toContain('tag:docs')
-      expect(result.searchParameters?.facetFilters).toContain('lang:en')
+      expect(result.searchParameters?.ai_index.filters).toBe(
+        '(tag:docs) AND lang:en'
+      )
     })
 
-    test('always adds lang facet filter to searchParameters', () => {
+    test('adds lang filters for indices without search parameters', () => {
       const result = buildAskAiConfig(
-        'assistant123',
+        {
+          agentId: 'agent123',
+          indices: ['ai_index']
+        },
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
+        },
+        'en'
+      )
+
+      expect(result.searchParameters).toEqual({
+        ai_index: {
+          filters: 'lang:en'
+        }
+      })
+    })
+
+    test('merges configured indices with search parameter indices', () => {
+      const result = buildAskAiConfig(
+        {
+          agentId: 'agent123',
+          indices: ['configured_index'],
+          searchParameters: {
+            parameter_index: {
+              distinct: false
+            }
+          }
+        },
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indices: ['index']
+        },
+        'en'
+      )
+
+      expect(result.searchParameters).toEqual({
+        configured_index: {
+          filters: 'lang:en'
+        },
+        parameter_index: {
+          distinct: false,
+          filters: 'lang:en'
+        }
+      })
+    })
+
+    test('does not create index-specific search parameters for string config', () => {
+      const result = buildAskAiConfig(
+        'agent123',
+        {
+          appId: 'app',
+          apiKey: 'key',
+          indices: ['index']
         } as any,
         'en'
       )
-      expect(result.searchParameters?.facetFilters).toEqual(['lang:en'])
+      expect(result.searchParameters).toBeUndefined()
     })
 
-    test('preserves Agent Studio search parameters by index', () => {
+    test('adds lang filters to search parameters by index', () => {
       const result = buildAskAiConfig(
         {
-          assistantId: 'assistant123',
-          agentStudio: true,
+          agentId: 'agent123',
           searchParameters: {
             index: {
               distinct: false
@@ -208,7 +311,7 @@ describe('client/theme-default/support/docsearch', () => {
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index',
+          indices: ['index'],
           searchParameters: {
             facetFilters: ['tag:docs']
           }
@@ -218,7 +321,8 @@ describe('client/theme-default/support/docsearch', () => {
 
       expect(result.searchParameters).toEqual({
         index: {
-          distinct: false
+          distinct: false,
+          filters: 'lang:en'
         }
       })
       expect(result.searchParameters).not.toHaveProperty('facetFilters')
@@ -227,13 +331,12 @@ describe('client/theme-default/support/docsearch', () => {
     test('does not add legacy facet filters to Agent Studio config', () => {
       const result = buildAskAiConfig(
         {
-          assistantId: 'assistant123',
-          agentStudio: true
+          agentId: 'agent123'
         } as any,
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index',
+          indices: ['index'],
           searchParameters: {
             facetFilters: ['tag:docs']
           }
@@ -249,15 +352,13 @@ describe('client/theme-default/support/docsearch', () => {
     test('passes resolved Ask AI options to the side panel', () => {
       const result = buildSidePanelProps(
         {
-          assistantId: 'assistant123',
-          agentStudio: true,
+          agentId: 'agent123',
           searchParameters: {
             index: {
               facetFilters: ['lang:en']
             }
           },
           suggestedQuestions: true,
-          useStagingEnv: true,
           sidePanel: {
             button: {
               variant: 'inline'
@@ -271,7 +372,7 @@ describe('client/theme-default/support/docsearch', () => {
         {
           appId: 'app',
           apiKey: 'key',
-          indexName: 'index'
+          indices: ['index']
         } as any
       )
 
@@ -279,16 +380,13 @@ describe('client/theme-default/support/docsearch', () => {
         container: '#vp-docsearch-sidepanel',
         appId: 'app',
         apiKey: 'key',
-        indexName: 'index',
-        assistantId: 'assistant123',
-        agentStudio: true,
+        agentId: 'agent123',
         searchParameters: {
           index: {
             facetFilters: ['lang:en']
           }
         },
         suggestedQuestions: true,
-        useStagingEnv: true,
         button: {
           variant: 'inline'
         },
