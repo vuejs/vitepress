@@ -106,12 +106,12 @@ export function createRouter(
       if (!page) throw new Error(`Page not found: ${pendingPath}`)
 
       if (latestPendingPath === pendingPath) {
-        latestPendingPath = null
-
         const { default: comp, __pageData } = page
         if (!comp) throw new Error(`Invalid route component: ${comp}`)
 
         await router.onAfterPageLoad?.(href)
+        if (latestPendingPath !== pendingPath) return
+        latestPendingPath = null
 
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = markRaw(comp)
@@ -151,10 +151,12 @@ export function createRouter(
       // retry on fetch fail: the page to hash map may have been invalidated
       // because a new deploy happened while the page is open. Try to fetch
       // the updated pageToHash map and fetch again.
-      if (!isRetry) {
+      if (!isRetry && latestPendingPath === pendingPath) {
         try {
           const res = await fetch(runtimeBase() + 'hashmap.json')
-          ;(window as any).__VP_HASH_MAP__ = await res.json()
+          const hashMap = await res.json()
+          if (latestPendingPath !== pendingPath) return
+          ;(window as any).__VP_HASH_MAP__ = hashMap
           await loadPage(href, { scrollPosition, isRetry: true, initialLoad })
           return
         } catch (e) {}
