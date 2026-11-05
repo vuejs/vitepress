@@ -33,4 +33,25 @@ describe('outline', () => {
       '#h4-3'
     ])
   })
+
+  test('closes the local nav dropdown when the link text is clicked', async () => {
+    await page.setViewportSize({ width: 960, height: 720 })
+    try {
+      await goto('/frontmatter/multiple-levels-outline')
+      const button = page.locator('.VPLocalNavOutlineDropdown > button')
+      await button.click()
+      await expect.poll(() => button.getAttribute('aria-expanded')).toBe('true')
+
+      // click the <bdi> holding the text, not the padding of the link
+      await page
+        .locator('.VPLocalNavOutlineDropdown .outline-link[href="#h3-2"] bdi')
+        .click()
+      await expect
+        .poll(() => button.getAttribute('aria-expanded'))
+        .toBe('false')
+      expect(new URL(page.url()).hash).toBe('#h3-2')
+    } finally {
+      await page.setViewportSize({ width: 1280, height: 720 })
+    }
+  })
 })
