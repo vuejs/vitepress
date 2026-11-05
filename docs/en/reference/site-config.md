@@ -794,6 +794,35 @@ export default {
 }
 ```
 
+### transformPageDataHmr <Badge type="warning" text="experimental" />
+
+- Type: `boolean`
+- Default: `false`
+
+Set this to `true` when [`transformPageData`](#transformpagedata) derives data
+from another Markdown page and that data should be regenerated for every page
+during development. Markdown edits clear VitePress's Markdown result cache,
+invalidate the client module graph and trigger a full reload so dependent page
+data is regenerated.
+
+This option is disabled by default to preserve normal HMR for page-local
+`transformPageData` hooks. Its full-reload path reacts to Markdown file changes
+only; it does not automatically watch arbitrary files read by the hook. For
+non-Markdown dynamic-route inputs, declare the files in the route module's
+`watch` option. Those changes use the dynamic route's normal HMR path rather
+than this site-wide full-reload path. It does not replace `markdown.cache`,
+which controls Markdown compilation caching rather than the complete HMR
+invalidation flow.
+
+```ts
+export default {
+  transformPageDataHmr: true,
+  transformPageData(pageData) {
+    // derive data from another Markdown page
+  }
+}
+```
+
 ### transformPageData
 
 - Type: `(pageData: PageData, context: TransformPageContext) => Awaitable<Partial<PageData> | { [key: string]: any } | void>`
