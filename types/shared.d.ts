@@ -594,9 +594,11 @@ export interface MarkdownEnv {
    */
   links?: string[]
   /**
-   * The line numbers at which each of `links` appears in the source.
+   * The metadata of the links collected from the page.
+   * - `rawLink`: The url as written
+   * - `line`: The line number at which the link appears in the source.
    */
-  linkLines?: number[]
+  linkMetadatas?: { rawLink: string; line?: number }[]
   /**
    * The absolute paths of the files inlined via `<!--@include-->` and
    * imported via `<<<` code snippets, used for watch invalidation.
