@@ -119,7 +119,7 @@ CJK_BASE_VAR = """\
 
 /* Traditional Chinese */
 /* https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/likelySubtags.json */
-/* Tentative: for regions that belong to neither PRC nor ROC, leave Chinese fonts to the user. */
+/* Tentative: for regions that any Chinese fonts are optimized for, leave Chinese fonts to the user. */
 /* :lang(zh-[REGION]) matches zh-Hans-[REGION], which is unwanted, so we prefer [lang|=zh-[REGION]] instead. */
 [lang]:where(:lang(zh-Hant)), [lang|=zh-AU i], [lang|=zh-BN i], [lang|=zh-GB i], [lang|=zh-GF i], [lang|=zh-ID i], [lang|=zh-PA i], [lang|=zh-PF i], [lang|=zh-PH i], [lang|=zh-SR i], [lang|=zh-TH i], [lang|=zh-US i], [lang|=zh-VN i] {
   --vp-font-family-base:
@@ -146,8 +146,7 @@ CJK_BASE_VAR = """\
 [lang]:where(:lang(zh-Hant-MO)), [lang|=zh-MO i] {
   /* A Macao variant for Noto Sans CJK / Source Han Sans has not been released yet as of 2026-09. */
   --vp-font-family-base:
-    'Inter Core', 'PingFang MO', 'PingFang HK', 'Noto Sans CJK HK', 'Noto Sans HK',
-    BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Inter Core', 'PingFang MO', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
