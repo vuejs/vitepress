@@ -119,16 +119,9 @@ CJK_BASE_VAR = """\
 
 /* Traditional Chinese */
 /* https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-core/supplemental/likelySubtags.json */
-/* Tentative: for regions that any Chinese fonts are optimized for, leave Chinese fonts to the user. */
 /* :lang(zh-[REGION]) matches zh-Hans-[REGION], which is unwanted, so we prefer [lang|=zh-[REGION]] instead. */
-[lang]:where(:lang(zh-Hant)), [lang|=zh-AU i], [lang|=zh-BN i], [lang|=zh-GB i], [lang|=zh-GF i], [lang|=zh-ID i], [lang|=zh-PA i], [lang|=zh-PF i], [lang|=zh-PH i], [lang|=zh-SR i], [lang|=zh-TH i], [lang|=zh-US i], [lang|=zh-VN i] {
-  --vp-font-family-base:
-    'Inter Core', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
-
 /* We can't cover cases that don't contain region subtag but contain extension subtags, such as -t-en due to CSS's limitation as of 2026-09 */
-[lang=zh-Hant i], [lang|=zh-TW i], :lang(zh-Hant-TW, zh-Bopo, zh-Hanb) {
+[lang]:where(:lang(zh-Hant, zh-Bopo, zh-Hanb)), [lang|=zh-TW i], [lang|=zh-AU i], [lang|=zh-BN i], [lang|=zh-GB i], [lang|=zh-GF i], [lang|=zh-ID i], [lang|=zh-PA i], [lang|=zh-PF i], [lang|=zh-PH i], [lang|=zh-SR i], [lang|=zh-TH i], [lang|=zh-US i], [lang|=zh-VN i] {
   --vp-font-family-base:
     'Inter Core', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Microsoft JhengHei',
     BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
@@ -144,9 +137,9 @@ CJK_BASE_VAR = """\
 }
 
 [lang]:where(:lang(zh-Hant-MO)), [lang|=zh-MO i] {
-  /* A Macao variant for Noto Sans CJK / Source Han Sans has not been released yet as of 2026-09. */
+  /* A Macao variant for Noto Sans CJK / Source Han Sans has not been released yet as of 2026-11. */
   --vp-font-family-base:
-    'Inter Core', 'PingFang MO', BlinkMacSystemFont, sans-serif, 'Apple Color Emoji',
+    'Inter Core', 'PingFang MO', 'PingFang HK', BlinkMacSystemFont, 'Noto Sans CJK HK', 'Noto Sans HK', sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
