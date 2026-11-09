@@ -54,6 +54,30 @@ description: Netlify, Vercel, GitHub Pages 등 인기 있는 플랫폼에 VitePr
 
 **예**: Github(또는 GitLab) Pages를 사용하여 `user.github.io/repo/`에 배포하는 경우, `base`를 `/repo/`로 설정하세요.
 
+## 재배치 가능한 빌드 (상대 경로 기준) {#relocatable-builds-relative-base}
+
+빌드 시점에 사이트의 최종 URL을 알 수 없는 경우(IPFS 게이트웨이(`https://gateway/ipfs/<cid>/…`), Wayback Machine, 공유 폴더, 앱에 번들로 포함된 문서 등)에는 `base`를 `'./'`로 설정하세요:
+
+```ts
+export default {
+  base: './'
+}
+```
+
+이렇게 하면 모든 페이지가 에셋과 다른 페이지를 자신의 위치 기준 상대 경로로 참조하고, 클라이언트 런타임이 페이지 로드 시 실제 마운트 지점을 복원합니다. 동일한 빌드를 재빌드 없이 **어떤** 서브 경로에서든(여러 경로에서 동시에도) 사용할 수 있으며, 라우팅, 검색, 프리페칭이 모두 정상적으로 동작합니다.
+
+생성된 HTML 파일을 파일 시스템(`file://`)에서 바로 열어도 스타일이 적용되고 완전히 탐색 가능한 정적 사이트로 동작합니다. 브라우저는 `file://`에서 JavaScript 모듈을 차단하므로 이 경우 하이드레이션은 없습니다. 검색 같은 인터랙티브 기능은 비활성화되지만, 사전 렌더링된 콘텐츠와 링크는 모두 계속 동작합니다.
+
+알아두어야 할 몇 가지 사항:
+
+- [`cleanUrls`](../reference/site-config#cleanurls)는 끈 상태(기본값)를 유지하세요. 이식 가능한 출력물에는 `.html`로 끝나는 링크가 필요합니다. 예쁜 URL로 재작성해 줄 서버가 없기 때문입니다.
+- `404.html`은 루트 깊이에 대해 생성됩니다. 임의로 깊은 URL의 폴백으로 이를 제공하는 호스트에서는 스타일 없이 렌더링됩니다(알 수 없는 깊이에는 올바른 상대 경로 접두사가 없기 때문입니다).
+- [`head`](../reference/site-config#head) 항목은 항상 그대로 출력되므로, `/favicon.ico` 같은 루트 절대 경로는 피하고 절대 URL이나 `transformHead`를 사용하세요.
+- Markdown 안의 원시 HTML `<a>` 태그는 `href`를 작성한 그대로 유지하므로, 사이트 절대 링크에는 Markdown 링크 문법을 사용하세요(내장 `<img>` 소스는 에셋 파이프라인을 거치므로 처리됩니다).
+- [`createContentLoader`](./data-loading#createcontentloader) 콘텐츠가 생성한 링크는 사이트 절대 경로로 유지됩니다(HTML이 다른 페이지에 내장되므로 단일한 올바른 상대 경로 접두사가 없습니다). 루트 마운트에서만 해석됩니다.
+- 페이지는 정규 URL로 제공하세요. 루트는 `/dir/`(`/dir`이 아님)로, 페이지 URL에는 후행 슬래시를 추가하지 마세요. 상대 경로 접두사는 브라우저에 실제로 표시되는 URL을 기준으로 해석되며, 사실상 모든 정적 호스트가 이미 이런 방식으로 정규화합니다.
+- 개발 서버는 항상 `/`에서 제공됩니다. 상대 경로 동작은 프로덕션 빌드에 적용됩니다.
+
 ## HTTP 캐시 헤더 {#http-cache-headers}
 
 프로덕션 서버에서 HTTP 헤더를 제어할 수 있다면, 반복 방문 시 더 나은 성능을 위해 `cache-control` 헤더를 구성할 수 있습니다.
@@ -165,6 +189,13 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
            with:
              node-version: 24
              cache: npm # 또는 pnpm / yarn
+         - name: Cache VitePress
+           uses: actions/cache@v4
+           with:
+             path: docs/.vitepress/cache
+             key: ${{ runner.os }}-vitepress-${{ hashFiles('docs/**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+             restore-keys: |
+               ${{ runner.os }}-vitepress-
          - name: Setup Pages
            uses: actions/configure-pages@v4
          - name: Install dependencies
@@ -282,9 +313,31 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 [Hostinger](https://www.hostinger.com/web-apps-hosting)로 VitePress 프로젝트를 배포하려면 이 [지침](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/)을 따르세요. 빌드 설정을 구성할 때 프레임워크로 VitePress를 선택하고 루트 디렉터리를 `./docs`로 조정하세요.
 
-### Kinsta
+### Lizard
 
-[VitePress](https://kinsta.com/static-site-hosting/) 웹사이트를 [Kinsta](https://kinsta.com/static-site-hosting/)에 배포하려면 이 [지침](https://kinsta.com/docs/vitepress-static-site-example/)을 따르세요.
+[Lizard (lizard.build)](https://lizard.build)는 소스에서 VitePress 사이트를 빌드하고 생성된 HTML을 제공합니다. 이 가이드의 레이아웃에서는 `docs:build`를 감지하여 `docs/.vitepress/dist`를 `80` 포트에서 제공합니다.
+
+[Lizard CLI](https://lizard.build/docs/cli)를 설치하고 `lizard login`으로 로그인하세요. 로컬 소스 디렉토리를 배포하려면 `package.json`이 있는 프로젝트 루트에서 다음 명령어를 실행하세요:
+
+```sh
+lizard init --name vitepress-docs
+lizard add --service web
+lizard up --service web --port 80
+```
+
+자동 감지를 사용하려면 빌드 및 시작 명령어 재정의를 비워 두세요. GitHub 배포나 다른 레이아웃은 [Lizard VitePress 가이드](https://lizard.build/docs/framework-guides/vitepress)를 참고하세요.
+
+### Pethost
+
+[Pethost](https://pethost.dev)는 소스에서 VitePress 사이트를 빌드하고 HTTPS로 제공합니다.
+
+[Pethost CLI](https://pethost.dev/docs/cli/)를 설치하고, `package.json`이 있는 프로젝트 루트에서 다음 명령어를 실행하세요:
+
+```sh
+pethost deploy
+```
+
+`vitepress build`를 실행하는 스크립트를 찾아 이를 실행하고 `docs/.vitepress/dist`를 제공하는 `Dockerfile`을 작성한 뒤 사이트 주소를 출력합니다. GitHub 배포와 커스텀 도메인은 [Pethost VitePress 가이드](https://pethost.dev/blog/deploy-vitepress-site/)를 참고하세요.
 
 ### Stormkit
 
@@ -292,52 +345,82 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 ### Surge
 
-1. `npm run docs:build`를 실행한 후, 배포하기 위해 이 명령어를 실행하세요:
+`npm run docs:build`를 실행한 후, [Surge](https://surge.sh)에 배포하기 위해 이 명령어를 실행하세요:
 
-   ```sh
-   npx surge docs/.vitepress/dist
-   ```
-
-### Nginx
-
-다음은 Nginx 서버 블록 구성의 예입니다. 이 설정은 일반적인 텍스트 기반 에셋에 대한 gzip 압축, VitePress 사이트의 정적 파일을 적절한 캐싱 헤더와 함께 제공하는 규칙 및 `cleanUrls: true`를 처리하는 규칙을 포함합니다.
-
-```nginx
-server {
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
-    listen 80;
-    server_name _;
-    index index.html;
-
-    location / {
-        # 콘텐츠 위치
-        root /app;
-
-        # 정확히 일치하는 파일 -> 정제된 URL로 역방향 매핑 -> 폴더 -> 파일 없음
-        try_files $uri $uri.html $uri/ =404;
-
-        # 존재하지 않는 페이지
-        error_page 404 /404.html;
-
-        # index.html이 없는 폴더는 이 설정에서 403 오류를 발생시킴
-        error_page 403 /404.html;
-
-        # 캐싱 헤더 조정
-        # assets 폴더의 파일들은 해시된 파일명 사용
-        location ~* ^/assets/ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
-    }
-}
+```sh
+npx surge docs/.vitepress/dist
 ```
 
-이 구성은 빌드된 VitePress 사이트가 서버의 `/app` 디렉토리에 위치한다고 가정합니다. 사이트 파일이 다른 곳에 위치한 경우 `root` 지시문을 적절하게 조정하세요.
+### deed.page
 
-::: warning index.html을 기본값으로 설정하지 마세요.
-try_files는 다른 Vue 애플리케이션처럼 index.html을 기본값으로 할 수 없습니다. 이는 페이지 상태가 유효하지 않게 만듭니다.
-:::
+`npm run docs:build`를 실행한 후, 출력 폴더를 압축하여 하나의 HTTP `PUT`으로 [deed.page](https://deed.page)에 업로드하세요. 계정이 필요하지 않습니다:
 
-추가 정보는 [공식 nginx 문서](https://nginx.org/en/docs/), 이슈 [#2837](https://github.com/vuejs/vitepress/discussions/2837), [#3235](https://github.com/vuejs/vitepress/issues/3235) 및 Mehdi Merah의 [블로그 포스트](https://blog.mehdi.cc/articles/vitepress-cleanurls-on-nginx-environment#readings)에서 확인할 수 있습니다.
+```sh
+tar -C docs/.vitepress/dist -czf site.tar.gz .
+curl -T site.tar.gz "https://deed.page/v1/sites?slug=my-docs"
+```
+
+응답에는 라이브 `https://my-docs.deed.page/` URL과 토큰이 포함됩니다. 같은 슬러그에 업데이트를 게시하려면 토큰을 `Authorization: Bearer <token>`으로 보내세요. 한 번의 업로드는 4MB로 제한되므로, 더 큰 빌드는 [deed.page 문서](https://deed.page/docs)에 설명된 매니페스트 업로드를 사용합니다.
+
+### harvis
+
+`npm run docs:build`를 실행한 후, [harvis](https://harvis.dev)에 배포하기 위해 이 명령어를 실행하세요:
+
+```sh
+npx harvis docs/.vitepress/dist
+```
+
+### nginx
+
+다음은 nginx 서버 블록 구성의 예입니다. 이 설정은 일반적인 텍스트 기반 에셋에 대한 gzip 압축, VitePress 사이트의 정적 파일을 적절한 캐싱 헤더와 함께 제공하는 규칙 및 `cleanUrls: true`를 처리하는 규칙을 포함합니다.
+
+```nginx
+map $uri $cache_control {
+    ~^/assets/  "public, max-age=31536000, immutable";
+    default     "no-cache";
+}
+
+server {
+    listen 8080;
+    listen [::]:8080;
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+    charset utf-8;
+    server_tokens off;
+
+    absolute_redirect off;
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 5;
+    gzip_min_length 1024;
+    gzip_types
+        application/javascript
+        application/json
+        application/manifest+json
+        image/svg+xml
+        text/css
+        text/javascript
+        text/plain;
+
+    add_header Cache-Control $cache_control always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    location / {
+        try_files $uri $uri.html $uri/index.html =404;
+    }
+
+    location ~ ^(?<page>.+)/$ {
+        if (-f $document_root$page.html) {
+            return 301 $page$is_args$args;
+        }
+        try_files $page/index.html =404;
+    }
+
+    error_page 404 /404.html;
+}
+```
