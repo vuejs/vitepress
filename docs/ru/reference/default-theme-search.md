@@ -267,7 +267,7 @@ export default defineConfig({
 
 ### Боковая панель Ask AI {#ask-ai-side-panel}
 
-DocSearch v4.5+ поддерживает опциональную **боковую панель Ask AI**. Когда она включена, её можно открыть с помощью **Ctrl/Cmd+I** по умолчанию. [Справочник API боковой панели](https://docsearch.algolia.com/docs/sidepanel/api-reference) содержит полный список опций.
+DocSearch v4.5+ поддерживает опциональную **боковую панель Ask AI**. Когда она включена, её можно открыть с помощью **Ctrl/Cmd+I** по умолчанию. [Справочник API боковой панели](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference) содержит полный список опций.
 
 ```ts
 import { defineConfig } from 'vitepress'

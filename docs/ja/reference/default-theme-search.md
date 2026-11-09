@@ -261,7 +261,7 @@ export default defineConfig({
 
 ### Ask AI サイドパネル {#ask-ai-side-panel}
 
-DocSearch v4.5+ はオプションの **Ask AI サイドパネル**をサポートしています。有効にすると、デフォルトで **Ctrl/Cmd+I** で開くことができます。[サイドパネル API リファレンス](https://docsearch.algolia.com/docs/sidepanel/api-reference)にオプションの完全なリストがあります。
+DocSearch v4.5+ はオプションの **Ask AI サイドパネル**をサポートしています。有効にすると、デフォルトで **Ctrl/Cmd+I** で開くことができます。[サイドパネル API リファレンス](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference)にオプションの完全なリストがあります。
 
 ```ts
 import { defineConfig } from 'vitepress'
