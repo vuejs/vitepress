@@ -316,6 +316,32 @@ Cache-Control: max-age=31536000,immutable
 
 Вы можете развернуть свой проект VitePress на [Hostinger](https://www.hostinger.com/web-apps-hosting), следуя этим [инструкциям](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/). При настройке параметров сборки выберите VitePress в качестве фреймворка и укажите корневой каталог `./docs`.
 
+### Lizard
+
+[Lizard (lizard.build)](https://lizard.build) собирает сайты VitePress из исходного кода и раздаёт сгенерированный HTML. Для структуры проекта, описанной в этом руководстве, он определяет `docs:build` и раздаёт `docs/.vitepress/dist` на порту `80`.
+
+Установите [Lizard CLI](https://lizard.build/docs/cli) и войдите в аккаунт командой `lizard login`. Чтобы развернуть локальный каталог с исходниками, выполните эти команды из корня проекта, где находится `package.json`:
+
+```sh
+lizard init --name vitepress-docs
+lizard add --service web
+lizard up --service web --port 80
+```
+
+Оставьте команды сборки и запуска не переопределёнными, чтобы использовать автоматическое определение. Для развёртываний из GitHub или других структур проекта см. [руководство Lizard по VitePress](https://lizard.build/docs/framework-guides/vitepress).
+
+### Pethost
+
+[Pethost](https://pethost.dev) собирает сайты VitePress из исходного кода и раздаёт их по HTTPS.
+
+Установите [Pethost CLI](https://pethost.dev/docs/cli/) и выполните эту команду из корня проекта, где находится `package.json`:
+
+```sh
+pethost deploy
+```
+
+Он находит скрипт, запускающий `vitepress build`, создаёт `Dockerfile`, который выполняет его и раздаёт `docs/.vitepress/dist`, а затем выводит адрес сайта. Для развёртываний из GitHub и собственного домена см. [руководство Pethost по VitePress](https://pethost.dev/blog/deploy-vitepress-site/).
+
 ### Stormkit
 
 Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
@@ -327,6 +353,17 @@ Cache-Control: max-age=31536000,immutable
 ```sh
 npx surge docs/.vitepress/dist
 ```
+
+### deed.page
+
+После запуска `npm run docs:build` упакуйте папку с результатами сборки и загрузите её на [deed.page](https://deed.page) одним HTTP-запросом `PUT`. Аккаунт не требуется:
+
+```sh
+tar -C docs/.vitepress/dist -czf site.tar.gz .
+curl -T site.tar.gz "https://deed.page/v1/sites?slug=my-docs"
+```
+
+Ответ содержит действующий адрес `https://my-docs.deed.page/` и токен. Отправляйте токен в заголовке `Authorization: Bearer <token>`, чтобы публиковать обновления для того же slug. Размер одной загрузки ограничен 4 МБ, поэтому для более крупных сборок используйте загрузку манифеста, описанную в [документации deed.page](https://deed.page/docs).
 
 ### harvis
 

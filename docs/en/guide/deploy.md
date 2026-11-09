@@ -330,6 +330,18 @@ lizard up --service web --port 80
 
 Leave build and start command overrides unset to use automatic detection. For GitHub deployments or other layouts, see the [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress).
 
+### Pethost
+
+[Pethost](https://pethost.dev) builds VitePress sites from source and serves them over HTTPS.
+
+Install the [Pethost CLI](https://pethost.dev/docs/cli/), and run this command from the project root containing `package.json`:
+
+```sh
+pethost deploy
+```
+
+It finds the script that runs `vitepress build`, writes a `Dockerfile` that runs it and serves `docs/.vitepress/dist`, and prints the site's address. For GitHub deploys and your own domain, see the [Pethost VitePress guide](https://pethost.dev/blog/deploy-vitepress-site/).
+
 ### Stormkit
 
 You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
@@ -341,6 +353,17 @@ After running `npm run docs:build`, run this command to deploy to [Surge](https:
 ```sh
 npx surge docs/.vitepress/dist
 ```
+
+### deed.page
+
+After running `npm run docs:build`, pack the output folder and upload it to [deed.page](https://deed.page) with one HTTP `PUT`. No account is needed:
+
+```sh
+tar -C docs/.vitepress/dist -czf site.tar.gz .
+curl -T site.tar.gz "https://deed.page/v1/sites?slug=my-docs"
+```
+
+The response includes the live `https://my-docs.deed.page/` URL and a token. Send the token as `Authorization: Bearer <token>` to publish updates to the same slug. A single upload is capped at 4 MB, so larger builds use the manifest upload described in the [deed.page docs](https://deed.page/docs).
 
 ### harvis
 

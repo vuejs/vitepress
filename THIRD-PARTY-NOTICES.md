@@ -691,7 +691,7 @@ Repository: https://github.com/jonschlinkert/gray-matter
 
 License: MIT
 By: netroy <aditya@netroy.in> (http://netroy.in/)
-Repository: https://github.com/image-size/image-size
+Repository: https://codeberg.org/image-size/image-size
 
 > The MIT License (MIT)
 >

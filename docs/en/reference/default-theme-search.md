@@ -112,6 +112,8 @@ export default defineConfig({
 
 Learn more in [MiniSearch docs](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
+By default, runs of Chinese or Japanese characters are segmented into words with [`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter), since these languages do not separate words with spaces. Browsers without `Intl.Segmenter` fall back to the plain split, so multi-word queries in these languages may not match there. Setting `options.tokenize` replaces this behavior.
+
 ::: info Document IDs
 Search document IDs (as seen by `searchOptions.filter`, `boostDocument`, and in the raw index) are site-relative paths like `/guide/page.html#section` — they do not include [`base`](../reference/site-config#base). The theme resolves them against the base when rendering results.
 :::

@@ -28,7 +28,7 @@ const includeRE = /<!--\s*@include:\s*(.*?)\s*-->/g
 const rangeRE = /\{(\d*),(\d*)\}$/
 const regionRE = /#([^\s{]+)$/
 const separatorRE = /[\\/]/
-const fenceRE = /^ {0,3}(`{3,}|~{3,})/
+const fenceRE = /^ {0,3}(`{3,}|~{3,})(.*)/
 const rebaseMarkerRE = /^[ \t]*<!-- @include-(?:start: (.*)|end) -->[ \t]*$/gm
 
 // per-render stacks of included-file directories, driven by the rebase
@@ -71,7 +71,8 @@ async function processIncludes(
   env: MarkdownEnv,
   options: Options,
   logger: Pick<Logger, 'warn'>,
-  ancestors: string[] = []
+  ancestors: string[] = [],
+  fenced = false
 ): Promise<string> {
   return replaceAsync(src, includeRE, async (...args: string[]) => {
     const [m, , rawOffset] = args
@@ -155,6 +156,10 @@ async function processIncludes(
       lines = lines.slice(start - 1, end)
     }
 
+    // everything included from inside a fence is code, at any depth
+    const offset = rawOffset as unknown as number
+    const inFence = fenced || isInsideFence(src, offset)
+
     // recursively process includes in the content
     const expanded = await processIncludes(
       md,
@@ -164,7 +169,8 @@ async function processIncludes(
       env,
       options,
       logger,
-      [...ancestors, file]
+      [...ancestors, file],
+      inFence
     )
 
     // wrap included markdown in markers driving the url rebasing at render
@@ -172,11 +178,10 @@ async function processIncludes(
     // lines keep them out of adjacent html blocks, and directives that are
     // not on a line of their own - inline ones and those inside fences -
     // are left unwrapped so the markers can't end up in the output.
-    const offset = rawOffset as unknown as number
     return options.rebaseRelativeUrls !== false &&
       path.extname(includePath) === '.md' &&
       isOwnLine(src, offset, m.length) &&
-      !isInsideFence(src, offset)
+      !inFence
       ? `<!-- @include-start: ${path.dirname(includePath)} -->\n\n${expanded}\n\n<!-- @include-end -->`
       : expanded
   })
@@ -228,10 +233,11 @@ function isOwnLine(src: string, offset: number, length: number) {
 function isInsideFence(src: string, offset: number) {
   let fence: string | undefined
   for (const line of src.slice(0, offset).split('\n')) {
-    const marker = fenceRE.exec(line)?.[1]
+    const [, marker, info] = fenceRE.exec(line) ?? []
     if (!marker) continue
-    if (fence == null) fence = marker[0]
-    else if (marker[0] === fence) fence = undefined
+    if (fence == null) fence = marker
+    // a closing fence is at least as long as the opening one, with no info
+    else if (marker.startsWith(fence) && !info.trim()) fence = undefined
   }
   return fence != null
 }

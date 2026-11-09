@@ -6,6 +6,8 @@ dir: rtl
 
 با `--flag` اجرا کنید و `useData()` را بخوانید. این یک [پیوند بیرونی](https://vitepress.dev/) است.
 
+مستندات [Vite](https://vite.dev/)، [Rollup](https://rollupjs.org/) و [بسیاری دیگر](https://github.com/vuejs/vitepress) با ویت‌پرس ساخته شده‌اند؛ [Vue.js](https://vuejs.org/) نیز.
+
 ## Section One
 
 ```js:line-numbers

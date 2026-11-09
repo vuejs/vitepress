@@ -204,6 +204,7 @@ export default defineConfig({
   // exercises force-inclusion of icons SSR never renders
   icons: { include: ['lucide:egg'] },
   themeConfig: {
+    externalLinkIcon: true,
     nav,
     sidebar,
     socialLinks: [

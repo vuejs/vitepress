@@ -210,6 +210,11 @@
  * Footnotes
  * -------------------------------------------------------------------------- */
 
+.vp-doc sup.footnote-ref {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .vp-doc .footnote-ref a,
 .vp-doc .footnote-backref {
   text-decoration: none;
@@ -439,6 +444,7 @@
 }
 
 .vp-doc [class*='language-'] .has-focused-lines .line:not(.has-focus) {
+  will-change: filter;
   filter: blur(0.095rem);
   opacity: 0.4;
   transition:
@@ -591,12 +597,15 @@
  * -------------------------------------------------------------------------- */
 
 /* prettier-ignore */
-:is(.vp-external-link-icon, .vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
+:where(
+  .vp-external-link-icon,
+  .vp-doc a:is([href*='://'], [target='_blank'])
+):not(.no-icon, svg a, :has(img, svg))::after {
   display: inline;
   margin-inline-start: 0.25rem;
   padding-inline-start: 0.6875rem;
   background: currentColor;
-  color: var(--vp-c-text-3);
+  color: currentColor;
   flex-shrink: 0;
   --icon: var(--vp-icon-external-link);
   -webkit-mask-image: var(--icon);
@@ -607,16 +616,12 @@
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  vertical-align: middle;
-  font-size: 0.5625rem;
-}
-
-.vp-external-link-icon::after {
-  content: '\2060';
 }
 
 /* prettier-ignore */
-.external-link-icon-enabled :is(.vp-doc a[href*='://'], .vp-doc a[target='_blank']):not(:is(.no-icon, svg a, :has(img, svg)))::after {
-  content: '\2060';
-  color: currentColor;
+:where(
+  .vp-external-link-icon,
+  .external-link-icon-enabled :is(.vp-doc a:is([href*='://'], [target='_blank']))
+):not(.no-icon, svg a, :has(img, svg))::after {
+  content: var(--vp-direction-mark) '\2060';
 }

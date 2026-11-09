@@ -29,7 +29,7 @@ guide/getting-started.md  -->  /guide/getting-started.html
 
 生成された HTML は、静的ファイルを配信できる任意の Web サーバーでホストできます。
 
-## ルートディレクトリとソースディレクトリ {#root-and-source-directories}
+## ルートディレクトリとソースディレクトリ {#root-and-source-directory}
 
 VitePress プロジェクトのファイル構成には重要な概念が 2 つあります：**プロジェクトルート** と **ソースディレクトリ** です。
 

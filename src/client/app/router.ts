@@ -204,26 +204,10 @@ export function createRouter(
         }
 
         const link = e.target.closest<HTMLAnchorElement | SVGAElement>('a')
-        if (
-          !link ||
-          link.closest('.vp-raw') ||
-          link.hasAttribute('download') ||
-          link.hasAttribute('target')
-        ) {
-          return
-        }
-
-        const linkHref =
-          link.getAttribute('href') ??
-          (link instanceof SVGAElement ? link.getAttribute('xlink:href') : null)
-        if (linkHref == null) return
-
-        const { href, origin, pathname } = new URL(linkHref, link.baseURI)
-        const currentLoc = new URL(location.href) // copy to keep old data
-        // only intercept inbound html links
-        if (origin === currentLoc.origin && treatAsHtml(pathname)) {
+        const url = link && getRoutableLinkUrl(link)
+        if (url) {
           e.preventDefault()
-          router.go(href)
+          router.go(url.href)
         }
       },
       { capture: true }
@@ -302,6 +286,33 @@ export function scrollTo(hash: string, scrollPosition = 0) {
   }
 
   requestAnimationFrame(scrollToTarget)
+}
+
+/**
+ * Resolves the URL of a link the router handles on the client side, or `null`
+ * if it's left to the browser (explicit `target`, `download`, `.vp-raw`,
+ * other origins, non-html files).
+ */
+export function getRoutableLinkUrl(
+  link: HTMLAnchorElement | SVGAElement
+): URL | null {
+  if (
+    link.closest('.vp-raw') ||
+    link.hasAttribute('download') ||
+    link.hasAttribute('target')
+  ) {
+    return null
+  }
+
+  const href =
+    link.getAttribute('href') ??
+    (link instanceof SVGAElement ? link.getAttribute('xlink:href') : null)
+  if (href == null) return null
+
+  const url = new URL(href, link.baseURI)
+  return url.origin === location.origin && treatAsHtml(url.pathname)
+    ? url
+    : null
 }
 
 function handleHMR(route: Route): void {

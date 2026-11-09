@@ -147,6 +147,7 @@ const pageName = computed(() => {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
   scrollbar-width: none;
 }
 

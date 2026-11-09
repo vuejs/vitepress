@@ -112,6 +112,8 @@ export default defineConfig({
 
 Подробнее в [документации MiniSearch](https://lucaong.github.io/minisearch/classes/MiniSearch.MiniSearch.html).
 
+По умолчанию последовательности китайских или японских символов разбиваются на слова с помощью [`Intl.Segmenter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter), поскольку в этих языках слова не разделяются пробелами. В браузерах без поддержки `Intl.Segmenter` используется обычное разбиение, поэтому многословные запросы на этих языках там могут не находить совпадений. Установка `options.tokenize` заменяет это поведение.
+
 ::: info Идентификаторы документов
 Идентификаторы документов поиска (в том виде, в котором их видят `searchOptions.filter`, `boostDocument` и необработанный индекс) — это сайт-относительные пути вида `/guide/page.html#section`; они не включают [`base`](../reference/site-config#base). Тема разрешает их относительно `base` при отображении результатов.
 :::

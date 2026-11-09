@@ -305,6 +305,7 @@ const { heroImageSlotExists } = inject(
   width: 12rem;
   height: 12rem;
   background-image: var(--vp-home-hero-image-background-image);
+  will-change: filter;
   filter: var(--vp-home-hero-image-filter);
   transform: translate(-50%, -50%);
 }

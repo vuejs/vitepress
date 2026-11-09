@@ -105,7 +105,7 @@ useEventListener('pointerdown', (e) => {
         <span class="vpi-chevron-down text-icon" aria-hidden="true" />
       </span>
 
-      <span v-else class="vpi-more-horizontal icon" aria-hidden="true" />
+      <span v-else class="vpi-ellipsis icon" aria-hidden="true" />
     </button>
 
     <div ref="menuEl" class="menu" :id="menuId" @pointerleave="onPointerLeave">
@@ -167,7 +167,7 @@ useEventListener('pointerdown', (e) => {
 .text {
   display: flex;
   align-items: center;
-  line-height: var(--vp-nav-height);
+  line-height: 1.5;
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--vp-c-text-1);
