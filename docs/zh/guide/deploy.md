@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 注意：`vercel.json` 文件应放在存储库的根目录中。
 
-[Vercel 关于标头配置的文档](https://vercel.com/docs/projects/project-configuration#headers)
+[Vercel 关于标头配置的文档](https://vercel.com/docs/project-configuration#headers)
 
 :::
 

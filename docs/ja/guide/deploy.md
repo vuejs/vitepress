@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 注：`vercel.json` は **リポジトリのルート** に配置してください。
 
-[Vercel のヘッダー設定ドキュメント](https://vercel.com/docs/projects/project-configuration#headers)
+[Vercel のヘッダー設定ドキュメント](https://vercel.com/docs/project-configuration#headers)
 
 :::
 

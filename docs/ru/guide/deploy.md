@@ -124,7 +124,7 @@ Cache-Control: max-age=31536000,immutable
 
 Примечание: Файл `vercel.json` должен быть помещен в корень вашего **репозитория**.
 
-[Документация Vercel по конфигурации заголовков](https://vercel.com/docs/projects/project-configuration#headers)
+[Документация Vercel по конфигурации заголовков](https://vercel.com/docs/project-configuration#headers)
 
 :::
 
@@ -320,7 +320,7 @@ Cache-Control: max-age=31536000,immutable
 
 [Lizard (lizard.build)](https://lizard.build) собирает сайты VitePress из исходного кода и раздаёт сгенерированный HTML. Для структуры проекта, описанной в этом руководстве, он определяет `docs:build` и раздаёт `docs/.vitepress/dist` на порту `80`.
 
-Установите [Lizard CLI](https://lizard.build/docs/cli) и войдите в аккаунт командой `lizard login`. Чтобы развернуть локальный каталог с исходниками, выполните эти команды из корня проекта, где находится `package.json`:
+Установите [Lizard CLI](https://lizard.build/docs/cli/) и войдите в аккаунт командой `lizard login`. Чтобы развернуть локальный каталог с исходниками, выполните эти команды из корня проекта, где находится `package.json`:
 
 ```sh
 lizard init --name vitepress-docs
@@ -328,7 +328,7 @@ lizard add --service web
 lizard up --service web --port 80
 ```
 
-Оставьте команды сборки и запуска не переопределёнными, чтобы использовать автоматическое определение. Для развёртываний из GitHub или других структур проекта см. [руководство Lizard по VitePress](https://lizard.build/docs/framework-guides/vitepress).
+Оставьте команды сборки и запуска не переопределёнными, чтобы использовать автоматическое определение. Для развёртываний из GitHub или других структур проекта см. [руководство Lizard по VitePress](https://lizard.build/docs/framework-guides/vitepress/).
 
 ### Pethost
 

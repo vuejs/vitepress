@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 توجه: فایل `vercel.json` باید در ریشه مخزن شما قرار گیرد.
 
-[مستندات Vercel در مورد پیکربندی سربرگ‌ها](https://vercel.com/docs/projects/project-configuration#headers)
+[مستندات Vercel در مورد پیکربندی سربرگ‌ها](https://vercel.com/docs/project-configuration#headers)
 
 :::
 

@@ -100,7 +100,7 @@ Nota: o arquivo `_headers` deve ser colocado no [diretório public](./asset-hand
 
 Nota: o arquivo `vercel.json` deve ser colocado na raiz do seu **repositório**.
 
-[Documentação Vercel sobre configuração de cabeçalhos](https://vercel.com/docs/projects/project-configuration#headers)
+[Documentação Vercel sobre configuração de cabeçalhos](https://vercel.com/docs/project-configuration#headers)
 
 :::
 
