@@ -641,7 +641,7 @@ El valor de `@` corresponde a la raiz del código fuente. Por defecto, es la rai
 
 :::
 
-También puede usar una [región VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir apenas la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de `#` siguiendo el path del archivo:
+También puede usar una [región VS Code](https://code.visualstudio.com/docs/editing/codebasics#_folding) para incluir apenas la parte correspondiente del archivo de código. Puede proporcionar un nombre de región personalizado después de `#` siguiendo el path del archivo:
 
 **Entrada**
 

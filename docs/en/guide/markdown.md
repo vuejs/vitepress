@@ -782,7 +782,7 @@ The value of `@` corresponds to the source root. By default it's the VitePress p
 
 :::
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editing/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
 
 **Input**
 
@@ -994,7 +994,7 @@ Can be created using `.foorc.json`.
 
 The format of the selected line range can be: `{3,}`, `{,10}`, `{1,10}`
 
-You can also use a [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
+You can also use a [VS Code region](https://code.visualstudio.com/docs/editing/codebasics#_folding) to only include the corresponding part of the code file. You can provide a custom region name after a `#` following the filepath:
 
 **Input**
 

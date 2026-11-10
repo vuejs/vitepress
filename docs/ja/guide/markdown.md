@@ -662,7 +662,7 @@ const line4 = 'This is line 4'
 ```
 :::
 
-また、[VS Code のリージョン](https://code.visualstudio.com/docs/editor/codebasics#_folding)を利用して、コードファイルの該当部分のみを取り込むことができます。ファイルパスの後ろに `#` を付けてカスタムリージョン名を指定します：
+また、[VS Code のリージョン](https://code.visualstudio.com/docs/editing/codebasics#_folding)を利用して、コードファイルの該当部分のみを取り込むことができます。ファイルパスの後ろに `#` を付けてカスタムリージョン名を指定します：
 
 **入力**
 
@@ -862,7 +862,7 @@ Markdown パスの先頭に `@` を付けることもでき、その場合はソ
 
 選択できる行範囲の書式は、`{3,}`、`{,10}`、`{1,10}` のいずれかです。
 
-[VS Code のリージョン](https://code.visualstudio.com/docs/editor/codebasics#_folding)を使って、コードファイルの該当部分だけを取り込むこともできます。ファイルパスの後ろに `#` を付けて、カスタムリージョン名を指定します。
+[VS Code のリージョン](https://code.visualstudio.com/docs/editing/codebasics#_folding)を使って、コードファイルの該当部分だけを取り込むこともできます。ファイルパスの後ろに `#` を付けて、カスタムリージョン名を指定します。
 
 **入力**
 

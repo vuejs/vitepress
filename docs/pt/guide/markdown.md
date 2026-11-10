@@ -639,7 +639,7 @@ O valor de `@` corresponde à raiz do código fonte. Por padrão, é a raiz do p
 
 :::
 
-Você também pode usar uma [região VS Code](https://code.visualstudio.com/docs/editor/codebasics#_folding) para incluir apenas a parte correspondente do arquivo de código. Você pode fornecer um nome de região personalizado após um `#` seguindo o caminho do arquivo:
+Você também pode usar uma [região VS Code](https://code.visualstudio.com/docs/editing/codebasics#_folding) para incluir apenas a parte correspondente do arquivo de código. Você pode fornecer um nome de região personalizado após um `#` seguindo o caminho do arquivo:
 
 **Entrada**
 

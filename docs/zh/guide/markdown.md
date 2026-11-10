@@ -639,7 +639,7 @@ const line4 = 'This is line 4'
 
 :::
 
-也可以使用 [VS Code region](https://code.visualstudio.com/docs/editor/codebasics#_folding) 来只包含代码文件的相应部分。可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
+也可以使用 [VS Code region](https://code.visualstudio.com/docs/editing/codebasics#_folding) 来只包含代码文件的相应部分。可以在文件目录后面的 `#` 符号后提供一个自定义的区域名：
 
 **输入**
 
