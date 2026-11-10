@@ -344,7 +344,7 @@ pethost deploy
 
 ### Stormkit
 
-Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://stormkit.io/blog/how-to-deploy-vitepress).
+Вы можете развернуть свой проект VitePress на [Stormkit](https://www.stormkit.io), следуя следующим [инструкциям](https://www.stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Surge
 

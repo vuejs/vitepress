@@ -289,7 +289,7 @@ Puede implantar su sitio VitePress em [Kinsta](https://kinsta.com/static-site-ho
 
 ### Stormkit
 
-Puedes desplegar tu proyecto VitePress en [Stormkit](https://www.stormkit.io) siguiendo estas [instrucciones](https://stormkit.io/blog/how-to-deploy-vitepress).
+Puedes desplegar tu proyecto VitePress en [Stormkit](https://www.stormkit.io) siguiendo estas [instrucciones](https://www.stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Surge
 
