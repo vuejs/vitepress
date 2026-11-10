@@ -40,7 +40,7 @@ VitePress は、Markdown コンテンツを扱う際の優れた開発体験（D
 
 - **初期ロードが速い**
 
-  どのページへの初回訪問でも、静的な事前レンダリング HTML が配信され、高速な読み込みと最適な SEO を実現します。続いて JavaScript バンドルが読み込まれ、ページが Vue の SPA に「ハイドレート」されます。SPA のハイドレーションは遅いという通説に反し、Vue 3 の素のパフォーマンスとコンパイラ最適化により非常に高速です。[PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F) でも、VitePress サイトは低速回線のローエンド端末でもほぼ満点のスコアを達成できます。
+  どのページへの初回訪問でも、静的な事前レンダリング HTML が配信され、高速な読み込みと最適な SEO を実現します。続いて JavaScript バンドルが読み込まれ、ページが Vue の SPA に「ハイドレート」されます。SPA のハイドレーションは遅いという通説に反し、Vue 3 の素のパフォーマンスとコンパイラ最適化により非常に高速です。[PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https://vitepress.dev/) でも、VitePress サイトは低速回線のローエンド端末でもほぼ満点のスコアを達成できます。
 
 - **読み込み後のナビゲーションが速い**
 

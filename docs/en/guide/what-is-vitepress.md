@@ -40,7 +40,7 @@ Unlike many traditional SSGs where each navigation results in a full page reload
 
 - **Fast Initial Load**
 
-  The initial visit to any page will be served the static, pre-rendered HTML for fast loading speed and optimal SEO. The page then loads a JavaScript bundle that turns the page into a Vue SPA ("hydration"). Contrary to common assumptions of SPA hydration being slow, this process is actually extremely fast thanks to Vue 3's raw performance and compiler optimizations. On [PageSpeed Insights](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvitepress.dev%2F), typical VitePress sites achieve near-perfect performance scores even on low-end mobile devices with a slow network.
+  The initial visit to any page will be served the static, pre-rendered HTML for fast loading speed and optimal SEO. The page then loads a JavaScript bundle that turns the page into a Vue SPA ("hydration"). Contrary to common assumptions of SPA hydration being slow, this process is actually extremely fast thanks to Vue 3's raw performance and compiler optimizations. On [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https://vitepress.dev/), typical VitePress sites achieve near-perfect performance scores even on low-end mobile devices with a slow network.
 
 - **Fast Post-load Navigation**
 
