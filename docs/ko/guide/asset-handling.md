@@ -6,7 +6,7 @@ description: VitePress에서 이미지, 미디어, 글꼴 등 정적 에셋을 �
 
 ## 정적 에셋 참조하기 {#referencing-static-assets}
 
-모든 마크다운 파일은 Vue 컴포넌트로 컴파일되어 [Vite](https://vite.dev/guide/assets.html)에 의해 처리됩니다. 모든 에셋은 상대 URL을 사용하여 참조할 수 있으며, **참조해야 합니다**:
+모든 마크다운 파일은 Vue 컴포넌트로 컴파일되어 [Vite](https://ko.vite.dev/guide/assets.html)에 의해 처리됩니다. 모든 에셋은 상대 URL을 사용하여 참조할 수 있으며, **참조해야 합니다**:
 
 ```md
 ![이미지](./image.png)
