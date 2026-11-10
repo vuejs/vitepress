@@ -124,7 +124,7 @@ Note: the `_headers` file should be placed in the [public directory](./asset-han
 
 Note: the `vercel.json` file should be placed at the root of your **repository**.
 
-[Vercel documentation on headers config](https://vercel.com/docs/projects/project-configuration#headers)
+[Vercel documentation on headers config](https://vercel.com/docs/project-configuration#headers)
 
 :::
 
@@ -320,7 +320,7 @@ You can deploy your VitePress project with [Hostinger](https://www.hostinger.com
 
 [Lizard (lizard.build)](https://lizard.build) builds VitePress sites from source and serves the generated HTML. For the layout used in this guide, it detects `docs:build` and serves `docs/.vitepress/dist` on port `80`.
 
-Install the [Lizard CLI](https://lizard.build/docs/cli) and sign in with `lizard login`. To deploy a local source directory, run these commands from the project root containing `package.json`:
+Install the [Lizard CLI](https://lizard.build/docs/cli/) and sign in with `lizard login`. To deploy a local source directory, run these commands from the project root containing `package.json`:
 
 ```sh
 lizard init --name vitepress-docs
@@ -328,7 +328,7 @@ lizard add --service web
 lizard up --service web --port 80
 ```
 
-Leave build and start command overrides unset to use automatic detection. For GitHub deployments or other layouts, see the [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress).
+Leave build and start command overrides unset to use automatic detection. For GitHub deployments or other layouts, see the [Lizard VitePress guide](https://lizard.build/docs/framework-guides/vitepress/).
 
 ### Pethost
 

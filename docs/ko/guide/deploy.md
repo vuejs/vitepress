@@ -124,7 +124,7 @@ Cache-Control: max-age=31536000,immutable
 
 참고: `vercel.json` 파일은 **리포지토리**의 루트에 배치해야 합니다.
 
-[Vercel 헤더 구성에 대한 문서](https://vercel.com/docs/projects/project-configuration#headers)
+[Vercel 헤더 구성에 대한 문서](https://vercel.com/docs/project-configuration#headers)
 
 :::
 
@@ -317,7 +317,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 [Lizard (lizard.build)](https://lizard.build)는 소스에서 VitePress 사이트를 빌드하고 생성된 HTML을 제공합니다. 이 가이드의 레이아웃에서는 `docs:build`를 감지하여 `docs/.vitepress/dist`를 `80` 포트에서 제공합니다.
 
-[Lizard CLI](https://lizard.build/docs/cli)를 설치하고 `lizard login`으로 로그인하세요. 로컬 소스 디렉토리를 배포하려면 `package.json`이 있는 프로젝트 루트에서 다음 명령어를 실행하세요:
+[Lizard CLI](https://lizard.build/docs/cli/)를 설치하고 `lizard login`으로 로그인하세요. 로컬 소스 디렉토리를 배포하려면 `package.json`이 있는 프로젝트 루트에서 다음 명령어를 실행하세요:
 
 ```sh
 lizard init --name vitepress-docs
@@ -325,7 +325,7 @@ lizard add --service web
 lizard up --service web --port 80
 ```
 
-자동 감지를 사용하려면 빌드 및 시작 명령어 재정의를 비워 두세요. GitHub 배포나 다른 레이아웃은 [Lizard VitePress 가이드](https://lizard.build/docs/framework-guides/vitepress)를 참고하세요.
+자동 감지를 사용하려면 빌드 및 시작 명령어 재정의를 비워 두세요. GitHub 배포나 다른 레이아웃은 [Lizard VitePress 가이드](https://lizard.build/docs/framework-guides/vitepress/)를 참고하세요.
 
 ### Pethost
 
