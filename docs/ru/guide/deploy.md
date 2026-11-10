@@ -257,7 +257,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Azure
 
-1. Следуйте [официальной документации](https://docs.microsoft.com/ru-ru/azure/static-web-apps/build-configuration).
+1. Следуйте [официальной документации](https://learn.microsoft.com/azure/static-web-apps/build-configuration).
 
 2. Установите эти значения в вашем конфигурационном файле (и удалите те, которые вам не нужны, например, `api_location`):
 

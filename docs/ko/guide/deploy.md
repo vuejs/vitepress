@@ -223,7 +223,7 @@ HTML 코드에 대해 _Auto Minify_ 옵션을 활성화하지 마세요. 이는 
 
 ### Azure
 
-1. [공식 문서](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)를 따르세요.
+1. [공식 문서](https://learn.microsoft.com/azure/static-web-apps/build-configuration)를 따르세요.
 
 2. 구성 파일에 다음 값을 설정하세요(필요하지 않은 값들, 예를 들어 `api_location` 같은 것은 제거하세요):
 

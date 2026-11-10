@@ -222,7 +222,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Azure
 
-1. دستورالعمل [رسمی](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) را دنبال کنید.
+1. دستورالعمل [رسمی](https://learn.microsoft.com/azure/static-web-apps/build-configuration) را دنبال کنید.
 
 2. این مقادیر را در فایل پیکربندی خود تنظیم کنید (و مواردی که نیازی به آن‌ها ندارید، مانند `api_location` را حذف کنید):
 
