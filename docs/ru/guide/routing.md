@@ -133,7 +133,7 @@ src/getting-started.md  -->  /getting-started.html
 Некоторые серверы или хостинговые платформы (например, Netlify, Vercel, GitHub Pages) предоставляют возможность сопоставлять URL-адрес типа `/foo` с `/foo.html`, если он существует, без перенаправления:
 
 - Страницы Netlify и GitHub поддерживают это по умолчанию.
-- Vercel требует включить [опцию `cleanUrls` в `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Vercel требует включить [опцию `cleanUrls` в `vercel.json`](https://vercel.com/docs/projects/project-configuration#cleanurls).
 
 Если эта функция вам доступна, вы также можете включить собственную опцию конфигурации VitePress [`cleanUrls`](../reference/site-config#cleanurls), чтобы обеспечить следующее поведение:
 

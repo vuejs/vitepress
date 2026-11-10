@@ -133,7 +133,7 @@ src/getting-started.md  -->  /getting-started.html
 某些服务器或托管平台 (例如 Netlify、Vercel 或 GitHub Pages) 提供将 `/foo` 之类的 URL 映射到 `/foo.html` (如果存在) 的功能，而无需重定向：
 
 - Netlify 和 GitHub Pages 是默认支持的。
-- Vercel 需要在 [vercel.json 中启用 cleanUrls 选项](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls)。
+- Vercel 需要在 [vercel.json 中启用 cleanUrls 选项](https://vercel.com/docs/projects/project-configuration#cleanurls)。
 
 如果可以使用此功能，还可以启用 VitePress 自己的 [`cleanUrls`](../reference/site-config#cleanurls) 配置选项，以便：
 

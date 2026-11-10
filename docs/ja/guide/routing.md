@@ -132,7 +132,7 @@ VitePress でクリーン URL を提供するには、サーバー側のサポ�
 一部のサーバーやホスティング（例：Netlify、Vercel、GitHub Pages）は、リダイレクトなしに `/foo` を `/foo.html` にマッピングできます。
 
 - Netlify と GitHub Pages はデフォルトで対応しています。
-- Vercel は [`vercel.json` の `cleanUrls` オプション](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls) を有効にする必要があります。
+- Vercel は [`vercel.json` の `cleanUrls` オプション](https://vercel.com/docs/projects/project-configuration#cleanurls) を有効にする必要があります。
 
 この機能が利用可能であれば、VitePress 側の [`cleanUrls`](../reference/site-config#cleanurls) 設定も有効化してください。これにより：
 
