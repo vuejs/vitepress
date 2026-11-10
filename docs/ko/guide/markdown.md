@@ -639,7 +639,7 @@ const line4 = 'This is line 4'
 
 :::
 
-특정 부분의 코드 파일만 포함하려면 [VS Code 리전](https://code.visualstudio.com/docs/editor/codebasics#_folding)을 사용할 수 있습니다. 파일 경로 뒤에 `#`을 사용한 다음 커스텀 리전 이름을 제공할 수 있습니다:
+특정 부분의 코드 파일만 포함하려면 [VS Code 리전](https://code.visualstudio.com/docs/editing/codebasics#_folding)을 사용할 수 있습니다. 파일 경로 뒤에 `#`을 사용한 다음 커스텀 리전 이름을 제공할 수 있습니다:
 
 **입력**
 
@@ -839,7 +839,7 @@ Can be created using `.foorc.json`.
 
 선택된 라인 범위의 형식은 `{3,}`, `{,10}`, `{1,10}`이 될 수 있습니다.
 
-[VS Code 리전](https://code.visualstudio.com/docs/editor/codebasics#_folding)을 사용하여 코드 파일의 해당 부분만 포함할 수도 있습니다. 파일 경로 뒤에 `#`를 붙이고 커스텀 영역 이름을 제공할 수 있습니다:
+[VS Code 리전](https://code.visualstudio.com/docs/editing/codebasics#_folding)을 사용하여 코드 파일의 해당 부분만 포함할 수도 있습니다. 파일 경로 뒤에 `#`를 붙이고 커스텀 영역 이름을 제공할 수 있습니다:
 
 **입력**
 
