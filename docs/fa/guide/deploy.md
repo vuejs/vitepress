@@ -76,7 +76,7 @@ Cache-Control: max-age=31536000,immutable
 
 توجه: فایل `_headers` باید در [دایرکتوری عمومی](./asset-handling#the-public-directory) قرار گیرد - در این مورد، `docs/public/_headers` - تا کپی شود بطور صحیح به دایرکتوری خروجی.
 
-[مستندات سربرگ‌های سفارشی Netlify](https://docs.netlify.com/routing/headers/)
+[مستندات سربرگ‌های سفارشی Netlify](https://docs.netlify.com/manage/routing/headers/)
 
 :::
 
@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 توجه: فایل `vercel.json` باید در ریشه مخزن شما قرار گیرد.
 
-[مستندات Vercel در مورد پیکربندی سربرگ‌ها](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[مستندات Vercel در مورد پیکربندی سربرگ‌ها](https://vercel.com/docs/projects/project-configuration#headers)
 
 :::
 

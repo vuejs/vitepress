@@ -76,7 +76,7 @@ Cache-Control: max-age=31536000,immutable
 
 참고: `_headers` 파일은 [public 디렉토리](./asset-handling#the-public-directory)에 배치해야 합니다. 이 경우 `docs/public/_headers`에 위치하여 출력 디렉토리에 그대로 복사됩니다.
 
-[Netlify 커스텀 헤더 문서](https://docs.netlify.com/routing/headers/)
+[Netlify 커스텀 헤더 문서](https://docs.netlify.com/manage/routing/headers/)
 
 :::
 
@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 참고: `vercel.json` 파일은 **리포지토리**의 루트에 배치해야 합니다.
 
-[Vercel 헤더 구성에 대한 문서](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[Vercel 헤더 구성에 대한 문서](https://vercel.com/docs/projects/project-configuration#headers)
 
 :::
 
