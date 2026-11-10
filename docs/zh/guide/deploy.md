@@ -76,7 +76,7 @@ Cache-Control: max-age=31536000,immutable
 
 注意：该 `_headers` 文件应放置在 [public 目录](./asset-handling#the-public-directory)中 (在我们的例子中是 `docs/public/_headers`)，以便将其逐字复制到输出目录。
 
-[Netlify 自定义标头文档](https://docs.netlify.com/routing/headers/)
+[Netlify 自定义标头文档](https://docs.netlify.com/manage/routing/headers/)
 
 :::
 
@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 注意：`vercel.json` 文件应放在存储库的根目录中。
 
-[Vercel 关于标头配置的文档](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[Vercel 关于标头配置的文档](https://vercel.com/docs/projects/project-configuration#headers)
 
 :::
 

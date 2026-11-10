@@ -100,7 +100,7 @@ Cache-Control: max-age=31536000,immutable
 
 Note: the `_headers` file should be placed in the [public directory](./asset-handling#the-public-directory) - in our case, `docs/public/_headers` - so that it is copied verbatim to the output directory.
 
-[Netlify custom headers documentation](https://docs.netlify.com/routing/headers/)
+[Netlify custom headers documentation](https://docs.netlify.com/manage/routing/headers/)
 
 :::
 
@@ -124,7 +124,7 @@ Note: the `_headers` file should be placed in the [public directory](./asset-han
 
 Note: the `vercel.json` file should be placed at the root of your **repository**.
 
-[Vercel documentation on headers config](https://vercel.com/docs/concepts/projects/project-configuration#headers)
+[Vercel documentation on headers config](https://vercel.com/docs/projects/project-configuration#headers)
 
 :::
 
