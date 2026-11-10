@@ -344,7 +344,7 @@ It finds the script that runs `vitepress build`, writes a `Dockerfile` that runs
 
 ### Stormkit
 
-You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://stormkit.io/blog/how-to-deploy-vitepress).
+You can deploy your VitePress project to [Stormkit](https://www.stormkit.io) by following these [instructions](https://www.stormkit.io/blog/how-to-deploy-vitepress).
 
 ### Surge
 

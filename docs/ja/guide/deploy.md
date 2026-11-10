@@ -288,7 +288,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 
 ### Stormkit
 
-[VitePress プロジェクトを Stormkit にデプロイ](https://stormkit.io/blog/how-to-deploy-vitepress) する手順を参照してください。
+[VitePress プロジェクトを Stormkit にデプロイ](https://www.stormkit.io/blog/how-to-deploy-vitepress) する手順を参照してください。
 
 ### Surge
 

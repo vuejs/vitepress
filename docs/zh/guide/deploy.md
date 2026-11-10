@@ -289,7 +289,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Stormkit
 
-你可以按照这些[说明](https://stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
+你可以按照这些[说明](https://www.stormkit.io/blog/how-to-deploy-vitepress)将你的 VitePress 项目部署到 [Stormkit](https://www.stormkit.io)。
 
 ### Surge
 

@@ -287,7 +287,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Stormkit
 
-شما می‌توانید پروژه ویت‌پرس خود را به [Stormkit](https://www.stormkit.io) با دنبال کردن این [دستورالعمل‌ها](https://stormkit.io/blog/how-to-deploy-vitepress) انتشار دهید.
+شما می‌توانید پروژه ویت‌پرس خود را به [Stormkit](https://www.stormkit.io) با دنبال کردن این [دستورالعمل‌ها](https://www.stormkit.io/blog/how-to-deploy-vitepress) انتشار دهید.
 
 ### Surge
 
