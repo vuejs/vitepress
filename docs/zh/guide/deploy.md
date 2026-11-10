@@ -224,7 +224,7 @@ Cache-Control: max-age=31536000,immutable
 
 ### Azure
 
-1. 参考[官方文档](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration)。
+1. 参考[官方文档](https://learn.microsoft.com/azure/static-web-apps/build-configuration)。
 
 2. 在配置文件中设置这些值 (并删除不需要的值，如 `api_location`)：
 

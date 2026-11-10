@@ -224,7 +224,7 @@ HTML の _Auto Minify_ のようなオプションを有効にしないでくだ
 
 ### Azure
 
-1. [公式ドキュメント](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration) に従います。
+1. [公式ドキュメント](https://learn.microsoft.com/azure/static-web-apps/build-configuration) に従います。
 
 2. 設定ファイルで次の値を指定します（`api_location` のように不要なものは削除）。
    - **`app_location`**: `/`

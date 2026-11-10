@@ -224,7 +224,7 @@ Não ative opções como _Auto Minify_ para código HTML. Isso removerá coment�
 
 ### Azure
 
-1. Siga a [documentação oficial](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. Siga a [documentação oficial](https://learn.microsoft.com/azure/static-web-apps/build-configuration).
 
 2. Configure esses valores em seu arquivo de configuração (e remova aqueles que você não precisa, como `api_location`):
 

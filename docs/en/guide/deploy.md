@@ -257,7 +257,7 @@ Don't enable options like _Auto Minify_ for HTML code. It will remove comments f
 
 ### Azure
 
-1. Follow the [official documentation](https://docs.microsoft.com/en-us/azure/static-web-apps/build-configuration).
+1. Follow the [official documentation](https://learn.microsoft.com/azure/static-web-apps/build-configuration).
 
 2. Set these values in your configuration file (and remove the ones you don't require, like `api_location`):
 
