@@ -133,7 +133,7 @@ By default, VitePress resolves inbound links to URLs ending with `.html`. Howeve
 Some servers or hosting platforms (for example Netlify, Vercel, GitHub Pages) provide the ability to map a URL like `/foo` to `/foo.html` if it exists, without a redirect:
 
 - Netlify and GitHub Pages support this by default.
-- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Vercel requires enabling the [`cleanUrls` option in `vercel.json`](https://vercel.com/docs/projects/project-configuration#cleanurls).
 
 If this feature is available to you, you can then also enable VitePress' own [`cleanUrls`](../reference/site-config#cleanurls) config option so that:
 

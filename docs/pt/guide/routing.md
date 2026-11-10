@@ -133,7 +133,7 @@ Por padrão, VitePress resolve links de entrada para URLs que terminam com `.htm
 Alguns servidores ou plataformas de hospedagem (por exemplo, Netlify, Vercel, GitHub Pages) fornecem a habilidade de mapear uma URL como `/foo` para `/foo.html` se ela existir, sem redirecionamento:
 
 - Netlify e GitHub Pages suportam isso por padrão.
-- Vercel requer a ativação da opção [`cleanUrls` no `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls).
+- Vercel requer a ativação da opção [`cleanUrls` no `vercel.json`](https://vercel.com/docs/projects/project-configuration#cleanurls).
 
 Se essa funcionalidade estiver disponível para você, também se pode ativar a própria opção de configuração [`cleanUrls`](../reference/site-config#cleanurls) de VitePress para que:
 

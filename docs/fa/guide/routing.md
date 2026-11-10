@@ -135,7 +135,7 @@ src/getting-started.md  -->  /getting-started.html
 برخی از سرورها یا پلتفرم‌های میزبانی (مانند Netlify، Vercel، GitHub Pages) امکان این را فراهم می‌کنند که یک URL مانند `/foo` به `/foo.html` نگاشت شود اگر موجود باشد، بدون انتقال:
 
 - Netlify و GitHub Pages این را به طور پیش‌فرض پشتیبانی می‌کنند.
-- Vercel نیاز به فعال‌سازی [`cleanUrls` در `vercel.json`](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls) دارد.
+- Vercel نیاز به فعال‌سازی [`cleanUrls` در `vercel.json`](https://vercel.com/docs/projects/project-configuration#cleanurls) دارد.
 
 اگر این ویژگی برای شما در دسترس است، می‌توانید از گزینه پیکربندی خود ویت‌پرس به نام [`cleanUrls`](../reference/site-config#cleanurls) استفاده کنید تا:
 

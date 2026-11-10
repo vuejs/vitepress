@@ -133,7 +133,7 @@ VitePress가 간결한 URL을 제공하려면 서버 측 지원이 필요합니�
 일부 서버 또는 호스팅 플랫폼(예: Netlify, Vercel, GitHub Pages)은 리다이렉션 없이 `/foo`와 같은 URL을 `/foo.html`로 매핑할 수 있는 기능을 제공합니다:
 
 - Netlify와 GitHub Pages는 기본적으로 이 기능을 지원합니다.
-- Vercel은 [`vercel.json`에서 `cleanUrls` 옵션을 활성화](https://vercel.com/docs/concepts/projects/project-configuration#cleanurls)해야 합니다.
+- Vercel은 [`vercel.json`에서 `cleanUrls` 옵션을 활성화](https://vercel.com/docs/projects/project-configuration#cleanurls)해야 합니다.
 
 이 기능을 사용할 수 있는 경우, VitePress의 자체 [`cleanUrls`](../reference/site-config#cleanurls) 구성 옵션을 활성화해서:
 
