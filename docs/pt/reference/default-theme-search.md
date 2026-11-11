@@ -198,7 +198,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...'
+        indices: ['...']
       }
     }
   }
@@ -216,9 +216,13 @@ Você pode usar uma configuração como esta para usar a pesquisa multilínguas:
 
 </details>
 
-Consulte a [documentação oficial da Algolia](https://docsearch.algolia.com/docs/api#translations) para saber mais. Para começar rapidamente, você também pode copiar as traduções usadas por este site do [nosso repositório no GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
+Consulte a [documentação oficial da Algolia](https://docsearch.algolia.com/docs/packages/react/api-reference#translations) para saber mais. Para começar rapidamente, você também pode copiar as traduções usadas por este site do [nosso repositório no GitHub](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code).
 
 ### Suporte ao Algolia Ask AI {#ask-ai}
+
+::: note Nota
+A partir da versão `v5.0.0`, o Ask AI passou a usar o [Agent Studio](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/how-to/quickstart) da Algolia como backend. Um [guia de migração](https://docsearch.algolia.com/docs/agent-studio/migrate-to-agent-studio) do Ask AI para o Agent Studio está disponível para ajudar na transição.
+:::
 
 Se quiser incluir o **Ask AI**, adicione `askAi` em `options`:
 
@@ -232,16 +236,15 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
-        // askAi: "SEU-ID-DO-ASSISTENTE"
+        indices: ['...'],
+        // askAi: "SEU-ID-DO-AGENTE"
         // OU
         askAi: {
-          // no mínimo, você deve fornecer o assistantId recebido da Algolia
-          assistantId: 'XXXYYY',
-          // substituições opcionais — se omitidas, os valores appId/apiKey/indexName de nível superior são reutilizados
+          // no mínimo, você deve fornecer o agentId recebido da Algolia
+          agentId: 'XXXYYY',
+          // substituições opcionais — se omitidas, os valores appId/apiKey de nível superior são reutilizados
           // apiKey: '...',
           // appId: '...',
-          // indexName: '...'
         }
       }
     }
@@ -255,7 +258,7 @@ Caso queira apenas a pesquisa por palavra-chave, omita `askAi`.
 
 ### Painel Lateral do Ask AI {#ask-ai-side-panel}
 
-O DocSearch v4.5+ suporta um **painel lateral do Ask AI** opcional. Quando habilitado, pode ser aberto com **Ctrl/Cmd+I** por padrão. A [Referência da API do Painel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contém a lista completa de opções.
+O DocSearch v4.5+ suporta um **painel lateral do Ask AI** opcional. Quando habilitado, pode ser aberto com **Ctrl/Cmd+I** por padrão. A [Referência da API do Painel Lateral](https://docsearch.algolia.com/docs/packages/sidepanel/api) contém a lista completa de opções.
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -267,9 +270,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             // Espelha a API do @docsearch/sidepanel-js SidepanelProps
             panel: {
@@ -299,9 +302,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             keyboardShortcuts: {
               'Ctrl/Cmd+I': false
@@ -337,10 +340,9 @@ export default defineConfig({
       options: {
         mode: 'sidePanel',
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           appId: '...',
           apiKey: '...',
-          indexName: '...',
           sidePanel: true
         }
       }
