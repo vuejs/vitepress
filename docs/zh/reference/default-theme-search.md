@@ -255,7 +255,7 @@ export default defineConfig({
 
 ### Ask AI 侧边栏 {#ask-ai-side-panel}
 
-DocSearch v4.5+ 支持可选的 **Ask AI 侧边栏**。启用后，默认可通过 **Ctrl/Cmd+I** 打开。完整的选项列表请参阅[侧边栏 API 参考](https://docsearch.algolia.com/docs/sidepanel/api-reference)。
+DocSearch v4.5+ 支持可选的 **Ask AI 侧边栏**。启用后，默认可通过 **Ctrl/Cmd+I** 打开。完整的选项列表请参阅[侧边栏 API 参考](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference)。
 
 ```ts
 import { defineConfig } from 'vitepress'

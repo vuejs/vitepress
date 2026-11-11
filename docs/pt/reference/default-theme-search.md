@@ -255,7 +255,7 @@ Caso queira apenas a pesquisa por palavra-chave, omita `askAi`.
 
 ### Painel Lateral do Ask AI {#ask-ai-side-panel}
 
-O DocSearch v4.5+ suporta um **painel lateral do Ask AI** opcional. Quando habilitado, pode ser aberto com **Ctrl/Cmd+I** por padrão. A [Referência da API do Painel Lateral](https://docsearch.algolia.com/docs/sidepanel/api-reference) contém a lista completa de opções.
+O DocSearch v4.5+ suporta um **painel lateral do Ask AI** opcional. Quando habilitado, pode ser aberto com **Ctrl/Cmd+I** por padrão. A [Referência da API do Painel Lateral](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference) contém a lista completa de opções.
 
 ```ts
 import { defineConfig } from 'vitepress'
