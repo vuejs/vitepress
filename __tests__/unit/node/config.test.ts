@@ -1,10 +1,15 @@
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import type { MarkdownItAsync } from 'markdown-it-async'
 import {
   mergeConfig,
   normalizeAssetsBase,
   normalizeSiteBase,
+  resolveConfig,
   type UserConfig
 } from 'node/config'
+import { normalizePath } from 'vite'
 
 describe('node/config', () => {
   test('merges markdown hooks from extended configs', async () => {
@@ -74,6 +79,29 @@ describe('node/config', () => {
     await merged.markdown?.config?.(md)
 
     expect(calls).toEqual(['base-pre', 'extended'])
+  })
+
+  test('resolves a symlinked srcDir to its real path', async () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'vitepress-srcdir-'))
+    try {
+      const real = path.join(tmp, 'real-docs')
+      const root = path.join(tmp, 'site')
+      fs.mkdirSync(real)
+      fs.writeFileSync(path.join(real, 'index.md'), '# Hello')
+      fs.mkdirSync(path.join(root, '.vitepress'), { recursive: true })
+      fs.writeFileSync(
+        path.join(root, '.vitepress/config.mjs'),
+        "export default { srcDir: 'docs' }"
+      )
+      fs.symlinkSync(real, path.join(root, 'docs'), 'junction')
+
+      const config = await resolveConfig(root, 'build')
+
+      expect(config.srcDir).toBe(normalizePath(fs.realpathSync(real)))
+      expect(config.pages).toEqual(['index.md'])
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true })
+    }
   })
 })
 
