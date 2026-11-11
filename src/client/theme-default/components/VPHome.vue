@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from '../composables/data'
@@ -7,11 +8,14 @@ import VPHomeFeatures from './VPHomeFeatures.vue'
 import VPHomeHero from './VPHomeHero.vue'
 import VPLink from './VPLink.vue'
 
-const { frontmatter, theme } = useData()
+const { frontmatter, theme, page } = useData()
 const editLink = useEditLink()
 
 const hasEditLink = computed(
-  () => theme.value.editLink?.index && frontmatter.value.editLink !== false
+  () =>
+    theme.value.editLink?.index &&
+    page.value.filePath.endsWith('index.md') &&
+    frontmatter.value.editLink !== false
 )
 </script>
 
