@@ -59,7 +59,7 @@ const isScrolled = computed(() => y.value >= navHeight.value)
         </span>
       </button>
 
-      <VPLocalNavOutlineDropdown :headers :navHeight />
+      <VPLocalNavOutlineDropdown :headers />
     </div>
   </div>
 </template>
