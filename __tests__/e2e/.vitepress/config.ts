@@ -205,6 +205,11 @@ export default defineConfig({
   icons: { include: ['lucide:egg'] },
   themeConfig: {
     externalLinkIcon: true,
+    editLink: {
+      pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+      index: true
+    },
     nav,
     sidebar,
     socialLinks: [

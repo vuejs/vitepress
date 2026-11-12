@@ -337,6 +337,13 @@ export namespace DefaultTheme {
      * @default 'Edit this page'
      */
     text?: string
+
+    /**
+     * Whether to show the edit link on index pages.
+     *
+     * @default false
+     */
+    index?: boolean
   }
 
   // prev-next -----------------------------------------------------------------

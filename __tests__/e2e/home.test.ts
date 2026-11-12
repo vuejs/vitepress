@@ -42,3 +42,34 @@ describe('render correct content', async () => {
     expect(await socialLink.getAttribute('target')).toBe('_self')
   })
 })
+
+describe('homepage edit link', async () => {
+  test('shows edit link on homepage when index option is enabled', async () => {
+    await goto('/')
+
+    const editLink = page.locator('.VPHome .edit-link-button')
+
+    expect(await editLink.isVisible()).toBe(true)
+    expect(await editLink.textContent()).toContain('Edit this page on GitHub')
+    expect(await editLink.getAttribute('href')).toBe(
+      'https://github.com/vuejs/vitepress/edit/main/docs/index.md'
+    )
+  })
+
+  test('does not show edit link on non-index home layout pages', async () => {
+    await goto('/team-and-sponsors/home')
+
+    const editLink = page.locator('.VPHome .edit-link-button')
+
+    expect(await editLink.count()).toBe(0)
+  })
+
+  test('keeps edit link on regular documentation pages', async () => {
+    await goto('/home')
+
+    const editLink = page.locator('.VPDocFooter .edit-link-button')
+
+    expect(await editLink.isVisible()).toBe(true)
+    expect(await editLink.textContent()).toContain('Edit this page on GitHub')
+  })
+})
