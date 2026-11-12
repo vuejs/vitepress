@@ -300,6 +300,25 @@ You can deploy your VitePress project with [CloudRay](https://cloudray.io/) by f
    firebase deploy
    ```
 
+### Getwebup
+
+[Getwebup](https://www.getwebup.in/web-hosting) cPanel hosting runs on LiteSpeed and serves a VitePress build as plain static files.
+
+1. After running `npm run docs:build`, zip the contents of `docs/.vitepress/dist` (not the folder itself). In cPanel's "File Manager", upload the `.zip` to `public_html`, extract it there and delete the `.zip`.
+
+2. Add these lines to `public_html/.htaccess` (create the file if it does not exist). They serve VitePress' `404.html` for missing pages. If you set [`cleanUrls`](../reference/site-config#cleanurls) to `true`, they also serve `guide/getting-started.html` at `/guide/getting-started` without a redirect:
+
+   ```apache [.htaccess]
+   ErrorDocument 404 /404.html
+
+   RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+   RewriteRule ^ %{REQUEST_URI}.html [L]
+   ```
+
+   If the site is in a subfolder of `public_html` with [`base`](#setting-a-public-base-path) set to it, put the files and the `.htaccess` in that subfolder and add the subfolder to the first line, for example `ErrorDocument 404 /docs/404.html`.
+
 ### Heroku
 
 1. Follow documentation and guide given in [`heroku-buildpack-static`](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-static).
