@@ -40,7 +40,7 @@ A diferencia de muchos SSG tradicionales donde cada navegación resulta en una r
 
 - **Carga Inicial Rápida**
 
-  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). A diferencia de la creencia popular de que la hidratación de una SPA es lenta, este proceso es de hecho extremadamente rápido gracias al rendimiento nativo y a las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https://vitepress.dev/), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
+  La visita inicial a cualquier página será servida con el HTML estático pre-renderizado para una velocidad de carga rápida y SEO óptimo. La página entonces carga un paquete JavaScript que transforma la página en una SPA de Vue (a este proceso se le llama "hidratación"). A diferencia de la creencia popular de que la hidratación de una SPA es lenta, este proceso es de hecho extremadamente rápido gracias al rendimiento nativo y a las optimizaciones del compilador de Vue 3. En [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fvitepress.dev%2F), los sitios típicos VitePress alcanzan puntuaciones de desempeño casi perfectas, incluso en dispositivos móbiles de gama baja con una red lenta.
 
 - **Navegación Rápida pos-carga**
 

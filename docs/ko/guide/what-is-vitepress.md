@@ -40,7 +40,7 @@ VitePress는 마크다운 컨텐츠를 다룰 때 훌륭한 개발자 경험(DX)
 
 - **빠른 초기 로딩**
 
-  초기 페이지 방문은 사전 렌더링된 HTML을 제공하여 빠른 로딩 속도와 최적의 SEO를 제공합니다. 그 후 페이지를 Vue SPA로 전환하는 JavaScript 번들이 로드됩니다(이것을 "하이드레이션"이라고 함). 일반적으로 SPA 하이드레이션이 느리다고 생각할 수 있지만, Vue 3의 성능과 컴파일러 최적화 덕분에 이 과정은 매우 빠릅니다. [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https://vitepress.dev/)에서 일반적인 VitePress 사이트는 네트워크 속도가 느린 저가형 모바일 기기에서도 거의 완벽한 성능 점수를 얻습니다.
+  초기 페이지 방문은 사전 렌더링된 HTML을 제공하여 빠른 로딩 속도와 최적의 SEO를 제공합니다. 그 후 페이지를 Vue SPA로 전환하는 JavaScript 번들이 로드됩니다(이것을 "하이드레이션"이라고 함). 일반적으로 SPA 하이드레이션이 느리다고 생각할 수 있지만, Vue 3의 성능과 컴파일러 최적화 덕분에 이 과정은 매우 빠릅니다. [PageSpeed Insights](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fvitepress.dev%2F)에서 일반적인 VitePress 사이트는 네트워크 속도가 느린 저가형 모바일 기기에서도 거의 완벽한 성능 점수를 얻습니다.
 
 - **빠른 포스트 로드 탐색**
 
