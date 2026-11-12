@@ -32,6 +32,7 @@ export default defineConfig({
 - <https://www.npmjs.com/package/@orama/plugin-vitepress>
 - <https://www.npmjs.com/package/vitepress-plugin-typesense>
 - <https://www.npmjs.com/package/vitepress-plugin-cloudflare-ai-search>
+- <https://www.npmjs.com/package/vitepress-onetag>
 
 ### i18n {#local-search-i18n}
 

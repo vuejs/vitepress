@@ -30,6 +30,7 @@ Alternatively, you can use [Algolia DocSearch](#algolia-search) or some communit
 - <https://npmx.dev/package/vitepress-plugin-pagefind>
 - <https://npmx.dev/package/vitepress-plugin-typesense>
 - <https://npmx.dev/package/vitepress-plugin-cloudflare-ai-search>
+- <https://npmx.dev/package/vitepress-onetag>
 
 <!-- - <https://npmx.dev/package/@orama/plugin-vitepress> -- replace with zbsearch one when published -->
 
