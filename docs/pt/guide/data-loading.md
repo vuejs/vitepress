@@ -119,6 +119,7 @@ Por padrão, apenas `url` e `frontmatter` são fornecidos. Isso ocorre porque os
 
 ```vue
 <script setup>
+import { withBase } from 'vitepress'
 import { data as posts } from './posts.data.js'
 </script>
 
@@ -126,7 +127,7 @@ import { data as posts } from './posts.data.js'
   <h1>Todos os posts do blog</h1>
   <ul>
     <li v-for="post of posts">
-      <a :href="post.url">{{ post.frontmatter.title }}</a>
+      <a :href="withBase(post.url)">{{ post.frontmatter.title }}</a>
       <span>por {{ post.frontmatter.author }}</span>
     </li>
   </ul>

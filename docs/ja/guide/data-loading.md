@@ -113,6 +113,7 @@ interface ContentData {
 
 ```vue
 <script setup>
+import { withBase } from 'vitepress'
 import { data as posts } from './posts.data.js'
 </script>
 
@@ -120,7 +121,7 @@ import { data as posts } from './posts.data.js'
   <h1>All Blog Posts</h1>
   <ul>
     <li v-for="post of posts">
-      <a :href="post.url">{{ post.frontmatter.title }}</a>
+      <a :href="withBase(post.url)">{{ post.frontmatter.title }}</a>
       <span>by {{ post.frontmatter.author }}</span>
     </li>
   </ul>
