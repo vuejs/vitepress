@@ -329,6 +329,9 @@ export async function resolveUserConfig(
     debug(`loaded config at ${c.yellow(configPath)}`)
   }
 
+  // Discovery must use inherited source options and respect an inherited loader.
+  userConfig = await resolveConfigExtends(userConfig)
+
   // Auto-generate additional config if user leaves it unspecified
   if (userConfig.additionalConfig === undefined) {
     const [additionalConfig, additionalDeps] = await gatherAdditionalConfig(
@@ -342,7 +345,7 @@ export async function resolveUserConfig(
     configDeps = configDeps.concat(...additionalDeps)
   }
 
-  return [await resolveConfigExtends(userConfig), configPath, configDeps]
+  return [userConfig, configPath, configDeps]
 }
 
 async function resolveConfigExtends(
