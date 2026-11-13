@@ -155,6 +155,77 @@ describe('local search', () => {
       'localsearch-item-0'
     )
   })
+
+  test.each(['', 'no-matching-search-result'])(
+    'does not select a result for query "%s"',
+    async (query) => {
+      const input = await searchFor('lorem')
+      await waitForSearchResults({ minCount: 2 })
+      await input.fill(query)
+      await waitForSearchResults({ count: 0 })
+      if (query) await page.waitForSelector('.no-results')
+
+      await page.evaluate(() => document.documentElement.classList.add('mac'))
+      for (const key of ['ArrowDown', 'ArrowUp', 'n', 'p']) {
+        if (key.startsWith('Arrow')) await input.press(key)
+        else await pressMacCtrl(key)
+
+        expect(await input.getAttribute('aria-activedescendant')).toBeNull()
+        expect(await page.locator('.result.selected').count()).toBe(0)
+      }
+
+      const url = page.url()
+      await input.press('Enter')
+      expect(await page.locator('.VPLocalSearchBox').isVisible()).toBe(true)
+      expect(page.url()).toBe(url)
+
+      const toggle = page.locator('.toggle-layout-button')
+      const layout = await toggle.getAttribute('class')
+      await toggle.click()
+      expect(await toggle.getAttribute('class')).toBe(layout)
+    }
+  )
+
+  test('wraps selection and resets it when results change', async () => {
+    const input = await searchFor('lorem')
+    await waitForSearchResults({ minCount: 2 })
+    const options = page.locator('#localsearch-list li[role=option]')
+    const count = await options.count()
+
+    await input.press('ArrowUp')
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      `localsearch-item-${count - 1}`
+    )
+    expect(await options.last().getAttribute('aria-selected')).toBe('true')
+
+    await input.press('ArrowDown')
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-0'
+    )
+    await input.press('ArrowDown')
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-1'
+    )
+
+    await input.fill('#hash-probe')
+    await waitForSearchResults({ text: 'Local search included', count: 1 })
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-0'
+    )
+    expect(await options.first().getAttribute('aria-selected')).toBe('true')
+
+    await input.fill('Frontmatter Title Resolved')
+    await waitForSearchResults({ text: 'Frontmatter Title Resolved' })
+    expect(await input.getAttribute('aria-activedescendant')).toBe(
+      'localsearch-item-0'
+    )
+    expect(await options.first().getAttribute('aria-selected')).toBe('true')
+
+    const href = await options.first().locator('a').getAttribute('href')
+    await input.press('Enter')
+    await page.waitForURL(new URL(href!, page.url()).href)
+    expect(await page.locator('.VPLocalSearchBox').count()).toBe(0)
+  })
 })
 
 async function openSearch() {
