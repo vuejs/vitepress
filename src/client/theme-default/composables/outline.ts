@@ -32,7 +32,7 @@ export function getHeaders(
       return {
         element: el as HTMLHeadElement,
         title: serializeHeader(el),
-        link: '#' + el.id,
+        link: '#' + encodeURIComponent(el.id),
         level
       }
     })
@@ -172,11 +172,13 @@ export function useActiveAnchor(
   }
 
   function activateLink(hash: string | null) {
+    const decodedHash = hash != null ? decodeURIComponent(hash) : null
     const activeLink =
-      hash != null
-        ? (container.value?.querySelector<HTMLAnchorElement>(
-            `a[href$="${decodeURIComponent(hash)}"]`
-          ) ?? null)
+      decodedHash != null
+        ? (Array.from(
+            container.value?.querySelectorAll<HTMLAnchorElement>('a') ?? []
+          ).find((link) => decodeURIComponent(link.hash) === decodedHash) ??
+          null)
         : null
 
     if (activeLink === prevActiveLink) return
