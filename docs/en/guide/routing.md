@@ -190,6 +190,17 @@ export default {
 }
 ```
 
+This is also useful when you want to keep localized or non-English file names
+while exposing ASCII URLs:
+
+```ts [.vitepress/config.js]
+export default {
+  rewrites: {
+    'blog/你好世界.md': 'blog/hello-world.md'
+  }
+}
+```
+
 The `rewrites` option also supports dynamic route parameters. In the above example, it would be verbose to list all the paths if you have many packages. Given that they all have the same file structure, you can simplify the config like this:
 
 ```ts
