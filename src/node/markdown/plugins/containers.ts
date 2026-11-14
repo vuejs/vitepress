@@ -239,8 +239,20 @@ export const gitHubAlertsPlugin = (
       }
     }
   })
-  md.renderer.rules.github_alert_open = function (tokens, idx) {
-    const { title, type } = tokens[idx].meta
+  md.renderer.rules.github_alert_open = function (
+    tokens,
+    idx,
+    _options,
+    env: MarkdownEnv & { references?: any }
+  ) {
+    const { type } = tokens[idx].meta
+    const title = md.renderInline(tokens[idx].meta.title, {
+      references: env.references,
+      frontmatter: env.frontmatter,
+      cleanUrls: env.cleanUrls,
+      relativePath: env.relativePath,
+      relativizeUrls: env.relativizeUrls
+    })
     return `<div class="${type} custom-block github-alert"><p class="custom-block-title">${title}</p>\n`
   }
 }
