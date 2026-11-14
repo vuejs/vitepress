@@ -22,6 +22,7 @@ import {
   resolveAliases
 } from './alias'
 import { isAdditionalConfigFile, resolvePages, type SiteConfig } from './config'
+import { findSidebarDeadLinks } from './deadLinks'
 import {
   clearCache,
   createMarkdownToVueRenderFn,
@@ -290,14 +291,18 @@ export async function createVitePressPlugin(
     },
 
     renderStart() {
-      if (allDeadLinks.length > 0) {
-        logDeadLinks(allDeadLinks, siteConfig.logger)
+      const deadLinks = [
+        ...allDeadLinks,
+        ...findSidebarDeadLinks(siteConfig, config.publicDir)
+      ]
+      if (deadLinks.length > 0) {
+        logDeadLinks(deadLinks, siteConfig.logger)
         siteConfig.logger.info(
           c.cyan(
             '\nIf this is expected, you can disable this check via config. Refer: https://vitepress.dev/reference/site-config#ignoredeadlinks\n'
           )
         )
-        throw new Error(`${allDeadLinks.length} dead link(s) found.`)
+        throw new Error(`${deadLinks.length} dead link(s) found.`)
       }
     },
 
