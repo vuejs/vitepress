@@ -1,5 +1,6 @@
 import path from 'node:path'
 
+import pm from 'picomatch'
 import { glob as _glob } from 'tinyglobby'
 import { normalizePath } from 'vite'
 
@@ -22,6 +23,27 @@ export function normalizeGlob(
       ? '!' + normalizePath(path.resolve(base, p.slice(1)))
       : normalizePath(path.resolve(base, p))
   )
+}
+
+/**
+ * Matches a file against `normalizeGlob` patterns, with negated ones excluding
+ * files as in `glob` - picomatch alone matches anything they don't name.
+ */
+export function isGlobMatch(
+  file: string,
+  patterns: string[],
+  options?: GlobOptions
+): boolean {
+  const match: string[] = []
+  const ignore: string[] = []
+  for (const p of patterns) {
+    if (p[0] === '!') ignore.push(p.slice(1))
+    else match.push(p)
+  }
+  return pm.isMatch(file, match, {
+    ...options,
+    ignore: ignore.concat(options?.ignore || [])
+  })
 }
 
 export async function glob(
