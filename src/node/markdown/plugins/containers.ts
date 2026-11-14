@@ -190,7 +190,7 @@ function createCodeGroupOpenRender(md: MarkdownItAsync): RenderRule {
       }
     }
 
-    return `<div class="vp-code-group"><div class="tabs">${tabs}</div><div class="blocks">\n`
+    return `<div class="vp-code-group"><div class="tabs" role="radiogroup" aria-label="Code group">${tabs}</div><div class="blocks">\n`
   }
 }
 
