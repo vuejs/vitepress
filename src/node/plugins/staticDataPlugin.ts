@@ -134,7 +134,7 @@ async function loadData(id: string): Promise<string> {
     server?.watcher.add(
       watch
         .filter((pattern) => !pattern.startsWith('!'))
-        .map((pattern) => pm.scan(pattern).base)
+        .map((pattern) => pm.scan(pattern, { unescape: true }).base)
     )
   }
 
