@@ -159,6 +159,12 @@ export default createContentLoader('posts/*.md', {
 })
 ```
 
+When `render: true` is enabled, the loaded `html` is rendered from Markdown
+before the page is compiled as a Vue component. Vue syntax or custom components
+inside the Markdown are left as component tags and won't be evaluated by the
+content loader. If you need to render those components, do it from a page or
+theme component instead of expecting their output in `page.html`.
+
 Check out how it is used in the [Vue.js blog](https://github.com/vuejs/blog/blob/main/.vitepress/theme/posts.data.ts).
 
 The `createContentLoader` API can also be used inside [build hooks](../reference/site-config#build-hooks):
