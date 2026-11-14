@@ -13,6 +13,12 @@ Site config is where you can define the global settings of the site. App config 
 
 The config file is always resolved from `<root>/.vitepress/config.[ext]`, where `<root>` is your VitePress [project root](../guide/routing#root-and-source-directory), and `[ext]` is one of the supported file extensions. TypeScript is supported out of the box. Supported extensions include `.js`, `.ts`, `.mjs`, and `.mts`.
 
+If your site links to files with extensions that VitePress does not know about, you can add them with the `VITE_EXTRA_EXTENSIONS` environment variable. Its value is a comma-separated list of extensions without leading dots:
+
+```sh
+VITE_EXTRA_EXTENSIONS=ppsx,foo vitepress build
+```
+
 It is recommended to use ES modules syntax in config files. The config file should default export an object:
 
 ```ts
