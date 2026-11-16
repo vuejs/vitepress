@@ -1,4 +1,4 @@
-# Blog
+# Base
 
 <script setup>
 import { useRoute } from 'vitepress'
