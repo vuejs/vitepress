@@ -4,7 +4,7 @@ import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
 import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
 import { siteDataRef } from './data'
-import { inBrowser, runtimeBase, withBase } from './utils'
+import { inBrowser, runtimeBase } from './utils'
 
 export interface Router {
   /**
@@ -113,7 +113,9 @@ export function createRouter(
 
         await router.onAfterPageLoad?.(href)
 
-        route.path = inBrowser ? pendingPath : withBase(pendingPath)
+        route.path = inBrowser
+          ? pendingPath.slice(runtimeBase().length - 1)
+          : pendingPath
         route.component = markRaw(comp)
         route.data = import.meta.env.PROD
           ? markRaw(__pageData)
@@ -162,7 +164,9 @@ export function createRouter(
 
       if (latestPendingPath === pendingPath) {
         latestPendingPath = null
-        route.path = inBrowser ? pendingPath : withBase(pendingPath)
+        route.path = inBrowser
+          ? pendingPath.slice(runtimeBase().length - 1)
+          : pendingPath
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         const relativePath = inBrowser
           ? route.path

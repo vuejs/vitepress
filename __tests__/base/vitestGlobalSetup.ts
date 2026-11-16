@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 
 import { chromium, type BrowserServer } from 'playwright-chromium'
 
-import { ALT_PREFIX, SUB_PREFIX } from './constants'
+import { ALT_PREFIX, NESTED_BASE_PREFIX, SUB_PREFIX } from './constants'
 
 const dir = resolve(fileURLToPath(import.meta.url), '..')
 const bin = resolve(dir, '../../bin/vitepress.js')
@@ -64,7 +64,14 @@ export async function setup() {
 
   // one process per flavor: the markdown renderer is a module-level
   // singleton, so in-process builds would leak the first base into the rest
-  for (const mode of ['plain', 'relative', 'cdn', 'mpa', 'sharded']) {
+  for (const mode of [
+    'plain',
+    'relative',
+    'cdn',
+    'mpa',
+    'sharded',
+    'nested-base'
+  ]) {
     // mpa builds never empty outDir, so stale assets would survive reruns
     await rm(dist(mode), { recursive: true, force: true })
     const res = spawnSync(process.execPath, [bin, 'build', 'fixture'], {
@@ -92,7 +99,8 @@ export async function setup() {
     ),
     await serveStatic([['/', dist('cdn')]], false),
     cdnServer,
-    await serveStatic([['/', dist('sharded')]], false)
+    await serveStatic([['/', dist('sharded')]], false),
+    await serveStatic([[NESTED_BASE_PREFIX, dist('nested-base')]], false)
   ]
 
   browserServer = await chromium.launchServer({
@@ -107,6 +115,7 @@ export async function setup() {
   process.env['PAGES_PORT'] = String(portOf(servers[1]!))
   process.env['VP_CDN_PORT'] = String(cdnPort)
   process.env['SHARDED_PORT'] = String(portOf(servers[3]!))
+  process.env['NESTED_BASE_PORT'] = String(portOf(servers[4]!))
 }
 
 export async function teardown() {
