@@ -590,6 +590,14 @@ export interface MarkdownEnv {
    */
   relativizeUrls?: boolean
   /**
+   * Set when the rendered HTML becomes the template of a page component:
+   * static code blocks are then handed to Vue as one string, marked for the
+   * lean chunk. The first parse consumes it. Content loaders and the local
+   * search must not set it: they use the HTML itself.
+   * @internal
+   */
+  staticCode?: boolean
+  /**
    * The URLs of the links collected from the page for the dead link check.
    */
   links?: string[]

@@ -164,7 +164,8 @@ export async function createMarkdownToVueRenderFn(
       relativizeUrls: true,
       includes: [],
       realPath: fileOrig,
-      localeIndex
+      localeIndex,
+      staticCode: true
     }
     let html: string
     try {

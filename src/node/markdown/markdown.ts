@@ -48,6 +48,7 @@ import type {
 } from '../shared'
 import {
   containerPlugin,
+  plainContainerTokens,
   gitHubAlertsPlugin,
   type ContainerOptions
 } from './plugins/containers'
@@ -66,6 +67,7 @@ import {
   snippetPlugin,
   type Options as SnippetPluginOptions
 } from './plugins/snippet'
+import { staticCode } from './plugins/staticCode'
 import { tablePlugin } from './plugins/table'
 
 export type { Header } from '../shared'
@@ -404,7 +406,14 @@ export async function createMarkdownRenderer(
 
   _disposeHighlighter = dispose
 
-  md = new MarkdownItAsync({ html: true, linkify: true, highlight, ...options })
+  const [staticHighlight, staticCodePlugin] = staticCode(highlight)
+
+  md = new MarkdownItAsync({
+    html: true,
+    linkify: true,
+    ...options,
+    highlight: staticHighlight
+  })
 
   md.linkify.set({ fuzzyLink: false })
   restoreEntities(md)
@@ -587,6 +596,14 @@ export async function createMarkdownRenderer(
   if (options.config) {
     await options.config(md)
   }
+
+  // last, so that it sees the tokens and the fence rule of every plugin
+  md.use(staticCodePlugin, [
+    ...(options.container !== false
+      ? plainContainerTokens(containerOptions)
+      : []),
+    ...(options.gfmAlerts !== false ? ['github_alert_open'] : [])
+  ])
 
   return md
 }

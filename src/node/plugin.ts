@@ -42,9 +42,11 @@ import {
 } from './shared'
 import { deserializeFunctions, serializeFunctions } from './utils/fnSerialize'
 import { cacheAllGitTimestamps } from './utils/getGitTimestamp'
+import { unmarkStaticCode } from './markdown/plugins/staticCode'
 import {
   injectStaticMarkers,
   removeStaticMarkers,
+  STATIC_START,
   stripStaticContent
 } from './utils/leanChunk'
 
@@ -271,7 +273,11 @@ export async function createVitePressPlugin(
               data: payload
             })
           }
-          return processClientJS(vueSrc, id)
+          // the markers of static code are for the lean chunk of a build
+          return processClientJS(
+            config.command === 'build' ? vueSrc : unmarkStaticCode(vueSrc),
+            id
+          )
         }
         if (docsearchRE.test(normalizePath(id))) {
           return code
@@ -366,6 +372,13 @@ export async function createVitePressPlugin(
         // minified and we won't be able to safely locate the strings.
         return injectStaticMarkers(code)
       }
+      // Static code blocks are marked when the markdown is compiled. Only the
+      // lean chunk of a page leaves them out, so the markers go from the
+      // server bundle and from a chunk that is no page, such as one with a
+      // markdown file that a component imports.
+      if (code.includes(STATIC_START)) {
+        return removeStaticMarkers(code)
+      }
       return null
     },
 
@@ -400,7 +413,7 @@ export async function createVitePressPlugin(
               type: 'asset',
               name: name + '-lean',
               fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-              source: stripStaticContent(chunk.code)
+              source: removeStaticMarkers(stripStaticContent(chunk.code))
             })
 
             // remove static markers from original code
