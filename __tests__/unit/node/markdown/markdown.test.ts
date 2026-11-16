@@ -198,6 +198,36 @@ describe('node/markdown/markdown', () => {
     })
   })
 
+  describe('anchor', () => {
+    test('leaves badge content out of the slug', async () => {
+      const slot = await render('## Powered by Vite <Badge>HERE</Badge>')
+      expect(slot).toContain('id="powered-by-vite"')
+      expect(slot).toContain('aria-label="Permalink to “Powered by Vite”"')
+
+      // same slug as a badge passing its text through the prop
+      for (const src of [
+        '## Powered by Vite <Badge type="tip">HERE</Badge>',
+        '## Powered by Vite <Badge text="HERE" />',
+        '## Powered by Vite <badge><code>v2</code></badge>'
+      ]) {
+        expect(await render(src)).toContain('id="powered-by-vite"')
+      }
+
+      // only the badge is skipped, not the rest of the heading
+      expect(
+        await render('## Foo <Badge>beta</Badge> bar <kbd>Ctrl</kbd>')
+      ).toContain('id="foo-bar-ctrl"')
+      expect(await render('## Foo <Badge text="beta" /> bar')).toContain(
+        'id="foo-bar"'
+      )
+
+      // [[toc]] links follow the heading id
+      expect(
+        await render('[[toc]]\n\n## Powered by Vite <Badge>HERE</Badge>')
+      ).toContain('href="#powered-by-vite"')
+    })
+  })
+
   // attrs applies at a fixed position in the core chain (before linkify),
   // while anchor pushes to its end, so anchor always sees user-defined ids
   // no matter which plugin is registered first
