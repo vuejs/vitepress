@@ -14,12 +14,7 @@ const route = useRoute()
 const { hasSidebar, hasAside, leftAside } = useLayout()
 
 const pageName = computed(() => {
-  // the mount point is unknown at build time, so the class must come from
-  // the site-relative path or ssr and hydration disagree
-  const path = isRelativeBase(site.value.base)
-    ? '/' + route.path.slice(runtimeBase().length)
-    : route.path
-  return path.replace(/[./]+/g, '_').replace(/_html$/, '')
+  return route.path.replace(/[./]+/g, '_').replace(/_html$/, '')
 })
 </script>
 

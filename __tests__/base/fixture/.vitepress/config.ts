@@ -1,11 +1,20 @@
 import { defineConfig } from 'vitepress'
+import { NESTED_BASE_PREFIX } from '../../constants.ts'
 
 const mode = process.env.VP_TEST_MODE || 'relative'
 
 export default defineConfig({
   title: 'Base Fixture',
   description: 'Fixture site for base/assetsBase behavior',
-  base: ['plain', 'cdn', 'sharded'].includes(mode) ? '/' : './',
+  base:
+    {
+      plain: '/',
+      cdn: '/',
+      sharded: '/',
+      relative: './',
+      mpa: './',
+      'nested-base': NESTED_BASE_PREFIX
+    }[mode] ?? /* default: */ '/',
   assetsBase:
     mode === 'cdn' ? `http://localhost:${process.env.VP_CDN_PORT}/` : undefined,
   mpa: mode === 'mpa',
