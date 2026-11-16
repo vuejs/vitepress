@@ -255,7 +255,7 @@ export default defineConfig({
 
 ### پنل کناری Ask AI {#ask-ai-side-panel}
 
-DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/sidepanel/api-reference) شامل لیست کامل گزینه‌ها است.
+DocSearch v4.5+ از **پنل کناری Ask AI** اختیاری پشتیبانی می‌کند. وقتی فعال باشد، به طور پیش‌فرض می‌توان آن را با **Ctrl/Cmd+I** باز کرد. [مرجع API پنل کناری](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference) شامل لیست کامل گزینه‌ها است.
 
 ```ts
 import { defineConfig } from 'vitepress'

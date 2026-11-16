@@ -267,7 +267,7 @@ If you want to default to keyword search and do not want to use Ask AI, omit the
 
 ### Ask AI Side Panel {#ask-ai-side-panel}
 
-DocSearch v4.5+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/sidepanel/api-reference) contains the full list of options.
+DocSearch v4.5+ supports an optional **Ask AI side panel**. When enabled, it can be opened with **Ctrl/Cmd+I** by default. The [Sidepanel API Reference](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference) contains the full list of options.
 
 ```ts
 import { defineConfig } from 'vitepress'

@@ -255,7 +255,7 @@ Ask AI를 사용하지 않으려면 `askAi` 옵션을 생략하면 됩니다.
 
 ### Ask AI 사이드 패널 {#ask-ai-side-panel}
 
-DocSearch v4.5+는 선택적 **Ask AI 사이드 패널**을 지원합니다. 활성화되면 기본적으로 **Ctrl/Cmd+I**로 열 수 있습니다. [사이드 패널 API 참조](https://docsearch.algolia.com/docs/sidepanel/api-reference)에 전체 옵션 목록이 있습니다.
+DocSearch v4.5+는 선택적 **Ask AI 사이드 패널**을 지원합니다. 활성화되면 기본적으로 **Ctrl/Cmd+I**로 열 수 있습니다. [사이드 패널 API 참조](https://docsearch.algolia.com/docs/v4/sidepanel/api-reference)에 전체 옵션 목록이 있습니다.
 
 ```ts
 import { defineConfig } from 'vitepress'
