@@ -21,15 +21,21 @@ const staticHtmlRE = new RegExp(
   'g'
 )
 
+export const STATIC_START = '__VP_STATIC_START__'
+export const STATIC_END = '__VP_STATIC_END__'
+
 // the markers survive minification, which may re-quote or fold the literals
-const staticStripRE = /['"`]__VP_STATIC_START__[^]*?__VP_STATIC_END__['"`]/g
-const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+const staticStripRE = new RegExp(
+  `['"\`]${STATIC_START}[^]*?${STATIC_END}['"\`]`,
+  'g'
+)
+const staticRestoreRE = new RegExp(`${STATIC_START}|${STATIC_END}`, 'g')
 
 export function injectStaticMarkers(code: string): string {
   return code.replace(
     staticHtmlRE,
     (_, html: string, count: string) =>
-      `createStaticVNode(${html[0]}__VP_STATIC_START__${html.slice(1, -1)}__VP_STATIC_END__${html.slice(-1)}, ${count})`
+      `createStaticVNode(${html[0]}${STATIC_START}${html.slice(1, -1)}${STATIC_END}${html.slice(-1)}, ${count})`
   )
 }
 

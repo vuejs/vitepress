@@ -30,6 +30,18 @@ const containerLabels = [
   ['caution', 'cautionLabel', 'CAUTION']
 ] as const
 
+/**
+ * The tokens that open the containers of `containerPlugin`, all but the
+ * `v-pre` one. Their rules render no `v-pre`.
+ */
+export function plainContainerTokens(options?: ContainerOptions): string[] {
+  return [
+    'raw',
+    'code-group',
+    ...Object.keys(resolveTitlesByLocale(options).base)
+  ].map((name) => `container_${name}_open`)
+}
+
 const alertMarkerRE = /^\[!([\w-]+)\]([^\n\r]*)/
 
 export const containerPlugin = (

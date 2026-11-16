@@ -61,4 +61,41 @@ describe('node/utils/leanChunk', () => {
       )
     ).toBe('t("",1),t("",1),t("",2)')
   })
+
+  // Static code blocks are marked when the markdown is compiled, so their
+  // markers are inside the html that a call is marked with, or in a prop.
+  test('cuts out html that has marked code inside', () => {
+    const html = String.raw`"<p>a</p><pre class=\"shiki\">__VP_STATIC_START__<code>b</code>__VP_STATIC_END__</pre><p>c</p>"`
+    const code = `[${call(html, 3)}, ${call(single)}]`
+
+    expect(stripStaticContent(injectStaticMarkers(code))).toBe(
+      `[${call('""', 3)}, ${call('""')}]`
+    )
+    expect(removeStaticMarkers(injectStaticMarkers(code))).toBe(
+      code.replace(/__VP_STATIC_(START|END)__/g, '')
+    )
+  })
+
+  test('cuts out marked code in a prop', () => {
+    const code =
+      'h("pre", { class: "shiki", innerHTML: `__VP_STATIC_START__<code>a</code>__VP_STATIC_END__` })'
+
+    expect(stripStaticContent(injectStaticMarkers(code))).toBe(
+      'h("pre", { class: "shiki", innerHTML: "" })'
+    )
+    expect(removeStaticMarkers(code)).toBe(
+      'h("pre", { class: "shiki", innerHTML: `<code>a</code>` })'
+    )
+  })
+
+  // The lean chunk goes through both, so that no marker is left where the
+  // call around a marked block was not recognized.
+  test('leaves no marker in the lean chunk', () => {
+    const code =
+      'f(`<pre>__VP_STATIC_START__<code>a</code>__VP_STATIC_END__</pre>` + x)'
+
+    expect(removeStaticMarkers(stripStaticContent(code))).toBe(
+      'f(`<pre><code>a</code></pre>` + x)'
+    )
+  })
 })

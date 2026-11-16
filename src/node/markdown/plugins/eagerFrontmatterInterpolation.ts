@@ -87,11 +87,28 @@ function eagerFrontmatterInterpolation(state: StateCore): void {
 
   const resolve = createResolver(frontmatter)
 
+  forEachOutsideVPre(state.tokens, (token) => {
+    if (token.type === 'inline' && token.children) {
+      processInline(state, token, resolve)
+    }
+  })
+}
+
+/**
+ * Calls `visit` for each block token that is in no `v-pre` scope: neither
+ * in a `v-pre` container, nor under a token with a `v-pre` attribute, nor in
+ * a `v-pre` element that raw html opened and has not closed yet. When `visit`
+ * returns `false` for an opening token, the tokens it encloses are skipped.
+ */
+export function forEachOutsideVPre(
+  tokens: Token[],
+  visit: (token: Token) => boolean | void
+): void {
   // an unclosed v-pre element opened by a raw html block scopes over the
   // markdown after it until later raw html closes it
   let blockScope: VPreScope | undefined
   let skipLevel: number | null = null
-  for (const token of state.tokens) {
+  for (const token of tokens) {
     if (token.type === 'html_block') {
       blockScope = scanRawHtml(token.content, blockScope)
       continue
@@ -107,17 +124,16 @@ function eagerFrontmatterInterpolation(state: StateCore): void {
       skipLevel = token.level
       continue
     }
-    if (token.type !== 'inline' || !token.children) continue
     if (blockScope) {
       // a stray closing tag inside a paragraph still ends the scope, but the
       // paragraph itself stays with the runtime
-      for (const child of token.children) {
+      for (const child of token.children || []) {
         if (child.type === 'html_inline')
           blockScope = scanRawHtml(child.content, blockScope)
       }
       continue
     }
-    processInline(state, token, resolve)
+    if (visit(token) === false && token.nesting === 1) skipLevel = token.level
   }
 }
 
