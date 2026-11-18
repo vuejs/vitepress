@@ -204,7 +204,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...'
+        indices: ['...']
       }
     }
   }
@@ -222,9 +222,13 @@ export default defineConfig({
 
 </details>
 
-詳しくは[公式 Algolia ドキュメント](https://docsearch.algolia.com/docs/api#translations)を参照してください。すぐに始めるには、このサイトで使っている翻訳を[GitHub リポジトリ](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code)からコピーすることもできます。
+詳しくは[公式 Algolia ドキュメント](https://docsearch.algolia.com/docs/packages/react/api-reference#translations)を参照してください。すぐに始めるには、このサイトで使っている翻訳を[GitHub リポジトリ](https://github.com/search?q=repo:vuejs/vitepress+%22function+searchOptions%22&type=code)からコピーすることもできます。
 
 ### Algolia Ask AI のサポート {#ask-ai}
+
+::: note 注意
+`v5.0.0` 以降、Ask AI のバックエンドは Algolia の [Agent Studio](https://www.algolia.com/doc/guides/algolia-ai/agent-studio/how-to/quickstart) に移行しました。移行に役立つ Ask AI から Agent Studio への[移行ガイド](https://docsearch.algolia.com/docs/agent-studio/migrate-to-agent-studio)も利用できます。
+:::
 
 **Ask AI** を有効にするには、`options` 内に `askAi` オプション（またはその一部）を指定します。
 
@@ -238,16 +242,15 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
-        // askAi: "あなたのアシスタントID"
+        indices: ['...'],
+        // askAi: "あなたのエージェントID"
         // または
         askAi: {
-          // 最低限、Algolia から受け取った assistantId を指定する必要があります
-          assistantId: 'XXXYYY',
-          // 任意の上書き — 省略した場合は上位の appId/apiKey/indexName を再利用
+          // 最低限、Algolia から受け取った agentId を指定する必要があります
+          agentId: 'XXXYYY',
+          // 任意の上書き — 省略した場合は上位の appId/apiKey の値を再利用
           // apiKey: '...',
           // appId: '...',
-          // indexName: '...'
         }
       }
     }
@@ -261,7 +264,7 @@ export default defineConfig({
 
 ### Ask AI サイドパネル {#ask-ai-side-panel}
 
-DocSearch v4.5+ はオプションの **Ask AI サイドパネル**をサポートしています。有効にすると、デフォルトで **Ctrl/Cmd+I** で開くことができます。[サイドパネル API リファレンス](https://docsearch.algolia.com/docs/sidepanel/api-reference)にオプションの完全なリストがあります。
+DocSearch v4.5+ はオプションの **Ask AI サイドパネル**をサポートしています。有効にすると、デフォルトで **Ctrl/Cmd+I** で開くことができます。[サイドパネル API リファレンス](https://docsearch.algolia.com/docs/packages/sidepanel/api)にオプションの完全なリストがあります。
 
 ```ts
 import { defineConfig } from 'vitepress'
@@ -273,9 +276,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             // @docsearch/sidepanel-js SidepanelProps API をミラー
             panel: {
@@ -305,9 +308,9 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           sidePanel: {
             keyboardShortcuts: {
               'Ctrl/Cmd+I': false
@@ -343,10 +346,9 @@ export default defineConfig({
       options: {
         mode: 'sidePanel',
         askAi: {
-          assistantId: 'XXXYYY',
+          agentId: 'XXXYYY',
           appId: '...',
           apiKey: '...',
-          indexName: '...',
           sidePanel: true
         }
       }

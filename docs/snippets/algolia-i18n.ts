@@ -7,7 +7,7 @@ export default defineConfig({
       options: {
         appId: '...',
         apiKey: '...',
-        indexName: '...',
+        indices: ['...'],
         locales: {
           zh: {
             translations: {
@@ -32,6 +32,14 @@ export default defineConfig({
                   startNewConversationText: '开始新的对话',
                   viewConversationHistoryText: '对话历史',
                   threadDepthErrorPlaceholder: '对话已达上限'
+                },
+                facets: {
+                  defaultValueLabel: '全部',
+                  facetMenuTriggerAriaLabel: '已选择',
+                  clearAllLabel: '清除全部',
+                  facetsAriaLabel: '搜索筛选条件',
+                  selectedFacetsAriaLabel: '已选择的搜索筛选条件',
+                  clearFacetAriaLabel: '清除筛选条件：'
                 },
                 newConversation: {
                   newConversationTitle: '我今天能帮你什么？',
@@ -72,7 +80,11 @@ export default defineConfig({
                 },
                 resultsScreen: {
                   askAiPlaceholder: '询问 AI：',
-                  noResultsAskAiPlaceholder: '文档里没找到？让 Ask AI 帮忙：'
+                  noResultsAskAiPlaceholder: '文档里没找到？让 Ask AI 帮忙：',
+                  resultsSectionTitle: '搜索结果',
+                  askAiResultsTitle: '询问 AI 助手',
+                  recentConversationTimestampFallback: '不久前',
+                  resultBadgeLabelText: '类别'
                 },
                 askAiScreen: {
                   disclaimerText: '回答由 AI 生成，可能会出错。请核实。',
@@ -89,7 +101,24 @@ export default defineConfig({
                   afterToolCallText: '已搜索',
                   stoppedStreamingText: '你已停止此回复',
                   errorTitleText: '聊天错误',
-                  startNewConversationButtonText: '开始新的对话'
+                  startNewConversationButtonText: '开始新的对话',
+                  relatedSourcesTextPlural: '相关来源',
+                  savedMemoryToolResultText: '已保存到记忆',
+                  memoryToolResultText: '已使用记忆增强结果',
+                  feedbackPanelTitle: '哪里出了问题？（可选）',
+                  feedbackDetailsPlaceholder: '请分享更多细节...',
+                  feedbackDisclaimerText: '反馈中将包含此对话的副本。',
+                  feedbackSubmitButtonText: '提交',
+                  feedbackCloseButtonTitle: '关闭',
+                  feedbackTagIncorrect: '不正确或不完整',
+                  feedbackTagNotWhatIAsked: '不是我想问的',
+                  feedbackTagSlowOrBuggy: '响应缓慢或存在故障',
+                  feedbackTagStyleOrTone: '风格或语气',
+                  feedbackTagSafetyOrLegal: '安全或法律问题',
+                  feedbackTagOther: '其他',
+                  threadDepthExceededMessage:
+                    '为确保回答准确，此对话现已关闭。',
+                  suggestedPromptsTitleText: '推荐问题'
                 }
               }
             },
@@ -115,7 +144,10 @@ export default defineConfig({
                       promptAskAnotherQuestionText: '再问一个问题',
                       promptDisclaimerText: '回答由 AI 生成，可能会出错。',
                       promptLabelText: '按回车发送，Shift+回车换行。',
-                      promptAriaLabelText: '问题输入'
+                      promptAriaLabelText: '问题输入',
+                      startNewConversationButtonText: '开始新的对话',
+                      blockingErrorContinueText: '以继续。',
+                      blockingErrorFallbackText: '此对话无法继续。'
                     },
                     conversationScreen: {
                       preToolCallText: '搜索中...',
@@ -132,7 +164,22 @@ export default defineConfig({
                       likeButtonTitle: '喜欢',
                       dislikeButtonTitle: '不喜欢',
                       thanksForFeedbackText: '感谢你的反馈！',
-                      errorTitleText: '聊天错误'
+                      errorTitleText: '聊天错误',
+                      relatedSourcesTextPlural: '相关来源',
+                      savedMemoryToolResultText: '已保存到记忆',
+                      memoryToolResultText: '已使用记忆增强结果',
+                      feedbackPanelTitle: '哪里出了问题？（可选）',
+                      feedbackDetailsPlaceholder: '请分享更多细节...',
+                      feedbackDisclaimerText: '反馈中将包含此对话的副本。',
+                      feedbackSubmitButtonText: '提交',
+                      feedbackCloseButtonTitle: '关闭',
+                      feedbackTagIncorrect: '不正确或不完整',
+                      feedbackTagNotWhatIAsked: '不是我想问的',
+                      feedbackTagSlowOrBuggy: '响应缓慢或存在故障',
+                      feedbackTagStyleOrTone: '风格或语气',
+                      feedbackTagSafetyOrLegal: '安全或法律问题',
+                      feedbackTagOther: '其他',
+                      suggestedPromptsTitleText: '推荐问题'
                     },
                     newConversationScreen: {
                       titleText: '我今天能帮你什么？',
