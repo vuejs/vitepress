@@ -625,3 +625,28 @@
 ):not(.no-icon, svg a, :has(img, svg))::after {
   content: var(--vp-direction-mark) '\2060';
 }
+
+/**
+ * Print
+ * -------------------------------------------------------------------------- */
+
+@media print {
+  .vp-doc table {
+    display: table;
+    overflow: visible;
+  }
+
+  .vp-doc td code {
+    overflow-wrap: anywhere;
+  }
+
+  .vp-doc div[class*='language-'],
+  .vp-doc [class*='language-'] pre {
+    overflow: visible;
+  }
+
+  .vp-doc [class*='language-'] code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
