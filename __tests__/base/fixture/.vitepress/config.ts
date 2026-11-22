@@ -12,7 +12,16 @@ export default defineConfig({
   assetsShards: mode === 'sharded' ? 3 : undefined,
   outDir: `.vitepress/dist-${mode}`,
   cleanUrls: false,
-  rewrites: { 'src-moved.md': 'moved/target.md' },
+  locales: {
+    root: { label: 'English', lang: 'en' },
+    es: { label: 'Español', lang: 'es' }
+  },
+  srcExclude: ['es/sub/deep/page2.md'],
+  rewrites: {
+    'src-moved.md': 'moved/target.md',
+    'es/index.md': 'es/inicio.md',
+    'es/sub/page.md': 'es/moved/page.md'
+  },
   vite: {
     logLevel: 'error',
     // keep the tiny fixture images as real emitted assets

@@ -13,6 +13,18 @@ const walk = (root: string): string[] =>
     .filter((e) => e.isFile())
     .map((e) => join(e.parentPath, e.name))
 
+test('language menu links to published translations or their closest landing page', () => {
+  const pages = ['sub/page.html', 'sub/deep/page2.html', 'blog.html']
+  const links = pages.map(
+    (page) =>
+      read('plain', page).match(/<a [^>]*href="([^"]+)"[^>]*hreflang="es"/)?.[1]
+  )
+  expect(links).toEqual(['/es/moved/page.html', '/es/sub/', '/es/inicio.html'])
+  expect(read('plain', 'es/moved/page.html')).toMatch(
+    /<a [^>]*href="\/sub\/page\.html"[^>]*hreflang="en"/
+  )
+})
+
 describe('relative base emit', () => {
   test('root page references everything at ./', () => {
     const html = read('relative', 'index.html')

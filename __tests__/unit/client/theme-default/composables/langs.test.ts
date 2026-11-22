@@ -1,5 +1,5 @@
 import { resolveLocaleLink } from 'client/theme-default/composables/langs'
-import type { Route, VitePressData } from 'vitepress'
+import type { PageData, Route, VitePressData } from 'vitepress'
 import type { DefaultTheme } from 'vitepress/theme'
 import { ref } from 'vue'
 
@@ -13,20 +13,20 @@ function resolve(
     cleanUrls = false,
     targetLocale = 'fr',
     targetLocaleLink = '/fr/',
-    currentLocaleLink = '/',
+    localeLinks,
     linkToCorrespondingPage = true
   }: {
     themeConfig?: DefaultTheme.Config
     cleanUrls?: boolean
     targetLocale?: string
     targetLocaleLink?: string
-    currentLocaleLink?: string
+    localeLinks?: PageData['localeLinks']
     linkToCorrespondingPage?: boolean
   } = {}
 ) {
   const { pathname, search, hash } = new URL(currentPage, 'http://a.com')
   const route = {
-    data: { relativePath: pathname.slice(1) },
+    data: { relativePath: pathname.slice(1), localeLinks },
     query: search,
     hash
   } as Route
@@ -45,7 +45,6 @@ function resolve(
   return resolveLocaleLink(data, route, {
     targetLocale,
     targetLocaleLink,
-    currentLocaleLink,
     linkToCorrespondingPage
   })
 }
@@ -80,46 +79,64 @@ describe('client/theme-default/composables/langs', () => {
     })
 
     describe('corresponding page links (linkToCorrespondingPage: true)', () => {
-      test('rewrites the current page path into the target locale', () => {
-        expect(resolve('/guide/getting-started.md#install')).toBe(
-          '/fr/guide/getting-started.html#install'
-        )
+      const localeLinks = {
+        fr: { path: 'fr/guide/getting-started.md', exact: true }
+      }
+
+      test('preserves query and hash for an exact translation', () => {
+        expect(
+          resolve('/guide/getting-started.md?a=1#install', { localeLinks })
+        ).toBe('/fr/guide/getting-started.html?a=1#install')
       })
 
       test('drops the .html extension when clean URLs are enabled', () => {
         expect(
-          resolve('/guide/getting-started.md#install', { cleanUrls: true })
+          resolve('/guide/getting-started.md#install', {
+            cleanUrls: true,
+            localeLinks
+          })
         ).toBe('/fr/guide/getting-started#install')
       })
 
       test('resolves index pages to directory links', () => {
-        expect(resolve('/guide/index.md')).toBe('/fr/guide/')
-        expect(resolve('/guide/index.md', { cleanUrls: true })).toBe(
-          '/fr/guide/'
-        )
+        const localeLinks = { fr: { path: 'fr/guide/index.md', exact: true } }
+        expect(resolve('/guide/index.md', { localeLinks })).toBe('/fr/guide/')
+        expect(
+          resolve('/guide/index.md', { cleanUrls: true, localeLinks })
+        ).toBe('/fr/guide/')
       })
 
       test('resolves the site root page to the target locale home', () => {
-        expect(resolve('/index.md')).toBe('/fr/')
+        expect(
+          resolve('/index.md', {
+            localeLinks: { fr: { path: 'fr/index.md', exact: true } }
+          })
+        ).toBe('/fr/')
       })
 
-      test('strips the current locale prefix before rewriting', () => {
+      test('drops query and hash on a fallback landing page', () => {
         expect(
-          resolve('/en/guide/index.md?query#intro', {
-            currentLocaleLink: '/en/',
-            cleanUrls: true
+          resolve('/guide/getting-started.md?a=1#install', {
+            localeLinks: { fr: { path: 'fr/guide/index.md', exact: false } }
           })
-        ).toBe('/fr/guide/?query#intro')
+        ).toBe('/fr/guide/')
       })
 
-      test('rewrites into the root locale', () => {
+      test('uses the configured home for an unknown page', () => {
         expect(
-          resolve('/fr/guide/getting-started.md#install', {
-            targetLocale: 'root',
-            targetLocaleLink: '/',
-            currentLocaleLink: '/fr/'
+          resolve('/unknown.md?a=1#install', {
+            targetLocaleLink: '/fr/welcome'
           })
-        ).toBe('/guide/getting-started.html#install')
+        ).toBe('/fr/welcome')
+      })
+
+      test('uses an external locale home as configured', () => {
+        expect(
+          resolve('/guide/getting-started.md?a=1#install', {
+            targetLocaleLink: 'https://example.com/fr/',
+            localeLinks
+          })
+        ).toBe('https://example.com/fr/')
       })
 
       test('links to the target locale home when i18n routing is disabled', () => {

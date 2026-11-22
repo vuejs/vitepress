@@ -171,7 +171,8 @@ export namespace DefaultTheme {
     carbonAds?: CarbonAdsOptions
 
     /**
-     * Changing locale when current url is `/foo` redirects to `/locale/foo`.
+     * Link to the corresponding page in the target locale, falling back to
+     * the closest landing page or the locale home when it is missing.
      * Set to `false` to disable this behavior, or provide a function to
      * customize the target locale link.
      *
