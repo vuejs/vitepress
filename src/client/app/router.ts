@@ -242,7 +242,11 @@ export function useRoute(): Route {
   return useRouter().route
 }
 
-export function scrollTo(hash: string, scrollPosition = 0) {
+export function scrollTo(
+  hash: string,
+  scrollPosition = 0,
+  { adjustForImages = false } = {}
+) {
   if (!hash || scrollPosition) {
     window.scrollTo(0, scrollPosition)
     return
@@ -285,7 +289,36 @@ export function scrollTo(hash: string, scrollPosition = 0) {
     if (document.activeElement !== target) restoreTabindex()
   }
 
-  requestAnimationFrame(scrollToTarget)
+  requestAnimationFrame(() => {
+    scrollToTarget()
+    if (adjustForImages) keepHashTargetInView(target)
+  })
+}
+
+function keepHashTargetInView(target: HTMLElement) {
+  const { href } = location
+  const targetTop = target.getBoundingClientRect().top
+  let scrollPosition = window.scrollY
+
+  const adjust = () => {
+    if (location.href !== href || !target.isConnected) return
+
+    if (Math.abs(target.getBoundingClientRect().top - targetTop) < 1) {
+      scrollPosition = window.scrollY
+    } else if (window.scrollY === scrollPosition) {
+      target.scrollIntoView({ block: 'start' })
+      scrollPosition = window.scrollY
+    }
+  }
+
+  for (const image of document.images) {
+    if (
+      !image.complete &&
+      image.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING
+    ) {
+      image.addEventListener('load', adjust, { once: true })
+    }
+  }
 }
 
 /**
