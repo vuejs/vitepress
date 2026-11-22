@@ -36,6 +36,18 @@ const textTitle = computed(() => {
   const raw = theme.value.siteTitle ?? site.value.title
   return raw.replace(/<[^>]+>/g, '').trim() || undefined
 })
+
+const ariaLabel = computed(() => {
+  if (theme.value.siteTitle === false) {
+    const hasLogoAlt =
+      typeof theme.value.logo === 'object' &&
+      theme.value.logo !== null &&
+      'alt' in theme.value.logo &&
+      Boolean(theme.value.logo.alt)
+    return hasLogoAlt ? undefined : site.value.title || undefined
+  }
+  return undefined
+})
 </script>
 
 <template>
@@ -46,6 +58,7 @@ const textTitle = computed(() => {
       :rel
       :target
       :title="textTitle"
+      :aria-label="ariaLabel"
     >
       <slot name="nav-bar-title-before" />
       <VPImage v-if="theme.logo" class="logo" :image="theme.logo" />
