@@ -377,6 +377,7 @@ const defaultTranslations: LocalSearchTranslations = {
     resetButtonTitle: 'Reset search',
     backButtonTitle: 'Close search',
     noResultsText: 'No results for',
+    loadingText: 'Loading search results',
     footer: {
       selectText: 'to select',
       selectKeyAriaLabel: 'enter',
@@ -503,7 +504,7 @@ function onMouseMove(e: MouseEvent) {
               :class="{ active: showSearchSpinner }"
               :role="showSearchSpinner ? 'status' : undefined"
               aria-live="polite"
-              :aria-label="showSearchSpinner ? 'Loading search results' : undefined"
+              :aria-label="showSearchSpinner ? translate('modal.loadingText') : undefined"
             />
 
             <button
