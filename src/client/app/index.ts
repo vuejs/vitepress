@@ -179,7 +179,10 @@ if (inBrowser) {
 
       // scroll to hash on new tab during dev
       if (import.meta.env.DEV && location.hash) {
-        setTimeout(() => scrollTo(location.hash), 100)
+        setTimeout(
+          () => scrollTo(location.hash, 0, { adjustForImages: true }),
+          100
+        )
       }
     })
   })
