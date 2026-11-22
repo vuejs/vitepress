@@ -57,6 +57,7 @@ export default defineConfig({
                 resetButtonTitle: '重置搜索',
                 backButtonTitle: '关闭搜索',
                 noResultsText: '没有结果',
+                loadingText: '正在加载结果',
                 footer: {
                   selectText: '选择',
                   selectKeyAriaLabel: '输入',

@@ -13,6 +13,7 @@ export interface ModalTranslations {
   resetButtonTitle?: string
   backButtonTitle?: string
   noResultsText?: string
+  loadingText?: string
   footer?: FooterTranslations
 }
 
