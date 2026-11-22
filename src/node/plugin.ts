@@ -124,6 +124,8 @@ export async function createVitePressPlugin(
   let allDeadLinks: MarkdownCompileResult['deadLinks'] = []
   let config: ResolvedConfig
   let importerMap: Record<string, Set<string> | undefined> = {}
+  const hasMultipleLocales = Object.keys(site.locales).length > 1
+  let localePages = siteConfig.pages
 
   const vitePressPlugin: Plugin = {
     name: 'vitepress',
@@ -434,9 +436,18 @@ export async function createVitePressPlugin(
         return restartServer?.()
       }
 
-      if (themeRE.test(relativePath) && type !== 'update') {
+      const themeChanged = themeRE.test(relativePath) && type !== 'update'
+      if (themeChanged) {
         siteConfig.themeDir =
           type === 'create' ? path.posix.dirname(file) : DEFAULT_THEME_PATH
+      }
+      const localePagesChanged =
+        hasMultipleLocales && localePages !== siteConfig.pages
+      if (localePagesChanged) {
+        localePages = siteConfig.pages
+        clearCache()
+      }
+      if (themeChanged || localePagesChanged) {
         siteConfig.logger.info(c.green('page reload ') + c.dim(relativePath), {
           clear: true,
           timestamp: true

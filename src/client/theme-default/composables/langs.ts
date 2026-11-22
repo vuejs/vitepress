@@ -2,8 +2,7 @@ import type { DefaultTheme } from 'vitepress/theme'
 import { computed } from 'vue'
 
 import { useRoute } from '../../app/router'
-import type { Route, VitePressData } from '../../shared'
-import { ensureStartingSlash } from '../support/utils'
+import { isExternal, type Route, type VitePressData } from '../../shared'
 import { useData } from './data'
 
 export function useLangs({
@@ -37,7 +36,6 @@ export function useLangs({
               targetLocale: key,
               targetLocaleLink:
                 value.link || (key === 'root' ? '/' : `/${key}/`),
-              currentLocaleLink: currentLang.value.link,
               linkToCorrespondingPage
             }),
             lang: value.lang,
@@ -51,14 +49,8 @@ export function useLangs({
 
 /**
  * Resolves the link used for switching from the current page to
- * `targetLocale`. Without `linkToCorrespondingPage`, this is simply the home
- * of the target locale. With it, the current page's path is rewritten into
- * the target locale (honoring `cleanUrls`) — unless
- * `themeConfig.i18nRouting` is `false` (the locale home is used instead) or
- * a function (which then fully controls the resolution).
- *
- * The current query and hash are carried over, except when a custom
- * `i18nRouting` function is used.
+ * `targetLocale` using the published translation, nearest landing page,
+ * or locale home. A custom `i18nRouting` function controls the entire link.
  */
 export function resolveLocaleLink(
   data: VitePressData<DefaultTheme.Config>,
@@ -66,15 +58,12 @@ export function resolveLocaleLink(
   {
     targetLocale,
     targetLocaleLink,
-    currentLocaleLink,
     linkToCorrespondingPage
   }: {
     /** Key of the target locale in `site.locales`, e.g. `'fr'` or `'root'`. */
     targetLocale: string
     /** Home link of the target locale, e.g. `'/fr/'`. */
     targetLocaleLink: string
-    /** Home link of the locale the current page is in, e.g. `'/'`. */
-    currentLocaleLink: string
     /** Link to the current page's equivalent instead of the locale home. */
     linkToCorrespondingPage: boolean
   }
@@ -82,34 +71,23 @@ export function resolveLocaleLink(
   const { site, theme } = data
   const i18nRouting = theme.value.i18nRouting
 
-  if (linkToCorrespondingPage && typeof i18nRouting === 'function') {
+  if (!linkToCorrespondingPage || i18nRouting === false) {
+    return targetLocaleLink + route.query + route.hash
+  }
+  if (typeof i18nRouting === 'function') {
     return i18nRouting(data, route, targetLocale)
   }
+  if (isExternal(targetLocaleLink)) return targetLocaleLink
 
-  return (
-    normalizeLink(
-      targetLocaleLink,
-      i18nRouting !== false && linkToCorrespondingPage,
-      route.data.relativePath.slice(currentLocaleLink.length - 1),
-      !site.value.cleanUrls
-    ) +
-    route.query +
-    route.hash
-  )
-}
+  const { localeLinks } = route.data
+  const target =
+    localeLinks && Object.hasOwn(localeLinks, targetLocale)
+      ? localeLinks[targetLocale]
+      : undefined
+  if (!target) return targetLocaleLink
 
-function normalizeLink(
-  localeLink: string,
-  appendPagePath: boolean,
-  pagePath: string,
-  addHtmlExt: boolean
-) {
-  return appendPagePath
-    ? localeLink.replace(/\/$/, '') +
-        ensureStartingSlash(
-          pagePath
-            .replace(/(^|\/)index\.md$/, '$1')
-            .replace(/\.md$/, addHtmlExt ? '.html' : '')
-        )
-    : localeLink
+  const link = `/${target.path}`
+    .replace(/\/index\.md$/, '/')
+    .replace(/\.md$/, site.value.cleanUrls ? '' : '.html')
+  return target.exact ? link + route.query + route.hash : link
 }

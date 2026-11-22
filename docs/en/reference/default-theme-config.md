@@ -27,7 +27,7 @@ export default {
 
 - Type: `boolean | ((data: VitePressData<DefaultTheme.Config>, route: Route, targetLocale: string) => string)`
 
-Changing locale to say `zh` will change the URL from `/foo` (or `/en/foo/`) to `/zh/foo`. You can disable this behavior by setting `themeConfig.i18nRouting` to `false`.
+The language menu links to the corresponding page in the target locale when it exists. If the translation is missing, the link points to the nearest parent directory with an index page, or to the locale home. Query strings and fragments carry over to matching pages. Set `themeConfig.i18nRouting` to `false` to always link to the locale home.
 
 Set `themeConfig.i18nRouting` to a function to customize the locale link. The function receives the current VitePress data, the current route, and the target locale key, and returns the target link.
 

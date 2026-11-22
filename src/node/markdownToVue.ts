@@ -25,6 +25,7 @@ import {
   type PageData
 } from './shared'
 import { getGitTimestamp } from './utils/getGitTimestamp'
+import { resolveLocaleLinks } from './utils/localeLinks'
 
 const debug = createDebug('vitepress:md')
 const cache = new LRUCache<string, MarkdownCompileResult>({
@@ -128,6 +129,7 @@ export async function createMarkdownToVueRenderFn(
       getPageDataTransformer(dynamicRoute?.[1])
     ].filter((fn) => fn != null)
 
+    const sourcePath = slash(path.relative(srcDir, file))
     file = rewrites.get(normalizeDriveLetter(file)) || file
     const relativePath = slash(path.relative(srcDir, file))
 
@@ -269,7 +271,8 @@ export async function createMarkdownToVueRenderFn(
       headers,
       params,
       relativePath,
-      filePath: slash(path.relative(srcDir, fileOrig))
+      filePath: slash(path.relative(srcDir, fileOrig)),
+      localeLinks: resolveLocaleLinks(siteConfig, sourcePath, relativePath)
     }
 
     if (includeLastUpdatedData && frontmatter.lastUpdated !== false) {

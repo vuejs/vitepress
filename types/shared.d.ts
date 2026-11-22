@@ -42,6 +42,8 @@ export interface PageData {
    * (e.g. the 404 page).
    */
   filePath: string
+  /** Published locale destinations for this page, keyed by locale. */
+  localeLinks?: Record<string, { path: string; exact: boolean }>
   /**
    * The title of the page, from its frontmatter or its first level-1
    * heading.
