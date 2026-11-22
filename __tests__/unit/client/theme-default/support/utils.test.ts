@@ -1,7 +1,15 @@
 import {
   ensureStartingSlash,
-  isLinkExternal
+  isLinkExternal,
+  normalizeLink
 } from 'client/theme-default/support/utils'
+
+const site = { base: '/', cleanUrls: false }
+
+vi.mock('vitepress', () => ({
+  useData: () => ({ site: { value: site } }),
+  withBase: (path: string) => path
+}))
 
 describe('client/theme-default/utils', () => {
   describe('ensureStartingSlash', () => {
@@ -28,6 +36,17 @@ describe('client/theme-default/utils', () => {
         false
       )
       expect(isLinkExternal('/guide/', undefined, true)).toBe(true)
+    })
+  })
+
+  describe('normalizeLink', () => {
+    test('it keeps every leading parent segment of relative links', () => {
+      expect(normalizeLink('./foo')).toBe('./foo.html')
+      expect(normalizeLink('../foo')).toBe('../foo.html')
+      expect(normalizeLink('../../foo.md')).toBe('../../foo.html')
+      expect(normalizeLink('../../../foo/bar?a=1#baz')).toBe(
+        '../../../foo/bar.html?a=1#baz'
+      )
     })
   })
 })

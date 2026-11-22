@@ -50,7 +50,7 @@ export function normalizeLink(url: string): string {
     pathname.endsWith('/') || pathname.endsWith('.html')
       ? url
       : url.replace(
-          /(?:(^\.+)\/)?.*$/,
+          /(?:(^\.+(?:\/\.+)*)\/)?.*$/,
           `$1${pathname.replace(
             /(\.md)?$/,
             site.value.cleanUrls ? '' : '.html'
