@@ -53,7 +53,7 @@ function toggle() {
 }
 
 function onItemClick(e: Event) {
-  if ((e.target as HTMLElement).classList.contains('outline-link')) {
+  if ((e.target as HTMLElement).closest('.outline-link')) {
     // disable animation on hash navigation when page jumps
     if (items.value) {
       items.value.style.transition = 'none'
