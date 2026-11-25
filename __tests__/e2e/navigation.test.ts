@@ -1,6 +1,39 @@
 const ariaCurrent = (selector: string) =>
   page.locator(selector).getAttribute('aria-current')
 
+test('shows progress while a page is loading', async () => {
+  await goto('/')
+
+  const progress = page.locator('.VPPageProgress')
+  const pageModule = /\/client-component(?:\/index|_index)\.md[?.]/
+  let releasePage!: () => void
+  const pageReady = new Promise<void>((resolve) => {
+    releasePage = resolve
+  })
+  await page.route(pageModule, async (route) => {
+    await pageReady
+    await route.continue()
+  })
+
+  try {
+    expect(await progress.isVisible()).toBe(false)
+    await page.evaluate(() => {
+      const link = document.createElement('a')
+      link.href = '/client-component/'
+      document.body.append(link)
+      link.click()
+      link.remove()
+    })
+    await progress.waitFor({ state: 'visible', timeout: 5000 })
+  } finally {
+    releasePage()
+    await page.unrouteAll({ behavior: 'wait' })
+  }
+
+  await page.waitForSelector('#forwarded.client-component')
+  await progress.waitFor({ state: 'hidden' })
+})
+
 describe('navigation accessibility', () => {
   beforeEach(async () => {
     await page.setViewportSize({ width: 1280, height: 720 })
