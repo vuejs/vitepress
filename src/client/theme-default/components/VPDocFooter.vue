@@ -59,7 +59,10 @@ const showFooter = computed(
         >
           <span
             class="desc"
-            v-html="theme.docFooter?.prev || 'Previous page'"
+            v-html="
+              frontmatter.prev?.label ??
+              (theme.docFooter?.prev || 'Previous page')
+            "
           ></span>
           <span class="title"><bdi v-html="control.prev.text" /></span>
         </VPLink>
@@ -74,7 +77,9 @@ const showFooter = computed(
         >
           <span
             class="desc"
-            v-html="theme.docFooter?.next || 'Next page'"
+            v-html="
+              frontmatter.next?.label ?? (theme.docFooter?.next || 'Next page')
+            "
           ></span>
           <span class="title"><bdi v-html="control.next.text" /></span>
         </VPLink>
