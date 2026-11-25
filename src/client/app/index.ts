@@ -15,7 +15,7 @@ import { useCopyCode } from './composables/copyCode'
 import { useUpdateHead } from './composables/head'
 import { usePrefetch } from './composables/preFetch'
 import { dataSymbol, initData, siteDataRef, useData } from './data'
-import { RouterSymbol, createRouter, scrollTo, type Router } from './router'
+import { RouterSymbol, createRouter, scrollTo } from './router'
 import { inBrowser, pathToFile } from './utils'
 
 function resolveThemeExtends(theme: typeof RawTheme): typeof RawTheme {
@@ -128,7 +128,7 @@ function newApp(): App {
     : createClientApp(VitePressApp)
 }
 
-function newRouter(): Router {
+function newRouter() {
   let isInitialPageLoad = inBrowser
 
   return createRouter((path) => {

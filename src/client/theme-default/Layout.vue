@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, provide, useSlots } from 'vue'
+import { computed, inject, provide, useSlots } from 'vue'
 
+import { RouterSymbol } from '../app/router'
 import VPBackdrop from './components/VPBackdrop.vue'
 import VPContent from './components/VPContent.vue'
 import VPFooter from './components/VPFooter.vue'
@@ -26,6 +27,7 @@ const { isScreenOpen } = useNav()
 registerWatchers({ closeSidebar })
 
 const { frontmatter, theme } = useData()
+const router = inject(RouterSymbol)
 
 const slots = useSlots()
 const heroImageSlotExists = computed(() => !!slots['home-hero-image'])
@@ -92,6 +94,12 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
 
     <VPFooter :inert="isScreenOpen" />
     <slot name="layout-bottom" />
+    <div
+      class="VPPageProgress"
+      :class="{ loading: router?.isPageLoading }"
+      role="progressbar"
+      aria-label="Loading page"
+    />
   </div>
   <Content v-else />
 </template>
@@ -101,5 +109,48 @@ provide(layoutInfoInjectionKey, { heroImageSlotExists })
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.VPPageProgress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--vp-z-index-layout-top);
+  height: 2px;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.VPPageProgress.loading {
+  visibility: visible;
+  transition: visibility 0s 300ms;
+}
+
+.VPPageProgress::before {
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: var(--vp-c-brand-1);
+  content: '';
+}
+
+.VPPageProgress.loading::before {
+  animation: page-progress 1.2s linear 300ms infinite;
+}
+
+@keyframes page-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPPageProgress.loading::before {
+    width: 100%;
+    animation: none;
+  }
 }
 </style>

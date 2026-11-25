@@ -1,5 +1,5 @@
 import type { Component, InjectionKey } from 'vue'
-import { inject, markRaw, nextTick, reactive, readonly } from 'vue'
+import { inject, markRaw, nextTick, reactive, readonly, shallowRef } from 'vue'
 
 import type { Awaitable, PageData, PageDataPayload, Route } from '../shared'
 import { notFoundPageData, treatAsHtml } from '../shared'
@@ -42,7 +42,9 @@ export interface Router {
   onAfterRouteChange?: (to: string) => Awaitable<void>
 }
 
-export const RouterSymbol: InjectionKey<Router> = Symbol()
+type InternalRouter = Router & { readonly isPageLoading: boolean }
+
+export const RouterSymbol: InjectionKey<InternalRouter> = Symbol()
 
 // we are just using URL to parse the pathname and hash - the base doesn't
 // matter and is only passed to support same-host hrefs
@@ -64,11 +66,15 @@ interface PageModule {
 export function createRouter(
   loadPageModule: (path: string) => Awaitable<PageModule | null>,
   fallbackComponent?: Component
-): Router {
+): InternalRouter {
   const route = reactive(getDefaultRoute())
+  const latestPendingPath = shallowRef<string | null>(null)
 
-  const router: Router = {
+  const router: InternalRouter = {
     route,
+    get isPageLoading() {
+      return latestPendingPath.value !== null
+    },
     async go(href, options) {
       const { hash } = new URL(href, fakeHost)
       const hasTextFragment =
@@ -90,8 +96,6 @@ export function createRouter(
     }
   }
 
-  let latestPendingPath: string | null = null
-
   async function loadPage(
     href: string,
     { scrollPosition = 0, isRetry = false, initialLoad = false } = {}
@@ -99,14 +103,14 @@ export function createRouter(
     if ((await router.onBeforePageLoad?.(href)) === false) return
 
     const targetLoc = new URL(href, fakeHost)
-    const pendingPath = (latestPendingPath = targetLoc.pathname)
+    const pendingPath = (latestPendingPath.value = targetLoc.pathname)
 
     try {
       let page = await loadPageModule(pendingPath)
       if (!page) throw new Error(`Page not found: ${pendingPath}`)
 
-      if (latestPendingPath === pendingPath) {
-        latestPendingPath = null
+      if (latestPendingPath.value === pendingPath) {
+        latestPendingPath.value = null
 
         const { default: comp, __pageData } = page
         if (!comp) throw new Error(`Invalid route component: ${comp}`)
@@ -160,8 +164,8 @@ export function createRouter(
         } catch (e) {}
       }
 
-      if (latestPendingPath === pendingPath) {
-        latestPendingPath = null
+      if (latestPendingPath.value === pendingPath) {
+        latestPendingPath.value = null
         route.path = inBrowser ? pendingPath : withBase(pendingPath)
         route.component = fallbackComponent ? markRaw(fallbackComponent) : null
         const relativePath = inBrowser
