@@ -32,16 +32,24 @@ export function useCopyCode() {
           text = text.replace(/^ *(\$|>) /gm, '').trim()
         }
 
-        copyToClipboard(text).then(() => {
-          el.classList.add('copied')
-          clearTimeout(timeoutIdMap.get(el))
-          const timeoutId = window.setTimeout(() => {
-            el.classList.remove('copied')
-            el.blur()
-            timeoutIdMap.delete(el)
-          }, 2000)
-          timeoutIdMap.set(el, timeoutId)
-        })
+        clearTimeout(timeoutIdMap.get(el))
+        timeoutIdMap.delete(el)
+        el.classList.remove('copied')
+        copyToClipboard(text)
+          .then(() => {
+            el.classList.add('copied')
+            clearTimeout(timeoutIdMap.get(el))
+            const timeoutId = window.setTimeout(() => {
+              el.classList.remove('copied')
+              el.blur()
+              timeoutIdMap.delete(el)
+            }, 2000)
+            timeoutIdMap.set(el, timeoutId)
+          })
+          .catch(() => {
+            // Leave the code selected for a manual copy when both methods fail.
+            window.getSelection()?.selectAllChildren(sibling)
+          })
       }
     })
   }
@@ -65,28 +73,31 @@ async function copyToClipboard(text: string) {
     element.style.fontSize = '12pt' // Prevent zooming on iOS
 
     const selection = document.getSelection()
-    const originalRange = selection
-      ? selection.rangeCount > 0 && selection.getRangeAt(0)
-      : null
+    const originalRanges = Array.from(
+      { length: selection?.rangeCount ?? 0 },
+      (_, index) => selection!.getRangeAt(index).cloneRange()
+    )
 
-    document.body.appendChild(element)
-    element.select()
+    try {
+      document.body.appendChild(element)
+      element.select()
 
-    // Explicit selection workaround for iOS
-    element.selectionStart = 0
-    element.selectionEnd = text.length
+      // Explicit selection workaround for iOS
+      element.selectionStart = 0
+      element.selectionEnd = text.length
 
-    document.execCommand('copy')
-    document.body.removeChild(element)
+      const ok = document.execCommand('copy')
+      if (!ok) throw new Error('execCommand copy failed')
+    } finally {
+      element.remove()
 
-    if (originalRange) {
-      selection!.removeAllRanges() // originalRange can't be truthy when selection is falsy
-      selection!.addRange(originalRange)
-    }
+      // Restore focus before selection: focusing may change the selection.
+      if (previouslyFocusedElement instanceof HTMLElement) {
+        previouslyFocusedElement.focus({ preventScroll: true })
+      }
 
-    // Get the focus back on the previously focused element, if any
-    if (previouslyFocusedElement) {
-      ;(previouslyFocusedElement as HTMLElement).focus()
+      selection?.removeAllRanges()
+      for (const range of originalRanges) selection?.addRange(range)
     }
   }
 }
